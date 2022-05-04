@@ -1,29 +1,34 @@
 import * as React from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import { Search } from "@mui/icons-material";
+import {useNavigate} from 'react-router-dom'
 
-const columns = [
-  { field: "id", headerName: "CRM ID", width: 100 },
-  { field: "firstName", headerName: "School Name", width: 130 },
-  { field: "lastName", headerName: "Board", width: 130 },
-  {
-    field: "age",
-    headerName: "Address",
-    type: "number",
-    width: 90,
-  },
-];
+// const columns = [
+//   { field: "id", headerName: "CRM ID", width: 100 },
+//   { field: "firstName", headerName: "School Name", width: 130 },
+//   { field: "lastName", headerName: "Board", width: 130 },
+//   {
+//     field: "age",
+//     headerName: "Address",
+//     type: "number",
+//     width: 90,
+//   },
+// ];
 
-export default function DataTable({ rows }) {
+
+
+export default function DataTable({ rows, checkbox, Tablecolumns }) {
   const [q, setQ] = React.useState("");
   const [entries, setEntries] = React.useState(10);
+  const navigate = useNavigate()
+
 
   const search = (rowss) => {
     return rowss.filter(
       (row) =>
-        row.firstName.toLowerCase().indexOf(q) > -1 ||
-        row.lastName.toLowerCase().indexOf(q) > -1 ||
-        row.age.toLowerCase().indexOf(q) > -1
+        row.cName.toLowerCase().indexOf(q) > -1 || null
+        // row.lastName.toLowerCase().indexOf(q) > -1 ||
+        // row.age.toLowerCase().indexOf(q) > -1
     );
   };
   return (
@@ -34,16 +39,18 @@ export default function DataTable({ rows }) {
       >
         <DataGrid
           rows={search(rows)}
-          columns={columns}
+          // onRowClick={(event) => console.log(event)}
+          
+          columns={Tablecolumns}
           pageSize={entries}
           rowsPerPageOptions={[entries]}
-          checkboxSelection
-          onSelectionModelChange={(event) => console.log(event)}
+          checkboxSelection={checkbox}
+          onSelectionModelChange={(event) => console.log(event[0])}
         />
       </div>
-      <Search className=" text-gray-500 absolute top-[3.5vh] lg:top-[4.6vh] md:top-[2.25vh] !text-[1.2rem] right-[29.5vw] lg:right-[12.5vw] md:right-[16.5vw] z-20" />
+      <Search className=" text-gray-500 absolute top-[3.7vh] lg:top-[4vh] md:top-[2.25vh] !text-[1.2rem] right-[29.5vw] lg:right-[12.5vw] md:right-[16.5vw] z-20" />
       <input
-        className="px-8 md:w-[15vw] w-[30vw] lg:w-40 focus:outline-0 hover:shadow-md transition-all duration-200 ease-linear py-1 lg:py-2 placeholder:text-gray-300 rounded-lg absolute top-6 md:top-5 right-6 md:right-10"
+        className="px-8 md:w-[15vw] w-[30vw] lg:w-40 focus:outline-0 hover:shadow-md transition-all duration-200 ease-linear py-1 lg:py-2 placeholder:text-gray-300 rounded-lg absolute top-6 md:top-4 right-6 md:right-10"
         placeholder="Search"
         type="text"
         value={q}

@@ -43,7 +43,7 @@ const Sidebar = ({ sidebarCollapsed, highLight, show }) => {
         </div>
         <section>
           <div
-            className="px-8 py-2 flex items-center gap-4 w-full hover:shadow-xl bg-[#111322] border-l-2 border-white cursor-pointer"
+            className="px-6 py-2 flex items-center gap-4 w-full hover:shadow-xl bg-[#111322] border-l-2 border-white cursor-pointer"
             onClick={() => setIsSchoolClicked(!isSchoolClicked)}
           >
             <School className=" text-white" />
@@ -264,7 +264,7 @@ const Sidebar = ({ sidebarCollapsed, highLight, show }) => {
         </section>
         <section>
           <div
-            className="px-8 py-2 flex items-center gap-[.36rem] w-full hover:shadow-2xl bg-[#111322] border-l-2 border-white cursor-pointer"
+            className="px-6 py-2 flex items-center gap-[.36rem] w-full hover:shadow-2xl bg-[#111322] border-l-2 border-white cursor-pointer"
             onClick={() => setIsSchoolDetailClicked(!isSchoolDetailClicked)}
           >
             <AccountBalance className=" text-white" />

@@ -5,7 +5,7 @@ import Sidebar from "../Components/Sidebar";
 import { ArrowForwardIos } from "@mui/icons-material";
 import { Link } from "react-router-dom";
 import DataTable from "../Components/DataTable";
-import { rows } from "../DummyData";
+import { SalesInvoiceRows } from "../DummyData";
 
 const SalesInvoices = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
@@ -15,6 +15,33 @@ const SalesInvoices = () => {
     title: "Sales Invoices",
     details: ["Home", " / Sales Invoices"],
   };
+
+  const Tablecolumns = [
+    { field: "inDate", headerName: "Invoice Date", width: 130 },
+    { field: "inNo", headerName: "Invoice No.", width: 130 },
+    { field: "cName", headerName: "Customer Name", width: 170 },
+    { field: "cCode", headerName: "Customer Code", width: 120,},
+    {
+      field: "totalQty",
+      headerName: "TotalQty",
+      width: 90,
+    },
+    {
+      field: "total",
+      headerName: "Total",
+      width: 90,
+    },
+    {
+      field: "city",
+      headerName: "City",
+      width: 90,
+    },
+    {
+      field: "State",
+      headerName: "State",
+      width: 140,
+    },
+  ];
 
   const handleSidebarCollapsed = () => {
     setSidebarCollapsed(!sidebarCollapsed);
@@ -49,7 +76,7 @@ const SalesInvoices = () => {
         />
         <div className="min-h-[100vh] pt-[2vh] max-h-full bg-[#141728]">
           <div className=" px-8 py-3 bg-[#141728]">
-            <DataTable rows={rows} />
+            <DataTable rows={SalesInvoiceRows} checkbox={false} Tablecolumns={Tablecolumns} />
           </div>
         </div>
       </div>

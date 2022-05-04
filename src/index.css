@@ -27,3 +27,15 @@
     background: #8d8989; 
   }
   
+/* data table styles */
+  .css-f3jnds-MuiDataGrid-columnHeaders {
+    background-color: rgb(103, 116, 142);
+  }
+
+  .css-3ihp42-MuiDataGrid-root .MuiDataGrid-iconSeparator {
+    color:  transparent !important;
+  }
+
+  .css-1jbbcbn-MuiDataGrid-columnHeaderTitle {
+    color: white;
+  }

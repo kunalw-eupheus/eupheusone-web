@@ -19,4 +19,12 @@ const rows = [
     { id: 18, lastName: 'Roxie', firstName: 'Harvey', age: '65' },
   ];
 
-  export {rows}
+
+  const SalesInvoiceRows = [
+    {id: 1, inDate: '02 Dec, 2021', inNo: 'RI/54547/21-22', cName: 'Anjum Enterprises', cCode: 'CBP510075', totalQty: '480', total: '2424', city: 'Mandi', State: 'Himachal Pradesh'},
+    {id: 2, inDate: '10 Dec, 2021', inNo: 'RI/54547/21-22', cName: 'Anjum Enterprises', cCode: 'CBP510075', totalQty: '280', total: '3624', city: 'Mandi', State: 'Himachal Pradesh'},
+    {id: 3, inDate: '14 Dec, 2021', inNo: 'RI/54547/21-22', cName: 'Anjum Enterprises', cCode: 'CBP510075', totalQty: '580', total: '2124', city: 'Mandi', State: 'Himachal Pradesh'},
+    
+  ];
+
+  export {rows, SalesInvoiceRows}

@@ -52,7 +52,7 @@ const Navbar = ({ handleSidebarCollapsed, info }) => {
         >
           <Menu className={`${scroll ? "text-[#67748e]" : "text-white"}`} />
         </div>
-        <div className="flex flex-col font-bold">
+        <div className="flex flex-col font-bold w-[7.7rem] md:w-[30vw] lg:w-[20vw]">
           <span
             className={`${
               scroll ? "text-[#67748e]" : "text-gray-400"
@@ -94,7 +94,7 @@ const Navbar = ({ handleSidebarCollapsed, info }) => {
       <div
         className={` justify-start pr-10 pl-3  ${
           showUserOption ? "opacity-100 visible" : "invisible opacity-0"
-        } bg-[#67748e] z-10 py-4 flex flex-col gap-2 transition-all duration-300 ease-linear absolute right-[4.5vw] top-[8vh] md:right-[2.4vw] md:top-[7.6vh] lg:top-[9.5vh] lg:right-[1.9vw] rounded-md`}
+        } bg-[#67748e] z-10 py-4 flex flex-col gap-2 transition-all duration-300 ease-linear absolute right-[1rem] top-[8vh] md:right-[2.4vw] md:top-[7.6vh] lg:top-[9.5vh] lg:right-[1.9vw] rounded-md`}
       >
         <ArrowDropUp className="z-0 absolute !text-[4rem] text-[#67748e] -top-[2.3rem] -right-[0.8rem]" />
         <span className="cursor-pointer text-white transition-all ease-linear duration-100 border-[#67748e] hover:border-white hover:translate-x-1 border-l-2 pl-2">
