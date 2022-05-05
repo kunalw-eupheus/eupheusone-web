@@ -1,7 +1,7 @@
 import * as React from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import { Search } from "@mui/icons-material";
-import {useNavigate} from 'react-router-dom'
+import { useNavigate } from "react-router-dom";
 
 // const columns = [
 //   { field: "id", headerName: "CRM ID", width: 100 },
@@ -15,20 +15,16 @@ import {useNavigate} from 'react-router-dom'
 //   },
 // ];
 
-
-
 export default function DataTable({ rows, checkbox, Tablecolumns }) {
   const [q, setQ] = React.useState("");
   const [entries, setEntries] = React.useState(10);
-  const navigate = useNavigate()
-
+  const navigate = useNavigate();
 
   const search = (rowss) => {
     return rowss.filter(
-      (row) =>
-        row.cName.toLowerCase().indexOf(q) > -1 || null
-        // row.lastName.toLowerCase().indexOf(q) > -1 ||
-        // row.age.toLowerCase().indexOf(q) > -1
+      (row) => row.cName.toLowerCase().indexOf(q) > -1 || null
+      // row.lastName.toLowerCase().indexOf(q) > -1 ||
+      // row.age.toLowerCase().indexOf(q) > -1
     );
   };
   return (
@@ -39,8 +35,7 @@ export default function DataTable({ rows, checkbox, Tablecolumns }) {
       >
         <DataGrid
           rows={search(rows)}
-          // onRowClick={(event) => console.log(event)}
-          
+          onRowClick={() => navigate("/tagschool")}
           columns={Tablecolumns}
           pageSize={entries}
           rowsPerPageOptions={[entries]}
@@ -48,7 +43,7 @@ export default function DataTable({ rows, checkbox, Tablecolumns }) {
           onSelectionModelChange={(event) => console.log(event[0])}
         />
       </div>
-      <Search className=" text-gray-500 absolute top-[3.7vh] lg:top-[4vh] md:top-[2.25vh] !text-[1.2rem] right-[29.5vw] lg:right-[12.5vw] md:right-[16.5vw] z-20" />
+      <Search className=" text-gray-500 absolute top-[1.9rem] lg:top-[1.6rem] md:top-[1.4rem] !text-[1.2rem] right-[29.5vw] lg:right-[10.7rem] md:right-[16.5vw] z-20" />
       <input
         className="px-8 md:w-[15vw] w-[30vw] lg:w-40 focus:outline-0 hover:shadow-md transition-all duration-200 ease-linear py-1 lg:py-2 placeholder:text-gray-300 rounded-lg absolute top-6 md:top-4 right-6 md:right-10"
         placeholder="Search"

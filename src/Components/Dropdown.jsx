@@ -44,9 +44,7 @@ const Dropdown = ({ dropdownPopoverShow, handleDropDown }) => {
             <div
               ref={popoverDropdownRef}
               className={
-                (dropdownPopoverShow
-                  ? "lg:h-[19vh] md:h-[10.5vh] h-[14vh] py-2 "
-                  : "h-0 ") +
+                (dropdownPopoverShow ? "h-[7rem] py-2 " : "h-0 ") +
                 " bg-[#67748e] text-base z-50 transition-all overflow-auto !mt-2 duration-200 ease-linear absolute -top-10 float-left  list-none text-left rounded shadow-lg min-w-full"
               }
             >

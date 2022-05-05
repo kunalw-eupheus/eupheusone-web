@@ -59,7 +59,7 @@ const Sidebar = ({ sidebarCollapsed, highLight, show }) => {
           <div
             className={`${
               isSchoolClicked
-                ? " opacity-100 visible h-[40vh] lg:h-[47vh] md:h-[30vh]"
+                ? " opacity-100 visible h-[18.6rem] lg:h-[19rem] md:h-[18.6rem]"
                 : "h-0 opacity-0 invisible"
             } transition-all  ease-linear duration-200`}
           >
@@ -329,6 +329,7 @@ const Sidebar = ({ sidebarCollapsed, highLight, show }) => {
                 </h1>
               </div>
             </Link>
+
             <div
               className={`flex items-center transition-all ease-linear duration-100 mr-8 ml-6 group `}
             >

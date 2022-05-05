@@ -20,7 +20,7 @@ const SalesInvoices = () => {
     { field: "inDate", headerName: "Invoice Date", width: 130 },
     { field: "inNo", headerName: "Invoice No.", width: 130 },
     { field: "cName", headerName: "Customer Name", width: 170 },
-    { field: "cCode", headerName: "Customer Code", width: 120,},
+    { field: "cCode", headerName: "Customer Code", width: 120 },
     {
       field: "totalQty",
       headerName: "TotalQty",
@@ -76,7 +76,11 @@ const SalesInvoices = () => {
         />
         <div className="min-h-[100vh] pt-[2vh] max-h-full bg-[#141728]">
           <div className=" px-8 py-3 bg-[#141728]">
-            <DataTable rows={SalesInvoiceRows} checkbox={false} Tablecolumns={Tablecolumns} />
+            <DataTable
+              rows={SalesInvoiceRows}
+              checkbox={false}
+              Tablecolumns={Tablecolumns}
+            />
           </div>
         </div>
       </div>

@@ -39,3 +39,7 @@
   .css-1jbbcbn-MuiDataGrid-columnHeaderTitle {
     color: white;
   }
+
+  .MuiDataGrid-row {
+    cursor: pointer;
+  }

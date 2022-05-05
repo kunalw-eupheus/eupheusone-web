@@ -41,9 +41,9 @@ const Navbar = ({ handleSidebarCollapsed, info }) => {
   return (
     <div
       id="navbar"
-      className={`h-[10vh] ${
+      className={`h-[4.5rem] ${
         scroll ? "bg-[hsla(0,0%,100%,.8)]" : "bg-[#141728]"
-      } z-30 mt-[0.5px] transition-all ease-linear duration-200 rounded-md sticky top-[0.25px] flex items-center pl-8 lg:pr-8 pr-6 justify-between w-[100vw] lg:w-[81vw]`}
+      } z-30 mt-[0.5px] transition-all ease-linear duration-200 rounded-md sticky top-[0.25px] flex items-center pl-[1.2rem] lg:pr-8 pr-[1.2rem] justify-between w-[100vw] lg:w-[81vw]`}
     >
       <div className="flex items-center">
         <div
@@ -94,7 +94,7 @@ const Navbar = ({ handleSidebarCollapsed, info }) => {
       <div
         className={` justify-start pr-10 pl-3  ${
           showUserOption ? "opacity-100 visible" : "invisible opacity-0"
-        } bg-[#67748e] z-10 py-4 flex flex-col gap-2 transition-all duration-300 ease-linear absolute right-[1rem] top-[8vh] md:right-[2.4vw] md:top-[7.6vh] lg:top-[9.5vh] lg:right-[1.9vw] rounded-md`}
+        } bg-[#67748e] z-10 py-4 flex flex-col gap-2 transition-all duration-300 ease-linear absolute right-[0.8rem] top-[3.7rem] lg:right-[1.6rem] rounded-md`}
       >
         <ArrowDropUp className="z-0 absolute !text-[4rem] text-[#67748e] -top-[2.3rem] -right-[0.8rem]" />
         <span className="cursor-pointer text-white transition-all ease-linear duration-100 border-[#67748e] hover:border-white hover:translate-x-1 border-l-2 pl-2">
