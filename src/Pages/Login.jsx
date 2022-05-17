@@ -17,7 +17,7 @@ const Login = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     const res = await axios.post("http://192.168.7.49:5070/api/auth/signin", {
-      userId: email,
+      empCode: email,
       password: password,
     });
 

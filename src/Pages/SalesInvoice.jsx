@@ -80,6 +80,7 @@ const SalesInvoices = () => {
               rows={SalesInvoiceRows}
               checkbox={false}
               Tablecolumns={Tablecolumns}
+              tableName="SalesInvoice"
             />
           </div>
         </div>

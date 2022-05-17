@@ -5,6 +5,7 @@ import { ArrowForwardIos } from "@mui/icons-material";
 import { Link } from "react-router-dom";
 import DataTable from "../Components/DataTable";
 import SearchDropDown from "../Components/SearchDropDown";
+import { TaggingRows } from "../DummyData";
 
 const Tagging = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
@@ -14,6 +15,23 @@ const Tagging = () => {
     title: "Tagging",
     details: ["Home", " / Tagging"],
   };
+
+  const Tablecolumns = [
+    { field: "CrmId", headerName: "CRM ID", width: 70 },
+    { field: "SchoolName", headerName: "School Name", width: 230 },
+    { field: "Address", headerName: "Address", width: 350 },
+    { field: "Board", headerName: "Board", width: 70 },
+    {
+      field: "RequestedOn",
+      headerName: "Requested On",
+      width: 130,
+    },
+    {
+      field: "UpdatedOn",
+      headerName: "Updated On",
+      width: 110,
+    },
+  ];
 
   const handleSidebarCollapsed = () => {
     setSidebarCollapsed(!sidebarCollapsed);
@@ -129,7 +147,12 @@ const Tagging = () => {
                 Search
               </button>
             </section>
-            <DataTable rows={[]} />
+            <DataTable
+              rows={TaggingRows}
+              checkbox={false}
+              Tablecolumns={Tablecolumns}
+              tableName="Tagging"
+            />
           </div>
         </div>
       </div>

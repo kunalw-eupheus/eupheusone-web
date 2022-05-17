@@ -5,7 +5,7 @@ import Sidebar from "../Components/Sidebar";
 import { ArrowForwardIos } from "@mui/icons-material";
 import { Link } from "react-router-dom";
 import DataTable from "../Components/DataTable";
-import { rows } from "../DummyData";
+import { rows, DirectoryRows } from "../DummyData";
 
 const SchoolDirectory = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
@@ -15,6 +15,28 @@ const SchoolDirectory = () => {
     title: "School Directory",
     details: ["Home", " / School Directory"],
   };
+
+  const Tablecolumns = [
+    { field: "AffCode", headerName: "Affiliation Code", width: 130 },
+    { field: "SchoolName", headerName: "School Name", width: 170 },
+    { field: "Address", headerName: "Address", width: 250 },
+    { field: "Board", headerName: "Board", width: 70 },
+    {
+      field: "City",
+      headerName: "City",
+      width: 120,
+    },
+    {
+      field: "State",
+      headerName: "State",
+      width: 120,
+    },
+    {
+      field: "Country",
+      headerName: "Country",
+      width: 90,
+    },
+  ];
 
   const handleSidebarCollapsed = () => {
     setSidebarCollapsed(!sidebarCollapsed);
@@ -49,7 +71,12 @@ const SchoolDirectory = () => {
         />
         <div className="min-h-[100vh] pt-[2vh] max-h-full bg-[#141728]">
           <div className=" px-8 py-3 bg-[#141728]">
-            <DataTable rows={rows} />
+            <DataTable
+              rows={DirectoryRows}
+              Tablecolumns={Tablecolumns}
+              tableName="SchoolDirectory"
+              checkbox={false}
+            />
           </div>
         </div>
       </div>

@@ -59,7 +59,7 @@ const Sidebar = ({ sidebarCollapsed, highLight, show }) => {
           <div
             className={`${
               isSchoolClicked
-                ? " opacity-100 visible h-[18.6rem] lg:h-[19rem] md:h-[18.6rem]"
+                ? " opacity-100 visible h-[19rem] lg:h-[19rem] md:h-[18.6rem]"
                 : "h-0 opacity-0 invisible"
             } transition-all  ease-linear duration-200`}
           >
@@ -131,7 +131,7 @@ const Sidebar = ({ sidebarCollapsed, highLight, show }) => {
                     highLight === "schoolDirectory"
                       ? "text-white"
                       : "text-gray-400 group-hover:text-white"
-                  } transition-all ease-linear duration-200  py-2 bg-[#111322] cursor-pointer`}
+                  } transition-all ease-linear duration-200 py-2 bg-[#111322] cursor-pointer`}
                 >
                   School Directory
                 </h1>

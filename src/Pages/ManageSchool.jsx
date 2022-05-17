@@ -5,7 +5,7 @@ import Sidebar from "../Components/Sidebar";
 import { ArrowForwardIos } from "@mui/icons-material";
 import { Link } from "react-router-dom";
 import DataTable from "../Components/DataTable";
-import { rows } from "../DummyData";
+import { rows, ManageSchoolRows } from "../DummyData";
 import SearchDropDown from "../Components/SearchDropDown";
 
 const ManageSchool = () => {
@@ -16,6 +16,25 @@ const ManageSchool = () => {
     title: "Manage School",
     details: ["Home", " / Manage School"],
   };
+
+  const Tablecolumns = [
+    { field: "SchoolName", headerName: "School Name", width: 300 },
+    {
+      field: "City",
+      headerName: "City",
+      width: 180,
+    },
+    {
+      field: "State",
+      headerName: "State",
+      width: 120,
+    },
+    {
+      field: "Address",
+      headerName: "Address",
+      width: 350,
+    },
+  ];
 
   const handleSidebarCollapsed = () => {
     setSidebarCollapsed(!sidebarCollapsed);
@@ -73,7 +92,12 @@ const ManageSchool = () => {
                 Search School
               </button>
             </div>
-            <DataTable rows={[]} />
+            <DataTable
+              rows={ManageSchoolRows}
+              checkbox={false}
+              Tablecolumns={Tablecolumns}
+              tableName="ManageSchool"
+            />
           </div>
         </div>
       </div>

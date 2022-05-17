@@ -43,7 +43,7 @@ const Navbar = ({ handleSidebarCollapsed, info }) => {
       id="navbar"
       className={`h-[4.5rem] ${
         scroll ? "bg-[hsla(0,0%,100%,.8)]" : "bg-[#141728]"
-      } z-30 mt-[0.5px] transition-all ease-linear duration-200 rounded-md sticky top-[0.25px] flex items-center pl-[1.2rem] lg:pr-8 pr-[1.2rem] justify-between w-[100vw] lg:w-[81vw]`}
+      } z-30 mt-[0.5px] transition-all ease-linear duration-200 rounded-md sticky top-[0.25px] flex items-center pl-[1.2rem] lg:pr-8 pr-[1.2rem] justify-between`}
     >
       <div className="flex items-center">
         <div

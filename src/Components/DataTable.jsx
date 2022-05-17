@@ -15,17 +15,83 @@ import { useNavigate } from "react-router-dom";
 //   },
 // ];
 
-export default function DataTable({ rows, checkbox, Tablecolumns }) {
+export default function DataTable({ rows, checkbox, Tablecolumns, tableName }) {
   const [q, setQ] = React.useState("");
   const [entries, setEntries] = React.useState(10);
   const navigate = useNavigate();
-
   const search = (rowss) => {
-    return rowss.filter(
-      (row) => row.cName.toLowerCase().indexOf(q) > -1 || null
-      // row.lastName.toLowerCase().indexOf(q) > -1 ||
-      // row.age.toLowerCase().indexOf(q) > -1
-    );
+    return rowss.filter((row) => {
+      switch (tableName) {
+        case "SalesInvoice":
+          return (
+            row.cName.toLowerCase().indexOf(q) > -1 ||
+            row.inDate.toLowerCase().indexOf(q) > -1 ||
+            row.inNo.toLowerCase().indexOf(q) > -1 ||
+            row.cCode.toLowerCase().indexOf(q) > -1 ||
+            row.totalQty.toLowerCase().indexOf(q) > -1 ||
+            row.total.toLowerCase().indexOf(q) > -1 ||
+            row.city.toLowerCase().indexOf(q) > -1 ||
+            row.State.toLowerCase().indexOf(q) > -1
+          );
+          break;
+        case "SchoolDirectory":
+          return (
+            row.AffCode.toLowerCase().indexOf(q) > -1 ||
+            row.SchoolName.toLowerCase().indexOf(q) > -1 ||
+            row.Address.toLowerCase().indexOf(q) > -1 ||
+            row.Board.toLowerCase().indexOf(q) > -1 ||
+            row.City.toLowerCase().indexOf(q) > -1 ||
+            row.Country.toLowerCase().indexOf(q) > -1 ||
+            row.State.toLowerCase().indexOf(q) > -1
+          );
+          break;
+        case "MySchool":
+          return (
+            row.CrmId.toLowerCase().indexOf(q) > -1 ||
+            row.SchoolName.toLowerCase().indexOf(q) > -1 ||
+            row.Address.toLowerCase().indexOf(q) > -1 ||
+            row.Board.toLowerCase().indexOf(q) > -1 ||
+            row.RequestedOn.toLowerCase().indexOf(q) > -1 ||
+            row.UpdatedOn.toLowerCase().indexOf(q) > -1
+          );
+          break;
+        case "Tagging":
+          return (
+            row.CrmId.toLowerCase().indexOf(q) > -1 ||
+            row.SchoolName.toLowerCase().indexOf(q) > -1 ||
+            row.Address.toLowerCase().indexOf(q) > -1 ||
+            row.Board.toLowerCase().indexOf(q) > -1 ||
+            row.RequestedOn.toLowerCase().indexOf(q) > -1 ||
+            row.UpdatedOn.toLowerCase().indexOf(q) > -1
+          );
+          break;
+        case "UpdateStocks":
+          return (
+            row.BpCode.toLowerCase().indexOf(q) > -1 ||
+            row.BpName.toLowerCase().indexOf(q) > -1
+          );
+          break;
+        case "Opportunities":
+          return (
+            row.SchoolName.toLowerCase().indexOf(q) > -1 ||
+            row.City.toLowerCase().indexOf(q) > -1 ||
+            row.State.toLowerCase().indexOf(q) > -1 ||
+            row.DecisionMaker.toLowerCase().indexOf(q) > -1 ||
+            row.Status.toLowerCase().indexOf(q) > -1
+          );
+          break;
+        case "ManageSchool":
+          return (
+            row.SchoolName.toLowerCase().indexOf(q) > -1 ||
+            row.City.toLowerCase().indexOf(q) > -1 ||
+            row.State.toLowerCase().indexOf(q) > -1 ||
+            row.Address.toLowerCase().indexOf(q) > -1
+          );
+          break;
+        default:
+          break;
+      }
+    });
   };
   return (
     <div className="relative mt-14">

@@ -21,6 +21,7 @@ import AdminCountry from "./Pages/AdminCountry";
 import SchoolTagging from "./Pages/SchoolTagging";
 import Schools from "./Pages/Schools";
 import TagSchool from "./Pages/TagSchool";
+import AddSchool from "./Pages/AddSchool";
 
 function App() {
   const isAuth = useSelector((state) => state.auth.user);
@@ -64,6 +65,10 @@ function App() {
           <Route
             path="/tagschool"
             element={isAuth ? <TagSchool /> : <Login />}
+          />
+          <Route
+            path="/addschool"
+            element={isAuth ? <AddSchool /> : <Login />}
           />
 
           {/* Admin */}

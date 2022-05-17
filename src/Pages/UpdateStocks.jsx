@@ -5,7 +5,7 @@ import Sidebar from "../Components/Sidebar";
 import { ArrowForwardIos } from "@mui/icons-material";
 import { Link } from "react-router-dom";
 import DataTable from "../Components/DataTable";
-import { rows } from "../DummyData";
+import { rows, UpdateStocksRows } from "../DummyData";
 
 const UpdateStocks = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
@@ -15,6 +15,11 @@ const UpdateStocks = () => {
     title: "Update Stocks",
     details: ["Home", " / Update Stocks"],
   };
+
+  const Tablecolumns = [
+    { field: "BpCode", headerName: "BP Code", width: 230 },
+    { field: "BpName", headerName: "BP Name", width: 630 },
+  ];
 
   const handleSidebarCollapsed = () => {
     setSidebarCollapsed(!sidebarCollapsed);
@@ -49,7 +54,12 @@ const UpdateStocks = () => {
         />
         <div className="min-h-[100vh] pt-[2vh] max-h-full bg-[#141728]">
           <div className=" px-8 py-3 bg-[#141728]">
-            <DataTable rows={rows} />
+            <DataTable
+              rows={UpdateStocksRows}
+              checkbox={false}
+              tableName="UpdateStocks"
+              Tablecolumns={Tablecolumns}
+            />
           </div>
         </div>
       </div>

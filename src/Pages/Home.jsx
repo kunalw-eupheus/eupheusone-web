@@ -31,7 +31,7 @@ const Home = () => {
     };
   }, []);
   return (
-    <div className="flex">
+    <div className="flex ">
       <Sidebar sidebarCollapsed={sidebarCollapsed} show={show} />
       <div
         className={`flex flex-col w-[100vw] lg:w-[83vw] lg:ml-[18vw] ${

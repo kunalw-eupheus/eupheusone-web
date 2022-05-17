@@ -27,4 +27,52 @@ const rows = [
     
   ];
 
-  export {rows, SalesInvoiceRows}
+
+  const DirectoryRows = [
+    {id: 1, AffCode: 'WZ-1586', SchoolName: 'Saraswati Aanchal School', Address: 'WZ-1586, Nangal Rai, NEW DELHI', Board: 'ICSE', City: 'South West Delhi', State: 'Delhi', Country: 'India'},
+    {id: 2, AffCode: 'WB409', SchoolName: 'St. Stephen`s School Kalyani', Address: 'Industrial Growth Centre Phase - III Kalyani Nadia-741235', Board: 'CBSE', City: 'Nadia', State: 'West Bengal', Country: 'China'},
+    {id: 3, AffCode: 'WZ-1586', SchoolName: 'Saraswati Aanchal School', Address: 'WZ-1586, Nangal Rai, NEW DELHI', Board: 'ICSE', City: 'South West Delhi', State: 'Delhi', Country: 'India'},
+    {id: 4, AffCode: 'WZ-1586', SchoolName: 'Saraswati Aanchal School', Address: 'WZ-1586, Nangal Rai, NEW DELHI', Board: 'ICSE', City: 'South West Delhi', State: 'Delhi', Country: 'India'}
+  ]
+
+  const MySchoolRows = [
+    {id: 1, CrmId: '1', SchoolName: 'Saraswati Aanchal School', Address: 'WZ-1586, Nangal Rai, NEW DELHI', Board: 'ICSE', RequestedOn: '20-04-2020', UpdatedOn: '23-08-2019'},
+    {id: 2, CrmId: '2', SchoolName: 'St. Stephen`s School Kalyani', Address: 'Industrial Growth Centre Phase - III Kalyani Nadia-741235', Board: 'CBSE', RequestedOn: '21-04-2020', UpdatedOn: '23-08-2019'},
+    {id: 3, CrmId: '3', SchoolName: 'Saraswati Aanchal School', Address: 'WZ-1586, Nangal Rai, NEW DELHI', Board: 'ICSE', City: 'South West Delhi', RequestedOn: '20-04-2020', UpdatedOn: '21-08-2019'},
+    {id: 4, CrmId: '4', SchoolName: 'Saraswati Aanchal School', Address: 'WZ-1586, Nangal Rai, NEW DELHI', Board: 'ICSE', City: 'South West Delhi',RequestedOn: '28-04-2020', UpdatedOn: '22-08-2019'}
+  ]
+
+
+  const TaggingRows = [
+    {id: 1, CrmId: '1', SchoolName: 'Saraswati Aanchal School', Address: 'WZ-1586, Nangal Rai, NEW DELHI', Board: 'ICSE', RequestedOn: '20-04-2020', UpdatedOn: '23-08-2019'},
+    {id: 2, CrmId: '2', SchoolName: 'St. Stephen`s School Kalyani', Address: 'Industrial Growth Centre Phase - III Kalyani Nadia-741235', Board: 'CBSE', RequestedOn: '21-04-2020', UpdatedOn: '23-08-2019'},
+    {id: 3, CrmId: '3', SchoolName: 'Saraswati Aanchal School', Address: 'WZ-1586, Nangal Rai, NEW DELHI', Board: 'ICSE', City: 'South West Delhi', RequestedOn: '20-04-2020', UpdatedOn: '21-08-2019'},
+    {id: 4, CrmId: '4', SchoolName: 'Saraswati Aanchal School', Address: 'WZ-1586, Nangal Rai, NEW DELHI', Board: 'ICSE', City: 'South West Delhi',RequestedOn: '28-04-2020', UpdatedOn: '22-08-2019'}
+  ]
+
+
+  const UpdateStocksRows = [
+    {id: 1, BpCode: 'ALL000100', BpName: '(A)Agarwal Book Depot - Shimla'},
+    {id: 2, BpCode: 'ALL000146', BpName: '	(A)Pepsu Book Depot'},
+    {id: 3, BpCode: 'ALL000150', BpName: '	(A)Modern Book Shop-Chandigarh'},
+    {id: 4, BpCode: 'ALL000132', BpName: '(A)Agarwal Book Depot - Shimla'}
+  ]
+  
+  const OpportunitiesRows = [
+    {id: 1,SchoolName: 'Saraswati Aanchal School',  City: 'South West Delhi', State: 'Delhi', DecisionMaker: 'DecisionMaker1', Status: 'active'},
+    {id: 2,SchoolName: 'Saraswati Aanchal School',  City: 'South West Delhi', State: 'Delhi', DecisionMaker: 'DecisionMaker2', Status: 'active'},
+    {id: 3,SchoolName: 'St. Stephen`s School Kalyani',  City: 'Rohtak', State: 'Haryana', DecisionMaker: 'DecisionMaker3', Status: 'inactive'},
+    {id: 4,SchoolName: 'Saraswati Aanchal School',  City: 'South West Delhi', State: 'Delhi', DecisionMaker: 'DecisionMaker4', Status: 'inactive'},
+    {id: 5,SchoolName: 'Saraswati Aanchal School',  City: 'South West Delhi', State: 'Delhi', DecisionMaker: 'DecisionMaker5', Status: 'active'}
+  ]
+
+  const ManageSchoolRows = [
+    {id: 1, SchoolName: 'Saraswati Aanchal School',  City: 'South West Delhi', State: 'Delhi', Address: 'WZ-1586, Nangal Rai, NEW DELHI'},
+    {id: 2, SchoolName: 'Saraswati Aanchal School',  City: 'South West Delhi', State: 'Delhi', Address: 'WZ-1586, Nangal Rai, NEW DELHI'},
+    {id: 3, SchoolName: 'St. Stephen`s School Kalyani',  City: 'Rohtak', State: 'Haryana', Address: 'Industrial Growth Centre Phase - III Kalyani Nadia-741235'},
+    {id: 4, SchoolName: 'Saraswati Aanchal School',  City: 'South West Delhi', State: 'Delhi', Address: 'WZ-1586, Nangal Rai, NEW DELHI'},
+    {id: 5, SchoolName: 'Saraswati Aanchal School',  City: 'South West Delhi', State: 'Delhi', Address: 'WZ-1586, Nangal Rai, NEW DELHI'},
+    {id: 6, SchoolName: 'Saraswati Aanchal School',  City: 'South West Delhi', State: 'Delhi', Address: 'WZ-1586, Nangal Rai, NEW DELHI'}
+  ]
+
+  export {rows, SalesInvoiceRows, DirectoryRows, MySchoolRows, TaggingRows, UpdateStocksRows, OpportunitiesRows, ManageSchoolRows}
