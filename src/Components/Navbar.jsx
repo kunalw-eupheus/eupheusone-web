@@ -60,7 +60,7 @@ const Navbar = ({ handleSidebarCollapsed, info }) => {
           >
             {info.title}
           </span>
-          <div className="flex items-center justify-start gap-2">
+          <div className="flex items-center justify-start gap-2 w-40 md:w-full">
             <Link to="/">
               <span
                 className={`${
