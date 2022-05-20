@@ -3,9 +3,10 @@ import { useState } from "react";
 import Navbar from "../Components/Navbar";
 import Sidebar from "../Components/Sidebar";
 import { Circle } from "@mui/icons-material";
-import { Link } from "react-router-dom";
-import DataTable from "../Components/DataTable";
-import { rows, ManageSchoolRows } from "../DummyData";
+// import { Link } from "react-router-dom";
+// import DataTable from "../Components/DataTable";
+import Loader from "../Components/Loader";
+// import { rows, ManageSchoolRows } from "../DummyData";
 import SearchDropDown from "../Components/SearchDropDown";
 
 const AddSchool = () => {
