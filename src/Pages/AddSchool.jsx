@@ -6,6 +6,7 @@ import { Circle } from "@mui/icons-material";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 import Loader from "../Components/Loader";
+import Loader from "../Components/Loader";
 import SearchDropDown from "../Components/SearchDropDown";
 import axios from "axios";
 
