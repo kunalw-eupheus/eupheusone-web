@@ -88,9 +88,9 @@ const SearchDropDown = ({
       >
         <Autocomplete
           {...defaultProps}
+          close
           onChange={(event, newValue) => handleDropDown(newValue, Name)}
           id="disable-close-on-select"
-          disableCloseOnSelect
           // defaultValue={defaultValueCountry}
           renderInput={(params) => (
             <TextField
