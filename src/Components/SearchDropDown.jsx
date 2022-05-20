@@ -2,12 +2,14 @@ import { StyledEngineProvider } from "@mui/material/styles";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import Stack from "@mui/material/Stack";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 const SearchDropDown = ({
   label,
   color,
   data,
+  Name,
+  getStateAndCity,
   changeCountryId,
   defaultValueCountry,
   changeStateId,
@@ -18,17 +20,55 @@ const SearchDropDown = ({
 
   const defaultProps = {
     options: data,
-    getOptionLabel: (option) => option.NAME,
+    getOptionLabel: (option) => {
+      switch (Name) {
+        case "board_name":
+          return option.board_name;
+          break;
+        case "category":
+          return option.schoolCategory;
+          break;
+        case "country":
+          return option.country;
+          break;
+        case "state":
+          return option.state;
+          break;
+        case "city":
+          return option.city;
+          break;
+        default:
+          break;
+      }
+    },
   };
 
-  const changeCountryAndStateId = (newValue) => {
-    if (data[1].NAME === "India") {
-      changeCountryId(newValue.PK_ID);
-    } else {
-      setTimeout(() => {
-        setIsStateTouched(false);
-      }, 200);
-      changeStateId(newValue.PK_ID);
+  // const changeCountryAndStateId = (newValue) => {
+  //   if (data[1].NAME === "India") {
+  //     changeCountryId(newValue.PK_ID);
+  //   } else {
+  //     setTimeout(() => {
+  //       setIsStateTouched(false);
+  //     }, 200);
+  //     changeStateId(newValue.PK_ID);
+  //   }
+  // };
+
+  const handleDropDown = (value, type) => {
+    if (type === "country") {
+      getStateAndCity(value.id, "state");
+    }
+    if (type === "state") {
+      getStateAndCity(value.id, "city");
+    }
+    if (type === "city") {
+      getStateAndCity(value.id, "setCityId");
+    }
+    if (type === "board_name") {
+      getStateAndCity(value.id, "setBoardId");
+    }
+    if (type === "category") {
+      getStateAndCity(value.id, "setCategoryId");
     }
   };
 
@@ -43,15 +83,15 @@ const SearchDropDown = ({
       <Stack
         spacing={1}
         sx={{ width: 200 }}
-        onClick={() => setIsStateTouched(true)}
+        // onClick={() => setIsStateTouched(true)}
         className="w-full"
       >
         <Autocomplete
           {...defaultProps}
-          onChange={(event, newValue) => changeCountryAndStateId(newValue)}
+          onChange={(event, newValue) => handleDropDown(newValue, Name)}
           id="disable-close-on-select"
           disableCloseOnSelect
-          defaultValue={defaultValueCountry}
+          // defaultValue={defaultValueCountry}
           renderInput={(params) => (
             <TextField
               {...params}

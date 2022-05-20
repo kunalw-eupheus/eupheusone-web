@@ -26,6 +26,8 @@ const Login = () => {
         "user",
         `id: ${res.data.id}, accessToken: ${res.data.accessToken}`
       );
+      Cookies.set("id", `${res.data.id}`);
+      Cookies.set("accessToken", `${res.data.accessToken}`);
       dispatch(authActions.login());
       navigate("/");
     }
