@@ -7,29 +7,44 @@ import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 import Loader from "../Components/Loader";
 import SearchDropDown from "../Components/SearchDropDown";
+import { CancelOutlined, CheckOutlined } from "@mui/icons-material";
 import axios from "axios";
 
 const AddSchool = () => {
+  const schoolDetails = {
+    user_id: Cookies.get("id"),
+    school_name: "",
+    aff_code: "",
+    board: "",
+    category: "",
+  };
+
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [error, setError] = useState(false);
   const [countryData, setCountryData] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [categoryData, setCategoryData] = useState({});
   const [boardData, setBoardData] = useState([]);
   const [stateData, setStateData] = useState([]);
   const [cityData, setCityData] = useState([]);
-  const [schoolInfo, setSchoolInfo] = useState({ user_id: Cookies.get("id") });
+  const [schoolInfo, setSchoolInfo] = useState(schoolDetails);
   const [highLight, setHighLight] = useState("");
   const navigate = useNavigate();
   const [step1, setStep1] = useState(true);
   const [step2, setStep2] = useState(false);
   const [step3, setStep3] = useState(false);
+  const [response, setResponse] = useState("");
+  const [show, setShow] = useState(false);
 
   const navInfo = {
     title: "Form",
     details: ["Manage School", " / Create"],
   };
 
+  console.log(schoolInfo);
+
   const createSchool = async () => {
+    setLoading(true);
     const res = await axios.post(
       "http://192.168.7.49:5070/user/school/create",
       schoolInfo,
@@ -40,6 +55,13 @@ const AddSchool = () => {
       }
     );
     console.log(res.data);
+    setLoading(false);
+    if (res.data.errors) {
+      showResponse(res.data.errors[0].message);
+    } else {
+      showResponse(res.data.message);
+    }
+    setShow(true);
   };
 
   const getState = async (id) => {
@@ -76,6 +98,7 @@ const AddSchool = () => {
           },
         }
       );
+
       setCountryData(Country.data);
     };
     const getBoard = async () => {
@@ -105,6 +128,16 @@ const AddSchool = () => {
     getBoard();
     getCategoryData();
   }, []);
+
+  const showResponse = (res) => {
+    setResponse(res);
+    setTimeout(() => {
+      setShow(false);
+      if (res === "success: School create successfully") {
+        navigate("/manageSchool");
+      }
+    }, 1500);
+  };
 
   const getStateAndCity = (id, type) => {
     if (type === "state") {
@@ -175,11 +208,27 @@ const AddSchool = () => {
   return (
     <>
       {loading ? <Loader /> : null}
-      <div
-        className={`flex bg-[#111322] ${
-          loading ? "pointer-events-none opacity-30" : null
-        }`}
-      >
+      <div className="flex bg-[#111322]">
+        {/* notification */}
+        <span
+          className={`transition-all z-50 ${
+            response === "success: School create successfully"
+              ? "bg-green-500"
+              : "bg-red-600"
+          } absolute right-1 md:right-[2rem]  ${
+            show
+              ? "visible opacity-100 text-white  px-8 rounded-md py-4"
+              : "invisible opacity-0"
+          } duration-300 ease-linear `}
+        >
+          {response === "success: School create successfully" ? (
+            <CheckOutlined className="mr-2 mb-1 !text-3xl" />
+          ) : (
+            <CancelOutlined className="mr-2 mb-1 !text-3xl" />
+          )}
+          {response}
+        </span>
+
         <Sidebar
           sidebarCollapsed={sidebarCollapsed}
           show={null}
@@ -214,21 +263,27 @@ const AddSchool = () => {
                 <>
                   <div className="flex flex-col px-6 py-6 mt-6 gap-6 rounded-md bg-slate-600">
                     <h1 className=" text-white text-3xl">Add New School</h1>
-                    <input
-                      onChange={handleSchoolInfo}
-                      type="text"
-                      name="school_name"
-                      placeholder="School Name"
-                      className=" w-2/3 placeholder:text-[#f3f4f6] text-white py-2 outline-0 bg-slate-600 border-b-2 border-b-black"
-                    />
+                    <div className="flex flex-col gap-1">
+                      <input
+                        onChange={handleSchoolInfo}
+                        type="text"
+                        name="school_name"
+                        placeholder="School Name"
+                        className=" w-2/3 placeholder:text-[#f3f4f6] text-[#f3f4f6] py-2 outline-0 bg-slate-600 border-b-2 border-b-black"
+                      />
+                      <span className=" text-xs text-red-500">Required</span>
+                    </div>
 
-                    <input
-                      onChange={handleSchoolInfo}
-                      type="text"
-                      name="aff_code"
-                      placeholder="Affiliate Code"
-                      className=" w-2/3 placeholder:text-[#f3f4f6] py-2 outline-0 bg-slate-600 border-b-2 border-b-black"
-                    />
+                    <div className="flex flex-col gap-1">
+                      <input
+                        onChange={handleSchoolInfo}
+                        type="text"
+                        name="aff_code"
+                        placeholder="Affiliate Code"
+                        className=" w-2/3 placeholder:text-[#f3f4f6] text-[#f3f4f6] py-2 outline-0 bg-slate-600 border-b-2 border-b-black"
+                      />
+                      <span className=" text-xs text-red-500">Required</span>
+                    </div>
                     <div className="w-2/3">
                       <SearchDropDown
                         data={boardData}
@@ -237,6 +292,7 @@ const AddSchool = () => {
                         color={"rgb(243, 244, 246)"}
                         Name={"board_name"}
                       />
+                      <span className=" text-xs text-red-500">Required</span>
                     </div>
                     <div className="w-2/3">
                       <SearchDropDown
@@ -246,20 +302,21 @@ const AddSchool = () => {
                         color={"rgb(243, 244, 246)"}
                         label={"Select Category"}
                       />
+                      <span className=" text-xs text-red-500">Required</span>
                     </div>
                   </div>
                   <div className="flex gap-3 mt-6">
                     <button
                       name="step1"
                       onClick={handleForm}
-                      className=" bg-slate-600 active:bg-slate-700 rounded-md text-white px-10 py-2 hover:shadow-2xl"
+                      className=" bg-slate-600 active:bg-slate-700 active:scale-95 rounded-md text-white px-10 py-2 hover:shadow-2xl"
                     >
                       Next
                     </button>
                     <button
                       name="Cancel"
                       onClick={handleForm}
-                      className=" bg-slate-600 active:bg-slate-700 rounded-md text-white px-8 py-2 hover:shadow-2xl"
+                      className=" bg-slate-600 active:bg-slate-700 active:scale-95 rounded-md text-white px-8 py-2 hover:shadow-2xl"
                     >
                       Cancel
                     </button>
@@ -298,7 +355,7 @@ const AddSchool = () => {
                       type="text"
                       name="web"
                       onChange={handleSchoolInfo}
-                      placeholder="Website (optional)"
+                      placeholder="Website"
                       className=" w-2/3 placeholder:text-[#f3f4f6] text-white py-2 outline-0 bg-slate-600 border-b-2 border-b-black"
                     />
                     <input
@@ -313,14 +370,14 @@ const AddSchool = () => {
                     <button
                       name="step2"
                       onClick={handleForm}
-                      className=" bg-slate-600 active:bg-slate-700 rounded-md text-white px-10 py-2 hover:shadow-2xl"
+                      className=" bg-slate-600 active:bg-slate-700 active:scale-95 rounded-md text-white px-10 py-2 hover:shadow-2xl"
                     >
                       Next
                     </button>
                     <button
                       name="Cancel"
                       onClick={handleForm}
-                      className=" bg-slate-600 active:bg-slate-700 rounded-md text-white px-8 py-2 hover:shadow-2xl"
+                      className=" bg-slate-600 active:bg-slate-700 active:scale-95 rounded-md text-white px-8 py-2 hover:shadow-2xl"
                     >
                       Cancel
                     </button>
@@ -371,7 +428,7 @@ const AddSchool = () => {
                       className=" w-2/3 placeholder:text-[#f3f4f6] text-white py-2 outline-0 bg-slate-600 border-b-2 border-b-black"
                     />
                     <input
-                      type="text"
+                      type="number"
                       name="pin"
                       onChange={handleSchoolInfo}
                       placeholder="Pincode"
@@ -381,14 +438,14 @@ const AddSchool = () => {
                   <div className="flex gap-3 mt-6">
                     <button
                       onClick={createSchool}
-                      className=" bg-slate-600 active:bg-slate-700 rounded-md text-white px-10 py-2 hover:shadow-2xl"
+                      className=" bg-slate-600 active:bg-slate-700 active:scale-95 rounded-md text-white px-10 py-2 hover:shadow-2xl"
                     >
                       Add
                     </button>
                     <button
                       onClick={handleForm}
                       name="Cancel"
-                      className=" bg-slate-600 active:bg-slate-700 rounded-md text-white px-8 py-2 hover:shadow-2xl"
+                      className=" bg-slate-600 active:bg-slate-700 active:scale-95 rounded-md text-white px-8 py-2 hover:shadow-2xl"
                     >
                       Cancel
                     </button>

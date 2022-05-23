@@ -126,7 +126,7 @@ const Tagging = () => {
                   color={"rgb(243, 244, 246)"}
                 />
               </div>
-              <button className="w-full focus:outline-0 mt-8 text-gray-300 hover:shadow-md h-10 bg-slate-500 transition-all duration-200 ease-linear active:bg-slate-700 rounded-md">
+              <button className="w-full focus:outline-0 active:scale-95 mt-8 text-gray-300 hover:shadow-md h-10 bg-slate-500 transition-all duration-200 ease-linear active:bg-slate-700 rounded-md">
                 Search
               </button>
             </section>
@@ -143,7 +143,7 @@ const Tagging = () => {
                   color={"rgb(243, 244, 246)"}
                 />
               </div>
-              <button className="px-4 py-2 lg:h-[6vh] rounded-md hover:shadow-lg text-gray-300 bg-slate-500 transition-all duration-200 ease-linear active:bg-slate-700">
+              <button className="px-4 py-2 lg:h-[6vh] active:scale-95 rounded-md hover:shadow-lg text-gray-300 bg-slate-500 transition-all duration-200 ease-linear active:bg-slate-700">
                 Search
               </button>
             </section>

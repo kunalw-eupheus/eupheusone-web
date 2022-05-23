@@ -94,13 +94,13 @@ const ManageSchool = () => {
                   color={"rgb(243, 244, 246)"}
                 />
               </div>
-              <button className="w-full md:w-[20vw] col-span-2 md:ml-10 focus:outline-0 mt-8 text-gray-300 hover:shadow-md h-10 bg-slate-500 transition-all duration-200 ease-linear active:bg-slate-700 rounded-md">
+              <button className="w-full md:w-[20vw] col-span-2 md:ml-10 focus:outline-0 mt-8 text-gray-300 hover:shadow-md h-10 bg-slate-500 transition-all duration-200 ease-linear active:bg-slate-700 active:scale-95 rounded-md">
                 Search School
               </button>
             </div>
             <Link to="/addschool">
               <div className=" absolute right-8 md:top-[13.3rem] top-[19.5rem]">
-                <button className="w-[10rem] relative col-span-2 focus:outline-0 mt-8 text-gray-300 hover:shadow-md h-10 bg-slate-500 transition-all duration-200 ease-linear active:bg-slate-700 rounded-md">
+                <button className="w-[10rem] relative col-span-2 focus:outline-0 mt-8 text-gray-300 hover:shadow-md h-10 bg-slate-500 transition-all duration-200 ease-linear active:bg-slate-700 active:scale-95 rounded-md">
                   <Add className="absolute left-3 bottom-[0.6rem]" /> Add School
                 </button>
               </div>
