@@ -7,6 +7,7 @@ import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 import Loader from "../Components/Loader";
 import SearchDropDown from "../Components/SearchDropDown";
+import { CancelOutlined, CheckOutlined } from "@mui/icons-material";
 import axios from "axios";
 
 const AddSchool = () => {
@@ -23,6 +24,8 @@ const AddSchool = () => {
   const [step1, setStep1] = useState(true);
   const [step2, setStep2] = useState(false);
   const [step3, setStep3] = useState(false);
+  const [response, setResponse] = useState("");
+  const [show, setShow] = useState(false);
 
   const navInfo = {
     title: "Form",
@@ -42,6 +45,12 @@ const AddSchool = () => {
     );
     console.log(res.data);
     setLoading(false);
+    if (res.data.errors) {
+      showResponse(res.data.errors[0].message);
+    } else {
+      showResponse(res.data.message);
+    }
+    setShow(true);
   };
 
   const getState = async (id) => {
@@ -108,6 +117,16 @@ const AddSchool = () => {
     getBoard();
     getCategoryData();
   }, []);
+
+  const showResponse = (res) => {
+    setResponse(res);
+    setTimeout(() => {
+      setShow(false);
+      if (res === "success: School create successfully") {
+        navigate("/manageSchool");
+      }
+    }, 1500);
+  };
 
   const getStateAndCity = (id, type) => {
     if (type === "state") {
@@ -178,11 +197,27 @@ const AddSchool = () => {
   return (
     <>
       {loading ? <Loader /> : null}
-      <div
-        className={`flex bg-[#111322] ${
-          loading ? "pointer-events-none opacity-30" : null
-        }`}
-      >
+      <div className="flex bg-[#111322]">
+        {/* notification */}
+        <span
+          className={`transition-all z-50 ${
+            response === "success: School create successfully"
+              ? "bg-green-500"
+              : "bg-red-600"
+          } absolute right-1 md:right-[2rem]  ${
+            show
+              ? "visible opacity-100 text-white  px-8 rounded-md py-4"
+              : "invisible opacity-0"
+          } duration-300 ease-linear `}
+        >
+          {response === "success: School create successfully" ? (
+            <CheckOutlined className="mr-2 mb-1 !text-3xl" />
+          ) : (
+            <CancelOutlined className="mr-2 mb-1 !text-3xl" />
+          )}
+          {response}
+        </span>
+
         <Sidebar
           sidebarCollapsed={sidebarCollapsed}
           show={null}
@@ -224,6 +259,7 @@ const AddSchool = () => {
                       placeholder="School Name"
                       className=" w-2/3 placeholder:text-[#f3f4f6] text-[#f3f4f6] py-2 outline-0 bg-slate-600 border-b-2 border-b-black"
                     />
+                    <span className=" text-xs text-red-500">Required</span>
 
                     <input
                       onChange={handleSchoolInfo}
