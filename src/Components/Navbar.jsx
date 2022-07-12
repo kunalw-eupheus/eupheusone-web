@@ -41,7 +41,7 @@ const Navbar = ({ handleSidebarCollapsed, info }) => {
   return (
     <div
       id="navbar"
-      className={`h-[4.5rem] ${
+      className={`h-[10vh] 2xl:h-[10vh] ${
         scroll ? "bg-[hsla(0,0%,100%,.8)]" : "bg-[#141728]"
       } z-30 mt-[0.5px] transition-all ease-linear duration-200 rounded-md sticky top-[0.25px] flex items-center pl-[1.2rem] lg:pr-8 pr-[1.2rem] justify-between`}
     >

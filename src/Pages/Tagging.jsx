@@ -65,7 +65,7 @@ const Tagging = () => {
         />
         <div className="min-h-[100vh] pt-[2vh] max-h-full bg-[#141728]">
           <div className=" px-8 py-3 bg-[#141728]">
-            <section className="grid grid-cols-2 grid-rows-4 md:grid-cols-4 gap-4 md:grid-rows-2 px-6 py-6 bg-slate-600 rounded-md mt-6">
+            <section className="grid grid-cols-2 grid-rows-4 md:grid-cols-3 gap-4 md:grid-rows-2 px-6 py-6 bg-slate-600 rounded-md mt-6">
               <div className=" flex flex-col gap-2 w-full">
                 <label className=" text-gray-100">Country</label>
                 {/* <select className="rounded-md px-4 py-2 focus:outline-0">
@@ -98,7 +98,7 @@ const Tagging = () => {
                   <option value="">option 1</option>
                 </select> */}
                 <SearchDropDown
-                  label={"Select City"}
+                  label="Select City"
                   color={"rgb(243, 244, 246)"}
                 />
               </div>
@@ -114,7 +114,7 @@ const Tagging = () => {
                   color={"rgb(243, 244, 246)"}
                 />
               </div>
-              <div className=" flex flex-col gap-2 w-full col-span-2 md:col-span-3">
+              <div className=" flex flex-col gap-2 w-full">
                 <label className="text-gray-100">School</label>
                 {/* <select className=" rounded-md px-4 py-2 focus:outline-0">
                   <option value="">option 1</option>

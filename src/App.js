@@ -23,16 +23,18 @@ import Schools from "./Pages/Schools";
 import TagSchool from "./Pages/TagSchool";
 import AddSchool from "./Pages/AddSchool";
 
+
 function App() {
-  const isAuth = useSelector((state) => state.auth.user);
+  // const isAuth = useSelector((state) => state.auth.user);
+  const isAuth = true
   const Admin = useSelector((state) => state.auth.admin);
 
   return (
-    <div className=" font-Roboto bg-[#111322]">
+    <div className=" font-Roboto bg-[#111322] ">
       <BrowserRouter>
         <Routes>
           <Route path="/login" element={<Login />} />
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={isAuth ? <Home /> : <Login/>} />
           <Route path="/mySchool" element={isAuth ? <MySchool /> : <Login />} />
           <Route path="/tagging" element={isAuth ? <Tagging /> : <Login />} />
           <Route
