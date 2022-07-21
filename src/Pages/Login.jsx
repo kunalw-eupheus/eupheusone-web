@@ -16,10 +16,13 @@ const Login = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    const res = await axios.post("http://192.168.7.181:5070/api/auth/signin", {
-      empCode: email,
-      password: password,
-    });
+    const res = await axios.post(
+      "https://nodecrmv2.herokuapp.com/api/auth/signin",
+      {
+        empCode: email,
+        password: password,
+      }
+    );
     console.log(res.data);
     if (res.status === 200) {
       Cookies.set(
