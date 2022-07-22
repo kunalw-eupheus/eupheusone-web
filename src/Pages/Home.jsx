@@ -4,6 +4,7 @@ import Navbar from "../Components/Navbar";
 import Sidebar from "../Components/Sidebar";
 import GoogleMap from "../Components/GoogleMap";
 import axios from "axios";
+
 import Cookies from "js-cookie";
 import Loader from "../Components/Loader";
 
@@ -40,6 +41,28 @@ const Home = () => {
 
     localStorage.setItem("co_ordinates", JSON.stringify(temp));
   };
+
+  useLayoutEffect(() => {
+    var successHandler = function (position) {
+      setCurrentLocation({
+        lat: position.coords.latitude,
+        lng: position.coords.longitude,
+      });
+      console.log(currentLocation);
+    };
+
+    var errorHandler = function (errorObj) {
+      alert(errorObj.code + ": " + errorObj.message);
+
+      alert("something wrong take this lat " + 26.0546106);
+      alert("something wrong take this lng " + -98.3939791);
+    };
+
+    navigator.geolocation.watchPosition(successHandler, errorHandler, {
+      enableHighAccuracy: true,
+      maximumAge: 10000,
+    });
+  }, []);
 
   useLayoutEffect(() => {
     var successHandler = function (position) {
