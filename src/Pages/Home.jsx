@@ -11,8 +11,10 @@ const Home = () => {
   const [status, setStatus] = useState("Start Day");
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [currentLocation, setCurrentLocation] = useState([]);
+
   const [loading, setLoading] = useState(false);
   const [showMap, setShowMap] = useState(false);
+
   const show = null;
   const temp = [];
   const Co_ordinates = JSON.parse(localStorage.getItem("co_ordinates"));
@@ -38,6 +40,28 @@ const Home = () => {
 
     localStorage.setItem("co_ordinates", JSON.stringify(temp));
   };
+
+  useLayoutEffect(() => {
+    var successHandler = function (position) {
+      setCurrentLocation({
+        lat: position.coords.latitude,
+        lng: position.coords.longitude,
+      });
+      console.log(currentLocation);
+    };
+
+    var errorHandler = function (errorObj) {
+      alert(errorObj.code + ": " + errorObj.message);
+
+      alert("something wrong take this lat " + 26.0546106);
+      alert("something wrong take this lng " + -98.3939791);
+    };
+
+    navigator.geolocation.watchPosition(successHandler, errorHandler, {
+      enableHighAccuracy: true,
+      maximumAge: 10000,
+    });
+  }, []);
 
   const navInfo = {
     title: "",
@@ -120,6 +144,7 @@ const Home = () => {
   return (
     <div className="flex max-w-[100vw] overflow-hidden">
       {loading ? <Loader /> : null}
+
       <Sidebar sidebarCollapsed={sidebarCollapsed} show={show} />
       <div
         className={`flex flex-col w-[100vw] relative lg:w-[83vw] lg:ml-[18vw] ${
@@ -130,6 +155,7 @@ const Home = () => {
           handleSidebarCollapsed={handleSidebarCollapsed}
           info={navInfo}
         />
+
         {showMap ? (
           <div className="h-[90vh] bg-gray-300">
             <GoogleMap

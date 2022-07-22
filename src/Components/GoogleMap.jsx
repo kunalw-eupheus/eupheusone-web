@@ -51,6 +51,7 @@ function MyComponent({ sidebarCollapsed, currentLocation }) {
     strokeColor: "#000000",
     strokeOpacity: 1.0,
     strokeWeight: 3,
+
     fillColor: "#FF0000",
     fillOpacity: 0.35,
     clickable: false,
