@@ -46,7 +46,7 @@ const AddSchool = () => {
   const createSchool = async () => {
     setLoading(true);
     const res = await axios.post(
-      "http://192.168.7.49:5070/user/school/create",
+      "http://192.168.7.181:5070/user/school/create",
       schoolInfo,
       {
         headers: {
@@ -66,7 +66,7 @@ const AddSchool = () => {
 
   const getState = async (id) => {
     const state = await axios.get(
-      `http://192.168.7.49:5070/user/location/state/${id}`,
+      `http://192.168.7.181:5070/user/location/state/${id}`,
       {
         headers: {
           authorization: `${Cookies.get("accessToken")}`,
@@ -77,7 +77,7 @@ const AddSchool = () => {
   };
   const getCity = async (id) => {
     const city = await axios.get(
-      `http://192.168.7.49:5070/user/location/city/${id}`,
+      `http://192.168.7.181:5070/user/location/city/${id}`,
       {
         headers: {
           authorization: `${Cookies.get("accessToken")}`,
@@ -91,7 +91,7 @@ const AddSchool = () => {
   useEffect(() => {
     const getCountry = async () => {
       const Country = await axios.get(
-        "http://192.168.7.49:5070/user/location/country",
+        "http://192.168.7.181:5070/user/location/country",
         {
           headers: {
             authorization: `${Cookies.get("accessToken")}`,
@@ -103,7 +103,7 @@ const AddSchool = () => {
     };
     const getBoard = async () => {
       const board = await axios.get(
-        "http://192.168.7.49:5070/user/school/api/board",
+        "http://192.168.7.181:5070/user/school/api/board",
         {
           headers: {
             authorization: `${Cookies.get("accessToken")}`,
@@ -114,13 +114,14 @@ const AddSchool = () => {
     };
     const getCategoryData = async (req, res) => {
       const category = await axios.get(
-        "http://192.168.7.49:5070/user/school/api/category",
+        "http://192.168.7.181:5070/user/school/api/category",
         {
           headers: {
             authorization: `${Cookies.get("accessToken")}`,
           },
         }
       );
+      console.log(category.data);
       setCategoryData(category.data);
     };
 

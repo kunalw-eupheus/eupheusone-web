@@ -16,11 +16,14 @@ const Login = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    const res = await axios.post("http://192.168.7.49:5070/api/auth/signin", {
-      empCode: email,
-      password: password,
-    });
-
+    const res = await axios.post(
+      "https://nodecrmv2.herokuapp.com/api/auth/signin",
+      {
+        empCode: email,
+        password: password,
+      }
+    );
+    console.log(res.data);
     if (res.status === 200) {
       Cookies.set(
         "user",
@@ -28,6 +31,10 @@ const Login = () => {
       );
       Cookies.set("id", `${res.data.id}`);
       Cookies.set("accessToken", `${res.data.accessToken}`);
+      if (res.data.admin) {
+        Cookies.set("admin", true);
+        dispatch(authActions.adminLogin());
+      }
       dispatch(authActions.login());
       navigate("/");
     }
@@ -44,7 +51,7 @@ const Login = () => {
             <div className="w-full lg:w-4/12 px-4">
               <div className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-gray-200 border-0">
                 <div className="rounded-t mb-0 px-6 py-6">
-                  <img src={Logo} className=" object-cover" />
+                  <img src={Logo} className=" object-cover" alt="" />
                   <hr className="mt-6 border-b-1 border-blueGray-300" />
                 </div>
                 <div className="flex-auto px-4 lg:px-10 py-10 pt-0">

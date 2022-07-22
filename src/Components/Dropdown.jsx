@@ -19,10 +19,10 @@ const Dropdown = ({ dropdownPopoverShow, handleDropDown }) => {
   return (
     <>
       <div className="flex flex-wrap">
-        <div className="w-full sm:w-6/12 md:w-4/12 px-4">
-          <div className="relative flex flex-col gap-3 align-middle lg:w-[10rem] w-[8rem]">
+        <div className="w-fit sm:w-6/12 md:w-4/12 sm:px-4 pr-2 sm:pr-0">
+          <div className="relative flex flex-col gap-3 align-middle sm:w-[10rem] w-[6.4rem]">
             <button
-              className="text-white font-bold w-full uppercase text-sm pl-[0.5rem] pr-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 bg-[#67748e] active:bg-[#67748e] ease-linear transition-all duration-150"
+              className="text-white font-bold w-full uppercase text-sm pl-[0.5rem] pr-6 sm:py-3 py-[0.4rem] rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 bg-[#67748e] active:bg-[#67748e] ease-linear transition-all duration-150"
               type="button"
               ref={btnDropdownRef}
               onClick={() => {
@@ -31,9 +31,9 @@ const Dropdown = ({ dropdownPopoverShow, handleDropDown }) => {
                   : openDropdownPopover();
               }}
             >
-              FY 2022-23
+              <span className="w-fit sm:text-base text-xs">FY 2022-23</span>
               <div
-                className={`transition-all duration-200 absolute top-[0.65rem] right-3 ease-linear ${
+                className={`transition-all duration-200 absolute sm:top-[0.65rem] top-[0.3rem] sm:right-3 right-0 ease-linear ${
                   dropdownPopoverShow ? " rotate-180" : null
                 }`}
               >
@@ -55,7 +55,7 @@ const Dropdown = ({ dropdownPopoverShow, handleDropDown }) => {
                 } py-2 px-4 justify-center transition-all hover:bg-slate-600 ease-linear duration-100 hover:border-l-2 font-normal flex w-full whitespace-no-wrap bg-transparent text-white`}
                 onClick={(e) => e.preventDefault()}
               >
-                <h1>FY 2022-23</h1>
+                <h1 className="w-fit sm:text-base text-xs">FY 2022-23</h1>
               </a>
               <a
                 href="#pablo"
@@ -64,7 +64,7 @@ const Dropdown = ({ dropdownPopoverShow, handleDropDown }) => {
                 } py-2 px-4 transition-all ease-linear hover:bg-slate-600 duration-100 hover:border-l-2 justify-center font-normal flex w-full whitespace-no-wrap bg-transparent text-white`}
                 onClick={(e) => e.preventDefault()}
               >
-                <h1>FY 2022-23</h1>
+                <h1 className="w-fit sm:text-base text-xs">FY 2022-23</h1>
               </a>
               <a
                 href="#pablo"
@@ -73,7 +73,7 @@ const Dropdown = ({ dropdownPopoverShow, handleDropDown }) => {
                 } py-2 px-4 transition-all ease-linear hover:bg-slate-600 duration-100 hover:border-l-2 font-normal flex justify-center w-full whitespace-no-wrap bg-transparent text-white`}
                 onClick={(e) => e.preventDefault()}
               >
-                <h1>FY 2022-23</h1>
+                <h1 className="w-fit sm:text-base text-xs">FY 2022-23</h1>
               </a>
               <a
                 href="#pablo"
@@ -82,7 +82,7 @@ const Dropdown = ({ dropdownPopoverShow, handleDropDown }) => {
                 } py-2 transition-all ease-linear duration-100 hover:bg-slate-600 hover:border-l-2 px-4 font-normal flex justify-center w-full whitespace-no-wrap bg-transparent text-white`}
                 onClick={(e) => e.preventDefault()}
               >
-                <h1>FY 2022-23</h1>
+                <h1 className="w-fit sm:text-base text-xs">FY 2022-23</h1>
               </a>
             </div>
           </div>

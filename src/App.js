@@ -24,11 +24,12 @@ import TagSchool from "./Pages/TagSchool";
 import AddSchool from "./Pages/AddSchool";
 
 function App() {
-  const isAuth = true
-  // const isAuth = useSelector((state) => state.auth.user);
+  const isAuth = useSelector((state) => state.auth.user);
+  // const isAuth = true
+  const Admin = useSelector((state) => state.auth.admin);
 
   return (
-    <div className=" font-Roboto bg-[#111322]">
+    <div className=" font-Roboto bg-[#111322] ">
       <BrowserRouter>
         <Routes>
           <Route path="/login" element={<Login />} />
@@ -75,12 +76,30 @@ function App() {
           {/* Admin */}
 
           <Route path="/admin/signIn" element={<AdminLogin />} />
-          <Route path="/admin/home" element={<AdminHome />} />
-          <Route path="/admin/user/create/new" element={<AdminSignUp />} />
-          <Route path="/admin/all/user" element={<AdminAllUser />} />
-          <Route path="/admin/location/state" element={<AdminState />} />
-          <Route path="/admin/location/city" element={<AdminCity />} />
-          <Route path="/admin/location/country" element={<AdminCountry />} />
+          <Route
+            path="/admin/home"
+            element={Admin ? <AdminHome /> : <Login />}
+          />
+          <Route
+            path="/admin/user/create/new"
+            element={Admin ? <AdminSignUp /> : <Login />}
+          />
+          <Route
+            path="/admin/all/user"
+            element={Admin ? <AdminAllUser /> : <Login />}
+          />
+          <Route
+            path="/admin/location/state"
+            element={Admin ? <AdminState /> : <Login />}
+          />
+          <Route
+            path="/admin/location/city"
+            element={Admin ? <AdminCity /> : <Login />}
+          />
+          <Route
+            path="/admin/location/country"
+            element={Admin ? <AdminCountry /> : <Login />}
+          />
         </Routes>
       </BrowserRouter>
     </div>
