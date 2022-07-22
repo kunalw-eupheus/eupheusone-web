@@ -4,6 +4,7 @@ import Navbar from "../Components/Navbar";
 import Sidebar from "../Components/Sidebar";
 import GoogleMap from "../Components/GoogleMap";
 import axios from "axios";
+
 import Cookies from "js-cookie";
 import Loader from "../Components/Loader";
 
@@ -11,8 +12,10 @@ const Home = () => {
   const [status, setStatus] = useState("Start Day");
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [currentLocation, setCurrentLocation] = useState([]);
+
   const [loading, setLoading] = useState(false);
   const [showMap, setShowMap] = useState(false);
+
   const show = null;
   const temp = [];
   const Co_ordinates = JSON.parse(localStorage.getItem("co_ordinates"));
@@ -120,6 +123,7 @@ const Home = () => {
   return (
     <div className="flex max-w-[100vw] overflow-hidden">
       {loading ? <Loader /> : null}
+
       <Sidebar sidebarCollapsed={sidebarCollapsed} show={show} />
       <div
         className={`flex flex-col w-[100vw] relative lg:w-[83vw] lg:ml-[18vw] ${
@@ -130,6 +134,7 @@ const Home = () => {
           handleSidebarCollapsed={handleSidebarCollapsed}
           info={navInfo}
         />
+
         {showMap ? (
           <div className="h-[90vh] bg-gray-300">
             <GoogleMap
