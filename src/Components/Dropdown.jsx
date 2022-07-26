@@ -19,7 +19,7 @@ const Dropdown = ({ dropdownPopoverShow, handleDropDown }) => {
   return (
     <>
       <div className="flex flex-wrap">
-        <div className="w-fit sm:w-6/12 md:w-4/12 sm:px-4 pr-2 sm:pr-0">
+        <div className="w-fit sm:w-6/12 md:w-4/12 sm:px-4 pr-2">
           <div className="relative flex flex-col gap-3 align-middle sm:w-[10rem] w-[6.4rem]">
             <button
               className="text-white font-bold w-full uppercase text-sm pl-[0.5rem] pr-6 sm:py-3 py-[0.4rem] rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 bg-[#67748e] active:bg-[#67748e] ease-linear transition-all duration-150"

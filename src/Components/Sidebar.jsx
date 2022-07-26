@@ -26,8 +26,8 @@ const Sidebar = ({ sidebarCollapsed, highLight, show }) => {
 
   return (
     <div
-      className={`fixed transition-all ease-linear duration-200 ${
-        sidebarCollapsed ? "-left-[100%]" : "left-0"
+      className={`fixed transition-all ease-linear duration-300 ${
+        sidebarCollapsed ? "-left-[100%]" : "left-[0%]"
       } lg:py-2 md:py-4 py-8 w-[60vw] lg:w-[18vw] md:w-[30vw] bg-[#111322] max-h-[100vh] min-h-[100vh] overflow-y-auto`}
     >
       <div

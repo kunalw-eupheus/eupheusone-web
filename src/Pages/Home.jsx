@@ -7,6 +7,7 @@ import axios from "axios";
 
 import Cookies from "js-cookie";
 import Loader from "../Components/Loader";
+import Hamburger from "../Components/Hamburger";
 
 const Home = () => {
   const [status, setStatus] = useState("Start Day");
@@ -126,7 +127,7 @@ const Home = () => {
 
       <Sidebar sidebarCollapsed={sidebarCollapsed} show={show} />
       <div
-        className={`flex flex-col w-[100vw] relative lg:w-[83vw] lg:ml-[18vw] ${
+        className={`flex flex-col w-[100vw] relative transition-all ease-linear duration-300 lg:w-[83vw] lg:ml-[18vw] ${
           sidebarCollapsed ? null : "md:ml-[30vw] ml-[60vw]"
         } `}
       >
@@ -148,9 +149,16 @@ const Home = () => {
             {/* <button className="px-4 py-1 bg-blue-400" onClick={handleLocation}>
             Start Day
           </button> */}
-            <div className="flex px-6 py-2 gap-[4rem] bg-gray-600 w-fit rounded-md mt-[2rem] ml-[2rem]">
-              <span className="text-gray-300">School Check In</span>
-              <span className="text-gray-300 cursor-pointer">Check In</span>
+            <div className="w-full flex justify-end">
+              <div className="flex pl-6 gap-[4rem] items-center bg-gray-600 w-fit rounded-md mt-[2rem] mr-[2rem]">
+                <span className="text-gray-400 my-3 text-xs">
+                  School Check In
+                </span>
+                <span className="text-gray-300 rounded-r-md font-bold hover:shadow-lg bg-slate-500 py-2 px-4 hover:text-gray-100 transition-all duration-200 ease-linear cursor-pointer">
+                  Check In
+                </span>
+                {/* <Hamburger /> */}
+              </div>
             </div>
             <button
               onClick={() => setShowMap(true)}
