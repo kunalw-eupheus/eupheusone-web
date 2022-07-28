@@ -4,7 +4,7 @@ import Navbar from "../Components/Navbar";
 import Sidebar from "../Components/Sidebar";
 import GoogleMap from "../Components/GoogleMap";
 import axios from "axios";
-
+import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import Loader from "../Components/Loader";
 import Hamburger from "../Components/Hamburger";
@@ -13,7 +13,7 @@ const Home = () => {
   const [status, setStatus] = useState("Start Day");
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [currentLocation, setCurrentLocation] = useState([]);
-
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [showMap, setShowMap] = useState(false);
 
@@ -23,8 +23,8 @@ const Home = () => {
 
   useLayoutEffect(() => {
     navigator.geolocation.watchPosition(function (position) {
-      console.log("Latitude is :", position.coords.latitude);
-      console.log("Longitude is :", position.coords.longitude);
+      // console.log("Latitude is :", position.coords.latitude);
+      // console.log("Longitude is :", position.coords.longitude);
       setCurrentLocation({
         lat: position.coords.latitude,
         lng: position.coords.longitude,
@@ -154,7 +154,10 @@ const Home = () => {
                 <span className="text-gray-400 my-3 text-xs">
                   School Check In
                 </span>
-                <span className="text-gray-300 rounded-r-md font-bold hover:shadow-lg bg-slate-500 py-2 px-4 hover:text-gray-100 transition-all duration-200 ease-linear cursor-pointer">
+                <span
+                  onClick={() => navigate("/school/punch_in")}
+                  className="text-gray-300 rounded-r-md font-bold hover:shadow-lg bg-slate-500 py-2 px-4 hover:text-gray-100 transition-all duration-200 ease-linear cursor-pointer"
+                >
                   Check In
                 </span>
                 {/* <Hamburger /> */}

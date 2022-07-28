@@ -22,11 +22,13 @@ import SchoolTagging from "./Pages/SchoolTagging";
 import Schools from "./Pages/Schools";
 import TagSchool from "./Pages/TagSchool";
 import AddSchool from "./Pages/AddSchool";
+import SchoolPunchIn from "./Pages/SchoolPunchIn";
 
 function App() {
   const isAuth = useSelector((state) => state.auth.user);
   // const isAuth = true
-  const Admin = useSelector((state) => state.auth.admin);
+  // const Admin = useSelector((state) => state.auth.admin);
+  const Admin = true;
 
   return (
     <div className=" font-Roboto bg-[#111322] ">
@@ -71,6 +73,11 @@ function App() {
           <Route
             path="/addschool"
             element={isAuth ? <AddSchool /> : <Login />}
+          />
+
+          <Route
+            path="/school/punch_in"
+            element={isAuth ? <SchoolPunchIn /> : <Login />}
           />
 
           {/* Admin */}

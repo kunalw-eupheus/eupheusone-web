@@ -10,11 +10,14 @@ import {
 import Dropdown from "./Dropdown";
 import { Link } from "react-router-dom";
 import Hamburger from "./Hamburger";
+import { useDispatch } from "react-redux";
+import { authActions } from "../Store/auth";
+import Cookies from "js-cookie";
 const Navbar = ({ handleSidebarCollapsed, info }) => {
   const [scroll, setScroll] = useState(false);
   const [showUserOption, setShowUserOption] = useState(false);
   const [dropdownPopoverShow, setDropdownPopoverShow] = React.useState(false);
-
+  const dispatch = useDispatch();
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
     handleScroll();
@@ -37,6 +40,13 @@ const Navbar = ({ handleSidebarCollapsed, info }) => {
   const handleShowUserOption = () => {
     setDropdownPopoverShow(false);
     setShowUserOption(!showUserOption);
+  };
+
+  const handleLogout = () => {
+    Cookies.remove("accessToken");
+    Cookies.remove("user");
+    Cookies.remove("id");
+    dispatch(authActions.logout());
   };
 
   return (
@@ -106,7 +116,10 @@ const Navbar = ({ handleSidebarCollapsed, info }) => {
           {" "}
           <Settings className=" mr-2" /> Setting
         </span>
-        <span className="cursor-pointer text-white transition-all ease-linear duration-100 border-[#67748e] hover:border-white hover:translate-x-1 border-l-2 pl-2">
+        <span
+          onClick={handleLogout}
+          className="cursor-pointer text-white transition-all ease-linear duration-100 border-[#67748e] hover:border-white hover:translate-x-1 border-l-2 pl-2"
+        >
           {" "}
           <Logout className=" mr-2" /> Logout
         </span>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import loginBg from "../assets/img/register_bg_2.png";
 import Logo from "../assets/img/logo.png";
 import axios from "axios";
@@ -7,15 +7,25 @@ import { authActions } from "../Store/auth";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 
+// loading button
+import LoadingButton from "@mui/lab/LoadingButton";
+import Stack from "@mui/material/Stack";
+import Snackbars from "../Components/Material/SnackBar";
+
 const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [errMessage, setErrMessage] = useState("");
+
+  const snackbarRef = useRef();
 
   const handleLogin = async (e) => {
     e.preventDefault();
+
+    setLoading(true);
     const res = await axios.post(
       "https://nodecrmv2.herokuapp.com/api/auth/signin",
       {
@@ -24,7 +34,7 @@ const Login = () => {
       }
     );
     console.log(res.data);
-    if (res.status === 200) {
+    if (res.data.id) {
       Cookies.set(
         "user",
         `id: ${res.data.id}, accessToken: ${res.data.accessToken}`
@@ -38,6 +48,11 @@ const Login = () => {
       dispatch(authActions.login());
       navigate("/");
     }
+    if (res.data.message) {
+      setErrMessage(res.data.message);
+      snackbarRef.current.openSnackbar();
+    }
+    setLoading(false);
   };
 
   return (
@@ -56,6 +71,7 @@ const Login = () => {
                 </div>
                 <div className="flex-auto px-4 lg:px-10 py-10 pt-0">
                   <form onSubmit={handleLogin}>
+                    <Snackbars ref={snackbarRef} errMessage={errMessage} />
                     <div className="relative w-full mb-3">
                       <label
                         className="block uppercase text-gray-600 text-xs font-bold mb-2"
@@ -104,15 +120,32 @@ const Login = () => {
                       </label>
                     </div>
 
-                    <div className="text-center mt-6">
+                    {/* <div className="text-center mt-6">
                       <button
                         className="bg-gray-800 text-white active:bg-gray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
                         type="button"
                         onClick={handleLogin}
                       >
                         Sign In
-                      </button>
-                    </div>
+                      </button> */}
+                    {/* </div> */}
+                    <Stack direction="row" spacing={2}>
+                      <LoadingButton
+                        loading={loading}
+                        onClick={handleLogin}
+                        style={{
+                          backgroundColor: "rgb(31 41 55)",
+                          width: "100%",
+                          height: "2.5rem",
+                          color: "white",
+                          fontWeight: "600",
+                          marginTop: "1.5rem",
+                        }}
+                        variant="outlined"
+                      >
+                        {loading ? "" : "SIGN IN"}
+                      </LoadingButton>
+                    </Stack>
                   </form>
                 </div>
               </div>

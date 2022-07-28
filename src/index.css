@@ -7,7 +7,7 @@
 /* Scrollbar style */
 /* width */
 ::-webkit-scrollbar {
-  width: 10px;
+  width: 7px;
 }
 
 /* Track */
@@ -142,4 +142,7 @@ input::-webkit-inner-spin-button {
   margin: 0;
 }
 
-/* hamburger animation css */
+/* loading indicator */
+.css-1yt7yx7-MuiLoadingButton-loadingIndicator {
+  color: white !important;
+}
