@@ -146,3 +146,16 @@ input::-webkit-inner-spin-button {
 .css-1yt7yx7-MuiLoadingButton-loadingIndicator {
   color: white !important;
 }
+
+/* stepper lable color */
+.css-qivjh0-MuiStepLabel-label.Mui-completed {
+  color: whitesmoke !important;
+}
+
+.css-qivjh0-MuiStepLabel-label.Mui-active {
+  color: whitesmoke !important;
+}
+
+.css-16ubnlw-MuiStepLabel-labelContainer {
+  color: whitesmoke !important;
+}

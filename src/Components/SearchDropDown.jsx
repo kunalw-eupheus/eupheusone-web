@@ -28,6 +28,9 @@ const SearchDropDown = ({
         case "category":
           return option.schoolCategory;
           break;
+        case "school_name":
+          return option.school_name;
+          break;
         case "country":
           return option.country;
           break;
@@ -36,6 +39,9 @@ const SearchDropDown = ({
           break;
         case "city":
           return option.city;
+          break;
+        case "order_type":
+          return option.order_type;
           break;
         default:
           break;

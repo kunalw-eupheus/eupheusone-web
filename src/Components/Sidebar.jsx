@@ -28,7 +28,7 @@ const Sidebar = ({ sidebarCollapsed, highLight, show }) => {
     <div
       className={`fixed transition-all ease-linear duration-300 ${
         sidebarCollapsed ? "-left-[100%]" : "left-[0%]"
-      } lg:py-2 md:py-4 py-8 w-[60vw] lg:w-[18vw] md:w-[30vw] bg-[#111322] max-h-[100vh] min-h-[100vh] overflow-y-auto`}
+      } lg:py-2 md:py-4 py-8 w-[85vw] lg:w-[18vw] md:w-[30vw] bg-[#111322] max-h-[100vh] min-h-[100vh] overflow-y-auto`}
     >
       <div
         className={`flex flex-col gap-6 transition-all ease-linear duration-100`}
@@ -43,11 +43,13 @@ const Sidebar = ({ sidebarCollapsed, highLight, show }) => {
         </div>
         <section>
           <div
-            className="px-6 py-2 flex items-center gap-4 w-full hover:shadow-xl bg-[#111322] border-l-2 border-white cursor-pointer"
+            className="px-6 py-2 flex justify-between items-center gap-4 w-full hover:shadow-xl bg-[#111322] border-l-2 border-white cursor-pointer"
             onClick={() => setIsSchoolClicked(!isSchoolClicked)}
           >
-            <School className=" text-white" />
-            <h1 className=" text-white">Schools</h1>
+            <div className="flex gap-3">
+              <School className=" text-white" />
+              <h1 className=" text-white">Schools</h1>
+            </div>
             <div
               className={`ml-8 ${
                 isSchoolClicked ? null : "rotate-90"
@@ -264,11 +266,13 @@ const Sidebar = ({ sidebarCollapsed, highLight, show }) => {
         </section>
         <section>
           <div
-            className="px-6 py-2 flex items-center gap-[.36rem] w-full hover:shadow-2xl bg-[#111322] border-l-2 border-white cursor-pointer"
+            className="px-6 py-2 flex justify-between items-center gap-[.36rem] w-full hover:shadow-2xl bg-[#111322] border-l-2 border-white cursor-pointer"
             onClick={() => setIsSchoolDetailClicked(!isSchoolDetailClicked)}
           >
-            <AccountBalance className=" text-white" />
-            <h1 className="text-white">Schools Details</h1>
+            <div className="flex gap-3">
+              <AccountBalance className=" text-white" />
+              <h1 className="text-white">Schools Details</h1>
+            </div>
             <div
               className={`${
                 isSchoolDetailClicked ? null : "rotate-90"

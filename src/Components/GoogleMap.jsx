@@ -12,7 +12,7 @@ function MyComponent({ sidebarCollapsed, currentLocation }) {
   // const [currentLocation, setCurrentLocation] = useState();
   // const [path, setPath] = useState([]);
   const Co_ordinates = JSON.parse(localStorage.getItem("co_ordinates"));
-  console.log(Co_ordinates);
+  // console.log(Co_ordinates);
   useLayoutEffect(() => {
     // var successHandler = function (position) {
     //   setCurrentLocation({

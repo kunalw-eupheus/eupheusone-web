@@ -1,11 +1,12 @@
 import React, { useRef, useState } from "react";
 import loginBg from "../assets/img/register_bg_2.png";
 import Logo from "../assets/img/logo.png";
-import axios from "axios";
+// import axios from "axios";
 import { useDispatch } from "react-redux";
 import { authActions } from "../Store/auth";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
+import instance from "../Instance";
 
 // loading button
 import LoadingButton from "@mui/lab/LoadingButton";
@@ -26,15 +27,24 @@ const Login = () => {
     e.preventDefault();
 
     setLoading(true);
-    const res = await axios.post(
-      "https://nodecrmv2.herokuapp.com/api/auth/signin",
-      {
+    // const res = await axios.post(
+    //   "https://nodecrmv2.herokuapp.com/api/auth/signin",
+    //   {
+    //     empCode: email,
+    //     password: password,
+    //   }
+    // );
+    const res = await instance({
+      url: "auth/signin",
+      method: "post",
+      data: {
         empCode: email,
         password: password,
-      }
-    );
+      },
+    });
+
     console.log(res.data);
-    if (res.data.id) {
+    if (res.data.id && res.data.accessToken) {
       Cookies.set(
         "user",
         `id: ${res.data.id}, accessToken: ${res.data.accessToken}`

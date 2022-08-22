@@ -23,6 +23,7 @@ import Schools from "./Pages/Schools";
 import TagSchool from "./Pages/TagSchool";
 import AddSchool from "./Pages/AddSchool";
 import SchoolPunchIn from "./Pages/SchoolPunchIn";
+import OrderProcessing from "./Pages/OrderProcessing";
 
 function App() {
   const isAuth = useSelector((state) => state.auth.user);
@@ -31,10 +32,10 @@ function App() {
   const Admin = true;
 
   return (
-    <div className=" font-Roboto bg-[#111322] ">
+    <div className=" font-Roboto bg-[#111322]">
       <BrowserRouter>
         <Routes>
-          <Route path="/login" element={<Login />} />
+          <Route path="/login" element={isAuth ? <Home /> : <Login />} />
           <Route path="/" element={isAuth ? <Home /> : <Login />} />
           <Route path="/mySchool" element={isAuth ? <MySchool /> : <Login />} />
           <Route path="/tagging" element={isAuth ? <Tagging /> : <Login />} />
@@ -78,6 +79,10 @@ function App() {
           <Route
             path="/school/punch_in"
             element={isAuth ? <SchoolPunchIn /> : <Login />}
+          />
+          <Route
+            path="/order_processing"
+            element={isAuth ? <OrderProcessing /> : <Login />}
           />
 
           {/* Admin */}

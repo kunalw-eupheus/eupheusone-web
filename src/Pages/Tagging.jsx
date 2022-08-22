@@ -56,7 +56,7 @@ const Tagging = () => {
     <div className="flex">
       <Sidebar sidebarCollapsed={sidebarCollapsed} highLight={highLight} />
       <div
-        className={`flex flex-col w-[100vw] lg:w-[83vw] lg:ml-[18vw] ${
+        className={`flex flex-col w-[100vw] transition-all duration-300 ease-linear lg:w-[83vw] lg:ml-[18vw] ${
           sidebarCollapsed ? null : "md:ml-[30vw] ml-[60vw]"
         }`}
       >

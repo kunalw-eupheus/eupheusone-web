@@ -56,8 +56,8 @@ const MySchool = () => {
       <Sidebar sidebarCollapsed={sidebarCollapsed} highLight={highLight} />
 
       <div
-        className={`flex flex-col w-[100vw] lg:w-[83vw] lg:ml-[18vw] ${
-          sidebarCollapsed ? null : "md:ml-[30vw] ml-[60vw]"
+        className={`flex flex-col transition-all duration-300 ease-linear w-[100vw] lg:w-[83vw] lg:ml-[18vw] ${
+          sidebarCollapsed ? null : "md:ml-[30vw] ml-[85vw]"
         } `}
       >
         <Navbar

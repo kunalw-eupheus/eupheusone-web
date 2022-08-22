@@ -128,7 +128,7 @@ const Home = () => {
       <Sidebar sidebarCollapsed={sidebarCollapsed} show={show} />
       <div
         className={`flex flex-col w-[100vw] relative transition-all ease-linear duration-300 lg:w-[83vw] lg:ml-[18vw] ${
-          sidebarCollapsed ? null : "md:ml-[30vw] ml-[60vw]"
+          sidebarCollapsed ? null : "md:ml-[30vw] ml-[85vw]"
         } `}
       >
         <Navbar

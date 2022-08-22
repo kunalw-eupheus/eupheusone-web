@@ -21,7 +21,7 @@ const CssTextField = styled(TextField)({
   },
 });
 
-export default function BasicTextFields({ lable, multiline, mt }) {
+export default function BasicTextFields({ lable, multiline, mt, variant }) {
   return (
     <Box
       component="form"
@@ -34,10 +34,12 @@ export default function BasicTextFields({ lable, multiline, mt }) {
     >
       <CssTextField
         InputLabelProps={{ style: { color: "white" } }}
+        inputProps={{ style: { color: "white" } }}
         label={lable}
         rows={4}
         multiline={multiline}
         id="standard-basic"
+        variant={variant}
       />
     </Box>
   );
