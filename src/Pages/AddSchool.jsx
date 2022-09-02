@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { useState } from "react";
 import Navbar from "../Components/Navbar";
 import Sidebar from "../Components/Sidebar";
@@ -9,6 +9,7 @@ import Loader from "../Components/Loader";
 import SearchDropDown from "../Components/SearchDropDown";
 import { CancelOutlined, CheckOutlined } from "@mui/icons-material";
 import axios from "axios";
+import SwipeableTemporaryDrawer from "../Components/Material/MaterialSidebar";
 
 const AddSchool = () => {
   const schoolDetails = {
@@ -35,6 +36,7 @@ const AddSchool = () => {
   const [step3, setStep3] = useState(false);
   const [response, setResponse] = useState("");
   const [show, setShow] = useState(false);
+  const sidebarRef = useRef();
 
   const navInfo = {
     title: "Form",
@@ -189,7 +191,8 @@ const AddSchool = () => {
   };
 
   const handleSidebarCollapsed = () => {
-    setSidebarCollapsed(!sidebarCollapsed);
+    // setSidebarCollapsed(!sidebarCollapsed);
+    sidebarRef.current.openSidebar();
   };
 
   useEffect(() => {
@@ -229,6 +232,15 @@ const AddSchool = () => {
           )}
           {response}
         </span>
+
+        <div>
+          <SwipeableTemporaryDrawer
+            ref={sidebarRef}
+            sidebarCollapsed={sidebarCollapsed}
+            show={show}
+            highLight={highLight}
+          />
+        </div>
 
         <Sidebar
           sidebarCollapsed={sidebarCollapsed}

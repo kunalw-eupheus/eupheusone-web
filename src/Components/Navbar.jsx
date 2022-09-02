@@ -13,6 +13,7 @@ import Hamburger from "./Hamburger";
 import { useDispatch } from "react-redux";
 import { authActions } from "../Store/auth";
 import Cookies from "js-cookie";
+import { Collapse } from "@mui/material";
 const Navbar = ({ handleSidebarCollapsed, info }) => {
   const [scroll, setScroll] = useState(false);
   const [showUserOption, setShowUserOption] = useState(false);
@@ -60,6 +61,7 @@ const Navbar = ({ handleSidebarCollapsed, info }) => {
         <div
           className="lg:hidden cursor-pointer mr-4"
           onClick={handleSidebarCollapsed}
+          // onClick={() => console.log("clicked")}
         >
           <Menu className={`${scroll ? "text-[#67748e]" : "text-white"}`} />
         </div>
@@ -102,6 +104,7 @@ const Navbar = ({ handleSidebarCollapsed, info }) => {
         />
       </div>
 
+      {/* <Collapse in={showUserOption}> */}
       <div
         className={` justify-start pr-10 pl-3  ${
           showUserOption ? "opacity-100 visible" : "invisible opacity-0"
@@ -124,6 +127,7 @@ const Navbar = ({ handleSidebarCollapsed, info }) => {
           <Logout className=" mr-2" /> Logout
         </span>
       </div>
+      {/* </Collapse> */}
     </div>
   );
 };

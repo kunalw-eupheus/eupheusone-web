@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Navbar from "../Components/Navbar";
 import Sidebar from "../Components/Sidebar";
 import { ArrowForwardIos } from "@mui/icons-material";
@@ -7,11 +7,12 @@ import DataTable from "../Components/DataTable";
 import SearchDropDown from "../Components/SearchDropDown";
 import { TaggingRows } from "../DummyData";
 import Button from "../Components/Material/Button";
+import SwipeableTemporaryDrawer from "../Components/Material/MaterialSidebar";
 
 const Tagging = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [highLight, setHighLight] = useState("tagging");
-
+  const sidebarRef = useRef();
   const navInfo = {
     title: "Tagging",
     details: ["Home", " / Tagging"],
@@ -35,7 +36,8 @@ const Tagging = () => {
   ];
 
   const handleSidebarCollapsed = () => {
-    setSidebarCollapsed(!sidebarCollapsed);
+    // setSidebarCollapsed(!sidebarCollapsed);
+    sidebarRef.current.openSidebar();
   };
 
   useEffect(() => {
@@ -55,6 +57,14 @@ const Tagging = () => {
   return (
     <div className="flex">
       <Sidebar sidebarCollapsed={sidebarCollapsed} highLight={highLight} />
+      <div>
+        <SwipeableTemporaryDrawer
+          ref={sidebarRef}
+          sidebarCollapsed={sidebarCollapsed}
+          highLight={highLight}
+          // show={show}
+        />
+      </div>
       <div
         className={`flex flex-col w-[100vw] transition-all duration-300 ease-linear lg:w-[83vw] lg:ml-[18vw] ${
           sidebarCollapsed ? null : "md:ml-[30vw] ml-[60vw]"

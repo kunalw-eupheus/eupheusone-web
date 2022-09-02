@@ -83,9 +83,9 @@ QontoStepIcon.propTypes = {
   completed: PropTypes.bool,
 };
 
-const steps = ["Punch In", "Punch Out"];
+// const steps = ["Punch In", "Punch Out"];
 
-export default function CustomizedSteppers() {
+export default function CustomizedSteppers({ steps }) {
   return (
     <Stack sx={{ width: "100%" }} spacing={4}>
       <Stepper alternativeLabel activeStep={0} connector={<QontoConnector />}>

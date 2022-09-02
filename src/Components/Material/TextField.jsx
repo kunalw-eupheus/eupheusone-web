@@ -21,7 +21,17 @@ const CssTextField = styled(TextField)({
   },
 });
 
-export default function BasicTextFields({ lable, multiline, mt, variant }) {
+export default function BasicTextFields({
+  lable,
+  multiline,
+  mt,
+  variant,
+  handleOrderProcessingForm,
+  readOnly,
+  defaultValue,
+  disable,
+  value,
+}) {
   return (
     <Box
       component="form"
@@ -33,10 +43,16 @@ export default function BasicTextFields({ lable, multiline, mt, variant }) {
       autoComplete="off"
     >
       <CssTextField
+        disabled={disable}
         InputLabelProps={{ style: { color: "white" } }}
-        inputProps={{ style: { color: "white" } }}
+        inputProps={{ style: { color: "white" }, readOnly: readOnly }}
+        defaultValue={defaultValue ? `${defaultValue}` : null}
+        value={value && `${value}`}
         label={lable}
         rows={4}
+        onChange={(newValue) =>
+          handleOrderProcessingForm(newValue.target.value, lable)
+        }
         multiline={multiline}
         id="standard-basic"
         variant={variant}

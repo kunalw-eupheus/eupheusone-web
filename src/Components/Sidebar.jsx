@@ -8,6 +8,7 @@ import {
 } from "@mui/icons-material";
 import { Link } from "react-router-dom";
 import logoLight from "../assets/img/logo-light-icon.png";
+import { Collapse } from "@mui/material";
 
 const Sidebar = ({ sidebarCollapsed, highLight, show }) => {
   const [isSchoolClicked, setIsSchoolClicked] = useState(
@@ -26,9 +27,9 @@ const Sidebar = ({ sidebarCollapsed, highLight, show }) => {
 
   return (
     <div
-      className={`fixed transition-all ease-linear duration-300 ${
+      className={`fixed transition-all h-[100vh] ease-linear duration-300 ${
         sidebarCollapsed ? "-left-[100%]" : "left-[0%]"
-      } lg:py-2 md:py-4 py-8 w-[85vw] lg:w-[18vw] md:w-[30vw] bg-[#111322] max-h-[100vh] min-h-[100vh] overflow-y-auto`}
+      } lg:py-2 md:py-4 py-8 z-[100] w-[85vw] lg:w-[18vw] md:w-[30vw] bg-[#111322] h-[100vh] overflow-hidden`}
     >
       <div
         className={`flex flex-col gap-6 transition-all ease-linear duration-100`}
@@ -58,211 +59,197 @@ const Sidebar = ({ sidebarCollapsed, highLight, show }) => {
               <KeyboardArrowDown className=" text-white" />
             </div>
           </div>
-          <div
-            className={`${
-              isSchoolClicked
-                ? " opacity-100 visible h-[19rem] lg:h-[19rem] md:h-[18.6rem]"
-                : "h-0 opacity-0 invisible"
-            } transition-all  ease-linear duration-200`}
-          >
-            <Link to="/mySchool">
-              <div
-                className={`flex items-center transition-all ease-linear duration-100 mr-8 ml-6 group ${
-                  isSchoolClicked ? "opacity-100 block" : "opacity-0 hidden"
-                }`}
-              >
-                <Circle
-                  className={`!text-[.7rem] ${
-                    highLight === "mySchool"
-                      ? "text-white"
-                      : "text-gray-400 group-hover:text-white"
-                  } `}
-                />
-                <h1
-                  className={`pl-9 ${
-                    highLight === "mySchool"
-                      ? "text-white"
-                      : "text-gray-400 group-hover:text-white"
-                  } transition-all ease-linear duration-200  py-2 bg-[#111322] cursor-pointer`}
-                >
-                  My School
-                </h1>
-              </div>
-            </Link>
-
-            <Link to="/tagging">
-              <div
-                className={`flex items-center transition-all ease-linear duration-100 mr-8 ml-6 group ${
-                  isSchoolClicked ? "opacity-100 block" : "opacity-0 hidden"
-                }`}
-              >
-                <Circle
-                  className={`!text-[.7rem] !transition-all !ease-linear !duration-200 ${
-                    highLight === "tagging"
-                      ? "text-white"
-                      : "text-gray-400 group-hover:text-white"
-                  } `}
-                />
-                <h1
-                  className={`pl-9 ${
-                    highLight === "tagging"
-                      ? "text-white"
-                      : "text-gray-400 group-hover:text-white"
-                  } transition-all ease-linear duration-200  py-2 bg-[#111322] cursor-pointer`}
-                >
-                  Tagging
-                </h1>
-              </div>
-            </Link>
-
-            <Link to="/schoolDirectory">
-              <div
-                className={`flex items-center transition-all ease-linear duration-100 mr-8 ml-6 group ${
-                  isSchoolClicked ? "opacity-100 block" : "opacity-0 hidden"
-                }`}
-              >
-                <Circle
-                  className={`!text-[.7rem] !transition-all !ease-linear !duration-200 ${
-                    highLight === "schoolDirectory"
-                      ? "text-white"
-                      : "text-gray-400 group-hover:text-white"
-                  } `}
-                />
-                <h1
-                  className={`pl-9 ${
-                    highLight === "schoolDirectory"
-                      ? "text-white"
-                      : "text-gray-400 group-hover:text-white"
-                  } transition-all ease-linear duration-200 py-2 bg-[#111322] cursor-pointer`}
-                >
-                  School Directory
-                </h1>
-              </div>
-            </Link>
-
-            <Link to="/salesInvoices">
-              <div
-                className={`flex items-center transition-all ease-linear duration-100 mr-8 ml-6 group ${
-                  isSchoolClicked ? "opacity-100 block" : "opacity-0 hidden"
-                }`}
-              >
-                <Circle
-                  className={`!text-[.7rem] !transition-all !ease-linear !duration-200 ${
-                    highLight === "salesInvoices"
-                      ? "text-white"
-                      : "text-gray-400 group-hover:text-white"
-                  } `}
-                />
-                <h1
-                  className={`pl-9 ${
-                    highLight === "salesInvoices"
-                      ? "text-white"
-                      : "text-gray-400 group-hover:text-white"
-                  } transition-all ease-linear duration-200  py-2 bg-[#111322] cursor-pointer`}
-                >
-                  Sales Invoices
-                </h1>
-              </div>
-            </Link>
-
-            <Link to="/updateStocks">
-              <div
-                className={`flex items-center transition-all ease-linear duration-100 mr-8 ml-6 group ${
-                  isSchoolClicked ? "opacity-100 block" : "opacity-0 hidden"
-                }`}
-              >
-                <Circle
-                  className={`!text-[.7rem] !transition-all !ease-linear !duration-200 ${
-                    highLight === "updateStocks"
-                      ? "text-white"
-                      : "text-gray-400 group-hover:text-white"
-                  } `}
-                />
-                <h1
-                  className={`pl-9 ${
-                    highLight === "updateStocks"
-                      ? "text-white"
-                      : "text-gray-400 group-hover:text-white"
-                  } transition-all ease-linear duration-200  py-2 bg-[#111322] cursor-pointer`}
-                >
-                  Update Stocks
-                </h1>
-              </div>
-            </Link>
-
-            <Link to="/opportunities">
-              <div
-                className={`flex items-center transition-all ease-linear duration-100 mr-8 ml-6 group ${
-                  isSchoolClicked ? "opacity-100 block" : "opacity-0 hidden"
-                }`}
-              >
-                <Circle
-                  className={`!text-[.7rem] !transition-all !ease-linear !duration-200 ${
-                    highLight === "opportunities"
-                      ? "text-white"
-                      : "text-gray-400 group-hover:text-white"
-                  } `}
-                />
-                <h1
-                  className={`pl-9 ${
-                    highLight === "opportunities"
-                      ? "text-white"
-                      : "text-gray-400 group-hover:text-white"
-                  } transition-all ease-linear duration-200  py-2 bg-[#111322] cursor-pointer`}
-                >
-                  Opportunities
-                </h1>
-              </div>
-            </Link>
-
-            <Link to="/manageSchool">
-              <div
-                className={`flex items-center transition-all ease-linear duration-100 mr-8 ml-6 group ${
-                  isSchoolClicked ? "opacity-100 block" : "opacity-0 hidden"
-                }`}
-              >
-                <Circle
-                  className={`!text-[.7rem] !transition-all !ease-linear !duration-200 ${
-                    highLight === "manageSchool"
-                      ? "text-white"
-                      : "text-gray-400 group-hover:text-white"
-                  } `}
-                />
-                <h1
-                  className={`pl-9 ${
-                    highLight === "manageSchool"
-                      ? "text-white"
-                      : "text-gray-400 group-hover:text-white"
-                  } transition-all ease-linear duration-200  py-2 bg-[#111322] cursor-pointer w-fit`}
-                >
-                  Manage School
-                </h1>
-              </div>
-            </Link>
-
+          <Collapse in={isSchoolClicked}>
             <div
-              className={`flex items-center transition-all ease-linear duration-100 mr-8 ml-6 group ${
-                isSchoolClicked ? "opacity-100 block" : "opacity-0 hidden"
-              }`}
+              className={`${
+                isSchoolClicked
+                  ? " opacity-100 visible h-[19rem] lg:h-[19rem] md:h-[18.6rem]"
+                  : null
+              } transition-all  ease-linear duration-200`}
             >
-              <Circle
-                className={`!text-[.7rem] !transition-all !ease-linear !duration-200 ${
-                  highLight === "report"
-                    ? "text-white"
-                    : "text-gray-400 group-hover:text-white"
-                } `}
-              />
-              <h1
-                className={`pl-9 ${
-                  highLight === "report"
-                    ? "text-white"
-                    : "text-gray-400 group-hover:text-white"
-                } transition-all ease-linear duration-200  py-2 bg-[#111322] cursor-pointer`}
+              <Link to="/mySchool">
+                <div
+                  className={`flex items-center transition-all ease-linear duration-100 mr-8 ml-6 group `}
+                >
+                  <Circle
+                    className={`!text-[.7rem] ${
+                      highLight === "mySchool"
+                        ? "text-white"
+                        : "text-gray-400 group-hover:text-white"
+                    } `}
+                  />
+                  <h1
+                    className={`pl-9 ${
+                      highLight === "mySchool"
+                        ? "text-white"
+                        : "text-gray-400 group-hover:text-white"
+                    } transition-all ease-linear duration-200  py-2 bg-[#111322] cursor-pointer`}
+                  >
+                    My School
+                  </h1>
+                </div>
+              </Link>
+
+              <Link to="/tagging">
+                <div
+                  className={`flex items-center transition-all ease-linear duration-100 mr-8 ml-6 group`}
+                >
+                  <Circle
+                    className={`!text-[.7rem] !transition-all !ease-linear !duration-200 ${
+                      highLight === "tagging"
+                        ? "text-white"
+                        : "text-gray-400 group-hover:text-white"
+                    } `}
+                  />
+                  <h1
+                    className={`pl-9 ${
+                      highLight === "tagging"
+                        ? "text-white"
+                        : "text-gray-400 group-hover:text-white"
+                    } transition-all ease-linear duration-200  py-2 bg-[#111322] cursor-pointer`}
+                  >
+                    Tagging
+                  </h1>
+                </div>
+              </Link>
+
+              <Link to="/schoolDirectory">
+                <div
+                  className={`flex items-center transition-all ease-linear duration-100 mr-8 ml-6 group `}
+                >
+                  <Circle
+                    className={`!text-[.7rem] !transition-all !ease-linear !duration-200 ${
+                      highLight === "schoolDirectory"
+                        ? "text-white"
+                        : "text-gray-400 group-hover:text-white"
+                    } `}
+                  />
+                  <h1
+                    className={`pl-9 ${
+                      highLight === "schoolDirectory"
+                        ? "text-white"
+                        : "text-gray-400 group-hover:text-white"
+                    } transition-all ease-linear duration-200 py-2 bg-[#111322] cursor-pointer`}
+                  >
+                    School Directory
+                  </h1>
+                </div>
+              </Link>
+
+              <Link to="/salesInvoices">
+                <div
+                  className={`flex items-center transition-all ease-linear duration-100 mr-8 ml-6 group `}
+                >
+                  <Circle
+                    className={`!text-[.7rem] !transition-all !ease-linear !duration-200 ${
+                      highLight === "salesInvoices"
+                        ? "text-white"
+                        : "text-gray-400 group-hover:text-white"
+                    } `}
+                  />
+                  <h1
+                    className={`pl-9 ${
+                      highLight === "salesInvoices"
+                        ? "text-white"
+                        : "text-gray-400 group-hover:text-white"
+                    } transition-all ease-linear duration-200  py-2 bg-[#111322] cursor-pointer`}
+                  >
+                    Sales Invoices
+                  </h1>
+                </div>
+              </Link>
+
+              <Link to="/updateStocks">
+                <div
+                  className={`flex items-center transition-all ease-linear duration-100 mr-8 ml-6 group `}
+                >
+                  <Circle
+                    className={`!text-[.7rem] !transition-all !ease-linear !duration-200 ${
+                      highLight === "updateStocks"
+                        ? "text-white"
+                        : "text-gray-400 group-hover:text-white"
+                    } `}
+                  />
+                  <h1
+                    className={`pl-9 ${
+                      highLight === "updateStocks"
+                        ? "text-white"
+                        : "text-gray-400 group-hover:text-white"
+                    } transition-all ease-linear duration-200  py-2 bg-[#111322] cursor-pointer`}
+                  >
+                    Update Stocks
+                  </h1>
+                </div>
+              </Link>
+
+              <Link to="/opportunities">
+                <div
+                  className={`flex items-center transition-all ease-linear duration-100 mr-8 ml-6 group `}
+                >
+                  <Circle
+                    className={`!text-[.7rem] !transition-all !ease-linear !duration-200 ${
+                      highLight === "opportunities"
+                        ? "text-white"
+                        : "text-gray-400 group-hover:text-white"
+                    } `}
+                  />
+                  <h1
+                    className={`pl-9 ${
+                      highLight === "opportunities"
+                        ? "text-white"
+                        : "text-gray-400 group-hover:text-white"
+                    } transition-all ease-linear duration-200  py-2 bg-[#111322] cursor-pointer`}
+                  >
+                    Opportunities
+                  </h1>
+                </div>
+              </Link>
+
+              <Link to="/manageSchool">
+                <div
+                  className={`flex items-center transition-all ease-linear duration-100 mr-8 ml-6 group `}
+                >
+                  <Circle
+                    className={`!text-[.7rem] !transition-all !ease-linear !duration-200 ${
+                      highLight === "manageSchool"
+                        ? "text-white"
+                        : "text-gray-400 group-hover:text-white"
+                    } `}
+                  />
+                  <h1
+                    className={`pl-9 ${
+                      highLight === "manageSchool"
+                        ? "text-white"
+                        : "text-gray-400 group-hover:text-white"
+                    } transition-all ease-linear duration-200  py-2 bg-[#111322] cursor-pointer w-fit`}
+                  >
+                    Manage School
+                  </h1>
+                </div>
+              </Link>
+
+              <div
+                className={`flex items-center transition-all ease-linear duration-100 mr-8 ml-6 group `}
               >
-                Report
-              </h1>
+                <Circle
+                  className={`!text-[.7rem] !transition-all !ease-linear !duration-200 ${
+                    highLight === "report"
+                      ? "text-white"
+                      : "text-gray-400 group-hover:text-white"
+                  } `}
+                />
+                <h1
+                  className={`pl-9 ${
+                    highLight === "report"
+                      ? "text-white"
+                      : "text-gray-400 group-hover:text-white"
+                  } transition-all ease-linear duration-200  py-2 bg-[#111322] cursor-pointer`}
+                >
+                  Report
+                </h1>
+              </div>
             </div>
-          </div>
+          </Collapse>
         </section>
         <section>
           <div
@@ -282,79 +269,80 @@ const Sidebar = ({ sidebarCollapsed, highLight, show }) => {
             </div>
           </div>
 
-          <div
-            className={`${
-              isSchoolDetailClicked
-                ? "h-[20vh] opacity-100 visible"
-                : "h-0 opacity-0 invisible"
-            } transition-all ease-linear duration-200`}
-          >
-            <Link to="/school/tagging">
-              <div
-                className={`flex items-center transition-all ease-linear duration-100 mr-8 ml-6 group `}
-              >
-                <Circle
-                  className={`!text-[.7rem] !transition-all !ease-linear !duration-200 ${
-                    highLight === "schoolTagging"
-                      ? "text-white"
-                      : "text-gray-400 group-hover:text-white"
-                  } `}
-                />
-                <h1
-                  className={`pl-9 ${
-                    highLight === "schoolTagging"
-                      ? "text-white"
-                      : "text-gray-400 group-hover:text-white"
-                  } transition-all ease-linear duration-200  py-2 bg-[#111322] cursor-pointer`}
-                >
-                  Tagging
-                </h1>
-              </div>
-            </Link>
-            <Link to="/school/schools">
-              <div
-                className={`flex items-center transition-all ease-linear duration-100 mr-8 ml-6 group `}
-              >
-                <Circle
-                  className={`!text-[.7rem] !transition-all !ease-linear !duration-200 ${
-                    highLight === "schools"
-                      ? "text-white"
-                      : "text-gray-400 group-hover:text-white"
-                  } `}
-                />
-                <h1
-                  className={`pl-9 ${
-                    highLight === "schools"
-                      ? "text-white"
-                      : "text-gray-400 group-hover:text-white"
-                  } transition-all ease-linear duration-200  py-2 bg-[#111322] cursor-pointer`}
-                >
-                  Schools
-                </h1>
-              </div>
-            </Link>
-
+          <Collapse in={isSchoolDetailClicked}>
+            {" "}
             <div
-              className={`flex items-center transition-all ease-linear duration-100 mr-8 ml-6 group `}
+              className={`${
+                isSchoolDetailClicked ? "h-[20vh] opacity-100 visible" : null
+              } transition-all ease-linear duration-200`}
             >
-              <Circle
-                className={`!text-[.7rem] !transition-all !ease-linear !duration-200 ${
-                  highLight === "report"
-                    ? "text-white"
-                    : "text-gray-400 group-hover:text-white"
-                } `}
-              />
-              <h1
-                className={`pl-9 ${
-                  highLight === "report"
-                    ? "text-white"
-                    : "text-gray-400 group-hover:text-white"
-                } transition-all ease-linear duration-200  py-2 bg-[#111322] cursor-pointer`}
+              <Link to="/school/tagging">
+                <div
+                  className={`flex items-center transition-all ease-linear duration-100 mr-8 ml-6 group `}
+                >
+                  <Circle
+                    className={`!text-[.7rem] !transition-all !ease-linear !duration-200 ${
+                      highLight === "schoolTagging"
+                        ? "text-white"
+                        : "text-gray-400 group-hover:text-white"
+                    } `}
+                  />
+                  <h1
+                    className={`pl-9 ${
+                      highLight === "schoolTagging"
+                        ? "text-white"
+                        : "text-gray-400 group-hover:text-white"
+                    } transition-all ease-linear duration-200  py-2 bg-[#111322] cursor-pointer`}
+                  >
+                    Tagging
+                  </h1>
+                </div>
+              </Link>
+              <Link to="/school/schools">
+                <div
+                  className={`flex items-center transition-all ease-linear duration-100 mr-8 ml-6 group `}
+                >
+                  <Circle
+                    className={`!text-[.7rem] !transition-all !ease-linear !duration-200 ${
+                      highLight === "schools"
+                        ? "text-white"
+                        : "text-gray-400 group-hover:text-white"
+                    } `}
+                  />
+                  <h1
+                    className={`pl-9 ${
+                      highLight === "schools"
+                        ? "text-white"
+                        : "text-gray-400 group-hover:text-white"
+                    } transition-all ease-linear duration-200  py-2 bg-[#111322] cursor-pointer`}
+                  >
+                    Schools
+                  </h1>
+                </div>
+              </Link>
+
+              <div
+                className={`flex items-center transition-all ease-linear duration-100 mr-8 ml-6 group `}
               >
-                Report
-              </h1>
+                <Circle
+                  className={`!text-[.7rem] !transition-all !ease-linear !duration-200 ${
+                    highLight === "report"
+                      ? "text-white"
+                      : "text-gray-400 group-hover:text-white"
+                  } `}
+                />
+                <h1
+                  className={`pl-9 ${
+                    highLight === "report"
+                      ? "text-white"
+                      : "text-gray-400 group-hover:text-white"
+                  } transition-all ease-linear duration-200  py-2 bg-[#111322] cursor-pointer`}
+                >
+                  Report
+                </h1>
+              </div>
             </div>
-          </div>
+          </Collapse>
         </section>
       </div>
     </div>

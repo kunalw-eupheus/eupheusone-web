@@ -10,13 +10,15 @@ const SearchDropDown = ({
   data,
   Name,
   getStateAndCity,
-  changeCountryId,
-  defaultValueCountry,
-  changeStateId,
-
-  setIsStateTouched,
+  getSeriesData,
+  handleOrderProcessingForm,
+  disable,
+  // defaultValueCountry,
+  // changeStateId,
+  // changeCountryId,
+  // setIsStateTouched,
 }) => {
-  const [refresh, setRefresh] = useState("refresh");
+  // const [refresh, setRefresh] = useState("refresh");
 
   const defaultProps = {
     options: data,
@@ -43,6 +45,47 @@ const SearchDropDown = ({
         case "order_type":
           return option.order_type;
           break;
+        case "customer_name":
+          return option.bp_name;
+          break;
+        case "school_name":
+          return option.school_name;
+          break;
+        case "subject_name":
+          return option.subject;
+          break;
+        case "series_name":
+          return option.series;
+          break;
+        case "order_priority":
+          return option.order_priority;
+          break;
+        case "billing_address":
+          return (
+            option.address +
+            " " +
+            option.block +
+            " " +
+            option.street +
+            " " +
+            option.fk_state.state +
+            " " +
+            option.zip_code
+          );
+          break;
+        case "shipping_address":
+          return (
+            option.address +
+            " " +
+            option.block +
+            " " +
+            option.street +
+            " " +
+            option.fk_state.state +
+            " " +
+            option.zip_code
+          );
+          break;
         default:
           break;
       }
@@ -61,6 +104,23 @@ const SearchDropDown = ({
   // };
 
   const handleDropDown = (value, type) => {
+    if (
+      type === "order_type" ||
+      type === "customer_name" ||
+      type === "school_name" ||
+      type === "subject_name" ||
+      type === "series_name" ||
+      type === "date" ||
+      type === "order_priority" ||
+      type === "shipping_address" ||
+      type === "billing_address"
+    ) {
+      if (type === "subject_name") {
+        getSeriesData(value.id);
+      }
+      handleOrderProcessingForm(value, type);
+      // console.log("working");
+    }
     if (type === "country") {
       getStateAndCity(value.id, "state");
     }
@@ -75,29 +135,23 @@ const SearchDropDown = ({
     }
     if (type === "category") {
       getStateAndCity(value.id, "setCategoryId");
+    } else {
+      return;
     }
-  };
-
-  const flatProps = {
-    options: top100Films.map((option) => option.title),
   };
 
   const [value, setValue] = React.useState(null);
 
   return (
     <StyledEngineProvider injectFirst>
-      <Stack
-        spacing={1}
-        sx={{ width: 200 }}
-        // onClick={() => setIsStateTouched(true)}
-        className="w-full"
-      >
+      <Stack spacing={1} sx={{ width: 200 }} className="w-full">
         <Autocomplete
           {...defaultProps}
+          disabled={disable}
+          disableClearable
+          // onBlur={() => console.log("ldkf")}
           onChange={(event, newValue) => handleDropDown(newValue, Name)}
           id="disable-close-on-select"
-          disableCloseOnSelect
-          // defaultValue={defaultValueCountry}
           renderInput={(params) => (
             <TextField
               {...params}
@@ -111,15 +165,5 @@ const SearchDropDown = ({
     </StyledEngineProvider>
   );
 };
-
-const top100Films = [
-  { title: "The Shawshank Redemption", year: 1994 },
-  { title: "The Godfather", year: 1972 },
-  { title: "The Godfather: Part II", year: 1974 },
-  { title: "The Dark Knight", year: 2008 },
-  { title: "12 Angry Men", year: 1957 },
-  { title: "Schindler's List", year: 1993 },
-  { title: "Pulp Fiction", year: 1994 },
-];
 
 export default SearchDropDown;

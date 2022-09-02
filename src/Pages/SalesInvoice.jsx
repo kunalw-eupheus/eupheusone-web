@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { useState } from "react";
 import Navbar from "../Components/Navbar";
 import Sidebar from "../Components/Sidebar";
@@ -6,10 +6,12 @@ import { ArrowForwardIos } from "@mui/icons-material";
 import { Link } from "react-router-dom";
 import DataTable from "../Components/DataTable";
 import { SalesInvoiceRows } from "../DummyData";
+import SwipeableTemporaryDrawer from "../Components/Material/MaterialSidebar";
 
 const SalesInvoices = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [highLight, setHighLight] = useState("salesInvoices");
+  const sidebarRef = useRef();
 
   const navInfo = {
     title: "Sales Invoices",
@@ -44,7 +46,8 @@ const SalesInvoices = () => {
   ];
 
   const handleSidebarCollapsed = () => {
-    setSidebarCollapsed(!sidebarCollapsed);
+    // setSidebarCollapsed(!sidebarCollapsed);
+    sidebarRef.current.openSidebar();
   };
 
   useEffect(() => {
@@ -64,6 +67,15 @@ const SalesInvoices = () => {
   return (
     <div className="flex bg-[#111322]">
       <Sidebar sidebarCollapsed={sidebarCollapsed} highLight={highLight} />
+
+      <div>
+        <SwipeableTemporaryDrawer
+          ref={sidebarRef}
+          sidebarCollapsed={sidebarCollapsed}
+          highLight={highLight}
+          // show={show}
+        />
+      </div>
 
       <div
         className={`flex flex-col w-[100vw] lg:w-[83vw] lg:ml-[18vw] ${

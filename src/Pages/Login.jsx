@@ -27,13 +27,7 @@ const Login = () => {
     e.preventDefault();
 
     setLoading(true);
-    // const res = await axios.post(
-    //   "https://nodecrmv2.herokuapp.com/api/auth/signin",
-    //   {
-    //     empCode: email,
-    //     password: password,
-    //   }
-    // );
+
     const res = await instance({
       url: "auth/signin",
       method: "post",
@@ -80,8 +74,8 @@ const Login = () => {
                   <hr className="mt-6 border-b-1 border-blueGray-300" />
                 </div>
                 <div className="flex-auto px-4 lg:px-10 py-10 pt-0">
+                  <Snackbars ref={snackbarRef} errMessage={errMessage} />
                   <form onSubmit={handleLogin}>
-                    <Snackbars ref={snackbarRef} errMessage={errMessage} />
                     <div className="relative w-full mb-3">
                       <label
                         className="block uppercase text-gray-600 text-xs font-bold mb-2"
@@ -129,20 +123,11 @@ const Login = () => {
                         </span>
                       </label>
                     </div>
-
-                    {/* <div className="text-center mt-6">
-                      <button
-                        className="bg-gray-800 text-white active:bg-gray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
-                        type="button"
-                        onClick={handleLogin}
-                      >
-                        Sign In
-                      </button> */}
-                    {/* </div> */}
                     <Stack direction="row" spacing={2}>
                       <LoadingButton
                         loading={loading}
                         onClick={handleLogin}
+                        type="submit"
                         style={{
                           backgroundColor: "rgb(31 41 55)",
                           width: "100%",

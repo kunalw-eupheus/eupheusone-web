@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { useState } from "react";
 import Navbar from "../Components/Navbar";
 import Sidebar from "../Components/Sidebar";
@@ -6,11 +6,13 @@ import { ArrowForwardIos } from "@mui/icons-material";
 import { Link } from "react-router-dom";
 import DataTable from "../Components/DataTable";
 import { rows } from "../DummyData";
+import SwipeableTemporaryDrawer from "../Components/Material/MaterialSidebar";
 
 const SchoolTagging = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [highLight, setHighLight] = useState("schoolTagging");
   const show = 2;
+  const sidebarRef = useRef();
 
   const navInfo = {
     title: "School Tagging",
@@ -18,7 +20,8 @@ const SchoolTagging = () => {
   };
 
   const handleSidebarCollapsed = () => {
-    setSidebarCollapsed(!sidebarCollapsed);
+    // setSidebarCollapsed(!sidebarCollapsed);
+    sidebarRef.current.openSidebar();
   };
 
   useEffect(() => {
@@ -43,6 +46,15 @@ const SchoolTagging = () => {
         show={show}
       />
 
+      <div>
+        <SwipeableTemporaryDrawer
+          ref={sidebarRef}
+          sidebarCollapsed={sidebarCollapsed}
+          highLight={highLight}
+          show={show}
+        />
+      </div>
+
       <div
         className={`flex flex-col w-[100vw] lg:w-[83vw] lg:ml-[18vw] ${
           sidebarCollapsed ? null : "md:ml-[30vw] ml-[60vw]"
@@ -54,7 +66,7 @@ const SchoolTagging = () => {
         />
         <div className="min-h-[100vh] pt-[2vh] max-h-full bg-[#141728]">
           <div className=" px-8 py-3 bg-[#141728]">
-            <DataTable rows={rows} />
+            {/* <DataTable rows={rows} /> */}
           </div>
         </div>
       </div>
