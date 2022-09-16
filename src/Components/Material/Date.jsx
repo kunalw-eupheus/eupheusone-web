@@ -5,11 +5,11 @@ import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 
-export default function DatePicker({ handleOrderProcessingForm }) {
+export default function DatePicker({ handleOrderProcessingForm, label }) {
   const [value, setValue] = React.useState(new Date());
 
   const handleChange = (newValue) => {
-    handleOrderProcessingForm(newValue, "date");
+    handleOrderProcessingForm(newValue, label);
     setValue(newValue);
   };
 
@@ -17,7 +17,7 @@ export default function DatePicker({ handleOrderProcessingForm }) {
     <LocalizationProvider dateAdapter={AdapterDateFns}>
       <Stack spacing={3}>
         <DesktopDatePicker
-          label="Enter Date"
+          label={label}
           InputLabelProps={{ style: { color: "white" } }}
           inputProps={{ style: { color: "white" } }}
           inputFormat="MM/dd/yyyy"

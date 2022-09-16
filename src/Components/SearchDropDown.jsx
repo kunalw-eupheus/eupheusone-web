@@ -30,6 +30,9 @@ const SearchDropDown = ({
         case "category":
           return option.schoolCategory;
           break;
+        case "pref_transpoter":
+          return option.name;
+          break;
         case "school_name":
           return option.school_name;
           break;
@@ -50,6 +53,9 @@ const SearchDropDown = ({
           break;
         case "school_name":
           return option.school_name;
+          break;
+        case "contact_id":
+          return option.name;
           break;
         case "subject_name":
           return option.subject;
@@ -113,7 +119,9 @@ const SearchDropDown = ({
       type === "date" ||
       type === "order_priority" ||
       type === "shipping_address" ||
-      type === "billing_address"
+      type === "billing_address" ||
+      type === "pref_transpoter" ||
+      type === "contact_id"
     ) {
       if (type === "subject_name") {
         getSeriesData(value.id);
@@ -127,6 +135,7 @@ const SearchDropDown = ({
     if (type === "state") {
       getStateAndCity(value.id, "city");
     }
+
     if (type === "city") {
       getStateAndCity(value.id, "setCityId");
     }

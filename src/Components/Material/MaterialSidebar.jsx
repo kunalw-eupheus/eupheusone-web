@@ -10,19 +10,42 @@ import { useState } from "react";
 import {
   AccountBalance,
   Circle,
+  Dashboard,
   KeyboardArrowDown,
+  LocalShipping,
+  LocationOn,
   School,
+  ShoppingBag,
 } from "@mui/icons-material";
 import { Collapse } from "@mui/material";
 import { Link } from "react-router-dom";
+import { useLayoutEffect } from "react";
+import Cookies from "js-cookie";
+import instance from "../../Instance";
 
 const SwipeableTemporaryDrawer = React.forwardRef((props, ref) => {
   const [isSchoolClicked, setIsSchoolClicked] = useState(
     props.show === 2 ? false : true
   );
+  const [user, setUser] = useState({});
+  let highLight = props.highLight;
   const [isSchoolDetailClicked, setIsSchoolDetailClicked] = useState(
     props.show === 2 ? true : false
   );
+
+  useLayoutEffect(() => {
+    const getUser = async () => {
+      const res = await instance({
+        url: "user/profile",
+        method: "GET",
+        headers: {
+          Authorization: `${Cookies.get("accessToken")}`,
+        },
+      });
+      setUser(res.data.message);
+    };
+    getUser();
+  }, []);
 
   React.useEffect(() => {
     if (props.show === null) {
@@ -69,7 +92,7 @@ const SwipeableTemporaryDrawer = React.forwardRef((props, ref) => {
         />
         <h4 className="text-gray-100">Eupheus Learning</h4>
       </div>
-      <section className="py-3">
+      {/* <section className="py-3">
         <div
           className="px-6 py-2 flex justify-between items-center gap-4 w-full hover:shadow-xl bg-[#111322] border-l-2 border-white cursor-pointer"
           onClick={() => setIsSchoolClicked(!isSchoolClicked)}
@@ -371,7 +394,90 @@ const SwipeableTemporaryDrawer = React.forwardRef((props, ref) => {
             </div>
           </div>
         </Collapse>
-      </section>
+      </section> */}
+      <aside className="flex flex-col px-6 text-gray-200 py-4">
+        <span className="text-lg">Hi, {user.first_name}</span>
+        <span className="text-sm text-gray-300">{user.emp_id}</span>
+        <hr className="text-gray-100 mt-4" />
+      </aside>
+      <Link to="/">
+        <aside
+          className={`px-6 py-2 my-4 hover:bg-gray-500 flex ${
+            highLight === "dashboard" ? "bg-gray-500" : ""
+          } rounded-md gap-4 cursor-pointer group`}
+        >
+          <div className="flex gap-4">
+            <Dashboard
+              className={`${
+                highLight === "dashboard" ? "!text-[#659DBD]" : "!text-gray-400"
+              } group-hover:!text-[#659DBD] !transition-all !duration-150 !ease-linear`}
+            />
+            <span
+              className={`${
+                highLight === "dashboard" ? "text-gray-200" : "text-gray-400"
+              } group-hover:!text-gray-100 transition-all duration-150 ease-linear`}
+            >
+              DashBoard
+            </span>
+          </div>
+          {/* <hr className="text-gray-300" /> */}
+        </aside>
+      </Link>
+
+      <Link to="/manageSchool">
+        <aside
+          className={`px-6 py-2 my-4 flex gap-4 cursor-pointer ${
+            highLight === "manageSchool" ? "bg-gray-500" : ""
+          } group hover:bg-gray-500 rounded-md transition-all duration-150 ease-linear`}
+        >
+          <School
+            className={`${
+              highLight === "manageSchool"
+                ? "!text-[#659DBD]"
+                : "!text-gray-400"
+            } group-hover:!text-[#659DBD] !transition-all !duration-150 !ease-linear`}
+          />
+          <span
+            className={`${
+              highLight === "manageSchool" ? "text-gray-200" : "text-gray-400"
+            } group-hover:!text-gray-100 transition-all duration-150 ease-linear`}
+          >
+            Manage School
+          </span>
+        </aside>
+      </Link>
+      <aside className="px-6 py-2 my-4 flex gap-4 cursor-pointer group hover:bg-gray-500 rounded-md transition-all duration-150 ease-linear">
+        <LocationOn className="!text-gray-400 group-hover:!text-[#659DBD] !transition-all !duration-150 !ease-linear" />
+        <span className="text-gray-400 group-hover:!text-gray-100 transition-all duration-150 ease-linear">
+          School Visit
+        </span>
+      </aside>
+      <Link to="/order_processing">
+        <aside
+          className={`px-6 py-2 my-4 flex gap-4 ${
+            highLight === "order_pro" ? "bg-gray-500" : ""
+          } cursor-pointer group hover:bg-gray-500 rounded-md transition-all duration-150 ease-linear`}
+        >
+          <LocalShipping
+            className={`${
+              highLight === "order_pro" ? "!text-[#659DBD]" : "!text-gray-400"
+            } group-hover:!text-[#659DBD] !transition-all !duration-150 !ease-linear`}
+          />
+          <span
+            className={`${
+              highLight === "order_pro" ? "text-gray-200" : "text-gray-400"
+            } group-hover:!text-gray-100 transition-all duration-150 ease-linear`}
+          >
+            Order Precessing
+          </span>
+        </aside>
+      </Link>
+      <aside className="px-6 py-2 my-4 flex gap-4 cursor-pointer group hover:bg-gray-500 rounded-md transition-all duration-150 ease-linear">
+        <ShoppingBag className="!text-gray-400 group-hover:!text-[#659DBD] !transition-all !duration-150 !ease-linear" />
+        <span className="text-gray-400 group-hover:!text-gray-100 transition-all duration-150 ease-linear">
+          Manage Order
+        </span>
+      </aside>
     </Box>
   );
 

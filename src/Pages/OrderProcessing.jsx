@@ -15,12 +15,14 @@ import SwipeableTemporaryDrawer from "../Components/Material/MaterialSidebar";
 const OrderProcessing = () => {
   const [loading, setLoading] = useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
-  const [highLight, setHighLight] = useState("tagging");
+  const [highLight, setHighLight] = useState("order_pro");
   const [customerData, setCustomerData] = useState([]);
   const [schoolData, setSchoolData] = useState([]);
   const [subjectData, setSubjectData] = useState([]);
+  const [transpoterData, setTranspoterData] = useState([]);
   const [seriesData, setSeriesData] = useState([{ series: "", disable: true }]);
   const [address, setAddress] = useState({ disable: true });
+  const [contactData, setContactData] = useState([]);
   const [open, setOpen] = useState(false);
   const [errMessage, setErrMessage] = useState("");
   const [snackbarErrStatus, setSnackbarErrStatus] = useState(true);
@@ -42,7 +44,9 @@ const OrderProcessing = () => {
       s_address: "",
       b_address: "",
       date: new Date(),
+      orDate: new Date(),
       order_pref: "",
+      bp_contact_id: "",
       school: "",
       subject: "",
       series: "",
@@ -104,6 +108,7 @@ const OrderProcessing = () => {
       }
 
       if (Object.keys(errors).length > 0) {
+        setSnackbarErrStatus(true);
         setErrMessage("Please Fill All The Fields");
         snackbarRef.current.openSnackbar();
       }
@@ -121,6 +126,8 @@ const OrderProcessing = () => {
           fk_bp_id: formik.values.cutomer_name,
           order_ref: formik.values.order_pref,
           fk_school_id: formik.values.school,
+          bp_contact_id: formik.values.bp_contact_id,
+          ordate: formik.values.orDate,
           delivery_date: formik.values.date,
           order_priority: formik.values.order_priority,
           transporter_name: formik.values.pref_transpoter_name,
@@ -130,7 +137,7 @@ const OrderProcessing = () => {
           fk_shipping_address_id: formik.values.s_address,
           fk_billing_address_id: formik.values.b_address,
           fk_item_id: formik.values.items.map((item) => {
-            return { fk_item_id: item.item_id, quantity: item.quantity };
+            return { fk_item_id: item.id, quantity: item.quantity };
           }),
         },
         headers: {
@@ -141,6 +148,14 @@ const OrderProcessing = () => {
         setSnackbarErrStatus(false);
         setErrMessage("Order Created SuccessFully");
         snackbarRef.current.openSnackbar();
+        setTimeout(() => {
+          window.location.reload();
+
+          window.scroll({
+            top: 0,
+            behavior: "smooth",
+          });
+        }, 1500);
       }
       setLoading(false);
       setOpen(true);
@@ -191,9 +206,21 @@ const OrderProcessing = () => {
       setSubjectData(SubjectRes.data.message);
     };
 
+    const getTranspoterData = async () => {
+      const transpoterRes = await instance({
+        url: "transporter/get",
+        method: "GET",
+        headers: {
+          Authorization: Cookies.get("accessToken"),
+        },
+      });
+      setTranspoterData(transpoterRes.data.message);
+    };
+
     getCustomerData();
     getSchoolData();
     getSubjectData();
+    getTranspoterData();
   }, []);
 
   const getCustomerAddress = async (id) => {
@@ -213,7 +240,19 @@ const OrderProcessing = () => {
         JSON.stringify(addressRes.data.message[0].bp_addresses[1])
       ),
     });
+
     setLoading(false);
+  };
+
+  const GetContactRes = async (id) => {
+    const res = await instance({
+      url: `sales_data/get/customer/contact/${id}`,
+      method: "GET",
+      headers: {
+        Authorization: Cookies.get("accessToken"),
+      },
+    });
+    setContactData(res.data.message);
   };
 
   const getSeriesData = async (id) => {
@@ -241,15 +280,21 @@ const OrderProcessing = () => {
       },
     });
 
-    // console.log(getListData.data);
+    // console.log(getListData.data.message);
     setRowData(getListData.data.message);
-    formik.values.items = [];
+    // if (!value.item_quan) {
+    //   console.log("working");
+    //   formik.values.items = [];
+    // }
+    // console.log(formik.values.items.length);
     getListData.data.message.map((item) => {
       formik.values.items.push({
-        item_id: item.id,
+        id: item.id,
+        item_id: item.item_code,
         quantity: formik.values.item_quan,
-        price: item.price_masters[0].price,
+        price: item.price_master.price,
         tax: item.fk_tax.tax,
+        discount: item.fk_discount.discount,
       });
     });
     setValue({
@@ -266,7 +311,14 @@ const OrderProcessing = () => {
     let modifiedDate = `${date.split(" ")[1]} ${date.split(" ")[2]} ${
       date.split(" ")[3]
     }`;
+
     return modifiedDate;
+  };
+
+  const conditionalGetList = (id) => {
+    if (!value.item_quan) {
+      getListData(id);
+    }
   };
 
   const handleOrderProcessingForm = async (value, type) => {
@@ -276,10 +328,20 @@ const OrderProcessing = () => {
         break;
       case "customer_name":
         getCustomerAddress(value.id);
+        GetContactRes(value.id);
         formik.values.cutomer_name = value.id;
         break;
-      case "date":
+      case "pref_transpoter":
+        formik.values.pref_transpoter_name = value.name;
+        break;
+      case "Delivery Date":
         formik.values.date = handleDate(value.toString());
+        break;
+      case "contact_id":
+        formik.values.bp_contact_id = value.id;
+        break;
+      case "OR Date":
+        formik.values.orDate = handleDate(value.toString());
         break;
       case "Order Reference":
         formik.values.order_pref = value;
@@ -292,13 +354,10 @@ const OrderProcessing = () => {
         break;
       case "series_name":
         formik.values.series = value;
+        conditionalGetList(value.id);
         // getListData(value.id);
-        setValue({
-          item_quan: false,
-          total_quan: "0",
-          total_before_tax: "0",
-          total: "0",
-        });
+        setValue((prev) => ({ ...prev, item_quan: false }));
+
         break;
       case "Items Quantity":
         formik.values.item_quan = value;
@@ -324,9 +383,9 @@ const OrderProcessing = () => {
       case "Total":
         formik.values.total = value;
         break;
-      case "Preffered Transpoter Name":
-        formik.values.pref_transpoter_name = value;
-        break;
+      // case "Preffered Transpoter Name":
+      //   formik.values.pref_transpoter_name = value;
+      //   break;
       case "Remarks":
         formik.values.remarks = value;
         break;
@@ -348,27 +407,45 @@ const OrderProcessing = () => {
     }
     if (type === "total_before_tax") {
       let total = 0;
+      let discount = 0;
       formik.values.items.map((item) => {
+        discount =
+          discount +
+          (Number(item.discount) / 100) *
+            Number(item.price) *
+            Number(item.quantity);
         total = total + Number(item.price) * Number(item.quantity);
       });
+      total = total - discount;
       return total.toString();
     }
     if (type === "total_after_tax") {
       let total = 0;
+      let discount = 0;
       formik.values.items.map((item) => {
-        let percentage = (Number(item.tax) / 100) * Number(item.price);
+        let percentage =
+          (Number(item.tax) / 100) * Number(item.price) * Number(item.quantity);
+        discount =
+          discount +
+          (Number(item.discount) / 100) *
+            Number(item.price) *
+            Number(item.quantity);
         total = total + Number(item.price) * Number(item.quantity) + percentage;
       });
-      return total.toString();
+      // console.log(total - discount);
+      // console.log(discount);
+      return (total - discount).toString();
     }
   };
 
   const alterItemQuantity = (index, value) => {
     formik.values.items[index] = {
+      id: formik.values.items[index].id,
       item_id: formik.values.items[index].item_id,
       quantity: value,
       price: formik.values.items[index].price,
       tax: formik.values.items[index].tax,
+      discount: formik.values.items[index].discount,
     };
     console.log(formik.values.items);
     setValue({
@@ -379,6 +456,7 @@ const OrderProcessing = () => {
     });
   };
   // console.log(value);
+
   useEffect(() => {
     const handleWidth = () => {
       if (window.innerWidth > 1024) {
@@ -388,6 +466,7 @@ const OrderProcessing = () => {
       }
     };
     window.addEventListener("resize", handleWidth);
+
     handleWidth();
     return () => {
       window.removeEventListener("resize", handleWidth);
@@ -426,8 +505,11 @@ const OrderProcessing = () => {
           info={navInfo}
         />
         <div className="min-h-[100vh] pt-[2vh] max-h-full bg-[#141728]">
-          <div className=" px-8 py-3 bg-[#141728]">
-            <div className="flex flex-col gap-[2rem] px-6 py-6 bg-slate-600 rounded-md">
+          <div className=" px-2 sm:px-8 py-3 bg-[#141728]">
+            <form
+              id="form"
+              className="flex flex-col gap-[2rem] sm:px-6 px-4 py-6 bg-slate-600 rounded-md"
+            >
               <section
                 className={`grid grid-cols-1 grid-rows-10 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 gap-8 lg:grid-rows-3 md:grid-rows-4 sm:grid-rows-5 bg-slate-600 rounded-md`}
               >
@@ -478,6 +560,18 @@ const OrderProcessing = () => {
                   />
                 </div>
                 <div className=" flex flex-col gap-2 w-full">
+                  {/* <label className=" text-gray-100">Order Type</label> */}
+
+                  <SearchDropDown
+                    handleOrderProcessingForm={handleOrderProcessingForm}
+                    disable={address.disable}
+                    data={contactData}
+                    Name={"contact_id"}
+                    label={"Select Contact"}
+                    color={"rgb(243, 244, 246)"}
+                  />
+                </div>
+                <div className=" flex flex-col gap-2 w-full">
                   {/* <label className="text-gray-100">Delivery Date</label> */}
 
                   {/* <BasicTextFields
@@ -487,6 +581,20 @@ const OrderProcessing = () => {
                   /> */}
                   <DatePicker
                     handleOrderProcessingForm={handleOrderProcessingForm}
+                    label={"Delivery Date"}
+                  />
+                </div>
+                <div className=" flex flex-col gap-2 w-full">
+                  {/* <label className="text-gray-100">Delivery Date</label> */}
+
+                  {/* <BasicTextFields
+                    lable={"Delivery Date"}
+                    variant={"standard"}
+                    multiline={false}
+                  /> */}
+                  <DatePicker
+                    handleOrderProcessingForm={handleOrderProcessingForm}
+                    label={"OR Date"}
                   />
                 </div>
                 <div className=" flex flex-col gap-2 w-full">
@@ -557,7 +665,7 @@ const OrderProcessing = () => {
                         <span>Item Name: {item.item_name}</span>
                         <span>Item Code: {item.item_code}</span>
                         <span>Discount: {item.fk_discount.discount}%</span>
-                        <span>Price: {item.price_masters[0].price}</span>
+                        <span>Price: {item.price_master.price}</span>
                         <span>Tax: {item.fk_tax.tax}%</span>
                         <span>
                           Quantity:{"   "}
@@ -610,8 +718,8 @@ const OrderProcessing = () => {
                   <BasicTextFields
                     handleOrderProcessingForm={handleOrderProcessingForm}
                     lable={"Total Before Tax"}
-                    defaultValue={value.total_before_tax}
-                    value={value.total_before_tax}
+                    defaultValue={Math.round(value.total_before_tax)}
+                    value={Math.round(value.total_before_tax)}
                     readOnly={true}
                     variant={"standard"}
                     multiline={false}
@@ -624,8 +732,8 @@ const OrderProcessing = () => {
                     handleOrderProcessingForm={handleOrderProcessingForm}
                     lable={"Total"}
                     readOnly={true}
-                    defaultValue={value.total}
-                    value={value.total}
+                    defaultValue={Math.round(value.total)}
+                    value={Math.round(value.total)}
                     variant={"standard"}
                     multiline={false}
                   />
@@ -637,11 +745,18 @@ const OrderProcessing = () => {
                     Preffered Transpoter Name
                   </label> */}
 
-                  <BasicTextFields
+                  {/* <BasicTextFields
                     handleOrderProcessingForm={handleOrderProcessingForm}
                     lable={"Preffered Transpoter Name"}
                     variant={"standard"}
                     multiline={false}
+                  /> */}
+                  <SearchDropDown
+                    handleOrderProcessingForm={handleOrderProcessingForm}
+                    data={transpoterData}
+                    label={"Preffered Transpoter Name"}
+                    Name={"pref_transpoter"}
+                    color={"rgb(243, 244, 246)"}
                   />
                 </div>
                 <div className=" flex flex-col gap-2 w-full md:col-span-2">
@@ -658,7 +773,7 @@ const OrderProcessing = () => {
               <div onClick={formik.handleSubmit}>
                 <Button text={"Submit"} />
               </div>
-            </div>
+            </form>
           </div>
         </div>
       </div>

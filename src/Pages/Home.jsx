@@ -9,7 +9,8 @@ import Cookies from "js-cookie";
 import Loader from "../Components/Loader";
 import Hamburger from "../Components/Hamburger";
 import SwipeableTemporaryDrawer from "../Components/Material/MaterialSidebar";
-
+import { Map } from "@mui/icons-material";
+import GMap from "../assets/map.png";
 const Home = () => {
   const [status, setStatus] = useState("Start Day");
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
@@ -126,16 +127,21 @@ const Home = () => {
   }, []);
   return (
     <>
-      <div className="flex overflow-hidden w-[100%] h-[100vh]">
+      <div className="flex w-[100%] min-h-[100vh]">
         {loading ? <Loader /> : null}
 
-        <Sidebar sidebarCollapsed={sidebarCollapsed} show={show} />
+        <Sidebar
+          highLight={"dashboard"}
+          sidebarCollapsed={sidebarCollapsed}
+          show={show}
+        />
 
         <div>
           <SwipeableTemporaryDrawer
             ref={sidebarRef}
             sidebarCollapsed={sidebarCollapsed}
             show={show}
+            highLight={"dashboard"}
           />
         </div>
         <div
@@ -156,12 +162,22 @@ const Home = () => {
               />
             </div>
           ) : (
-            <div className="h-[90vh] bg-gray-300">
+            <div className="h-[90vh] flex w-full justify-center items-center gap-4 bg-[#141728]">
+              <section className="flex flex-col gap-6 items-start justify-around px-4 py-4 bg-gray-200 rounded-md">
+                {/* <Map className="!text-[4rem]" /> */}
+                <img src={GMap} className="w-[15rem] h-auto" alt="" />
+                {/* <div className="flex items-center gap-4"> */}
+                <span className="text-xl font-bold">Travel</span>
+                <button className="text-lg w-full rounded-md text-gray-100 font-semibold px-6 py-1.5 bg-[#659DBD]">
+                  Start
+                </button>
+                {/* </div> */}
+              </section>
               {/* <GoogleMap sidebarCollapsed={sidebarCollapsed} /> */}
               {/* <button className="px-4 py-1 bg-blue-400" onClick={handleLocation}>
             Start Day
           </button> */}
-              <div className="w-full flex justify-end">
+              {/* <div className="w-full flex justify-end">
                 <div className="flex pl-6 gap-[4rem] items-center bg-gray-600 w-fit rounded-md mt-[2rem] mr-[2rem]">
                   <span className="text-gray-400 my-3 text-xs">
                     School Check In
@@ -172,10 +188,10 @@ const Home = () => {
                   >
                     Check In
                   </span>
-                  {/* <Hamburger /> */}
+                  <Hamburger />
                 </div>
-              </div>
-              <button
+              </div> */}
+              {/* <button
                 onClick={() => setShowMap(true)}
                 className={`w-[7rem] absolute top-[60vh] font-semibold right-[2rem] col-span-2 focus:outline-0 mt-8 text-gray-300 hover:shadow-md h-10  transition-all duration-200 ease-linear active:bg-slate-700 active:scale-95 rounded-md ${
                   status === "End Day" ? "bg-red-800" : "bg-slate-500"
@@ -190,7 +206,7 @@ const Home = () => {
                 }`}
               >
                 {status}
-              </button>
+              </button> */}
             </div>
           )}
         </div>
