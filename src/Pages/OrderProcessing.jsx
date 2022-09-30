@@ -149,12 +149,13 @@ const OrderProcessing = () => {
         setErrMessage("Order Created SuccessFully");
         snackbarRef.current.openSnackbar();
         setTimeout(() => {
-          window.location.reload();
-
           window.scroll({
             top: 0,
-            behavior: "smooth",
+            // behavior: "smooth",
           });
+          setTimeout(() => {
+            window.location.reload();
+          }, 100);
         }, 1500);
       }
       setLoading(false);
@@ -164,7 +165,7 @@ const OrderProcessing = () => {
 
   const navInfo = {
     title: "Order process",
-    details: ["Home", " / Order process"],
+    details: ["Home", " / Order Process"],
   };
 
   const handleSidebarCollapsed = () => {
@@ -332,7 +333,7 @@ const OrderProcessing = () => {
         formik.values.cutomer_name = value.id;
         break;
       case "pref_transpoter":
-        formik.values.pref_transpoter_name = value.name;
+        formik.values.pref_transpoter_name = value.id;
         break;
       case "Delivery Date":
         formik.values.date = handleDate(value.toString());
@@ -468,6 +469,8 @@ const OrderProcessing = () => {
     window.addEventListener("resize", handleWidth);
 
     handleWidth();
+    window.scroll(0, 0);
+
     return () => {
       window.removeEventListener("resize", handleWidth);
     };
@@ -484,7 +487,7 @@ const OrderProcessing = () => {
       <Sidebar sidebarCollapsed={sidebarCollapsed} highLight={highLight} />
       <div
         className={`flex flex-col w-[100vw] transition-all duration-300 ease-linear lg:w-[83vw] lg:ml-[18vw] ${
-          sidebarCollapsed ? null : "md:ml-[30vw] ml-[85vw]"
+          window.innerWidth < 1024 ? null : "md:ml-[30vw] ml-[85vw]"
         }`}
       >
         <Snackbars
@@ -507,7 +510,7 @@ const OrderProcessing = () => {
         <div className="min-h-[100vh] pt-[2vh] max-h-full bg-[#141728]">
           <div className=" px-2 sm:px-8 py-3 bg-[#141728]">
             <form
-              id="form"
+              // id="form"
               className="flex flex-col gap-[2rem] sm:px-6 px-4 py-6 bg-slate-600 rounded-md"
             >
               <section

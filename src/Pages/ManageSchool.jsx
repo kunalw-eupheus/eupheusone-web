@@ -8,6 +8,7 @@ import DataTable from "../Components/DataTable";
 import { rows, ManageSchoolRows } from "../DummyData";
 import SearchDropDown from "../Components/SearchDropDown";
 import SwipeableTemporaryDrawer from "../Components/Material/MaterialSidebar";
+import instance from "../Instance";
 
 const ManageSchool = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
@@ -44,6 +45,11 @@ const ManageSchool = () => {
   };
 
   useEffect(() => {
+    // const getSchoolData = async () => {
+    //   const schoolData = await instance({
+    //     url: ""
+    //   })
+    // }
     const handleWidth = () => {
       if (window.innerWidth > 1024) {
         setSidebarCollapsed(false);
@@ -53,6 +59,7 @@ const ManageSchool = () => {
     };
     window.addEventListener("resize", handleWidth);
     handleWidth();
+    window.scroll(0, 0);
     return () => {
       window.removeEventListener("resize", handleWidth);
     };
@@ -72,7 +79,7 @@ const ManageSchool = () => {
 
       <div
         className={`flex flex-col w-[100vw] lg:w-[83vw] lg:ml-[18vw] ${
-          sidebarCollapsed ? null : "md:ml-[30vw] ml-[60vw]"
+          window.innerWidth < 1024 ? null : "md:ml-[30vw] ml-[60vw]"
         } `}
       >
         <Navbar
@@ -80,7 +87,7 @@ const ManageSchool = () => {
           info={navInfo}
         />
         <div className="min-h-[100vh] pt-[2vh] max-h-full bg-[#141728]">
-          <div className=" px-8 py-3 bg-[#141728]">
+          <div className=" sm:px-8 px-2 py-3 bg-[#141728]">
             <div className="grid grid-cols-2 grid-rows-2 md:flex md:justify-start md:items-center px-6 mb-20 py-3 mt-6 gap-6 rounded-md bg-slate-600">
               <div className="flex flex-col gap-2 w-full md:w-[20vw]">
                 <label className="text-gray-100">State</label>

@@ -24,6 +24,8 @@ import TagSchool from "./Pages/TagSchool";
 import AddSchool from "./Pages/AddSchool";
 import SchoolPunchIn from "./Pages/SchoolPunchIn";
 import OrderProcessing from "./Pages/OrderProcessing";
+import MyDocument from "./Components/PdfDocument";
+import ManageOrder from "./Pages/ManageOrder";
 
 function App() {
   const isAuth = useSelector((state) => state.auth.user);
@@ -83,6 +85,14 @@ function App() {
           <Route
             path="/order_processing"
             element={isAuth ? <OrderProcessing /> : <Login />}
+          />
+          <Route
+            path="/manage_order"
+            element={isAuth ? <ManageOrder /> : <Login />}
+          />
+          <Route
+            path="/pdf_view"
+            element={isAuth ? <MyDocument /> : <Login />}
           />
 
           {/* Admin */}

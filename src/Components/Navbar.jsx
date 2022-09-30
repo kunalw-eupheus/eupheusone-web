@@ -69,7 +69,7 @@ const Navbar = ({ handleSidebarCollapsed, info }) => {
           <span
             className={`${
               scroll ? "text-[#67748e]" : "text-gray-400"
-            } text-[1rem] md:text-xl`}
+            } text-[1rem] md:text-lg`}
           >
             {info.title}
           </span>

@@ -51,7 +51,7 @@ const Sidebar = ({ sidebarCollapsed, highLight, show }) => {
   return (
     <div
       className={`fixed transition-all h-[100vh] ease-linear duration-300 ${
-        sidebarCollapsed ? "-left-[100%]" : "left-[0%]"
+        window.innerWidth < 1024 ? "-left-[100%]" : "left-[0%]"
       } lg:py-2 md:py-4 py-8 z-[100] w-[85vw] lg:w-[18vw] md:w-[30vw] bg-[#111322] h-[100vh] overflow-auto`}
     >
       <div
@@ -446,12 +446,28 @@ const Sidebar = ({ sidebarCollapsed, highLight, show }) => {
             </span>
           </aside>
         </Link>
-        <aside className="px-6 py-2 flex gap-4 cursor-pointer group hover:bg-gray-500 rounded-md transition-all duration-150 ease-linear">
-          <ShoppingBag className="!text-gray-400 group-hover:!text-[#659DBD] !transition-all !duration-150 !ease-linear" />
-          <span className="text-gray-400 group-hover:!text-gray-100 transition-all duration-150 ease-linear">
-            Manage Order
-          </span>
-        </aside>
+        <Link to="/manage_order">
+          <aside
+            className={`px-6 py-2 flex gap-4 ${
+              highLight === "manageOrder" ? "bg-gray-500" : ""
+            } cursor-pointer group hover:bg-gray-500 rounded-md transition-all duration-150 ease-linear`}
+          >
+            <ShoppingBag
+              className={`${
+                highLight === "manageOrder"
+                  ? "!text-[#659DBD]"
+                  : "!text-gray-400"
+              } group-hover:!text-[#659DBD] !transition-all !duration-150 !ease-linear`}
+            />
+            <span
+              className={`${
+                highLight === "manageOrder" ? "text-gray-200" : "text-gray-400"
+              } group-hover:!text-gray-100 transition-all duration-150 ease-linear`}
+            >
+              Manage Order
+            </span>
+          </aside>
+        </Link>
       </div>
     </div>
   );

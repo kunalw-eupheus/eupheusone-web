@@ -4,13 +4,16 @@ import Navbar from "../Components/Navbar";
 import Sidebar from "../Components/Sidebar";
 import GoogleMap from "../Components/GoogleMap";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import Loader from "../Components/Loader";
-import Hamburger from "../Components/Hamburger";
+import orderImg from "../assets/img/order.png";
+import documentImg from "../assets/img/documents.png";
+import zohoImg from "../assets/img/zoho.png";
 import SwipeableTemporaryDrawer from "../Components/Material/MaterialSidebar";
-import { Map } from "@mui/icons-material";
+// import { Map } from "@mui/icons-material";
 import GMap from "../assets/map.png";
+import BasicButton from "../Components/Material/Button";
 const Home = () => {
   const [status, setStatus] = useState("Start Day");
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
@@ -121,6 +124,8 @@ const Home = () => {
     };
     window.addEventListener("resize", handleWidth);
     handleWidth();
+    window.scroll(0, 0);
+
     return () => {
       window.removeEventListener("resize", handleWidth);
     };
@@ -146,7 +151,7 @@ const Home = () => {
         </div>
         <div
           className={`flex flex-col w-[100vw] relative transition-all ease-linear duration-300 lg:w-[83vw] lg:ml-[18vw] ${
-            sidebarCollapsed ? null : "md:ml-[30vw] ml-[85vw]"
+            window.innerWidth < 1024 ? null : "md:ml-[30vw] ml-[85vw]"
           } `}
         >
           <Navbar
@@ -162,17 +167,57 @@ const Home = () => {
               />
             </div>
           ) : (
-            <div className="h-[90vh] flex w-full justify-center items-center gap-4 bg-[#141728]">
-              <section className="flex flex-col gap-6 items-start justify-around px-4 py-4 bg-gray-200 rounded-md">
-                {/* <Map className="!text-[4rem]" /> */}
-                <img src={GMap} className="w-[15rem] h-auto" alt="" />
-                {/* <div className="flex items-center gap-4"> */}
-                <span className="text-xl font-bold">Travel</span>
-                <button className="text-lg w-full rounded-md text-gray-100 font-semibold px-6 py-1.5 bg-[#659DBD]">
-                  Start
-                </button>
-                {/* </div> */}
-              </section>
+            <div className="min-h-[90vh] relative flex w-full justify-center items-center gap-4 bg-[#141728]">
+              <h1 className="text-gray-100 text-2xl font-semibold absolute top-[2rem] left-[2rem]">
+                Welcome
+              </h1>
+              <div className="w-full flex flex-col px-4 pb-6 sm:flex-row gap-6 items-center justify-center">
+                <section className="flex sm:w-[30%] sm:h-[19rem] w-full sm:flex-col flex-row gap-4 hover:shadow-2xl items-center justify-between px-4 py-4 bg-gray-200 rounded-md">
+                  <img
+                    src={orderImg}
+                    className="md:w-[10.8rem] sm:w-[7.5rem] w-[4rem] h-auto "
+                    alt=""
+                  />
+                  {/* <div className="flex items-center gap-4"> */}
+                  <span className="md:text-2xl sm:text-base text-sm font-bold">
+                    Order Processing
+                  </span>
+                  {/* <button className="text-lg hover:shadow-2xl rounded-md text-gray-100 font-semibold px-6 py-1.5 bg-[#659DBD]">
+                    Process
+                  </button> */}
+                  {/* <div className="!w-fit"> */}
+                  <Link to="/order_processing">
+                    <BasicButton text={"Process"} />
+                  </Link>
+                  {/* </div> */}
+                  {/* </div> */}
+                </section>
+                <div className="flex sm:w-[60%]  flex-row gap-4 ">
+                  <section className="flex w-1/2 flex-col hover:shadow-2xl cursor-pointer gap-4 items-center justify-around sm:px-4 sm:py-4 bg-gray-200 rounded-md">
+                    <a
+                      target="_blank"
+                      href="https://accounts.zoho.com/signin?servicename=ZohoReports&hide_secure=true&newtheme=true&hide_signup=false&load_ifr=true&serviceurl=https%3A%2F%2Fanalytics.zoho.com%2Fopen-view%2F1915178000019982001%2F6b36b394aaf2cd636bb93a4d0135dd8e%3FZOHO_CRITERIA%3D%2524%257BSales%2BRep%257D"
+                    >
+                      <img
+                        src={zohoImg}
+                        className="sm:w-[15rem] w-[15rem] h-auto"
+                        alt=""
+                      />
+                    </a>
+                  </section>
+                  <section className="flex grayscale w-1/2 flex-col gap-4 hover:shadow-2xl cursor-not-allowed items-center justify-around px-4 py-4 bg-gray-200 rounded-md">
+                    <img
+                      src={documentImg}
+                      className="sm:w-[14rem] w-[5rem] h-auto"
+                      alt=""
+                    />
+
+                    <span className="md:text-2xl sm:text-base text-sm font-bold">
+                      Documents
+                    </span>
+                  </section>
+                </div>
+              </div>
               {/* <GoogleMap sidebarCollapsed={sidebarCollapsed} /> */}
               {/* <button className="px-4 py-1 bg-blue-400" onClick={handleLocation}>
             Start Day
