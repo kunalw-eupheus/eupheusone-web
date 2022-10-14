@@ -4,6 +4,7 @@ import Cookies from "js-cookie";
 const initialAuthState = {
   user: Cookies.get("user") || null,
   admin: Cookies.get("admin") || null,
+  msAuth: Cookies.get("ms-auth") || null,
 };
 
 const authSlice = createSlice({
@@ -13,8 +14,12 @@ const authSlice = createSlice({
     login(state) {
       state.user = Cookies.get("user");
     },
+    msLogin(state) {
+      state.msAuth = Cookies.get("ms-auth");
+    },
     logout(state) {
       state.user = false;
+      state.msAuth = false;
     },
     adminLogin(state) {
       state.admin = Cookies.get("admin");

@@ -13,6 +13,9 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import Stack from "@mui/material/Stack";
 import Snackbars from "../Components/Material/SnackBar";
 
+import { loginRequest, msalConfig } from "../util/msConfig";
+import { msalInstance } from "../index";
+
 const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -22,6 +25,38 @@ const Login = () => {
   const [errMessage, setErrMessage] = useState("");
 
   const snackbarRef = useRef();
+  let accountId = "";
+
+  function handleResponse(resp) {
+    if (resp !== null) {
+      accountId = resp.account.homeAccountId;
+      console.log(accountId);
+      Cookies.set("ms-auth", accountId);
+      if (accountId) {
+        dispatch(authActions.msLogin());
+      }
+      // showWelcomeMessage(resp.account);
+      // seeProfileRedirect();
+    } else {
+      // need to call getAccount here?
+      const currentAccounts = msalInstance.getAllAccounts();
+      if (!currentAccounts || currentAccounts.length < 1) {
+      } else if (currentAccounts.length > 1) {
+        // Add choose account code here
+      } else if (currentAccounts.length === 1) {
+        accountId = currentAccounts[0].homeAccountId;
+      }
+    }
+  }
+
+  const authLogin = async (req, res) => {
+    msalInstance
+      .loginPopup({ loginRequest })
+      .then(handleResponse)
+      .catch(function (error) {
+        console.log(error);
+      });
+  };
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -140,6 +175,21 @@ const Login = () => {
                       >
                         {loading ? "" : "SIGN IN"}
                       </LoadingButton>
+                      {/* <LoadingButton
+                        onClick={authLogin}
+                        type="button"
+                        style={{
+                          backgroundColor: "rgb(31 41 55)",
+                          width: "100%",
+                          height: "2.5rem",
+                          color: "white",
+                          fontWeight: "600",
+                          marginTop: "1.5rem",
+                        }}
+                        variant="outlined"
+                      >
+                        {"Atuh"}
+                      </LoadingButton> */}
                     </Stack>
                   </form>
                 </div>

@@ -17,6 +17,8 @@ import Divider from "@mui/material/Divider";
 import { useLayoutEffect } from "react";
 import instance from "../Instance";
 import Cookies from "js-cookie";
+import { getToken } from "../util/msAuth";
+import { protectedResources } from "../util/msConfig";
 
 const Sidebar = ({ sidebarCollapsed, highLight, show }) => {
   const [isSchoolClicked, setIsSchoolClicked] = useState(
@@ -36,14 +38,28 @@ const Sidebar = ({ sidebarCollapsed, highLight, show }) => {
 
   useLayoutEffect(() => {
     const getUser = async () => {
-      const res = await instance({
-        url: "user/profile",
-        method: "GET",
-        headers: {
-          Authorization: `${Cookies.get("accessToken")}`,
-        },
-      });
-      setUser(res.data.message);
+      if (Cookies.get("ms-auth")) {
+        const accessToken = await getToken(
+          protectedResources.apiTodoList.scopes.read
+        );
+        const res = await instance({
+          url: "user/profile",
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        });
+        setUser(res.data.message);
+      } else {
+        const res = await instance({
+          url: "user/profile",
+          method: "GET",
+          headers: {
+            Authorization: `${Cookies.get("accessToken")}`,
+          },
+        });
+        setUser(res.data.message);
+      }
     };
     getUser();
   }, []);

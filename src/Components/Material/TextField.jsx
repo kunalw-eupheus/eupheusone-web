@@ -25,6 +25,7 @@ export default function BasicTextFields({
   lable,
   multiline,
   mt,
+  type,
   variant,
   handleOrderProcessingForm,
   readOnly,
@@ -50,6 +51,7 @@ export default function BasicTextFields({
         value={value && `${value}`}
         label={lable}
         rows={4}
+        type={type ? "number" : "text"}
         onChange={(newValue) =>
           handleOrderProcessingForm(newValue.target.value, lable)
         }
