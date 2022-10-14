@@ -231,6 +231,7 @@ const ManageSchool = () => {
                 Search School
               </button> */}
               <div
+                className="sm:w-auto w-[50vw]"
                 onClick={() => {
                   if (stateAndCity.state && stateAndCity.city) {
                     getSchool(stateAndCity.state, stateAndCity.city);

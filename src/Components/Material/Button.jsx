@@ -6,11 +6,13 @@ export default function BasicButton({ text }) {
   return (
     <Stack spacing={1} direction="row">
       <Button
+        // size="small"
         variant="contained"
         style={{
           color: "whitesmoke",
           backgroundColor: "rgb(100 116 139)",
           fontWeight: "800",
+          width: "100%",
         }}
       >
         {text}

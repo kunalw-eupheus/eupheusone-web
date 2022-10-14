@@ -446,12 +446,12 @@ const SwipeableTemporaryDrawer = React.forwardRef((props, ref) => {
           </span>
         </aside>
       </Link>
-      <aside className="px-6 py-2 my-4 flex gap-4 cursor-pointer group hover:bg-gray-500 rounded-md transition-all duration-150 ease-linear">
+      {/* <aside className="px-6 py-2 my-4 flex gap-4 cursor-pointer group hover:bg-gray-500 rounded-md transition-all duration-150 ease-linear">
         <LocationOn className="!text-gray-400 group-hover:!text-[#659DBD] !transition-all !duration-150 !ease-linear" />
         <span className="text-gray-400 group-hover:!text-gray-100 transition-all duration-150 ease-linear">
           School Visit
         </span>
-      </aside>
+      </aside> */}
       <Link to="/order_processing">
         <aside
           className={`px-6 py-2 my-4 flex gap-4 ${
