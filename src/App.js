@@ -29,6 +29,8 @@ import ManageOrder from "./Pages/ManageOrder";
 
 function App() {
   const isAuth = useSelector((state) => state.auth.user);
+  const MsAuth = useSelector((state) => state.auth.msAuth);
+
   // const isAuth = true
   // const Admin = useSelector((state) => state.auth.admin);
   const Admin = true;
@@ -37,62 +39,71 @@ function App() {
     <div className=" font-Roboto bg-[#111322]">
       <BrowserRouter>
         <Routes>
-          <Route path="/login" element={isAuth ? <Home /> : <Login />} />
-          <Route path="/" element={isAuth ? <Home /> : <Login />} />
-          <Route path="/mySchool" element={isAuth ? <MySchool /> : <Login />} />
-          <Route path="/tagging" element={isAuth ? <Tagging /> : <Login />} />
+          <Route
+            path="/login"
+            element={isAuth || MsAuth ? <Home /> : <Login />}
+          />
+          <Route path="/" element={isAuth || MsAuth ? <Home /> : <Login />} />
+          <Route
+            path="/mySchool"
+            element={isAuth || MsAuth ? <MySchool /> : <Login />}
+          />
+          <Route
+            path="/tagging"
+            element={isAuth || MsAuth ? <Tagging /> : <Login />}
+          />
           <Route
             path="/schoolDirectory"
-            element={isAuth ? <SchoolDirectory /> : <Login />}
+            element={isAuth || MsAuth ? <SchoolDirectory /> : <Login />}
           />
           <Route
             path="/salesInvoices"
-            element={isAuth ? <SalesInvoices /> : <Login />}
+            element={isAuth || MsAuth ? <SalesInvoices /> : <Login />}
           />
           <Route
             path="/updateStocks"
-            element={isAuth ? <UpdateStocks /> : <Login />}
+            element={isAuth || MsAuth ? <UpdateStocks /> : <Login />}
           />
           <Route
             path="/opportunities"
-            element={isAuth ? <Opportunities /> : <Login />}
+            element={isAuth || MsAuth ? <Opportunities /> : <Login />}
           />
           <Route
             path="/manageSchool"
-            element={isAuth ? <ManageSchool /> : <Login />}
+            element={isAuth || MsAuth ? <ManageSchool /> : <Login />}
           />
           <Route
             path="/school/tagging"
-            element={isAuth ? <SchoolTagging /> : <Login />}
+            element={isAuth || MsAuth ? <SchoolTagging /> : <Login />}
           />
           <Route
             path="/school/schools"
-            element={isAuth ? <Schools /> : <Login />}
+            element={isAuth || MsAuth ? <Schools /> : <Login />}
           />
           <Route
             path="/tagschool"
-            element={isAuth ? <TagSchool /> : <Login />}
+            element={isAuth || MsAuth ? <TagSchool /> : <Login />}
           />
           <Route
             path="/addschool"
-            element={isAuth ? <AddSchool /> : <Login />}
+            element={isAuth || MsAuth ? <AddSchool /> : <Login />}
           />
 
           <Route
             path="/school/punch_in"
-            element={isAuth ? <SchoolPunchIn /> : <Login />}
+            element={isAuth || MsAuth ? <SchoolPunchIn /> : <Login />}
           />
           <Route
             path="/order_processing"
-            element={isAuth ? <OrderProcessing /> : <Login />}
+            element={isAuth || MsAuth ? <OrderProcessing /> : <Login />}
           />
           <Route
             path="/manage_order"
-            element={isAuth ? <ManageOrder /> : <Login />}
+            element={isAuth || MsAuth ? <ManageOrder /> : <Login />}
           />
           <Route
             path="/pdf_view"
-            element={isAuth ? <MyDocument /> : <Login />}
+            element={isAuth || MsAuth ? <MyDocument /> : <Login />}
           />
 
           {/* Admin */}

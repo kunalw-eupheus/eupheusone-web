@@ -83,7 +83,7 @@ export default function DataTable({ rows, checkbox, Tablecolumns, tableName }) {
         case "ManageSchool":
           return (
             row.SchoolName.toLowerCase().indexOf(q) > -1 ||
-            row.City.toLowerCase().indexOf(q) > -1 ||
+            // row.City.toLowerCase().indexOf(q) > -1 ||
             row.State.toLowerCase().indexOf(q) > -1 ||
             row.Address.toLowerCase().indexOf(q) > -1
           );
@@ -101,7 +101,7 @@ export default function DataTable({ rows, checkbox, Tablecolumns, tableName }) {
       >
         <DataGrid
           rows={search(rows)}
-          onRowClick={() => navigate("/tagschool")}
+          // onRowClick={() => navigate("/tagschool")}
           columns={Tablecolumns}
           pageSize={entries}
           rowsPerPageOptions={[entries]}

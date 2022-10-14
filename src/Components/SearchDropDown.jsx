@@ -92,6 +92,13 @@ const SearchDropDown = ({
             option.zip_code
           );
           break;
+        // manage School
+        case "select_state":
+          return option.fk_state.state;
+          break;
+        case "select_city":
+          return option.city;
+          break;
         default:
           break;
       }
@@ -144,6 +151,12 @@ const SearchDropDown = ({
     }
     if (type === "category") {
       getStateAndCity(value.id, "setCategoryId");
+    }
+    if (type === "select_state") {
+      handleOrderProcessingForm(value, type);
+    }
+    if (type === "select_city") {
+      handleOrderProcessingForm(value, type);
     } else {
       return;
     }

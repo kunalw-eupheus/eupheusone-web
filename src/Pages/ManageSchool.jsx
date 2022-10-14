@@ -9,12 +9,21 @@ import { rows, ManageSchoolRows } from "../DummyData";
 import SearchDropDown from "../Components/SearchDropDown";
 import SwipeableTemporaryDrawer from "../Components/Material/MaterialSidebar";
 import instance from "../Instance";
+import { useLayoutEffect } from "react";
+import Cookies from "js-cookie";
+import BasicButton from "../Components/Material/Button";
+import { Backdrop, CircularProgress } from "@mui/material";
 
 const ManageSchool = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [highLight, setHighLight] = useState("manageSchool");
+  const [loading, setLoading] = useState(false);
+  const [stateAndCity, setStateAndCity] = useState({ state: "", city: "" });
   const sidebarRef = useRef();
-
+  const [states, setStates] = useState([]);
+  const [city, setCity] = useState({ disable: true });
+  const [schoolRow, setSchoolRow] = useState([]);
+  console.log(stateAndCity);
   const navInfo = {
     title: "Manage School",
     details: ["Home", " / Manage School"],
@@ -23,11 +32,6 @@ const ManageSchool = () => {
   const Tablecolumns = [
     { field: "SchoolName", headerName: "School Name", width: 300 },
     {
-      field: "City",
-      headerName: "City",
-      width: 180,
-    },
-    {
       field: "State",
       headerName: "State",
       width: 120,
@@ -35,21 +39,15 @@ const ManageSchool = () => {
     {
       field: "Address",
       headerName: "Address",
-      width: 350,
+      width: 400,
     },
   ];
 
   const handleSidebarCollapsed = () => {
-    // setSidebarCollapsed(!sidebarCollapsed);
     sidebarRef.current.openSidebar();
   };
 
   useEffect(() => {
-    // const getSchoolData = async () => {
-    //   const schoolData = await instance({
-    //     url: ""
-    //   })
-    // }
     const handleWidth = () => {
       if (window.innerWidth > 1024) {
         setSidebarCollapsed(false);
@@ -64,8 +62,125 @@ const ManageSchool = () => {
       window.removeEventListener("resize", handleWidth);
     };
   }, []);
+
+  const getSchool = async (stateId, cityId) => {
+    setLoading(true);
+    const res = await instance({
+      url: `school/${stateId}/${cityId}`,
+      method: "GET",
+      headers: {
+        Authorization: `${Cookies.get("accessToken")}`,
+      },
+    });
+    console.log(res.data.message);
+    const rows = res.data.message.map((item, index) => {
+      return {
+        id: index,
+        SchoolName: item.school_name,
+        State: item.school_addresses[0].fk_state.state,
+        Address: item.school_addresses[0].address,
+      };
+    });
+    setSchoolRow(rows);
+    setLoading(false);
+  };
+
+  const getSchoolByState = async (id) => {
+    setLoading(true);
+
+    const res = await instance({
+      url: `school/${id}`,
+      method: "GET",
+      headers: {
+        Authorization: `${Cookies.get("accessToken")}`,
+      },
+    });
+    console.log(res.data.message);
+    const rows = res.data.message.map((item, index) => {
+      return {
+        id: index,
+        SchoolName: item.school_name,
+        State: item.school_addresses[0].fk_state.state,
+        Address: item.school_addresses[0].address,
+      };
+    });
+    setSchoolRow(rows);
+    setLoading(false);
+  };
+
+  const handleOrderProcessingForm = async (value, type) => {
+    switch (type) {
+      case "select_state":
+        getCity(value.fk_state_id);
+        getSchoolByState(value.fk_state_id);
+        setStateAndCity({ ...stateAndCity, state: value.fk_state_id });
+        break;
+      case "select_city":
+        setStateAndCity({ ...stateAndCity, city: value.id });
+        break;
+      default:
+        break;
+    }
+  };
+
+  const getCity = async (Id) => {
+    setLoading(true);
+    const res = await instance({
+      url: `location/city/${Id}`,
+      method: "GET",
+      headers: {
+        Authorization: `${Cookies.get("accessToken")}`,
+      },
+    });
+    setCity(res.data.message);
+    setLoading(false);
+  };
+
+  useLayoutEffect(() => {
+    const getStates = async () => {
+      const res = await instance({
+        url: "location/state/get/states",
+        method: "GET",
+        headers: {
+          Authorization: `${Cookies.get("accessToken")}`,
+        },
+      });
+
+      setStates(res.data.message);
+    };
+
+    const getSchoolData = async () => {
+      const res = await instance({
+        url: "school/b4c27059-8c42-4d35-8fe7-8dedffbfe641/294de4f3-0977-4482-b0de-2cfeaa827ba4",
+        method: "GET",
+        headers: {
+          Authorization: `${Cookies.get("accessToken")}`,
+        },
+      });
+      // console.log(res.data.message);
+      const rows = res.data.message.map((item, index) => {
+        return {
+          id: index + 1,
+          SchoolName: item.school_name,
+          State: item.school_addresses[0].fk_state.state,
+          Address: item.school_addresses[0].address,
+        };
+      });
+      setSchoolRow(rows);
+    };
+    getStates();
+
+    getSchoolData();
+  }, []);
+
   return (
     <div className="flex bg-[#111322]">
+      <Backdrop
+        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={loading}
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
       <Sidebar sidebarCollapsed={sidebarCollapsed} highLight={highLight} />
 
       <div>
@@ -88,45 +203,53 @@ const ManageSchool = () => {
         />
         <div className="min-h-[100vh] pt-[2vh] max-h-full bg-[#141728]">
           <div className=" sm:px-8 px-2 py-3 bg-[#141728]">
-            <div className="grid grid-cols-2 grid-rows-2 md:flex md:justify-start md:items-center px-6 mb-20 py-3 mt-6 gap-6 rounded-md bg-slate-600">
+            <div className="grid grid-cols-2 grid-rows-2 md:flex md:justify-around md:items-center px-6 mb-20 py-3 mt-6 gap-6 rounded-md bg-slate-600">
               <div className="flex flex-col gap-2 w-full md:w-[20vw]">
                 <label className="text-gray-100">State</label>
-                {/* <select className="rounded-md px-4 py-2 focus:outline-0">
-                  <option value="">option 1</option>
-                  <option value="">option 1</option>
-                  <option value="">option 1</option>
-                </select> */}
+
                 <SearchDropDown
                   label={"Select State"}
+                  handleOrderProcessingForm={handleOrderProcessingForm}
                   color={"rgb(243, 244, 246)"}
+                  data={states}
+                  Name="select_state"
                 />
               </div>
               <div className=" flex flex-col gap-2 w-full md:w-[20vw]">
                 <label className="text-gray-100">City</label>
-                {/* <select className="rounded-md px-4 py-2 focus:outline-0">
-                  <option value="">option 1</option>
-                  <option value="">option 1</option>
-                  <option value="">option 1</option>
-                </select> */}
+
                 <SearchDropDown
                   label={"Select City"}
+                  handleOrderProcessingForm={handleOrderProcessingForm}
                   color={"rgb(243, 244, 246)"}
+                  disable={city.disable}
+                  data={city}
+                  Name="select_city"
                 />
               </div>
-              <button className="w-full md:w-[20vw] col-span-2 md:ml-10 focus:outline-0 mt-8 text-gray-300 hover:shadow-md h-10 bg-slate-500 transition-all duration-200 ease-linear active:bg-slate-700 active:scale-95 rounded-md">
+              {/* <button className="w-full md:w-[20vw] col-span-2 md:ml-10 focus:outline-0 mt-8 text-gray-300 hover:shadow-md h-10 bg-slate-500 transition-all duration-200 ease-linear active:bg-slate-700 active:scale-95 rounded-md">
                 Search School
-              </button>
+              </button> */}
+              <div
+                onClick={() => {
+                  if (stateAndCity.state && stateAndCity.city) {
+                    getSchool(stateAndCity.state, stateAndCity.city);
+                  }
+                }}
+              >
+                <BasicButton text={"Search School"} />
+              </div>
             </div>
             <Link to="/addschool">
-              <div className=" absolute right-8 md:top-[13.3rem] top-[19.5rem]">
+              {/* <div className=" absolute right-8 md:top-[13.3rem] top-[19.5rem]">
                 <button className="w-[10rem] relative col-span-2 focus:outline-0 mt-8 text-gray-300 hover:shadow-md h-10 bg-slate-500 transition-all duration-200 ease-linear active:bg-slate-700 active:scale-95 rounded-md">
                   <Add className="absolute left-3 bottom-[0.6rem]" /> Add School
                 </button>
-              </div>
+              </div> */}
             </Link>
 
             <DataTable
-              rows={ManageSchoolRows}
+              rows={schoolRow}
               checkbox={false}
               Tablecolumns={Tablecolumns}
               tableName="ManageSchool"

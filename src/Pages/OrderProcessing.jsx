@@ -11,6 +11,8 @@ import DatePicker from "../Components/Material/Date";
 import { Backdrop, CircularProgress, Collapse, TextField } from "@mui/material";
 import Snackbars from "../Components/Material/SnackBar";
 import SwipeableTemporaryDrawer from "../Components/Material/MaterialSidebar";
+import { protectedResources } from "../util/msConfig";
+import { getToken } from "../util/msAuth";
 
 const OrderProcessing = () => {
   const [loading, setLoading] = useState(false);
@@ -118,6 +120,11 @@ const OrderProcessing = () => {
     onSubmit: async (values) => {
       setLoading(true);
       console.log(values);
+
+      formik.values.items = formik.values.items.filter(
+        (item) => !(Number(item.quantity) === 0)
+      );
+
       const res = await instance({
         url: "sales_data/createorder",
         method: "POST",
@@ -175,47 +182,102 @@ const OrderProcessing = () => {
 
   useLayoutEffect(() => {
     const getCustomerData = async () => {
-      const customerRes = await instance({
-        url: "sales_data/getcustomer",
-        method: "GET",
-        headers: {
-          Authorization: Cookies.get("accessToken"),
-        },
-      });
-      // console.log(customerRes.data.message);
-      setCustomerData(customerRes.data.message);
+      if (Cookies.get("ms-auth")) {
+        const accessToken = await getToken(
+          protectedResources.apiTodoList.scopes.read
+        );
+        const customerRes = await instance({
+          url: "sales_data/getcustomer",
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        });
+
+        setCustomerData(customerRes.data.message);
+      } else {
+        const customerRes = await instance({
+          url: "sales_data/getcustomer",
+          method: "GET",
+          headers: {
+            Authorization: `${Cookies.get("accessToken")}`,
+          },
+        });
+        setCustomerData(customerRes.data.message);
+      }
     };
     const getSchoolData = async () => {
-      const schoolRes = await instance({
-        url: "school/get/allschools",
-        method: "GET",
-        headers: {
-          Authorization: Cookies.get("accessToken"),
-        },
-      });
-      setSchoolData(schoolRes.data.message);
+      if (Cookies.get("ms-auth")) {
+        const accessToken = await getToken(
+          protectedResources.apiTodoList.scopes.read
+        );
+        const schoolRes = await instance({
+          url: "school/get/allschools",
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        });
+        setSchoolData(schoolRes.data.message);
+      } else {
+        const schoolRes = await instance({
+          url: "school/get/allschools",
+          method: "GET",
+          headers: {
+            Authorization: `${Cookies.get("accessToken")}`,
+          },
+        });
+        setSchoolData(schoolRes.data.message);
+      }
     };
     const getSubjectData = async () => {
-      const SubjectRes = await instance({
-        url: "subject/getsubjects",
-        method: "GET",
-        headers: {
-          Authorization: Cookies.get("accessToken"),
-        },
-      });
-
-      setSubjectData(SubjectRes.data.message);
+      if (Cookies.get("ms-auth")) {
+        const accessToken = await getToken(
+          protectedResources.apiTodoList.scopes.read
+        );
+        const SubjectRes = await instance({
+          url: "subject/getsubjects",
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        });
+        setSubjectData(SubjectRes.data.message);
+      } else {
+        const SubjectRes = await instance({
+          url: "subject/getsubjects",
+          method: "GET",
+          headers: {
+            Authorization: `${Cookies.get("accessToken")}`,
+          },
+        });
+        setSubjectData(SubjectRes.data.message);
+      }
     };
 
     const getTranspoterData = async () => {
-      const transpoterRes = await instance({
-        url: "transporter/get",
-        method: "GET",
-        headers: {
-          Authorization: Cookies.get("accessToken"),
-        },
-      });
-      setTranspoterData(transpoterRes.data.message);
+      if (Cookies.get("ms-auth")) {
+        const accessToken = await getToken(
+          protectedResources.apiTodoList.scopes.read
+        );
+        const transpoterRes = await instance({
+          url: "transporter/get",
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        });
+        setTranspoterData(transpoterRes.data.message);
+      } else {
+        const transpoterRes = await instance({
+          url: "transporter/get",
+          method: "GET",
+          headers: {
+            Authorization: Cookies.get("accessToken"),
+          },
+        });
+        setTranspoterData(transpoterRes.data.message);
+      }
     };
 
     getCustomerData();
@@ -652,6 +714,7 @@ const OrderProcessing = () => {
                     handleOrderProcessingForm={handleOrderProcessingForm}
                     lable={"Items Quantity"}
                     disable={value.item_quan}
+                    type={"number"}
                     variant={"standard"}
                     multiline={false}
                   />
