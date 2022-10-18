@@ -72,9 +72,9 @@ const OrderProcessing = () => {
       if (!formik.values.date) {
         errors.date = "Required";
       }
-      if (!formik.values.order_pref) {
-        errors.order_pref = "Required";
-      }
+      // if (!formik.values.order_pref) {
+      //   errors.order_pref = "Required";
+      // }
       if (!formik.values.school) {
         errors.school = "Required";
       }

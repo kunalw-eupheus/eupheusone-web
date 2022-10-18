@@ -26,6 +26,7 @@ import SchoolPunchIn from "./Pages/SchoolPunchIn";
 import OrderProcessing from "./Pages/OrderProcessing";
 import MyDocument from "./Components/PdfDocument";
 import ManageOrder from "./Pages/ManageOrder";
+import AOF from "./Pages/AOF";
 
 function App() {
   const isAuth = useSelector((state) => state.auth.user);
@@ -105,6 +106,7 @@ function App() {
             path="/pdf_view"
             element={isAuth || MsAuth ? <MyDocument /> : <Login />}
           />
+          <Route path="/aof" element={isAuth || MsAuth ? <AOF /> : <Login />} />
 
           {/* Admin */}
 

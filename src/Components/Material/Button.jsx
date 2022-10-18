@@ -12,7 +12,7 @@ export default function BasicButton({ text }) {
           color: "whitesmoke",
           backgroundColor: "rgb(100 116 139)",
           fontWeight: "800",
-          width: "100%",
+          // width: "100%",
         }}
       >
         {text}
