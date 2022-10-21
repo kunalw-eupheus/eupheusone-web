@@ -99,6 +99,8 @@ const SearchDropDown = ({
         case "select_city":
           return option.city;
           break;
+        // kys
+
         default:
           break;
       }

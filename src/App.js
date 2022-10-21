@@ -27,6 +27,7 @@ import OrderProcessing from "./Pages/OrderProcessing";
 import MyDocument from "./Components/PdfDocument";
 import ManageOrder from "./Pages/ManageOrder";
 import AOF from "./Pages/AOF";
+import KYS from "./Pages/KYS";
 
 function App() {
   const isAuth = useSelector((state) => state.auth.user);
@@ -107,6 +108,8 @@ function App() {
             element={isAuth || MsAuth ? <MyDocument /> : <Login />}
           />
           <Route path="/aof" element={isAuth || MsAuth ? <AOF /> : <Login />} />
+
+          <Route path="/kys" element={isAuth || MsAuth ? <KYS /> : <Login />} />
 
           {/* Admin */}
 

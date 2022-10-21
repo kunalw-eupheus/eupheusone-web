@@ -180,32 +180,60 @@ const OrderProcessing = () => {
     sidebarRef.current.openSidebar();
   };
 
-  useLayoutEffect(() => {
-    const getCustomerData = async () => {
-      if (Cookies.get("ms-auth")) {
-        const accessToken = await getToken(
-          protectedResources.apiTodoList.scopes.read
-        );
-        const customerRes = await instance({
-          url: "sales_data/getcustomer",
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        });
+  const getCustomerData = async () => {
+    setLoading(true);
+    if (Cookies.get("ms-auth")) {
+      const accessToken = await getToken(
+        protectedResources.apiTodoList.scopes.read
+      );
+      const customerRes = await instance({
+        url: "sales_data/getcustomer",
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
 
-        setCustomerData(customerRes.data.message);
-      } else {
-        const customerRes = await instance({
-          url: "sales_data/getcustomer",
-          method: "GET",
-          headers: {
-            Authorization: `${Cookies.get("accessToken")}`,
-          },
-        });
-        setCustomerData(customerRes.data.message);
-      }
-    };
+      setCustomerData(customerRes.data.message);
+    } else {
+      const customerRes = await instance({
+        url: "sales_data/getcustomer",
+        method: "GET",
+        headers: {
+          Authorization: `${Cookies.get("accessToken")}`,
+        },
+      });
+      setCustomerData(customerRes.data.message);
+    }
+    setLoading(false);
+  };
+
+  useLayoutEffect(() => {
+    // const getCustomerData = async () => {
+    //   if (Cookies.get("ms-auth")) {
+    //     const accessToken = await getToken(
+    //       protectedResources.apiTodoList.scopes.read
+    //     );
+    //     const customerRes = await instance({
+    //       url: "sales_data/getcustomer",
+    //       method: "GET",
+    //       headers: {
+    //         Authorization: `Bearer ${accessToken}`,
+    //       },
+    //     });
+
+    //     setCustomerData(customerRes.data.message);
+    //   } else {
+    //     const customerRes = await instance({
+    //       url: "sales_data/getcustomer",
+    //       method: "GET",
+    //       headers: {
+    //         Authorization: `${Cookies.get("accessToken")}`,
+    //       },
+    //     });
+    //     setCustomerData(customerRes.data.message);
+    //   }
+    // };
     const getSchoolData = async () => {
       if (Cookies.get("ms-auth")) {
         const accessToken = await getToken(
@@ -280,7 +308,7 @@ const OrderProcessing = () => {
       }
     };
 
-    getCustomerData();
+    // getCustomerData();
     getSchoolData();
     getSubjectData();
     getTranspoterData();
@@ -384,9 +412,27 @@ const OrderProcessing = () => {
     }
   };
 
+  const getSampleCustomers = async () => {
+    setLoading(true);
+    const customer = await instance({
+      url: "sales_data/get/sample_customer",
+      method: "GET",
+      headers: {
+        Authorization: Cookies.get("accessToken"),
+      },
+    });
+    setCustomerData(customer.data.message);
+    setLoading(false);
+  };
+
   const handleOrderProcessingForm = async (value, type) => {
     switch (type) {
       case "order_type":
+        if (value.order_type === "Sample") {
+          getSampleCustomers();
+        } else {
+          getCustomerData();
+        }
         formik.values.order_type = value.order_type;
         break;
       case "customer_name":
@@ -596,6 +642,7 @@ const OrderProcessing = () => {
                     handleOrderProcessingForm={handleOrderProcessingForm}
                     data={customerData}
                     Name="customer_name"
+                    disable={!formik.values.order_type}
                     label={"Customer Name"}
                     color={"rgb(243, 244, 246)"}
                   />

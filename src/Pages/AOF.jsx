@@ -4,17 +4,18 @@ import Navbar from "../Components/Navbar";
 import Sidebar from "../Components/Sidebar";
 import GoogleMap from "../Components/GoogleMap";
 import axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import Loader from "../Components/Loader";
 import SwipeableTemporaryDrawer from "../Components/Material/MaterialSidebar";
-// import { Map } from "@mui/icons-material";
-// import GMap from "../assets/map.png";
 import BasicButton from "../Components/Material/Button";
 import CustomizedSteppers from "../Components/Material/Stepper";
 import SearchDropDown from "../Components/SearchDropDown";
 import BasicTextFields from "../Components/Material/TextField";
 import DatePicker from "../Components/Material/Date";
+import { Fab, Tooltip } from "@mui/material";
+import { Add } from "@mui/icons-material";
+import RowRadioButtonsGroup from "../Components/Material/RowRadioButtonGroup";
 
 const AOF = () => {
   const [status, setStatus] = useState("Start Day");
@@ -29,8 +30,23 @@ const AOF = () => {
     step1: true,
     step2: false,
     step3: false,
+    step4: false,
   });
+  const [showTod, setShowTod] = useState(false);
   const sidebarRef = useRef();
+
+  const handleRadioButtons = (type, value) => {
+    switch (type) {
+      case "tod":
+        if (value === "yes") {
+          setShowTod(true);
+        }
+        break;
+
+      default:
+        break;
+    }
+  };
 
   const show = null;
   const temp = [];
@@ -45,6 +61,9 @@ const AOF = () => {
     }
     if (steps.step3) {
       return 2;
+    }
+    if (steps.step4) {
+      return 3;
     }
   };
 
@@ -206,7 +225,7 @@ const AOF = () => {
         {loading ? <Loader /> : null}
 
         <Sidebar
-          highLight={""}
+          highLight={"aof"}
           sidebarCollapsed={sidebarCollapsed}
           show={show}
         />
@@ -216,7 +235,7 @@ const AOF = () => {
             ref={sidebarRef}
             sidebarCollapsed={sidebarCollapsed}
             show={show}
-            highLight={""}
+            highLight={"aof"}
           />
         </div>
         <div
@@ -238,82 +257,82 @@ const AOF = () => {
             </div>
           ) : (
             <div className="min-h-[90vh] relative flex w-full justify-center items-start gap-4 bg-[#141728]">
-              <h1 className="text-gray-100 text-2xl font-semibold absolute top-[2rem] left-[2rem]">
+              <h1 className="text-gray-100 md:text-2xl text-base font-semibold absolute top-[2rem] left-[2rem]">
                 Account Opening Form
               </h1>
               <div className="w-full flex flex-col gap-4 items-center mt-[7rem]">
                 <CustomizedSteppers
                   activeStep={calActiceStep()}
-                  steps={["", "", ""]}
+                  steps={["", "", "", ""]}
                 />
                 {/* step 1 */}
                 {steps.step1 ? (
                   <div className="flex flex-col gap-4 items-start w-[90%] px-6 bg-slate-600 rounded-md py-6 mb-[5rem]">
                     <div className="grid sm:grid-rows-5 sm:grid-cols-3 grid-rows-[15] grid-cols-1 w-full mt-6 gap-6 rounded-md bg-slate-600">
                       <BasicTextFields
-                        lable={"Name Of Party/School"}
+                        lable={"Name Of Party/School *"}
                         variant={"standard"}
                         multiline={false}
                       />
 
                       <SearchDropDown
                         Name={"school_name"}
-                        label={"Select School"}
+                        label={"Select Status *"}
                         color={"rgb(243, 244, 246)"}
                       />
                       <BasicTextFields
-                        lable={"Address"}
+                        lable={"Address *"}
                         variant={"standard"}
                         multiline={false}
                       />
                       <BasicTextFields
-                        lable={"City"}
+                        lable={"State *"}
                         variant={"standard"}
                         multiline={false}
                       />
                       <BasicTextFields
-                        lable={"State"}
+                        lable={"City *"}
                         variant={"standard"}
                         multiline={false}
                       />
                       <BasicTextFields
-                        lable={"Pin Code"}
+                        lable={"Pin Code *"}
                         variant={"standard"}
                         type={"number"}
                         multiline={false}
                       />
                       <BasicTextFields
-                        lable={"Phone"}
+                        lable={"Mobile *"}
                         type={"number"}
                         variant={"standard"}
                         multiline={false}
                       />
                       <BasicTextFields
-                        lable={"Mobile"}
+                        lable={"Phone *"}
                         type={"number"}
                         variant={"standard"}
                         multiline={false}
                       />
                       <BasicTextFields
-                        lable={"E-Mail"}
+                        lable={"E-Mail *"}
                         variant={"standard"}
                         multiline={false}
                       />
                       <div className="sm:col-span-2">
                         <BasicTextFields
-                          lable={"Firm/ Company/Trust Registration Number"}
+                          lable={"Firm/ Company/Trust Registration Number *"}
                           variant={"standard"}
                           multiline={false}
                         />
                       </div>
                       <DatePicker label={"Dated"} />
                       <BasicTextFields
-                        lable={"PAN NO"}
+                        lable={"PAN NO *"}
                         variant={"standard"}
                         multiline={false}
                       />
                       <BasicTextFields
-                        lable={"GST NO"}
+                        lable={"GST NO *"}
                         variant={"standard"}
                         multiline={false}
                       />
@@ -344,43 +363,45 @@ const AOF = () => {
                     <div className="grid sm:grid-rows-3 sm:grid-cols-3 grid-rows-[7] grid-cols-1 w-full mt-6 gap-6 rounded-md bg-slate-600">
                       <div className="sm:col-span-2">
                         <BasicTextFields
-                          lable={"Name of Proprietor/Partner/Director/Trustee"}
+                          lable={
+                            "Name of Proprietor/Partner/Director/Trustee *"
+                          }
                           variant={"standard"}
                           multiline={false}
                         />
                       </div>
 
                       <BasicTextFields
-                        lable={"PAN NO"}
+                        lable={"PAN NO *"}
                         variant={"standard"}
                         multiline={false}
                       />
                       <BasicTextFields
-                        lable={"Address"}
+                        lable={"Address *"}
                         variant={"standard"}
                         multiline={false}
                       />
                       <BasicTextFields
-                        lable={"Pin Code"}
+                        lable={"Pin Code *"}
                         type={"number"}
                         variant={"standard"}
                         multiline={false}
                       />
 
                       <BasicTextFields
-                        lable={"Phone"}
+                        lable={"Phone *"}
                         type={"number"}
                         variant={"standard"}
                         multiline={false}
                       />
                       <BasicTextFields
-                        lable={"Mobile"}
+                        lable={"Mobile *"}
                         type={"number"}
                         variant={"standard"}
                         multiline={false}
                       />
                       <BasicTextFields
-                        lable={"E-Mail"}
+                        lable={"E-Mail *"}
                         variant={"standard"}
                         multiline={false}
                       />
@@ -391,8 +412,14 @@ const AOF = () => {
                         has credit facilities:
                       </h1>
                       <div onClick={() => setSuppliers(suppliers + 1)}>
-                        <BasicButton text={"Add More"} />
+                        {/* <BasicButton text={"Add More"} /> */}
+                        <Tooltip title="Add More Names">
+                          <Fab color={"red"} size="small" aria-label="add">
+                            <Add />
+                          </Fab>
+                        </Tooltip>
                       </div>
+
                       <ol className="list-decimal">{handleForm()}</ol>
                     </div>
                     <div
@@ -415,14 +442,16 @@ const AOF = () => {
                     <div className="grid sm:grid-rows-2 sm:grid-cols-3 grid-rows-4 grid-cols-1 w-full mt-6 gap-6 rounded-md bg-slate-600">
                       <div className="sm:col-span-2">
                         <BasicTextFields
-                          lable={"Name and address of the party’s main bankers"}
+                          lable={
+                            "Name and address of the party’s main bankers *"
+                          }
                           variant={"standard"}
                           multiline={false}
                         />
                       </div>
 
                       <BasicTextFields
-                        lable={"Account Number"}
+                        lable={"Account Number *"}
                         variant={"standard"}
                         type={"number"}
                         multiline={false}
@@ -432,7 +461,7 @@ const AOF = () => {
                         color={"rgb(243, 244, 246)"}
                       />
                       <BasicTextFields
-                        lable={"IFSC"}
+                        lable={"IFSC *"}
                         type={"number"}
                         variant={"standard"}
                         multiline={false}
@@ -440,16 +469,100 @@ const AOF = () => {
                     </div>
                     <div className="w-full flex flex-col my-2 gap-2">
                       <h1 className="font-semibold text-gray-100">
-                        Detail of Cheques:
+                        Detail of Cheques * :
                       </h1>
                       <div onClick={() => setCheque(cheque + 1)}>
-                        <BasicButton text={"Add More"} />
+                        {/* <BasicButton text={"Add More"} /> */}
+                        <Tooltip title="Add More Cheque">
+                          <Fab color={"red"} size="small" aria-label="add">
+                            <Add />
+                          </Fab>
+                        </Tooltip>
                       </div>
                       <ol className="list-decimal">{handleCheques()}</ol>
                     </div>
-                    <div className="mt-3">
-                      <BasicButton text={"Submit"} />
+                    <div
+                      onClick={() => {
+                        setSteps({
+                          step1: false,
+                          step2: false,
+                          step3: false,
+                          step4: true,
+                        });
+                        window.scroll({
+                          top: 0,
+                          behavior: "smooth",
+                        });
+                      }}
+                      className="mt-3"
+                    >
+                      <BasicButton text={"Next"} />
                     </div>
+                  </div>
+                ) : null}
+                {/* step 4 */}
+                {steps.step4 ? (
+                  <div className="flex flex-col gap-4  w-[50%] px-6 bg-slate-600 rounded-md py-6 mb-[5rem] justify-center items-start">
+                    <div className="flex flex-col justify-center items-start w-full mt-6 gap-6 rounded-md bg-slate-600">
+                      {/* <div className="sm:col-span-2"> */}
+                      <div className="flex gap-4 items-center">
+                        <h1 className="text-gray-100 font-semibold">CASH :</h1>
+                        <RowRadioButtonsGroup
+                          handleRadioButtons={handleRadioButtons}
+                          value={[
+                            { label: "Yes", value: "yes" },
+                            { label: "No", value: "no" },
+                          ]}
+                          name={"tod"}
+
+                          // heading={"Type Of Discount"}
+                        />
+                      </div>
+                      {/* </div> */}
+                      {showTod ? (
+                        <>
+                          <div className="flex gap-4 items-center">
+                            <h1 className="text-gray-100 font-semibold">
+                              Applicable :
+                            </h1>
+                            <RowRadioButtonsGroup
+                              handleRadioButtons={handleRadioButtons}
+                              value={[
+                                { label: "Gross", value: "gross" },
+                                { label: "Net", value: "net" },
+                              ]}
+                              name={"applicable"}
+                              // heading={"Applicable"}
+                            />
+                          </div>
+
+                          <SearchDropDown
+                            label={"Select Publisher"}
+                            color={"rgb(243, 244, 246)"}
+                          />
+                          <SearchDropDown
+                            label={"Select Series"}
+                            color={"rgb(243, 244, 246)"}
+                          />
+                          <div className="flex w-full justify-around gap-4">
+                            <SearchDropDown
+                              label={"Select Series"}
+                              color={"rgb(243, 244, 246)"}
+                            />
+                            <SearchDropDown
+                              label={"Select Title"}
+                              color={"rgb(243, 244, 246)"}
+                            />
+                          </div>
+                        </>
+                      ) : null}
+                    </div>
+
+                    {showTod ? (
+                      <div className="mt-3">
+                        <BasicButton text={"Submit"} />
+                      </div>
+                    ) : null}
                   </div>
                 ) : null}
               </div>

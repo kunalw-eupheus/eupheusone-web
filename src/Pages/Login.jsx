@@ -109,7 +109,11 @@ const Login = () => {
                   <hr className="mt-6 border-b-1 border-blueGray-300" />
                 </div>
                 <div className="flex-auto px-4 lg:px-10 py-10 pt-0">
-                  <Snackbars ref={snackbarRef} errMessage={errMessage} />
+                  <Snackbars
+                    snackbarErrStatus={true}
+                    ref={snackbarRef}
+                    errMessage={errMessage}
+                  />
                   <form onSubmit={handleLogin}>
                     <div className="relative w-full mb-3">
                       <label

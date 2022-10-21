@@ -1,193 +1,72 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useLayoutEffect, useRef } from "react";
 import { useState } from "react";
 import Navbar from "../Components/Navbar";
 import Sidebar from "../Components/Sidebar";
-import { Circle } from "@mui/icons-material";
+
 import Cookies from "js-cookie";
-import { useNavigate } from "react-router-dom";
-import Loader from "../Components/Loader";
-import SearchDropDown from "../Components/SearchDropDown";
-import { CancelOutlined, CheckOutlined } from "@mui/icons-material";
-import axios from "axios";
 import SwipeableTemporaryDrawer from "../Components/Material/MaterialSidebar";
+import BasicButton from "../Components/Material/Button";
+import CustomizedSteppers from "../Components/Material/Stepper";
+import SearchDropDown from "../Components/SearchDropDown";
+import BasicTextFields from "../Components/Material/TextField";
+import { Backdrop, CircularProgress } from "@mui/material";
+import instance from "../Instance";
 
 const AddSchool = () => {
-  const schoolDetails = {
-    user_id: Cookies.get("id"),
-    school_name: "",
-    aff_code: "",
-    board: "",
-    category: "",
-  };
-
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
-  const [error, setError] = useState(false);
-  const [countryData, setCountryData] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [categoryData, setCategoryData] = useState({});
-  const [boardData, setBoardData] = useState([]);
-  const [stateData, setStateData] = useState([]);
-  const [cityData, setCityData] = useState([]);
-  const [schoolInfo, setSchoolInfo] = useState(schoolDetails);
-  const [highLight, setHighLight] = useState("");
-  const navigate = useNavigate();
-  const [step1, setStep1] = useState(true);
-  const [step2, setStep2] = useState(false);
-  const [step3, setStep3] = useState(false);
-  const [response, setResponse] = useState("");
-  const [show, setShow] = useState(false);
+  const [boards, setBoards] = useState(null);
+  const [category, setCategory] = useState(null);
+  const [steps, setSteps] = useState({
+    step1: true,
+    step2: false,
+    step3: false,
+  });
   const sidebarRef = useRef();
 
-  const navInfo = {
-    title: "Form",
-    details: ["Manage School", " / Create"],
-  };
+  const show = null;
+  const temp = [];
 
-  console.log(schoolInfo);
-
-  const createSchool = async () => {
-    setLoading(true);
-    const res = await axios.post(
-      "http://192.168.7.181:5070/user/school/create",
-      schoolInfo,
-      {
-        headers: {
-          authorization: `${Cookies.get("accessToken")}`,
-        },
-      }
-    );
-    console.log(res.data);
-    setLoading(false);
-    if (res.data.errors) {
-      showResponse(res.data.errors[0].message);
-    } else {
-      showResponse(res.data.message);
+  const calActiceStep = () => {
+    if (steps.step1) {
+      return 0;
     }
-    setShow(true);
+    if (steps.step2) {
+      return 1;
+    }
+    if (steps.step3) {
+      return 2;
+    }
   };
 
-  const getState = async (id) => {
-    const state = await axios.get(
-      `http://192.168.7.181:5070/user/location/state/${id}`,
-      {
+  useLayoutEffect(() => {
+    const getBoards = async () => {
+      const boards = await instance({
+        url: "school/board/get/findAll",
+        method: "GET",
         headers: {
-          authorization: `${Cookies.get("accessToken")}`,
+          Authorization: Cookies.get("accessToken"),
         },
-      }
-    );
-    setStateData(state.data);
-  };
-  const getCity = async (id) => {
-    const city = await axios.get(
-      `http://192.168.7.181:5070/user/location/city/${id}`,
-      {
+      });
+      setBoards(boards.data.message);
+    };
+    const getCategory = async () => {
+      const category = await instance({
+        url: "school/category/get/findAll",
+        method: "GET",
         headers: {
-          authorization: `${Cookies.get("accessToken")}`,
+          Authorization: Cookies.get("accessToken"),
         },
-      }
-    );
-    setCityData(city.data);
-  };
-
-  // fetching data
-  useEffect(() => {
-    const getCountry = async () => {
-      const Country = await axios.get(
-        "http://192.168.7.181:5070/user/location/country",
-        {
-          headers: {
-            authorization: `${Cookies.get("accessToken")}`,
-          },
-        }
-      );
-
-      setCountryData(Country.data);
+      });
+      setCategory(category.data.message);
     };
-    const getBoard = async () => {
-      const board = await axios.get(
-        "http://192.168.7.181:5070/user/school/api/board",
-        {
-          headers: {
-            authorization: `${Cookies.get("accessToken")}`,
-          },
-        }
-      );
-      setBoardData(board.data);
-    };
-    const getCategoryData = async (req, res) => {
-      const category = await axios.get(
-        "http://192.168.7.181:5070/user/school/api/category",
-        {
-          headers: {
-            authorization: `${Cookies.get("accessToken")}`,
-          },
-        }
-      );
-      console.log(category.data);
-      setCategoryData(category.data);
-    };
-
-    getCountry();
-    getBoard();
-    getCategoryData();
+    getBoards();
+    getCategory();
   }, []);
 
-  const showResponse = (res) => {
-    setResponse(res);
-    setTimeout(() => {
-      setShow(false);
-      if (res === "success: School create successfully") {
-        navigate("/manageSchool");
-      }
-    }, 1500);
-  };
-
-  const getStateAndCity = (id, type) => {
-    if (type === "state") {
-      getState(id);
-      setSchoolInfo((prev) => {
-        return { ...prev, country: id };
-      });
-    } else if (type === "city") {
-      getCity(id);
-      setSchoolInfo((prev) => {
-        return { ...prev, state: id };
-      });
-    } else if (type === "setCityId") {
-      setSchoolInfo((prev) => {
-        return { ...prev, city: id };
-      });
-    } else if (type === "setBoardId") {
-      setSchoolInfo((prev) => {
-        return { ...prev, board: id };
-      });
-    } else if (type === "setCategoryId") {
-      setSchoolInfo((prev) => {
-        return { ...prev, category: id };
-      });
-    }
-  };
-
-  const handleSchoolInfo = (e) => {
-    e.preventDefault();
-    setSchoolInfo((prev) => {
-      return { ...prev, [e.target.name]: e.target.value };
-    });
-  };
-
-  const handleForm = (e) => {
-    e.preventDefault();
-    if (e.target.name === "step1") {
-      setStep1(false);
-      setStep2(true);
-      setStep3(false);
-    } else if (e.target.name === "step2") {
-      setStep1(false);
-      setStep2(false);
-      setStep3(true);
-    } else if (e.target.name === "Cancel") {
-      navigate("/manageSchool");
-    }
+  const navInfo = {
+    title: "AOF",
+    details: ["Home", "/New School"],
   };
 
   const handleSidebarCollapsed = () => {
@@ -205,265 +84,190 @@ const AddSchool = () => {
     };
     window.addEventListener("resize", handleWidth);
     handleWidth();
+    window.scroll(0, 0);
+
     return () => {
       window.removeEventListener("resize", handleWidth);
     };
   }, []);
   return (
     <>
-      {loading ? <Loader /> : null}
-      <div className="flex bg-[#111322]">
-        {/* notification */}
-        <span
-          className={`transition-all z-50 ${
-            response === "success: School create successfully"
-              ? "bg-green-500"
-              : "bg-red-600"
-          } absolute right-1 md:right-[2rem]  ${
-            show
-              ? "visible opacity-100 text-white  px-8 rounded-md py-4"
-              : "invisible opacity-0"
-          } duration-300 ease-linear `}
+      <div className="flex w-[100%] min-h-[100vh]">
+        <Backdrop
+          sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+          open={loading}
         >
-          {response === "success: School create successfully" ? (
-            <CheckOutlined className="mr-2 mb-1 !text-3xl" />
-          ) : (
-            <CancelOutlined className="mr-2 mb-1 !text-3xl" />
-          )}
-          {response}
-        </span>
+          <CircularProgress color="inherit" />
+        </Backdrop>
+
+        <Sidebar
+          highLight={"aof"}
+          sidebarCollapsed={sidebarCollapsed}
+          show={show}
+        />
 
         <div>
           <SwipeableTemporaryDrawer
             ref={sidebarRef}
             sidebarCollapsed={sidebarCollapsed}
             show={show}
-            highLight={highLight}
+            highLight={"aof"}
           />
         </div>
-
-        <Sidebar
-          sidebarCollapsed={sidebarCollapsed}
-          show={null}
-          highLight={highLight}
-        />
-
         <div
-          className={`flex flex-col w-[100vw] lg:w-[83vw] lg:ml-[18vw] ${
-            sidebarCollapsed ? null : "md:ml-[30vw] ml-[60vw]"
+          className={`flex flex-col w-[100vw] relative transition-all ease-linear duration-300 lg:w-[83vw] lg:ml-[18vw] ${
+            window.innerWidth < 1024 ? null : "md:ml-[30vw] ml-[85vw]"
           } `}
         >
           <Navbar
             handleSidebarCollapsed={handleSidebarCollapsed}
             info={navInfo}
           />
-          <div className="min-h-[100vh] pt-[2vh] max-h-full bg-[#141728]">
-            <div className=" px-8 py-3 bg-[#141728]">
-              <div className="flex justify-center">
-                <div className="w-fit relative">
-                  <hr className=" border-t-2 border-t-slate-600 w-[15rem] md:w-[23rem]" />
-                  <Circle
-                    className={`!text-slate-600 absolute -top-[0.7rem] ${
-                      step1 ? "-left-1" : null
-                    } ${step2 ? "md:left-[11rem] left-[7rem]" : null} ${
-                      step3 ? "-right-1" : null
-                    } `}
-                  />
-                </div>
-              </div>
-              {/* Step 1 */}
-              {step1 ? (
-                <>
-                  <div className="flex flex-col px-6 py-6 mt-6 gap-6 rounded-md bg-slate-600">
-                    <h1 className=" text-white text-3xl">Add New School</h1>
-                    <div className="flex flex-col gap-1">
-                      <input
-                        onChange={handleSchoolInfo}
-                        type="text"
-                        name="school_name"
-                        placeholder="School Name"
-                        className=" w-2/3 placeholder:text-[#f3f4f6] text-[#f3f4f6] py-2 outline-0 bg-slate-600 border-b-2 border-b-black"
-                      />
-                      <span className=" text-xs text-red-500">Required</span>
-                    </div>
 
-                    <div className="flex flex-col gap-1">
-                      <input
-                        onChange={handleSchoolInfo}
-                        type="text"
-                        name="aff_code"
-                        placeholder="Affiliate Code"
-                        className=" w-2/3 placeholder:text-[#f3f4f6] text-[#f3f4f6] py-2 outline-0 bg-slate-600 border-b-2 border-b-black"
-                      />
-                      <span className=" text-xs text-red-500">Required</span>
-                    </div>
-                    <div className="w-2/3">
-                      <SearchDropDown
-                        data={boardData}
-                        label={"Select Board"}
-                        getStateAndCity={getStateAndCity}
-                        color={"rgb(243, 244, 246)"}
-                        Name={"board_name"}
-                      />
-                      <span className=" text-xs text-red-500">Required</span>
-                    </div>
-                    <div className="w-2/3">
-                      <SearchDropDown
-                        data={categoryData}
-                        Name={"category"}
-                        getStateAndCity={getStateAndCity}
-                        color={"rgb(243, 244, 246)"}
-                        label={"Select Category"}
-                      />
-                      <span className=" text-xs text-red-500">Required</span>
-                    </div>
+          <div className="min-h-[90vh] relative flex w-full justify-center items-start gap-4 bg-[#141728]">
+            <h1 className="text-gray-100 md:text-2xl text-base font-semibold absolute top-[2rem] left-[2rem]">
+              Add New School
+            </h1>
+            <div className="w-full flex flex-col gap-4 items-center mt-[7rem]">
+              <CustomizedSteppers
+                activeStep={calActiceStep()}
+                steps={["Basic Details", "Contact Details", "Address Details"]}
+              />
+              {/* step 1 */}
+              {steps.step1 ? (
+                <div className="flex flex-col gap-4 items-start w-[90%] px-6 bg-slate-600 rounded-md py-6 mb-[5rem]">
+                  <div className="grid sm:grid-rows-2 sm:grid-cols-2 grid-rows-4 grid-cols-1 w-full mt-6 gap-6 rounded-md bg-slate-600">
+                    <BasicTextFields
+                      lable={"Enter School Name *"}
+                      variant={"standard"}
+                      multiline={false}
+                    />
+                    <BasicTextFields
+                      lable={"Enter Affiliate Code *"}
+                      variant={"standard"}
+                      multiline={false}
+                    />
+
+                    <SearchDropDown
+                      Name={"board_name"}
+                      label={"Select Board *"}
+                      data={boards}
+                      color={"rgb(243, 244, 246)"}
+                    />
+                    <SearchDropDown
+                      Name={"category"}
+                      data={category}
+                      label={"Select Category *"}
+                      color={"rgb(243, 244, 246)"}
+                    />
                   </div>
-                  <div className="flex gap-3 mt-6">
-                    <button
-                      name="step1"
-                      onClick={handleForm}
-                      className=" bg-slate-600 active:bg-slate-700 active:scale-95 rounded-md text-white px-10 py-2 hover:shadow-2xl"
-                    >
-                      Next
-                    </button>
-                    <button
-                      name="Cancel"
-                      onClick={handleForm}
-                      className=" bg-slate-600 active:bg-slate-700 active:scale-95 rounded-md text-white px-8 py-2 hover:shadow-2xl"
-                    >
-                      Cancel
-                    </button>
+                  <div
+                    className="mt-3"
+                    onClick={() => {
+                      setSteps({ step1: false, step2: true, step3: false });
+                      window.scroll({
+                        top: 0,
+                        behavior: "smooth",
+                      });
+                    }}
+                  >
+                    <BasicButton text={"Next"} />
                   </div>
-                </>
+                </div>
               ) : null}
-              {/* Step 2 */}
-              {step2 ? (
-                <>
-                  <div className="flex flex-col px-6 py-6 mt-6 gap-6 rounded-md bg-slate-600">
-                    <h1 className=" text-white text-3xl">
-                      Add Contact Details
-                    </h1>
-                    <input
-                      type="text"
-                      name="pName"
-                      onChange={handleSchoolInfo}
-                      placeholder="Name"
-                      className=" w-2/3 placeholder:text-[#f3f4f6] text-white py-2 outline-0 bg-slate-600 border-b-2 border-b-black"
+              {/* step 2 */}
+              {steps.step2 ? (
+                <div className="flex flex-col gap-4 items-start w-[90%] px-6 bg-slate-600 rounded-md py-6 mb-[5rem]">
+                  <div className="grid sm:grid-rows-2 sm:grid-cols-3 grid-rows-5 grid-cols-1 w-full mt-6 gap-6 rounded-md bg-slate-600">
+                    <BasicTextFields
+                      lable={"Enter Name *"}
+                      variant={"standard"}
+                      multiline={false}
                     />
-                    <input
-                      type="text"
-                      onChange={handleSchoolInfo}
-                      name="pEmail"
-                      placeholder="Email"
-                      className=" w-2/3 placeholder:text-[#f3f4f6] text-white py-2 outline-0 bg-slate-600 border-b-2 border-b-black"
+                    <BasicTextFields
+                      lable={"Enter Email *"}
+                      variant={"standard"}
+                      multiline={false}
                     />
-                    <input
-                      type="text"
-                      name="pPhone"
-                      onChange={handleSchoolInfo}
-                      placeholder="Phone"
-                      className=" w-2/3 placeholder:text-[#f3f4f6] text-white py-2 outline-0 bg-slate-600 border-b-2 border-b-black"
+                    <BasicTextFields
+                      lable={"Enter Phone *"}
+                      type={"number"}
+                      variant={"standard"}
+                      multiline={false}
                     />
-                    <input
-                      type="text"
-                      name="web"
-                      onChange={handleSchoolInfo}
-                      placeholder="Website"
-                      className=" w-2/3 placeholder:text-[#f3f4f6] text-white py-2 outline-0 bg-slate-600 border-b-2 border-b-black"
+
+                    <BasicTextFields
+                      lable={"Enter Website *"}
+                      variant={"standard"}
+                      multiline={false}
                     />
-                    <input
-                      type="text"
-                      name="designation"
-                      onChange={handleSchoolInfo}
-                      placeholder="Designation"
-                      className=" w-2/3 placeholder:text-[#f3f4f6] text-white py-2 outline-0 bg-slate-600 border-b-2 border-b-black"
+                    <BasicTextFields
+                      lable={"Enter Designation *"}
+                      variant={"standard"}
+                      multiline={false}
                     />
                   </div>
-                  <div className="flex gap-3 mt-6">
-                    <button
-                      name="step2"
-                      onClick={handleForm}
-                      className=" bg-slate-600 active:bg-slate-700 active:scale-95 rounded-md text-white px-10 py-2 hover:shadow-2xl"
-                    >
-                      Next
-                    </button>
-                    <button
-                      name="Cancel"
-                      onClick={handleForm}
-                      className=" bg-slate-600 active:bg-slate-700 active:scale-95 rounded-md text-white px-8 py-2 hover:shadow-2xl"
-                    >
-                      Cancel
-                    </button>
+
+                  <div
+                    onClick={() => {
+                      setSteps({ step1: false, step2: false, step3: true });
+                      window.scroll({
+                        top: 0,
+                        behavior: "smooth",
+                      });
+                    }}
+                    className="mt-3"
+                  >
+                    <BasicButton text={"Next"} />
                   </div>
-                </>
+                </div>
               ) : null}
-              {/* Step 3 */}
-              {step3 ? (
-                <>
-                  <div className="flex flex-col px-6 py-6 mt-6 gap-6 rounded-md bg-slate-600">
-                    <h1 className=" text-white text-3xl">Add Address</h1>
-                    <div className="flex gap-16">
-                      <div className="w-1/3">
-                        <SearchDropDown
-                          data={countryData}
-                          Name={"country"}
-                          getStateAndCity={getStateAndCity}
-                          color={"rgb(243, 244, 246)"}
-                          label={"Select Country"}
-                        />
-                      </div>
-                      <div className="w-1/3">
-                        <SearchDropDown
-                          data={stateData}
-                          color={"rgb(243, 244, 246)"}
-                          Name={"state"}
-                          getStateAndCity={getStateAndCity}
-                          label={"Select State"}
-                        />
-                      </div>
-                    </div>
-                    {/* <div className="flex gap-16"> */}
-                    <div className="w-1/3">
-                      <SearchDropDown
-                        data={cityData}
-                        getStateAndCity={getStateAndCity}
-                        color={"rgb(243, 244, 246)"}
-                        Name={"city"}
-                        label={"Select City"}
-                      />
-                    </div>
-                    {/* </div> */}
-                    <input
-                      type="text"
-                      name="address"
-                      onChange={handleSchoolInfo}
-                      placeholder="Address"
-                      className=" w-2/3 placeholder:text-[#f3f4f6] text-white py-2 outline-0 bg-slate-600 border-b-2 border-b-black"
+              {/* step 3 */}
+              {steps.step3 ? (
+                <div className="flex flex-col gap-4 items-start w-[90%] px-6 bg-slate-600 rounded-md py-6 mb-[5rem]">
+                  <div className="grid sm:grid-rows-2 sm:grid-cols-3 grid-rows-4 grid-cols-1 w-full mt-6 gap-6 rounded-md bg-slate-600">
+                    <SearchDropDown
+                      label={"Select Country "}
+                      color={"rgb(243, 244, 246)"}
                     />
-                    <input
-                      type="number"
-                      name="pin"
-                      onChange={handleSchoolInfo}
-                      placeholder="Pincode"
-                      className=" w-2/3 placeholder:text-[#f3f4f6] text-white py-2 outline-0 bg-slate-600 border-b-2 border-b-black"
+                    <SearchDropDown
+                      label={"Select State "}
+                      color={"rgb(243, 244, 246)"}
+                    />
+                    <SearchDropDown
+                      label={"Select City "}
+                      color={"rgb(243, 244, 246)"}
+                    />
+                    <BasicTextFields
+                      lable={"Enter Address *"}
+                      variant={"standard"}
+                      multiline={false}
+                    />
+                    <BasicTextFields
+                      lable={"Enter Pin Code *"}
+                      variant={"standard"}
+                      type={"number"}
+                      multiline={false}
                     />
                   </div>
-                  <div className="flex gap-3 mt-6">
-                    <button
-                      onClick={createSchool}
-                      className=" bg-slate-600 active:bg-slate-700 active:scale-95 rounded-md text-white px-10 py-2 hover:shadow-2xl"
-                    >
-                      Add
-                    </button>
-                    <button
-                      onClick={handleForm}
-                      name="Cancel"
-                      className=" bg-slate-600 active:bg-slate-700 active:scale-95 rounded-md text-white px-8 py-2 hover:shadow-2xl"
-                    >
-                      Cancel
-                    </button>
+
+                  <div
+                    onClick={() => {
+                      setSteps({
+                        step1: false,
+                        step2: false,
+                        step3: false,
+                      });
+                      window.scroll({
+                        top: 0,
+                        behavior: "smooth",
+                      });
+                    }}
+                    className="mt-3"
+                  >
+                    <BasicButton text={"Add School"} />
                   </div>
-                </>
+                </div>
               ) : null}
             </div>
           </div>

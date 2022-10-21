@@ -203,7 +203,7 @@ const ManageSchool = () => {
         />
         <div className="min-h-[100vh] pt-[2vh] max-h-full bg-[#141728]">
           <div className=" sm:px-8 px-2 py-3 bg-[#141728]">
-            <div className="grid grid-cols-2 grid-rows-2 md:flex md:justify-around md:items-center px-6 mb-20 py-3 mt-6 gap-6 rounded-md bg-slate-600">
+            <div className="grid grid-cols-2 grid-rows-2 md:flex md:justify-around md:items-center px-6 mb-8 py-3 mt-6 gap-6 rounded-md bg-slate-600">
               <div className="flex flex-col gap-2 w-full md:w-[20vw]">
                 <label className="text-gray-100">State</label>
 
@@ -242,11 +242,9 @@ const ManageSchool = () => {
               </div>
             </div>
             <Link to="/addschool">
-              {/* <div className=" absolute right-8 md:top-[13.3rem] top-[19.5rem]">
-                <button className="w-[10rem] relative col-span-2 focus:outline-0 mt-8 text-gray-300 hover:shadow-md h-10 bg-slate-500 transition-all duration-200 ease-linear active:bg-slate-700 active:scale-95 rounded-md">
-                  <Add className="absolute left-3 bottom-[0.6rem]" /> Add School
-                </button>
-              </div> */}
+              <div className="w-full flex justify-end">
+                <BasicButton text={"Add School"} />
+              </div>
             </Link>
 
             <DataTable

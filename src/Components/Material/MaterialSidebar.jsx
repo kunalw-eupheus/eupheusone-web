@@ -12,7 +12,9 @@ import {
   Circle,
   Dashboard,
   KeyboardArrowDown,
+  ListAlt,
   LocalShipping,
+  LocationCityOutlined,
   LocationOn,
   School,
   ShoppingBag,
@@ -474,7 +476,7 @@ const SwipeableTemporaryDrawer = React.forwardRef((props, ref) => {
       </Link>
       <Link to="/manage_order">
         <aside
-          className={`px-6 py-2 flex gap-4 ${
+          className={`px-6 py-2 my-4 flex gap-4 ${
             highLight === "manageOrder" ? "bg-gray-500" : ""
           } cursor-pointer group hover:bg-gray-500 rounded-md transition-all duration-150 ease-linear`}
         >
@@ -489,6 +491,46 @@ const SwipeableTemporaryDrawer = React.forwardRef((props, ref) => {
             } group-hover:!text-gray-100 transition-all duration-150 ease-linear`}
           >
             Manage Order
+          </span>
+        </aside>
+      </Link>
+      <Link to="/aof">
+        <aside
+          className={`px-6 py-2 my-4 flex gap-4 ${
+            highLight === "aof" ? "bg-gray-500" : ""
+          } cursor-pointer group hover:bg-gray-500 rounded-md transition-all duration-150 ease-linear`}
+        >
+          <ListAlt
+            className={`${
+              highLight === "aof" ? "!text-[#659DBD]" : "!text-gray-400"
+            } group-hover:!text-[#659DBD] !transition-all !duration-150 !ease-linear`}
+          />
+          <span
+            className={`${
+              highLight === "aof" ? "text-gray-200" : "text-gray-400"
+            } group-hover:!text-gray-100 transition-all duration-150 ease-linear`}
+          >
+            AOF
+          </span>
+        </aside>
+      </Link>
+      <Link to="/kys">
+        <aside
+          className={`px-6 py-2 flex gap-4 ${
+            highLight === "kys" ? "bg-gray-500" : ""
+          } cursor-pointer group hover:bg-gray-500 rounded-md transition-all duration-150 ease-linear`}
+        >
+          <LocationCityOutlined
+            className={`${
+              highLight === "kys" ? "!text-[#659DBD]" : "!text-gray-400"
+            } group-hover:!text-[#659DBD] !transition-all !duration-150 !ease-linear`}
+          />
+          <span
+            className={`${
+              highLight === "kys" ? "text-gray-200" : "text-gray-400"
+            } group-hover:!text-gray-100 transition-all duration-150 ease-linear`}
+          >
+            KYS
           </span>
         </aside>
       </Link>
