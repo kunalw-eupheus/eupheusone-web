@@ -22,8 +22,10 @@ import instance from "../Instance";
 import Cookies from "js-cookie";
 import { getToken } from "../util/msAuth";
 import { protectedResources } from "../util/msConfig";
+import TransitionsModal from "./Material/Model";
 
 const Sidebar = ({ sidebarCollapsed, highLight, show }) => {
+  const [modelOpen, setModelOpen] = useState(false);
   const [isSchoolClicked, setIsSchoolClicked] = useState(
     show === 2 ? false : true
   );
@@ -60,6 +62,10 @@ const Sidebar = ({ sidebarCollapsed, highLight, show }) => {
           headers: {
             Authorization: `${Cookies.get("accessToken")}`,
           },
+        }).catch((err) => {
+          if (err.response.status === 401) {
+            setModelOpen(true);
+          }
         });
         setUser(res.data.message);
       }
@@ -73,6 +79,7 @@ const Sidebar = ({ sidebarCollapsed, highLight, show }) => {
         window.innerWidth < 1024 ? "-left-[100%]" : "left-[0%]"
       } lg:py-2 md:py-4 py-8 z-[100] w-[85vw] lg:w-[18vw] md:w-[30vw] bg-[#111322] h-[100vh] overflow-auto`}
     >
+      <TransitionsModal open={modelOpen} />;
       <div
         className={`flex flex-col gap-6 transition-all ease-linear duration-100`}
       >

@@ -5,12 +5,9 @@ import Sidebar from "../../Components/Sidebar";
 import { useNavigate, useParams } from "react-router-dom";
 import SwipeableTemporaryDrawer from "../../Components/Material/MaterialSidebar";
 import BasicButton from "../../Components/Material/Button";
-import SearchDropDown from "../../Components/SearchDropDown";
-import instance from "../../Instance";
-import Cookies from "js-cookie";
 import { Backdrop, CircularProgress } from "@mui/material";
 
-const Products = () => {
+const Strength = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
@@ -36,8 +33,8 @@ const Products = () => {
   }, []);
 
   const navInfo = {
-    title: "Products",
-    details: ["Home", "/Products"],
+    title: "Strength",
+    details: ["Home", "/Strength"],
   };
 
   const handleSidebarCollapsed = () => {
@@ -97,9 +94,9 @@ const Products = () => {
 
           <div className="min-h-[90vh] relative flex w-full justify-center items-start gap-4 bg-[#141728]">
             <div className="text-gray-100 w-full md:text-2xl flex justify-between sm:px-12 px-8 items-center text-base font-semibold absolute mt-[2rem]">
-              <h1>Product</h1>
-              <div onClick={() => navigate(`/kys/products/add_product/${id}`)}>
-                <BasicButton text={"Add Product"} />
+              <h1>Strength</h1>
+              <div onClick={() => navigate(`/kys/strength/add_strength/${id}`)}>
+                <BasicButton text={"Add Strength"} />
               </div>
             </div>
 
@@ -155,7 +152,7 @@ const Products = () => {
                   </div>
                 </div>
               </div> */}
-              no products here
+              no strength here
             </div>
           </div>
         </div>
@@ -164,4 +161,4 @@ const Products = () => {
   );
 };
 
-export default Products;
+export default Strength;

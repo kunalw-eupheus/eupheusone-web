@@ -93,8 +93,8 @@ export default function CustomizedSteppers({ steps, activeStep }) {
         activeStep={activeStep}
         connector={<QontoConnector />}
       >
-        {steps.map((label) => (
-          <Step key={label}>
+        {steps.map((label, index) => (
+          <Step key={index}>
             <StepLabel StepIconComponent={QontoStepIcon}>{label}</StepLabel>
           </Step>
         ))}

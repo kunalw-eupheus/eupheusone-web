@@ -34,31 +34,33 @@ export default function BasicTextFields({
   value,
 }) {
   return (
-    <Box
-      component="form"
-      borderColor="brown"
-      sx={{
-        "& > :not(style)": { marginTop: mt ? 2 : null, width: "100%" },
-      }}
-      noValidate
-      autoComplete="off"
-    >
-      <CssTextField
-        disabled={disable}
-        InputLabelProps={{ style: { color: "white" } }}
-        inputProps={{ style: { color: "white" }, readOnly: readOnly }}
-        defaultValue={defaultValue ? `${defaultValue}` : null}
-        value={value && `${value}`}
-        label={lable}
-        rows={4}
-        type={type ? "number" : "text"}
-        onChange={(newValue) =>
-          handleOrderProcessingForm(newValue.target.value, lable)
-        }
-        multiline={multiline}
-        id="standard-basic"
-        variant={variant}
-      />
-    </Box>
+    <>
+      <Box
+        component="form"
+        borderColor="brown"
+        sx={{
+          "& > :not(style)": { marginTop: mt ? 2 : null, width: "100%" },
+        }}
+        noValidate
+        autoComplete="off"
+      >
+        <CssTextField
+          disabled={disable}
+          InputLabelProps={{ style: { color: "white" } }}
+          inputProps={{ style: { color: "white" }, readOnly: readOnly }}
+          defaultValue={defaultValue ? defaultValue : null}
+          value={value && `${value}`}
+          label={lable}
+          rows={4}
+          type={type ? "number" : "text"}
+          onChange={(newValue) =>
+            handleOrderProcessingForm(newValue.target.value, lable)
+          }
+          multiline={multiline}
+          id="standard-basic"
+          variant={variant}
+        />
+      </Box>
+    </>
   );
 }

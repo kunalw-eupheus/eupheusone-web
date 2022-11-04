@@ -2,10 +2,7 @@ import React, { useEffect, useLayoutEffect, useRef } from "react";
 import { useState } from "react";
 import Navbar from "../Components/Navbar";
 import Sidebar from "../Components/Sidebar";
-import GoogleMap from "../Components/GoogleMap";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import Cookies from "js-cookie";
 import Loader from "../Components/Loader";
 import SwipeableTemporaryDrawer from "../Components/Material/MaterialSidebar";
 import BasicButton from "../Components/Material/Button";
@@ -13,17 +10,27 @@ import CustomizedSteppers from "../Components/Material/Stepper";
 import SearchDropDown from "../Components/SearchDropDown";
 import BasicTextFields from "../Components/Material/TextField";
 import DatePicker from "../Components/Material/Date";
-import { Fab, Tooltip } from "@mui/material";
-import { Add } from "@mui/icons-material";
+import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  Fab,
+  TextField,
+  Tooltip,
+  Typography,
+} from "@mui/material";
+import { Add, ExpandMore } from "@mui/icons-material";
 import RowRadioButtonsGroup from "../Components/Material/RowRadioButtonGroup";
+import instance from "../Instance";
+import Cookies from "js-cookie";
 
 const AOF = () => {
-  const [status, setStatus] = useState("Start Day");
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
-  const [currentLocation, setCurrentLocation] = useState([]);
   const navigate = useNavigate();
+  const [publisher, setPublisher] = useState([]);
+  const [series, setSeries] = useState([]);
+  const [title, setTitle] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [showMap, setShowMap] = useState(false);
   const [suppliers, setSuppliers] = useState(1);
   const [cheque, setCheque] = useState(1);
   const [steps, setSteps] = useState({
@@ -32,15 +39,38 @@ const AOF = () => {
     step3: false,
     step4: false,
   });
-  const [showTod, setShowTod] = useState(false);
+  const [step4, setStep4] = useState({
+    tod: { applicable: false, type: false },
+    special: { applicable: false, type: "" },
+  });
   const sidebarRef = useRef();
 
   const handleRadioButtons = (type, value) => {
     switch (type) {
-      case "tod":
+      case "tod applicable":
         if (value === "yes") {
-          setShowTod(true);
+          setStep4({ ...step4, tod: { applicable: true, type: false } });
+        } else {
+          setStep4({ ...step4, tod: { applicable: false, type: false } });
         }
+        break;
+      case "tod type":
+        if (value === "yes") {
+          setStep4({ ...step4, tod: { applicable: true, type: true } });
+        } else {
+          setStep4({ ...step4, tod: { applicable: true, type: false } });
+        }
+
+        break;
+      case "special applicable":
+        if (value === "yes") {
+          setStep4({ ...step4, special: { applicable: true, type: "" } });
+        } else {
+          setStep4({ ...step4, special: { applicable: false, type: "" } });
+        }
+        break;
+      case "special type":
+        setStep4({ ...step4, special: { applicable: true, type: value } });
         break;
 
       default:
@@ -49,8 +79,6 @@ const AOF = () => {
   };
 
   const show = null;
-  const temp = [];
-  const Co_ordinates = JSON.parse(localStorage.getItem("co_ordinates"));
 
   const calActiceStep = () => {
     if (steps.step1) {
@@ -89,6 +117,17 @@ const AOF = () => {
     return content;
   };
 
+  const getTitleBySeries = async (id) => {
+    const titles = await instance({
+      url: `items/getSeriesItem/${id}`,
+      method: "GET",
+      headers: {
+        Authorization: `${Cookies.get("accessToken")}`,
+      },
+    });
+    setTitle(titles.data.message);
+  };
+
   const handleCheques = () => {
     let content = [];
     for (let i = 0; i < cheque; i++) {
@@ -116,87 +155,102 @@ const AOF = () => {
     return content;
   };
 
-  useLayoutEffect(() => {
-    navigator.geolocation.watchPosition(function (position) {
-      // console.log("Latitude is :", position.coords.latitude);
-      // console.log("Longitude is :", position.coords.longitude);
-      setCurrentLocation({
-        lat: position.coords.latitude,
-        lng: position.coords.longitude,
-      });
+  const handleOrderProcessingForm = (value, type) => {
+    switch (type) {
+      case "series_aof":
+        setLoading(true);
+        getTitleBySeries(value.id);
+        setLoading(false);
+        break;
 
-      handleCoordinates(position);
-    });
-  }, []);
-
-  const handleCoordinates = (position) => {
-    temp.push({
-      lat: position.coords.latitude,
-      lng: position.coords.longitude,
-    });
-
-    localStorage.setItem("co_ordinates", JSON.stringify(temp));
+      default:
+        break;
+    }
   };
+
+  useLayoutEffect(() => {
+    const getPublishers = async () => {
+      const allPublishers = await instance({
+        url: "publishers/getallpublishers",
+        method: "GET",
+        headers: {
+          Authorization: `${Cookies.get("accessToken")}`,
+        },
+      });
+      setPublisher(allPublishers.data.message);
+    };
+    const getSries = async () => {
+      const allSeries = await instance({
+        url: "series/get/all",
+        method: "GET",
+        headers: {
+          Authorization: `${Cookies.get("accessToken")}`,
+        },
+      });
+      setSeries(allSeries.data.message);
+    };
+    getPublishers();
+    getSries();
+  }, []);
 
   const navInfo = {
     title: "AOF",
     details: ["Home", "/AOF"],
   };
 
-  const handleLocation = async () => {
-    if (status === "Start Day") {
-      setLoading(true);
-      const res = await axios.post(
-        "https://nodecrmv2.herokuapp.com/api/user/start_day",
-        {
-          category: "start",
-          coordinates: [[currentLocation.lng, currentLocation.lat]],
-        },
-        {
-          headers: {
-            authorization: Cookies.get("accessToken"),
-          },
-        }
-      );
-      console.log(res);
-      setStatus("End Day");
-      setLoading(false);
-    } else {
-      setLoading(true);
-      const running = await axios.post(
-        "https://nodecrmv2.herokuapp.com/api/user/start_day",
-        {
-          category: "running",
-          coordinates: Co_ordinates,
-        },
-        {
-          headers: {
-            authorization: Cookies.get("accessToken"),
-          },
-        }
-      );
+  //   if (status === "Start Day") {
+  //     setLoading(true);
+  //     const res = await axios.post(
+  //       "https://nodecrmv2.herokuapp.com/api/user/start_day",
+  //       {
+  //         category: "start",
+  //         coordinates: [[currentLocation.lng, currentLocation.lat]],
+  //       },
+  //       {
+  //         headers: {
+  //           authorization: Cookies.get("accessToken"),
+  //         },
+  //       }
+  //     );
+  //     console.log(res);
+  //     setStatus("End Day");
+  //     setLoading(false);
+  //   } else {
+  //     setLoading(true);
+  //     const running = await axios.post(
+  //       "https://nodecrmv2.herokuapp.com/api/user/start_day",
+  //       {
+  //         category: "running",
+  //         coordinates: Co_ordinates,
+  //       },
+  //       {
+  //         headers: {
+  //           authorization: Cookies.get("accessToken"),
+  //         },
+  //       }
+  //     );
 
-      console.log(running);
+  //     console.log(running);
 
-      const res = await axios.post(
-        "https://nodecrmv2.herokuapp.com/api/user/start_day",
-        {
-          category: "end",
-          coordinates: [[currentLocation.lng, currentLocation.lat]],
-        },
-        {
-          headers: {
-            authorization: Cookies.get("accessToken"),
-          },
-        }
-      );
+  //     const res = await axios.post(
+  //       "https://nodecrmv2.herokuapp.com/api/user/start_day",
+  //       {
+  //         category: "end",
+  //         coordinates: [[currentLocation.lng, currentLocation.lat]],
+  //       },
+  //       {
+  //         headers: {
+  //           authorization: Cookies.get("accessToken"),
+  //         },
+  //       }
+  //     );
 
-      console.log(res);
-      setStatus("Start Day");
-      localStorage.clear();
-      setLoading(false);
-    }
-  };
+  //     console.log(res);
+  //     setStatus("Start Day");
+  //     localStorage.clear();
+  //     setLoading(false);
+  //   }
+  // };
 
   const handleSidebarCollapsed = () => {
     // setSidebarCollapsed(!sidebarCollapsed);
@@ -219,6 +273,7 @@ const AOF = () => {
       window.removeEventListener("resize", handleWidth);
     };
   }, []);
+
   return (
     <>
       <div className="flex w-[100%] min-h-[100vh]">
@@ -248,326 +303,545 @@ const AOF = () => {
             info={navInfo}
           />
 
-          {showMap ? (
-            <div className="h-[90vh] bg-gray-300">
-              <GoogleMap
-                sidebarCollapsed={sidebarCollapsed}
-                currentLocation={currentLocation}
+          <div className="min-h-[90vh] relative flex w-full justify-center items-start gap-4 bg-[#141728]">
+            <h1 className="text-gray-100 md:text-2xl text-base font-semibold absolute top-[2rem] left-[2rem]">
+              Account Opening Form
+            </h1>
+            <div className="w-full flex flex-col gap-4 items-center mt-[7rem]">
+              <CustomizedSteppers
+                activeStep={calActiceStep()}
+                steps={["", "", "", ""]}
               />
-            </div>
-          ) : (
-            <div className="min-h-[90vh] relative flex w-full justify-center items-start gap-4 bg-[#141728]">
-              <h1 className="text-gray-100 md:text-2xl text-base font-semibold absolute top-[2rem] left-[2rem]">
-                Account Opening Form
-              </h1>
-              <div className="w-full flex flex-col gap-4 items-center mt-[7rem]">
-                <CustomizedSteppers
-                  activeStep={calActiceStep()}
-                  steps={["", "", "", ""]}
-                />
-                {/* step 1 */}
-                {steps.step1 ? (
-                  <div className="flex flex-col gap-4 items-start w-[90%] px-6 bg-slate-600 rounded-md py-6 mb-[5rem]">
-                    <div className="grid sm:grid-rows-5 sm:grid-cols-3 grid-rows-[15] grid-cols-1 w-full mt-6 gap-6 rounded-md bg-slate-600">
-                      <BasicTextFields
-                        lable={"Name Of Party/School *"}
-                        variant={"standard"}
-                        multiline={false}
-                      />
+              {/* step 1 */}
+              {steps.step1 ? (
+                <div className="flex flex-col gap-4 items-start w-[90%] px-6 bg-slate-600 rounded-md py-6 mb-[5rem]">
+                  <div className="grid sm:grid-rows-5 sm:grid-cols-3 grid-rows-[15] grid-cols-1 w-full mt-6 gap-6 rounded-md bg-slate-600">
+                    <BasicTextFields
+                      lable={"Name Of Party/School *"}
+                      variant={"standard"}
+                      multiline={false}
+                    />
 
-                      <SearchDropDown
-                        Name={"school_name"}
-                        label={"Select Status *"}
-                        color={"rgb(243, 244, 246)"}
-                      />
+                    <SearchDropDown
+                      Name={"school_name"}
+                      label={"Select Status *"}
+                      color={"rgb(243, 244, 246)"}
+                    />
+                    <BasicTextFields
+                      lable={"Address *"}
+                      variant={"standard"}
+                      multiline={false}
+                    />
+                    <BasicTextFields
+                      lable={"State *"}
+                      variant={"standard"}
+                      multiline={false}
+                    />
+                    <BasicTextFields
+                      lable={"City *"}
+                      variant={"standard"}
+                      multiline={false}
+                    />
+                    <BasicTextFields
+                      lable={"Pin Code *"}
+                      variant={"standard"}
+                      type={"number"}
+                      multiline={false}
+                    />
+                    <BasicTextFields
+                      lable={"Mobile *"}
+                      type={"number"}
+                      variant={"standard"}
+                      multiline={false}
+                    />
+                    <BasicTextFields
+                      lable={"Phone *"}
+                      type={"number"}
+                      variant={"standard"}
+                      multiline={false}
+                    />
+                    <BasicTextFields
+                      lable={"E-Mail *"}
+                      variant={"standard"}
+                      multiline={false}
+                    />
+                    <div className="sm:col-span-2">
                       <BasicTextFields
-                        lable={"Address *"}
+                        lable={"Firm/ Company/Trust Registration Number *"}
                         variant={"standard"}
-                        multiline={false}
-                      />
-                      <BasicTextFields
-                        lable={"State *"}
-                        variant={"standard"}
-                        multiline={false}
-                      />
-                      <BasicTextFields
-                        lable={"City *"}
-                        variant={"standard"}
-                        multiline={false}
-                      />
-                      <BasicTextFields
-                        lable={"Pin Code *"}
-                        variant={"standard"}
-                        type={"number"}
-                        multiline={false}
-                      />
-                      <BasicTextFields
-                        lable={"Mobile *"}
-                        type={"number"}
-                        variant={"standard"}
-                        multiline={false}
-                      />
-                      <BasicTextFields
-                        lable={"Phone *"}
-                        type={"number"}
-                        variant={"standard"}
-                        multiline={false}
-                      />
-                      <BasicTextFields
-                        lable={"E-Mail *"}
-                        variant={"standard"}
-                        multiline={false}
-                      />
-                      <div className="sm:col-span-2">
-                        <BasicTextFields
-                          lable={"Firm/ Company/Trust Registration Number *"}
-                          variant={"standard"}
-                          multiline={false}
-                        />
-                      </div>
-                      <DatePicker label={"Dated"} />
-                      <BasicTextFields
-                        lable={"PAN NO *"}
-                        variant={"standard"}
-                        multiline={false}
-                      />
-                      <BasicTextFields
-                        lable={"GST NO *"}
-                        variant={"standard"}
-                        multiline={false}
-                      />
-                      <BasicTextFields
-                        lable={"GST Year of establishment of business"}
-                        variant={"standard"}
-                        type={"number"}
                         multiline={false}
                       />
                     </div>
-                    <div
-                      className="mt-3"
-                      onClick={() => {
-                        setSteps({ step1: false, step2: true, step3: false });
-                        window.scroll({
-                          top: 0,
-                          behavior: "smooth",
-                        });
-                      }}
-                    >
-                      <BasicButton text={"Next"} />
-                    </div>
+                    <DatePicker label={"Dated"} />
+                    <BasicTextFields
+                      lable={"PAN NO *"}
+                      variant={"standard"}
+                      multiline={false}
+                    />
+                    <BasicTextFields
+                      lable={"GST NO *"}
+                      variant={"standard"}
+                      multiline={false}
+                    />
+                    <BasicTextFields
+                      lable={"GST Year of establishment of business"}
+                      variant={"standard"}
+                      type={"number"}
+                      multiline={false}
+                    />
                   </div>
-                ) : null}
-                {/* step 2 */}
-                {steps.step2 ? (
-                  <div className="flex flex-col gap-4 items-start w-[90%] px-6 bg-slate-600 rounded-md py-6 mb-[5rem]">
-                    <div className="grid sm:grid-rows-3 sm:grid-cols-3 grid-rows-[7] grid-cols-1 w-full mt-6 gap-6 rounded-md bg-slate-600">
-                      <div className="sm:col-span-2">
-                        <BasicTextFields
-                          lable={
-                            "Name of Proprietor/Partner/Director/Trustee *"
-                          }
-                          variant={"standard"}
-                          multiline={false}
-                        />
-                      </div>
-
-                      <BasicTextFields
-                        lable={"PAN NO *"}
-                        variant={"standard"}
-                        multiline={false}
-                      />
-                      <BasicTextFields
-                        lable={"Address *"}
-                        variant={"standard"}
-                        multiline={false}
-                      />
-                      <BasicTextFields
-                        lable={"Pin Code *"}
-                        type={"number"}
-                        variant={"standard"}
-                        multiline={false}
-                      />
-
-                      <BasicTextFields
-                        lable={"Phone *"}
-                        type={"number"}
-                        variant={"standard"}
-                        multiline={false}
-                      />
-                      <BasicTextFields
-                        lable={"Mobile *"}
-                        type={"number"}
-                        variant={"standard"}
-                        multiline={false}
-                      />
-                      <BasicTextFields
-                        lable={"E-Mail *"}
-                        variant={"standard"}
-                        multiline={false}
-                      />
-                    </div>
-                    <div className="w-full flex flex-col my-2 gap-2">
-                      <h1 className="font-semibold text-gray-100">
-                        Name of other Publishers/Suppliers from whom the party
-                        has credit facilities:
-                      </h1>
-                      <div onClick={() => setSuppliers(suppliers + 1)}>
-                        {/* <BasicButton text={"Add More"} /> */}
-                        <Tooltip title="Add More Names">
-                          <Fab color={"red"} size="small" aria-label="add">
-                            <Add />
-                          </Fab>
-                        </Tooltip>
-                      </div>
-
-                      <ol className="list-decimal">{handleForm()}</ol>
-                    </div>
-                    <div
-                      onClick={() => {
-                        setSteps({ step1: false, step2: false, step3: true });
-                        window.scroll({
-                          top: 0,
-                          behavior: "smooth",
-                        });
-                      }}
-                      className="mt-3"
-                    >
-                      <BasicButton text={"Next"} />
-                    </div>
+                  <div
+                    className="mt-3"
+                    onClick={() => {
+                      setSteps({ step1: false, step2: true, step3: false });
+                      window.scroll({
+                        top: 0,
+                        behavior: "smooth",
+                      });
+                    }}
+                  >
+                    <BasicButton text={"Next"} />
                   </div>
-                ) : null}
-                {/* step 3 */}
-                {steps.step3 ? (
-                  <div className="flex flex-col gap-4 items-start w-[90%] px-6 bg-slate-600 rounded-md py-6 mb-[5rem]">
-                    <div className="grid sm:grid-rows-2 sm:grid-cols-3 grid-rows-4 grid-cols-1 w-full mt-6 gap-6 rounded-md bg-slate-600">
-                      <div className="sm:col-span-2">
-                        <BasicTextFields
-                          lable={
-                            "Name and address of the party’s main bankers *"
-                          }
-                          variant={"standard"}
-                          multiline={false}
-                        />
-                      </div>
+                </div>
+              ) : null}
+              {/* step 2 */}
+              {steps.step2 ? (
+                <div className="flex flex-col gap-4 items-start w-[90%] px-6 bg-slate-600 rounded-md py-6 mb-[5rem]">
+                  <div className="grid sm:grid-rows-3 sm:grid-cols-3 grid-rows-[7] grid-cols-1 w-full mt-6 gap-6 rounded-md bg-slate-600">
+                    <div className="sm:col-span-2">
+                      <BasicTextFields
+                        lable={"Name of Proprietor/Partner/Director/Trustee *"}
+                        variant={"standard"}
+                        multiline={false}
+                      />
+                    </div>
 
-                      <BasicTextFields
-                        lable={"Account Number *"}
-                        variant={"standard"}
-                        type={"number"}
-                        multiline={false}
-                      />
-                      <SearchDropDown
-                        label={"Type of A/c "}
-                        color={"rgb(243, 244, 246)"}
-                      />
-                      <BasicTextFields
-                        lable={"IFSC *"}
-                        type={"number"}
-                        variant={"standard"}
-                        multiline={false}
-                      />
-                    </div>
-                    <div className="w-full flex flex-col my-2 gap-2">
-                      <h1 className="font-semibold text-gray-100">
-                        Detail of Cheques * :
-                      </h1>
-                      <div onClick={() => setCheque(cheque + 1)}>
-                        {/* <BasicButton text={"Add More"} /> */}
-                        <Tooltip title="Add More Cheque">
-                          <Fab color={"red"} size="small" aria-label="add">
-                            <Add />
-                          </Fab>
-                        </Tooltip>
-                      </div>
-                      <ol className="list-decimal">{handleCheques()}</ol>
-                    </div>
-                    <div
-                      onClick={() => {
-                        setSteps({
-                          step1: false,
-                          step2: false,
-                          step3: false,
-                          step4: true,
-                        });
-                        window.scroll({
-                          top: 0,
-                          behavior: "smooth",
-                        });
-                      }}
-                      className="mt-3"
-                    >
-                      <BasicButton text={"Next"} />
-                    </div>
+                    <BasicTextFields
+                      lable={"PAN NO *"}
+                      variant={"standard"}
+                      multiline={false}
+                    />
+                    <BasicTextFields
+                      lable={"Address *"}
+                      variant={"standard"}
+                      multiline={false}
+                    />
+                    <BasicTextFields
+                      lable={"Pin Code *"}
+                      type={"number"}
+                      variant={"standard"}
+                      multiline={false}
+                    />
+
+                    <BasicTextFields
+                      lable={"Phone *"}
+                      type={"number"}
+                      variant={"standard"}
+                      multiline={false}
+                    />
+                    <BasicTextFields
+                      lable={"Mobile *"}
+                      type={"number"}
+                      variant={"standard"}
+                      multiline={false}
+                    />
+                    <BasicTextFields
+                      lable={"E-Mail *"}
+                      variant={"standard"}
+                      multiline={false}
+                    />
                   </div>
-                ) : null}
-                {/* step 4 */}
-                {steps.step4 ? (
-                  <div className="flex flex-col gap-4  w-[50%] px-6 bg-slate-600 rounded-md py-6 mb-[5rem] justify-center items-start">
-                    <div className="flex flex-col justify-center items-start w-full mt-6 gap-6 rounded-md bg-slate-600">
-                      {/* <div className="sm:col-span-2"> */}
-                      <div className="flex gap-4 items-center">
-                        <h1 className="text-gray-100 font-semibold">CASH :</h1>
-                        <RowRadioButtonsGroup
-                          handleRadioButtons={handleRadioButtons}
-                          value={[
-                            { label: "Yes", value: "yes" },
-                            { label: "No", value: "no" },
-                          ]}
-                          name={"tod"}
+                  <div className="w-full flex flex-col my-2 gap-2">
+                    <h1 className="font-semibold text-gray-100">
+                      Name of other Publishers/Suppliers from whom the party has
+                      credit facilities:
+                    </h1>
+                    <div onClick={() => setSuppliers(suppliers + 1)}>
+                      {/* <BasicButton text={"Add More"} /> */}
+                      <Tooltip title="Add More Names">
+                        <Fab color={"red"} size="small" aria-label="add">
+                          <Add />
+                        </Fab>
+                      </Tooltip>
+                    </div>
 
-                          // heading={"Type Of Discount"}
-                        />
-                      </div>
-                      {/* </div> */}
-                      {showTod ? (
-                        <>
-                          <div className="flex gap-4 items-center">
-                            <h1 className="text-gray-100 font-semibold">
-                              Applicable :
-                            </h1>
+                    <ol className="list-decimal">{handleForm()}</ol>
+                  </div>
+                  <div
+                    onClick={() => {
+                      setSteps({ step1: false, step2: false, step3: true });
+                      window.scroll({
+                        top: 0,
+                        behavior: "smooth",
+                      });
+                    }}
+                    className="mt-3"
+                  >
+                    <BasicButton text={"Next"} />
+                  </div>
+                </div>
+              ) : null}
+              {/* step 3 */}
+              {steps.step3 ? (
+                <div className="flex flex-col gap-4 items-start w-[90%] px-6 bg-slate-600 rounded-md py-6 mb-[5rem]">
+                  <div className="grid sm:grid-rows-2 sm:grid-cols-3 grid-rows-4 grid-cols-1 w-full mt-6 gap-6 rounded-md bg-slate-600">
+                    <div className="sm:col-span-2">
+                      <BasicTextFields
+                        lable={"Name and address of the party’s main bankers *"}
+                        variant={"standard"}
+                        multiline={false}
+                      />
+                    </div>
+
+                    <BasicTextFields
+                      lable={"Account Number *"}
+                      variant={"standard"}
+                      type={"number"}
+                      multiline={false}
+                    />
+                    <SearchDropDown
+                      label={"Type of A/c "}
+                      color={"rgb(243, 244, 246)"}
+                    />
+                    <BasicTextFields
+                      lable={"IFSC *"}
+                      type={"number"}
+                      variant={"standard"}
+                      multiline={false}
+                    />
+                  </div>
+                  <div className="w-full flex flex-col my-2 gap-2">
+                    <h1 className="font-semibold text-gray-100">
+                      Detail of Cheques * :
+                    </h1>
+                    <div onClick={() => setCheque(cheque + 1)}>
+                      {/* <BasicButton text={"Add More"} /> */}
+                      <Tooltip title="Add More Cheque">
+                        <Fab color={"red"} size="small" aria-label="add">
+                          <Add />
+                        </Fab>
+                      </Tooltip>
+                    </div>
+                    <ol className="list-decimal">{handleCheques()}</ol>
+                  </div>
+                  <div
+                    onClick={() => {
+                      setSteps({
+                        step1: false,
+                        step2: false,
+                        step3: false,
+                        step4: true,
+                      });
+                      window.scroll({
+                        top: 0,
+                        behavior: "smooth",
+                      });
+                    }}
+                    className="mt-3"
+                  >
+                    <BasicButton text={"Next"} />
+                  </div>
+                </div>
+              ) : null}
+              {/* step 4 */}
+              {steps.step4 ? (
+                <div className="flex flex-col gap-4  md:w-[50%] sm:w-[70%] w-[95%] px-6 bg-slate-600 rounded-md py-6 mb-[5rem] justify-center items-start">
+                  <div className="flex flex-col justify-center items-start w-full mt-6 rounded-md bg-slate-600">
+                    <Accordion
+                      defaultExpanded={true}
+                      className="w-full !bg-slate-500"
+                    >
+                      <AccordionSummary
+                        expandIcon={<ExpandMore className="!text-gray-100" />}
+                        aria-controls="panel1a-content"
+                        id="panel1a-header"
+                      >
+                        <Typography className="!text-gray-100 !font-semibold">
+                          TOD
+                        </Typography>
+                      </AccordionSummary>
+                      <AccordionDetails>
+                        <Typography>
+                          <RowRadioButtonsGroup
+                            handleRadioButtons={handleRadioButtons}
+                            heading={"Applicable"}
+                            name={"tod applicable"}
+                            value={[
+                              { label: "Yes", value: "yes" },
+                              { label: "No", value: "no" },
+                            ]}
+                          />
+                        </Typography>
+                        {step4.tod.applicable ? (
+                          <Typography>
                             <RowRadioButtonsGroup
                               handleRadioButtons={handleRadioButtons}
+                              name={"tod type"}
                               value={[
-                                { label: "Gross", value: "gross" },
-                                { label: "Net", value: "net" },
+                                {
+                                  label: "Overall Business Value",
+                                  value: "yes",
+                                },
+                                { label: "Specific", value: "no" },
                               ]}
-                              name={"applicable"}
-                              // heading={"Applicable"}
                             />
-                          </div>
-
-                          <SearchDropDown
-                            label={"Select Publisher"}
-                            color={"rgb(243, 244, 246)"}
+                          </Typography>
+                        ) : null}
+                        {step4.tod.type ? (
+                          <>
+                            <Typography className="!flex !items-center justify-around">
+                              <TextField
+                                InputLabelProps={{
+                                  style: { color: "white" },
+                                }}
+                                inputProps={{
+                                  style: { color: "white" },
+                                }}
+                                type={"number"}
+                                id="outlined-basic"
+                                label="Enter Percentage"
+                                variant="standard"
+                              />
+                              <RowRadioButtonsGroup
+                                handleRadioButtons={handleRadioButtons}
+                                name={"tod"}
+                                value={[
+                                  {
+                                    label: "Gross",
+                                    value: "yes",
+                                  },
+                                  { label: "Net", value: "no" },
+                                ]}
+                              />
+                            </Typography>
+                          </>
+                        ) : null}
+                      </AccordionDetails>
+                    </Accordion>
+                    <Accordion className="w-full !bg-slate-500">
+                      <AccordionSummary
+                        expandIcon={<ExpandMore className="!text-gray-100" />}
+                        aria-controls="panel1a-content"
+                        id="panel1a-header"
+                      >
+                        <Typography className="!text-gray-100 !font-semibold">
+                          Special
+                        </Typography>
+                      </AccordionSummary>
+                      <AccordionDetails className="flex flex-col gap-4">
+                        <Typography>
+                          <RowRadioButtonsGroup
+                            handleRadioButtons={handleRadioButtons}
+                            heading={"Applicable"}
+                            name={"special applicable"}
+                            value={[
+                              { label: "Yes", value: "yes" },
+                              { label: "No", value: "no" },
+                            ]}
                           />
-                          <SearchDropDown
-                            label={"Select Series"}
-                            color={"rgb(243, 244, 246)"}
+                        </Typography>
+                        {step4.special.applicable ? (
+                          <Typography>
+                            <RowRadioButtonsGroup
+                              handleRadioButtons={handleRadioButtons}
+                              name={"special type"}
+                              value={[
+                                {
+                                  label: "Overall Business Value",
+                                  value: "overall",
+                                },
+                                { label: "Specific", value: "specific" },
+                              ]}
+                            />
+                          </Typography>
+                        ) : null}
+                        {step4.special.type === "overall" ? (
+                          <>
+                            <Typography className="!flex !items-center justify-around">
+                              <TextField
+                                InputLabelProps={{
+                                  style: { color: "white" },
+                                }}
+                                inputProps={{
+                                  style: { color: "white" },
+                                }}
+                                type={"number"}
+                                id="outlined-basic"
+                                label="Enter Percentage"
+                                variant="standard"
+                              />
+                              <RowRadioButtonsGroup
+                                handleRadioButtons={handleRadioButtons}
+                                name={"tod"}
+                                value={[
+                                  {
+                                    label: "Gross",
+                                    value: "yes",
+                                  },
+                                  { label: "Net", value: "no" },
+                                ]}
+                              />
+                            </Typography>
+                          </>
+                        ) : null}
+                        {step4.special.type === "specific" ? (
+                          <>
+                            <Typography className="flex flex-col gap-2">
+                              <h1 className="sm:text-base text-sm font-semibold text-gray-100">
+                                Select Publisher:
+                              </h1>
+                              <SearchDropDown
+                                Name={"publisher"}
+                                data={publisher}
+                                // handleOrderProcessingForm={handleOrderProcessingForm}
+                                label={"Select Publisher"}
+                                color={"rgb(243, 244, 246)"}
+                              />
+                              <div className="flex justify-around items-center">
+                                <TextField
+                                  InputLabelProps={{
+                                    style: { color: "white" },
+                                  }}
+                                  inputProps={{
+                                    style: { color: "white" },
+                                  }}
+                                  id="outlined-basic"
+                                  label="Enter Percentage"
+                                  variant="standard"
+                                />
+                                <RowRadioButtonsGroup
+                                  handleRadioButtons={handleRadioButtons}
+                                  name={"tod"}
+                                  value={[
+                                    {
+                                      label: "Gross",
+                                      value: "yes",
+                                    },
+                                    { label: "Net", value: "no" },
+                                  ]}
+                                />
+                              </div>
+                            </Typography>
+                            <div className="w-full flex justify-center">
+                              <hr className="text-gray-100 w-[80%] my-4" />
+                            </div>
+                            <Typography className="flex flex-col gap-2">
+                              <h1 className="sm:text-base font-semibold text-sm text-gray-100">
+                                Select Series:
+                              </h1>
+                              <SearchDropDown
+                                Name={"series_aof"}
+                                data={series}
+                                handleOrderProcessingForm={
+                                  handleOrderProcessingForm
+                                }
+                                label={"Select Series"}
+                                color={"rgb(243, 244, 246)"}
+                              />
+                              <div className="flex justify-around items-center">
+                                <TextField
+                                  InputLabelProps={{
+                                    style: { color: "white" },
+                                  }}
+                                  inputProps={{
+                                    style: { color: "white" },
+                                  }}
+                                  id="outlined-basic"
+                                  label="Enter Percentage"
+                                  variant="standard"
+                                />
+                                <RowRadioButtonsGroup
+                                  handleRadioButtons={handleRadioButtons}
+                                  name={"tod"}
+                                  value={[
+                                    {
+                                      label: "Gross",
+                                      value: "yes",
+                                    },
+                                    { label: "Net", value: "no" },
+                                  ]}
+                                />
+                              </div>
+                            </Typography>
+                            <div className="w-full flex justify-center">
+                              <hr className="text-gray-100 w-[80%] my-4" />
+                            </div>
+                            <Typography className="flex flex-col gap-2">
+                              <h1 className="sm:text-base font-semibold text-sm text-gray-100">
+                                Select Title:
+                              </h1>
+                              <SearchDropDown
+                                Name={"title_aof"}
+                                disable={title.length > 0 ? false : true}
+                                data={title}
+                                // handleOrderProcessingForm={handleOrderProcessingForm}
+                                label={"Select Title"}
+                                color={"rgb(243, 244, 246)"}
+                              />
+                              <div className="flex justify-around items-center">
+                                <TextField
+                                  InputLabelProps={{
+                                    style: { color: "white" },
+                                  }}
+                                  inputProps={{
+                                    style: { color: "white" },
+                                  }}
+                                  id="outlined-basic"
+                                  label="Enter Percentage"
+                                  variant="standard"
+                                />
+                                <RowRadioButtonsGroup
+                                  handleRadioButtons={handleRadioButtons}
+                                  name={"tod"}
+                                  value={[
+                                    {
+                                      label: "Gross",
+                                      value: "yes",
+                                    },
+                                    { label: "Net", value: "no" },
+                                  ]}
+                                />
+                              </div>
+                            </Typography>
+                          </>
+                        ) : null}
+                      </AccordionDetails>
+                    </Accordion>
+                    <Accordion className="w-full !bg-slate-500">
+                      <AccordionSummary
+                        expandIcon={<ExpandMore className="!text-gray-100" />}
+                        aria-controls="panel1a-content"
+                        id="panel1a-header"
+                      >
+                        <Typography className="!text-gray-100 !font-semibold">
+                          Cash
+                        </Typography>
+                      </AccordionSummary>
+                      <AccordionDetails>
+                        <Typography>
+                          <RowRadioButtonsGroup
+                            handleRadioButtons={handleRadioButtons}
+                            // heading={"Applicable"}
+                            name={"tod"}
+                            value={[
+                              { label: "Yes", value: "yes" },
+                              { label: "No", value: "no" },
+                            ]}
                           />
-                          <div className="flex w-full justify-around gap-4">
-                            <SearchDropDown
-                              label={"Select Series"}
-                              color={"rgb(243, 244, 246)"}
-                            />
-                            <SearchDropDown
-                              label={"Select Title"}
-                              color={"rgb(243, 244, 246)"}
-                            />
-                          </div>
-                        </>
-                      ) : null}
-                    </div>
+                        </Typography>
+                      </AccordionDetails>
+                    </Accordion>
+                  </div>
 
-                    {showTod ? (
+                  {/* {showTod ? (
                       <div className="mt-3">
                         <BasicButton text={"Submit"} />
                       </div>
-                    ) : null}
-                  </div>
-                ) : null}
-              </div>
+                    ) : null} */}
+                </div>
+              ) : null}
             </div>
-          )}
+          </div>
         </div>
       </div>
     </>

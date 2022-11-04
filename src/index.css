@@ -185,3 +185,15 @@ input::-webkit-inner-spin-button {
 .css-4t3x6l-MuiPaper-root-MuiDrawer-paper {
   background-color: #111322 !important;
 }
+
+.css-1x51dt5-MuiInputBase-input-MuiInput-input {
+  color: whitesmoke !important;
+}
+
+/* checkbox lable size modify */
+
+/* @media screen and (max-width: 480px) {
+  .css-ahj2mt-MuiTypography-root {
+    font-size: 1rem !important;
+  }
+} */

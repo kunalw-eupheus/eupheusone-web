@@ -10,6 +10,7 @@ export default function RowRadioButtonsGroup({
   heading,
   handleRadioButtons,
   name,
+  defaultValue,
 }) {
   return (
     <FormControl>
@@ -20,7 +21,9 @@ export default function RowRadioButtonsGroup({
         {heading}
       </FormLabel>
       <RadioGroup
+        className="flex sm:gap-6 gap-4"
         row
+        defaultValue={defaultValue}
         aria-labelledby="demo-row-radio-buttons-group-label"
         name="row-radio-buttons-group"
       >
@@ -30,7 +33,14 @@ export default function RowRadioButtonsGroup({
               style={{ color: "white" }}
               value={item.value}
               onClick={() => handleRadioButtons(name, item.value)}
-              control={<Radio />}
+              control={
+                <Radio
+                  size="small"
+                  // sx={{
+                  //   color: "whitesmoke",
+                  // }}
+                />
+              }
               label={item.label}
             />
           );

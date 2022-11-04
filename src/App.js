@@ -28,6 +28,14 @@ import MyDocument from "./Components/PdfDocument";
 import ManageOrder from "./Pages/ManageOrder";
 import AOF from "./Pages/AOF";
 import KYS from "./Pages/KYS";
+import ReleaseNote from "./Pages/ReleaseNote";
+import V_1_0_0 from "./Pages/ReleaseNotes/V.1.0.0";
+import UpdateSchool from "./Pages/UpdateSchool";
+import Products from "./Pages/KYS/Product";
+import AddProduct from "./Pages/KYS/AddProduct";
+import Strength from "./Pages/KYS/Strength";
+import AddStrength from "./Pages/KYS/AddStrength";
+import UpdateFees from "./Pages/KYS/UpdateFees";
 
 function App() {
   const isAuth = useSelector((state) => state.auth.user);
@@ -90,6 +98,10 @@ function App() {
             path="/addschool"
             element={isAuth || MsAuth ? <AddSchool /> : <Login />}
           />
+          <Route
+            path="/update_school/:id"
+            element={isAuth || MsAuth ? <UpdateSchool /> : <Login />}
+          />
 
           <Route
             path="/school/punch_in"
@@ -108,8 +120,39 @@ function App() {
             element={isAuth || MsAuth ? <MyDocument /> : <Login />}
           />
           <Route path="/aof" element={isAuth || MsAuth ? <AOF /> : <Login />} />
-
+          {/* kys */}
           <Route path="/kys" element={isAuth || MsAuth ? <KYS /> : <Login />} />
+          <Route
+            path="/kys/products/:id"
+            element={isAuth || MsAuth ? <Products /> : <Login />}
+          />
+          <Route
+            path="/kys/products/add_product/:id"
+            element={isAuth || MsAuth ? <AddProduct /> : <Login />}
+          />
+          <Route
+            path="/kys/strength/:id"
+            element={isAuth || MsAuth ? <Strength /> : <Login />}
+          />
+          <Route
+            path="/kys/strength/add_strength/:id"
+            element={isAuth || MsAuth ? <AddStrength /> : <Login />}
+          />
+          <Route
+            path="/kys/tution_fees/:id"
+            element={isAuth || MsAuth ? <UpdateFees /> : <Login />}
+          />
+
+          <Route
+            path="/web-release-notes"
+            element={isAuth || MsAuth ? <ReleaseNote /> : <Login />}
+          />
+          {/* release notes */}
+
+          <Route
+            path="/web-release-notes/v_1_0_0"
+            element={isAuth || MsAuth ? <V_1_0_0 /> : <Login />}
+          />
 
           {/* Admin */}
 

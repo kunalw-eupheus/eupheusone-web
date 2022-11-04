@@ -4,7 +4,7 @@ import Autocomplete from "@mui/material/Autocomplete";
 import Stack from "@mui/material/Stack";
 import React, { useState, useEffect } from "react";
 
-const SearchDropDown = ({
+const ControlledSearchDropDown = ({
   label,
   color,
   data,
@@ -13,8 +13,14 @@ const SearchDropDown = ({
   getSeriesData,
   handleOrderProcessingForm,
   disable,
-  defaultValue,
+  Initialvalue,
+  // defaultValueCountry,
+  // changeStateId,
+  // changeCountryId,
+  // setIsStateTouched,
 }) => {
+  // const [refresh, setRefresh] = useState("refresh");
+
   const defaultProps = {
     options: data,
     getOptionLabel: (option) => {
@@ -31,7 +37,6 @@ const SearchDropDown = ({
         case "category_addschool":
           return option.schoolCategory;
           break;
-
         case "pref_transpoter":
           return option.name;
           break;
@@ -101,29 +106,8 @@ const SearchDropDown = ({
         case "select_city":
           return option.city;
           break;
-        // aof
-        case "publisher":
-          return option.bp_name;
-          break;
-        case "series_aof":
-          return option.series;
-          break;
-        case "title_aof":
-          return option.item_name;
-          break;
         // kys
-        case "grades":
-          return option.name;
-          break;
-        case "group":
-          return option.name;
-          break;
-        case "individual":
-          return option.name;
-          break;
-        case "fees":
-          return option.fees;
-          break;
+
         default:
           break;
       }
@@ -183,41 +167,26 @@ const SearchDropDown = ({
     if (type === "category_addschool") {
       handleOrderProcessingForm(value, type);
     }
-
     if (type === "select_state") {
       handleOrderProcessingForm(value, type);
     }
     if (type === "select_city") {
-      handleOrderProcessingForm(value, type);
-    }
-    // aof
-    if (type === "series_aof") {
-      handleOrderProcessingForm(value, type);
-    }
-    if (type === "grades") {
-      handleOrderProcessingForm(value, type);
-    }
-    if (type === "group") {
-      handleOrderProcessingForm(value, type);
-    }
-    if (type === "individual") {
-      handleOrderProcessingForm(value, type);
-    }
-    if (type === "fees") {
       handleOrderProcessingForm(value, type);
     } else {
       return;
     }
   };
 
+  const [value, setValue] = React.useState(null);
+
   return (
     <StyledEngineProvider injectFirst>
       <Stack spacing={1} sx={{ width: 200 }} className="w-full">
         <Autocomplete
-          {...defaultProps}
+          //   {...defaultProps}
           disabled={disable}
           disableClearable
-          // onBlur={() => console.log("ldkf")}
+          value={Initialvalue}
           onChange={(event, newValue) => handleDropDown(newValue, Name)}
           id="disable-close-on-select"
           renderInput={(params) => (
@@ -234,4 +203,4 @@ const SearchDropDown = ({
   );
 };
 
-export default SearchDropDown;
+export default ControlledSearchDropDown;

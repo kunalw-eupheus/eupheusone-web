@@ -23,7 +23,6 @@ const ManageSchool = () => {
   const [states, setStates] = useState([]);
   const [city, setCity] = useState({ disable: true });
   const [schoolRow, setSchoolRow] = useState([]);
-  console.log(stateAndCity);
   const navInfo = {
     title: "Manage School",
     details: ["Home", " / Manage School"],
@@ -75,7 +74,7 @@ const ManageSchool = () => {
     console.log(res.data.message);
     const rows = res.data.message.map((item, index) => {
       return {
-        id: index,
+        id: item.id,
         SchoolName: item.school_name,
         State: item.school_addresses[0].fk_state.state,
         Address: item.school_addresses[0].address,
@@ -95,10 +94,9 @@ const ManageSchool = () => {
         Authorization: `${Cookies.get("accessToken")}`,
       },
     });
-    console.log(res.data.message);
     const rows = res.data.message.map((item, index) => {
       return {
-        id: index,
+        id: item.id,
         SchoolName: item.school_name,
         State: item.school_addresses[0].fk_state.state,
         Address: item.school_addresses[0].address,
@@ -160,7 +158,7 @@ const ManageSchool = () => {
       // console.log(res.data.message);
       const rows = res.data.message.map((item, index) => {
         return {
-          id: index + 1,
+          id: item.id,
           SchoolName: item.school_name,
           State: item.school_addresses[0].fk_state.state,
           Address: item.school_addresses[0].address,
@@ -241,11 +239,11 @@ const ManageSchool = () => {
                 <BasicButton text={"Search School"} />
               </div>
             </div>
-            <Link to="/addschool">
-              <div className="w-full flex justify-end">
+            <div className="w-full flex justify-end">
+              <Link to="/addschool">
                 <BasicButton text={"Add School"} />
-              </div>
-            </Link>
+              </Link>
+            </div>
 
             <DataTable
               rows={schoolRow}

@@ -101,12 +101,14 @@ export default function DataTable({ rows, checkbox, Tablecolumns, tableName }) {
       >
         <DataGrid
           rows={search(rows)}
-          // onRowClick={() => navigate("/tagschool")}
+          // onRowClick={(event) => navigate(`/update_school/:id`)}
           columns={Tablecolumns}
           pageSize={entries}
           rowsPerPageOptions={[entries]}
           checkboxSelection={checkbox}
-          onSelectionModelChange={(event) => console.log(event[0])}
+          onSelectionModelChange={(event) =>
+            navigate(`/update_school/${event[0]}`)
+          }
         />
       </div>
       <Search className=" text-gray-500 absolute top-[1.9rem] lg:top-[1.6rem] md:top-[1.4rem] !text-[1.2rem] right-[29.5vw] lg:right-[10.7rem] md:right-[16.5vw] z-20" />

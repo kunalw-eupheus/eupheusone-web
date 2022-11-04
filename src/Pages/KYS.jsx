@@ -11,6 +11,7 @@ import SearchDropDown from "../Components/SearchDropDown";
 import instance from "../Instance";
 import Cookies from "js-cookie";
 import { Backdrop, CircularProgress } from "@mui/material";
+import Snackbars from "../Components/Material/SnackBar";
 
 const KYS = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
@@ -23,10 +24,13 @@ const KYS = () => {
   const [schools, setSchools] = useState([]);
   const [values, setValues] = useState({ stateId: false });
   const [schoolInfo, setSchoolInfo] = useState(null);
+  const [errMessage, setErrMessage] = useState("");
+  const [snackbarErrStatus, setSnackbarErrStatus] = useState(true);
 
   const sidebarRef = useRef();
+  const snackbarRef = useRef();
 
-  //   console.log(values);
+  // console.log(schoolInfo);
 
   const show = null;
   const temp = [];
@@ -121,7 +125,7 @@ const KYS = () => {
   };
 
   const navInfo = {
-    title: "AOF",
+    title: "KYS",
     details: ["Home", "/KYS"],
   };
 
@@ -185,6 +189,38 @@ const KYS = () => {
     sidebarRef.current.openSidebar();
   };
 
+  const handleSubmit = (type) => {
+    switch (type) {
+      case "product":
+        if (schoolInfo === null) {
+          setErrMessage("Please Select School");
+          snackbarRef.current.openSnackbar();
+        } else {
+          navigate(`/kys/products/${schoolInfo.id}`);
+        }
+        break;
+      case "strength":
+        if (schoolInfo === null) {
+          setErrMessage("Please Select School");
+          snackbarRef.current.openSnackbar();
+        } else {
+          navigate(`/kys/strength/${schoolInfo.id}`);
+        }
+        break;
+      case "fees":
+        if (schoolInfo === null) {
+          setErrMessage("Please Select School");
+          snackbarRef.current.openSnackbar();
+        } else {
+          navigate(`/kys/tution_fees/${schoolInfo.id}`);
+        }
+        break;
+
+      default:
+        break;
+    }
+  };
+
   useEffect(() => {
     const handleWidth = () => {
       if (window.innerWidth > 1024) {
@@ -230,91 +266,83 @@ const KYS = () => {
             window.innerWidth < 1024 ? null : "md:ml-[30vw] ml-[85vw]"
           } `}
         >
+          <Snackbars
+            ref={snackbarRef}
+            snackbarErrStatus={snackbarErrStatus}
+            errMessage={errMessage}
+          />
           <Navbar
             handleSidebarCollapsed={handleSidebarCollapsed}
             info={navInfo}
           />
 
-          {showMap ? (
-            <div className="h-[90vh] bg-gray-300">
-              <GoogleMap
-                sidebarCollapsed={sidebarCollapsed}
-                currentLocation={currentLocation}
-              />
-            </div>
-          ) : (
-            <div className="min-h-[90vh] relative flex w-full justify-center items-start gap-4 bg-[#141728]">
-              <h1 className="text-gray-100 md:text-2xl text-base font-semibold absolute top-[2rem] left-[2rem]">
-                Know Your School
-              </h1>
-              <div className="w-full flex flex-col gap-4 items-center mt-[7rem]">
-                <div className="flex flex-col gap-4 items-start w-[75%] px-6 bg-slate-600 rounded-md py-6 mb-[5rem]">
-                  <h1 className="text-gray-100 md:text-xl text-base font-semibold">
-                    Fill The Details
-                  </h1>
-                  <div className="grid sm:grid-rows-2 sm:grid-cols-2 grid-rows-[3] grid-cols-1 w-full gap-6 rounded-md bg-slate-600">
+          <div className="min-h-[90vh] relative flex w-full justify-center items-start gap-4 bg-[#141728]">
+            <h1 className="text-gray-100 md:text-2xl text-base font-semibold absolute top-[2rem] left-[2rem]">
+              Know Your School
+            </h1>
+            <div className="w-full flex flex-col gap-4 items-center mt-[7rem]">
+              <div className="flex flex-col gap-4 items-start sm:w-[75%] w-[95%] px-6 bg-slate-600 rounded-md py-6 mb-[5rem]">
+                <h1 className="text-gray-100 md:text-xl text-base font-semibold">
+                  Fill The Details
+                </h1>
+                <div className="grid sm:grid-rows-2 sm:grid-cols-2 grid-rows-3 grid-cols-1 w-full gap-6 rounded-md bg-slate-600">
+                  <SearchDropDown
+                    Name={"select_state"}
+                    handleOrderProcessingForm={handleOrderProcessingForm}
+                    data={states}
+                    label={"Select State *"}
+                    color={"rgb(243, 244, 246)"}
+                  />
+                  <SearchDropDown
+                    Name={"select_city"}
+                    data={cities}
+                    disable={!values.stateId}
+                    handleOrderProcessingForm={handleOrderProcessingForm}
+                    label={"Select City"}
+                    color={"rgb(243, 244, 246)"}
+                  />
+                  <div className="sm:col-span-2">
                     <SearchDropDown
-                      Name={"select_state"}
-                      handleOrderProcessingForm={handleOrderProcessingForm}
-                      data={states}
-                      label={"Select State *"}
-                      color={"rgb(243, 244, 246)"}
-                    />
-                    <SearchDropDown
-                      Name={"select_city"}
-                      data={cities}
+                      Name={"school_name"}
+                      data={schools}
                       disable={!values.stateId}
                       handleOrderProcessingForm={handleOrderProcessingForm}
-                      label={"Select City"}
+                      label={"Select School *"}
                       color={"rgb(243, 244, 246)"}
                     />
-                    <div className="col-span-2">
-                      <SearchDropDown
-                        Name={"school_name"}
-                        data={schools}
-                        disable={!values.stateId}
-                        handleOrderProcessingForm={handleOrderProcessingForm}
-                        label={"Select School *"}
-                        color={"rgb(243, 244, 246)"}
-                      />
-                    </div>
                   </div>
-                  {/* <div className="mt-3">
-                    <BasicButton text={"Next"} />
+                </div>
+
+                <div className="w-full flex justify-center">
+                  <hr className="text-gray-100 w-[80%] my-4" />
+                </div>
+                <h1 className="text-gray-100 md:text-lg sm:text-base text-sm font-medium">
+                  School Name : {schoolInfo ? schoolInfo.school_name : "null"}
+                </h1>
+                <h1 className="text-gray-100 md:text-lg sm:text-base text-sm font-medium">
+                  Address :{" "}
+                  {schoolInfo ? schoolInfo.school_addresses[0].address : "null"}
+                </h1>
+                <div className="flex gap-4 flex-wrap justify-start items-center">
+                  <div onClick={() => handleSubmit("product")}>
+                    <BasicButton text={"Product"} />
+                  </div>
+                  <div onClick={() => handleSubmit("strength")}>
+                    <BasicButton text={"Strength"} />
+                  </div>
+                  <div onClick={() => handleSubmit("fees")}>
+                    <BasicButton text={"Tution Fees"} />
+                  </div>
+                  {/* <div>
+                    <BasicButton text={"Competions"} />
                   </div> */}
-                  <div className="w-full flex justify-center">
-                    <hr className="text-gray-100 w-[80%] my-4" />
-                  </div>
-                  <h1 className="text-gray-100 md:text-lg text-base font-medium">
-                    School Name : {schoolInfo ? schoolInfo.school_name : "null"}
-                  </h1>
-                  <h1 className="text-gray-100 md:text-lg text-base font-medium">
-                    Address :{" "}
-                    {schoolInfo
-                      ? schoolInfo.school_addresses[0].address
-                      : "null"}
-                  </h1>
-                  <div className="grid grid-cols-3 w-full gap-6 place-content-center grid-rows-2 justify-items-start">
-                    <div>
-                      <BasicButton text={"Product"} />
-                    </div>
-                    <div>
-                      <BasicButton text={"Strength"} />
-                    </div>
-                    <div>
-                      <BasicButton text={"Tution Fees"} />
-                    </div>
-                    <div>
-                      <BasicButton text={"Competions"} />
-                    </div>
-                    <div>
-                      <BasicButton text={"Workshops"} />
-                    </div>
-                  </div>
+                  {/* <div>
+                    <BasicButton text={"Workshops"} />
+                  </div> */}
                 </div>
               </div>
             </div>
-          )}
+          </div>
         </div>
       </div>
     </>

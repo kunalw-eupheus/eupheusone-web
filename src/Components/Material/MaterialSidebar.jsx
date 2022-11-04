@@ -24,8 +24,11 @@ import { Link } from "react-router-dom";
 import { useLayoutEffect } from "react";
 import Cookies from "js-cookie";
 import instance from "../../Instance";
+import TransitionsModal from "./Model";
 
 const SwipeableTemporaryDrawer = React.forwardRef((props, ref) => {
+  const [modelOpen, setModelOpen] = useState(false);
+
   const [isSchoolClicked, setIsSchoolClicked] = useState(
     props.show === 2 ? false : true
   );
@@ -43,6 +46,10 @@ const SwipeableTemporaryDrawer = React.forwardRef((props, ref) => {
         headers: {
           Authorization: `${Cookies.get("accessToken")}`,
         },
+      }).catch((err) => {
+        if (err.response.status === 401) {
+          setModelOpen(true);
+        }
       });
       setUser(res.data.message);
     };
@@ -425,7 +432,6 @@ const SwipeableTemporaryDrawer = React.forwardRef((props, ref) => {
           {/* <hr className="text-gray-300" /> */}
         </aside>
       </Link>
-
       <Link to="/manageSchool">
         <aside
           className={`px-6 py-2 my-4 flex gap-4 cursor-pointer ${
@@ -539,6 +545,7 @@ const SwipeableTemporaryDrawer = React.forwardRef((props, ref) => {
 
   return (
     <div ref={sidebarRef}>
+      <TransitionsModal open={modelOpen} />;
       {["left"].map((anchor) => (
         <React.Fragment key={anchor}>
           {/* <Button onClick={toggleDrawer(anchor, true)}>{anchor}</Button> */}
