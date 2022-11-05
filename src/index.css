@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;1,100;1,300&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;1,100;1,300&display=swap');
 
 /* Scrollbar style */
 /* width */
@@ -61,7 +61,7 @@
   transform-origin: 40px 40px;
 }
 .lds-roller div:after {
-  content: " ";
+  content: ' ';
   display: block;
   position: absolute;
   width: 7px;
@@ -197,3 +197,8 @@ input::-webkit-inner-spin-button {
     font-size: 1rem !important;
   }
 } */
+
+/* bg of material sidebar in prod*/
+.css-wf16b5 {
+  background-color: rgb(20 23 40) !important;
+}
