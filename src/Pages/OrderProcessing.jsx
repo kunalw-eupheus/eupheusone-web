@@ -24,6 +24,7 @@ const OrderProcessing = () => {
   const [transpoterData, setTranspoterData] = useState([])
   const [seriesData, setSeriesData] = useState([{ series: '', disable: true }])
   const [address, setAddress] = useState({ disable: true })
+  const [sAddress, setSaddress] = useState([])
   const [contactData, setContactData] = useState([])
   const [open, setOpen] = useState(false)
   const [errMessage, setErrMessage] = useState('')
@@ -234,6 +235,7 @@ const OrderProcessing = () => {
     //     setCustomerData(customerRes.data.message);
     //   }
     // };
+
     const getSchoolData = async () => {
       if (Cookies.get('ms-auth')) {
         const accessToken = await getToken(
@@ -315,7 +317,7 @@ const OrderProcessing = () => {
     getTranspoterData()
   }, [])
 
-  console.log(schoolData)
+  // console.log(schoolData)
 
   const getCustomerAddress = async (id) => {
     setLoading(true)
@@ -326,12 +328,24 @@ const OrderProcessing = () => {
         Authorization: Cookies.get('accessToken'),
       },
     })
+    // console.log(addressRes.data.message)
     setAddress({
       billing: JSON.parse(
         JSON.stringify(addressRes.data.message[0].bp_addresses[0])
       ),
+    })
+
+    const addressRes2 = await instance({
+      url: `sales_data/getcustomer/shipping/${id}`,
+      method: 'GET',
+      headers: {
+        Authorization: Cookies.get('accessToken'),
+      },
+    })
+    // console.log(.data)
+    setSaddress({
       shipping: JSON.parse(
-        JSON.stringify(addressRes.data.message[0].bp_addresses[1])
+        JSON.stringify(addressRes2.data.message[0].bp_addresses)
       ),
     })
 
@@ -440,7 +454,9 @@ const OrderProcessing = () => {
         formik.values.order_type = value.order_type
         break
       case 'customer_name':
+        // console.log(value)
         getCustomerAddress(value.id)
+        // getShippingAddress(value.id)
         GetContactRes(value.id)
         formik.values.cutomer_name = value.id
         break
@@ -657,7 +673,7 @@ const OrderProcessing = () => {
                   <SearchDropDown
                     handleOrderProcessingForm={handleOrderProcessingForm}
                     disable={address.disable}
-                    data={[address.shipping]}
+                    data={sAddress.shipping}
                     Name={'shipping_address'}
                     label={'Shipping Address'}
                     color={'rgb(243, 244, 246)'}

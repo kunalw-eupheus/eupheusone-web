@@ -37,7 +37,7 @@ const SearchDropDown = ({
           return option.name
           break
         case 'school_name':
-          if (option) {
+          if (option.school_name) {
             return option.school_name
           } else {
             return null
