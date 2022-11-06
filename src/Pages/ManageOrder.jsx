@@ -115,6 +115,7 @@ const ManageOrder = () => {
                   </span>
                   <span>Quantity: {item.quantity}</span>
                   <span>Amount: ₹{item.amount}</span>
+                  {/* <span>Status: {!item.sap_status && }</span> */}
                 </div>
               )
             })}

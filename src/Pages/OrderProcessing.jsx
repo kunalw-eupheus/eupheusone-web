@@ -761,13 +761,26 @@ const OrderProcessing = () => {
                 <div className=' flex flex-col gap-2 w-full'>
                   {/* <label className="text-gray-100">Items Quantity</label> */}
 
-                  <BasicTextFields
+                  {/* <BasicTextFields
                     handleOrderProcessingForm={handleOrderProcessingForm}
                     lable={'Items Quantity'}
                     disable={value.item_quan}
                     type={'number'}
                     variant={'standard'}
                     multiline={false}
+                  /> */}
+                  <TextField
+                    id='standard-basic'
+                    onBlur={(e) =>
+                      handleOrderProcessingForm(
+                        e.target.value,
+                        'Items Quantity'
+                      )
+                    }
+                    inputProps={{ style: { color: 'white' } }}
+                    InputLabelProps={{ style: { color: 'white' } }}
+                    label='Items Quantity'
+                    variant='standard'
                   />
                 </div>
               </section>
