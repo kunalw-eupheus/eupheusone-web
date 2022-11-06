@@ -57,9 +57,9 @@ const ManageOrder = () => {
           Authorization: Cookies.get('accessToken'),
         },
       })
+      console.log(data.data)
       setOrderNum(data.data.message.length)
       setOrderData(data.data.message)
-      // console.log(data.data.message);
     }
     getOrderData()
   }, [])
@@ -109,7 +109,10 @@ const ManageOrder = () => {
               return (
                 <div className='flex font-medium flex-col gap-4 text-gray-100 justify-center rounded-md items-start px-4 py-1 bg-slate-600'>
                   <span>Order Type: {item.order_type}</span>
-                  <span>School Name: {item.fk_school.school_name}</span>
+                  <span>
+                    School Name:{' '}
+                    {item.fk_school ? item.fk_school.school_name : 'null'}
+                  </span>
                   <span>Quantity: {item.quantity}</span>
                   <span>Amount: ₹{item.amount}</span>
                 </div>
