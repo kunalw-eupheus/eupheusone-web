@@ -195,7 +195,7 @@ const UpdateFees = () => {
               <h1>Update Tution Fees</h1>
             </div>
             <div className='text-gray-100 w-full md:text-2xl flex justify-between sm:px-12 px-8 items-center text-base font-semibold absolute top-[4rem]'>
-              <h1>Current Fees: {fees?.fk_tution_fee?.fees}</h1>
+              <h1>Current Fees: {fees?.fk_tution_fee?.fees || 'null'}</h1>
             </div>
 
             <div className='w-full flex flex-col text-gray-100 gap-4  items-center mt-[7rem]'>
