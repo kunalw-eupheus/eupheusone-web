@@ -1,105 +1,106 @@
-import React, { useEffect, useLayoutEffect, useRef } from "react";
-import { useState } from "react";
-import Navbar from "../Components/Navbar";
-import Sidebar from "../Components/Sidebar";
-import { useFormik } from "formik";
+import React, { useEffect, useLayoutEffect, useRef } from 'react'
+import { useState } from 'react'
+import Navbar from '../Components/Navbar'
+import Sidebar from '../Components/Sidebar'
+import { useFormik } from 'formik'
 
-import Cookies from "js-cookie";
-import SwipeableTemporaryDrawer from "../Components/Material/MaterialSidebar";
-import BasicButton from "../Components/Material/Button";
-import CustomizedSteppers from "../Components/Material/Stepper";
-import SearchDropDown from "../Components/SearchDropDown";
-import BasicTextFields from "../Components/Material/TextField";
-import { Backdrop, CircularProgress } from "@mui/material";
-import instance from "../Instance";
-import ControlledSearchDropDown from "../Components/Material/ControlledSearchDropDown";
-import Snackbars from "../Components/Material/SnackBar";
+import Cookies from 'js-cookie'
+import SwipeableTemporaryDrawer from '../Components/Material/MaterialSidebar'
+import BasicButton from '../Components/Material/Button'
+import CustomizedSteppers from '../Components/Material/Stepper'
+import SearchDropDown from '../Components/SearchDropDown'
+import BasicTextFields from '../Components/Material/TextField'
+import { Backdrop, CircularProgress } from '@mui/material'
+import instance from '../Instance'
+import ControlledSearchDropDown from '../Components/Material/ControlledSearchDropDown'
+import Snackbars from '../Components/Material/SnackBar'
 
 const AddSchool = () => {
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [boards, setBoards] = useState(null);
-  const [category, setCategory] = useState(null);
-  const [values, setValues] = useState({ stateId: "" });
-  const [errMessage, setErrMessage] = useState("");
-  const [snackbarErrStatus, setSnackbarErrStatus] = useState(true);
-  const [state, setState] = useState(null);
-  const [city, setCity] = useState(null);
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const [boards, setBoards] = useState(null)
+  const [category, setCategory] = useState(null)
+  const [values, setValues] = useState({ stateId: '' })
+  const [errMessage, setErrMessage] = useState('')
+  const [snackbarErrStatus, setSnackbarErrStatus] = useState(true)
+  const [state, setState] = useState(null)
+  const [city, setCity] = useState(null)
   const [steps, setSteps] = useState({
     step1: true,
     step2: false,
     step3: false,
-  });
-  const sidebarRef = useRef();
-  const snackbarRef = useRef();
+  })
+  const sidebarRef = useRef()
+  const snackbarRef = useRef()
 
-  const show = null;
+  const show = null
 
   const formik = useFormik({
     initialValues: {
-      school_name: "",
-      aff_code: "",
-      board: "",
-      category: "",
-      name: "",
-      email: "",
-      phone: "",
-      web: "",
-      designation: "",
-      state: "",
-      city: "",
-      address: "",
-      pin_code: "",
+      school_name: '',
+      aff_code: '',
+      board: '',
+      category: '',
+      name: '',
+      email: '',
+      phone: '',
+      web: '',
+      designation: '',
+      state: '',
+      city: '',
+      address: '',
+      pin_code: '',
     },
 
     validate: () => {
-      const errors = {};
+      const errors = {}
       if (!formik.values.school_name) {
-        errors.school_name = "Required";
+        errors.school_name = 'Required'
       }
-      if (!formik.values.aff_code) {
-        errors.school_name = "Required";
-      }
+      // if (!formik.values.aff_code) {
+      //   errors.school_name = 'Required'
+      // }
       if (!formik.values.board) {
-        errors.school_name = "Required";
+        errors.school_name = 'Required'
       }
       if (!formik.values.category) {
-        errors.school_name = "Required";
+        errors.school_name = 'Required'
       }
-      if (!formik.values.name) {
-        errors.school_name = "Required";
-      }
-      if (!formik.values.email) {
-        errors.school_name = "Required";
-      }
-      if (!formik.values.phone) {
-        errors.school_name = "Required";
-      }
-      if (!formik.values.web) {
-        errors.school_name = "Required";
-      }
-      if (!formik.values.designation) {
-        errors.school_name = "Required";
-      }
+      // if (!formik.values.name) {
+      //   errors.school_name = 'Required'
+      // }
+      // if (!formik.values.email) {
+      //   errors.school_name = 'Required'
+      // }
+      // if (!formik.values.phone) {
+      //   errors.school_name = 'Required'
+      // }
+      // if (!formik.values.web) {
+      //   errors.school_name = 'Required'
+      // }
+      // if (!formik.values.designation) {
+      //   errors.school_name = 'Required'
+      // }
       if (!formik.values.state) {
-        errors.school_name = "Required";
+        errors.school_name = 'Required'
       }
       if (!formik.values.city) {
-        errors.school_name = "Required";
+        errors.school_name = 'Required'
       }
       if (!formik.values.address) {
-        errors.school_name = "Required";
+        errors.school_name = 'Required'
       }
       if (!formik.values.pin_code) {
-        errors.school_name = "Required";
+        errors.school_name = 'Required'
       }
-      return errors;
+      return errors
     },
     onSubmit: async (values) => {
-      setLoading(true);
+      // console.log(values)
+      setLoading(true)
       const res = await instance({
-        url: "school/create",
-        method: "POST",
+        url: 'school/create',
+        method: 'POST',
         data: {
           school_name: formik.values.school_name,
           aff_code: formik.values.aff_code,
@@ -117,177 +118,178 @@ const AddSchool = () => {
           address: formik.values.address,
         },
         headers: {
-          Authorization: Cookies.get("accessToken"),
+          Authorization: Cookies.get('accessToken'),
         },
-      });
-      if (res.data.status === "success") {
-        setSnackbarErrStatus(false);
-        setErrMessage(res.data.message);
-        snackbarRef.current.openSnackbar();
+      })
+      // console.log(res.data)
+      if (res.data.status === 'success') {
+        setSnackbarErrStatus(false)
+        setErrMessage(res.data.message)
+        snackbarRef.current.openSnackbar()
         setTimeout(() => {
           window.scroll({
             top: 0,
             // behavior: "smooth",
-          });
+          })
           setTimeout(() => {
-            window.location.reload();
-          }, 100);
-        }, 1500);
+            window.location.reload()
+          }, 100)
+        }, 1500)
       }
 
-      setLoading(false);
+      setLoading(false)
     },
-  });
+  })
 
   const calActiceStep = () => {
     if (steps.step1) {
-      return 0;
+      return 0
     }
     if (steps.step2) {
-      return 1;
+      return 1
     }
     if (steps.step3) {
-      return 2;
+      return 2
     }
-  };
+  }
 
   const handleOrderProcessingForm = async (value, type) => {
     switch (type) {
       // step 1
-      case "board_name_addschool":
-        formik.values.board = value.id;
-        break;
-      case "category_addschool":
-        formik.values.category = value.id;
-        break;
-      case "Enter School Name *":
-        formik.values.school_name = value;
-        break;
-      case "Enter Affiliate Code *":
-        formik.values.aff_code = value;
-        break;
+      case 'board_name_addschool':
+        formik.values.board = value.id
+        break
+      case 'category_addschool':
+        formik.values.category = value.id
+        break
+      case 'Enter School Name *':
+        formik.values.school_name = value
+        break
+      case 'Enter Affiliate Code *':
+        formik.values.aff_code = value
+        break
       // step 2
-      case "Enter Name *":
-        formik.values.name = value;
-        break;
-      case "Enter Email *":
-        formik.values.email = value;
-        break;
-      case "Enter Phone *":
-        formik.values.phone = value;
-        break;
-      case "Enter Website *":
-        formik.values.web = value;
-        break;
-      case "Enter Designation *":
-        formik.values.designation = value;
-        break;
+      case 'Enter Name *':
+        formik.values.name = value
+        break
+      case 'Enter Email *':
+        formik.values.email = value
+        break
+      case 'Enter Phone *':
+        formik.values.phone = value
+        break
+      case 'Enter Website *':
+        formik.values.web = value
+        break
+      case 'Enter Designation *':
+        formik.values.designation = value
+        break
       // step 3
-      case "select_state":
-        formik.values.state = value.fk_state_id;
-        setValues({ stateId: value.fk_state_id });
-        getCityByState(values.stateId);
-        break;
-      case "select_city":
-        formik.values.city = value.id;
-        break;
-      case "Enter Address *":
-        formik.values.address = value;
-        break;
-      case "Enter Pin Code *":
-        formik.values.pin_code = value;
-        break;
+      case 'select_state':
+        formik.values.state = value.fk_state_id
+        setValues({ stateId: value.fk_state_id })
+        getCityByState(values.stateId)
+        break
+      case 'select_city':
+        formik.values.city = value.id
+        break
+      case 'Enter Address *':
+        formik.values.address = value
+        break
+      case 'Enter Pin Code *':
+        formik.values.pin_code = value
+        break
       default:
-        break;
+        break
     }
-    console.log(formik.values);
-  };
+    // console.log(formik.values)
+  }
 
   useLayoutEffect(() => {
     const getBoards = async () => {
       const boards = await instance({
-        url: "school/board/get/findAll",
-        method: "GET",
+        url: 'school/board/get/findAll',
+        method: 'GET',
         headers: {
-          Authorization: Cookies.get("accessToken"),
+          Authorization: Cookies.get('accessToken'),
         },
-      });
-      setBoards(boards.data.message);
-    };
+      })
+      setBoards(boards.data.message)
+    }
     const getCategory = async () => {
       const category = await instance({
-        url: "school/category/get/findAll",
-        method: "GET",
+        url: 'school/category/get/findAll',
+        method: 'GET',
         headers: {
-          Authorization: Cookies.get("accessToken"),
+          Authorization: Cookies.get('accessToken'),
         },
-      });
-      setCategory(category.data.message);
-    };
+      })
+      setCategory(category.data.message)
+    }
     const getState = async () => {
       const state = await instance({
-        url: "location/state/get/states",
-        method: "GET",
+        url: 'location/state/get/states',
+        method: 'GET',
         headers: {
-          Authorization: Cookies.get("accessToken"),
+          Authorization: Cookies.get('accessToken'),
         },
-      });
-      setState(state.data.message);
-    };
-    getBoards();
-    getCategory();
-    getState();
-  }, []);
+      })
+      setState(state.data.message)
+    }
+    getBoards()
+    getCategory()
+    getState()
+  }, [])
 
   const navInfo = {
-    title: "Add New School",
-    details: ["Home", "/New School"],
-  };
+    title: 'Add New School',
+    details: ['Home', '/New School'],
+  }
 
   const handleSidebarCollapsed = () => {
     // setSidebarCollapsed(!sidebarCollapsed);
-    sidebarRef.current.openSidebar();
-  };
+    sidebarRef.current.openSidebar()
+  }
 
   const getCityByState = async (id) => {
     const city = await instance({
       url: `location/city/${id}`,
-      method: "GET",
+      method: 'GET',
       headers: {
-        Authorization: Cookies.get("accessToken"),
+        Authorization: Cookies.get('accessToken'),
       },
-    });
-    setCity(city.data.message);
-  };
+    })
+    setCity(city.data.message)
+  }
 
   useEffect(() => {
     const handleWidth = () => {
       if (window.innerWidth > 1024) {
-        setSidebarCollapsed(false);
+        setSidebarCollapsed(false)
       } else {
-        setSidebarCollapsed(true);
+        setSidebarCollapsed(true)
       }
-    };
-    window.addEventListener("resize", handleWidth);
-    handleWidth();
-    window.scroll(0, 0);
+    }
+    window.addEventListener('resize', handleWidth)
+    handleWidth()
+    window.scroll(0, 0)
 
     return () => {
-      window.removeEventListener("resize", handleWidth);
-    };
-  }, []);
+      window.removeEventListener('resize', handleWidth)
+    }
+  }, [])
   return (
     <>
-      <div className="flex w-[100%] min-h-[100vh]">
+      <div className='flex w-[100%] min-h-[100vh]'>
         <Backdrop
-          sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+          sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
           open={loading}
         >
-          <CircularProgress color="inherit" />
+          <CircularProgress color='inherit' />
         </Backdrop>
 
         <Sidebar
-          highLight={""}
+          highLight={''}
           sidebarCollapsed={sidebarCollapsed}
           show={show}
         />
@@ -297,12 +299,12 @@ const AddSchool = () => {
             ref={sidebarRef}
             sidebarCollapsed={sidebarCollapsed}
             show={show}
-            highLight={""}
+            highLight={''}
           />
         </div>
         <div
           className={`flex flex-col w-[100vw] relative transition-all ease-linear duration-300 lg:w-[83vw] lg:ml-[18vw] ${
-            window.innerWidth < 1024 ? null : "md:ml-[30vw] ml-[85vw]"
+            window.innerWidth < 1024 ? null : 'md:ml-[30vw] ml-[85vw]'
           } `}
         >
           <Snackbars
@@ -315,108 +317,107 @@ const AddSchool = () => {
             info={navInfo}
           />
 
-          <div className="min-h-[90vh] relative flex w-full justify-center items-start gap-4 bg-[#141728]">
-            <h1 className="text-gray-100 md:text-2xl text-base font-semibold absolute top-[2rem] left-[2rem]">
+          <div className='min-h-[90vh] relative flex w-full justify-center items-start gap-4 bg-[#141728]'>
+            <h1 className='text-gray-100 md:text-2xl text-base font-semibold absolute top-[2rem] left-[2rem]'>
               Add New School
             </h1>
-            <div className="w-full flex flex-col gap-4 items-center mt-[7rem]">
+            <div className='w-full flex flex-col gap-4 items-center mt-[7rem]'>
               <CustomizedSteppers
                 activeStep={calActiceStep()}
-                steps={["Basic Details", "Contact Details", "Address Details"]}
+                steps={['Basic Details', 'Contact Details', 'Address Details']}
               />
               {/* step 1 */}
               {steps.step1 ? (
-                <div className="flex flex-col gap-4 items-start w-[90%] px-6 bg-slate-600 rounded-md py-6 mb-[5rem]">
-                  <div className="grid sm:grid-rows-2 sm:grid-cols-2 grid-rows-4 grid-cols-1 w-full mt-6 gap-6 rounded-md bg-slate-600">
+                <div className='flex flex-col gap-4 items-start w-[90%] px-6 bg-slate-600 rounded-md py-6 mb-[5rem]'>
+                  <div className='grid sm:grid-rows-2 sm:grid-cols-2 grid-rows-4 grid-cols-1 w-full mt-6 gap-6 rounded-md bg-slate-600'>
                     <BasicTextFields
-                      lable={"Enter School Name *"}
+                      lable={'Enter School Name *'}
                       handleOrderProcessingForm={handleOrderProcessingForm}
-                      variant={"standard"}
+                      variant={'standard'}
                       multiline={false}
                     />
                     <BasicTextFields
-                      lable={"Enter Affiliate Code *"}
+                      lable={'Enter Affiliate Code'}
                       handleOrderProcessingForm={handleOrderProcessingForm}
-                      variant={"standard"}
+                      variant={'standard'}
                       multiline={false}
                     />
 
                     <SearchDropDown
                       handleOrderProcessingForm={handleOrderProcessingForm}
-                      Name={"board_name_addschool"}
+                      Name={'board_name_addschool'}
                       Initialvalue={formik.values.board}
-                      label={"Select Board *"}
+                      label={'Select Board *'}
                       data={boards}
-                      color={"rgb(243, 244, 246)"}
+                      color={'rgb(243, 244, 246)'}
                     />
                     <SearchDropDown
                       handleOrderProcessingForm={handleOrderProcessingForm}
-                      Name={"category_addschool"}
+                      Name={'category_addschool'}
                       Initialvalue={formik.values.category}
                       data={category}
-                      label={"Select Category *"}
-                      color={"rgb(243, 244, 246)"}
+                      label={'Select Category *'}
+                      color={'rgb(243, 244, 246)'}
                     />
                   </div>
                   <div
-                    className="mt-3"
+                    className='mt-3'
                     onClick={() => {
                       if (
                         formik.values.school_name &&
-                        formik.values.aff_code &&
                         formik.values.board &&
                         formik.values.category
                       ) {
-                        setSteps({ step1: false, step2: true, step3: false });
+                        setSteps({ step1: false, step2: true, step3: false })
                         window.scroll({
                           top: 0,
-                          behavior: "smooth",
-                        });
+                          behavior: 'smooth',
+                        })
                       } else {
-                        setSnackbarErrStatus(true);
-                        setErrMessage("Please Fill All The Fields");
-                        snackbarRef.current.openSnackbar();
+                        setSnackbarErrStatus(true)
+                        setErrMessage('Please Fill All The Fields')
+                        snackbarRef.current.openSnackbar()
                       }
                     }}
                   >
-                    <BasicButton text={"Next"} />
+                    <BasicButton text={'Next'} />
                   </div>
                 </div>
               ) : null}
               {/* step 2 */}
               {steps.step2 ? (
-                <div className="flex flex-col gap-4 items-start w-[90%] px-6 bg-slate-600 rounded-md py-6 mb-[5rem]">
-                  <div className="grid sm:grid-rows-2 sm:grid-cols-3 grid-rows-5 grid-cols-1 w-full mt-6 gap-6 rounded-md bg-slate-600">
+                <div className='flex flex-col gap-4 items-start w-[90%] px-6 bg-slate-600 rounded-md py-6 mb-[5rem]'>
+                  <div className='grid sm:grid-rows-2 sm:grid-cols-3 grid-rows-5 grid-cols-1 w-full mt-6 gap-6 rounded-md bg-slate-600'>
                     <BasicTextFields
-                      lable={"Enter Name *"}
+                      lable={'Enter Name'}
                       handleOrderProcessingForm={handleOrderProcessingForm}
-                      variant={"standard"}
+                      variant={'standard'}
                       multiline={false}
                     />
                     <BasicTextFields
-                      lable={"Enter Email *"}
+                      lable={'Enter Email'}
                       handleOrderProcessingForm={handleOrderProcessingForm}
-                      variant={"standard"}
+                      variant={'standard'}
                       multiline={false}
                     />
                     <BasicTextFields
-                      lable={"Enter Phone *"}
+                      lable={'Enter Phone'}
                       handleOrderProcessingForm={handleOrderProcessingForm}
-                      type={"number"}
-                      variant={"standard"}
+                      type={'number'}
+                      variant={'standard'}
                       multiline={false}
                     />
 
                     <BasicTextFields
-                      lable={"Enter Website *"}
-                      variant={"standard"}
+                      lable={'Enter Website'}
+                      variant={'standard'}
                       handleOrderProcessingForm={handleOrderProcessingForm}
                       multiline={false}
                     />
                     <BasicTextFields
-                      lable={"Enter Designation *"}
+                      lable={'Enter Designation'}
                       handleOrderProcessingForm={handleOrderProcessingForm}
-                      variant={"standard"}
+                      variant={'standard'}
                       multiline={false}
                     />
                   </div>
@@ -424,65 +425,66 @@ const AddSchool = () => {
                   <div
                     onClick={() => {
                       if (
-                        formik.values.name &&
-                        formik.values.email &&
-                        formik.values.phone &&
-                        formik.values.web &&
-                        formik.values.designation
+                        // formik.values.name &&
+                        // formik.values.email &&
+                        // formik.values.phone &&
+                        // formik.values.web &&
+                        // formik.values.designation
+                        true
                       ) {
-                        setSteps({ step1: false, step2: false, step3: true });
+                        setSteps({ step1: false, step2: false, step3: true })
                         window.scroll({
                           top: 0,
-                          behavior: "smooth",
-                        });
+                          behavior: 'smooth',
+                        })
                       } else {
-                        setSnackbarErrStatus(true);
-                        setErrMessage("Please Fill All The Fields");
-                        snackbarRef.current.openSnackbar();
+                        setSnackbarErrStatus(true)
+                        setErrMessage('Please Fill All The Fields')
+                        snackbarRef.current.openSnackbar()
                       }
                     }}
-                    className="mt-3"
+                    className='mt-3'
                   >
-                    <BasicButton text={"Next"} />
+                    <BasicButton text={'Next'} />
                   </div>
                 </div>
               ) : null}
               {/* step 3 */}
               {steps.step3 ? (
-                <div className="flex flex-col gap-4 items-start w-[90%] px-6 bg-slate-600 rounded-md py-6 mb-[5rem]">
-                  <div className="grid sm:grid-rows-2 sm:grid-cols-3 grid-rows-4 grid-cols-1 w-full mt-6 gap-6 rounded-md bg-slate-600">
+                <div className='flex flex-col gap-4 items-start w-[90%] px-6 bg-slate-600 rounded-md py-6 mb-[5rem]'>
+                  <div className='grid sm:grid-rows-2 sm:grid-cols-3 grid-rows-4 grid-cols-1 w-full mt-6 gap-6 rounded-md bg-slate-600'>
                     <SearchDropDown
                       handleOrderProcessingForm={handleOrderProcessingForm}
-                      label={"Select State *"}
+                      label={'Select State *'}
                       data={state}
-                      Name={"select_state"}
-                      color={"rgb(243, 244, 246)"}
+                      Name={'select_state'}
+                      color={'rgb(243, 244, 246)'}
                     />
                     <SearchDropDown
                       handleOrderProcessingForm={handleOrderProcessingForm}
-                      label={"Select City *"}
-                      Name={"select_city"}
+                      label={'Select City *'}
+                      Name={'select_city'}
                       data={city}
                       disable={!values.stateId}
-                      color={"rgb(243, 244, 246)"}
+                      color={'rgb(243, 244, 246)'}
                     />
                     <BasicTextFields
-                      lable={"Enter Address *"}
+                      lable={'Enter Address *'}
                       handleOrderProcessingForm={handleOrderProcessingForm}
-                      variant={"standard"}
+                      variant={'standard'}
                       multiline={false}
                     />
                     <BasicTextFields
-                      lable={"Enter Pin Code *"}
+                      lable={'Enter Pin Code *'}
                       handleOrderProcessingForm={handleOrderProcessingForm}
-                      variant={"standard"}
-                      type={"number"}
+                      variant={'standard'}
+                      type={'number'}
                       multiline={false}
                     />
                   </div>
 
                   <div
-                    className="mt-3"
+                    className='mt-3'
                     onClick={() => {
                       if (
                         formik.values.state &&
@@ -490,15 +492,15 @@ const AddSchool = () => {
                         formik.values.address &&
                         formik.values.pin_code
                       ) {
-                        formik.handleSubmit();
+                        formik.handleSubmit()
                       } else {
-                        setSnackbarErrStatus(true);
-                        setErrMessage("Please Fill All The Fields");
-                        snackbarRef.current.openSnackbar();
+                        setSnackbarErrStatus(true)
+                        setErrMessage('Please Fill All The Fields')
+                        snackbarRef.current.openSnackbar()
                       }
                     }}
                   >
-                    <BasicButton text={"Add School"} />
+                    <BasicButton text={'Add School'} />
                   </div>
                 </div>
               ) : null}
@@ -507,7 +509,7 @@ const AddSchool = () => {
         </div>
       </div>
     </>
-  );
-};
+  )
+}
 
-export default AddSchool;
+export default AddSchool
