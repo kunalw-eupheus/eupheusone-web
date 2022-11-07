@@ -106,6 +106,7 @@ export default function DataTable({
         navigate(`/update_school/${value[0]}`)
         break
       case 'Tagging':
+        // console.log('hi')
         handleTaggingClick(value)
         break
       default:

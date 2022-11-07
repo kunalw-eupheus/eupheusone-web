@@ -26,6 +26,7 @@ const Tagging = () => {
   const [schoolId, setSchoolId] = useState('')
   const [errMessage, setErrMessage] = useState('')
   const [snackbarErrStatus, setSnackbarErrStatus] = useState(true)
+  const [stateId, setStateId] = useState('')
 
   const sidebarRef = useRef()
   const snackbarRef = useRef()
@@ -75,6 +76,8 @@ const Tagging = () => {
   }
 
   const getSchoolByState = async (id) => {
+    // console.log(id)
+    setStateId(id)
     setLoading(true)
     const res = await instance({
       url: `school/get/schools/state/${id}`,
@@ -83,7 +86,7 @@ const Tagging = () => {
         Authorization: `${Cookies.get('accessToken')}`,
       },
     })
-    console.log(res.data.message)
+    // console.log(res.data.message)
     const rows = res.data.message.map((item, index) => {
       return {
         id: item?.id,
@@ -109,10 +112,12 @@ const Tagging = () => {
   }
 
   const handleTaggingClick = (id) => {
+    // console.log('hi')
     setLoading(true)
     const school = schoolRow.find((item) => item.id === id[0])
-    setSchoolId(school.id)
-    if (school.Tagged === 'no') {
+    // console.log(school)
+    setSchoolId(school?.id)
+    if (school?.Tagged === 'no') {
       getTaggerName(id[0])
 
       setOpen(true)
@@ -160,18 +165,11 @@ const Tagging = () => {
     })
     setOpen(false)
     if (res.data.status === 'success') {
+      getSchoolByState(stateId)
+
       setSnackbarErrStatus(false)
       setErrMessage(res.data.message)
       snackbarRef.current.openSnackbar()
-      setTimeout(() => {
-        window.scroll({
-          top: 0,
-          // behavior: "smooth",
-        })
-        setTimeout(() => {
-          window.location.reload()
-        }, 100)
-      }, 1500)
     }
     setLoading(false)
   }
