@@ -241,10 +241,10 @@ const ManageSchool = () => {
             </div>
             <div className='w-full flex gap-3 justify-end'>
               <Link to='/addschool'>
-                <BasicButton text={'Add School'} />
+                <BasicButton text={'Create New School'} />
               </Link>
               <Link to='/tagging'>
-                <BasicButton text={"Couldn't Find School"} />
+                <BasicButton text={'Tag Existing School'} />
               </Link>
             </div>
 
