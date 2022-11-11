@@ -3,30 +3,30 @@ import { useSelector } from "react-redux";
 // Pages
 import Login from "./Pages/Login";
 import Home from "./Pages/Home";
-import MySchool from "./Pages/MySchool";
+// import MySchool from "./Pages/MySchool";
 import Tagging from "./Pages/Tagging";
-import SchoolDirectory from "./Pages/SchoolDirectory";
+// import SchoolDirectory from "./Pages/SchoolDirectory";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import SalesInvoices from "./Pages/SalesInvoice";
-import UpdateStocks from "./Pages/UpdateStocks";
-import Opportunities from "./Pages/Opportunities";
+// import SalesInvoices from "./Pages/SalesInvoice";
+// import UpdateStocks from "./Pages/UpdateStocks";
+// import Opportunities from "./Pages/Opportunities";
 import ManageSchool from "./Pages/ManageSchool";
-import AdminLogin from "./Pages/AdminLogin";
-import AdminHome from "./Pages/AdminHome";
-import AdminSignUp from "./Pages/AdminSignUp";
-import AdminAllUser from "./Pages/AdminAllUser";
-import AdminState from "./Pages/AdminState";
-import AdminCity from "./Pages/AdminCity";
-import AdminCountry from "./Pages/AdminCountry";
+// import AdminLogin from "./Pages/AdminLogin";
+// import AdminHome from "./Pages/AdminHome";
+// import AdminSignUp from "./Pages/AdminSignUp";
+// import AdminAllUser from "./Pages/AdminAllUser";
+// import AdminState from "./Pages/AdminState";
+// import AdminCity from "./Pages/AdminCity";
+// import AdminCountry from "./Pages/AdminCountry";
 import SchoolTagging from "./Pages/SchoolTagging";
 import Schools from "./Pages/Schools";
 import TagSchool from "./Pages/TagSchool";
 import AddSchool from "./Pages/AddSchool";
 import SchoolPunchIn from "./Pages/SchoolPunchIn";
 import OrderProcessing from "./Pages/OrderProcessing";
-import MyDocument from "./Components/PdfDocument";
+// import MyDocument from "./Components/PdfDocument";
 import ManageOrder from "./Pages/ManageOrder";
-import AOF from "./Pages/AOF";
+// import AOF from "./Pages/AOF";
 import KYS from "./Pages/KYS";
 import ReleaseNote from "./Pages/ReleaseNote";
 import V_1_0_0 from "./Pages/ReleaseNotes/V.1.0.0";
@@ -54,30 +54,30 @@ function App() {
             element={isAuth || MsAuth ? <Home /> : <Login />}
           />
           <Route path="/" element={isAuth || MsAuth ? <Home /> : <Login />} />
-          <Route
+          {/* <Route
             path="/mySchool"
             element={isAuth || MsAuth ? <MySchool /> : <Login />}
-          />
+          /> */}
           <Route
             path="/tagging"
             element={isAuth || MsAuth ? <Tagging /> : <Login />}
           />
-          <Route
+          {/* <Route
             path="/schoolDirectory"
             element={isAuth || MsAuth ? <SchoolDirectory /> : <Login />}
-          />
-          <Route
+          /> */}
+          {/* <Route
             path="/salesInvoices"
             element={isAuth || MsAuth ? <SalesInvoices /> : <Login />}
-          />
-          <Route
+          /> */}
+          {/* <Route
             path="/updateStocks"
             element={isAuth || MsAuth ? <UpdateStocks /> : <Login />}
-          />
-          <Route
+          /> */}
+          {/* <Route
             path="/opportunities"
             element={isAuth || MsAuth ? <Opportunities /> : <Login />}
-          />
+          /> */}
           <Route
             path="/manageSchool"
             element={isAuth || MsAuth ? <ManageSchool /> : <Login />}
@@ -115,10 +115,10 @@ function App() {
             path="/manage_order"
             element={isAuth || MsAuth ? <ManageOrder /> : <Login />}
           />
-          <Route
+          {/* <Route
             path="/pdf_view"
             element={isAuth || MsAuth ? <MyDocument /> : <Login />}
-          />
+          /> */}
           {/* <Route path="/aof" element={isAuth || MsAuth ? <AOF /> : <Login />} /> */}
           {/* kys */}
           <Route path="/kys" element={isAuth || MsAuth ? <KYS /> : <Login />} />
@@ -156,31 +156,31 @@ function App() {
 
           {/* Admin */}
 
-          <Route path="/admin/signIn" element={<AdminLogin />} />
-          <Route
+          {/* <Route path="/admin/signIn" element={<AdminLogin />} /> */}
+          {/* <Route
             path="/admin/home"
             element={Admin ? <AdminHome /> : <Login />}
-          />
-          <Route
+          /> */}
+          {/* <Route
             path="/admin/user/create/new"
             element={Admin ? <AdminSignUp /> : <Login />}
-          />
-          <Route
+          /> */}
+          {/* <Route
             path="/admin/all/user"
             element={Admin ? <AdminAllUser /> : <Login />}
-          />
-          <Route
+          /> */}
+          {/* <Route
             path="/admin/location/state"
             element={Admin ? <AdminState /> : <Login />}
-          />
-          <Route
+          /> */}
+          {/* <Route
             path="/admin/location/city"
             element={Admin ? <AdminCity /> : <Login />}
           />
           <Route
             path="/admin/location/country"
             element={Admin ? <AdminCountry /> : <Login />}
-          />
+          /> */}
         </Routes>
       </BrowserRouter>
     </div>
