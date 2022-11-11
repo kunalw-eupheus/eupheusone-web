@@ -120,12 +120,12 @@ const Login = () => {
                         className="block uppercase text-gray-600 text-xs font-bold mb-2"
                         htmlFor="grid-password"
                       >
-                        Email
+                        Emp. Code
                       </label>
                       <input
                         type="email"
                         className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                        placeholder="Email"
+                        placeholder="Emp. Code"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                       />
@@ -146,7 +146,7 @@ const Login = () => {
                         onChange={(e) => setPassword(e.target.value)}
                       />
                     </div>
-                    <div>
+                    {/* <div>
                       <label className="inline-flex items-center cursor-pointer">
                         <input
                           id="customCheckLogin"
@@ -161,7 +161,7 @@ const Login = () => {
                           Forgot Password?
                         </span>
                       </label>
-                    </div>
+                    </div> */}
                     <Stack direction="row" spacing={2}>
                       <LoadingButton
                         loading={loading}
