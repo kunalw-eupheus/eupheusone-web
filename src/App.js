@@ -26,7 +26,7 @@ import SchoolPunchIn from "./Pages/SchoolPunchIn";
 import OrderProcessing from "./Pages/OrderProcessing";
 // import MyDocument from "./Components/PdfDocument";
 import ManageOrder from "./Pages/ManageOrder";
-// import AOF from "./Pages/AOF";
+import AOF from "./Pages/AOF";
 import KYS from "./Pages/KYS";
 import ReleaseNote from "./Pages/ReleaseNote";
 import V_1_0_0 from "./Pages/ReleaseNotes/V.1.0.0";
@@ -119,7 +119,7 @@ function App() {
             path="/pdf_view"
             element={isAuth || MsAuth ? <MyDocument /> : <Login />}
           /> */}
-          {/* <Route path="/aof" element={isAuth || MsAuth ? <AOF /> : <Login />} /> */}
+          <Route path="/aof" element={isAuth || MsAuth ? <AOF /> : <Login />} />
           {/* kys */}
           <Route path="/kys" element={isAuth || MsAuth ? <KYS /> : <Login />} />
           <Route

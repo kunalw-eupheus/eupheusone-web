@@ -323,7 +323,15 @@ const AOF = () => {
                     />
 
                     <SearchDropDown
-                      Name={"school_name"}
+                      Name={"aof_status"}
+                      data={[
+                        { title: "Sole Proprietary" },
+                        { title: "Partnership" },
+                        { title: "LLP" },
+                        { title: "Pvt.Ltd" },
+                        { title: "PublicLtd" },
+                        { title: "Trust" },
+                      ]}
                       label={"Select Status *"}
                       color={"rgb(243, 244, 246)"}
                     />
@@ -500,6 +508,8 @@ const AOF = () => {
                       multiline={false}
                     />
                     <SearchDropDown
+                      Name={"aof_acc"}
+                      data={[{ title: "SB" }, { title: "CA" }, { title: "CC" }]}
                       label={"Type of A/c "}
                       color={"rgb(243, 244, 246)"}
                     />
@@ -831,6 +841,9 @@ const AOF = () => {
                         </Typography>
                       </AccordionDetails>
                     </Accordion>
+                  </div>
+                  <div>
+                    <BasicButton text={"Submit"} />
                   </div>
 
                   {/* {showTod ? (
