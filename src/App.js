@@ -26,7 +26,7 @@ import SchoolPunchIn from "./Pages/SchoolPunchIn";
 import OrderProcessing from "./Pages/OrderProcessing";
 // import MyDocument from "./Components/PdfDocument";
 import ManageOrder from "./Pages/ManageOrder";
-import AOF from "./Pages/AOF";
+// import AOF from "./Pages/AOF";
 import KYS from "./Pages/KYS";
 import ReleaseNote from "./Pages/ReleaseNote";
 import V_1_0_0 from "./Pages/ReleaseNotes/V.1.0.0";
@@ -36,6 +36,10 @@ import AddProduct from "./Pages/KYS/AddProduct";
 import Strength from "./Pages/KYS/Strength";
 import AddStrength from "./Pages/KYS/AddStrength";
 import UpdateFees from "./Pages/KYS/UpdateFees";
+import Competition from "./Pages/KYS/Competition";
+import AddWorkShop from "./Pages/KYS/AddWorkShop";
+import Workshop from "./Pages/KYS/Workshop";
+import PageNotFound from "./Pages/PageNotFound";
 
 function App() {
   const isAuth = useSelector((state) => state.auth.user);
@@ -119,7 +123,7 @@ function App() {
             path="/pdf_view"
             element={isAuth || MsAuth ? <MyDocument /> : <Login />}
           /> */}
-          <Route path="/aof" element={isAuth || MsAuth ? <AOF /> : <Login />} />
+          {/* <Route path="/aof" element={isAuth || MsAuth ? <AOF /> : <Login />} /> */}
           {/* kys */}
           <Route path="/kys" element={isAuth || MsAuth ? <KYS /> : <Login />} />
           <Route
@@ -141,6 +145,18 @@ function App() {
           <Route
             path="/kys/tution_fees/:id"
             element={isAuth || MsAuth ? <UpdateFees /> : <Login />}
+          />
+          <Route
+            path="/kys/add_competition/:id"
+            element={isAuth || MsAuth ? <Competition /> : <Login />}
+          />
+          <Route
+            path="/kys/workshop/:id"
+            element={isAuth || MsAuth ? <Workshop /> : <Login />}
+          />
+          <Route
+            path="/kys/add_workshop/:id"
+            element={isAuth || MsAuth ? <AddWorkShop /> : <Login />}
           />
 
           <Route
@@ -181,6 +197,7 @@ function App() {
             path="/admin/location/country"
             element={Admin ? <AdminCountry /> : <Login />}
           /> */}
+          <Route path="*" element={isAuth ? <PageNotFound /> : <Login />} />
         </Routes>
       </BrowserRouter>
     </div>

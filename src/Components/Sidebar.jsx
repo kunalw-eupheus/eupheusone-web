@@ -494,7 +494,7 @@ const Sidebar = ({ sidebarCollapsed, highLight, show }) => {
             </span>
           </aside>
         </Link>
-        <Link to="/aof">
+        {/* <Link to="/aof">
           <aside
             className={`px-6 py-2 flex gap-4 ${
               highLight === "aof" ? "bg-gray-500" : ""
@@ -513,7 +513,7 @@ const Sidebar = ({ sidebarCollapsed, highLight, show }) => {
               AOF
             </span>
           </aside>
-        </Link>
+        </Link> */}
         <Link to="/kys">
           <aside
             className={`px-6 py-2 flex gap-4 ${
