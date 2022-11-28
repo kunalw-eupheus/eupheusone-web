@@ -476,7 +476,7 @@ const SwipeableTemporaryDrawer = React.forwardRef((props, ref) => {
               highLight === "order_pro" ? "text-gray-200" : "text-gray-400"
             } group-hover:!text-gray-100 transition-all duration-150 ease-linear`}
           >
-            Order Precessing
+            Order Processing
           </span>
         </aside>
       </Link>
