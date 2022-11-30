@@ -23,7 +23,7 @@ import Cookies from "js-cookie";
 import { getToken } from "../util/msAuth";
 import { protectedResources } from "../util/msConfig";
 import TransitionsModal from "./Material/Model";
-import Apk from "../Components/apk"
+
 
 const Sidebar = ({ sidebarCollapsed, highLight, show }) => {
   const [modelOpen, setModelOpen] = useState(false);
@@ -535,7 +535,7 @@ const Sidebar = ({ sidebarCollapsed, highLight, show }) => {
             </span>
           </aside>
         </Link>
-        <Apk/>
+        
       </div>
     </div>
   );

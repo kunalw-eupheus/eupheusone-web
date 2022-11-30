@@ -25,7 +25,6 @@ import { useLayoutEffect } from "react";
 import Cookies from "js-cookie";
 import instance from "../../Instance";
 import TransitionsModal from "./Model";
-import Apk from "../../Components/apk"
 
 const SwipeableTemporaryDrawer = React.forwardRef((props, ref) => {
   const [modelOpen, setModelOpen] = useState(false);
@@ -541,7 +540,7 @@ const SwipeableTemporaryDrawer = React.forwardRef((props, ref) => {
           </span>
         </aside>
       </Link>
-      <Apk/>
+      
     </Box>
   );
 
