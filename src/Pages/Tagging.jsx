@@ -289,7 +289,7 @@ const Tagging = () => {
           errMessage={errMessage}
         />
         <div className="min-h-[100vh] pt-[2vh] max-h-full bg-[#141728]">
-          <div className=" px-8 py-3 bg-[#141728]">
+          <div className=" sm:px-8 px-2 py-3 bg-[#141728]">
             {/* <section className='grid grid-cols-2 grid-rows-4 md:grid-cols-4 gap-4 md:grid-rows-2 px-6 py-6 bg-slate-600 rounded-md mt-6'>
               <div className=' flex flex-col gap-2 w-full'>
                 <label className=' text-gray-100'>Country</label>
