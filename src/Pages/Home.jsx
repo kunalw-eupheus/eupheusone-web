@@ -11,9 +11,7 @@ import orderImg from '../assets/img/order.png'
 import documentImg from '../assets/img/documents.png'
 import zohoImg from '../assets/img/zoho.png'
 import SwipeableTemporaryDrawer from '../Components/Material/MaterialSidebar'
-import apk from '../Components/app-release (1).apk'
 
-import Apk from '../Components/apk'
 
 // import { Map } from "@mui/icons-material";
 import GMap from '../assets/map.png'
@@ -220,7 +218,7 @@ const Home = () => {
                   </section>
                   <section className='flex grayscale w-1/2 flex-col gap-4
                    hover:shadow-2xl items-center justify-around px-4 py-4 bg-gray-200 rounded-md'>
-                    <a href={apk} download='latest_apk_download' target='_download'>
+                    <a href='https://skool.ai/bucket/crmv2/androidApp/app-release9.apk' download='latest_apk_download'>
                     <img
                       src="https://cdn.iconscout.com/icon/premium/png-256-thumb/download-button-1722967-1465259.png"
                       className='sm:w-[14rem] w-[5rem] h-auto'
@@ -229,7 +227,9 @@ const Home = () => {
                     </a>
 
                     <span className='md:text-2xl sm:text-base text-sm font-bold'>
-                    <Apk/>
+                    <a href='https://skool.ai/bucket/crmv2/androidApp/app-release9.apk' download='latest_apk_download'>
+                    <BasicButton text={'download latest apk'} />
+                  </a>
                     </span>
                   </section>
                 </div>
