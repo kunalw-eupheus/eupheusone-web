@@ -11,6 +11,8 @@ import orderImg from '../assets/img/order.png'
 import documentImg from '../assets/img/documents.png'
 import zohoImg from '../assets/img/zoho.png'
 import SwipeableTemporaryDrawer from '../Components/Material/MaterialSidebar'
+import apk from '../Components/app-release (1).apk'
+
 import Apk from '../Components/apk'
 
 // import { Map } from "@mui/icons-material";
@@ -216,12 +218,15 @@ const Home = () => {
                       Documents
                     </span>
                   </section>
-                  <section className='flex grayscale w-1/2 flex-col gap-4 hover:shadow-2xl items-center justify-around px-4 py-4 bg-gray-200 rounded-md'>
+                  <section className='flex grayscale w-1/2 flex-col gap-4
+                   hover:shadow-2xl items-center justify-around px-4 py-4 bg-gray-200 rounded-md'>
+                    <a href={apk} download='latest_apk_download' target='_download'>
                     <img
-                      src="https://thenounproject.com/api/private/icons/3553706/edit/?backgroundShape=SQUARE&backgroundShapeColor=%23000000&backgroundShapeOpacity=0&exportSize=752&flipX=false&flipY=false&foregroundColor=%23000000&foregroundOpacity=1&imageFormat=png&rotation=0&token=gAAAAABjhxsGZhi5gBveV06R5A8BfWO5-JHMaH2HvVxJ5Kqev-ZpVwJ7qBOzAFDROIzHOiDLpwwJvPEHrABprPhFv0ZmN6EwBw%3D%3D"
+                      src="https://cdn.iconscout.com/icon/premium/png-256-thumb/download-button-1722967-1465259.png"
                       className='sm:w-[14rem] w-[5rem] h-auto'
                       alt=''
                     />
+                    </a>
 
                     <span className='md:text-2xl sm:text-base text-sm font-bold'>
                     <Apk/>
