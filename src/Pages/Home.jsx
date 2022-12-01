@@ -171,6 +171,14 @@ const Home = () => {
               <h1 className='text-gray-100 text-2xl font-semibold absolute top-[2rem] left-[2rem]'>
                 Welcome
               </h1>
+              <div className='absolute sm:top-[2rem] top-[5rem] right-[2rem]'>
+                <a
+                  href='https://skool.ai/bucket/crmv2/androidApp/app-release9.apk'
+                  download='latest_apk_download'
+                >
+                  <BasicButton text={'Download Latest APK'} />
+                </a>
+              </div>
               <div className='w-full flex flex-col px-4 pb-6 sm:flex-row gap-6 items-center justify-center'>
                 <section className='flex sm:w-[30%] sm:h-[19rem] w-full sm:flex-col flex-row gap-4 hover:shadow-2xl items-center justify-between px-4 py-4 bg-gray-200 rounded-md'>
                   <img
