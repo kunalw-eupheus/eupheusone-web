@@ -25,6 +25,8 @@ import { useLayoutEffect } from "react";
 import Cookies from "js-cookie";
 import instance from "../../Instance";
 import TransitionsModal from "./Model";
+import { useRef } from "react";
+import DialogSlide from "./Dialog";
 
 const SwipeableTemporaryDrawer = React.forwardRef((props, ref) => {
   const [modelOpen, setModelOpen] = useState(false);
@@ -37,6 +39,11 @@ const SwipeableTemporaryDrawer = React.forwardRef((props, ref) => {
   const [isSchoolDetailClicked, setIsSchoolDetailClicked] = useState(
     props.show === 2 ? true : false
   );
+
+  const dialogRef = useRef();
+  const openDialog = () => {
+    dialogRef.current.openDialog();
+  };
 
   useLayoutEffect(() => {
     const getUser = async () => {
@@ -522,7 +529,7 @@ const SwipeableTemporaryDrawer = React.forwardRef((props, ref) => {
       </Link>
       <Link to="/kys">
         <aside
-          className={`px-6 py-2 flex gap-4 ${
+          className={`px-6 py-2 my-4 flex gap-4 ${
             highLight === "kys" ? "bg-gray-500" : ""
           } cursor-pointer group hover:bg-gray-500 rounded-md transition-all duration-150 ease-linear`}
         >
@@ -540,13 +547,33 @@ const SwipeableTemporaryDrawer = React.forwardRef((props, ref) => {
           </span>
         </aside>
       </Link>
-      
+
+      <aside
+        onClick={openDialog}
+        className={`px-6 py-2 flex gap-4 ${
+          highLight === "" ? "bg-gray-500" : ""
+        } cursor-pointer group hover:bg-gray-500 rounded-md transition-all duration-150 ease-linear`}
+      >
+        <LocationCityOutlined
+          className={`${
+            highLight === "" ? "!text-[#659DBD]" : "!text-gray-400"
+          } group-hover:!text-[#659DBD] !transition-all !duration-150 !ease-linear`}
+        />
+        <span
+          className={`${
+            highLight === "" ? "text-gray-200" : "text-gray-400"
+          } group-hover:!text-gray-100 transition-all duration-150 ease-linear`}
+        >
+          Projection
+        </span>
+      </aside>
     </Box>
   );
 
   return (
     <div ref={sidebarRef}>
       <TransitionsModal open={modelOpen} />;
+      <DialogSlide ref={dialogRef} />
       {["left"].map((anchor) => (
         <React.Fragment key={anchor}>
           {/* <Button onClick={toggleDrawer(anchor, true)}>{anchor}</Button> */}
