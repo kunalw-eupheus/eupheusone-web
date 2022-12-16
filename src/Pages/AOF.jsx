@@ -149,6 +149,9 @@ const AOF = () => {
             variant={"standard"}
             multiline={false}
           />
+          <div className="mt-6">
+            <BasicButton text={"Upload"} />
+          </div>
         </li>
       );
     }

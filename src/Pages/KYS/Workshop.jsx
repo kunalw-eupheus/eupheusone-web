@@ -5,15 +5,16 @@ import Sidebar from "../../Components/Sidebar";
 import { useNavigate, useParams } from "react-router-dom";
 import SwipeableTemporaryDrawer from "../../Components/Material/MaterialSidebar";
 import BasicButton from "../../Components/Material/Button";
-import { Backdrop, CircularProgress } from "@mui/material";
+// import SearchDropDown from "../../Components/SearchDropDown";
 import instance from "../../Instance";
 import Cookies from "js-cookie";
+import { Backdrop, CircularProgress } from "@mui/material";
 
-const Strength = () => {
+const Workshop = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [workshop, setWorkshops] = useState([]);
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-  const [strenght, setStrength] = useState([]);
 
   const { id } = useParams();
 
@@ -22,23 +23,22 @@ const Strength = () => {
   const show = null;
 
   useLayoutEffect(() => {
-    const getStrenght = async () => {
-      const strenght = await instance({
-        // url: `school/kys/strenght/get/${id}`,
-        url: `school/kys/strength/get/${id}`,
+    const getWorkshops = async () => {
+      const states = await instance({
+        url: `school/workshop/get/all/${id}`,
         method: "GET",
         headers: {
           Authorization: `${Cookies.get("accessToken")}`,
         },
       });
-      setStrength(strenght.data.message);
+      setWorkshops(states.data.message);
     };
-    getStrenght();
+    getWorkshops();
   }, []);
 
   const navInfo = {
-    title: "Strength",
-    details: ["Home", "/Strength"],
+    title: "Products",
+    details: ["Home", "/Products"],
   };
 
   const handleSidebarCollapsed = () => {
@@ -96,38 +96,36 @@ const Strength = () => {
             info={navInfo}
           />
 
-          <div className="min-h-[90vh] relative flex w-full justify-center items-start gap-4 bg-[#141728]">
+          <div className="min-h-[90vh] relative flex flex-col w-full justify-start items-start gap-4 bg-[#141728]">
             <div className="text-gray-100 w-full md:text-2xl flex justify-between sm:px-12 px-8 items-center text-base font-semibold absolute mt-[2rem]">
-              <h1>Strength</h1>
-              <div onClick={() => navigate(`/kys/strength/add_strength/${id}`)}>
-                <BasicButton text={"Add Strength"} />
+              <h1>Workshop</h1>
+              <div onClick={() => navigate(`/kys/add_workshop/${id}`)}>
+                <BasicButton text={"Request Workshop"} />
               </div>
             </div>
-
-            <div className="w-full flex flex-col text-gray-100 gap-4 items-start">
-              {strenght.length > 0 ? (
-                <div
-                  className={`sm:px-8 px-4 py-3 w-full grid mt-[7rem] sm:grid-cols-2 grid-cols-1 gap-4 bg-[#141728]`}
-                >
-                  {strenght.map((item, index) => {
-                    return (
-                      <div
-                        key={index}
-                        className="flex font-medium flex-col gap-4 text-gray-100 justify-center rounded-md items-start px-4 py-1 bg-slate-600"
-                      >
-                        <span>Workshop Name: {item.fk_class.name}</span>
-                        <span>School Name: {item.strength}</span>
-                        <span>Workshop Name: {item.fk_class.category}</span>
-                      </div>
-                    );
-                  })}
-                </div>
-              ) : (
-                <div className="w-full flex flex-col text-gray-100 gap-4 items-center mt-[7rem]">
-                  No Strength added
-                </div>
-              )}
-            </div>
+            {workshop.length > 0 ? (
+              <div
+                className={`sm:px-8 px-4 py-3 w-full grid mt-[7rem] sm:grid-cols-2 grid-cols-1 gap-4 bg-[#141728]`}
+              >
+                {workshop.map((item, index) => {
+                  return (
+                    <div
+                      key={index}
+                      className="flex font-medium flex-col gap-4 text-gray-100 justify-center rounded-md items-start px-4 py-1 bg-slate-600"
+                    >
+                      <span>Workshop Name: {item.workshop_name}</span>
+                      <span>School Name: {item.fk_school.school_name}</span>
+                      <span>Workshop Name: {item.workshop_date}</span>
+                      <span>Grade: {item.fk_grade.name}</span>
+                    </div>
+                  );
+                })}
+              </div>
+            ) : (
+              <div className="w-full flex flex-col text-gray-100 gap-4 items-center mt-[7rem]">
+                No Workshop added
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -135,4 +133,4 @@ const Strength = () => {
   );
 };
 
-export default Strength;
+export default Workshop;

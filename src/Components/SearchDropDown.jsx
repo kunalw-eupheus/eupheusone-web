@@ -129,6 +129,9 @@ const SearchDropDown = ({
         case "fees":
           return option.fees;
           break;
+        case "kys_comp_publisher":
+          return option.name;
+          break;
         // aof
         case "aof_status":
           return option.title;
@@ -136,6 +139,7 @@ const SearchDropDown = ({
         case "aof_acc":
           return option.title;
           break;
+
         default:
           return "";
           break;
@@ -217,6 +221,9 @@ const SearchDropDown = ({
       handleOrderProcessingForm(value, type);
     }
     if (type === "fees") {
+      handleOrderProcessingForm(value, type);
+    }
+    if (type === "kys_comp_publisher") {
       handleOrderProcessingForm(value, type);
     } else {
       return;

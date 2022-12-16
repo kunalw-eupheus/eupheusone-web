@@ -215,6 +215,22 @@ const KYS = () => {
           navigate(`/kys/tution_fees/${schoolInfo.id}`);
         }
         break;
+      case "competition":
+        if (schoolInfo === null) {
+          setErrMessage("Please Select School");
+          snackbarRef.current.openSnackbar();
+        } else {
+          navigate(`/kys/add_competition/${schoolInfo.id}`);
+        }
+        break;
+      case "workshop":
+        if (schoolInfo === null) {
+          setErrMessage("Please Select School");
+          snackbarRef.current.openSnackbar();
+        } else {
+          navigate(`/kys/workshop/${schoolInfo.id}`);
+        }
+        break;
 
       default:
         break;
@@ -333,12 +349,12 @@ const KYS = () => {
                   <div onClick={() => handleSubmit("fees")}>
                     <BasicButton text={"Tution Fees"} />
                   </div>
-                  {/* <div>
+                  <div onClick={() => handleSubmit("competition")}>
                     <BasicButton text={"Competions"} />
-                  </div> */}
-                  {/* <div>
+                  </div>
+                  <div onClick={() => handleSubmit("workshop")}>
                     <BasicButton text={"Workshops"} />
-                  </div> */}
+                  </div>
                 </div>
               </div>
             </div>
