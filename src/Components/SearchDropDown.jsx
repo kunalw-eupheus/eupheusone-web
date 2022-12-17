@@ -14,6 +14,7 @@ const SearchDropDown = ({
   handleOrderProcessingForm,
   disable,
   defaultValue,
+  multiple,
 }) => {
   // console.log(data)
   const defaultProps = {
@@ -237,6 +238,7 @@ const SearchDropDown = ({
           {...defaultProps}
           disabled={disable}
           disableClearable
+          multiple={multiple}
           // onBlur={() => console.log("ldkf")}
           onChange={(event, newValue) => handleDropDown(newValue, Name)}
           id="disable-close-on-select"
