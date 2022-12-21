@@ -40,8 +40,8 @@ import Competition from "./Pages/KYS/Competition";
 import AddWorkShop from "./Pages/KYS/AddWorkShop";
 import Workshop from "./Pages/KYS/Workshop";
 import PageNotFound from "./Pages/PageNotFound";
-
-
+import Projection from "./Pages/Projection";
+import Addprojection from "./Pages/Addprojection";
 
 function App() {
   const isAuth = useSelector((state) => state.auth.user);
@@ -54,7 +54,6 @@ function App() {
   return (
     <div className=" font-Roboto bg-[#111322]">
       <BrowserRouter>
-       
         <Routes>
           <Route
             path="/login"
@@ -122,6 +121,15 @@ function App() {
             path="/manage_order"
             element={isAuth || MsAuth ? <ManageOrder /> : <Login />}
           />
+          <Route
+            path="/projection"
+            element={isAuth || MsAuth ? <Projection /> : <Login />}
+          />
+          <Route
+            path="/addprojection"
+            element={isAuth || MsAuth ? <Addprojection /> : <Login />}
+          />
+
           {/* <Route
             path="/pdf_view"
             element={isAuth || MsAuth ? <MyDocument /> : <Login />}
