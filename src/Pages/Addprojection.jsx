@@ -168,17 +168,19 @@ const Addprojection = () => {
     };
   }, []);
 
-  const getSeriesPrice = async (id) => {
-    // console.log(id)
+  const getSeriesPrice = async (seriesId, gradeId) => {
+    setLoading(true);
     const res = await instance({
-      url: `projections/series/mrp/${id}`,
+      url: `projections/series/mrp/${seriesId}/${gradeId}`,
       method: "GET",
       headers: {
         Authorization: Cookies.get("accessToken"),
       },
     });
-
-    return res.data.message.price;
+    console.log(res.data);
+    setLoading(false);
+    return res.data;
+    // return res.data.message.price;
   };
 
   const handleQuantityChange = (seriesId, newValue) => {
@@ -222,21 +224,84 @@ const Addprojection = () => {
           setRowdata([]);
         } else {
           setLoading(true);
-          let mrp = await getSeriesPrice(value[value.length - 1].id);
+
           setLoading(false);
-          value[value.length - 1].mrp = mrp;
-          value[value.length - 1].total = mrp * quantity;
+          value[value.length - 1].mrp = 0;
+          value[value.length - 1].total = 0;
           console.log(value);
           setRowdata(value);
         }
         break;
-      case "series_name":
-        getSeriesPrice(value.id);
-        formik.values.series = value.id;
-        break;
+      // case "series_name":
+      //   getSeriesPrice(value.id);
+      //   formik.values.series = value.id;
+      //   break;
       case "grades":
         console.log(value, type, id);
+        let GradeNum = 0;
+        formik.values.data.map((item) => {
+          if (item.fk_series_id === id) {
+            GradeNum = item.fk_grade.length;
+          }
+        });
         let duplicate = false;
+        let res = await getSeriesPrice(id, value[value.length - 1].id);
+        console.log(res);
+        if (!(res?.status === "success")) {
+          setSnackbarErrStatus(true);
+          setSnackbarMsg("This series does match with selected grade");
+          snackbarRef.current.openSnackbar();
+        } else if (res?.status === "success") {
+          if (value.length > GradeNum) {
+            setRowdata(
+              rowdata.map((item) => {
+                if (item.id === id) {
+                  return {
+                    id: item.id,
+                    mrp: Number(item.mrp) + Number(res.message.price),
+                    series: item.series,
+                    total: item.total,
+                  };
+                } else {
+                  return item;
+                }
+              })
+            );
+          } else if (value.length < GradeNum) {
+            console.log("decrease");
+            let gradeId = null;
+            formik.values.data.map((item) => {
+              if (item.fk_series_id === id) {
+                item.fk_grade.map((el) => {
+                  value.map((i) => {
+                    if (i.id != el.fk_grade_id) {
+                      gradeId = el.fk_grade_id;
+                    }
+                  });
+                });
+              }
+            });
+            let res = await getSeriesPrice(id, gradeId);
+
+            console.log(gradeId);
+            setRowdata(
+              rowdata.map((item) => {
+                console.log(item);
+                if (item.id === id) {
+                  return {
+                    id: item.id,
+                    mrp: Number(item.mrp) - Number(res.message.price),
+                    series: item.series,
+                    total: item.total,
+                  };
+                } else {
+                  return item;
+                }
+              })
+            );
+          }
+        }
+
         formik.values.data.map((item, index) => {
           if (item.fk_series_id === id) {
             console.log("remove duplicate");
@@ -256,15 +321,17 @@ const Addprojection = () => {
           rowdata.map((item) => {
             if (item.id === id) {
               console.log(item);
-              formik.values.data.push({
-                fk_series_id: item.id,
-                quantity,
-                mrp: item.mrp,
-                total: item.mrp * quantity,
-                fk_grade: value.map((item) => {
-                  return { fk_grade_id: item.id };
-                }),
-              });
+              if (res.status === "success") {
+                formik.values.data.push({
+                  fk_series_id: item.id,
+                  quantity,
+                  mrp: item.mrp,
+                  total: item.mrp * quantity,
+                  fk_grade: value.map((item) => {
+                    return { fk_grade_id: item.id };
+                  }),
+                });
+              }
             }
           });
         }
@@ -272,7 +339,6 @@ const Addprojection = () => {
         break;
       case "category":
         console.log("value= ", value, type);
-
         break;
       case "Quantity":
         setQuantity(value);
