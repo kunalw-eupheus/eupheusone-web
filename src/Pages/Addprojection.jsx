@@ -3,11 +3,7 @@ import { useState } from "react";
 import Navbar from "../Components/Navbar";
 import Sidebar from "../Components/Sidebar";
 import { TextField } from "@mui/material";
-
-// import { Add } from '@mui/icons-material'
-import { Link } from "react-router-dom";
-import DataTable from "../Components/DataTable";
-// import { rows, ManageSchoolRows } from '../DummyData'
+import { useNavigate } from "react-router-dom";
 import SearchDropDown from "../Components/SearchDropDown";
 import SwipeableTemporaryDrawer from "../Components/Material/MaterialSidebar";
 import instance from "../Instance";
@@ -16,16 +12,6 @@ import Cookies from "js-cookie";
 import { useFormik } from "formik";
 import BasicButton from "../Components/Material/Button";
 import { Backdrop, CircularProgress } from "@mui/material";
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import InputLabel from "@mui/material/InputLabel";
-import Select from "@mui/material/Select";
-import Button from "@mui/material/Button";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
-import DialogTitle from "@mui/material/DialogTitle";
 import Slide from "@mui/material/Slide";
 import DialogSlide from "../Components/Material/Dialog";
 import Table from "@mui/material/Table";
@@ -35,7 +21,6 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import NativeSelect from "@mui/material/NativeSelect";
 import Snackbars from "../Components/Material/SnackBar";
 
 const Addprojection = () => {
@@ -58,21 +43,12 @@ const Addprojection = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [highLight, setHighLight] = useState("projection");
   const [loading, setLoading] = useState(false);
-  const [stateAndCity, setStateAndCity] = useState({ state: "", city: "" });
   const sidebarRef = useRef();
-  const [states, setStates] = useState([]);
-  const [mrp, setMrp] = useState("");
-  const [total, setTotal] = useState("");
   const [snackbarMsg, setSnackbarMsg] = useState("Submitted SuccessFully");
-  const [city, setCity] = useState({ disable: true });
-  const [schoolRow, setSchoolRow] = useState([]);
   const [series, setSeries] = useState([]);
   const [rowdata, setRowdata] = useState([]);
-  const [quantity, setQuantity] = useState(1);
+  const [quantity, setQuantity] = useState(0);
   const [grade, setGrade] = useState([]);
-  const [gradedata, setGradedata] = useState([]);
-  const [cat, setCat] = useState("Eupheus Learning");
-  const [gradearray, setGradearray] = useState([]);
 
   const navInfo = {
     title: "Projection",
@@ -100,30 +76,21 @@ const Addprojection = () => {
     },
   ];
 
-  //   const getAllSeries = async () => {
-  //     const res = await instance({
-  //       url: `projections/series/`,
-  //       method: "GET",
-  //       headers: {
-  //         Authorization: Cookies.get("accessToken"),
-  //       },
-  //     });
-  //   setSeries(res.data.message);
-  //   console.log(res.data.message);
-  // };
+  const getAllSeries = async (id) => {
+    setLoading(true);
+    const res = await instance({
+      url: `projections/series/${id}`,
+      method: "GET",
+      headers: {
+        Authorization: Cookies.get("accessToken"),
+      },
+    });
+    setSeries(res.data.message);
+    setLoading(false);
 
+    console.log(res.data.message);
+  };
   useLayoutEffect(() => {
-    const getAllSeries = async () => {
-      const res = await instance({
-        url: `projections/series/eupheus`,
-        method: "GET",
-        headers: {
-          Authorization: Cookies.get("accessToken"),
-        },
-      });
-      setSeries(res.data.message);
-      console.log(res.data.message);
-    };
     const getAllGrade = async () => {
       const res = await instance({
         url: `school/kys/classes/individuals`,
@@ -135,46 +102,47 @@ const Addprojection = () => {
       setGrade(res.data.message);
       //   console.log(res.data.message);
     };
-    getAllSeries();
     getAllGrade();
-    getAllSeries();
   }, []);
+
+  const navigate = useNavigate();
 
   const formik = useFormik({
     initialValues: {
-      series: [],
-      grade: [],
-      total: "",
-      mrp: "",
-      quantity: "",
+      data: [],
     },
-    validate: () => {},
+    validate: (values) => {
+      let errors = {};
+      if (values.data.length < 1) {
+        errors.data = "Required";
+        setSnackbarErrStatus(true);
+        setSnackbarMsg("Fill The Details");
+        snackbarRef.current.openSnackbar();
+      }
+      return errors;
+    },
     onSubmit: async (values) => {
-      // if (formik.values.grade.length > 0) {
-      snackbarRef.current.openSnackbar();
-      window.location.reload();
-      // }
-      //   const res = await instance({
-      //     url: `projections/create`,
-      //     method: "post",
-      //     data: {
-      //       fk_series_id: values.series,
-      //       quantity: values.quantity,
-      //       mrp: mrp,
-      //       total: total,
-      //       fk_grade: values.grade,
-      //     },
-      //     headers: {
-      //       Authorization: Cookies.get("accessToken"),
-      //     },
-      //   });
-      //   console.log(res.data);
-      //   if (res.data.status === "success") {
-      //     setSnackbarMsg(res.data.message);
-      //     snackbarRef.current.openSnackbar();
-      //     setOpen(false);
-      //     window.location.reload();
-      //   }
+      console.log(values);
+      setLoading(true);
+      const res = await instance({
+        url: `projections/create`,
+        method: "post",
+        data: values.data,
+        headers: {
+          Authorization: Cookies.get("accessToken"),
+        },
+      });
+      setLoading(false);
+      console.log(res.data);
+      if (res.data.status === "success") {
+        setSnackbarErrStatus(false);
+        setSnackbarMsg(res.data.message);
+        snackbarRef.current.openSnackbar();
+        setOpen(false);
+        setTimeout(() => {
+          navigate("/projection");
+        }, 1000);
+      }
     },
   });
 
@@ -200,115 +168,6 @@ const Addprojection = () => {
     };
   }, []);
 
-  const getSchool = async (stateId, cityId) => {
-    setLoading(true);
-    const res = await instance({
-      url: `school/${stateId}/${cityId}`,
-      method: "GET",
-      headers: {
-        Authorization: `${Cookies.get("accessToken")}`,
-      },
-    });
-    // console.log(res.data.message);
-    const rows = res.data.message.map((item, index) => {
-      return {
-        id: item.id,
-        SchoolName: item.school_name,
-        State: item.school_addresses[0].fk_state.state,
-        Address: item.school_addresses[0].address,
-      };
-    });
-    setSchoolRow(rows);
-    setLoading(false);
-  };
-
-  const getSchoolByState = async (id) => {
-    setLoading(true);
-
-    const res = await instance({
-      url: `school/${id}`,
-      method: "GET",
-      headers: {
-        Authorization: `${Cookies.get("accessToken")}`,
-      },
-    });
-    const rows = res.data.message.map((item, index) => {
-      return {
-        id: item.id,
-        SchoolName: item.school_name,
-        State: item.school_addresses[0].fk_state.state,
-        Address: item.school_addresses[0].address,
-      };
-    });
-    setSchoolRow(rows);
-    setLoading(false);
-  };
-
-  const handleOrderProcessingForm = async (value, type) => {
-    switch (type) {
-      case "select_state":
-        getCity(value.fk_state_id);
-        getSchoolByState(value.fk_state_id);
-        setStateAndCity({ ...stateAndCity, state: value.fk_state_id });
-        break;
-      case "select_city":
-        setStateAndCity({ ...stateAndCity, city: value.id });
-        break;
-      default:
-        break;
-    }
-  };
-
-  const getCity = async (Id) => {
-    setLoading(true);
-    const res = await instance({
-      url: `location/city/${Id}`,
-      method: "GET",
-      headers: {
-        Authorization: `${Cookies.get("accessToken")}`,
-      },
-    });
-    setCity(res.data.message);
-    setLoading(false);
-  };
-
-  useLayoutEffect(() => {
-    const getStates = async () => {
-      const res = await instance({
-        url: "location/state/get/states",
-        method: "GET",
-        headers: {
-          Authorization: `${Cookies.get("accessToken")}`,
-        },
-      });
-
-      setStates(res.data.message);
-    };
-
-    const getSchoolData = async () => {
-      const res = await instance({
-        url: "school/b4c27059-8c42-4d35-8fe7-8dedffbfe641/294de4f3-0977-4482-b0de-2cfeaa827ba4",
-        method: "GET",
-        headers: {
-          Authorization: `${Cookies.get("accessToken")}`,
-        },
-      });
-      // console.log(res.data.message);
-      const rows = res.data.message.map((item, index) => {
-        return {
-          id: item.id,
-          SchoolName: item.school_name,
-          State: item.school_addresses[0].fk_state.state,
-          Address: item.school_addresses[0].address,
-        };
-      });
-      setSchoolRow(rows);
-    };
-    getStates();
-
-    getSchoolData();
-  }, []);
-
   const getSeriesPrice = async (id) => {
     // console.log(id)
     const res = await instance({
@@ -322,16 +181,51 @@ const Addprojection = () => {
     return res.data.message.price;
   };
 
+  const handleQuantityChange = (seriesId, newValue) => {
+    // console.log(seriesId, newValue);
+    setRowdata(
+      rowdata.map((item) => {
+        if (item.id === seriesId) {
+          return {
+            id: item.id,
+            mrp: item.mrp,
+            series: item.series,
+            total: item.mrp * newValue,
+          };
+        } else {
+          return item;
+        }
+      })
+    );
+    formik.values.data = formik.values.data.map((item) => {
+      if (item.fk_series_id === seriesId) {
+        return {
+          mrp: item.mrp,
+          fk_series_id: item.fk_series_id,
+          fk_grade: item.fk_grade,
+          quantity: newValue,
+          total: newValue * item.mrp,
+        };
+      } else {
+        return item;
+      }
+    });
+  };
+
   const handleProjectionForm = async (value, type, id) => {
     console.log(value, type);
     // console.log(rowdata);
     switch (type) {
       case "series_name":
         if (value.length === 0) {
+          formik.values.data = [];
           setRowdata([]);
         } else {
+          setLoading(true);
           let mrp = await getSeriesPrice(value[value.length - 1].id);
+          setLoading(false);
           value[value.length - 1].mrp = mrp;
+          value[value.length - 1].total = mrp * quantity;
           console.log(value);
           setRowdata(value);
         }
@@ -342,57 +236,56 @@ const Addprojection = () => {
         break;
       case "grades":
         console.log(value, type, id);
-        rowdata.map((item) => {
-          if (item.id === id) {
-            console.log(item);
-            formik.values.grade.push({
-              fk_series_id: item.id,
-              quantity,
+        let duplicate = false;
+        formik.values.data.map((item, index) => {
+          if (item.fk_series_id === id) {
+            console.log("remove duplicate");
+            duplicate = true;
+            formik.values.data[index] = {
+              fk_series_id: item.fk_series_id,
               mrp: item.mrp,
+              quantity,
               total: item.mrp * quantity,
               fk_grade: value.map((item) => {
                 return { fk_grade_id: item.id };
               }),
-            });
+            };
           }
         });
-        // formik.values.grade = value.map((item) => {
-        //   return { fk_grade_id: item.id };
-        // });
+        if (!duplicate) {
+          rowdata.map((item) => {
+            if (item.id === id) {
+              console.log(item);
+              formik.values.data.push({
+                fk_series_id: item.id,
+                quantity,
+                mrp: item.mrp,
+                total: item.mrp * quantity,
+                fk_grade: value.map((item) => {
+                  return { fk_grade_id: item.id };
+                }),
+              });
+            }
+          });
+        }
+
         break;
       case "category":
         console.log("value= ", value, type);
-        // formik.values.grade = value.map((item) => {
-        //   return { fk_grade_id: item.id };
-        // });
+
         break;
       case "Quantity":
-        formik.values.quantity = value;
-        // if(!value) setQuantity(1)
         setQuantity(value);
+        break;
+      case "publisher_name":
+        setRowdata([]);
+        formik.values.data = [];
+        getAllSeries(value.value);
         break;
       default:
         break;
     }
   };
-
-  const handleSubmit = () => {
-    for (let ele of rowdata) {
-      ele["quantity"] = quantity;
-      ele["total"] = ele.mrp * quantity;
-
-      //   console.log(ele);
-    }
-
-    // console.log(gradedata);
-
-    // console.log(quantity)
-    console.log(rowdata);
-  };
-
-  //   const snackbarRef = useRef()
-
-  //   const cat = [name: "Eupheus Learning", name:"Eupheus"]
 
   return (
     <div className="flex bg-[#111322]">
@@ -437,38 +330,17 @@ const Addprojection = () => {
                   Fill The Details
                 </h1>
                 <div className="grid sm:grid-rows-2 sm:grid-cols-2 grid-rows-3 grid-cols-1 w-full gap-6 rounded-md bg-slate-600">
-                  {/* <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
-                    <InputLabel id="demo-simple-select-standard-label">
-                      Select Category
-                    </InputLabel>
-                    <Select
-                      labelId="demo-simple-select-standard-label"
-                      id="demo-simple-select"
-                      value={cat}
-                      label="Category"
-                      onChange={handleCategory}
-                    >
-                      <MenuItem value="">
-                        <em>None</em>
-                      </MenuItem>
-                      <MenuItem value={10}>Eupheus</MenuItem>
-                      <MenuItem value={20}>Learning</MenuItem>
-                    </Select>
-                  </FormControl> */}
-
-                  <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
-                    <InputLabel id="demo-simple-select-label">
-                      Select
-                    </InputLabel>
-                    <Select
-                      labelId="demo-simple-select-label"
-                      id="demo-simple-select"
-                      label="Eupheus Learning"
-                    >
-                      <MenuItem value="classklap">Eupheus Learning</MenuItem>
-                      {/* <MenuItem value="eupheus">Classklap</MenuItem> */}
-                    </Select>
-                  </FormControl>
+                  <SearchDropDown
+                    label={"Select Publisher"}
+                    color={"rgb(243, 244, 246)"}
+                    data={[
+                      { name: "Eupheus Learning", value: "eupheus" },
+                      { name: "ClassKlap", value: "classklap" },
+                    ]}
+                    // multiple={true}
+                    Name={"publisher_name"}
+                    handleOrderProcessingForm={handleProjectionForm}
+                  />
 
                   <TextField
                     label="Quantity"
@@ -485,6 +357,7 @@ const Addprojection = () => {
                     label={"Select Series"}
                     color={"rgb(243, 244, 246)"}
                     data={series}
+                    disable={series.length < 1 ? true : false}
                     multiple={true}
                     Name={"series_name"}
                     handleOrderProcessingForm={handleProjectionForm}
@@ -495,11 +368,19 @@ const Addprojection = () => {
                   <Table sx={{ minWidth: 650 }} aria-label="simple table">
                     <TableHead>
                       <TableRow>
-                        <TableCell>SERIES</TableCell>
-                        <TableCell align="right">GRADE</TableCell>
-                        <TableCell align="right">MRP&nbsp;(Rs)</TableCell>
-                        <TableCell align="right">Quantity</TableCell>
-                        <TableCell align="right">Total</TableCell>
+                        <TableCell className="!w-[15rem]">SERIES</TableCell>
+                        <TableCell className="!w-[20rem]" align="right">
+                          GRADE
+                        </TableCell>
+                        <TableCell className="!w-[5rem]" align="right">
+                          MRP&nbsp;(Rs)
+                        </TableCell>
+                        <TableCell className="!w-[10rem]" align="right">
+                          Quantity
+                        </TableCell>
+                        <TableCell className="!w-[5rem]" align="right">
+                          Total
+                        </TableCell>
                         {/* <TableCell align="right">Protein&nbsp;(g)</TableCell> */}
                       </TableRow>
                     </TableHead>
@@ -517,8 +398,6 @@ const Addprojection = () => {
                           <TableCell align="right">
                             <SearchDropDown
                               label={"Select Grade"}
-                              color={"rgb(243, 244, 246)"}
-                              // color={"rgb(243, 244, 246)"}
                               seriesId={row.id}
                               handleOrderProcessingForm={handleProjectionForm}
                               data={grade}
@@ -527,10 +406,18 @@ const Addprojection = () => {
                             />
                           </TableCell>
                           <TableCell align="right">{row.mrp}</TableCell>
-                          <TableCell align="right">{quantity}</TableCell>
                           <TableCell align="right">
-                            {row.mrp * quantity}
+                            <input
+                              type="number"
+                              className="border-2 px-3 border-gray-500 rounded-md w-full"
+                              placeholder="Enter Quantity"
+                              defaultValue={quantity}
+                              onBlur={(e) => {
+                                handleQuantityChange(row.id, e.target.value);
+                              }}
+                            />
                           </TableCell>
+                          <TableCell align="right">{row.total}</TableCell>
                           {/* <TableCell align="right">{row.quantity}</TableCell> */}
                         </TableRow>
                       ))}
