@@ -239,7 +239,7 @@ const Addprojection = () => {
       //   formik.values.series = value.id;
       //   break;
       case 'grades':
-        // console.log(value, type, id)
+        console.log(value, type, id)
         console.log(formik.values.data)
         let GradeNum = 0
         formik.values.data.map((item) => {
@@ -254,14 +254,15 @@ const Addprojection = () => {
           setSnackbarErrStatus(true)
           setSnackbarMsg('This series does match with selected grade')
           snackbarRef.current.openSnackbar()
-        } else if (res?.status === 'success') {
+        } else if (res.status === 'success') {
+          console.log(value, GradeNum)
           if (value.length > GradeNum) {
             setRowdata(
               rowdata.map((item) => {
                 let quantity2
                 formik.values.data.map((item) => {
-                  if (item.fk_series_id === id) {
-                    quantity = item.quantity
+                  if (item?.fk_series_id === id) {
+                    quantity2 = item?.quantity
                   }
                 })
                 // console.log(quantity)
