@@ -11,6 +11,8 @@ import orderImg from '../assets/img/order.png'
 import documentImg from '../assets/img/documents.png'
 import zohoImg from '../assets/img/zoho.png'
 import SwipeableTemporaryDrawer from '../Components/Material/MaterialSidebar'
+
+
 // import { Map } from "@mui/icons-material";
 import GMap from '../assets/map.png'
 import BasicButton from '../Components/Material/Button'
@@ -171,6 +173,7 @@ const Home = () => {
               <h1 className='text-gray-100 text-2xl font-semibold absolute top-[2rem] left-[2rem]'>
                 Welcome
               </h1>
+           
               <div className='w-full flex flex-col px-4 pb-6 sm:flex-row gap-6 items-center justify-center'>
                 <section className='flex sm:w-[30%] sm:h-[19rem] w-full sm:flex-col flex-row gap-4 hover:shadow-2xl items-center justify-between px-4 py-4 bg-gray-200 rounded-md'>
                   <img
@@ -213,8 +216,26 @@ const Home = () => {
                       Documents
                     </span>
                   </section>
+                  <section className='flex grayscale w-1/2 flex-col gap-4
+                   hover:shadow-2xl items-center justify-around px-4 py-4 bg-gray-200 rounded-md'>
+                    <a href='https://skool.ai/bucket/crmv2/androidApp/app-release9.apk' download='latest_apk_download'>
+                    <img
+                      src="https://cdn.iconscout.com/icon/premium/png-256-thumb/download-button-1722967-1465259.png"
+                      className='sm:w-[14rem] w-[5rem] h-auto'
+                      alt=''
+                    />
+                    </a>
+
+                    <span className='md:text-2xl sm:text-base text-sm font-bold'>
+                    <a href='https://skool.ai/bucket/crmv2/androidApp/app-release9.apk' download='latest_apk_download'>
+                    <BasicButton text={'download latest apk'} />
+                  </a>
+                    </span>
+                  </section>
                 </div>
+                
               </div>
+            
               {/* <GoogleMap sidebarCollapsed={sidebarCollapsed} /> */}
               {/* <button className="px-4 py-1 bg-blue-400" onClick={handleLocation}>
             Start Day

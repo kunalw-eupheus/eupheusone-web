@@ -14,12 +14,17 @@ const SearchDropDown = ({
   handleOrderProcessingForm,
   disable,
   defaultValue,
+  multiple,
+  seriesId,
 }) => {
   // console.log(data)
   const defaultProps = {
     options: data,
     getOptionLabel: (option) => {
       switch (Name) {
+        case "publisher_name":
+          return option.name;
+          break;
         case "board_name":
           return option.board_name;
           break;
@@ -204,6 +209,9 @@ const SearchDropDown = ({
     if (type === "select_state") {
       handleOrderProcessingForm(value, type);
     }
+    if (type === "publisher_name") {
+      handleOrderProcessingForm(value, type);
+    }
     if (type === "select_city") {
       handleOrderProcessingForm(value, type);
     }
@@ -212,7 +220,7 @@ const SearchDropDown = ({
       handleOrderProcessingForm(value, type);
     }
     if (type === "grades") {
-      handleOrderProcessingForm(value, type);
+      handleOrderProcessingForm(value, type, seriesId);
     }
     if (type === "group") {
       handleOrderProcessingForm(value, type);
@@ -237,6 +245,7 @@ const SearchDropDown = ({
           {...defaultProps}
           disabled={disable}
           disableClearable
+          multiple={multiple}
           // onBlur={() => console.log("ldkf")}
           onChange={(event, newValue) => handleDropDown(newValue, Name)}
           id="disable-close-on-select"
