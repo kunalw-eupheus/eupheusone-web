@@ -40,6 +40,11 @@ import Competition from "./Pages/KYS/Competition";
 import AddWorkShop from "./Pages/KYS/AddWorkShop";
 import Workshop from "./Pages/KYS/Workshop";
 import PageNotFound from "./Pages/PageNotFound";
+import Projection from "./Pages/Projection";
+import Addprojection from "./Pages/Addprojection";
+
+import Return from './Pages/RETURN/Return'
+import ReturnRequest from './Pages/RETURN/RequestReturn'
 
 function App() {
   const isAuth = useSelector((state) => state.auth.user);
@@ -119,6 +124,15 @@ function App() {
             path="/manage_order"
             element={isAuth || MsAuth ? <ManageOrder /> : <Login />}
           />
+          <Route
+            path="/projection"
+            element={isAuth || MsAuth ? <Projection /> : <Login />}
+          />
+          <Route
+            path="/addprojection"
+            element={isAuth || MsAuth ? <Addprojection /> : <Login />}
+          />
+
           {/* <Route
             path="/pdf_view"
             element={isAuth || MsAuth ? <MyDocument /> : <Login />}
@@ -168,6 +182,17 @@ function App() {
           <Route
             path="/web-release-notes/v_1_0_0"
             element={isAuth || MsAuth ? <V_1_0_0 /> : <Login />}
+          />
+
+          <Route
+            path="/return"
+            element={isAuth || MsAuth ? <Return /> : <Login />}
+          />
+
+
+           <Route
+            path="/return_request"
+            element={isAuth || MsAuth ? <ReturnRequest /> : <Login />}
           />
 
           {/* Admin */}

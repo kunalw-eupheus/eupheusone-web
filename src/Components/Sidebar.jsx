@@ -12,6 +12,7 @@ import {
   ShoppingBag,
   ListAlt,
   LocationCity,
+  AssignmentReturnOutlined
 } from "@mui/icons-material";
 import { Link } from "react-router-dom";
 import logoLight from "../assets/img/logo-light-icon.png";
@@ -23,6 +24,8 @@ import Cookies from "js-cookie";
 import { getToken } from "../util/msAuth";
 import { protectedResources } from "../util/msConfig";
 import TransitionsModal from "./Material/Model";
+import DialogSlide from "./Material/Dialog";
+import { useRef } from "react";
 
 const Sidebar = ({ sidebarCollapsed, highLight, show }) => {
   const [modelOpen, setModelOpen] = useState(false);
@@ -33,6 +36,8 @@ const Sidebar = ({ sidebarCollapsed, highLight, show }) => {
     show === 2 ? true : false
   );
   const [user, setUser] = useState({});
+
+  const dialogRef = useRef();
 
   useEffect(() => {
     if (show === null) {
@@ -73,6 +78,10 @@ const Sidebar = ({ sidebarCollapsed, highLight, show }) => {
     getUser();
   }, []);
 
+  const openDialog = () => {
+    dialogRef.current.openDialog();
+  };
+
   return (
     <div
       className={`fixed transition-all h-[100vh] ease-linear duration-300 ${
@@ -80,8 +89,9 @@ const Sidebar = ({ sidebarCollapsed, highLight, show }) => {
       } lg:py-2 md:py-4 py-8 z-[100] w-[85vw] lg:w-[18vw] md:w-[30vw] bg-[#111322] h-[100vh] overflow-auto`}
     >
       <TransitionsModal open={modelOpen} />;
+      <DialogSlide ref={dialogRef} />
       <div
-        className={`flex flex-col gap-6 transition-all ease-linear duration-100`}
+        className={`flex flex-col gap-4 transition-all ease-linear duration-100`}
       >
         <div className="flex items-center gap-3 justify-center">
           <img
@@ -534,6 +544,51 @@ const Sidebar = ({ sidebarCollapsed, highLight, show }) => {
             </span>
           </aside>
         </Link>
+        {/* <Link to="/kys"> */}
+        <Link to="/projection">
+          <aside
+            className={`px-6 py-2 flex gap-4 ${
+              highLight === "projection" ? "bg-gray-500" : ""
+            } cursor-pointer group hover:bg-gray-500 rounded-md transition-all duration-150 ease-linear`}
+          >
+            <LocationCityOutlined
+              className={`${
+                highLight === "projection"
+                  ? "!text-[#659DBD]"
+                  : "!text-gray-400"
+              } group-hover:!text-[#659DBD] !transition-all !duration-150 !ease-linear`}
+            />
+            <span
+              className={`${
+                highLight === "projection" ? "text-gray-200" : "text-gray-400"
+              } group-hover:!text-gray-100 transition-all duration-150 ease-linear`}
+            >
+              Projection
+            </span>
+          </aside>
+        </Link>
+
+        <Link to="/return">
+          <aside
+            className={`px-6 py-2 flex gap-4 ${
+              highLight === "return" ? "bg-gray-500" : ""
+            } cursor-pointer group hover:bg-gray-500 rounded-md transition-all duration-150 ease-linear`}
+          >
+            <AssignmentReturnOutlined
+              className={`${
+                highLight === "return" ? "!text-[#659DBD]" : "!text-gray-400"
+              } group-hover:!text-[#659DBD] !transition-all !duration-150 !ease-linear`}
+            />
+            <span
+              className={`${
+                highLight === "return" ? "text-gray-200" : "text-gray-400"
+              } group-hover:!text-gray-100 transition-all duration-150 ease-linear`}
+            >
+              RETURN
+            </span>
+          </aside>
+        </Link>
+        {/* </Link> */}
       </div>
     </div>
   );

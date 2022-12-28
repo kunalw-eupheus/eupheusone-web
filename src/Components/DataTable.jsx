@@ -94,6 +94,22 @@ export default function DataTable({
             row?.Address?.toLowerCase().indexOf(q) > -1
           );
           break;
+        case "Projection":
+          return (
+            row.Series.toLowerCase().indexOf(q) > -1 ||
+            row.Greades.toLowerCase().indexOf(q) > -1 ||
+            row.Total.toLowerCase().indexOf(q) > -1 ||
+            row.Quantity.toLowerCase().indexOf(q) > -1
+          );
+          break;
+        case "ReturnOrder":
+            return (
+              row?.Customer?.toLowerCase().indexOf(q) > -1 ||
+              // row.City.toLowerCase().indexOf(q) > -1 ||
+              row?.Quantity?.toLowerCase().indexOf(q) > -1 ||
+              row?.Status?.toLowerCase().indexOf(q) > -1
+            );
+            break;
         default:
           break;
       }
