@@ -299,7 +299,7 @@ const Addprojection = () => {
               if (item.fk_series_id === id) {
                 item.fk_grade.map((el) => {
                   value.map((i) => {
-                    if (i.id != el.fk_grade_id) {
+                    if (i.id !== el.fk_grade_id) {
                       gradeId = el.fk_grade_id;
                     }
                   });
@@ -307,23 +307,33 @@ const Addprojection = () => {
               }
             });
             let res = await getSeriesPrice(id, gradeId);
-
-            console.log(gradeId);
-            setRowdata(
-              rowdata.map((item) => {
-                console.log(item);
-                if (item.id === id) {
-                  return {
-                    id: item.id,
-                    mrp: Number(item.mrp) - Number(res.message.price),
-                    series: item.series,
-                    total: item.total,
-                  };
-                } else {
-                  return item;
+            if (res.status === "success") {
+              let quantity = null;
+              formik.values.data.map((item) => {
+                if (item.fk_series_id === id) {
+                  quantity = Number(item.quantity);
                 }
-              })
-            );
+              });
+              // console.log(quantity);
+              console.log(gradeId);
+              setRowdata(
+                rowdata.map((item) => {
+                  console.log(item);
+                  if (item.id === id) {
+                    return {
+                      id: item.id,
+                      mrp: Number(item.mrp) - Number(res.message.price),
+                      series: item.series,
+                      total:
+                        (Number(item.mrp) - Number(res.message.price)) *
+                        quantity,
+                    };
+                  } else {
+                    return item;
+                  }
+                })
+              );
+            }
           }
         }
 
