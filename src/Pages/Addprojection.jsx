@@ -44,6 +44,7 @@ const Addprojection = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [highLight, setHighLight] = useState("projection");
   const [loading, setLoading] = useState(false);
+  const [showTable, setShowTable] = useState(false);
   const sidebarRef = useRef();
   const [snackbarMsg, setSnackbarMsg] = useState("Submitted SuccessFully");
   const [series, setSeries] = useState([]);
@@ -379,6 +380,7 @@ const Addprojection = () => {
         break;
       case "Quantity":
         setQuantity(value);
+        setShowTable(true);
         break;
       case "publisher_name":
         setRowdata([]);
@@ -466,72 +468,74 @@ const Addprojection = () => {
                   />
                 </div>
 
-                <TableContainer component={Paper}>
-                  <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                    <TableHead>
-                      <TableRow>
-                        <TableCell className="!w-[15rem]">SERIES</TableCell>
-                        <TableCell className="!w-[20rem]" align="right">
-                          GRADE
-                        </TableCell>
-                        <TableCell className="!w-[5rem]" align="right">
-                          MRP&nbsp;(Rs)
-                        </TableCell>
-                        <TableCell className="!w-[10rem]" align="right">
-                          Quantity
-                        </TableCell>
-                        <TableCell className="!w-[5rem]" align="right">
-                          Total
-                        </TableCell>
-                        {/* <TableCell align="right">Protein&nbsp;(g)</TableCell> */}
-                      </TableRow>
-                    </TableHead>
-                    <TableBody>
-                      {rowdata.map((row) => (
-                        <TableRow
-                          key={row.series}
-                          sx={{
-                            "&:last-child td, &:last-child th": { border: 0 },
-                          }}
-                        >
-                          <TableCell component="th" scope="row">
-                            {/* <div
+                {showTable ? (
+                  <TableContainer component={Paper}>
+                    <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                      <TableHead>
+                        <TableRow>
+                          <TableCell className="!w-[15rem]">SERIES</TableCell>
+                          <TableCell className="!w-[20rem]" align="right">
+                            GRADE
+                          </TableCell>
+                          <TableCell className="!w-[5rem]" align="right">
+                            MRP&nbsp;(Rs)
+                          </TableCell>
+                          <TableCell className="!w-[10rem]" align="right">
+                            Quantity
+                          </TableCell>
+                          <TableCell className="!w-[5rem]" align="right">
+                            Total
+                          </TableCell>
+                          {/* <TableCell align="right">Protein&nbsp;(g)</TableCell> */}
+                        </TableRow>
+                      </TableHead>
+                      <TableBody>
+                        {rowdata.map((row) => (
+                          <TableRow
+                            key={row.series}
+                            sx={{
+                              "&:last-child td, &:last-child th": { border: 0 },
+                            }}
+                          >
+                            <TableCell component="th" scope="row">
+                              {/* <div
                               className="cursor-pointer"
                               onClick={() => DuplicateRow(row)}
                             >
                               <Add className="!cursor-pointer" />
                             </div> */}
-                            {row.series}
-                          </TableCell>
-                          <TableCell align="right">
-                            <SearchDropDown
-                              label={"Select Grade"}
-                              seriesId={row.id}
-                              handleOrderProcessingForm={handleProjectionForm}
-                              data={grade}
-                              multiple={true}
-                              Name={"grades"}
-                            />
-                          </TableCell>
-                          <TableCell align="right">{row.mrp}</TableCell>
-                          <TableCell align="right">
-                            <input
-                              type="number"
-                              className="border-2 px-3 border-gray-500 rounded-md w-full"
-                              placeholder="Enter Quantity"
-                              defaultValue={quantity}
-                              onBlur={(e) => {
-                                handleQuantityChange(row.id, e.target.value);
-                              }}
-                            />
-                          </TableCell>
-                          <TableCell align="right">{row.total}</TableCell>
-                          {/* <TableCell align="right">{row.quantity}</TableCell> */}
-                        </TableRow>
-                      ))}
-                    </TableBody>
-                  </Table>
-                </TableContainer>
+                              {row.series}
+                            </TableCell>
+                            <TableCell align="right">
+                              <SearchDropDown
+                                label={"Select Grade"}
+                                seriesId={row.id}
+                                handleOrderProcessingForm={handleProjectionForm}
+                                data={grade}
+                                multiple={true}
+                                Name={"grades"}
+                              />
+                            </TableCell>
+                            <TableCell align="right">{row.mrp}</TableCell>
+                            <TableCell align="right">
+                              <input
+                                type="number"
+                                className="border-2 px-3 border-gray-500 rounded-md w-full"
+                                placeholder="Enter Quantity"
+                                defaultValue={quantity}
+                                onBlur={(e) => {
+                                  handleQuantityChange(row.id, e.target.value);
+                                }}
+                              />
+                            </TableCell>
+                            <TableCell align="right">{row.total}</TableCell>
+                            {/* <TableCell align="right">{row.quantity}</TableCell> */}
+                          </TableRow>
+                        ))}
+                      </TableBody>
+                    </Table>
+                  </TableContainer>
+                ) : null}
 
                 <div onClick={formik.handleSubmit}>
                   {/* <div onClick={formik.handleSubmit}> */}

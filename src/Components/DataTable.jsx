@@ -96,10 +96,10 @@ export default function DataTable({
           break;
         case "Projection":
           return (
-            row.Series.toLowerCase().indexOf(q) > -1 ||
-            row.Greades.toLowerCase().indexOf(q) > -1 ||
-            row.Total.toLowerCase().indexOf(q) > -1 ||
-            row.Quantity.toLowerCase().indexOf(q) > -1
+            row?.Series?.toLowerCase().indexOf(q) > -1 ||
+            row?.Greades?.toLowerCase().indexOf(q) > -1 ||
+            row?.Total?.toLowerCase().indexOf(q) > -1 ||
+            row?.Quantity?.toLowerCase().indexOf(q) > -1
           );
           break;
         default:
