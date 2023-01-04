@@ -12,6 +12,7 @@ import {
   ShoppingBag,
   ListAlt,
   LocationCity,
+  AssignmentReturnOutlined
 } from "@mui/icons-material";
 import { Link } from "react-router-dom";
 import logoLight from "../assets/img/logo-light-icon.png";
@@ -90,7 +91,7 @@ const Sidebar = ({ sidebarCollapsed, highLight, show }) => {
       <TransitionsModal open={modelOpen} />;
       <DialogSlide ref={dialogRef} />
       <div
-        className={`flex flex-col gap-6 transition-all ease-linear duration-100`}
+        className={`flex flex-col gap-4 transition-all ease-linear duration-100`}
       >
         <div className="flex items-center gap-3 justify-center">
           <img
@@ -477,7 +478,7 @@ const Sidebar = ({ sidebarCollapsed, highLight, show }) => {
                 highLight === "order_pro" ? "text-gray-200" : "text-gray-400"
               } group-hover:!text-gray-100 transition-all duration-150 ease-linear`}
             >
-              Order Precessing
+              Order Processing
             </span>
           </aside>
         </Link>
@@ -563,6 +564,27 @@ const Sidebar = ({ sidebarCollapsed, highLight, show }) => {
               } group-hover:!text-gray-100 transition-all duration-150 ease-linear`}
             >
               Projection
+            </span>
+          </aside>
+        </Link>
+
+        <Link to="/return">
+          <aside
+            className={`px-6 py-2 flex gap-4 ${
+              highLight === "return" ? "bg-gray-500" : ""
+            } cursor-pointer group hover:bg-gray-500 rounded-md transition-all duration-150 ease-linear`}
+          >
+            <AssignmentReturnOutlined
+              className={`${
+                highLight === "return" ? "!text-[#659DBD]" : "!text-gray-400"
+              } group-hover:!text-[#659DBD] !transition-all !duration-150 !ease-linear`}
+            />
+            <span
+              className={`${
+                highLight === "return" ? "text-gray-200" : "text-gray-400"
+              } group-hover:!text-gray-100 transition-all duration-150 ease-linear`}
+            >
+              RETURN
             </span>
           </aside>
         </Link>
