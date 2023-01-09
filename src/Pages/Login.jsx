@@ -80,6 +80,7 @@ const Login = () => {
       );
       Cookies.set("id", `${res.data.id}`);
       Cookies.set("accessToken", `${res.data.accessToken}`);
+      Cookies.set("type", `${res.data.type}`);
       if (res.data.admin) {
         Cookies.set("admin", true);
         dispatch(authActions.adminLogin());

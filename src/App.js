@@ -46,6 +46,13 @@ import Addprojection from "./Pages/Addprojection";
 import Return from './Pages/RETURN/Return'
 import ReturnRequest from './Pages/RETURN/RequestReturn'
 
+import Invoice from './Pages/Invoice'
+import InvoiceItem from "./Pages/InvoiceItem";
+import ManageSchoolTraining from "./Pages/ManageSchoolTraining";
+import AddSchoolTraining from "./Pages/AddSchoolTraining";
+import UpdateSchoolTraining from "./Pages/UpdateSchoolTraining";
+import InvoiceTraining from "./Pages/InvoiceTraining";
+
 function App() {
   const isAuth = useSelector((state) => state.auth.user);
   const MsAuth = useSelector((state) => state.auth.msAuth);
@@ -91,6 +98,10 @@ function App() {
             path="/manageSchool"
             element={isAuth || MsAuth ? <ManageSchool /> : <Login />}
           />
+           <Route
+            path="/manageSchoolTraining"
+            element={isAuth || MsAuth ? <ManageSchoolTraining /> : <Login />}
+          />
           <Route
             path="/school/tagging"
             element={isAuth || MsAuth ? <SchoolTagging /> : <Login />}
@@ -107,9 +118,18 @@ function App() {
             path="/addschool"
             element={isAuth || MsAuth ? <AddSchool /> : <Login />}
           />
+            <Route
+            path="/addschooltraining"
+            element={isAuth || MsAuth ? <AddSchoolTraining /> : <Login />}
+          />
           <Route
             path="/update_school/:id"
             element={isAuth || MsAuth ? <UpdateSchool /> : <Login />}
+          />
+
+          <Route
+            path="/update_school_training/:id"
+            element={isAuth || MsAuth ? <UpdateSchoolTraining /> : <Login />}
           />
 
           <Route
@@ -194,6 +214,23 @@ function App() {
             path="/return_request"
             element={isAuth || MsAuth ? <ReturnRequest /> : <Login />}
           />
+
+          <Route
+            path="/invoice"
+            element={isAuth || MsAuth ? <Invoice /> : <Login />}
+          />
+
+          <Route
+            // path="/invoice_item/:id"
+            path="/invoice_item/"
+            element={isAuth || MsAuth ? <InvoiceItem /> : <Login />}
+          />
+
+          <Route
+            path="/invoice_training"
+            element={isAuth || MsAuth ? <InvoiceTraining /> : <Login />}
+          />
+
 
           {/* Admin */}
 
