@@ -57,15 +57,20 @@ const InvoiceTraining = () => {
   const [invoiceId2, setInvoiceId2] = useState("");
   const [searchVal, setSearchVal] = useState("");
   const [searchRow, setSearchRow] = useState([]);
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+
+  // Avoid a layout jump when reaching the last page with empty rows.
+  const emptyRows =
+    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rowdata.length) : 0;
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
 
   const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(+event.target.value);
+    setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
 
@@ -572,6 +577,7 @@ const InvoiceTraining = () => {
   const filterTable = () => {
     // console.log(searchVal);
     // console.log(rowdata)
+    setPage(0)
     let tempArr = [];
     for (let ele of rowdata) {
       // console.log(ele.cardname)
@@ -651,9 +657,10 @@ const InvoiceTraining = () => {
               </div> */}
               <Paper>
                 <TableContainer component={Paper}>
-                  <Toolbar className="bg-slate-400">
-                    {/* <form> */}
-                    <TextField
+               
+                <Toolbar className="bg-slate-400">
+
+                   <TextField
                       id="search-bar"
                       className="text"
                       onInput={(e) => {
@@ -664,6 +671,7 @@ const InvoiceTraining = () => {
                       placeholder="Search..."
                       size="small"
                     />
+                    <div className="bg-slate-300">
                     <IconButton
                       type="submit"
                       aria-label="search"
@@ -671,18 +679,35 @@ const InvoiceTraining = () => {
                     >
                       <SearchIcon style={{ fill: "blue" }} />
                     </IconButton>
-                    {/* </form> */}
+                    </div>
+  
 
-                    <TablePagination
-                      rowsPerPageOptions={[5, 10, 15, 20, 25, 50, 100]}
-                      component="div"
+                  <TablePagination 
+                      rowsPerPageOptions={[
+                        10,
+                        50,
+                        100,
+                        { label: "All", value: -1 },
+                      ]}
+                      colSpan={3}
                       count={rowdata.length}
                       rowsPerPage={rowsPerPage}
                       page={page}
-                      onChangePage={handleChangePage}
-                      onChangeRowsPerPage={handleChangeRowsPerPage}
+                      slotProps={{
+                        select: {
+                          "aria-label": "rows per page",
+                        },
+                        actions: {
+                          showFirstButton: true,
+                          showLastButton: true,
+                        },
+                      }}
+                      onPageChange={handleChangePage}
+                      onRowsPerPageChange={handleChangeRowsPerPage}
                     />
                   </Toolbar>
+           
+                  
                   <Table sx={{ minWidth: 650 }} aria-label="customized table">
                     <TableHead className="bg-slate-500">
                       <TableRow>
@@ -711,39 +736,105 @@ const InvoiceTraining = () => {
                     </TableHead>
                     <TableBody className="bg-slate-200">
                       {searchRow.length === 0
-                        ? rowdata
-                            .slice(
-                              page * rowsPerPage,
-                              page * rowsPerPage + rowsPerPage
-                            )
-                            .map((row) => (
-                              <TableRow
-                                key={row.series}
-                                sx={{
-                                  "&:last-child td, &:last-child th": {
-                                    border: 0,
-                                  },
-                                }}
-                              >
-                                {/* <TableCell align="center" component="th" scope="row">
+                        ? (rowsPerPage > 0
+                            ? rowdata.slice(
+                                page * rowsPerPage,
+                                page * rowsPerPage + rowsPerPage
+                              )
+                            : rowdata
+                          ).map((row) => (
+                            <TableRow
+                              key={row.series}
+                              sx={{
+                                "&:last-child td, &:last-child th": {
+                                  border: 0,
+                                },
+                              }}
+                            >
+                              {/* <TableCell align="center" component="th" scope="row">
                           {row.id}
                         </TableCell> */}
-                                <TableCell align="center">
-                                  {row.docnum}
-                                </TableCell>
-                                <TableCell align="center">
-                                  {row.docdate}
-                                </TableCell>
-                                <TableCell align="center">
-                                  {row.cardname}
-                                </TableCell>
-                                <TableCell align="center">
-                                  {row.doctotal}
-                                </TableCell>
+                              <TableCell align="center">{row.docnum}</TableCell>
+                              <TableCell align="center">
+                                {row.docdate}
+                              </TableCell>
+                              <TableCell align="center">
+                                {row.cardname}
+                              </TableCell>
+                              <TableCell align="center">
+                                {row.doctotal}
+                              </TableCell>
 
-                                <TableCell align="center">
-                                  {/* <DialogSlide ref={dialogRef} invoiceId={row.id}/> */}
+                              <TableCell align="center">
+                                {/* <DialogSlide ref={dialogRef} invoiceId={row.id}/> */}
 
+                                <div
+                                  className="sm:w-auto w-[50vw]"
+                                  onClick={() => {
+                                    handleSchoolAdd(row.id);
+                                  }}
+                                >
+                                  <BasicButton text={"Add School"} />
+                                </div>
+                              </TableCell>
+
+                              {/* <TableCell align="center">
+                          <SearchDropDown
+                            label={"Select Grade"}
+                            seriesId={row.id}
+                            handleOrderProcessingForm={handleProjectionForm}
+                            data={grade}
+                            multiple={true}
+                            Name={"grades"}
+                          />
+                        </TableCell> */}
+                              <TableCell align="center">
+                                {/* <DialogSlide2 ref={dialogRef2}/> */}
+                                <div
+                                  className="sm:w-auto w-[50vw]"
+                                  onClick={() => {
+                                    handleInvoiceView(row.id);
+                                  }}
+                                >
+                                  <BasicButton text={"View"} />
+                                </div>
+                              </TableCell>
+                            </TableRow>
+                          ))
+                        : 
+                        (rowsPerPage > 0
+                            ? searchRow.slice(
+                                page * rowsPerPage,
+                                page * rowsPerPage + rowsPerPage
+                              )
+                            : searchRow
+                          )
+                        .map((row) => (
+                            <TableRow
+                              key={row.series}
+                              sx={{
+                                "&:last-child td, &:last-child th": {
+                                  border: 0,
+                                },
+                              }}
+                            >
+                              {/* <TableCell align="center" component="th" scope="row">
+                          {row.id}
+                        </TableCell> */}
+                              <TableCell align="center">{row.docnum}</TableCell>
+                              <TableCell align="center">
+                                {row.docdate}
+                              </TableCell>
+                              <TableCell align="center">
+                                {row.cardname}
+                              </TableCell>
+                              <TableCell align="center">
+                                {row.doctotal}
+                              </TableCell>
+
+                              <TableCell align="center">
+                                {/* <DialogSlide ref={dialogRef} invoiceId={row.id}/> */}
+                                {row.id ? (
                                   <div
                                     className="sm:w-auto w-[50vw]"
                                     onClick={() => {
@@ -752,9 +843,12 @@ const InvoiceTraining = () => {
                                   >
                                     <BasicButton text={"Add School"} />
                                   </div>
-                                </TableCell>
+                                ) : (
+                                  ""
+                                )}
+                              </TableCell>
 
-                                {/* <TableCell align="center">
+                              {/* <TableCell align="center">
                           <SearchDropDown
                             label={"Select Grade"}
                             seriesId={row.id}
@@ -764,8 +858,9 @@ const InvoiceTraining = () => {
                             Name={"grades"}
                           />
                         </TableCell> */}
-                                <TableCell align="center">
-                                  {/* <DialogSlide2 ref={dialogRef2}/> */}
+                              <TableCell align="center">
+                                {/* <DialogSlide2 ref={dialogRef2}/> */}
+                                {row.id ? (
                                   <div
                                     className="sm:w-auto w-[50vw]"
                                     onClick={() => {
@@ -774,82 +869,13 @@ const InvoiceTraining = () => {
                                   >
                                     <BasicButton text={"View"} />
                                   </div>
-                                </TableCell>
-                              </TableRow>
-                            ))
-                        : searchRow
-                            .slice(
-                              page * rowsPerPage,
-                              page * rowsPerPage + rowsPerPage
-                            )
-                            .map((row) => (
-                              <TableRow
-                                key={row.series}
-                                sx={{
-                                  "&:last-child td, &:last-child th": {
-                                    border: 0,
-                                  },
-                                }}
-                              >
-                                {/* <TableCell align="center" component="th" scope="row">
-                          {row.id}
-                        </TableCell> */}
-                                <TableCell align="center">
-                                  {row.docnum}
-                                </TableCell>
-                                <TableCell align="center">
-                                  {row.docdate}
-                                </TableCell>
-                                <TableCell align="center">
-                                  {row.cardname}
-                                </TableCell>
-                                <TableCell align="center">
-                                  {row.doctotal}
-                                </TableCell>
-
-                                <TableCell align="center">
-                                  {/* <DialogSlide ref={dialogRef} invoiceId={row.id}/> */}
-                                  {row.id ? (
-                                    <div
-                                      className="sm:w-auto w-[50vw]"
-                                      onClick={() => {
-                                        handleSchoolAdd(row.id);
-                                      }}
-                                    >
-                                      <BasicButton text={"Add School"} />
-                                    </div>
-                                  ) : (
-                                    ""
-                                  )}
-                                </TableCell>
-
-                                {/* <TableCell align="center">
-                          <SearchDropDown
-                            label={"Select Grade"}
-                            seriesId={row.id}
-                            handleOrderProcessingForm={handleProjectionForm}
-                            data={grade}
-                            multiple={true}
-                            Name={"grades"}
-                          />
-                        </TableCell> */}
-                                <TableCell align="center">
-                                  {/* <DialogSlide2 ref={dialogRef2}/> */}
-                                  {row.id ? (
-                                    <div
-                                      className="sm:w-auto w-[50vw]"
-                                      onClick={() => {
-                                        handleInvoiceView(row.id);
-                                      }}
-                                    >
-                                      <BasicButton text={"View"} />
-                                    </div>
-                                  ) : (
-                                    ""
-                                  )}
-                                </TableCell>
-                              </TableRow>
-                            ))}
+                                ) : (
+                                  ""
+                                )}
+                              </TableCell>
+                            </TableRow>
+                          ))}
+                      <TableRow></TableRow>
                     </TableBody>
                   </Table>
                 </TableContainer>

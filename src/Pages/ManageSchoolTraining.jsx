@@ -12,7 +12,7 @@ import instance from "../Instance";
 import { useLayoutEffect } from "react";
 import Cookies from "js-cookie";
 import BasicButton from "../Components/Material/Button";
-import { Backdrop, CircularProgress } from "@mui/material";
+import { Backdrop, CircularProgress, Toolbar } from "@mui/material";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import Table from "@mui/material/Table";
@@ -22,7 +22,9 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-
+import IconButton from "@mui/material/IconButton";
+import SearchIcon from "@mui/icons-material/Search";
+import TablePagination from "@mui/material/TablePagination";
 
 const ManageSchoolTraining = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
@@ -36,6 +38,24 @@ const ManageSchoolTraining = () => {
   // const [type, setType] = useState([]);
   const [city, setCity] = useState({ disable: true });
   const [schoolRow, setSchoolRow] = useState([]);
+  const [searchVal, setSearchVal] = useState("");
+  const [searchRow, setSearchRow] = useState([]);
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+
+  // Avoid a layout jump when reaching the last page with empty rows.
+  const emptyRows =
+    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - schoolRow.length) : 0;
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
+
   const navInfo = {
     title: "Manage School",
     details: ["Home", " / Manage School"],
@@ -95,7 +115,7 @@ const ManageSchoolTraining = () => {
         Authorization: `${Cookies.get("accessToken")}`,
       },
     });
-    console.log(res.data.message);
+    // console.log(res.data.message);
     const rows = res.data.message.map((item, index) => {
       return {
         id: item.id,
@@ -201,7 +221,8 @@ const ManageSchoolTraining = () => {
   }, []);
 
   const searchSchool = async () => {
-    setSchoolRow([])
+    setSchoolRow([]);
+    setSearchRow([]);
     if (type === "Classklap") {
       const res = await instance({
         url: `school/ckschools/get/${stateId}`,
@@ -210,7 +231,7 @@ const ManageSchoolTraining = () => {
           Authorization: `${Cookies.get("accessToken")}`,
         },
       });
-      // console.log(res.data.message)
+      console.log(res.data.message);
       setSchoolRow(res.data.message);
       // console.log(stateId)
       // console.log(type)
@@ -234,7 +255,7 @@ const ManageSchoolTraining = () => {
           Authorization: `${Cookies.get("accessToken")}`,
         },
       });
-      // console.log(res.data.message)
+      console.log(res.data.message);
       setSchoolRow(res.data.message);
       // console.log(stateId)
       // console.log(type)
@@ -258,6 +279,56 @@ const ManageSchoolTraining = () => {
 
   const updateSchool = (schoolId) => {
     console.log(schoolId);
+  };
+
+  const handleSearch = (val) => {
+    // console.log(val)
+    setSearchVal(val.trim());
+  };
+
+  const filterTable = () => {
+    // console.log(searchVal);
+    // console.log(schoolRow)
+    setPage(0)
+    let tempArr = [];
+    for (let ele of schoolRow) {
+      // console.log(ele.cardname)
+      let schoolName = ele.school_name.toLowerCase();
+      if (schoolName.indexOf(searchVal.toLowerCase()) > -1) {
+        tempArr.push(ele);
+      }
+    }
+    console.log(tempArr);
+    setSearchRow([]);
+    if (tempArr.length === 0) {
+      // console.log(searchRow)
+      setSearchRow([
+        {
+          id: null,
+          ck_code: null,
+          school_name: null,
+          school_addresses: [
+            {
+              id: null,
+              fk_state: {
+                id: null,
+                state: null,
+              },
+              fk_city: {
+                id: null,
+                city: null,
+              },
+            },
+          ],
+        },
+      ]);
+      // console.log("first")
+      // console.log(searchRow)
+    } else {
+      // console.log("second")
+      setSearchRow(tempArr);
+      // console.log(searchRow)
+    }
   };
 
   return (
@@ -354,8 +425,56 @@ const ManageSchoolTraining = () => {
 
             <div className=" sm:px-8 px-2 py-3 bg-[#141728] mt-4">
               <Paper>
-
                 <TableContainer component={Paper}>
+                  <Toolbar className="bg-slate-400">
+                    {/* <form> */}
+                    <TextField
+                      id="search-bar"
+                      className="text"
+                      onInput={(e) => {
+                        handleSearch(e.target.value);
+                      }}
+                      label="Enter School Name"
+                      variant="outlined"
+                      placeholder="Search..."
+                      size="small"
+                    />
+                    <div className="bg-slate-300">
+                      <IconButton
+                        type="submit"
+                        aria-label="search"
+                        onClick={filterTable}
+                      >
+                        <SearchIcon style={{ fill: "blue" }} />
+                      </IconButton>
+                    </div>
+
+                    <TablePagination
+                      rowsPerPageOptions={[
+                        10,
+                        50,
+                        100,
+                        { label: "All", value: -1 },
+                      ]}
+                      colSpan={3}
+                      count={schoolRow.length}
+                      rowsPerPage={rowsPerPage}
+                      page={page}
+                      slotProps={{
+                        select: {
+                          "aria-label": "rows per page",
+                        },
+                        actions: {
+                          showFirstButton: true,
+                          showLastButton: true,
+                        },
+                      }}
+                      onPageChange={handleChangePage}
+                      onRowsPerPageChange={handleChangeRowsPerPage}
+                    />
+                    {/* </form> */}
+                  </Toolbar>
+
                   <Table sx={{ minWidth: 650 }} aria-label="customized table">
                     <TableHead className="bg-slate-500">
                       <TableRow>
@@ -378,59 +497,135 @@ const ManageSchoolTraining = () => {
                       </TableRow>
                     </TableHead>
                     <TableBody className="bg-slate-200">
-                      {schoolRow.map((row) => (
-                        <TableRow
-                          key={row.school_name}
-                          sx={{
-                            "&:last-child td, &:last-child th": { border: 0 },
-                          }}
-                        >
-                          <TableCell align="center" component="th" scope="row">
-                            {row.school_name}
-                          </TableCell>
-                          <TableCell align="center">
-                            {row.school_addresses[0].fk_state.state}
-                          </TableCell>
-                          <TableCell align="center">
-                            {row.school_addresses[0].fk_city.city}
-                          </TableCell>
-                          {row.ck_code ? (
-                            <TableCell align="center">
-                              {row.ck_code}
-                              {/* <div
+                      {searchRow.length === 0
+                        ? (rowsPerPage > 0
+                            ? schoolRow.slice(
+                                page * rowsPerPage,
+                                page * rowsPerPage + rowsPerPage
+                              )
+                            : schoolRow
+                          ).map((row) => (
+                            <TableRow
+                              key={row.school_name}
+                              sx={{
+                                "&:last-child td, &:last-child th": {
+                                  border: 0,
+                                },
+                              }}
+                            >
+                              <TableCell
+                                align="center"
+                                component="th"
+                                scope="row"
+                              >
+                                {row.school_name}
+                              </TableCell>
+                              <TableCell align="center">
+                                {row.school_addresses[0].fk_state.state}
+                              </TableCell>
+                              <TableCell align="center">
+                                {row.school_addresses[0].fk_city.city}
+                              </TableCell>
+                              {row.ck_code ? (
+                                <TableCell align="center">
+                                  {row.ck_code}
+                                </TableCell>
+                              ) : (
+                                <TableCell align="center">
+                                  <div
+                                    className="sm:w-auto w-[50vw]"
+                                    onClick={() => {
+                                      updateSchoolCode(row.id, stateId);
+                                    }}
+                                  >
+                                    <BasicButton text={"Get Code"} />
+                                  </div>
+                                </TableCell>
+                              )}
+                              <TableCell align="center">
+                                {type === "Classklap" ? (
+                                  <div className="w-full flex gap-3 justify-end">
+                                    <Link
+                                      to={`/update_school_training/${row.id}`}
+                                    >
+                                      <BasicButton text={"Edit"} />
+                                    </Link>
+                                  </div>
+                                ) : (
+                                  ""
+                                )}
+                              </TableCell>
+                            </TableRow>
+                          ))
+                        : (rowsPerPage > 0
+                            ? searchRow.slice(
+                                page * rowsPerPage,
+                                page * rowsPerPage + rowsPerPage
+                              )
+                            : searchRow
+                          ).map((row) => (
+                            <TableRow
+                              key={row.school_name}
+                              sx={{
+                                "&:last-child td, &:last-child th": {
+                                  border: 0,
+                                },
+                              }}
+                            >
+                              <TableCell
+                                align="center"
+                                component="th"
+                                scope="row"
+                              >
+                                {row.school_name}
+                              </TableCell>
+                              <TableCell align="center">
+                                {row.school_addresses[0].fk_state.state}
+                              </TableCell>
+                              <TableCell align="center">
+                                {row.school_addresses[0].fk_city.city}
+                              </TableCell>
+                              {row.ck_code ? (
+                                <TableCell align="center">
+                                  {row.ck_code}
+                                  {/* <div
                             className="sm:w-auto w-[50vw]"
                             onClick={""}
                           >
                             <BasicButton text={"Get Code"} />
                           </div> */}
-                            </TableCell>
-                          ) : (
-                            <TableCell align="center">
-                              {/* {row.ck_code} */}
-                              <div
-                                className="sm:w-auto w-[50vw]"
-                                onClick={() => {
-                                  updateSchoolCode(row.id, stateId);
-                                }}
-                              >
-                                <BasicButton text={"Get Code"} />
-                              </div>
-                            </TableCell>
-                          )}
-                          <TableCell align="center">
-                          {type === "Classklap" ? 
-                            <div className="w-full flex gap-3 justify-end">
-                              <Link to={`/update_school_training/${row.id}`}>
-                                <BasicButton text={"Edit"} />
-                              </Link>
-                            </div>
-                            :
-                            ""
-                          }
-                          </TableCell>
-                          
-                        </TableRow>
-                      ))}
+                                </TableCell>
+                              ) : (
+                                <TableCell align="center">
+                                  {row.id ? (
+                                    <div
+                                      className="sm:w-auto w-[50vw]"
+                                      onClick={() => {
+                                        updateSchoolCode(row.id, stateId);
+                                      }}
+                                    >
+                                      <BasicButton text={"Get Code"} />
+                                    </div>
+                                  ) : (
+                                    ""
+                                  )}
+                                </TableCell>
+                              )}
+                              <TableCell align="center">
+                                {type === "Classklap" ? (
+                                  <div className="w-full flex gap-3 justify-end">
+                                    <Link
+                                      to={`/update_school_training/${row.id}`}
+                                    >
+                                      <BasicButton text={"Edit"} />
+                                    </Link>
+                                  </div>
+                                ) : (
+                                  ""
+                                )}
+                              </TableCell>
+                            </TableRow>
+                          ))}
                     </TableBody>
                   </Table>
                 </TableContainer>
