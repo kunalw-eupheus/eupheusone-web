@@ -106,8 +106,8 @@ const SearchDropDown = ({
           break;
         // manage School
         case "select_state":
-          console.log(option)
-          return option.state;
+          // console.log(option)
+          return option.fk_state.state          ;
           break;
         case "select_state_training":
           // console.log(option)

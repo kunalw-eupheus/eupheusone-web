@@ -120,9 +120,9 @@ export default function DataTable({
           );
           break;
         case "Invoice":
-          // console.log(row)
+          // console.log(tableName, row)
           return (
-            row?.CustomerName?.toLowerCase().indexOf(q) > -1
+            row.cardname.toLowerCase().indexOf(q) > -1
             // row.City.toLowerCase().indexOf(q) > -1 ||
             // row?.Quantity?.toLowerCase().indexOf(q) > -1 ||
             // row?.Status?.toLowerCase().indexOf(q) > -1

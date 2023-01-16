@@ -29,25 +29,26 @@ const Invoice = () => {
   const [isAdmin, setIsAdmin] = useState(false);
   const [snackbarErrStatus, setSnackbarErrStatus] = useState(false);
   const [snackbarMsg, setSnackbarMsg] = useState("");
+  const [invoiceData, setInvoiceData] = useState([])
   const navInfo = {
     title: "Invoice",
     details: ["Home", " / Invoice"],
   };
 
   const Tablecolumns = [
-    { field: "CustomerName", headerName: "Customer Name", width: 300 },
+    { field: "cardname", headerName: "Customer Name", width: 300 },
     {
-      field: "InvoiceDate",
+      field: "docdate",
       headerName: "Invoice Date",
       width: 180,
     },
     {
-      field: "InvoiceNo",
+      field: "docnum",
       headerName: "Invoice No",
       width: 200,
     },
     {
-      field: "TotalQuantity",
+      field: "doctotal",
       headerName: "Total Quantity",
       width: 150,
     },
@@ -100,45 +101,6 @@ const Invoice = () => {
   };
 
 
-  const saveExcelData2 =async () => {
-    if(uploaditems.length === 0){
-      setSnackbarErrStatus(true)
-      setSnackbarMsg('Select a File');
-      snackbarRef.current.openSnackbar();
-    }else{
-      console.log(uploaditems)
-      // const userType = Cookies.get("type")
-      const res = await instance({
-        url: "invoices/create",
-        method: "POST",
-        data: uploaditems,
-        // {
-        //   fk_bp_id: formik.values.fk_bp_id,
-        //   quantity: value.quantity,
-        //   items: formik.values.items.map((item) => {
-        //     return { fk_item_id: item.id, quantity: item.quantity };
-        //   }),
-        // },
-        headers: {
-          Authorization: Cookies.get("accessToken"),
-        },
-      })
-      // .then((res)=>{
-      //   console.log(res)
-      // }).catch((err)=>{
-      //   console.log(err)
-      // })
-      console.log(res)
-
-      if (res.data.status === "success") {
-        console.log("userType")
-      setSnackbarErrStatus(false)
-      setSnackbarMsg('Data Saved Successfull');
-      snackbarRef.current.openSnackbar();
-
-      }  
-    }
-  }
 
 
   const saveExcelData =async () => {
@@ -179,7 +141,7 @@ const Invoice = () => {
 
 
   useEffect(() => {
-
+    getInvoices()
     const userType = Cookies.get("type")
     if(userType === "admin") setIsAdmin(true)
 
@@ -198,26 +160,19 @@ const Invoice = () => {
     };
   }, []);
 
-  const getSchool = async (stateId, cityId) => {
-    setLoading(true);
+  const getInvoices = async () => {
+    // setLoading(true);
     const res = await instance({
-      url: `school/${stateId}/${cityId}`,
+      url: `eup_invoice/geteupinvoices`,
       method: "GET",
       headers: {
         Authorization: `${Cookies.get("accessToken")}`,
       },
     });
     console.log(res.data.message);
-    const rows = res.data.message.map((item, index) => {
-      return {
-        id: item.id,
-        SchoolName: item.school_name,
-        State: item.school_addresses[0].fk_state.state,
-        Address: item.school_addresses[0].address,
-      };
-    });
-    setSchoolRow(rows);
-    setLoading(false);
+    setInvoiceData(res.data.message)
+
+
   };
 
   const getSchoolByState = async (id) => {
@@ -304,7 +259,7 @@ const Invoice = () => {
     };
     getStates();
 
-    getSchoolData();
+    // getSchoolData();
   }, []);
 
   const snackbarRef = useRef();
@@ -413,52 +368,6 @@ const Invoice = () => {
         />
         <div className="min-h-[100vh] pt-[0vh] max-h-full bg-[#141728]">
           <div className=" sm:px-8 px-2 py-3 bg-[#141728]">
-            {/* <div className="grid grid-cols-2 grid-rows-2 md:flex md:justify-around md:items-center px-6 mb-8 py-3 mt-6 gap-6 rounded-md bg-slate-600">
-              <div className="flex flex-col gap-2 w-full md:w-[20vw]">
-                <label className="text-gray-100">State</label>
-
-                <SearchDropDown
-                  label={"Select State"}
-                  handleOrderProcessingForm={handleOrderProcessingForm}
-                  color={"rgb(243, 244, 246)"}
-                  data={states}
-                  Name="select_state"
-                />
-              </div>
-              <div className=" flex flex-col gap-2 w-full md:w-[20vw]">
-                <label className="text-gray-100">City</label>
-
-                <SearchDropDown
-                  label={"Select City"}
-                  handleOrderProcessingForm={handleOrderProcessingForm}
-                  color={"rgb(243, 244, 246)"}
-                  disable={city.disable}
-                  data={city}
-                  Name="select_city"
-                />
-              </div> */}
-            {/* <button className="w-full md:w-[20vw] col-span-2 md:ml-10 focus:outline-0 mt-8 text-gray-300 hover:shadow-md h-10 bg-slate-500 transition-all duration-200 ease-linear active:bg-slate-700 active:scale-95 rounded-md">
-                Search School
-              </button> */}
-            {/* <div
-                className="sm:w-auto w-[50vw]"
-                onClick={() => {
-                  if (stateAndCity.state && stateAndCity.city) {
-                    getSchool(stateAndCity.state, stateAndCity.city);
-                  }
-                }}
-              >
-                <BasicButton text={"Search School"} />
-              </div>
-            </div>
-            <div className="w-full flex gap-3 justify-end">
-              <Link to="/addschool">
-                <BasicButton text={"Create New School"} />
-              </Link>
-              <Link to="/tagging">
-                <BasicButton text={"Tag Existing School"} />
-              </Link>
-            </div> */}
 
             {isAdmin ? 
               <div className="grid grid-cols-2 grid-rows-0  md:flex md:justify-between sm:justify-between md:items-center sm:items-center px-6 mb-8 py-3 gap-6 rounded-md bg-slate-600">
@@ -482,7 +391,7 @@ const Invoice = () => {
             ""}
 
             <DataTable
-              rows={tempData}
+              rows={invoiceData}
               checkbox={false}
               Tablecolumns={Tablecolumns}
               tableName="Invoice"
