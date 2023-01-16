@@ -3,7 +3,7 @@ import { useState } from "react";
 import Navbar from "../Components/Navbar";
 import Sidebar from "../Components/Sidebar";
 // import { Add } from '@mui/icons-material'
-import { Link } from "react-router-dom";
+import { Link, useParams  } from "react-router-dom";
 import DataTable from "../Components/DataTable";
 // import { rows, ManageSchoolRows } from '../DummyData'
 import SearchDropDown from "../Components/SearchDropDown";
@@ -58,11 +58,14 @@ const InvoiceItem = () => {
       },
   ];
 
+  let { userId } = useParams();
+
   const handleSidebarCollapsed = () => {
     sidebarRef.current.openSidebar();
   };
 
   useEffect(() => {
+    getInvoiceDetails()
     const handleWidth = () => {
       if (window.innerWidth > 1024) {
         setSidebarCollapsed(false);
@@ -125,7 +128,7 @@ const InvoiceItem = () => {
   const handleOrderProcessingForm = async (value, type) => {
     switch (type) {
       case "select_state":
-        getCity(value.fk_state_id);
+        // getCity(value.fk_state_id);
         getSchoolByState(value.fk_state_id);
         setStateAndCity({ ...stateAndCity, state: value.fk_state_id });
         break;
@@ -137,16 +140,18 @@ const InvoiceItem = () => {
     }
   };
 
-  const getCity = async (Id) => {
-    setLoading(true);
-    const res = await instance({
-      url: `location/city/${Id}`,
-      method: "GET",
-      headers: {
-        Authorization: `${Cookies.get("accessToken")}`,
-      },
-    });
-    setCity(res.data.message);
+  const getInvoiceDetails = async () => {
+    // setLoading(true);
+    // const res = await instance({
+    //   url: `eup_invoice/geteupinvoices//${121}`,
+    //   method: "GET",
+    //   headers: {
+    //     Authorization: `${Cookies.get("accessToken")}`,
+    //   },
+    // });
+    // console.log(res.data.message)
+    console.log(userId)
+    // setCity(res.data.message);
     setLoading(false);
   };
 

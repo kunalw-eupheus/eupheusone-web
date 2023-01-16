@@ -554,8 +554,14 @@ const InvoiceTraining = () => {
   };
 
   const handleInvoiceView = (invceId) => {
+    setLoading(true)
     setInvoiceId2(invceId);
-    openDialogue2();
+    setTimeout(() => {
+      // console.log("Delayed for 1 second.");
+      openDialogue2();
+      setLoading(false)
+    }, 1000)
+    // openDialogue2();
   };
 
   const openDialogue = () => {

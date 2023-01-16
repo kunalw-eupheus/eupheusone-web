@@ -154,14 +154,21 @@ const ManageSchoolTraining = () => {
     // console.log(value, type);
     switch (type) {
       case "select_state":
-        console.log(value);
+        // console.log(value);
         setStateId(value.id);
         // getCity(value.fk_state_id);
         // getSchoolByState(value.fk_state_id);
         // setStateAndCity({ ...stateAndCity, state: value.fk_state_id });
         break;
+        case "select_state_training":
+          // console.log(value);
+          setStateId(value.id);
+          // getCity(value.fk_state_id);
+          // getSchoolByState(value.fk_state_id);
+          // setStateAndCity({ ...stateAndCity, state: value.fk_state_id });
+          break;
       case "select_type":
-        console.log(value);
+        // console.log(value);
         setType(value.types);
         // setStateAndCity({ ...stateAndCity, city: value.id });
         break;
@@ -224,6 +231,7 @@ const ManageSchoolTraining = () => {
     setSchoolRow([]);
     setSearchRow([]);
     if (type === "Classklap") {
+      console.log(stateId)
       const res = await instance({
         url: `school/ckschools/get/${stateId}`,
         method: "GET",
@@ -231,7 +239,10 @@ const ManageSchoolTraining = () => {
           Authorization: `${Cookies.get("accessToken")}`,
         },
       });
-      console.log(res.data.message);
+      // console.log(res.data.message);
+      if(res.data.message.length === 0){
+        alert("No Data Available")
+      }
       setSchoolRow(res.data.message);
       // console.log(stateId)
       // console.log(type)
@@ -243,7 +254,10 @@ const ManageSchoolTraining = () => {
           Authorization: `${Cookies.get("accessToken")}`,
         },
       });
-      console.log(res.data.message);
+      // console.log(res.data.message);
+      if(res.data.message.length === 0){
+        alert("No Data Available")
+      }
       setSchoolRow(res.data.message);
       // console.log(stateId)
       // console.log(type)
@@ -255,7 +269,10 @@ const ManageSchoolTraining = () => {
           Authorization: `${Cookies.get("accessToken")}`,
         },
       });
-      console.log(res.data.message);
+      // console.log(res.data.message);
+      if(res.data.message.length === 0){
+        alert("No Data Available")
+      }
       setSchoolRow(res.data.message);
       // console.log(stateId)
       // console.log(type)
@@ -392,7 +409,7 @@ const ManageSchoolTraining = () => {
                   handleOrderProcessingForm={handleOrderProcessingForm}
                   color={"rgb(243, 244, 246)"}
                   data={states}
-                  Name="select_state"
+                  Name="select_state_training"
                 />
               </div>
               {/* <div className=" flex flex-col gap-2 w-full md:w-[20vw]">
