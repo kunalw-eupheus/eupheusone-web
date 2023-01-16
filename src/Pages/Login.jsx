@@ -85,8 +85,15 @@ const Login = () => {
         Cookies.set("admin", true);
         dispatch(authActions.adminLogin());
       }
+      
       dispatch(authActions.login());
-      navigate("/");
+
+      if(res.data.type === "training"){
+        navigate("/manageSchoolTraining");
+      }else{
+        navigate("/");
+      }
+      
     }
     if (res.data.message) {
       setErrMessage(res.data.message);
