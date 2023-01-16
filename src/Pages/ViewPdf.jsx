@@ -23,7 +23,7 @@ const ViewPdf = () => {
   };
 
   return (
-    <div>
+    <div className='bg-white'>
       <button type="button" onClick={handleDownloadPdf}>
         Download as PDF
       </button>

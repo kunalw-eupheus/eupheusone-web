@@ -64,7 +64,7 @@ function App() {
   return (
     <div>
       <div>
-      {/* <div className=" font-Roboto bg-[#111322]"> */}
+      <div className=" font-Roboto bg-[#111322]">
         <BrowserRouter>
           <Routes>
             <Route
@@ -270,6 +270,7 @@ function App() {
             <Route path="*" element={isAuth ? <PageNotFound /> : <Login />} />
           </Routes>
         </BrowserRouter>
+      </div>
       </div>
     </div>
   );
