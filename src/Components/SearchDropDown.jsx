@@ -106,15 +106,15 @@ const SearchDropDown = ({
           break;
         // manage School
         case "select_state":
-          console.log(option)
-          return option.state;
+          // console.log(option)
+          return option.fk_state.state          ;
           break;
         case "select_state_training":
           // console.log(option)
           return option.state;
           break;
           case "select_city_training":
-          console.log(option)
+          // console.log(option)
           return option.city;
           break;
         case "select_type":
@@ -225,6 +225,7 @@ const SearchDropDown = ({
       handleOrderProcessingForm(value, type);
     }
     if (type === "select_state_training") {
+      console.log(value, type)
       handleOrderProcessingForm(value, type);
     }
     if (type === "select_city_training") {

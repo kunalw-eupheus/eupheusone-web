@@ -1,7 +1,7 @@
 import * as React from "react";
 import { useRef } from "react";
 import { DataGrid } from "@mui/x-data-grid";
-import { Search } from "@mui/icons-material";
+import { CleaningServices, Search } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import { Dialog } from "@mui/material";
 
@@ -120,9 +120,9 @@ export default function DataTable({
           );
           break;
         case "Invoice":
-          // console.log(row)
+          // console.log(tableName, row)
           return (
-            row?.CustomerName?.toLowerCase().indexOf(q) > -1
+            row.cardname.toLowerCase().indexOf(q) > -1
             // row.City.toLowerCase().indexOf(q) > -1 ||
             // row?.Quantity?.toLowerCase().indexOf(q) > -1 ||
             // row?.Status?.toLowerCase().indexOf(q) > -1
@@ -162,6 +162,7 @@ export default function DataTable({
   };
 
   const handleClick = (value) => {
+    console.log(value)
     switch (tableName) {
       case "ManageSchool":
         navigate(`/update_school/${value[0]}`);
@@ -202,12 +203,12 @@ export default function DataTable({
       >
         <DataGrid
           rows={search(rows)}
-          // onRowClick={(event) => navigate(`/update_school/:id`)}
+          onRowClick={(event) => console.log(event)}
           columns={Tablecolumns}
           pageSize={entries}
           rowsPerPageOptions={[entries]}
           checkboxSelection={checkbox}
-          onSelectionModelChange={(event) => handleClick(event)}
+          // onSelectionModelChange={(event) => handleClick(event)}
         />
       </div>
       <Search className=" text-gray-500 absolute top-[1.9rem] lg:top-[1.6rem] md:top-[1.4rem] !text-[1.2rem] right-[29.5vw] lg:right-[10.7rem] md:right-[16.5vw] z-20" />

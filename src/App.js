@@ -225,8 +225,8 @@ function App() {
             />
 
             <Route
-              // path="/invoice_item/:id"
-              path="/invoice_item/"
+              path="/invoice_item/:id"
+              // path="/invoice_item/"
               element={isAuth || MsAuth ? <InvoiceItem /> : <Login />}
             />
 

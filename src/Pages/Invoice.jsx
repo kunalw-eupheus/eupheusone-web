@@ -3,7 +3,7 @@ import { useState } from "react";
 import Navbar from "../Components/Navbar";
 import Sidebar from "../Components/Sidebar";
 // import { Add } from '@mui/icons-material'
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import DataTable from "../Components/DataTable";
 // import { rows, ManageSchoolRows } from '../DummyData'
 import SearchDropDown from "../Components/SearchDropDown";
@@ -12,10 +12,22 @@ import instance from "../Instance";
 import { useLayoutEffect } from "react";
 import Cookies from "js-cookie";
 import BasicButton from "../Components/Material/Button";
-import { Backdrop, CircularProgress } from "@mui/material";
+import { Backdrop, CircularProgress, Toolbar } from "@mui/material";
 import * as XLSX from "xlsx";
 import Snackbars from "../Components/Material/SnackBar";
-
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Paper from "@mui/material/Paper";
+import IconButton from "@mui/material/IconButton";
+import SearchIcon from "@mui/icons-material/Search";
+import TextField from "@mui/material/TextField";
+import TablePagination from "@mui/material/TablePagination";
+import DialogSlide from "../Components/Material/Dialog2";
+import DialogSlide2 from "../Components/Material/Dialog3";
 
 const Invoice = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
@@ -29,157 +41,103 @@ const Invoice = () => {
   const [isAdmin, setIsAdmin] = useState(false);
   const [snackbarErrStatus, setSnackbarErrStatus] = useState(false);
   const [snackbarMsg, setSnackbarMsg] = useState("");
+  const [invoiceData, setInvoiceData] = useState([])
+  const [rowdata, setRowdata] = useState([]);
+  const [searchVal, setSearchVal] = useState("");
+  const [searchRow, setSearchRow] = useState([]);
+  const [invoiceId, setInvoiceId] = useState("");
+  const [invoiceId2, setInvoiceId2] = useState("");
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const navigate = useNavigate();
+
+  
   const navInfo = {
     title: "Invoice",
     details: ["Home", " / Invoice"],
   };
 
-  const Tablecolumns = [
-    { field: "CustomerName", headerName: "Customer Name", width: 300 },
-    {
-      field: "InvoiceDate",
-      headerName: "Invoice Date",
-      width: 180,
-    },
-    {
-      field: "InvoiceNo",
-      headerName: "Invoice No",
-      width: 200,
-    },
-    {
-      field: "TotalQuantity",
-      headerName: "Total Quantity",
-      width: 150,
-    },
-    {
-      field: "TotalAmount",
-      headerName: "Total Amount",
-      width: 150,
-    },
-  ];
-
   const handleSidebarCollapsed = () => {
     sidebarRef.current.openSidebar();
   };
 
-  const mystyle = {
-    fontfamily: "sans-serif",
-    textalign: "center",
-  };
-
-  const [uploaditems, setUploadItems] = useState([]);
-
-  const readExcel = (file) => {
-    const promise = new Promise((resolve, reject) => {
-      const fileReader = new FileReader();
-      fileReader.readAsArrayBuffer(file);
-
-      fileReader.onload = (e) => {
-        const bufferArray = e.target.result;
-
-        const wb = XLSX.read(bufferArray, { type: "buffer" });
-
-        const wsname = wb.SheetNames[0];
-
-        const ws = wb.Sheets[wsname];
-
-        const data = XLSX.utils.sheet_to_json(ws);
-
-        console.log(data);
-        resolve(data);
-      };
-
-      fileReader.onerror = (error) => {
-        reject(error);
-      };
-    });
-
-    promise.then((d) => {
-      setUploadItems(d);
-    });
-  };
 
 
-  const saveExcelData2 =async () => {
-    if(uploaditems.length === 0){
-      setSnackbarErrStatus(true)
-      setSnackbarMsg('Select a File');
-      snackbarRef.current.openSnackbar();
-    }else{
-      console.log(uploaditems)
-      // const userType = Cookies.get("type")
-      const res = await instance({
-        url: "invoices/create",
-        method: "POST",
-        data: uploaditems,
-        // {
-        //   fk_bp_id: formik.values.fk_bp_id,
-        //   quantity: value.quantity,
-        //   items: formik.values.items.map((item) => {
-        //     return { fk_item_id: item.id, quantity: item.quantity };
-        //   }),
-        // },
-        headers: {
-          Authorization: Cookies.get("accessToken"),
+  const filterTable = () => {
+    // console.log(searchVal);
+    // console.log(rowdata)
+    setPage(0)
+    let tempArr = [];
+    for (let ele of rowdata) {
+      // console.log(ele.cardname)
+      let customerName = ele.cardname.toLowerCase();
+      if (customerName.indexOf(searchVal.toLowerCase()) > -1) {
+        tempArr.push(ele);
+      }
+    }
+    setSearchRow([]);
+    if (tempArr.length === 0) {
+      setSearchRow([
+        {
+          docnum: null,
+          docdate: null,
+          docdate: null,
+          doctotal: null,
+          id: null,
         },
-      })
-      // .then((res)=>{
-      //   console.log(res)
-      // }).catch((err)=>{
-      //   console.log(err)
-      // })
-      console.log(res)
-
-      if (res.data.status === "success") {
-        console.log("userType")
-      setSnackbarErrStatus(false)
-      setSnackbarMsg('Data Saved Successfull');
-      snackbarRef.current.openSnackbar();
-
-      }  
+      ]);
+    } else {
+      setSearchRow(tempArr);
     }
-  }
+  };
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
+
+  const handleSearch = (val) => {
+    setSearchVal(val.trim());
+  };
+
+  const handleSchoolAdd = (invceId) => {
+    console.log(invceId)
+    // setInvoiceId(invceId);
+    // openDialogue();
+    navigate(`/invoice_item/${invceId}`)
+  };
+
+  const handleInvoiceView = (invceId) => {
+    setInvoiceId2(invceId);
+    openDialogue2();
+  };
+
+  const dialogRef = useRef();
+  const dialogRef2 = useRef();
+
+  const openDialogue = () => {
+    // console.log(id)
+    dialogRef.current.openDialog();
+  };
+
+  const openDialogue2 = () => {
+    dialogRef2.current.openDialog();
+  };
+
+  
 
 
-  const saveExcelData =async () => {
-    if(uploaditems.length === 0){
-      setSnackbarErrStatus(true)
-      setSnackbarMsg('Select a File');
-      snackbarRef.current.openSnackbar();
-    }else{
-      let arrChunk = []
-      const chunkSize = 1000;
-      for (let i = 0; i < uploaditems.length; i += chunkSize) {
-          const chunk = uploaditems.slice(i, i + chunkSize);
-          arrChunk.push(chunk)
-      }
-      console.log(arrChunk)
-      let j = 0
-      while( j < arrChunk.length){
-        console.log(arrChunk[j])
-        console.log('------------------')
-        // const res = await instance({
-        //   url: "invoices/create",
-        //   method: "POST",
-        //   data: arrChunk[j],
-        //   headers: {
-        //     Authorization: Cookies.get("accessToken"),
-        //   },
-        // })
-        // console.log(res)
-  
-        // if (res.data.status === "success") {
-        //   console.log(j, " index data saved")
-          j++
-        // }
-      }
-    }
-  }
-  
+
+
+
 
 
   useEffect(() => {
-
+    getInvoices()
     const userType = Cookies.get("type")
     if(userType === "admin") setIsAdmin(true)
 
@@ -198,27 +156,24 @@ const Invoice = () => {
     };
   }, []);
 
-  const getSchool = async (stateId, cityId) => {
-    setLoading(true);
+  const getInvoices = async () => {
+    // setLoading(true);
     const res = await instance({
-      url: `school/${stateId}/${cityId}`,
+      url: `eup_invoice/geteupinvoices`,
       method: "GET",
       headers: {
         Authorization: `${Cookies.get("accessToken")}`,
       },
     });
     console.log(res.data.message);
-    const rows = res.data.message.map((item, index) => {
-      return {
-        id: item.id,
-        SchoolName: item.school_name,
-        State: item.school_addresses[0].fk_state.state,
-        Address: item.school_addresses[0].address,
-      };
-    });
-    setSchoolRow(rows);
-    setLoading(false);
+    setInvoiceData(res.data.message)
+    setRowdata(res.data.message)
+
+
   };
+
+
+
 
   const getSchoolByState = async (id) => {
     setLoading(true);
@@ -283,28 +238,8 @@ const Invoice = () => {
       setStates(res.data.message);
     };
 
-    const getSchoolData = async () => {
-      const res = await instance({
-        url: "school/b4c27059-8c42-4d35-8fe7-8dedffbfe641/294de4f3-0977-4482-b0de-2cfeaa827ba4",
-        method: "GET",
-        headers: {
-          Authorization: `${Cookies.get("accessToken")}`,
-        },
-      });
-      console.log(res.data.message);
-      const rows = res.data.message.map((item, index) => {
-        return {
-          id: item.id,
-          SchoolName: item.school_name,
-          State: item.school_addresses[0].fk_state.state,
-          Address: item.school_addresses[0].address,
-        };
-      });
-      setSchoolRow(rows);
-    };
-    getStates();
 
-    getSchoolData();
+
   }, []);
 
   const snackbarRef = useRef();
@@ -398,7 +333,6 @@ const Invoice = () => {
           ref={sidebarRef}
           sidebarCollapsed={sidebarCollapsed}
           highLight={highLight}
-          // show={show}
         />
       </div>
 
@@ -413,80 +347,235 @@ const Invoice = () => {
         />
         <div className="min-h-[100vh] pt-[0vh] max-h-full bg-[#141728]">
           <div className=" sm:px-8 px-2 py-3 bg-[#141728]">
-            {/* <div className="grid grid-cols-2 grid-rows-2 md:flex md:justify-around md:items-center px-6 mb-8 py-3 mt-6 gap-6 rounded-md bg-slate-600">
-              <div className="flex flex-col gap-2 w-full md:w-[20vw]">
-                <label className="text-gray-100">State</label>
 
-                <SearchDropDown
-                  label={"Select State"}
-                  handleOrderProcessingForm={handleOrderProcessingForm}
-                  color={"rgb(243, 244, 246)"}
-                  data={states}
-                  Name="select_state"
-                />
-              </div>
-              <div className=" flex flex-col gap-2 w-full md:w-[20vw]">
-                <label className="text-gray-100">City</label>
 
-                <SearchDropDown
-                  label={"Select City"}
-                  handleOrderProcessingForm={handleOrderProcessingForm}
-                  color={"rgb(243, 244, 246)"}
-                  disable={city.disable}
-                  data={city}
-                  Name="select_city"
-                />
-              </div> */}
-            {/* <button className="w-full md:w-[20vw] col-span-2 md:ml-10 focus:outline-0 mt-8 text-gray-300 hover:shadow-md h-10 bg-slate-500 transition-all duration-200 ease-linear active:bg-slate-700 active:scale-95 rounded-md">
-                Search School
-              </button> */}
-            {/* <div
-                className="sm:w-auto w-[50vw]"
-                onClick={() => {
-                  if (stateAndCity.state && stateAndCity.city) {
-                    getSchool(stateAndCity.state, stateAndCity.city);
-                  }
-                }}
-              >
-                <BasicButton text={"Search School"} />
-              </div>
-            </div>
-            <div className="w-full flex gap-3 justify-end">
-              <Link to="/addschool">
-                <BasicButton text={"Create New School"} />
-              </Link>
-              <Link to="/tagging">
-                <BasicButton text={"Tag Existing School"} />
-              </Link>
-            </div> */}
 
-            {isAdmin ? 
-              <div className="grid grid-cols-2 grid-rows-0  md:flex md:justify-between sm:justify-between md:items-center sm:items-center px-6 mb-8 py-3 gap-6 rounded-md bg-slate-600">
-              <h1 className="text-gray-100">UPLOAD INVOICE</h1>
+          <Paper>
+                <TableContainer component={Paper}>
+               
+                <Toolbar className="bg-slate-400">
 
-              <div cstyle={mystyle}>
-                <input
-                  type="file"
-                  onChange={(e) => {
-                    const file = e.target.files[0];
-                    readExcel(file);
-                  }}
-                />
-              </div>
+                   <TextField
+                      id="search-bar"
+                      className="text"
+                      onInput={(e) => {
+                        handleSearch(e.target.value);
+                      }}
+                      label="Enter Customer Name"
+                      variant="outlined"
+                      placeholder="Search..."
+                      size="small"
+                    />
+                    <div className="bg-slate-300">
+                    <IconButton
+                      type="submit"
+                      aria-label="search"
+                      onClick={filterTable}
+                    >
+                      <SearchIcon style={{ fill: "blue" }} />
+                    </IconButton>
+                    </div>
+  
 
-              <Link onClick={saveExcelData}>
-                <BasicButton text={"Upload"} />
-              </Link>
-            </div>
-            :
-            ""}
+                  <TablePagination 
+                      rowsPerPageOptions={[
+                        10,
+                        50,
+                        100,
+                        { label: "All", value: -1 },
+                      ]}
+                      colSpan={3}
+                      count={rowdata.length}
+                      rowsPerPage={rowsPerPage}
+                      page={page}
+                      slotProps={{
+                        select: {
+                          "aria-label": "rows per page",
+                        },
+                        actions: {
+                          showFirstButton: true,
+                          showLastButton: true,
+                        },
+                      }}
+                      onPageChange={handleChangePage}
+                      onRowsPerPageChange={handleChangeRowsPerPage}
+                    />
+                  </Toolbar>
+           
+                  
+                  <Table sx={{ minWidth: 650 }} aria-label="customized table">
+                    <TableHead className="bg-slate-500">
+                      <TableRow>
+                        {/* <TableCell className="!w-[5rem]" align="center">
+                        Sl No
+                      </TableCell> */}
+                        <TableCell className="!w-[13rem]" align="center">
+                          Customer Name
+                        </TableCell>
+                        <TableCell className="!w-[8rem]" align="center">
+                          Doc Date
+                        </TableCell>
+                        <TableCell className="!w-[8rem]" align="center">
+                          Doc No
+                        </TableCell>
+                        <TableCell className="!w-[8rem]" align="center">
+                          Doc Total
+                        </TableCell>
+                        <TableCell className="!w-[10rem]" align="center">
+                          
+                        </TableCell>
+                        <TableCell className="!w-[8rem]" align="left">
+                          
+                        </TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody className="bg-slate-200">
+                      {searchRow.length === 0
+                        ? (rowsPerPage > 0
+                            ? rowdata.slice(
+                                page * rowsPerPage,
+                                page * rowsPerPage + rowsPerPage
+                              )
+                            : rowdata
+                          ).map((row) => (
+                            <TableRow
+                              key={row.series}
+                              sx={{
+                                "&:last-child td, &:last-child th": {
+                                  border: 0,
+                                },
+                              }}
+                            >
+                              {/* <TableCell align="center" component="th" scope="row">
+                          {row.id}
+                        </TableCell> */}
+                              <TableCell align="center">{row.cardname}</TableCell>
+                              <TableCell align="center">
+                                {row.docdate}
+                              </TableCell>
+                              <TableCell align="center">
+                                {row.docnum}
+                              </TableCell>
+                              <TableCell align="center">
+                                {row.doctotal}
+                              </TableCell>
 
-            <DataTable
-              rows={tempData}
-              checkbox={false}
-              Tablecolumns={Tablecolumns}
-              tableName="Invoice"
-            />
+                              <TableCell align="center">
+                                {/* <DialogSlide ref={dialogRef} invoiceId={row.id}/> */}
+
+                                <div
+                                  className="sm:w-auto w-[50vw]"
+                                  onClick={() => {
+                                    handleSchoolAdd(row.id);
+                                  }}
+                                >
+                                  <BasicButton text={"View"} />
+                                </div>
+                              </TableCell>
+
+                              {/* <TableCell align="center">
+                          <SearchDropDown
+                            label={"Select Grade"}
+                            seriesId={row.id}
+                            handleOrderProcessingForm={handleProjectionForm}
+                            data={grade}
+                            multiple={true}
+                            Name={"grades"}
+                          />
+                        </TableCell> */}
+                              <TableCell align="center">
+                                {/* <DialogSlide2 ref={dialogRef2}/> */}
+                                <div
+                                  className="sm:w-auto w-[50vw]"
+                                  onClick={() => {
+                                    handleInvoiceView(row.id);
+                                  }}
+                                >
+                                  <BasicButton text={"Add School"} />
+                                </div>
+                              </TableCell>
+                            </TableRow>
+                          ))
+                        : 
+                        (rowsPerPage > 0
+                            ? searchRow.slice(
+                                page * rowsPerPage,
+                                page * rowsPerPage + rowsPerPage
+                              )
+                            : searchRow
+                          )
+                        .map((row) => (
+                            <TableRow
+                              key={row.series}
+                              sx={{
+                                "&:last-child td, &:last-child th": {
+                                  border: 0,
+                                },
+                              }}
+                            >
+                              {/* <TableCell align="center" component="th" scope="row">
+                          {row.id}
+                        </TableCell> */}
+                              <TableCell align="center">{row.cardname}</TableCell>
+                              <TableCell align="center">
+                                {row.docdate}
+                              </TableCell>
+                              <TableCell align="center">
+                                {row.docnum}
+                              </TableCell>
+                              <TableCell align="center">
+                                {row.doctotal}
+                              </TableCell>
+
+                              <TableCell align="center">
+                                {/* <DialogSlide ref={dialogRef} invoiceId={row.id}/> */}
+                                {row.id ? (
+                                  <div
+                                    className="sm:w-auto w-[50vw]"
+                                    onClick={() => {
+                                      handleSchoolAdd(row.id);
+                                    }}
+                                  >
+                                    <BasicButton text={"Add School"} />
+                                  </div>
+                                ) : (
+                                  ""
+                                )}
+                              </TableCell>
+
+                              {/* <TableCell align="center">
+                          <SearchDropDown
+                            label={"Select Grade"}
+                            seriesId={row.id}
+                            handleOrderProcessingForm={handleProjectionForm}
+                            data={grade}
+                            multiple={true}
+                            Name={"grades"}
+                          />
+                        </TableCell> */}
+                              <TableCell align="center">
+                                {/* <DialogSlide2 ref={dialogRef2}/> */}
+                                {row.id ? (
+                                  <div
+                                    className="sm:w-auto w-[50vw]"
+                                    onClick={() => {
+                                      handleInvoiceView(row.id);
+                                    }}
+                                  >
+                                    <BasicButton text={"View"} />
+                                  </div>
+                                ) : (
+                                  ""
+                                )}
+                              </TableCell>
+                            </TableRow>
+                          ))}
+                      <TableRow></TableRow>
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+              </Paper>
+
           </div>
         </div>
       </div>
