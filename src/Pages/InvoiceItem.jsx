@@ -3,7 +3,7 @@ import { useState } from "react";
 import Navbar from "../Components/Navbar";
 import Sidebar from "../Components/Sidebar";
 // import { Add } from '@mui/icons-material'
-import { Link, useParams  } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import DataTable from "../Components/DataTable";
 // import { rows, ManageSchoolRows } from '../DummyData'
 import SearchDropDown from "../Components/SearchDropDown";
@@ -12,7 +12,15 @@ import instance from "../Instance";
 import { useLayoutEffect } from "react";
 import Cookies from "js-cookie";
 import BasicButton from "../Components/Material/Button";
-import { Backdrop, CircularProgress } from "@mui/material";
+import { Backdrop, CircularProgress, TextField } from "@mui/material";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Grid from "@mui/material/Unstable_Grid2";
+import Box from "@mui/material/Box";
 
 const InvoiceItem = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
@@ -20,9 +28,9 @@ const InvoiceItem = () => {
   const [loading, setLoading] = useState(false);
   const [stateAndCity, setStateAndCity] = useState({ state: "", city: "" });
   const sidebarRef = useRef();
-  const [states, setStates] = useState([]);
+  const [items, setItems] = useState([]);
   const [city, setCity] = useState({ disable: true });
-  const [schoolRow, setSchoolRow] = useState([]);
+  const [address, setAddress] = useState({});
 
   const navInfo = {
     title: "Invoice Item",
@@ -30,42 +38,40 @@ const InvoiceItem = () => {
   };
 
   const Tablecolumns = [
-    { field: "SlNo", headerName: "Sl No", width: 100 },
+    // { field: "SlNo", headerName: "Sl No", width: 100 },
     {
-      field: "InvoiceNo",
+      field: "itemcode",
       headerName: "Invoice No",
       width: 200,
     },
     {
-      field: "ItemName",
+      field: "itemdescription",
       headerName: "Item Name",
-      width: 300,
+      width: 500,
     },
     {
-      field: "Quantity",
+      field: "quantity",
       headerName: "Quantity",
       width: 100,
     },
     {
-      field: "UnitPrice",
+      field: "price",
       headerName: "Unit Price",
       width: 150,
     },
-      {
-        field: "TotalPrice",
-        headerName: "Total Price",
-        width: 130,
-      },
+    // {
+    //   field: "TotalPrice",
+    //   headerName: "Total Price",
+    //   width: 130,
+    // },
   ];
-
-  let { userId } = useParams();
 
   const handleSidebarCollapsed = () => {
     sidebarRef.current.openSidebar();
   };
 
   useEffect(() => {
-    getInvoiceDetails()
+    getInvoiceDetails();
     const handleWidth = () => {
       if (window.innerWidth > 1024) {
         setSidebarCollapsed(false);
@@ -81,27 +87,27 @@ const InvoiceItem = () => {
     };
   }, []);
 
-  const getSchool = async (stateId, cityId) => {
-    setLoading(true);
-    const res = await instance({
-      url: `school/${stateId}/${cityId}`,
-      method: "GET",
-      headers: {
-        Authorization: `${Cookies.get("accessToken")}`,
-      },
-    });
-    console.log(res.data.message);
-    const rows = res.data.message.map((item, index) => {
-      return {
-        id: item.id,
-        SchoolName: item.school_name,
-        State: item.school_addresses[0].fk_state.state,
-        Address: item.school_addresses[0].address,
-      };
-    });
-    setSchoolRow(rows);
-    setLoading(false);
-  };
+  // const getSchool = async (stateId, cityId) => {
+  //   setLoading(true);
+  //   const res = await instance({
+  //     url: `school/${stateId}/${cityId}`,
+  //     method: "GET",
+  //     headers: {
+  //       Authorization: `${Cookies.get("accessToken")}`,
+  //     },
+  //   });
+  //   console.log(res.data.message);
+  //   const rows = res.data.message.map((item, index) => {
+  //     return {
+  //       id: item.id,
+  //       SchoolName: item.school_name,
+  //       State: item.school_addresses[0].fk_state.state,
+  //       Address: item.school_addresses[0].address,
+  //     };
+  //   });
+  //   setSchoolRow(rows);
+  //   setLoading(false);
+  // };
 
   const getSchoolByState = async (id) => {
     setLoading(true);
@@ -121,7 +127,7 @@ const InvoiceItem = () => {
         Address: item.school_addresses[0].address,
       };
     });
-    setSchoolRow(rows);
+    // setSchoolRow(rows);
     setLoading(false);
   };
 
@@ -140,134 +146,25 @@ const InvoiceItem = () => {
     }
   };
 
+  let { invoiceid } = useParams();
+
   const getInvoiceDetails = async () => {
-    // setLoading(true);
-    // const res = await instance({
-    //   url: `eup_invoice/geteupinvoices//${121}`,
-    //   method: "GET",
-    //   headers: {
-    //     Authorization: `${Cookies.get("accessToken")}`,
-    //   },
-    // });
-    // console.log(res.data.message)
-    console.log(userId)
+    setLoading(true);
+    const res = await instance({
+      url: `eup_invoice/geteupinvoices/${invoiceid}`,
+      method: "GET",
+      headers: {
+        Authorization: `${Cookies.get("accessToken")}`,
+      },
+    });
+    console.log(res.data.message[0].eup_invoice_addresses[0]);
+    setItems(res.data.message[0].eup_invoice_items);
+    setAddress(res.data.message[0].eup_invoice_addresses[0]);
+    // console.log(invoiceid);
     // setCity(res.data.message);
+    // console.log(address)
     setLoading(false);
   };
-
-  useLayoutEffect(() => {
-    const getStates = async () => {
-      const res = await instance({
-        url: "location/state/get/states",
-        method: "GET",
-        headers: {
-          Authorization: `${Cookies.get("accessToken")}`,
-        },
-      });
-
-      setStates(res.data.message);
-    };
-
-    const getSchoolData = async () => {
-      const res = await instance({
-        url: "school/b4c27059-8c42-4d35-8fe7-8dedffbfe641/294de4f3-0977-4482-b0de-2cfeaa827ba4",
-        method: "GET",
-        headers: {
-          Authorization: `${Cookies.get("accessToken")}`,
-        },
-      });
-      console.log(res.data.message);
-      const rows = res.data.message.map((item, index) => {
-        return {
-          id: item.id,
-          SchoolName: item.school_name,
-          State: item.school_addresses[0].fk_state.state,
-          Address: item.school_addresses[0].address,
-        };
-      });
-      setSchoolRow(rows);
-    };
-    getStates();
-
-    getSchoolData();
-  }, []);
-
-  let tempData = [
-    {
-      id: 135,
-      ItemName: "FirstName",
-      SlNo: "1",
-      InvoiceNo: "123",
-      Quantity: "4",
-      UnitPrice: "350",
-      TotalPrice: "40000"
-    },
-    {
-      id: 246,
-      ItemName: "SecondName",
-      SlNo: "8",
-      InvoiceNo: "234",
-      Quantity: "3",
-      UnitPrice: "320",
-      TotalPrice: "50000"
-    },
-    {
-      id: 357,
-      ItemName: "ThirdName",
-      SlNo: "7",
-      InvoiceNo: "345",
-      Quantity: "14",
-      UnitPrice: "1250",
-      TotalPrice: "60000"
-    },
-    {
-      id: 468,
-      ItemName: "FourthName",
-      SlNo: "6",
-      InvoiceNo: "456",
-      Quantity: "23",
-      UnitPrice: "950",
-      TotalPrice: "70000"
-    },
-    {
-      id: 579,
-      ItemName: "FifthName",
-      SlNo: "5",
-      InvoiceNo: "567",
-      Quantity: "41",
-      UnitPrice: "800",
-      TotalPrice: "80000"
-    },
-    {
-      id: 680,
-      ItemName: "SixthName",
-      SlNo: "4",
-      InvoiceNo: "678",
-      Quantity: "9",
-      UnitPrice: "650",
-      TotalPrice: "90000"
-    },
-    {
-      id: 791,
-      ItemName: "SeventhName",
-      SlNo: "3",
-      InvoiceNo: "789",
-      Quantity: "6",
-      UnitPrice: "100",
-      TotalPrice: "20000"
-    },
-    {
-      id: 802,
-      ItemName: "EighthName",
-      SlNo: "2",
-      InvoiceNo: "890",
-      Quantity: "18",
-      UnitPrice: "300",
-      TotalPrice: "10000"
-    },
-  ];
-
-
 
   return (
     <div className="flex bg-[#111322]">
@@ -299,60 +196,117 @@ const InvoiceItem = () => {
         />
         <div className="min-h-[100vh] pt-[0vh] max-h-full bg-[#141728]">
           <div className=" sm:px-8 px-2 py-3 bg-[#141728]">
-            {/* <div className="grid grid-cols-2 grid-rows-2 md:flex md:justify-around md:items-center px-6 mb-8 py-3 mt-6 gap-6 rounded-md bg-slate-600">
-              <div className="flex flex-col gap-2 w-full md:w-[20vw]">
-                <label className="text-gray-100">State</label>
+            <div className="flex flex-col gap-4 items-start w-full px-6 bg-slate-600 rounded-md py-6 mb-[5rem]">
+              <h1 className="text-gray-100 md:text-xl text-base font-semibold">
+                Shipping Details
+              </h1>
+              <div className="!text-gray-600 !sm:text-base !text-sm grid sm:grid-cols-1 grid-cols-1 sm:gap-8 gap-6 w-full">
+                <Box sx={{ flexGrow: 1 }}>
+                  <Grid
+                    container
+                    spacing={{ xs: 2, md: 3 }}
+                    columns={{ xs: 4, sm: 8, md: 12 }}
+                  >
+                    <Grid xs={2} sm={6} md={6}>
+                      <TextField
+                        className="!w-full"
+                        label="Bill From"
+                        variant="standard"
+                        type={"text"}
+                        disabled={false}
+                        defaultValue={" "}
+                        value={address.BillFromName}
+                        InputLabelProps={{ style: { color: "white" } }}
+                        inputProps={{ readOnly: true }}
+                      />
+                    </Grid>
+                    <Grid xs={2} sm={6} md={6}>
+                      <TextField
+                        className="!w-full"
+                        label="Bill To"
+                        variant="standard"
+                        type={"text"}
+                        disabled={false}
+                        defaultValue={" "}
+                        value={address.BillToName}
+                        InputLabelProps={{ style: { color: "white" } }}
+                        inputProps={{ readOnly: true }}
+                      />
+                    </Grid>
+                  </Grid>
 
-                <SearchDropDown
-                  label={"Select State"}
-                  handleOrderProcessingForm={handleOrderProcessingForm}
-                  color={"rgb(243, 244, 246)"}
-                  data={states}
-                  Name="select_state"
-                />
-              </div>
-              <div className=" flex flex-col gap-2 w-full md:w-[20vw]">
-                <label className="text-gray-100">City</label>
-
-                <SearchDropDown
-                  label={"Select City"}
-                  handleOrderProcessingForm={handleOrderProcessingForm}
-                  color={"rgb(243, 244, 246)"}
-                  disable={city.disable}
-                  data={city}
-                  Name="select_city"
-                />
-              </div> */}
-            {/* <button className="w-full md:w-[20vw] col-span-2 md:ml-10 focus:outline-0 mt-8 text-gray-300 hover:shadow-md h-10 bg-slate-500 transition-all duration-200 ease-linear active:bg-slate-700 active:scale-95 rounded-md">
-                Search School
-              </button> */}
-            {/* <div
-                className="sm:w-auto w-[50vw]"
-                onClick={() => {
-                  if (stateAndCity.state && stateAndCity.city) {
-                    getSchool(stateAndCity.state, stateAndCity.city);
-                  }
-                }}
-              >
-                <BasicButton text={"Search School"} />
+                  <div className="mt-4">
+                    <Grid container spacing={2}>
+                      <Grid xs={12}>
+                        <TextField
+                          className="!w-full "
+                          // id="outlined-multiline-static"
+                          // multiline
+                          label="Dispatch From"
+                          variant="standard"
+                          type={"text"}
+                          disabled={false}
+                          defaultValue={" "}
+                          value={address.DispatchFromAddress1}
+                          InputLabelProps={{ style: { color: "white" } }}
+                          inputProps={{ readOnly: true }}
+                        />
+                      </Grid>
+                      <Grid xs={12}>
+                        <TextField
+                          className="!w-full"
+                          // multiline
+                          label="Ships To"
+                          variant="standard"
+                          type={"text"}
+                          disabled={false}
+                          defaultValue={" "}
+                          value={address.ShipToAddress1}
+                          InputLabelProps={{ style: { color: "white" } }}
+                          inputProps={{ readOnly: true }}
+                        />
+                      </Grid>
+                    </Grid>
+                  </div>
+                </Box>
               </div>
             </div>
-            <div className="w-full flex gap-3 justify-end">
-              <Link to="/addschool">
-                <BasicButton text={"Create New School"} />
-              </Link>
-              <Link to="/tagging">
-                <BasicButton text={"Tag Existing School"} />
-              </Link>
-            </div> */}
 
-            <DataTable
-              rows={tempData}
-              checkbox={false}
-              Tablecolumns={Tablecolumns}
-              tableName="InvoiceItem"
-            />
-
+            <Table sx={{ minWidth: 650 }} aria-label="customized table">
+              <TableHead className="bg-slate-500">
+                <TableRow>
+                  <TableCell className="!w-[13rem]" align="center">
+                    Invoice No
+                  </TableCell>
+                  <TableCell className="!w-[28rem]" align="center">
+                    Item Name
+                  </TableCell>
+                  <TableCell className="!w-[8rem]" align="center">
+                    Quantity
+                  </TableCell>
+                  <TableCell className="!w-[8rem]" align="center">
+                    Unit Price
+                  </TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody className="bg-slate-200">
+                {items.map((row) => (
+                  <TableRow
+                    key={row.series}
+                    sx={{
+                      "&:last-child td, &:last-child th": {
+                        border: 0,
+                      },
+                    }}
+                  >
+                    <TableCell align="center">{row.itemcode}</TableCell>
+                    <TableCell align="center">{row.itemdescription}</TableCell>
+                    <TableCell align="center">{row.quantity}</TableCell>
+                    <TableCell align="center">{row.price}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
           </div>
         </div>
       </div>

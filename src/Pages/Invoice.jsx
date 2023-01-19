@@ -26,7 +26,7 @@ import IconButton from "@mui/material/IconButton";
 import SearchIcon from "@mui/icons-material/Search";
 import TextField from "@mui/material/TextField";
 import TablePagination from "@mui/material/TablePagination";
-import DialogSlide from "../Components/Material/Dialog2";
+import DialogSlide from "../Components/Material/Dialog4";
 import DialogSlide2 from "../Components/Material/Dialog3";
 
 const Invoice = () => {
@@ -105,28 +105,30 @@ const Invoice = () => {
   };
 
   const handleSchoolAdd = (invceId) => {
-    console.log(invceId)
+    // console.log(invceId)
     // setInvoiceId(invceId);
+    // openDialogue();
+    navigate(`/addschoolquantity/${invceId}`)
+  };
+
+  const handleInvoiceView = (invceId) => {
+    // console.log(invceId)
+    // setInvoiceId2(invceId);
     // openDialogue();
     navigate(`/invoice_item/${invceId}`)
   };
 
-  const handleInvoiceView = (invceId) => {
-    setInvoiceId2(invceId);
-    openDialogue2();
-  };
-
   const dialogRef = useRef();
-  const dialogRef2 = useRef();
+  // const dialogRef2 = useRef();
 
   const openDialogue = () => {
     // console.log(id)
     dialogRef.current.openDialog();
   };
 
-  const openDialogue2 = () => {
-    dialogRef2.current.openDialog();
-  };
+  // const openDialogue2 = () => {
+  //   dialogRef2.current.openDialog();
+  // };
 
   
 
@@ -157,7 +159,7 @@ const Invoice = () => {
   }, []);
 
   const getInvoices = async () => {
-    // setLoading(true);
+    setLoading(true);
     const res = await instance({
       url: `eup_invoice/geteupinvoices`,
       method: "GET",
@@ -165,10 +167,10 @@ const Invoice = () => {
         Authorization: `${Cookies.get("accessToken")}`,
       },
     });
-    console.log(res.data.message);
+    // console.log(res.data.message);
     setInvoiceData(res.data.message)
     setRowdata(res.data.message)
-
+    setLoading(false);
 
   };
 
@@ -313,6 +315,8 @@ const Invoice = () => {
 
   return (
     <div>
+    {/* <DialogSlide ref={dialogRef} invoiceId={invoiceId2} /> */}
+
      <Snackbars
         ref={snackbarRef}
         snackbarErrStatus={snackbarErrStatus}
@@ -424,7 +428,7 @@ const Invoice = () => {
                         <TableCell className="!w-[10rem]" align="center">
                           
                         </TableCell>
-                        <TableCell className="!w-[8rem]" align="left">
+                        <TableCell className="!w-[8rem]" align="center">
                           
                         </TableCell>
                       </TableRow>
@@ -466,7 +470,7 @@ const Invoice = () => {
                                 <div
                                   className="sm:w-auto w-[50vw]"
                                   onClick={() => {
-                                    handleSchoolAdd(row.id);
+                                    handleInvoiceView(row.id);
                                   }}
                                 >
                                   <BasicButton text={"View"} />
@@ -488,7 +492,7 @@ const Invoice = () => {
                                 <div
                                   className="sm:w-auto w-[50vw]"
                                   onClick={() => {
-                                    handleInvoiceView(row.id);
+                                    handleSchoolAdd(row.id);
                                   }}
                                 >
                                   <BasicButton text={"Add School"} />
@@ -570,7 +574,7 @@ const Invoice = () => {
                               </TableCell>
                             </TableRow>
                           ))}
-                      <TableRow></TableRow>
+                 
                     </TableBody>
                   </Table>
                 </TableContainer>

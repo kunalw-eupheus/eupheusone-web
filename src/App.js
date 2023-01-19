@@ -52,6 +52,7 @@ import UpdateSchoolTraining from "./Pages/UpdateSchoolTraining";
 import InvoiceTraining from "./Pages/InvoiceTraining";
 import Inv from "./Pages/PDF/Inv";
 import ViewPdf from "./Pages/ViewPdf";
+import AddSchoolQuantity from "./Pages/AddSchoolQuantity";
 
 function App() {
   const isAuth = useSelector((state) => state.auth.user);
@@ -64,7 +65,7 @@ function App() {
   return (
     <div>
       <div>
-      <div className=" font-Roboto bg-[#111322]">
+      <div className="!font-Roboto bg-[#111322]">
         <BrowserRouter>
           <Routes>
             <Route
@@ -123,6 +124,10 @@ function App() {
             <Route
               path="/addschooltraining"
               element={isAuth || MsAuth ? <AddSchoolTraining /> : <Login />}
+            />
+             <Route
+              path="/addschoolquantity/:invoiceid"
+              element={isAuth || MsAuth ? <AddSchoolQuantity /> : <Login />}
             />
             <Route
               path="/update_school/:id"
@@ -225,7 +230,7 @@ function App() {
             />
 
             <Route
-              path="/invoice_item/:id"
+              path="/invoice_item/:invoiceid"
               // path="/invoice_item/"
               element={isAuth || MsAuth ? <InvoiceItem /> : <Login />}
             />

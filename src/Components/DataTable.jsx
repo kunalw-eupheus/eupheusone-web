@@ -131,7 +131,7 @@ export default function DataTable({
         case "InvoiceItem":
           // console.log(row);
           return (
-            row?.ItemName?.toLowerCase().indexOf(q) > -1
+            row?.itemdescription?.toLowerCase().indexOf(q) > -1
             // row.City.toLowerCase().indexOf(q) > -1 ||
             // row?.Quantity?.toLowerCase().indexOf(q) > -1 ||
             // row?.Status?.toLowerCase().indexOf(q) > -1
@@ -194,7 +194,7 @@ export default function DataTable({
   const dialogRef = useRef();
 
   return (
-    <div className="relative mt-14">
+    <div className="relative mt-9">
       <DialogSlide ref={dialogRef} />
 
       <div
