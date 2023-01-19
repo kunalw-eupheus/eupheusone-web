@@ -129,6 +129,22 @@ const AddSchoolQuantity = () => {
 
   useEffect(() => {
     getSchoolId();
+    const userType = Cookies.get("type")
+    if(userType === "admin") setIsAdmin(true)
+
+    const handleWidth = () => {
+      if (window.innerWidth > 1024) {
+        setSidebarCollapsed(false);
+      } else {
+        setSidebarCollapsed(true);
+      }
+    };
+    window.addEventListener("resize", handleWidth);
+    handleWidth();
+    window.scroll(0, 0);
+    return () => {
+      window.removeEventListener("resize", handleWidth);
+    };
   }, []);
 
   const handleOrderProcessingForm = (value, type, id) => {
