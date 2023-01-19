@@ -113,6 +113,10 @@ const SearchDropDown = ({
           // console.log(option)
           return option.state;
           break;
+          case "select_school_id":
+            // console.log(option)
+            return option.school_name;
+            break;
           case "select_city_training":
           // console.log(option)
           return option.city;
@@ -178,7 +182,7 @@ const SearchDropDown = ({
   // };
 
   const handleDropDown = (value, type) => {
-    console.log(value, type)
+    // console.log(value, type)
     if (
       type === "order_type" ||
       type === "customer_name" ||
@@ -252,6 +256,9 @@ const SearchDropDown = ({
     }
     if (type === "individual") {
       handleOrderProcessingForm(value, type);
+    }
+    if (type === "select_school_id") {
+      handleOrderProcessingForm(value, type, seriesId);
     }
     if (type === "fees") {
       handleOrderProcessingForm(value, type);

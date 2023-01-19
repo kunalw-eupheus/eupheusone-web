@@ -97,7 +97,7 @@ const Sidebar = ({ sidebarCollapsed, highLight, show }) => {
       
       {userType === "training" ?
       <div
-        className={`flex flex-col gap-4 transition-all ease-linear duration-100`}
+        className={`flex flex-col gap-4 transition-all ease-linear duration-100 font-Roboto`}
       >
         <div className="flex items-center gap-3 justify-center">
           <img
