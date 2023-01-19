@@ -696,7 +696,7 @@ const InvoiceTraining = () => {
                         { label: "All", value: -1 },
                       ]}
                       colSpan={3}
-                      count={rowdata.length}
+                      count={searchRow.length=== 0 ? rowdata.length : searchRow.length}
                       rowsPerPage={rowsPerPage}
                       page={page}
                       slotProps={{
