@@ -474,7 +474,7 @@ const ManageSchoolTraining = () => {
                         { label: "All", value: -1 },
                       ]}
                       colSpan={3}
-                      count={schoolRow.length}
+                      count={searchRow.length=== 0 ?schoolRow.length: searchRow.length}
                       rowsPerPage={rowsPerPage}
                       page={page}
                       slotProps={{

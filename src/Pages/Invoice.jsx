@@ -246,72 +246,7 @@ const Invoice = () => {
 
   const snackbarRef = useRef();
 
-  let tempData = [
-    {
-      id: 12,
-      CustomerName: "FirstName",
-      InvoiceDate: "12/03/2022",
-      InvoiceNo: "123",
-      TotalQuantity: "4",
-      TotalAmount: "350",
-    },
-    {
-      id: 23,
-      CustomerName: "SecondName",
-      InvoiceDate: "25/03/2022",
-      InvoiceNo: "234",
-      TotalQuantity: "3",
-      TotalAmount: "320",
-    },
-    {
-      id: 34,
-      CustomerName: "ThirdName",
-      InvoiceDate: "08/07/2022",
-      InvoiceNo: "345",
-      TotalQuantity: "14",
-      TotalAmount: "1250",
-    },
-    {
-      id: 45,
-      CustomerName: "FourthName",
-      InvoiceDate: "22/09/2022",
-      InvoiceNo: "456",
-      TotalQuantity: "23",
-      TotalAmount: "950",
-    },
-    {
-      id: 56,
-      CustomerName: "FifthName",
-      InvoiceDate: "21/11/2022",
-      InvoiceNo: "567",
-      TotalQuantity: "41",
-      TotalAmount: "800",
-    },
-    {
-      id: 67,
-      CustomerName: "SixthName",
-      InvoiceDate: "16/09/2022",
-      InvoiceNo: "678",
-      TotalQuantity: "9",
-      TotalAmount: "650",
-    },
-    {
-      id: 78,
-      CustomerName: "SeventhName",
-      InvoiceDate: "28/03/2022",
-      InvoiceNo: "789",
-      TotalQuantity: "6",
-      TotalAmount: "100",
-    },
-    {
-      id: 89,
-      CustomerName: "EighthName",
-      InvoiceDate: "19/08/2022",
-      InvoiceNo: "890",
-      TotalQuantity: "18",
-      TotalAmount: "300",
-    },
-  ];
+ 
 
   return (
     <div>
@@ -389,7 +324,7 @@ const Invoice = () => {
                         { label: "All", value: -1 },
                       ]}
                       colSpan={3}
-                      count={rowdata.length}
+                      count={searchRow.length=== 0 ? rowdata.length : searchRow.length}
                       rowsPerPage={rowsPerPage}
                       page={page}
                       slotProps={{

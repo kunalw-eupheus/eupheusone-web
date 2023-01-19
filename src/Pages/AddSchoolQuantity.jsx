@@ -129,8 +129,8 @@ const AddSchoolQuantity = () => {
 
   useEffect(() => {
     getSchoolId();
-    const userType = Cookies.get("type")
-    if(userType === "admin") setIsAdmin(true)
+    const userType = Cookies.get("type");
+    if (userType === "admin") setIsAdmin(true);
 
     const handleWidth = () => {
       if (window.innerWidth > 1024) {
@@ -226,18 +226,22 @@ const AddSchoolQuantity = () => {
         Authorization: `${Cookies.get("accessToken")}`,
       },
     });
-    console.log(res)
+    console.log(res);
     if (res.data.status === "success") {
       setSnackbarErrStatus(false);
       setSnackbarMsg(res.data.message);
       snackbarRef.current.openSnackbar();
       //   alert("Data Saved Successfull");
-      setItems([]);
       setEditQuantity(true);
-    }else{
-        setSnackbarErrStatus(true);
-        setSnackbarMsg(res.data.message);
-        snackbarRef.current.openSnackbar();
+      setTimeout(() => {
+        setItems([]);
+        navigate(`/invoice`);
+      }, 1500);
+      //   navigate(`/invoice`)
+    } else {
+      setSnackbarErrStatus(true);
+      setSnackbarMsg(res.data.message);
+      snackbarRef.current.openSnackbar();
     }
     setLoading(false);
   };
@@ -284,11 +288,11 @@ const AddSchoolQuantity = () => {
                     <div>
                       <TextField
                         required={true}
-                        label="Enter Qantity:"
+                        label="Enter School Qantity:"
                         variant="standard"
                         type={"number"}
                         disabled={false}
-                        defaultValue="1"
+                        defaultValue="0"
                         InputLabelProps={{ style: { color: "white" } }}
                         onBlur={(event) => {
                           getSchoolName(event.target.value);
@@ -305,7 +309,7 @@ const AddSchoolQuantity = () => {
                           handleOrderProcessingForm={handleOrderProcessingForm}
                           data={schoolList}
                           label={"Select School *"}
-                        //   color={"rgb(243, 244, 246)"}
+                          //   color={"rgb(243, 244, 246)"}
                         />
                       ) : (
                         ""
@@ -335,6 +339,13 @@ const AddSchoolQuantity = () => {
                         {editQuantity ? (
                           <TableCell className="!w-[20rem]" align="center">
                             Schools
+                          </TableCell>
+                        ) : (
+                          ""
+                        )}
+                        {editQuantity ? (
+                          <TableCell className="!w-[7rem]" align="center">
+                            Total Quantity
                           </TableCell>
                         ) : (
                           ""
@@ -372,6 +383,14 @@ const AddSchoolQuantity = () => {
                                 label={"Select School *"}
                                 // color={"rgb(128, 128, 128)"}
                               />
+                            </TableCell>
+                          ) : (
+                            ""
+                          )}
+
+                          {editQuantity ? (
+                            <TableCell align="center">
+                              {row[0].quantity}
                             </TableCell>
                           ) : (
                             ""
