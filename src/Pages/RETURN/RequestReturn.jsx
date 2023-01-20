@@ -13,7 +13,13 @@ import SwipeableTemporaryDrawer from "../../Components/Material/MaterialSidebar"
 import { protectedResources } from "../../util/msConfig";
 import { getToken } from "../../util/msAuth";
 import { useNavigate } from "react-router-dom";
-
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Paper from "@mui/material/Paper";
 
 const RequestReturn = () => {
   const [loading, setLoading] = useState(false);
@@ -26,8 +32,7 @@ const RequestReturn = () => {
   const [errMessage, setErrMessage] = useState("");
   const [snackbarErrStatus, setSnackbarErrStatus] = useState(true);
   const sidebarRef = useRef();
-  const navigate = useNavigate()
-
+  const navigate = useNavigate();
 
   const [value, setValue] = useState({
     item_quan: true,
@@ -36,18 +41,16 @@ const RequestReturn = () => {
     total: "0",
   });
 
-  
   const snackbarRef = useRef();
   const [rowData, setRowData] = useState([]);
+  const [tableData, setTableData] = useState([]);
 
   const formik = useFormik({
     initialValues: {
-      
       fk_bp_id: "",
       item_quan: "",
       items: [],
       quantity: value.quantity,
-
     },
     validate: () => {
       const errors = {};
@@ -69,7 +72,7 @@ const RequestReturn = () => {
       if (!formik.values.quantity) {
         errors.quantity = "Required";
       }
-    
+
       if (Object.keys(errors).length > 0) {
         setSnackbarErrStatus(true);
         setErrMessage("Please Fill All The Fields");
@@ -79,30 +82,41 @@ const RequestReturn = () => {
       return errors;
     },
     onSubmit: async (values) => {
-     // console.log(values);
+      // console.log(values);
 
-     console.log(
-      {
-         
-        fk_bp_id: formik.values.fk_bp_id,
-        quantity: value.quantity,
-        items: formik.values.items.map((item) => {
-          return { fk_item_id: item.id, quantity: item.quantity };
-        }),
-      }
-
-     )
+      // console.log({
+      //   fk_bp_id: formik.values.fk_bp_id,
+      //   quantity: value.quantity,
+      //   items: formik.values.items.map((item) => {
+      //     return { fk_item_id: item.id, quantity: item.quantity };
+      //   }),
+      // });
       setLoading(true);
 
       formik.values.items = formik.values.items.filter(
         (item) => !(Number(item.quantity) === 0)
       );
 
+  
+      console.log({
+        fk_bp_id: formik.values.fk_bp_id,
+        quantity: value.quantity,
+        items: formik.values.items.map((item) => {
+          return { fk_item_id: item.id, quantity: item.quantity };
+        }),
+      })
+      // let tempArr = []
+      // for(let obj of dataToSend.items){
+      //   // console.log(obj)
+      //   if(parseInt(obj.quantity) > 0) tempArr.push(obj)
+      // }
+      // dataToSend.items = tempArr
+      // console.log(dataToSend)
+
       const res = await instance({
         url: "returns/create",
         method: "POST",
         data: {
-         
           fk_bp_id: formik.values.fk_bp_id,
           quantity: value.quantity,
           items: formik.values.items.map((item) => {
@@ -118,13 +132,11 @@ const RequestReturn = () => {
         setErrMessage("Return Created SuccessFully");
         snackbarRef.current.openSnackbar();
         setTimeout(() => {
-          navigate('/return')
+          navigate("/return");
         }, 1500);
       }
       setLoading(false);
-      setOpen(true)
-      
-      
+      setOpen(true);
     },
   });
 
@@ -170,8 +182,6 @@ const RequestReturn = () => {
 
   // console.log(schoolData)
 
-
-
   const getSeriesData = async (id) => {
     setLoading(true);
     const SeriesRes = await instance({
@@ -199,10 +209,10 @@ const RequestReturn = () => {
 
     // console.log(getListData.data.message);
     setRowData(getListData.data.message);
+    setTableData([...tableData, ...getListData.data.message]);
     // if (!value.item_quan) {
     //   console.log("working");
     //   formik.values.items = [];
-    // }
     // console.log(formik.values.items.length);
     getListData.data.message.map((item) => {
       formik.values.items.push({
@@ -407,9 +417,7 @@ const RequestReturn = () => {
                     color={"rgb(243, 244, 246)"}
                   />
                 </div>
-    
-            
-               
+
                 <div className=" flex flex-col gap-2 w-full">
                   {/* <label className="text-gray-100">Select Subject</label> */}
 
@@ -451,8 +459,92 @@ const RequestReturn = () => {
                 </div>
               </section>
               <Collapse in={open}>
-                <section className="bg-white px-3 py-2 rounded-md w-full h-[15rem] overflow-auto sm:grid sm:grid-cols-2 flex flex-col gap-2 col-span-4">
-                  {rowData.map((item, index) => {
+                {/* <section className="bg-white px-3 py-2 rounded-md w-full h-[15rem] overflow-auto sm:grid sm:grid-cols-2 flex flex-col gap-2 col-span-4"> */}
+
+                <Paper>
+                  <TableContainer component={Paper}>
+                    <Table sx={{ minWidth: 650 }} aria-label="customized table">
+                      <TableHead className="bg-slate-400">
+                        <TableRow>
+                          <TableCell className="!w-[15rem]" align="center">
+                            Item Name
+                          </TableCell>
+                          <TableCell className="!w-[15rem]" align="center">
+                            Item Code
+                          </TableCell>
+
+                          <TableCell className="!w-[8rem]" align="center">
+                            Discount
+                          </TableCell>
+
+                          <TableCell className="!w-[8rem]" align="center">
+                            Price
+                          </TableCell>
+
+                          <TableCell className="!w-[8rem]" align="center">
+                            Tax
+                          </TableCell>
+                          <TableCell className="!w-[10rem]" align="center">
+                            Quantity
+                          </TableCell>
+                        </TableRow>
+                      </TableHead>
+                      {tableData.map((item, index) => {
+                        return (
+                          <TableBody className="bg-slate-300">
+                            {/* {items.map((row) => ( */}
+                            <TableRow
+                              key={item.id}
+                              sx={{
+                                "&:last-child td, &:last-child th": {
+                                  border: 0,
+                                },
+                              }}
+                            >
+                              <TableCell align="center">
+                                {item.item_name}
+                              </TableCell>
+                              <TableCell align="center">
+                                {item.item_code}
+                              </TableCell>
+
+                              <TableCell align="center">
+                              {item.fk_discount.discount}
+                              </TableCell>
+
+                              <TableCell align="center">
+                                {item.price_master.price}
+                              </TableCell>
+
+                              <TableCell align="center">
+                                {item.fk_tax.tax}
+                              </TableCell>
+                              <TableCell align="center">
+                                <TextField
+                                  id="search-bar"
+                                  className="text"
+                                  type={"number"}
+                                  onChange={(e) => {
+                                    alterItemQuantity(index, e.target.value)
+                                  }}
+                                  label="Enter Value *"
+                                  variant="outlined"
+                                  //   placeholder="Quantity"
+                                  defaultValue={formik.values.item_quan}
+                                  size="small"
+                                  // InputLabelProps={{ style: { color: "warning" } }}
+                                />
+                              </TableCell>
+                            </TableRow>
+                            {/* ))} */}
+                          </TableBody>
+                        );
+                      })}
+                    </Table>
+                  </TableContainer>
+                </Paper>
+
+                {/* {tableData.map((item, index) => {
                     return (
                       <div
                         key={item.id}
@@ -477,11 +569,10 @@ const RequestReturn = () => {
                         </span>
                       </div>
                     );
-                  })}
-                </section>
+                  })} */}
+                {/* </section> */}
               </Collapse>
               <div className="grid grid-cols-1 grid-rows-1 lg:grid-cols-3 md:grid-cols-3 sm:grid-cols-2 gap-8 lg:grid-rows-1 md:grid-rows-2 sm:grid-rows-3 bg-slate-600 rounded-md">
-                
                 <div className=" flex flex-col gap-2 w-full">
                   {/* <label className="text-gray-100">Total Quantity</label> */}
 
@@ -505,9 +596,8 @@ const RequestReturn = () => {
                     multiline={true}
                   />
                 </div>
-               
               </div>
-             
+
               <div onClick={formik.handleSubmit}>
                 <Button text={"Return"} />
               </div>

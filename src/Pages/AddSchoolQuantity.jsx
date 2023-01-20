@@ -164,7 +164,7 @@ const AddSchoolQuantity = () => {
   };
 
   const handleQuantity = (quant, tempid) => {
-    // console.log(quant, tempid, items);
+    // console.log(quant, tempid, originalData);
     // console.log(quant.length)
     if (quant.length === 0) quant = -1;
     for (let ele of items) {
