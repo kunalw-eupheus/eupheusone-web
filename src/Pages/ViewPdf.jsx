@@ -3,6 +3,7 @@ import { jsPDF } from 'jspdf';
 import React, { useEffect, useRef } from "react";
 import CreditNote from './PDF/CreditNote';
 import Inv from './PDF/Inv';
+import CustLedger from './PDF/CustLedger';
 
 const ViewPdf = () => {
   const printRef = useRef();
@@ -29,7 +30,8 @@ const ViewPdf = () => {
       </button>
 
       <div ref={printRef}>
-        <Inv/>
+        <CustLedger/>
+        {/* <Inv/> */}
         {/* <CreditNote/> */}
       </div>
     </div>

@@ -28,7 +28,7 @@ import TransitionsModal from "./Material/Model";
 import DialogSlide from "./Material/Dialog";
 import { useRef } from "react";
 
-const Sidebar = ({ sidebarCollapsed, highLight, show }) => {
+const Sidebar2 = ({ sidebarCollapsed, highLight, show }) => {
   const [modelOpen, setModelOpen] = useState(false);
   const [isSchoolClicked, setIsSchoolClicked] = useState(
     show === 2 ? false : true
@@ -486,7 +486,7 @@ const Sidebar = ({ sidebarCollapsed, highLight, show }) => {
           <span className="text-sm text-gray-300">{user.emp_id}</span>
           <hr className="text-gray-100 mt-4" />
         </aside>
-        <Link to="/">
+        <Link to="/ck_dashboard">
           <aside
             className={`px-6 py-2 hover:bg-gray-500 flex ${
               highLight === "dashboard" ? "bg-gray-500" : ""
@@ -512,7 +512,7 @@ const Sidebar = ({ sidebarCollapsed, highLight, show }) => {
           </aside>
         </Link>
 
-        <Link to="/manageSchool">
+        <Link to="/ck_manageSchool">
           <aside
             className={`px-6 py-2 flex gap-4 cursor-pointer ${
               highLight === "manageSchool" ? "bg-gray-500" : ""
@@ -540,7 +540,7 @@ const Sidebar = ({ sidebarCollapsed, highLight, show }) => {
             School Visit
           </span>
         </aside> */}
-        <Link to="/order_processing">
+        {/* <Link to="/order_processing">
           <aside
             className={`px-6 py-2 flex gap-4 ${
               highLight === "order_pro" ? "bg-gray-500" : ""
@@ -559,8 +559,8 @@ const Sidebar = ({ sidebarCollapsed, highLight, show }) => {
               Order Processing
             </span>
           </aside>
-        </Link>
-        <Link to="/manage_order">
+        </Link> */}
+        {/* <Link to="/manage_order">
           <aside
             className={`px-6 py-2 flex gap-4 ${
               highLight === "manageOrder" ? "bg-gray-500" : ""
@@ -581,8 +581,8 @@ const Sidebar = ({ sidebarCollapsed, highLight, show }) => {
               Manage Order
             </span>
           </aside>
-        </Link>
-        <Link to="/aof">
+        </Link> */}
+        {/* <Link to="/aof">
           <aside
             className={`px-6 py-2 flex gap-4 ${
               highLight === "aof" ? "bg-gray-500" : ""
@@ -601,8 +601,8 @@ const Sidebar = ({ sidebarCollapsed, highLight, show }) => {
               AOF
             </span>
           </aside>
-        </Link>
-        <Link to="/kys">
+        </Link> */}
+        {/* <Link to="/kys">
           <aside
             className={`px-6 py-2 flex gap-4 ${
               highLight === "kys" ? "bg-gray-500" : ""
@@ -621,9 +621,9 @@ const Sidebar = ({ sidebarCollapsed, highLight, show }) => {
               KYS
             </span>
           </aside>
-        </Link>
+        </Link> */}
         {/* <Link to="/kys"> */}
-        <Link to="/projection">
+        {/* <Link to="/projection">
           <aside
             className={`px-6 py-2 flex gap-4 ${
               highLight === "projection" ? "bg-gray-500" : ""
@@ -644,9 +644,9 @@ const Sidebar = ({ sidebarCollapsed, highLight, show }) => {
               Projection
             </span>
           </aside>
-        </Link>
+        </Link> */}
 
-        <Link to="/return">
+        {/* <Link to="/return">
           <aside
             className={`px-6 py-2 flex gap-4 ${
               highLight === "return" ? "bg-gray-500" : ""
@@ -665,9 +665,9 @@ const Sidebar = ({ sidebarCollapsed, highLight, show }) => {
               RETURN
             </span>
           </aside>
-        </Link>
+        </Link> */}
 
-        <Link to="/invoice">
+        {/* <Link to="/invoice">
           <aside
             className={`px-6 py-2 flex gap-4 ${
               highLight === "invoice" ? "bg-gray-500" : ""
@@ -686,7 +686,7 @@ const Sidebar = ({ sidebarCollapsed, highLight, show }) => {
               Invoice Tagging
             </span>
           </aside>
-        </Link>
+        </Link> */}
 
         {/* </Link> */}
       </div>
@@ -695,4 +695,4 @@ const Sidebar = ({ sidebarCollapsed, highLight, show }) => {
   );
 };
 
-export default Sidebar;
+export default Sidebar2;

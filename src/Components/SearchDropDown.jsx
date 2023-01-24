@@ -125,12 +125,17 @@ const SearchDropDown = ({
           // console.log(option)
           return option.types;
           break;
+        case "to_convert":
+          // console.log(option)
+          return option.convert;
+          break;
         case "select_city":
           // console.log(option);
           return option.city;
           break;
         // aof
         case "publisher":
+          // console.log(option)
           return option.bp_name;
           break;
         case "series_aof":
@@ -248,6 +253,9 @@ const SearchDropDown = ({
     if (type === "series_aof") {
       handleOrderProcessingForm(value, type);
     }
+    if (type === "publisher") {
+      handleOrderProcessingForm(value, type);
+    }
     if (type === "grades") {
       handleOrderProcessingForm(value, type, seriesId);
     }
@@ -262,6 +270,10 @@ const SearchDropDown = ({
     }
     if (type === "fees") {
       handleOrderProcessingForm(value, type);
+    }
+    if (type === "to_convert") {
+      // console.log(value, type, seriesId)
+      handleOrderProcessingForm(value.convert, type, seriesId);
     }
     if (type === "kys_comp_publisher") {
       handleOrderProcessingForm(value, type);
