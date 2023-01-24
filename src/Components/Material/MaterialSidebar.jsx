@@ -564,7 +564,7 @@ const SwipeableTemporaryDrawer = React.forwardRef((props, ref) => {
           </span>
         </aside>
       </Link>
-      <Link to="/aof">
+      {/* <Link to="/aof">
         <aside
           className={`px-6 py-2 my-4 flex gap-4 ${
             highLight === "aof" ? "bg-gray-500" : ""
@@ -583,7 +583,7 @@ const SwipeableTemporaryDrawer = React.forwardRef((props, ref) => {
             AOF
           </span>
         </aside>
-      </Link>
+      </Link> */}
       <Link to="/kys">
         <aside
           className={`px-6 py-2 my-4 flex gap-4 ${
@@ -626,7 +626,7 @@ const SwipeableTemporaryDrawer = React.forwardRef((props, ref) => {
         </aside>
       </Link>
 
-      <Link to="/return">
+      {/* <Link to="/return">
         <aside
           // onClick={openDialog}
           className={`px-6 py-5 flex gap-4 ${
@@ -646,9 +646,9 @@ const SwipeableTemporaryDrawer = React.forwardRef((props, ref) => {
             RETURN
           </span>
         </aside>
-      </Link>
+      </Link> */}
 
-      <Link to="/invoice">
+      {/* <Link to="/invoice">
         <aside
           // onClick={openDialog}
           className={`px-6 py-2 flex gap-4 ${
@@ -668,7 +668,7 @@ const SwipeableTemporaryDrawer = React.forwardRef((props, ref) => {
             Invoice Tagging
           </span>
         </aside>
-      </Link>
+      </Link> */}
     </div>}
      
 

@@ -132,10 +132,7 @@ function App() {
                 path="/addschooltraining"
                 element={isAuth || MsAuth ? <AddSchoolTraining /> : <Login />}
               />
-              <Route
-                path="/addschoolquantity/:invoiceid"
-                element={isAuth || MsAuth ? <AddSchoolQuantity /> : <Login />}
-              />
+              
               <Route
                 path="/update_school/:id"
                 element={isAuth || MsAuth ? <UpdateSchool /> : <Login />}
@@ -173,7 +170,7 @@ function App() {
             path="/pdf_view"
             element={isAuth || MsAuth ? <MyDocument /> : <Login />}
           /> */}
-              <Route path="/aof" element={isAuth || MsAuth ? <AOF /> : <Login />} />
+              {/* <Route path="/aof" element={isAuth || MsAuth ? <AOF /> : <Login />} /> */}
               {/* kys */}
               <Route
                 path="/kys"
@@ -223,26 +220,30 @@ function App() {
                 element={isAuth || MsAuth ? <V_1_0_0 /> : <Login />}
               />
 
-              <Route
+              {/* <Route
                 path="/return"
                 element={isAuth || MsAuth ? <Return /> : <Login />}
-              />
+              /> */}
 
-              <Route
+              {/* <Route
                 path="/return_request"
                 element={isAuth || MsAuth ? <ReturnRequest /> : <Login />}
-              />
+              /> */}
 
-              <Route
+              {/* <Route
                 path="/invoice"
                 element={isAuth || MsAuth ? <Invoice /> : <Login />}
-              />
+              /> */}
 
-              <Route
+              {/* <Route
                 path="/invoice_item/:invoiceid"
                 // path="/invoice_item/"
                 element={isAuth || MsAuth ? <InvoiceItem /> : <Login />}
-              />
+              /> */}
+              {/* <Route
+                path="/addschoolquantity/:invoiceid"
+                element={isAuth || MsAuth ? <AddSchoolQuantity /> : <Login />}
+              /> */}
 
               <Route
                 path="/invoice_training"
