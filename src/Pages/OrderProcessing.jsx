@@ -13,6 +13,13 @@ import Snackbars from "../Components/Material/SnackBar";
 import SwipeableTemporaryDrawer from "../Components/Material/MaterialSidebar";
 import { protectedResources } from "../util/msConfig";
 import { getToken } from "../util/msAuth";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Paper from "@mui/material/Paper";
 
 const OrderProcessing = () => {
   const [loading, setLoading] = useState(false);
@@ -801,8 +808,96 @@ const OrderProcessing = () => {
                 </div>
               </section>
               <Collapse in={open}>
-                <section className="bg-white px-3 py-2 rounded-md w-full h-[15rem] overflow-auto sm:grid sm:grid-cols-2 flex flex-col gap-2 col-span-4">
-                  {rowData.map((item, index) => {
+                {/* <section className="bg-white px-3 py-2 rounded-md w-full h-[15rem] overflow-auto sm:grid sm:grid-cols-2 flex flex-col gap-2 col-span-4"> */}
+
+
+
+                <Paper>
+                  <TableContainer component={Paper}>
+                    <Table sx={{ minWidth: 650 }} aria-label="customized table">
+                      <TableHead className="bg-slate-400">
+                        <TableRow>
+                          <TableCell className="!w-[15rem]" align="center">
+                            Item Name
+                          </TableCell>
+                          <TableCell className="!w-[15rem]" align="center">
+                            Item Code
+                          </TableCell>
+
+                          <TableCell className="!w-[8rem]" align="center">
+                            Discount
+                          </TableCell>
+
+                          <TableCell className="!w-[8rem]" align="center">
+                            Price
+                          </TableCell>
+
+                          <TableCell className="!w-[8rem]" align="center">
+                            Tax
+                          </TableCell>
+                          <TableCell className="!w-[10rem]" align="center">
+                            Quantity
+                          </TableCell>
+                        </TableRow>
+                      </TableHead>
+                      {rowData.map((item, index) => {
+                        return (
+                          <TableBody className="bg-slate-300">
+                            {/* {items.map((row) => ( */}
+                            <TableRow
+                              key={item.id}
+                              sx={{
+                                "&:last-child td, &:last-child th": {
+                                  border: 0,
+                                },
+                              }}
+                            >
+                              <TableCell align="center">
+                                {item.item_name}
+                              </TableCell>
+                              <TableCell align="center">
+                                {item.item_code}
+                              </TableCell>
+
+                              <TableCell align="center">
+                              {item.fk_discount.discount}
+                              </TableCell>
+
+                              <TableCell align="center">
+                                {item.price_master.price}
+                              </TableCell>
+
+                              <TableCell align="center">
+                                {item.fk_tax.tax}
+                              </TableCell>
+                              <TableCell align="center">
+                                <TextField
+                                  id="search-bar"
+                                  className="text"
+                                  type={"number"}
+                                  onChange={(e) => {
+                                    alterItemQuantity(index, e.target.value)
+                                  }}
+                                  label="Enter Value *"
+                                  variant="outlined"
+                                  //   placeholder="Quantity"
+                                  defaultValue={formik.values.item_quan}
+                                  size="small"
+                                  // InputLabelProps={{ style: { color: "warning" } }}
+                                />
+                              </TableCell>
+                            </TableRow>
+                            {/* ))} */}
+                          </TableBody>
+                        );
+                      })}
+                    </Table>
+                  </TableContainer>
+                </Paper>
+
+
+
+                  {/* {rowData.map((item, index) => {
                     return (
                       <div
                         key={item.id}
@@ -827,8 +922,8 @@ const OrderProcessing = () => {
                         </span>
                       </div>
                     );
-                  })}
-                </section>
+                  })} */}
+                {/* </section> */}
               </Collapse>
               <div className="grid grid-cols-1 grid-rows-4 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 gap-8 lg:grid-rows-1 md:grid-rows-2 sm:grid-rows-3 bg-slate-600 rounded-md">
                 <div className=" flex flex-col gap-2 w-full">

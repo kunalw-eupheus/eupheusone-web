@@ -3,8 +3,8 @@ import { useState } from "react";
 import Navbar from "../Components/Navbar";
 import Sidebar from "../Components/Sidebar";
 // import { Add } from '@mui/icons-material'
-import { Link } from "react-router-dom";
-import DataTable from "../Components/DataTable";
+// import { Link } from "react-router-dom";
+// import DataTable from "../Components/DataTable";
 // import { rows, ManageSchoolRows } from '../DummyData'
 import SearchDropDown from "../Components/SearchDropDown";
 import SwipeableTemporaryDrawer from "../Components/Material/MaterialSidebar";
@@ -24,12 +24,12 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { useFormik } from "formik";
 import { useNavigate } from "react-router-dom";
-import { DataGrid } from "@mui/x-data-grid";
-import Button from "@mui/material/Button";
+// import { DataGrid } from "@mui/x-data-grid";
+// import Button from "@mui/material/Button";
 import DialogSlide from "../Components/Material/Dialog2";
 import DialogSlide2 from "../Components/Material/Dialog3";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
+// import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+// import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import IconButton from "@mui/material/IconButton";
 import SearchIcon from "@mui/icons-material/Search";
 import TextField from "@mui/material/TextField";
