@@ -30,8 +30,8 @@ const ViewPdf = () => {
       </button>
 
       <div ref={printRef}>
-        <CustLedger/>
-        {/* <Inv/> */}
+        {/* <CustLedger/> */}
+        <Inv/>
         {/* <CreditNote/> */}
       </div>
     </div>
