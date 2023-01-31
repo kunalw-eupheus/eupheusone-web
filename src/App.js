@@ -55,6 +55,7 @@ import ViewPdf from "./Pages/ViewPdf";
 import AddSchoolQuantity from "./Pages/AddSchoolQuantity";
 import ClassklapDashboard from "./Pages/ClassklapDashboard";
 import ClassklapManageSchool from "./Pages/ClassklapManageSchool";
+import AddSchoolCK from "./Pages/AddSchoolCK";
 
 function App() {
   const isAuth = useSelector((state) => state.auth.user);
@@ -132,7 +133,7 @@ function App() {
                 path="/addschooltraining"
                 element={isAuth || MsAuth ? <AddSchoolTraining /> : <Login />}
               />
-              
+
               <Route
                 path="/update_school/:id"
                 element={isAuth || MsAuth ? <UpdateSchool /> : <Login />}
@@ -262,7 +263,15 @@ function App() {
 
               <Route
                 path="/ck_manageSchool"
-                element={isAuth || MsAuth ? <ClassklapManageSchool/> : <Login />}
+                element={
+                  isAuth || MsAuth ? <ClassklapManageSchool /> : <Login />
+                }
+              />
+
+              <Route
+                path="/addschoolck"
+                element={isAuth || MsAuth ? <AddSchoolCK /> : <Login />
+                }
               />
 
               {/* Admin */}

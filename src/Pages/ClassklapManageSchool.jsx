@@ -457,7 +457,7 @@ const EupheusManageSchool = () => {
               </div>
             </div>
             <div className="w-full flex gap-3 justify-end">
-              <Link to="/addschooltraining">
+              <Link to="/addschoolck">
                 <BasicButton text={"Create New School"} />
               </Link>
               {/* <Link to="/tagging">

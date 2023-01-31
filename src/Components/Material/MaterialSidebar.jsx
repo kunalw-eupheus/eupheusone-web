@@ -646,7 +646,7 @@ const SwipeableTemporaryDrawer = React.forwardRef((props, ref) => {
             RETURN
           </span>
         </aside>
-      </Link>
+      </Link> */}
 
       <Link to="/invoice">
         <aside
@@ -668,7 +668,7 @@ const SwipeableTemporaryDrawer = React.forwardRef((props, ref) => {
             Invoice Tagging
           </span>
         </aside>
-      </Link> */}
+      </Link>
     </div>}
      
 

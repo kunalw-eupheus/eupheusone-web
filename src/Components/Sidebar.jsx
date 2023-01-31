@@ -667,7 +667,7 @@ const Sidebar = ({ sidebarCollapsed, highLight, show }) => {
           </aside>
         </Link> */}
 
-        {/* <Link to="/invoice">
+        <Link to="/invoice">
           <aside
             className={`px-6 py-2 flex gap-4 ${
               highLight === "invoice" ? "bg-gray-500" : ""
@@ -686,7 +686,7 @@ const Sidebar = ({ sidebarCollapsed, highLight, show }) => {
               Invoice Tagging
             </span>
           </aside>
-        </Link> */}
+        </Link>
 
         {/* </Link> */}
       </div>
