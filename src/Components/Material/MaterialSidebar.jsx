@@ -648,7 +648,7 @@ const SwipeableTemporaryDrawer = React.forwardRef((props, ref) => {
         </aside>
       </Link> */}
 
-      <Link to="/invoice">
+      {/* <Link to="/invoice">
         <aside
           // onClick={openDialog}
           className={`px-6 py-2 flex gap-4 ${
@@ -668,7 +668,7 @@ const SwipeableTemporaryDrawer = React.forwardRef((props, ref) => {
             Invoice Tagging
           </span>
         </aside>
-      </Link>
+      </Link> */}
     </div>}
      
 

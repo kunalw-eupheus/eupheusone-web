@@ -57,7 +57,8 @@ import ClassklapDashboard from "./Pages/ClassklapDashboard";
 import ClassklapManageSchool from "./Pages/ClassklapManageSchool";
 import AddSchoolCK from "./Pages/AddSchoolCK";
 import LocationTraining from "./Pages/LocationTraining";
-
+import PrintPDF from "./Pages/PrintPDF"
+import ViewInvoice from "./Pages/ViewInvoice";
 function App() {
   const isAuth = useSelector((state) => state.auth.user);
   const MsAuth = useSelector((state) => state.auth.msAuth);
@@ -277,6 +278,16 @@ function App() {
               <Route
                 path="/locationTraining"
                 element={isAuth || MsAuth ? <LocationTraining /> : <Login />}
+              />
+
+              <Route
+                path="/print_pdf"
+                element={isAuth || MsAuth ? <PrintPDF /> : <Login />}
+              />
+
+              <Route
+                path="/invoice_pdf"
+                element={isAuth || MsAuth ? <ViewInvoice /> : <Login />}
               />
 
               {/* Admin */}

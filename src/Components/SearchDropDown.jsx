@@ -148,6 +148,10 @@ const SearchDropDown = ({
           // console.log(option)
           return option.bp_name;
           break;
+        case "invoice_pdf_data":
+            // console.log(option)
+            return option.bp_name;
+            break;
         case "series_aof":
           return option.series;
           break;
@@ -291,7 +295,11 @@ const SearchDropDown = ({
     }
     if (type === "kys_comp_publisher") {
       handleOrderProcessingForm(value, type);
-    } else {
+    }
+    if (type === "invoice_pdf_data") {
+      handleOrderProcessingForm(value, type);
+    }  
+    else {
       return;
     }
   };

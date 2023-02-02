@@ -14,7 +14,9 @@ import {
   ListAlt,
   LocationCity,
   AssignmentReturnOutlined,
-  ReceiptOutlined
+  ReceiptOutlined,
+  PrintOutlined,
+  
 } from "@mui/icons-material";
 import { Link } from "react-router-dom";
 import logoLight from "../assets/img/logo-light-icon.png";
@@ -685,7 +687,7 @@ const Sidebar = ({ sidebarCollapsed, highLight, show }) => {
           </aside>
         </Link> */}
 
-        <Link to="/invoice">
+        {/* <Link to="/invoice">
           <aside
             className={`px-6 py-2 flex gap-4 ${
               highLight === "invoice" ? "bg-gray-500" : ""
@@ -704,22 +706,22 @@ const Sidebar = ({ sidebarCollapsed, highLight, show }) => {
               Invoice Tagging
             </span>
           </aside>
-        </Link>
+        </Link> */}
 
-        {/* <Link to="/invoice">
+        {/* <Link to="/print_pdf">
           <aside
             className={`px-6 py-2 flex gap-4 ${
-              highLight === "invoice" ? "bg-gray-500" : ""
+              highLight === "printpdf" ? "bg-gray-500" : ""
             } cursor-pointer group hover:bg-gray-500 rounded-md transition-all duration-150 ease-linear`}
           >
-            <ReceiptOutlined
+            <PrintOutlined
               className={`${
-                highLight === "invoice" ? "!text-[#659DBD]" : "!text-gray-400"
+                highLight === "printpdf" ? "!text-[#659DBD]" : "!text-gray-400"
               } group-hover:!text-[#659DBD] !transition-all !duration-150 !ease-linear`}
             />
             <span
               className={`${
-                highLight === "invoice" ? "text-gray-200" : "text-gray-400"
+                highLight === "printpdf" ? "text-gray-200" : "text-gray-400"
               } group-hover:!text-gray-100 transition-all duration-150 ease-linear`}
             >
               Print PDF
