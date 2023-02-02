@@ -1,42 +1,44 @@
 import React, {useEffect, useState} from "react";
 import "./Inv.css";
 import eupheusLogo from "./eupheusLogo.png";
+import { DataGrid } from '@mui/x-data-grid';
 import axios from "axios";
 import Cookies from "js-cookie";
 var converter = require('number-to-words')
 
 
+
 const Inv = () => {
 
-  const [data, setData] = useState({
-    billTo:"",
-    billToAddress:"",
-    shipTo:"",
-    shipToAddress:"",
-    billToGST:"",
-    shipToGST:"",
-    stateCode:"",
-    contactPerson:"",
-    mobile:"",
-    invoiceNo:"",
-    customerCode:"",
-    supplierRef:"",
-    orderNo:"",
-    dated:"",
-    customerName:"",
-    otherReference:"",
-    GRno:"",
-    dispatchDocNo:"",
-    dispatchThrough:"",
-    LRno:"",
-    GRdate:"",
-    noOfBox:"",
-    motorVehicleNo:"",
-    termsOfDelivery:"",
-    total:"",
-    untaxedAmount:"",
+  const [billTo, setBillTo] = useState("")
+  const [billToAddress, setBillToAddress] = useState("")
+  const [shipTo, setShipTo] = useState("")
+  const [shipToAddress, setshipToAddress] = useState("")
+  const [billToGST, setbillToGST] = useState("")
+  const [shipToGST, setshipToGST] = useState("")
+  const [stateCode, setstateCode] = useState("")
+  const [contactPerson, setcontactPerson] = useState("")
+  const [mobile, setmobile] = useState("")
+  const [invoiceNo, setinvoiceNo] = useState("")
+  const [customerCode, setcustomerCode] = useState("")
+  const [supplierRef, setsupplierRef] = useState("")
+  const [orderNo, setorderNo] = useState("")
+  const [dated, setdated] = useState("")
+  const [customerName, setcustomerName] = useState("")
+  const [otherReference, setotherReference] = useState("")
+  const [GRno, setGRno] = useState("")
+  const [dispatchDocNo, setdispatchDocNo] = useState("")
+  const [dispatchThrough, setdispatchThrough] = useState("")
+  const [LRno, setLRno] = useState("")
+  const [GRdate, setGRdate] = useState("")
+  const [noOfBox, setnoOfBox] = useState("")
+  const [motorVehicleNo, setmotorVehicleNo] = useState("")
+  const [termsOfDelivery, settermsOfDelivery] = useState("")
+  const [total, settotal] = useState("")
+  const [untaxedAmount, setuntaxedAmount] = useState("")
+  const [tableData, setTableData] = useState([])
+  const [totalQuantity, setTotalQuantity] = useState("")
 
-  })
 
 
   useEffect(() => {
@@ -45,31 +47,69 @@ const Inv = () => {
 
   const getAllData = async () => {
 
-    // const res = await axios.post(`http://192.168.7.148:5070/api/doc_print/invoice/detail`,
-    //  {
-    //     "category":"inv",
-    //     "doc_num":"21344",
-    //     "doc_date":"2021-02-23"
-    // },
-    // {  headers: {
-    //     Authorization: `${Cookies.get("accessToken")}`,
-    //   },}
-    // );
+    const res = await axios.post(`http://192.168.7.148:5070/api/doc_print/invoice/detail`,
+     {
+        category:"inv",
+        doc_num:"56866",
+        doc_date:"2022-02-22"
+    },
+    {  headers: {
+        Authorization: `${Cookies.get("accessToken")}`,
+      },}
+    );
     
-    // console.log(res);
-    setData({
-      billTo: "newData",
-      untaxedAmount: "282240"
-    })
+    console.log(res.data);
+    let data = res.data.message[0]
+    // console.log(data)
+    setBillTo(data.bill_to[0])
+    setBillToAddress(data.bill_to[1])
+    setShipTo(data.SHIPTOCODE)
+    setshipToAddress(data.SHIP_TO)
+    setbillToGST(data.Bill_to_GST_No)
+    setshipToGST(data.ship_to_gst)
+    setcontactPerson(data.contact_person_name)
+    setmobile(data.mobile_no)
+    setinvoiceNo(data.Invoice_No)
+    setcustomerCode(data.CARDCODE)
+    setsupplierRef(data.Ref_No)
+    setorderNo(data.order_no)
+    setdated(data.DOCDATE)
+    setcustomerName(data.CARDNAME)
+    setotherReference(data.other_ref)
+    setGRno(data.U_GRNO)
+    setdispatchDocNo(data.Dispatch_No)
+    setdispatchThrough(data.Transporter_Name)
+    setLRno(data.LRNo)
+    setGRdate(data.GR_Date)
+    setnoOfBox(data.U_Boxes)
+    setmotorVehicleNo(data.U_UNE_VEH_NO)
+    settermsOfDelivery(data.delivery_term)
+    settotal(data.total)
+    setuntaxedAmount(data.tax_amount)
+    setstateCode(data.state_code)
+
+    let dataTable = res.data.items
+    let totalQuant = 0
+    for(let obj of dataTable){
+      console.log(obj)
+      totalQuant += obj.quantity
+    }
+    // console.log(totalQuant)
+    setTotalQuantity(totalQuant)
+    // console.log(dataTable)
+    setTableData(dataTable)
+
   };
+
 
   return (
     <div>
+     
       <table>
         <tbody>
           <tr>
             <td>
-              <img width={221} height={56} src={eupheusLogo} />
+              <img width={381} height={126} src={eupheusLogo} />
             </td>
           </tr>
         </tbody>
@@ -89,30 +129,24 @@ const Inv = () => {
           textIndent: "0pt",
           lineHeight: "11pt",
           textAlign: "left",
+          fontSize: "20pt"
         }}
       >
         Proficiency Learning Solutions Pvt Ltd.,
       </p>
       <p
         style={{
+          paddingTop: "10pt",
           paddingLeft: "11pt",
           textIndent: "0pt",
           textAlign: "left",
+          fontSize: "15pt"
         }}
       >
         Khasra No. 75, Village Malakpur, Ecotech-2, Opp. NTPC Ltd.(Netra)
-        Greater Noida, Gautam Budh Nagar, Uttar Pradesh
+        Greater Noida, Gautam Budh Nagar, Uttar Pradesh, Pin -201306
       </p>
-      <p
-        style={{
-          paddingLeft: "11pt",
-          textIndent: "0pt",
-          lineHeight: "11pt",
-          textAlign: "left",
-        }}
-      >
-        Pin -201306
-      </p>
+    
       <p style={{ textIndent: "0pt", textAlign: "left" }}>
         <br />
       </p>
@@ -124,6 +158,7 @@ const Inv = () => {
           paddingLeft: "11pt",
           textIndent: "0pt",
           textAlign: "left",
+          fontSize: "15pt"
         }}
       >
         IRN No<span className="p">:</span>
@@ -133,7 +168,7 @@ const Inv = () => {
         cellSpacing={0}
       >
         <tbody>
-          <tr style={{ height: "28pt" }}>
+          <tr style={{ height: "48pt" }}>
             <td
               style={{
                 width: "1030pt",
@@ -157,6 +192,7 @@ const Inv = () => {
                   textIndent: "0pt",
                   lineHeight: "12pt",
                   textAlign: "center",
+                  fontSize: "15pt"
                 }}
               >
                 BILL OF SUPPLY
@@ -178,7 +214,7 @@ const Inv = () => {
               </p>
             </td>
           </tr>
-          <tr style={{ height: "35pt" }}>
+          <tr style={{ height: "55pt" }}>
             <td
               style={{
                 width: "186pt",
@@ -198,6 +234,7 @@ const Inv = () => {
                   paddingLeft: "5pt",
                   textIndent: "0pt",
                   textAlign: "left",
+                  fontSize: "13pt"
                 }}
               >
                 Bill To :
@@ -209,12 +246,13 @@ const Inv = () => {
                   paddingLeft: "5pt",
                   textIndent: "0pt",
                   textAlign: "left",
+                  fontSize: "12pt"
                 }}
               >
                 {/* MKK Enterprises */}
-                {data.billTo}
+                {billTo}
               </p>
-              <p
+              {/* <p
                 className="s3"
                 style={{
                   paddingTop: "1pt",
@@ -224,9 +262,9 @@ const Inv = () => {
                   textAlign: "left",
                 }}
               >
-                {/* F-2/13 Ratiya Marg Sangam Vihar,MKK Enterprises, */}
-                {data.billToAddress}
-              </p>
+                F-2/13 Ratiya Marg Sangam Vihar,MKK Enterprises,
+                {billToAddress}
+              </p> */}
 
               <p
                 className="s3"
@@ -235,10 +273,11 @@ const Inv = () => {
                   paddingRight: "94pt",
                   textIndent: "0pt",
                   textAlign: "left",
+                  fontSize: "12pt"
                 }}
               >
                 {/* New Delhi - 110080 Delhi - INDIA */}
-                {data.billToAddress}
+                {billToAddress}
               </p>
             </td>
             <td
@@ -262,6 +301,7 @@ const Inv = () => {
                   textIndent: "0pt",
                   lineHeight: "9pt",
                   textAlign: "left",
+                  fontSize: "15pt"
                 }}
               >
                 Invoice No.
@@ -274,10 +314,11 @@ const Inv = () => {
                   textIndent: "0pt",
                   lineHeight: "12pt",
                   textAlign: "left",
+                  fontSize: "12pt"
                 }}
               >
                 {/* RI/52941/20-21 */}
-                {data.invoiceNo}
+                {invoiceNo}
               </p>
             </td>
             <td
@@ -301,6 +342,7 @@ const Inv = () => {
                   textIndent: "0pt",
                   lineHeight: "9pt",
                   textAlign: "left",
+                  fontSize: "15pt"
                 }}
               >
                 Dated
@@ -312,10 +354,11 @@ const Inv = () => {
                   paddingLeft: "5pt",
                   textIndent: "0pt",
                   textAlign: "left",
+                  fontSize: "12pt"
                 }}
               >
                 {/* 25/02/2021 */}
-                {data.dated}
+                {dated}
               </p>
             </td>
             <td
@@ -334,7 +377,7 @@ const Inv = () => {
               </p>
             </td>
           </tr>
-          <tr style={{ height: "39pt" }}>
+          <tr style={{ height: "49pt" }}>
             <td
               style={{
                 width: "180pt",
@@ -356,6 +399,7 @@ const Inv = () => {
                   textIndent: "0pt",
                   lineHeight: "9pt",
                   textAlign: "left",
+                  fontSize: "15pt"
                 }}
               >
                 Customer Code
@@ -367,10 +411,11 @@ const Inv = () => {
                   paddingLeft: "23pt",
                   textIndent: "0pt",
                   textAlign: "left",
+                  fontSize: "12pt"
                 }}
               >
                 {/* CBP000211 */}
-                {data.customerCode}
+                {customerCode}
               </p>
             </td>
             <td
@@ -394,6 +439,7 @@ const Inv = () => {
                   textIndent: "0pt",
                   lineHeight: "9pt",
                   textAlign: "left",
+                  fontSize: "15pt"
                 }}
               >
                 Customer Name
@@ -405,10 +451,11 @@ const Inv = () => {
                   paddingLeft: "5pt",
                   textIndent: "0pt",
                   textAlign: "left",
+                  fontSize: "12pt"
                 }}
               >
                 {/* MKK Enterprises */}
-                {data.customerName}
+                {customerName}
               </p>
             </td>
             <td
@@ -427,7 +474,7 @@ const Inv = () => {
               </p>
             </td>
           </tr>
-          <tr style={{ height: "25pt" }}>
+          <tr style={{ height: "35pt" }}>
             <td
               style={{
                 width: "180pt",
@@ -447,6 +494,7 @@ const Inv = () => {
                   paddingLeft: "23pt",
                   textIndent: "0pt",
                   textAlign: "left",
+                  fontSize: "15pt"
                 }}
               >
                 Supplier's Ref
@@ -458,10 +506,11 @@ const Inv = () => {
                   paddingLeft: "23pt",
                   textIndent: "0pt",
                   textAlign: "left",
+                  fontSize: "12pt"
                 }}
               >
               {/* Test supplier Ref */}
-                {data.supplierRef}
+                {supplierRef}
               </p>
             </td>
             <td
@@ -483,6 +532,7 @@ const Inv = () => {
                   paddingLeft: "5pt",
                   textIndent: "0pt",
                   textAlign: "left",
+                  fontSize: "15pt"
                 }}
               >
                 Other Reference
@@ -494,10 +544,11 @@ const Inv = () => {
                   paddingLeft: "5pt",
                   textIndent: "0pt",
                   textAlign: "left",
+                  fontSize: "12pt"
                 }}
               >
                 {/* Test Other Ref */}
-                {data.otherReference}
+                {otherReference}
               </p>
             </td>
             <td
@@ -517,7 +568,7 @@ const Inv = () => {
               </p>
             </td>
           </tr>
-          <tr style={{ height: "18pt" }}>
+          <tr style={{ height: "28pt" }}>
             <td
               style={{
                 width: "186pt",
@@ -538,6 +589,7 @@ const Inv = () => {
                   paddingLeft: "5pt",
                   textIndent: "0pt",
                   textAlign: "left",
+                  fontSize: "13pt"
                 }}
               >
                 GSTIN Number :
@@ -550,10 +602,11 @@ const Inv = () => {
                   paddingRight: "4pt",
                   textIndent: "0pt",
                   textAlign: "left",
+                  fontSize: "12pt"
                 }}
               >
                 {/* TEST GST NUMBER */}
-                {data.billToGST}
+                {billToGST}
               </p>
             </td>
             <td
@@ -589,7 +642,7 @@ const Inv = () => {
               </p>
             </td>
           </tr>
-          <tr style={{ height: "38pt" }}>
+          <tr style={{ height: "58pt" }}>
             <td
               style={{
                 width: "180pt",
@@ -611,6 +664,7 @@ const Inv = () => {
                   textIndent: "0pt",
                   lineHeight: "9pt",
                   textAlign: "left",
+                  fontSize: "15pt"
                 }}
               >
                 Order No.
@@ -622,10 +676,11 @@ const Inv = () => {
                   paddingLeft: "23pt",
                   textIndent: "0pt",
                   textAlign: "left",
+                  fontSize: "12pt"
                 }}
               >
                 {/* 23471 */}
-                {data.orderNo}
+                {orderNo}
               </p>
             </td>
             <td
@@ -649,6 +704,7 @@ const Inv = () => {
                   paddingLeft: "5pt",
                   textIndent: "0pt",
                   textAlign: "left",
+                  fontSize: "15pt"
                 }}
               >
                 GR No
@@ -660,10 +716,11 @@ const Inv = () => {
                   paddingLeft: "5pt",
                   textIndent: "0pt",
                   textAlign: "left",
+                  fontSize: "12pt"
                 }}
               >
                 {/* DL 1LX 6955 */}
-                {data.GRno}
+                {GRno}
               </p>
             </td>
             <td
@@ -682,7 +739,7 @@ const Inv = () => {
               </p>
             </td>
           </tr>
-          <tr style={{ height: "22pt" }}>
+          <tr style={{ height: "42pt" }}>
             <td
               style={{
                 width: "186pt",
@@ -703,6 +760,7 @@ const Inv = () => {
                   textIndent: "0pt",
                   lineHeight: "10pt",
                   textAlign: "left",
+                  fontSize: "13pt"
                 }}
               >
                 Ship To :
@@ -728,6 +786,7 @@ const Inv = () => {
                   textIndent: "0pt",
                   lineHeight: "10pt",
                   textAlign: "left",
+                  fontSize: "15pt"
                 }}
               >
                 Dispatch Doc No.
@@ -753,6 +812,7 @@ const Inv = () => {
                   textIndent: "0pt",
                   lineHeight: "10pt",
                   textAlign: "left",
+                  fontSize: "15pt"
                 }}
               >
                 GR Date
@@ -775,7 +835,7 @@ const Inv = () => {
               </p>
             </td>
           </tr>
-          <tr style={{ height: "24pt" }}>
+          <tr style={{ height: "34pt" }}>
             <td
               style={{
                 width: "186pt",
@@ -792,10 +852,11 @@ const Inv = () => {
                   paddingLeft: "5pt",
                   textIndent: "0pt",
                   textAlign: "left",
+                  fontSize: "12pt"
                 }}
               >
                 {/* Mkk Enterprises */}
-                {data.shipTo}
+                {shipTo}
               </p>
             </td>
             <td
@@ -817,10 +878,11 @@ const Inv = () => {
                   textIndent: "0pt",
                   lineHeight: "11pt",
                   textAlign: "left",
+                  fontSize: "12pt"
                 }}
               >
                 {/* 23780 */}
-                {data.dispatchDocNo}
+                {dispatchDocNo}
               </p>
             </td>
             <td
@@ -842,14 +904,15 @@ const Inv = () => {
                   textIndent: "0pt",
                   lineHeight: "11pt",
                   textAlign: "left",
+                  fontSize: "12pt"
                 }}
               >
                 {/* 25-February-2021 */}
-                {data.GRdate}
+                {GRdate}
               </p>
             </td>
           </tr>
-          <tr style={{ height: "39pt" }}>
+          <tr style={{ height: "59pt" }}>
             <td
               style={{
                 width: "186pt",
@@ -867,14 +930,15 @@ const Inv = () => {
                   paddingLeft: "5pt",
                   textIndent: "2pt",
                   textAlign: "left",
+                  fontSize: "12pt"
                 }}
               >
                 {/* F-2/13 Ratiya Marg Sangam Vihar New Delhi,MKK Enterprises -
                 110080 */}
-                {data.shipToAddress}
+                {shipToAddress}
               </p>
 
-              <p
+              {/* <p
                 className="s3"
                 style={{
                   paddingLeft: "5pt",
@@ -883,9 +947,9 @@ const Inv = () => {
                   textAlign: "left",
                 }}
               >
-                {/* Delhi - INDIA */}
-                {data.shipToAddress}
-              </p>
+                Delhi - INDIA
+                {shipToAddress}
+              </p> */}
               <p
                 className="s2"
                 style={{
@@ -894,9 +958,10 @@ const Inv = () => {
                   textIndent: "0pt",
                   lineHeight: "9pt",
                   textAlign: "left",
+                  fontSize: "12pt"
                 }}
               >
-                State Code : <span className="s3">{data.stateCode}</span>
+                State Code : <span className="s3" style={{fontSize: "12pt"}}>{stateCode}</span>
               </p>
             </td>
             <td
@@ -920,6 +985,7 @@ const Inv = () => {
                   textIndent: "0pt",
                   lineHeight: "9pt",
                   textAlign: "left",
+                  fontSize: "15pt"
                 }}
               >
                 Dispatch Through
@@ -931,10 +997,11 @@ const Inv = () => {
                   paddingLeft: "23pt",
                   textIndent: "0pt",
                   textAlign: "left",
+                  fontSize: "12pt"
                 }}
               >
                 {/* A V R N */}
-                {data.dispatchThrough}
+                {dispatchThrough}
               </p>
             </td>
             <td
@@ -958,6 +1025,7 @@ const Inv = () => {
                   paddingLeft: "5pt",
                   textIndent: "0pt",
                   textAlign: "left",
+                  fontSize: "15pt"
                 }}
               >
                 No of Boxes
@@ -969,10 +1037,11 @@ const Inv = () => {
                   paddingLeft: "5pt",
                   textIndent: "0pt",
                   textAlign: "left",
+                  fontSize: "12pt"
                 }}
               >
                 {/* 17 */}
-                {data.noOfBox}
+                {noOfBox}
               </p>
             </td>
             <td
@@ -991,7 +1060,7 @@ const Inv = () => {
               </p>
             </td>
           </tr>
-          <tr style={{ height: "33pt" }}>
+          <tr style={{ height: "53pt" }}>
             <td
               style={{
                 width: "180pt",
@@ -1011,9 +1080,9 @@ const Inv = () => {
                   textIndent: "0pt",
                   lineHeight: "9pt",
                   textAlign: "left",
+                  fontSize: "15pt"
                 }}
-              >
-                Bill of Ladding/LR-RR No.
+              >LRno Bill of Ladding/LR-RR No.
               </p>
               <p
                 className="s5"
@@ -1022,10 +1091,11 @@ const Inv = () => {
                   paddingLeft: "23pt",
                   textIndent: "0pt",
                   textAlign: "left",
+                  fontSize: "12pt"
                 }}
               >
                 {/* Test Bill of Ladding */}
-                {data.LRno}
+                {LRno}
               </p>
             </td>
             <td
@@ -1047,6 +1117,7 @@ const Inv = () => {
                   textIndent: "0pt",
                   lineHeight: "9pt",
                   textAlign: "left",
+                  fontSize: "15pt"
                 }}
               >
                 Motor Vehicle No.
@@ -1058,10 +1129,11 @@ const Inv = () => {
                   paddingLeft: "5pt",
                   textIndent: "0pt",
                   textAlign: "left",
+                  fontSize: "12pt"
                 }}
               >
                 {/* Test Motor Vehicle No */}
-                {data.motorVehicleNo}
+                {motorVehicleNo}
               </p>
             </td>
             <td
@@ -1081,7 +1153,7 @@ const Inv = () => {
               </p>
             </td>
           </tr>
-          <tr style={{ height: "12pt" }}>
+          <tr style={{ height: "22pt" }}>
             <td
               style={{
                 width: "186pt",
@@ -1100,11 +1172,12 @@ const Inv = () => {
                   textIndent: "0pt",
                   lineHeight: "9pt",
                   textAlign: "left",
+                  fontSize: "12pt"
                 }}
               >
                 Contact Person :{" "}
                 {/* <span className="s3">Ksk academy senior secondar</span> */}
-                <span className="s3">{data.contactPerson}</span>
+                <span className="s3" style={{fontSize: "12pt"}}>{contactPerson}</span>
               </p>
               <p
                 className="s2"
@@ -1114,10 +1187,11 @@ const Inv = () => {
                   textIndent: "0pt",
                   lineHeight: "9pt",
                   textAlign: "left",
+                  fontSize: "12pt"
                 }}
               >
                 {/* Mobile : <span className="s3">9582400777</span> */}
-                Mobile : <span className="s3">{data.mobile}</span>
+                Mobile : <span className="s3" style={{fontSize: "12pt"}}>{mobile}</span>
               </p>
             </td>
             <td
@@ -1153,7 +1227,7 @@ const Inv = () => {
               </p>
             </td>
           </tr>
-          <tr style={{ height: "4pt" }}>
+          <tr style={{ height: "14pt" }}>
             <td
               style={{
                 width: "371pt",
@@ -1187,7 +1261,7 @@ const Inv = () => {
               </p>
             </td>
           </tr>
-          <tr style={{ height: "12pt" }}>
+          <tr style={{ height: "22pt" }}>
             <td
               style={{
                 width: "186pt",
@@ -1224,13 +1298,14 @@ const Inv = () => {
                   textIndent: "0pt",
                   lineHeight: "10pt",
                   textAlign: "left",
+                  fontSize: "13pt"
                 }}
               >
-                Terms of Delivery: <span className="s3">{data.termsOfDelivery}</span>
+                Terms of Delivery: <span className="s3" style={{fontSize: "12pt"}}>{termsOfDelivery}</span>
               </p>
             </td>
           </tr>
-          <tr style={{ height: "23pt" }}>
+          <tr style={{ height: "33pt" }}>
             <td
               style={{
                 width: "186pt",
@@ -1250,9 +1325,10 @@ const Inv = () => {
                   textIndent: "0pt",
                   lineHeight: "10pt",
                   textAlign: "left",
+                  fontSize: "12pt"
                 }}
               >
-                GSTIN Number : <span className="s3">{data.shipToGST}</span>
+                GSTIN Number : <span className="s3" style={{fontSize: "12pt"}}>{shipToGST}</span>
               </p>
             </td>
             <td
@@ -1272,7 +1348,7 @@ const Inv = () => {
               </p>
             </td>
           </tr>
-          <tr style={{ height: "18pt" }}>
+          <tr style={{ height: "28pt" }}>
             <td
               style={{
                 width: "17pt",
@@ -1293,6 +1369,7 @@ const Inv = () => {
                   paddingTop: "4pt",
                   textIndent: "0pt",
                   textAlign: "left",
+                  fontSize: "12pt"
                 }}
               >
                 S.No
@@ -1315,12 +1392,13 @@ const Inv = () => {
               <p
                 className="s8"
                 style={{
-                  paddingTop: "4pt",
+                  paddingTop: "11pt",
                   paddingLeft: "6pt",
                   paddingRight: "1pt",
                   textIndent: "0pt",
                   lineHeight: "8pt",
                   textAlign: "center",
+                  fontSize: "12pt"
                 }}
               >
                 HSN/SAC
@@ -1328,11 +1406,13 @@ const Inv = () => {
               <p
                 className="s8"
                 style={{
+                  paddingTop: "8pt",
                   paddingLeft: "6pt",
                   paddingRight: "1pt",
                   textIndent: "0pt",
                   lineHeight: "8pt",
                   textAlign: "center",
+                  fontSize: "12pt"
                 }}
               >
                 Code
@@ -1355,11 +1435,12 @@ const Inv = () => {
               <p
                 className="s8"
                 style={{
-                  paddingTop: "4pt",
+                  paddingTop: "3pt",
                   paddingLeft: "30pt",
                   paddingRight: "14pt",
                   textIndent: "-14pt",
                   textAlign: "left",
+                  fontSize: "12pt"
                 }}
               >
                 Description of Goods
@@ -1386,6 +1467,7 @@ const Inv = () => {
                   paddingLeft: "15pt",
                   textIndent: "0pt",
                   textAlign: "left",
+                  fontSize: "12pt"
                 }}
               >
                 Quantity
@@ -1412,6 +1494,7 @@ const Inv = () => {
                   paddingLeft: "10pt",
                   textIndent: "0pt",
                   textAlign: "left",
+                  fontSize: "12pt"
                 }}
               >
                 Rate
@@ -1434,11 +1517,12 @@ const Inv = () => {
               <p
                 className="s8"
                 style={{
-                  paddingTop: "4pt",
+                  paddingTop: "9pt",
                   paddingLeft: "6pt",
                   textIndent: "0pt",
                   lineHeight: "8pt",
                   textAlign: "left",
+                  fontSize: "12pt"
                 }}
               >
                 Disc
@@ -1446,10 +1530,12 @@ const Inv = () => {
               <p
                 className="s8"
                 style={{
+                  marginTop: "6pt",
                   paddingLeft: "10pt",
                   textIndent: "0pt",
                   lineHeight: "8pt",
                   textAlign: "left",
+                  fontSize: "10pt"
                 }}
               >
                 %
@@ -1476,6 +1562,7 @@ const Inv = () => {
                   paddingLeft: "16pt",
                   textIndent: "0pt",
                   textAlign: "left",
+                  fontSize: "12pt"
                 }}
               >
                 Amount
@@ -1498,11 +1585,12 @@ const Inv = () => {
               <p
                 className="s8"
                 style={{
-                  paddingTop: "4pt",
+                  paddingTop: "8pt",
                   paddingLeft: "13pt",
                   textIndent: "0pt",
                   lineHeight: "8pt",
                   textAlign: "left",
+                  fontSize: "12pt"
                 }}
               >
                 CGST [INR]
@@ -1525,11 +1613,12 @@ const Inv = () => {
               <p
                 className="s8"
                 style={{
-                  paddingTop: "4pt",
+                  paddingTop: "8pt",
                   paddingLeft: "20pt",
                   textIndent: "0pt",
                   lineHeight: "8pt",
                   textAlign: "left",
+                  fontSize: "12pt"
                 }}
               >
                 SGST[INR]
@@ -1552,11 +1641,12 @@ const Inv = () => {
               <p
                 className="s8"
                 style={{
-                  paddingTop: "4pt",
+                  paddingTop: "8pt",
                   paddingLeft: "19pt",
                   textIndent: "0pt",
                   lineHeight: "8pt",
                   textAlign: "left",
+                  fontSize: "12pt"
                 }}
               >
                 IGST [INR]
@@ -1578,7 +1668,7 @@ const Inv = () => {
               </p>
             </td>
           </tr>
-          <tr style={{ height: "19pt" }}>
+          <tr style={{ height: "29pt" }}>
             <td
               style={{
                 width: "25pt",
@@ -1599,6 +1689,7 @@ const Inv = () => {
                   paddingLeft: "6pt",
                   textIndent: "0pt",
                   textAlign: "left",
+                  fontSize: "10pt"
                 }}
               >
                 Rate
@@ -1624,6 +1715,7 @@ const Inv = () => {
                   paddingLeft: "4pt",
                   textIndent: "0pt",
                   textAlign: "left",
+                  fontSize: "10pt"
                 }}
               >
                 Amount
@@ -1649,6 +1741,7 @@ const Inv = () => {
                   paddingLeft: "10pt",
                   textIndent: "0pt",
                   textAlign: "left",
+                  fontSize: "10pt"
                 }}
               >
                 Rate
@@ -1674,6 +1767,7 @@ const Inv = () => {
                   paddingLeft: "5pt",
                   textIndent: "0pt",
                   textAlign: "left",
+                  fontSize: "10pt"
                 }}
               >
                 Amount
@@ -1699,6 +1793,7 @@ const Inv = () => {
                   paddingLeft: "5pt",
                   textIndent: "0pt",
                   textAlign: "left",
+                  fontSize: "10pt"
                 }}
               >
                 Rate
@@ -1724,6 +1819,7 @@ const Inv = () => {
                   paddingLeft: "10pt",
                   textIndent: "0pt",
                   textAlign: "left",
+                  fontSize: "10pt"
                 }}
               >
                 Amount
@@ -1749,9 +1845,23 @@ const Inv = () => {
 
 
 
-              {/* start of first row */}
-{/*               
-          <tr style={{ height: "28pt" }}>
+              {/* start of first row */}      
+
+              {/* <div style={{ height: 400, width: '100%' }}>
+          <DataGrid
+        rows={tableData}
+        // columns={columns}
+        pageSize={5}
+        rowsPerPageOptions={[5]}
+        // checkboxSelection
+        />
+        </div> */}
+        
+
+                             
+          {tableData.map(item => {
+           return (
+            <tr style={{ height: "58pt" }}>
             <td
               style={{
                 width: "17pt",
@@ -1772,6 +1882,7 @@ const Inv = () => {
                   paddingLeft: "3pt",
                   textIndent: "0pt",
                   textAlign: "center",
+                  fontSize: "13pt"
                 }}
               >
                 1
@@ -1796,9 +1907,10 @@ const Inv = () => {
                   paddingLeft: "6pt",
                   textIndent: "0pt",
                   textAlign: "left",
+                  fontSize: "13pt"
                 }}
               >
-                490199
+                {item.hsc_code}
               </p>
             </td>
             <td
@@ -1821,9 +1933,12 @@ const Inv = () => {
                   textIndent: "0pt",
                   lineHeight: "10pt",
                   textAlign: "left",
+                  fontSize: "13pt",
+                  lineHeight:"15pt"
                 }}
               >
-                WOW! Mathematics -CBSE Book 6
+                {/* WOW! Mathematics -CBSE Book 6 */}
+                {item.item_name}
               </p>
             </td>
             <td
@@ -1844,9 +1959,11 @@ const Inv = () => {
                   paddingLeft: "6pt",
                   textIndent: "0pt",
                   textAlign: "left",
+                  fontSize: "13pt"
                 }}
               >
-                240.00
+                {/* 240.00 */}
+                {item.quantity}
               </p>
             </td>
             <td
@@ -1867,9 +1984,11 @@ const Inv = () => {
                   paddingLeft: "2pt",
                   textIndent: "0pt",
                   textAlign: "left",
+                  fontSize: "13pt"
                 }}
               >
-                490.00
+                {/* 490.00 */}
+                {item.PRICE}
               </p>
             </td>
             <td
@@ -1890,9 +2009,11 @@ const Inv = () => {
                   paddingLeft: "2pt",
                   textIndent: "0pt",
                   textAlign: "left",
+                  fontSize: "13pt"
                 }}
               >
-                20.00
+                {/* 20.00 */}
+                {item.DiscPrcnt}
               </p>
             </td>
             <td
@@ -1913,9 +2034,11 @@ const Inv = () => {
                   paddingLeft: "7pt",
                   textIndent: "0pt",
                   textAlign: "left",
+                  fontSize: "13pt"
                 }}
               >
-                94080.00
+                {/* 94080.00 */}
+                {item.VATSUM}
               </p>
             </td>
             <td
@@ -1936,9 +2059,11 @@ const Inv = () => {
                   paddingLeft: "3pt",
                   textIndent: "0pt",
                   textAlign: "left",
+                  fontSize: "13pt"
                 }}
               >
-                0.00
+                {/* 0.00 */}
+                {item.CGSTRATE}
               </p>
             </td>
             <td
@@ -1959,9 +2084,10 @@ const Inv = () => {
                   paddingLeft: "3pt",
                   textIndent: "0pt",
                   textAlign: "left",
+                  fontSize: "13pt"
                 }}
               >
-                0.00
+                {item.CGSTAMNT}
               </p>
             </td>
             <td
@@ -1982,9 +2108,11 @@ const Inv = () => {
                   paddingLeft: "3pt",
                   textIndent: "0pt",
                   textAlign: "left",
+                  fontSize: "13pt"
                 }}
               >
-                0.00
+                {/* 0.00 */}
+                {item.SGSTRATE}
               </p>
             </td>
             <td
@@ -2005,9 +2133,11 @@ const Inv = () => {
                   paddingLeft: "3pt",
                   textIndent: "0pt",
                   textAlign: "left",
+                  fontSize: "13pt"
                 }}
               >
-                0.00
+                {/* 0.00 */}
+                {item.SGSTAMNT}
               </p>
             </td>
             <td
@@ -2028,9 +2158,11 @@ const Inv = () => {
                   paddingLeft: "3pt",
                   textIndent: "0pt",
                   textAlign: "left",
+                  fontSize: "13pt"
                 }}
               >
-                0.00
+                {/* 0.00 */}
+                {item.IGSTRATE}
               </p>
             </td>
             <td
@@ -2051,9 +2183,11 @@ const Inv = () => {
                   paddingLeft: "2pt",
                   textIndent: "0pt",
                   textAlign: "left",
+                  fontSize: "13pt"
                 }}
               >
-                0.00
+                {/* 0.00 */}
+                {item.IGSTAMNT}
               </p>
             </td>
             <td
@@ -2072,7 +2206,9 @@ const Inv = () => {
                 <br />
               </p>
             </td>
-          </tr> */}
+          </tr>
+           )
+          })}
 
         {/* end of first row */}
 
@@ -2401,7 +2537,7 @@ const Inv = () => {
             </td>
           </tr> */}
 
-          <tr style={{ height: "34pt" }}>
+          <tr style={{ height: "44pt" }}>
             <td
               style={{
                 width: "17pt",
@@ -2446,6 +2582,7 @@ const Inv = () => {
                   paddingRight: "9pt",
                   textIndent: "0pt",
                   textAlign: "right",
+                  fontSize: "15pt"
                 }}
               >
                 Total:
@@ -2463,13 +2600,15 @@ const Inv = () => {
               <p
                 className="s4"
                 style={{
-                  paddingTop: "4pt",
+                  paddingTop: "8pt",
                   paddingLeft: "20pt",
                   textIndent: "0pt",
                   textAlign: "left",
+                  fontSize: "13pt"
                 }}
               >
-                720
+                {/* 720 */}
+                {totalQuantity}
               </p>
             </td>
             <td
@@ -2595,7 +2734,7 @@ const Inv = () => {
               </p>
             </td>
           </tr>
-          <tr style={{ height: "48pt" }}>
+          <tr style={{ height: "68pt" }}>
             <td
               style={{
                 width: "324pt",
@@ -2617,6 +2756,7 @@ const Inv = () => {
                   paddingLeft: "2pt",
                   textIndent: "0pt",
                   textAlign: "left",
+                  fontSize: "13pt"
                 }}
               >
                 Amount Chargeable (In Words) :
@@ -2628,10 +2768,11 @@ const Inv = () => {
                   paddingLeft: "5pt",
                   textIndent: "0pt",
                   textAlign: "left",
+                  fontSize: "13pt"
                 }}
               >
                 {/* INR Two Lakhs Eighty-Two Thousand Two Hundred Forty */}
-                {`INR ${converter.toWords(Number(data.untaxedAmount))}`}
+                {`INR ${converter.toWords(Number(total))} Only`}
               </p>
             </td>
             <td
@@ -2655,10 +2796,11 @@ const Inv = () => {
                   paddingLeft: "5pt",
                   textIndent: "0pt",
                   textAlign: "left",
+                  fontSize: "13pt"
                 }}
               >
                 {/* Untaxed Amount :- INR 282240.00  */}
-                {`Untaxed Amount :- INR ${data.untaxedAmount}`}
+                {`Untaxed Amount :- INR ${total}`}
               </p>
               <p style={{ textIndent: "0pt", textAlign: "left" }}>
                 <br />
@@ -2669,6 +2811,7 @@ const Inv = () => {
                   paddingLeft: "5pt",
                   textIndent: "0pt",
                   textAlign: "left",
+                  fontSize: "13pt"
                 }}
               >
                 Freight :- INR 0.00
@@ -2688,7 +2831,7 @@ const Inv = () => {
               </p>
             </td>
           </tr>
-          <tr style={{ height: "49pt" }}>
+          <tr style={{ height: "59pt" }}>
             <td
               style={{
                 width: "324pt",
@@ -2710,6 +2853,7 @@ const Inv = () => {
                   paddingLeft: "2pt",
                   textIndent: "0pt",
                   textAlign: "left",
+                  fontSize: "13pt"
                 }}
               >
                 Tax Amount (In Words) :
@@ -2723,6 +2867,8 @@ const Inv = () => {
                   paddingLeft: "5pt",
                   textIndent: "0pt",
                   textAlign: "left",
+                  fontSize: "13pt",
+                  paddingBottom:"10pt"
                 }}
               >
                 INR Zero Only
@@ -2748,6 +2894,7 @@ const Inv = () => {
                   paddingLeft: "5pt",
                   textIndent: "0pt",
                   textAlign: "left",
+                  fontSize: "13pt"
                 }}
               >
                 Taxable
@@ -2785,9 +2932,10 @@ const Inv = () => {
                   paddingLeft: "21pt",
                   textIndent: "0pt",
                   textAlign: "left",
+                  fontSize: "13pt"
                 }}
               >
-                :- INR 0.00
+                :- INR {untaxedAmount}
               </p>
             </td>
             <td
@@ -2852,10 +3000,13 @@ const Inv = () => {
                   paddingLeft: "5pt",
                   textIndent: "0pt",
                   textAlign: "left",
+                  fontSize: "13pt"
                 }}
               >
                 Remarks
-                <span className="s9">
+                <span className="s9" style={{
+                  fontSize: "9pt"
+                }}>
                   :- Based On Sales Orders 23471. Based On Deliveries 23780.
                 </span>
               </p>
@@ -2878,6 +3029,7 @@ const Inv = () => {
                   paddingLeft: "5pt",
                   textIndent: "0pt",
                   textAlign: "left",
+                  fontSize: "13pt"
                 }}
               >
                 Total
@@ -2913,10 +3065,11 @@ const Inv = () => {
                   paddingLeft: "19pt",
                   textIndent: "0pt",
                   textAlign: "left",
+                  fontSize: "13pt"
                 }}
               >
                
-                {`:- INR ${data.untaxedAmount}`}
+                {`:- INR ${total}`}
               </p>
             </td>
             <td
@@ -2961,7 +3114,7 @@ const Inv = () => {
               </p>
             </td>
           </tr>
-          <tr style={{ height: "18pt" }}>
+          <tr style={{ height: "28pt" }}>
             <td
               style={{
                 width: "324pt",
@@ -2981,6 +3134,7 @@ const Inv = () => {
                   paddingLeft: "2pt",
                   textIndent: "0pt",
                   textAlign: "left",
+                  fontSize: "12pt"
                 }}
               >
                 Company's Bank Details
@@ -3006,9 +3160,10 @@ const Inv = () => {
                   textIndent: "0pt",
                   lineHeight: "10pt",
                   textAlign: "left",
+                  fontSize: "12pt"
                 }}
               >
-                Company's PAN : <span className="s10">AAJCP2139H</span>
+                Company's PAN : <span className="s10" style={{fontSize: "12pt"}}>AAJCP2139H</span>
               </p>
             </td>
             <td
@@ -3028,7 +3183,7 @@ const Inv = () => {
               </p>
             </td>
           </tr>
-          <tr style={{ height: "12pt" }}>
+          <tr style={{ height: "15pt" }}>
             <td
               style={{
                 width: "324pt",
@@ -3046,10 +3201,13 @@ const Inv = () => {
                   textIndent: "0pt",
                   lineHeight: "10pt",
                   textAlign: "left",
+                  fontSize: "12pt"
                 }}
               >
                 Bank Name :{" "}
-                <span className="s10">ICICI BANK,SAKET WEALTH BRANCH</span>
+                <span className="s10" style={{
+                  fontSize: "12pt"
+                }}>ICICI BANK,SAKET WEALTH BRANCH</span>
               </p>
             </td>
             <td
@@ -3069,13 +3227,14 @@ const Inv = () => {
                   textIndent: "0pt",
                   lineHeight: "10pt",
                   textAlign: "left",
+                  fontSize: "11pt"
                 }}
               >
-                CIN: <span className="s10">U80904DL2016PTC309293</span>
+                CIN: <span className="s10" style={{fontSize: "12pt"}}>U80904DL2016PTC309293</span>
               </p>
             </td>
           </tr>
-          <tr style={{ height: "12pt" }}>
+          <tr style={{ height: "18pt" }}>
             <td
               style={{
                 width: "324pt",
@@ -3093,9 +3252,10 @@ const Inv = () => {
                   textIndent: "0pt",
                   lineHeight: "10pt",
                   textAlign: "left",
+                  fontSize: "11pt"
                 }}
               >
-                A/c No : <span className="s10">164705000227</span>
+                A/c No : <span className="s10" style={{fontSize: "12pt"}}>164705000227</span>
               </p>
             </td>
             <td
@@ -3114,13 +3274,14 @@ const Inv = () => {
                   paddingLeft: "5pt",
                   textIndent: "0pt",
                   textAlign: "left",
+                  fontSize: "11pt"
                 }}
               >
-                GSTIN/UIN : <span className="s3">09AAJCP2139H1ZA</span>
+                GSTIN/UIN : <span className="s3" style={{fontSize: "12pt"}}>09AAJCP2139H1ZA</span>
               </p>
             </td>
           </tr>
-          <tr style={{ height: "20pt" }}>
+          <tr style={{ height: "30pt" }}>
             <td
               style={{
                 width: "324pt",
@@ -3139,9 +3300,10 @@ const Inv = () => {
                   paddingLeft: "2pt",
                   textIndent: "0pt",
                   textAlign: "left",
+                  fontSize: "11pt"
                 }}
               >
-                IFSC Code : <span className="s10">ICIC0001647</span>
+                IFSC Code : <span className="s10" style={{fontSize: "12pt"}}>ICIC0001647</span>
               </p>
             </td>
             <td
@@ -3162,13 +3324,14 @@ const Inv = () => {
                   paddingLeft: "5pt",
                   textIndent: "0pt",
                   textAlign: "left",
+                  fontSize: "11pt"
                 }}
               >
-                MSMED: <span className="s3">DL09E0003137</span>
+                MSMED: <span className="s3" style={{fontSize: "12pt"}}>DL09E0003137</span>
               </p>
             </td>
           </tr>
-          <tr style={{ height: "63pt" }}>
+          <tr style={{ height: "83pt" }}>
             <td
               style={{
                 width: "324pt",
@@ -3191,6 +3354,7 @@ const Inv = () => {
                   paddingRight: "77pt",
                   textIndent: "0pt",
                   textAlign: "left",
+                  fontSize: "12pt"
                 }}
               >
                 Declaration: We declare that this invoice shows the actual price
@@ -3204,6 +3368,7 @@ const Inv = () => {
                   paddingRight: "44pt",
                   textIndent: "0pt",
                   textAlign: "left",
+                  fontSize: "12pt"
                 }}
               >
                 No E-Way Bill Required as notified under Annexure to Rule 138
@@ -3232,6 +3397,7 @@ const Inv = () => {
                   textIndent: "0pt",
                   lineHeight: "10pt",
                   textAlign: "left",
+                  fontSize: "12pt"
                 }}
               >
                 For Proficiency Learning Solutions Private Limited
@@ -3246,6 +3412,7 @@ const Inv = () => {
                   paddingLeft: "149pt",
                   textIndent: "0pt",
                   textAlign: "left",
+                  fontSize: "12pt"
                 }}
               >
                 Authorised Signatory

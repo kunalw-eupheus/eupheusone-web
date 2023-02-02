@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "react-pro-sidebar/dist/css/styles.css";
 import {
+  Place,
   School,
   AccountBalance,
   KeyboardArrowDown,
@@ -136,12 +137,6 @@ const Sidebar = ({ sidebarCollapsed, highLight, show }) => {
             </span>
           </aside>
         </Link>
-    
- 
-    
-  
-  
-
 
 
         <Link to="/invoice_training">
@@ -161,6 +156,29 @@ const Sidebar = ({ sidebarCollapsed, highLight, show }) => {
               } group-hover:!text-gray-100 transition-all duration-150 ease-linear`}
             >
               Invoice Tagging
+            </span>
+          </aside>
+        </Link>
+
+        <Link to="/locationTraining">
+          <aside
+            className={`px-6 py-2 flex gap-4 cursor-pointer ${
+              highLight === "location" ? "bg-gray-500" : ""
+            } group hover:bg-gray-500 rounded-md transition-all duration-150 ease-linear`}
+          >
+            <Place
+              className={`${
+                highLight === "location"
+                  ? "!text-[#659DBD]"
+                  : "!text-gray-400"
+              } group-hover:!text-[#659DBD] !transition-all !duration-150 !ease-linear`}
+            />
+            <span
+              className={`${
+                highLight === "location" ? "text-gray-200" : "text-gray-400"
+              } group-hover:!text-gray-100 transition-all duration-150 ease-linear`}
+            >
+              Location
             </span>
           </aside>
         </Link>
@@ -684,6 +702,27 @@ const Sidebar = ({ sidebarCollapsed, highLight, show }) => {
               } group-hover:!text-gray-100 transition-all duration-150 ease-linear`}
             >
               Invoice Tagging
+            </span>
+          </aside>
+        </Link>
+
+        <Link to="/invoice">
+          <aside
+            className={`px-6 py-2 flex gap-4 ${
+              highLight === "invoice" ? "bg-gray-500" : ""
+            } cursor-pointer group hover:bg-gray-500 rounded-md transition-all duration-150 ease-linear`}
+          >
+            <ReceiptOutlined
+              className={`${
+                highLight === "invoice" ? "!text-[#659DBD]" : "!text-gray-400"
+              } group-hover:!text-[#659DBD] !transition-all !duration-150 !ease-linear`}
+            />
+            <span
+              className={`${
+                highLight === "invoice" ? "text-gray-200" : "text-gray-400"
+              } group-hover:!text-gray-100 transition-all duration-150 ease-linear`}
+            >
+              Print PDF
             </span>
           </aside>
         </Link>
