@@ -1,13 +1,13 @@
 import React, { useEffect, useRef } from "react";
 import { useState } from "react";
 import Navbar from "../Components/Navbar";
-import Sidebar from "../Components/Sidebar2";
+import Sidebar from "../Components/Sidebar";
 // import { Add } from '@mui/icons-material'
 import { Link } from "react-router-dom";
 import DataTable from "../Components/DataTable";
 // import { rows, ManageSchoolRows } from '../DummyData'
 import SearchDropDown from "../Components/SearchDropDown";
-import SwipeableTemporaryDrawer2 from "../Components/Material/MaterialSidebar2";
+import SwipeableTemporaryDrawer from "../Components/Material/MaterialSidebar";
 import instance from "../Instance";
 import { useLayoutEffect } from "react";
 import Cookies from "js-cookie";
@@ -25,27 +25,24 @@ import Paper from "@mui/material/Paper";
 import IconButton from "@mui/material/IconButton";
 import SearchIcon from "@mui/icons-material/Search";
 import TablePagination from "@mui/material/TablePagination";
-import DialogSlide from "../Components/Material/Dialog5";
-import { id } from "date-fns/locale";
-import { CleaningServices } from "@mui/icons-material";
 
-const EupheusManageSchool = () => {
+const ViewInvoice = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
-  const [highLight, setHighLight] = useState("manageSchool");
+  const [highLight, setHighLight] = useState("printpdf");
   const [loading, setLoading] = useState(false);
   const [state, setState] = useState({ state: "", type: "" });
   const [stateId, setStateId] = useState("");
   const [type, setType] = useState("");
   const sidebarRef = useRef();
   const [states, setStates] = useState([]);
-  // const [type, setType] = useState([]);
+  const [customer, setCustomer] = useState([]);
   const [city, setCity] = useState({ disable: true });
   const [schoolRow, setSchoolRow] = useState([]);
   const [searchVal, setSearchVal] = useState("");
   const [searchRow, setSearchRow] = useState([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-  const [schoolId, setSchoolId] = useState("")
+
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - schoolRow.length) : 0;
@@ -63,8 +60,6 @@ const EupheusManageSchool = () => {
     title: "Manage School",
     details: ["Home", " / Manage School"],
   };
-
-  const convert = [{ convert: "Yes" }, { convert: "No" }];
 
   const types = [
     { types: "Classklap" },
@@ -96,6 +91,7 @@ const EupheusManageSchool = () => {
   };
 
   useEffect(() => {
+    getCustomers()
     const handleWidth = () => {
       if (window.innerWidth > 1024) {
         setSidebarCollapsed(false);
@@ -110,6 +106,18 @@ const EupheusManageSchool = () => {
       window.removeEventListener("resize", handleWidth);
     };
   }, []);
+
+  const getCustomers = async () => {
+    const res = await instance({
+      url: "sales_data/get_all_bps",
+      method: "GET",
+      headers: {
+        Authorization: `${Cookies.get("accessToken")}`,
+      },
+    });
+    // console.log(res.data.message);
+    setCustomer(res.data.message);
+  };
 
   const getSchool = async (stateId, cityId) => {
     setLoading(true);
@@ -155,7 +163,7 @@ const EupheusManageSchool = () => {
     setLoading(false);
   };
 
-  const handleOrderProcessingForm = async (value, type, id) => {
+  const handleOrderProcessingForm = async (value, type) => {
     // console.log(value, type);
     switch (type) {
       case "select_state":
@@ -165,41 +173,27 @@ const EupheusManageSchool = () => {
         // getSchoolByState(value.fk_state_id);
         // setStateAndCity({ ...stateAndCity, state: value.fk_state_id });
         break;
-      case "select_state_training":
-        // console.log(value);
-        setStateId(value.id);
-        // getCity(value.fk_state_id);
-        // getSchoolByState(value.fk_state_id);
-        // setStateAndCity({ ...stateAndCity, state: value.fk_state_id });
-        break;
+        case "select_state_training":
+          // console.log(value);
+          setStateId(value.id);
+          // getCity(value.fk_state_id);
+          // getSchoolByState(value.fk_state_id);
+          // setStateAndCity({ ...stateAndCity, state: value.fk_state_id });
+          break;
+        case "invoice_pdf_data":
+            console.log(value);
+            // setType(value.types);
+            // setStateAndCity({ ...stateAndCity, city: value.id });
+            break;
       case "select_type":
         // console.log(value);
         setType(value.types);
-        // setStateAndCity({ ...stateAndCity, city: value.id });
-        break;
-      case "to_convert":
-        // console.log(value, type, id);
-        if (value === "No") {
-          setSchoolId(id)
-          setLoading(true);
-          // setTimeout(() => {
-            openDialogue();
-            setLoading(false);
-          // }, 1000);
-        }
-        // setType(value.types);
         // setStateAndCity({ ...stateAndCity, city: value.id });
         break;
       default:
         break;
     }
   };
-
-  const openDialogue = () => {
-    // console.log(id)
-    dialogRef.current.openDialog();
-  };
-  const dialogRef = useRef();
 
   const getCity = async (Id) => {
     setLoading(true);
@@ -246,7 +240,7 @@ const EupheusManageSchool = () => {
       });
       // setSchoolRow(rows);
     };
-    getStates();
+    // getStates();
 
     // getSchoolData();
   }, []);
@@ -255,7 +249,7 @@ const EupheusManageSchool = () => {
     setSchoolRow([]);
     setSearchRow([]);
     if (type === "Classklap") {
-      console.log(stateId);
+      console.log(stateId)
       const res = await instance({
         url: `school/ckschools/get/${stateId}`,
         method: "GET",
@@ -264,8 +258,8 @@ const EupheusManageSchool = () => {
         },
       });
       // console.log(res.data.message);
-      if (res.data.message.length === 0) {
-        alert("No Data Available");
+      if(res.data.message.length === 0){
+        alert("No Data Available")
       }
       setSchoolRow(res.data.message);
       // console.log(stateId)
@@ -279,8 +273,8 @@ const EupheusManageSchool = () => {
         },
       });
       // console.log(res.data.message);
-      if (res.data.message.length === 0) {
-        alert("No Data Available");
+      if(res.data.message.length === 0){
+        alert("No Data Available")
       }
       setSchoolRow(res.data.message);
       // console.log(stateId)
@@ -294,8 +288,8 @@ const EupheusManageSchool = () => {
         },
       });
       // console.log(res.data.message);
-      if (res.data.message.length === 0) {
-        alert("No Data Available");
+      if(res.data.message.length === 0){
+        alert("No Data Available")
       }
       setSchoolRow(res.data.message);
       // console.log(stateId)
@@ -330,7 +324,7 @@ const EupheusManageSchool = () => {
   const filterTable = () => {
     // console.log(searchVal);
     // console.log(schoolRow)
-    setPage(0);
+    setPage(0)
     let tempArr = [];
     for (let ele of schoolRow) {
       // console.log(ele.cardname)
@@ -374,7 +368,6 @@ const EupheusManageSchool = () => {
 
   return (
     <div className="flex bg-[#111322]">
-      <DialogSlide ref={dialogRef} school={schoolId}/>
       <Backdrop
         sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
         open={loading}
@@ -384,7 +377,7 @@ const EupheusManageSchool = () => {
       <Sidebar sidebarCollapsed={sidebarCollapsed} highLight={highLight} />
 
       <div>
-        <SwipeableTemporaryDrawer2
+        <SwipeableTemporaryDrawer
           ref={sidebarRef}
           sidebarCollapsed={sidebarCollapsed}
           highLight={highLight}
@@ -404,7 +397,7 @@ const EupheusManageSchool = () => {
         <div className="min-h-[100vh] pt-[2vh] max-h-full bg-[#141728]">
           <div className=" sm:px-8 px-2 py-3 bg-[#141728]">
             <div className="grid grid-cols-2 grid-rows-2 md:flex md:justify-around md:items-center px-6 mb-8 py-3 mt-6 gap-6 rounded-md bg-slate-600">
-              <div className="flex flex-col gap-2 w-full md:w-[20vw]">
+              {/* <div className="flex flex-col gap-2 w-full md:w-[20vw]">
                 <label className="text-gray-100">Type</label>
 
                 <SearchDropDown
@@ -414,27 +407,17 @@ const EupheusManageSchool = () => {
                   data={types}
                   Name="select_type"
                 />
-
-                {/* <Autocomplete
-                  disablePortal
-                  // id="combo-box-demo"
-                  options={types}
-                  sx={{ width: 200 }}
-                  renderInput={(params) => (
-                    <TextField {...params} label="Movie" />
-                  )}
-                /> */}
-              </div>
+              </div> */}
 
               <div className="flex flex-col gap-2 w-full md:w-[20vw]">
-                <label className="text-gray-100">State</label>
+                <label className="text-gray-100">Customer</label>
 
                 <SearchDropDown
-                  label={"Select State"}
+                  label={"Select Customer"}
                   handleOrderProcessingForm={handleOrderProcessingForm}
                   color={"rgb(243, 244, 246)"}
-                  data={states}
-                  Name="select_state_training"
+                  data={customer}
+                  Name="invoice_pdf_data"
                 />
               </div>
               {/* <div className=" flex flex-col gap-2 w-full md:w-[20vw]">
@@ -456,14 +439,11 @@ const EupheusManageSchool = () => {
                 <BasicButton text={"Search School"} />
               </div>
             </div>
-            <div className="w-full flex gap-3 justify-end">
-              <Link to="/addschoolck">
+            {/* <div className="w-full flex gap-3 justify-end">
+              <Link to="/addschooltraining">
                 <BasicButton text={"Create New School"} />
               </Link>
-              {/* <Link to="/tagging">
-                <BasicButton text={"Tag Existing School"} />
-              </Link> */}
-            </div>
+            </div> */}
 
             <div className=" sm:px-8 px-2 py-3 bg-[#141728] mt-4">
               <Paper>
@@ -499,11 +479,7 @@ const EupheusManageSchool = () => {
                         { label: "All", value: -1 },
                       ]}
                       colSpan={3}
-                      count={
-                        searchRow.length === 0
-                          ? schoolRow.length
-                          : searchRow.length
-                      }
+                      count={searchRow.length=== 0 ?schoolRow.length: searchRow.length}
                       rowsPerPage={rowsPerPage}
                       page={page}
                       slotProps={{
@@ -536,9 +512,10 @@ const EupheusManageSchool = () => {
                         <TableCell className="!w-[10rem]" align="center">
                           School Code
                         </TableCell>
-                        <TableCell className="!w-[8rem]" align="center">
-                          Convert School
-                        </TableCell>
+                        <TableCell
+                          className="!w-[8rem]"
+                          align="center"
+                        ></TableCell>
                       </TableRow>
                     </TableHead>
                     <TableBody className="bg-slate-200">
@@ -588,24 +565,17 @@ const EupheusManageSchool = () => {
                                 </TableCell>
                               )}
                               <TableCell align="center">
-                                <div className="flex flex-row">
-                                  <div
-                                    onClick={() => {
-                                      // console.log("Clicking Yes");
-                                      handleOrderProcessingForm("Yes","to_convert", row.id)
-                                    }}
-                                  >
-                                    <BasicButton text={"Yes"} />
+                                {type === "Classklap" ? (
+                                  <div className="w-full flex gap-3 justify-end">
+                                    <Link
+                                      to={`/update_school_training/${row.id}`}
+                                    >
+                                      <BasicButton text={"Edit"} />
+                                    </Link>
                                   </div>
-                                  <div className="ml-1"
-                                    onClick={() => {
-                                      // console.log("Clicking No");
-                                      handleOrderProcessingForm("No","to_convert", row.id)
-                                    }}
-                                  >
-                                    <BasicButton text={"No"} />
-                                  </div>
-                                </div>
+                                ) : (
+                                  ""
+                                )}
                               </TableCell>
                             </TableRow>
                           ))
@@ -664,31 +634,17 @@ const EupheusManageSchool = () => {
                                 </TableCell>
                               )}
                               <TableCell align="center">
-                                <div
-                                  onClick={() => {
-                                    console.log("Clicking Yes");
-                                  }}
-                                >
-                                  <BasicButton text={"Yes"} />
-                                </div>
-                                <div
-                                  onClick={() => {
-                                    console.log("Clicking No");
-                                  }}
-                                >
-                                  <BasicButton text={"No"} />
-                                </div>
-
-                                {/* <SearchDropDown
-                                  label={"Select Type"}
-                                  seriesId={row.id}
-                                  handleOrderProcessingForm={
-                                    handleOrderProcessingForm
-                                  }
-                                  color={"rgb(243, 244, 246)"}
-                                  data={convert}
-                                  Name="to_convert"
-                                /> */}
+                                {type === "Classklap" ? (
+                                  <div className="w-full flex gap-3 justify-end">
+                                    <Link
+                                      to={`/update_school_training/${row.id}`}
+                                    >
+                                      <BasicButton text={"Edit"} />
+                                    </Link>
+                                  </div>
+                                ) : (
+                                  ""
+                                )}
                               </TableCell>
                             </TableRow>
                           ))}
@@ -704,4 +660,4 @@ const EupheusManageSchool = () => {
   );
 };
 
-export default EupheusManageSchool;
+export default ViewInvoice;

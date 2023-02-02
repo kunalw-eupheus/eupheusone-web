@@ -113,6 +113,16 @@ const SearchDropDown = ({
           // console.log(option)
           return option.state;
           break;
+
+          case "select_state_location":
+            // console.log(option)
+            return option.state;
+            break;
+
+            case "select_city_location":
+              // console.log(option)
+              return option.city;
+              break;
           case "select_school_id":
             // console.log(option)
             return option.school_name;
@@ -138,6 +148,10 @@ const SearchDropDown = ({
           // console.log(option)
           return option.bp_name;
           break;
+        case "invoice_pdf_data":
+            // console.log(option)
+            return option.bp_name;
+            break;
         case "series_aof":
           return option.series;
           break;
@@ -275,9 +289,17 @@ const SearchDropDown = ({
       // console.log(value, type, seriesId)
       handleOrderProcessingForm(value.convert, type, seriesId);
     }
+    if (type === "select_state_location") {
+      // console.log(value, type, seriesId)
+      handleOrderProcessingForm(value, type);
+    }
     if (type === "kys_comp_publisher") {
       handleOrderProcessingForm(value, type);
-    } else {
+    }
+    if (type === "invoice_pdf_data") {
+      handleOrderProcessingForm(value, type);
+    }  
+    else {
       return;
     }
   };

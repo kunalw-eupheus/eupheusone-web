@@ -97,6 +97,10 @@ const Login = () => {
       //   navigate("/ck_dashboard");
       //   // console.log("testing2")
       // }
+      // else if(res.data.company === "Euphues"){
+        // navigate("/ck_dashboard");
+        // console.log("testing2")
+      // }
       else{
         navigate("/");
       }

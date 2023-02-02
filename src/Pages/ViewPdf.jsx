@@ -24,14 +24,14 @@ const ViewPdf = () => {
   };
 
   return (
-    <div className='bg-white'>
-      <button type="button" onClick={handleDownloadPdf}>
+    <div className='bg-white w-[21cm]'>
+      {/* <button type="button" onClick={handleDownloadPdf}>
         Download as PDF
-      </button>
+      </button> */}
 
       <div ref={printRef}>
-        <CustLedger/>
-        {/* <Inv/> */}
+        {/* <CustLedger/> */}
+        <Inv/>
         {/* <CreditNote/> */}
       </div>
     </div>

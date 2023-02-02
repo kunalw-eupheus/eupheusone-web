@@ -586,9 +586,9 @@ const InvoiceTraining = () => {
     setPage(0)
     let tempArr = [];
     for (let ele of rowdata) {
-      // console.log(ele.cardname)
-      let customerName = ele.cardname.toLowerCase();
-      if (customerName.indexOf(searchVal.toLowerCase()) > -1) {
+      console.log(ele)
+      let docuNumb = ele.docnum.toLowerCase();
+      if (docuNumb.indexOf(searchVal.toLowerCase()) > -1) {
         tempArr.push(ele);
       }
     }
@@ -672,7 +672,7 @@ const InvoiceTraining = () => {
                       onInput={(e) => {
                         handleSearch(e.target.value);
                       }}
-                      label="Enter Customer Name"
+                      label="Enter Invoice No"
                       variant="outlined"
                       placeholder="Search..."
                       size="small"
@@ -721,7 +721,7 @@ const InvoiceTraining = () => {
                         Sl No
                       </TableCell> */}
                         <TableCell className="!w-[8rem]" align="center">
-                          Doc No
+                          Invoice No
                         </TableCell>
                         <TableCell className="!w-[8rem]" align="center">
                           Doc Date

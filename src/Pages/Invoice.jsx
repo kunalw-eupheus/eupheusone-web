@@ -348,22 +348,25 @@ const Invoice = () => {
                         {/* <TableCell className="!w-[5rem]" align="center">
                         Sl No
                       </TableCell> */}
-                        <TableCell className="!w-[13rem]" align="center">
+                      <TableCell className="!w-[8rem]" align="center">
+                          Invoice No
+                        </TableCell>
+                        <TableCell className="!w-[8rem]" align="center">
+                          Invoice Type
+                        </TableCell>
+                        <TableCell className="!w-[14rem]" align="center">
                           Customer Name
                         </TableCell>
                         <TableCell className="!w-[8rem]" align="center">
                           Doc Date
                         </TableCell>
                         <TableCell className="!w-[8rem]" align="center">
-                          Doc No
-                        </TableCell>
-                        <TableCell className="!w-[8rem]" align="center">
                           Doc Total
                         </TableCell>
-                        <TableCell className="!w-[10rem]" align="center">
+                        <TableCell className="!w-[7rem]" align="center">
                           
                         </TableCell>
-                        <TableCell className="!w-[8rem]" align="center">
+                        <TableCell className="!w-[10rem]" align="center">
                           
                         </TableCell>
                       </TableRow>
@@ -388,13 +391,13 @@ const Invoice = () => {
                               {/* <TableCell align="center" component="th" scope="row">
                           {row.id}
                         </TableCell> */}
+                        <TableCell align="center">""</TableCell>
+                        <TableCell align="center">""</TableCell>
                               <TableCell align="center">{row.cardname}</TableCell>
                               <TableCell align="center">
                                 {row.docdate}
                               </TableCell>
-                              <TableCell align="center">
-                                {row.docnum}
-                              </TableCell>
+                              
                               <TableCell align="center">
                                 {row.doctotal}
                               </TableCell>
