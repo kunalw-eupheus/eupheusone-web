@@ -4,7 +4,7 @@ import "./CustLedger.css";
 
 const CustLedger = () => {
   return (
-    <div>
+    <div >
       <p style={{ textIndent: "0pt", textAlign: "left" }}>
         <span></span>
       </p>

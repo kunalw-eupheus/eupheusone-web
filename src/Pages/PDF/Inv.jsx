@@ -105,7 +105,7 @@ const Inv = () => {
 
 
   return (
-    <div>
+    <div >
      
       <table>
         <tbody>

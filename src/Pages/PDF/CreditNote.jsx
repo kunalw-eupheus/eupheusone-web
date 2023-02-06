@@ -4,7 +4,7 @@ import "./CreditNote.css";
 
 const CreditNote = () => {
   return (
-    <div>
+    <div >
       <p style={{ textIndent: "0pt", textAlign: "left" }}>
         <span />
       </p>

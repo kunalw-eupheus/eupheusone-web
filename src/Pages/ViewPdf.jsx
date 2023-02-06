@@ -4,6 +4,7 @@ import React, { useEffect, useRef } from "react";
 import CreditNote from './PDF/CreditNote';
 import Inv from './PDF/Inv';
 import CustLedger from './PDF/CustLedger';
+import AofPdf from './PDF/AofPdf';
 
 const ViewPdf = () => {
   const printRef = useRef();
@@ -30,8 +31,9 @@ const ViewPdf = () => {
       </button> */}
 
       <div ref={printRef}>
+      <AofPdf/>
         {/* <CustLedger/> */}
-        <Inv/>
+        {/* <Inv/> */}
         {/* <CreditNote/> */}
       </div>
     </div>
