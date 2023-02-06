@@ -173,7 +173,7 @@ function App() {
             path="/pdf_view"
             element={isAuth || MsAuth ? <MyDocument /> : <Login />}
           /> */}
-              {/* <Route path="/aof" element={isAuth || MsAuth ? <AOF /> : <Login />} /> */}
+              <Route path="/aof" element={isAuth || MsAuth ? <AOF /> : <Login />} />
               {/* kys */}
               <Route
                 path="/kys"

@@ -1185,9 +1185,7 @@ const Inv = () => {
                   fontSize: "8pt"
                 }}
               >
-                Contact Person :{" "}
-                {/* <span className="s3">Ksk academy senior secondar</span> */}
-                <span className="s3" style={{fontSize: "8pt"}}>{contactPerson}</span>
+              Contact Person : <span className="s3" style={{fontSize: "8pt"}}>{contactPerson}</span>
               </p>
               <p
                 className="s1"
@@ -3121,7 +3119,7 @@ const Inv = () => {
               colSpan={7}
             >
               <p
-                className="s2"
+                className="s1"
                 style={{
                   paddingTop: "4pt",
                   paddingLeft: "2pt",
@@ -3188,7 +3186,7 @@ const Inv = () => {
               colSpan={7}
             >
               <p
-                className="s2"
+                className="s1"
                 style={{
                   paddingLeft: "2pt",
                   textIndent: "0pt",
@@ -3338,6 +3336,8 @@ const Inv = () => {
               }}
               colSpan={7}
             >
+            {!taxedAmount || taxedAmount == 0 ? 
+              <div>
               <p
                 className="s11"
                 style={{
@@ -3367,6 +3367,11 @@ const Inv = () => {
                 (14) (a) of CGST Rule 2017 for HSN Code 4901 for Printed Books.
                 (Notification No. 27/2017 Dt 30th August, 2017).
               </p>
+              </div>
+            :
+            ""
+            }
+              
             </td>
             <td
               style={{
