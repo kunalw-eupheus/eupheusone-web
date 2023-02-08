@@ -1,24 +1,21 @@
 import React from "react";
 import "./AofPdf.css";
-import target1 from "./AofPdfImage/target001.png";
+// import target1 from "./AofPdfImage/target001.png";
 import target2 from "./AofPdfImage/target002.png";
 import target3 from "./AofPdfImage/target003.png";
 import target4 from "./AofPdfImage/target004.png";
-import target5 from "./AofPdfImage/target005.png"
+import target5 from "./AofPdfImage/target005.png";
 
 const AofPdf = () => {
   return (
     <div>
-      <div
-        id="page1-div"
-        style={{ position: "relative", width: "31cm"}}
-      >
-        <img width={892} height={1262} src={target1} alt="background image" />
+      <div id="page1-div" style={{ position: "relative", width: "41cm" }}>
+        <img width={1092} height={1462} src={target3} alt="background image" />
         <p
           style={{
             position: "absolute",
-            top: "1144px",
-            left: "301px",
+            top: "1394px",
+            left: "431px",
             whiteSpace: "nowrap",
           }}
           className="ft10"
@@ -28,8 +25,8 @@ const AofPdf = () => {
         <p
           style={{
             position: "absolute",
-            top: "1162px",
-            left: "66px",
+            top: "1414px",
+            left: "235px",
             whiteSpace: "nowrap",
           }}
           className="ft10"
@@ -39,8 +36,8 @@ const AofPdf = () => {
         <p
           style={{
             position: "absolute",
-            top: "1162px",
-            left: "113px",
+            top: "1414px",
+            left: "273px",
             whiteSpace: "nowrap",
           }}
           className="ft11"
@@ -50,8 +47,8 @@ const AofPdf = () => {
         <p
           style={{
             position: "absolute",
-            top: "1162px",
-            left: "123px",
+            top: "1414px",
+            left: "283px",
             whiteSpace: "nowrap",
           }}
           className="ft10"
@@ -61,8 +58,8 @@ const AofPdf = () => {
         <p
           style={{
             position: "absolute",
-            top: "1178px",
-            left: "393px",
+            top: "1440px",
+            left: "500px",
             whiteSpace: "nowrap",
           }}
           className="ft12"
@@ -171,13 +168,17 @@ const AofPdf = () => {
         <p
           style={{
             position: "absolute",
-            top: "181px",
-            left: "199px",
+            top: "225px",
+            left: "280px",
             whiteSpace: "nowrap",
+            borderBottom: "2px solid black",
+            fontSize: "15pt",
           }}
           className="ft16"
         >
-          CUSTOMER&nbsp;REGISTRATION&nbsp;FORM&nbsp;AND&nbsp;AGREEMENT&nbsp;
+          <b>
+            CUSTOMER&nbsp;REGISTRATION&nbsp;FORM&nbsp;AND&nbsp;AGREEMENT&nbsp;
+          </b>
         </p>
         <p
           style={{
@@ -193,31 +194,34 @@ const AofPdf = () => {
         <p
           style={{
             position: "absolute",
-            top: "225px",
-            left: "116px",
+            top: "280px",
+            left: "146px",
             whiteSpace: "nowrap",
+            fontSize: "13pt",
           }}
           className="ft10"
         >
-          No.:&nbsp;&nbsp;
+          No.:&nbsp;&nbsp;_________________
         </p>
         <p
           style={{
             position: "absolute",
-            top: "225px",
-            left: "270px",
+            top: "280px",
+            left: "490px",
             whiteSpace: "nowrap",
+            fontSize: "13pt",
           }}
           className="ft10"
         >
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Date:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          Date :____________________
         </p>
         <p
           style={{
             position: "absolute",
-            top: "225px",
-            left: "455px",
+            top: "276px",
+            left: "555px",
             whiteSpace: "nowrap",
+            fontSize: "13pt",
           }}
           className="ft18"
         >
@@ -256,23 +260,34 @@ const AofPdf = () => {
         >
           &nbsp;
         </p>
-        <p
+
+       {/* <div style={{
+        border: "2px solid black",
+        width:'200px',
+        height:"100px",
+        top: "340px"
+       }}> */}
+       <p
           style={{
             position: "absolute",
-            top: "275px",
-            left: "116px",
+            top: "340px",
+            left: "146px",
             whiteSpace: "nowrap",
+            fontSize: "11pt",
+            // border: "2px solid black"
           }}
           className="ft10"
         >
-          Name&nbsp;of&nbsp;&nbsp;Party/&nbsp;School*:&nbsp;
+          <b>Name&nbsp;of&nbsp;&nbsp;Party/&nbsp;School*:&nbsp;</b>
         </p>
+       {/* </div> */}
         <p
           style={{
             position: "absolute",
-            top: "275px",
-            left: "263px",
+            top: "337px",
+            left: "330px",
             whiteSpace: "nowrap",
+            fontSize: "11pt",
           }}
           className="ft18"
         >
@@ -303,9 +318,10 @@ const AofPdf = () => {
         <p
           style={{
             position: "absolute",
-            top: "300px",
-            left: "116px",
+            top: "372px",
+            left: "146px",
             whiteSpace: "nowrap",
+            fontSize: "11pt",
           }}
           className="ft10"
         >
@@ -314,9 +330,10 @@ const AofPdf = () => {
         <p
           style={{
             position: "absolute",
-            top: "300px",
-            left: "523px",
+            top: "370px",
+            left: "643px",
             whiteSpace: "nowrap",
+            fontSize: "11pt",
           }}
           className="ft18"
         >
@@ -336,9 +353,10 @@ const AofPdf = () => {
         <p
           style={{
             position: "absolute",
-            top: "325px",
-            left: "116px",
+            top: "400px",
+            left: "146px",
             whiteSpace: "nowrap",
+            fontSize: "11pt",
           }}
           className="ft10"
         >
@@ -347,9 +365,10 @@ const AofPdf = () => {
         <p
           style={{
             position: "absolute",
-            top: "325px",
-            left: "183px",
+            top: "398px",
+            left: "250px",
             whiteSpace: "nowrap",
+            fontSize: "11pt",
           }}
           className="ft18"
         >
@@ -380,9 +399,10 @@ const AofPdf = () => {
         <p
           style={{
             position: "absolute",
-            top: "350px",
-            left: "116px",
+            top: "430px",
+            left: "146px",
             whiteSpace: "nowrap",
+            fontSize: "11pt",
           }}
           className="ft10"
         >
@@ -391,20 +411,22 @@ const AofPdf = () => {
         <p
           style={{
             position: "absolute",
-            top: "350px",
-            left: "167px",
+            top: "430px",
+            left: "217px",
             whiteSpace: "nowrap",
+            fontSize: "11pt",
           }}
           className="ft18"
         >
-          NEW&nbsp;DLHI&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          NEW&nbsp;DELHI&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         </p>
         <p
           style={{
             position: "absolute",
-            top: "350px",
-            left: "360px",
+            top: "430px",
+            left: "450px",
             whiteSpace: "nowrap",
+            fontSize: "11pt",
           }}
           className="ft10"
         >
@@ -413,9 +435,10 @@ const AofPdf = () => {
         <p
           style={{
             position: "absolute",
-            top: "350px",
-            left: "404px",
+            top: "430px",
+            left: "500px",
             whiteSpace: "nowrap",
+            fontSize: "11pt",
           }}
           className="ft18"
         >
@@ -435,20 +458,22 @@ const AofPdf = () => {
         <p
           style={{
             position: "absolute",
-            top: "350px",
-            left: "511px",
+            top: "430px",
+            left: "750px",
             whiteSpace: "nowrap",
+            fontSize: "11pt",
           }}
           className="ft10"
         >
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Pin&nbsp;Code*:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          &nbsp;Pin Code*:
         </p>
         <p
           style={{
             position: "absolute",
-            top: "350px",
-            left: "690px",
+            top: "430px",
+            left: "850px",
             whiteSpace: "nowrap",
+            fontSize: "11pt",
           }}
           className="ft18"
         >
@@ -468,9 +493,10 @@ const AofPdf = () => {
         <p
           style={{
             position: "absolute",
-            top: "375px",
-            left: "116px",
+            top: "462px",
+            left: "146px",
             whiteSpace: "nowrap",
+            fontSize: "11pt",
           }}
           className="ft10"
         >
@@ -479,9 +505,10 @@ const AofPdf = () => {
         <p
           style={{
             position: "absolute",
-            top: "375px",
-            left: "181px",
+            top: "462px",
+            left: "220px",
             whiteSpace: "nowrap",
+            fontSize: "11pt",
           }}
           className="ft18"
         >
@@ -490,9 +517,10 @@ const AofPdf = () => {
         <p
           style={{
             position: "absolute",
-            top: "375px",
-            left: "357px",
+            top: "462px",
+            left: "450px",
             whiteSpace: "nowrap",
+            fontSize: "11pt",
           }}
           className="ft10"
         >
@@ -501,9 +529,10 @@ const AofPdf = () => {
         <p
           style={{
             position: "absolute",
-            top: "375px",
-            left: "422px",
+            top: "462px",
+            left: "522px",
             whiteSpace: "nowrap",
+            fontSize: "11pt",
           }}
           className="ft18"
         >
@@ -512,9 +541,10 @@ const AofPdf = () => {
         <p
           style={{
             position: "absolute",
-            top: "375px",
-            left: "550px",
+            top: "462px",
+            left: "690px",
             whiteSpace: "nowrap",
+            fontSize: "11pt",
           }}
           className="ft10"
         >
@@ -523,9 +553,10 @@ const AofPdf = () => {
         <p
           style={{
             position: "absolute",
-            top: "375px",
-            left: "610px",
+            top: "460px",
+            left: "760px",
             whiteSpace: "nowrap",
+            fontSize: "11pt",
           }}
           className="ft18"
         >
@@ -545,9 +576,10 @@ const AofPdf = () => {
         <p
           style={{
             position: "absolute",
-            top: "401px",
-            left: "116px",
+            top: "492px",
+            left: "146px",
             whiteSpace: "nowrap",
+            fontSize: "11pt",
           }}
           className="ft10"
         >
@@ -556,9 +588,10 @@ const AofPdf = () => {
         <p
           style={{
             position: "absolute",
-            top: "401px",
-            left: "364px",
+            top: "492px",
+            left: "452px",
             whiteSpace: "nowrap",
+            fontSize: "11pt",
           }}
           className="ft18"
         >
@@ -567,9 +600,10 @@ const AofPdf = () => {
         <p
           style={{
             position: "absolute",
-            top: "401px",
-            left: "518px",
+            top: "493px",
+            left: "648px",
             whiteSpace: "nowrap",
+            fontSize: "11pt",
           }}
           className="ft10"
         >
@@ -578,9 +612,10 @@ const AofPdf = () => {
         <p
           style={{
             position: "absolute",
-            top: "401px",
-            left: "584px",
+            top: "491px",
+            left: "709px",
             whiteSpace: "nowrap",
+            fontSize: "11pt",
           }}
           className="ft18"
         >
@@ -589,9 +624,10 @@ const AofPdf = () => {
         <p
           style={{
             position: "absolute",
-            top: "426px",
-            left: "116px",
+            top: "523px",
+            left: "147px",
             whiteSpace: "nowrap",
+            fontSize: "11pt",
           }}
           className="ft10"
         >
@@ -600,9 +636,10 @@ const AofPdf = () => {
         <p
           style={{
             position: "absolute",
-            top: "426px",
-            left: "177px",
+            top: "523px",
+            left: "227px",
             whiteSpace: "nowrap",
+            fontSize: "11pt",
           }}
           className="ft18"
         >
@@ -611,9 +648,10 @@ const AofPdf = () => {
         <p
           style={{
             position: "absolute",
-            top: "426px",
-            left: "357px",
+            top: "523px",
+            left: "487px",
             whiteSpace: "nowrap",
+            fontSize: "11pt",
           }}
           className="ft10"
         >
@@ -622,13 +660,14 @@ const AofPdf = () => {
         <p
           style={{
             position: "absolute",
-            top: "426px",
-            left: "520px",
+            top: "523px",
+            left: "660px",
             whiteSpace: "nowrap",
+            fontSize: "11pt",
           }}
           className="ft18"
         >
-          GSTIN&nbsp;AAACA1234DIZL
+          GSTINAAACA1234DIZL
         </p>
         <p
           style={{
@@ -655,20 +694,25 @@ const AofPdf = () => {
         <p
           style={{
             position: "absolute",
-            top: "451px",
-            left: "116px",
+            top: "561px",
+            left: "146px",
             whiteSpace: "nowrap",
+            fontSize: "11pt",
           }}
           className="ft10"
         >
-          (Copy&nbsp;enclosed&nbsp;or&nbsp;in&nbsp;case&nbsp;if&nbsp;not&nbsp;registered&nbsp;with&nbsp;GST&nbsp;then&nbsp;furnish&nbsp;declaration&nbsp;in&nbsp;Annexure-B)&nbsp;
+          <b>
+            (Copy enclosed or in case if not registered with GST then furnish
+            declaration in Annexure-B)
+          </b>
         </p>
         <p
           style={{
             position: "absolute",
-            top: "476px",
-            left: "116px",
+            top: "586px",
+            left: "145px",
             whiteSpace: "nowrap",
+            fontSize: "11pt",
           }}
           className="ft10"
         >
@@ -677,20 +721,23 @@ const AofPdf = () => {
         <p
           style={{
             position: "absolute",
-            top: "476px",
-            left: "312px",
+            top: "584px",
+            left: "392px",
             whiteSpace: "nowrap",
+            fontSize: "11pt",
           }}
           className="ft18"
         >
           2011
         </p>
+
         <p
           style={{
             position: "absolute",
             top: "476px",
             left: "342px",
             whiteSpace: "nowrap",
+            fontSize: "11pt",
           }}
           className="ft10"
         >
@@ -702,6 +749,7 @@ const AofPdf = () => {
             top: "476px",
             left: "511px",
             whiteSpace: "nowrap",
+            fontSize: "11pt",
           }}
           className="ft10"
         >
@@ -740,23 +788,26 @@ const AofPdf = () => {
         >
           &nbsp;
         </p>
+
         <p
           style={{
             position: "absolute",
-            top: "532px",
-            left: "116px",
+            top: "656px",
+            left: "146px",
             whiteSpace: "nowrap",
+            fontSize: "11pt",
           }}
           className="ft10"
         >
-          Name&nbsp;of&nbsp;Proprietor/Partner/Director/Trustee*:&nbsp;&nbsp;
+          <b> Name of Proprietor/Partner/Director/Trustee*:</b>
         </p>
         <p
           style={{
             position: "absolute",
-            top: "532px",
-            left: "389px",
+            top: "653px",
+            left: "479px",
             whiteSpace: "nowrap",
+            fontSize: "11pt",
           }}
           className="ft18"
         >
@@ -787,9 +838,10 @@ const AofPdf = () => {
         <p
           style={{
             position: "absolute",
-            top: "558px",
-            left: "116px",
+            top: "685px",
+            left: "146px",
             whiteSpace: "nowrap",
+            fontSize: "11pt",
           }}
           className="ft10"
         >
@@ -798,9 +850,10 @@ const AofPdf = () => {
         <p
           style={{
             position: "absolute",
-            top: "558px",
-            left: "180px",
+            top: "684px",
+            left: "230px",
             whiteSpace: "nowrap",
+            fontSize: "11pt",
           }}
           className="ft18"
         >
@@ -831,9 +884,10 @@ const AofPdf = () => {
         <p
           style={{
             position: "absolute",
-            top: "583px",
-            left: "116px",
+            top: "715px",
+            left: "146px",
             whiteSpace: "nowrap",
+            fontSize: "11pt",
           }}
           className="ft10"
         >
@@ -842,9 +896,10 @@ const AofPdf = () => {
         <p
           style={{
             position: "absolute",
-            top: "583px",
-            left: "187px",
+            top: "715px",
+            left: "227px",
             whiteSpace: "nowrap",
+            fontSize: "11pt",
           }}
           className="ft18"
         >
@@ -853,9 +908,10 @@ const AofPdf = () => {
         <p
           style={{
             position: "absolute",
-            top: "583px",
-            left: "397px",
+            top: "715px",
+            left: "507px",
             whiteSpace: "nowrap",
+            fontSize: "11pt",
           }}
           className="ft10"
         >
@@ -864,9 +920,10 @@ const AofPdf = () => {
         <p
           style={{
             position: "absolute",
-            top: "583px",
-            left: "463px",
+            top: "715px",
+            left: "583px",
             whiteSpace: "nowrap",
+            fontSize: "11pt",
           }}
           className="ft18"
         >
@@ -897,9 +954,10 @@ const AofPdf = () => {
         <p
           style={{
             position: "absolute",
-            top: "608px",
-            left: "116px",
+            top: "746px",
+            left: "146px",
             whiteSpace: "nowrap",
+            fontSize: "11pt",
           }}
           className="ft10"
         >
@@ -908,9 +966,10 @@ const AofPdf = () => {
         <p
           style={{
             position: "absolute",
-            top: "608px",
-            left: "170px",
+            top: "746px",
+            left: "220px",
             whiteSpace: "nowrap",
+            fontSize: "11pt",
           }}
           className="ft18"
         >
@@ -919,9 +978,10 @@ const AofPdf = () => {
         <p
           style={{
             position: "absolute",
-            top: "608px",
-            left: "295px",
+            top: "746px",
+            left: "373px",
             whiteSpace: "nowrap",
+            fontSize: "11pt",
           }}
           className="ft10"
         >
@@ -930,9 +990,10 @@ const AofPdf = () => {
         <p
           style={{
             position: "absolute",
-            top: "608px",
-            left: "363px",
+            top: "746px",
+            left: "433px",
             whiteSpace: "nowrap",
+            fontSize: "11pt",
           }}
           className="ft18"
         >
@@ -941,9 +1002,10 @@ const AofPdf = () => {
         <p
           style={{
             position: "absolute",
-            top: "608px",
-            left: "457px",
+            top: "746px",
+            left: "580px",
             whiteSpace: "nowrap",
+            fontSize: "11pt",
           }}
           className="ft10"
         >
@@ -952,9 +1014,10 @@ const AofPdf = () => {
         <p
           style={{
             position: "absolute",
-            top: "608px",
-            left: "517px",
+            top: "746px",
+            left: "637px",
             whiteSpace: "nowrap",
+            fontSize: "11pt",
           }}
           className="ft18"
         >
@@ -996,9 +1059,10 @@ const AofPdf = () => {
         <p
           style={{
             position: "absolute",
-            top: "671px",
-            left: "116px",
+            top: "820px",
+            left: "143px",
             whiteSpace: "nowrap",
+            fontSize: "11pt",
           }}
           className="ft10"
         >
@@ -1007,9 +1071,10 @@ const AofPdf = () => {
         <p
           style={{
             position: "absolute",
-            top: "703px",
-            left: "133px",
+            top: "861px",
+            left: "153px",
             whiteSpace: "nowrap",
+            fontSize: "11pt",
           }}
           className="ft10"
         >
@@ -1018,9 +1083,10 @@ const AofPdf = () => {
         <p
           style={{
             position: "absolute",
-            top: "703px",
-            left: "169px",
+            top: "861px",
+            left: "214px",
             whiteSpace: "nowrap",
+            fontSize: "11pt",
           }}
           className="ft18"
         >
@@ -1029,7 +1095,7 @@ const AofPdf = () => {
         <p
           style={{
             position: "absolute",
-            top: "703px",
+            top: "861px",
             left: "285px",
             whiteSpace: "nowrap",
           }}
@@ -1040,20 +1106,22 @@ const AofPdf = () => {
         <p
           style={{
             position: "absolute",
-            top: "703px",
-            left: "324px",
+            top: "861px",
+            left: "450px",
             whiteSpace: "nowrap",
+            fontSize: "11pt",
           }}
           className="ft10"
         >
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Annual&nbsp;Business:_
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Annual&nbsp;Business:
         </p>
         <p
           style={{
             position: "absolute",
-            top: "703px",
-            left: "459px",
+            top: "861px",
+            left: "592px",
             whiteSpace: "nowrap",
+            fontSize: "11pt",
           }}
           className="ft18"
         >
@@ -1062,19 +1130,8 @@ const AofPdf = () => {
         <p
           style={{
             position: "absolute",
-            top: "703px",
-            left: "526px",
-            whiteSpace: "nowrap",
-          }}
-          className="ft10"
-        >
-          ______&nbsp;
-        </p>
-        <p
-          style={{
-            position: "absolute",
-            top: "735px",
-            left: "133px",
+            top: "900px",
+            left: "153px",
             whiteSpace: "nowrap",
           }}
           className="ft10"
@@ -1084,9 +1141,10 @@ const AofPdf = () => {
         <p
           style={{
             position: "absolute",
-            top: "735px",
+            top: "900px",
             left: "169px",
             whiteSpace: "nowrap",
+            fontSize: "11pt",
           }}
           className="ft10"
         >
@@ -1095,9 +1153,10 @@ const AofPdf = () => {
         <p
           style={{
             position: "absolute",
-            top: "735px",
-            left: "173px",
+            top: "900px",
+            left: "214px",
             whiteSpace: "nowrap",
+            fontSize: "11pt",
           }}
           className="ft18"
         >
@@ -1117,42 +1176,35 @@ const AofPdf = () => {
         <p
           style={{
             position: "absolute",
-            top: "735px",
-            left: "324px",
+            top: "900px",
+            left: "450px",
             whiteSpace: "nowrap",
+            fontSize: "11pt",
           }}
           className="ft10"
         >
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Annual&nbsp;Business:__
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Annual&nbsp;Business:
         </p>
         <p
           style={{
             position: "absolute",
-            top: "735px",
-            left: "467px",
+            top: "900px",
+            left: "592px",
             whiteSpace: "nowrap",
+            fontSize: "11pt",
           }}
           className="ft18"
         >
           30&nbsp;LAKHS&nbsp;
         </p>
+
         <p
           style={{
             position: "absolute",
-            top: "735px",
-            left: "537px",
+            top: "940px",
+            left: "153px",
             whiteSpace: "nowrap",
-          }}
-          className="ft10"
-        >
-          _____&nbsp;
-        </p>
-        <p
-          style={{
-            position: "absolute",
-            top: "768px",
-            left: "133px",
-            whiteSpace: "nowrap",
+            fontSize: "11pt",
           }}
           className="ft10"
         >
@@ -1162,8 +1214,9 @@ const AofPdf = () => {
           style={{
             position: "absolute",
             top: "768px",
-            left: "169px",
+            left: "199px",
             whiteSpace: "nowrap",
+            fontSize: "11pt",
           }}
           className="ft10"
         >
@@ -1172,9 +1225,10 @@ const AofPdf = () => {
         <p
           style={{
             position: "absolute",
-            top: "768px",
-            left: "173px",
+            top: "940px",
+            left: "214px",
             whiteSpace: "nowrap",
+            fontSize: "11pt",
           }}
           className="ft18"
         >
@@ -1194,42 +1248,35 @@ const AofPdf = () => {
         <p
           style={{
             position: "absolute",
-            top: "768px",
-            left: "324px",
+            top: "940px",
+            left: "450px",
             whiteSpace: "nowrap",
+            fontSize: "11pt",
           }}
           className="ft10"
         >
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Annual&nbsp;Business:_
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Annual&nbsp;Business:
         </p>
         <p
           style={{
             position: "absolute",
-            top: "768px",
-            left: "459px",
+            top: "940px",
+            left: "592px",
             whiteSpace: "nowrap",
+            fontSize: "11pt",
           }}
           className="ft18"
         >
           15&nbsp;LAKHS
         </p>
-        <p
-          style={{
-            position: "absolute",
-            top: "768px",
-            left: "526px",
-            whiteSpace: "nowrap",
-          }}
-          className="ft10"
-        >
-          ________&nbsp;
-        </p>
+
         <p
           style={{
             position: "absolute",
             top: "792px",
             left: "133px",
             whiteSpace: "nowrap",
+            fontSize: "11pt",
           }}
           className="ft19"
         >
@@ -1241,6 +1288,7 @@ const AofPdf = () => {
             top: "800px",
             left: "108px",
             whiteSpace: "nowrap",
+            fontSize: "11pt",
           }}
           className="ft110"
         >
@@ -1252,6 +1300,7 @@ const AofPdf = () => {
             top: "821px",
             left: "124px",
             whiteSpace: "nowrap",
+            fontSize: "11pt",
           }}
           className="ft111"
         >
@@ -1271,9 +1320,10 @@ const AofPdf = () => {
         <p
           style={{
             position: "absolute",
-            top: "836px",
-            left: "116px",
+            top: "1023px",
+            left: "149px",
             whiteSpace: "nowrap",
+            fontSize: "11pt",
           }}
           className="ft10"
         >
@@ -1282,9 +1332,10 @@ const AofPdf = () => {
         <p
           style={{
             position: "absolute",
-            top: "836px",
-            left: "382px",
+            top: "1023px",
+            left: "465px",
             whiteSpace: "nowrap",
+            fontSize: "11pt",
           }}
           className="ft18"
         >
@@ -1326,9 +1377,10 @@ const AofPdf = () => {
         <p
           style={{
             position: "absolute",
-            top: "861px",
-            left: "120px",
+            top: "1055px",
+            left: "200px",
             whiteSpace: "nowrap",
+            fontSize: "11pt",
           }}
           className="ft18"
         >
@@ -1359,9 +1411,10 @@ const AofPdf = () => {
         <p
           style={{
             position: "absolute",
-            top: "886px",
-            left: "116px",
+            top: "1087px",
+            left: "149px",
             whiteSpace: "nowrap",
+            fontSize: "11pt",
           }}
           className="ft10"
         >
@@ -1370,9 +1423,10 @@ const AofPdf = () => {
         <p
           style={{
             position: "absolute",
-            top: "886px",
-            left: "224px",
+            top: "1087px",
+            left: "284px",
             whiteSpace: "nowrap",
+            fontSize: "11pt",
           }}
           className="ft18"
         >
@@ -1381,9 +1435,10 @@ const AofPdf = () => {
         <p
           style={{
             position: "absolute",
-            top: "886px",
-            left: "408px",
+            top: "1087px",
+            left: "539px",
             whiteSpace: "nowrap",
+            fontSize: "11pt",
           }}
           className="ft10"
         >
@@ -1392,9 +1447,10 @@ const AofPdf = () => {
         <p
           style={{
             position: "absolute",
-            top: "886px",
-            left: "568px",
+            top: "1087px",
+            left: "698px",
             whiteSpace: "nowrap",
+            fontSize: "11pt",
           }}
           className="ft18"
         >
@@ -1414,9 +1470,10 @@ const AofPdf = () => {
         <p
           style={{
             position: "absolute",
-            top: "911px",
-            left: "116px",
+            top: "1119px",
+            left: "149px",
             whiteSpace: "nowrap",
+            fontSize: "11pt",
           }}
           className="ft10"
         >
@@ -1425,9 +1482,10 @@ const AofPdf = () => {
         <p
           style={{
             position: "absolute",
-            top: "911px",
-            left: "181px",
+            top: "1118px",
+            left: "210px",
             whiteSpace: "nowrap",
+            fontSize: "11pt",
           }}
           className="ft18"
         >
@@ -1447,9 +1505,10 @@ const AofPdf = () => {
         <p
           style={{
             position: "absolute",
-            top: "937px",
-            left: "116px",
+            top: "1153px",
+            left: "146px",
             whiteSpace: "nowrap",
+            fontSize: "11pt",
           }}
           className="ft10"
         >
@@ -1458,9 +1517,10 @@ const AofPdf = () => {
         <p
           style={{
             position: "absolute",
-            top: "962px",
-            left: "148px",
+            top: "1180px",
+            left: "215px",
             whiteSpace: "nowrap",
+            fontSize: "11pt",
           }}
           className="ft10"
         >
@@ -1469,9 +1529,10 @@ const AofPdf = () => {
         <p
           style={{
             position: "absolute",
-            top: "962px",
-            left: "249px",
+            top: "1180px",
+            left: "305px",
             whiteSpace: "nowrap",
+            fontSize: "11pt",
           }}
           className="ft18"
         >
@@ -1480,9 +1541,10 @@ const AofPdf = () => {
         <p
           style={{
             position: "absolute",
-            top: "962px",
+            top: "1180px",
             left: "293px",
             whiteSpace: "nowrap",
+            fontSize: "11pt",
           }}
           className="ft10"
         >
@@ -1491,9 +1553,10 @@ const AofPdf = () => {
         <p
           style={{
             position: "absolute",
-            top: "962px",
-            left: "325px",
+            top: "1180px",
+            left: "408px",
             whiteSpace: "nowrap",
+            fontSize: "11pt",
           }}
           className="ft10"
         >
@@ -1502,9 +1565,10 @@ const AofPdf = () => {
         <p
           style={{
             position: "absolute",
-            top: "962px",
-            left: "360px",
+            top: "1180px",
+            left: "445px",
             whiteSpace: "nowrap",
+            fontSize: "11pt",
           }}
           className="ft18"
         >
@@ -1513,20 +1577,22 @@ const AofPdf = () => {
         <p
           style={{
             position: "absolute",
-            top: "962px",
-            left: "501px",
+            top: "1180px",
+            left: "650px",
             whiteSpace: "nowrap",
+            fontSize: "11pt",
           }}
           className="ft10"
         >
-          Branch/IFSC_&nbsp;
+          Branch/IFSC&nbsp;
         </p>
         <p
           style={{
             position: "absolute",
-            top: "962px",
-            left: "590px",
+            top: "1179px",
+            left: "737px",
             whiteSpace: "nowrap",
+            fontSize: "11pt",
           }}
           className="ft18"
         >
@@ -1535,9 +1601,10 @@ const AofPdf = () => {
         <p
           style={{
             position: "absolute",
-            top: "987px",
-            left: "148px",
+            top: "1211px",
+            left: "215px",
             whiteSpace: "nowrap",
+            fontSize: "11pt",
           }}
           className="ft10"
         >
@@ -1546,9 +1613,10 @@ const AofPdf = () => {
         <p
           style={{
             position: "absolute",
-            top: "987px",
-            left: "249px",
+            top: "1211px",
+            left: "305px",
             whiteSpace: "nowrap",
+            fontSize: "11pt",
           }}
           className="ft18"
         >
@@ -1557,7 +1625,7 @@ const AofPdf = () => {
         <p
           style={{
             position: "absolute",
-            top: "987px",
+            top: "1211px",
             left: "293px",
             whiteSpace: "nowrap",
           }}
@@ -1568,9 +1636,10 @@ const AofPdf = () => {
         <p
           style={{
             position: "absolute",
-            top: "987px",
-            left: "325px",
+            top: "1211px",
+            left: "408px",
             whiteSpace: "nowrap",
+            fontSize: "11pt",
           }}
           className="ft10"
         >
@@ -1579,9 +1648,10 @@ const AofPdf = () => {
         <p
           style={{
             position: "absolute",
-            top: "987px",
-            left: "360px",
+            top: "1211px",
+            left: "445px",
             whiteSpace: "nowrap",
+            fontSize: "11pt",
           }}
           className="ft18"
         >
@@ -1590,20 +1660,22 @@ const AofPdf = () => {
         <p
           style={{
             position: "absolute",
-            top: "987px",
-            left: "501px",
+            top: "1211px",
+            left: "650px",
             whiteSpace: "nowrap",
+            fontSize: "11pt",
           }}
           className="ft10"
         >
-          Branch/IFSC____&nbsp;
+          Branch/IFSC&nbsp;
         </p>
         <p
           style={{
             position: "absolute",
-            top: "987px",
-            left: "612px",
+            top: "1210px",
+            left: "737px",
             whiteSpace: "nowrap",
+            fontSize: "11pt",
           }}
           className="ft18"
         >
@@ -1612,9 +1684,10 @@ const AofPdf = () => {
         <p
           style={{
             position: "absolute",
-            top: "1012px",
-            left: "148px",
+            top: "1240px",
+            left: "215px",
             whiteSpace: "nowrap",
+            fontSize: "11pt",
           }}
           className="ft10"
         >
@@ -1623,9 +1696,10 @@ const AofPdf = () => {
         <p
           style={{
             position: "absolute",
-            top: "1012px",
-            left: "249px",
+            top: "1240px",
+            left: "305px",
             whiteSpace: "nowrap",
+            fontSize: "11pt",
           }}
           className="ft18"
         >
@@ -1634,7 +1708,7 @@ const AofPdf = () => {
         <p
           style={{
             position: "absolute",
-            top: "1012px",
+            top: "1240px",
             left: "293px",
             whiteSpace: "nowrap",
           }}
@@ -1645,9 +1719,10 @@ const AofPdf = () => {
         <p
           style={{
             position: "absolute",
-            top: "1012px",
-            left: "325px",
+            top: "1240px",
+            left: "408px",
             whiteSpace: "nowrap",
+            fontSize: "11pt",
           }}
           className="ft10"
         >
@@ -1656,9 +1731,10 @@ const AofPdf = () => {
         <p
           style={{
             position: "absolute",
-            top: "1012px",
-            left: "360px",
+            top: "1240px",
+            left: "445px",
             whiteSpace: "nowrap",
+            fontSize: "11pt",
           }}
           className="ft18"
         >
@@ -1667,20 +1743,22 @@ const AofPdf = () => {
         <p
           style={{
             position: "absolute",
-            top: "1012px",
-            left: "501px",
+            top: "1241px",
+            left: "650px",
             whiteSpace: "nowrap",
+            fontSize: "11pt",
           }}
           className="ft10"
         >
-          Branch/IFSC__&nbsp;
+          Branch/IFSC&nbsp;
         </p>
         <p
           style={{
             position: "absolute",
-            top: "1012px",
-            left: "597px",
+            top: "1240px",
+            left: "737px",
             whiteSpace: "nowrap",
+            fontSize: "11pt",
           }}
           className="ft18"
         >
@@ -1689,9 +1767,10 @@ const AofPdf = () => {
         <p
           style={{
             position: "absolute",
-            top: "1038px",
-            left: "108px",
+            top: "1268px",
+            left: "138px",
             whiteSpace: "nowrap",
+            fontSize: "11pt",
           }}
           className="ft113"
         >
@@ -1702,181 +1781,190 @@ const AofPdf = () => {
         <p
           style={{
             position: "absolute",
-            top: "219px",
-            left: "645px",
+            top: "270px",
+            left: "815px",
             whiteSpace: "nowrap",
+            border: "2px solid black",
+            fontSize: "13pt",
           }}
           className="ft112"
         >
-          2022&nbsp;-23&nbsp;To&nbsp;2024-25&nbsp;
+          <span
+            style={{
+              margin: "20pt",
+            }}
+          >
+            2022&nbsp;-23&nbsp;To&nbsp;2024-25&nbsp;
+          </span>
         </p>
       </div>
 
-      <div
-        id="page2-div"
-        style={{ position: "relative", width: "892px", height: "1262px"}}
-      >
-        <img width={892} height={1262} src={target2} alt="background image" />
+      <div id="page1-div" style={{ position: "relative", width: "41cm" }}>
+        <img width={1092} height={1462} src={target3} alt="background image" />
         <p
           style={{
             position: "absolute",
-            top: "1149px",
-            left: "301px",
+            top: "1394px",
+            left: "431px",
             whiteSpace: "nowrap",
           }}
-          className="ft20"
+          className="ft10"
         >
           Proficiency&nbsp;Learning&nbsp;Solutions&nbsp;Private&nbsp;Limited&nbsp;
         </p>
         <p
           style={{
             position: "absolute",
-            top: "1167px",
-            left: "66px",
+            top: "1414px",
+            left: "235px",
             whiteSpace: "nowrap",
           }}
-          className="ft20"
+          className="ft10"
         >
           A-12,&nbsp;2
         </p>
         <p
           style={{
             position: "absolute",
-            top: "1167px",
-            left: "113px",
+            top: "1414px",
+            left: "273px",
             whiteSpace: "nowrap",
           }}
-          className="ft21"
+          className="ft11"
         >
           nd
         </p>
         <p
           style={{
             position: "absolute",
-            top: "1167px",
-            left: "123px",
-            whiteSpace: "nowrap", 
+            top: "1414px",
+            left: "283px",
+            whiteSpace: "nowrap",
           }}
-          className="ft20"
+          className="ft10"
         >
           &nbsp;Floor,&nbsp;Mohan&nbsp;Cooperative&nbsp;Industrial&nbsp;Estate,&nbsp;Main&nbsp;Mathura&nbsp;Road,&nbsp;New&nbsp;Delhi&nbsp;–&nbsp;110044.&nbsp;&nbsp;Phone:&nbsp;+91-11-61400200&nbsp;
         </p>
         <p
           style={{
             position: "absolute",
-            top: "1183px",
-            left: "393px",
+            top: "1440px",
+            left: "500px",
             whiteSpace: "nowrap",
           }}
-          className="ft22"
+          className="ft12"
         >
           www.eupheus.in
         </p>
         <p
           style={{
             position: "absolute",
-            top: "1183px",
+            top: "1178px",
             left: "501px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
           }}
-          className="ft20"
+          className="ft10"
         >
           &nbsp;
         </p>
         <p
           style={{
             position: "absolute",
-            top: "1199px",
+            top: "1194px",
             left: "447px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
           }}
-          className="ft20"
+          className="ft10"
         >
           &nbsp;
         </p>
         <p
           style={{
             position: "absolute",
-            top: "58px",
+            top: "62px",
             left: "438px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
           }}
-          className="ft20"
+          className="ft10"
         >
           &nbsp;&nbsp;&nbsp;&nbsp;
         </p>
         <p
           style={{
             position: "absolute",
-            top: "115px",
+            top: "119px",
             left: "438px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
           }}
-          className="ft20"
+          className="ft10"
         >
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         </p>
         <p
           style={{
             position: "absolute",
-            top: "131px",
+            top: "135px",
             left: "438px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
           }}
-          className="ft20"
+          className="ft10"
         >
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         </p>
         <p
           style={{
             position: "absolute",
-            top: "1122px",
+            top: "1117px",
             left: "884px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
           }}
-          className="ft23"
+          className="ft13"
         >
           &nbsp;
         </p>
         <p
           style={{
             position: "absolute",
-            top: "1137px",
+            top: "1132px",
             left: "108px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
           }}
-          className="ft23"
+          className="ft13"
         >
           &nbsp;
         </p>
         <p
           style={{
             position: "absolute",
-            top: "1131px",
+            top: "1126px",
             left: "108px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
           }}
-          className="ft24"
+          className="ft14"
         >
           &nbsp;
         </p>
         <p
           style={{
             position: "absolute",
-            top: "162px",
-            left: "272px",
+            top: "165px",
+            left: "199px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
           }}
-          className="ft25"
+          className="ft15"
+        >
+          &nbsp;
+        </p>
+        <p
+          style={{
+            position: "absolute",
+            top: "225px",
+            left: "280px",
+            whiteSpace: "nowrap",
+            borderBottom: "2px solid black",
+            fontSize: "15pt",
+          }}
+          className="ft16"
         >
           Agreement&nbsp;for&nbsp;supply&nbsp;of&nbsp;Educational&nbsp;Books&nbsp;
         </p>
@@ -1886,7 +1974,7 @@ const AofPdf = () => {
             top: "184px",
             left: "108px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft26"
         >
@@ -1898,7 +1986,7 @@ const AofPdf = () => {
             top: "197px",
             left: "436px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft27"
         >
@@ -1910,7 +1998,7 @@ const AofPdf = () => {
             top: "214px",
             left: "108px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft27"
         >
@@ -1922,7 +2010,7 @@ const AofPdf = () => {
             top: "214px",
             left: "367px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft28"
         >
@@ -1934,7 +2022,7 @@ const AofPdf = () => {
             top: "214px",
             left: "407px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft27"
         >
@@ -1946,7 +2034,7 @@ const AofPdf = () => {
             top: "214px",
             left: "489px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft28"
         >
@@ -1958,7 +2046,7 @@ const AofPdf = () => {
             top: "214px",
             left: "530px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft27"
         >
@@ -1970,7 +2058,7 @@ const AofPdf = () => {
             top: "214px",
             left: "614px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft28"
         >
@@ -1982,7 +2070,7 @@ const AofPdf = () => {
             top: "214px",
             left: "656px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft27"
         >
@@ -1994,7 +2082,7 @@ const AofPdf = () => {
             top: "230px",
             left: "108px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft210"
         >
@@ -2010,7 +2098,7 @@ const AofPdf = () => {
             top: "262px",
             left: "574px",
             whiteSpace: "nowrap",
-            fontSize:"9pt" 
+            fontSize: "9pt",
           }}
           className="ft28"
         >
@@ -2022,7 +2110,7 @@ const AofPdf = () => {
             top: "262px",
             left: "692px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft27"
         >
@@ -2034,7 +2122,7 @@ const AofPdf = () => {
             top: "279px",
             left: "108px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft210"
         >
@@ -2050,7 +2138,7 @@ const AofPdf = () => {
             top: "327px",
             left: "425px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft27"
         >
@@ -2062,7 +2150,7 @@ const AofPdf = () => {
             top: "362px",
             left: "108px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft27"
         >
@@ -2074,7 +2162,7 @@ const AofPdf = () => {
             top: "361px",
             left: "115px",
             whiteSpace: "nowrap",
-            fontSize:"9pt" 
+            fontSize: "9pt",
           }}
           className="ft29"
         >
@@ -2086,7 +2174,7 @@ const AofPdf = () => {
             top: "362px",
             left: "354px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft27"
         >
@@ -2098,7 +2186,7 @@ const AofPdf = () => {
             top: "379px",
             left: "108px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft27"
         >
@@ -2110,11 +2198,12 @@ const AofPdf = () => {
             top: "378px",
             left: "264px",
             whiteSpace: "nowrap",
-            fontSize:"9pt" 
+            fontSize: "9pt",
           }}
           className="ft29"
         >
-          &nbsp;B-2345&nbsp;AMAR&nbsp;COLONY&nbsp;LAJPAT&nbsp;NAGAR&nbsp; NEW DELHI 110024
+          &nbsp;B-2345&nbsp;AMAR&nbsp;COLONY&nbsp;LAJPAT&nbsp;NAGAR&nbsp; NEW
+          DELHI 110024
         </p>
 
         <p
@@ -2123,24 +2212,24 @@ const AofPdf = () => {
             top: "379px",
             left: "710px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft27"
         >
           &nbsp;through&nbsp;
         </p>
- 
+
         <p
           style={{
             position: "absolute",
             top: "395px",
             left: "135px",
             whiteSpace: "nowrap",
-            fontSize:"9pt" 
+            fontSize: "9pt",
           }}
           className="ft29"
         >
-           MR SUSHIL&nbsp;KUMAR&nbsp;SHARMA
+          MR SUSHIL&nbsp;KUMAR&nbsp;SHARMA
         </p>
         <p
           style={{
@@ -2148,7 +2237,7 @@ const AofPdf = () => {
             top: "396px",
             left: "314px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft27"
         >
@@ -2160,7 +2249,7 @@ const AofPdf = () => {
             top: "412px",
             left: "108px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft210"
         >
@@ -2174,7 +2263,7 @@ const AofPdf = () => {
             top: "462px",
             left: "108px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft27"
         >
@@ -2186,7 +2275,7 @@ const AofPdf = () => {
             top: "462px",
             left: "204px",
             whiteSpace: "nowrap",
-            fontSize:"9pt" 
+            fontSize: "9pt",
           }}
           className="ft29"
         >
@@ -2198,11 +2287,11 @@ const AofPdf = () => {
             top: "462px",
             left: "440px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft27"
         >
-          shall&nbsp;collectively&nbsp;be&nbsp;referred&nbsp;to&nbsp;as&nbsp;“Parties”&nbsp;and&nbsp; 
+          shall&nbsp;collectively&nbsp;be&nbsp;referred&nbsp;to&nbsp;as&nbsp;“Parties”&nbsp;and&nbsp;
         </p>
         <p
           style={{
@@ -2210,7 +2299,7 @@ const AofPdf = () => {
             top: "479px",
             left: "108px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft27"
         >
@@ -2222,7 +2311,7 @@ const AofPdf = () => {
             top: "513px",
             left: "161px",
             whiteSpace: "nowrap",
-            fontSize: "11pt"
+            fontSize: "11pt",
           }}
           className="ft27"
         >
@@ -2234,7 +2323,7 @@ const AofPdf = () => {
             top: "529px",
             left: "108px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft27"
         >
@@ -2246,7 +2335,7 @@ const AofPdf = () => {
             top: "562px",
             left: "108px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft27"
         >
@@ -2258,7 +2347,7 @@ const AofPdf = () => {
             top: "562px",
             left: "150px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft27"
         >
@@ -2270,11 +2359,12 @@ const AofPdf = () => {
             top: "578px",
             left: "108px",
             whiteSpace: "nowrap",
-            fontSize:"9pt" 
+            fontSize: "9pt",
           }}
           className="ft28"
         >
-          &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Rs.10&nbsp;LAKHS_(Rupees&nbsp;_TEN&nbsp;LAKHS)&nbsp;
+          &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Rs.10&nbsp;LAKHS_(Rupees&nbsp;_TEN&nbsp;LAKHS)&nbsp;
         </p>
         <p
           style={{
@@ -2282,7 +2372,7 @@ const AofPdf = () => {
             top: "579px",
             left: "416px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft27"
         >
@@ -2294,7 +2384,7 @@ const AofPdf = () => {
             top: "594px",
             left: "108px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft27"
         >
@@ -2306,7 +2396,7 @@ const AofPdf = () => {
             top: "594px",
             left: "150px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft210"
         >
@@ -2324,7 +2414,7 @@ const AofPdf = () => {
             top: "659px",
             left: "108px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft27"
         >
@@ -2336,7 +2426,7 @@ const AofPdf = () => {
             top: "659px",
             left: "150px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft210"
         >
@@ -2356,7 +2446,7 @@ const AofPdf = () => {
             top: "741px",
             left: "108px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft27"
         >
@@ -2368,7 +2458,7 @@ const AofPdf = () => {
             top: "741px",
             left: "150px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft210"
         >
@@ -2382,7 +2472,7 @@ const AofPdf = () => {
             top: "774px",
             left: "108px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft27"
         >
@@ -2394,7 +2484,7 @@ const AofPdf = () => {
             top: "774px",
             left: "150px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft210"
         >
@@ -2408,7 +2498,7 @@ const AofPdf = () => {
             top: "806px",
             left: "108px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft27"
         >
@@ -2420,7 +2510,7 @@ const AofPdf = () => {
             top: "806px",
             left: "150px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft210"
         >
@@ -2446,7 +2536,7 @@ const AofPdf = () => {
             top: "936px",
             left: "108px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft27"
         >
@@ -2458,7 +2548,7 @@ const AofPdf = () => {
             top: "936px",
             left: "150px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft210"
         >
@@ -2474,7 +2564,7 @@ const AofPdf = () => {
             top: "986px",
             left: "181px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft27"
         >
@@ -2486,7 +2576,7 @@ const AofPdf = () => {
             top: "1002px",
             left: "150px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft27"
         >
@@ -2498,7 +2588,7 @@ const AofPdf = () => {
             top: "1018px",
             left: "181px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft210"
         >
@@ -2514,7 +2604,7 @@ const AofPdf = () => {
             top: "1067px",
             left: "150px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft210"
         >
@@ -2528,7 +2618,7 @@ const AofPdf = () => {
             top: "1100px",
             left: "181px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft27"
         >
@@ -2536,159 +2626,160 @@ const AofPdf = () => {
         </p>
       </div>
 
-      <div
-        id="page3-div"
-        style={{ position: "relative", width: "892px", height: "1262px" }}
-      >
-        <img width={892} height={1262} src={target3} alt="background image" />
+
+      <div id="page1-div" style={{ position: "relative", width: "41cm" }}>
+        <img width={1092} height={1462} src={target3} alt="background image" />
         <p
           style={{
             position: "absolute",
-            top: "1149px",
-            left: "301px",
-            whiteSpace: "nowrap"
+            top: "1394px",
+            left: "431px",
+            whiteSpace: "nowrap",
           }}
-          className="ft30"
+          className="ft10"
         >
           Proficiency&nbsp;Learning&nbsp;Solutions&nbsp;Private&nbsp;Limited&nbsp;
         </p>
         <p
           style={{
             position: "absolute",
-            top: "1167px",
-            left: "66px",
+            top: "1414px",
+            left: "235px",
             whiteSpace: "nowrap",
           }}
-          className="ft30"
+          className="ft10"
         >
           A-12,&nbsp;2
         </p>
         <p
           style={{
             position: "absolute",
-            top: "1167px",
-            left: "113px",
+            top: "1414px",
+            left: "273px",
             whiteSpace: "nowrap",
           }}
-          className="ft31"
+          className="ft11"
         >
           nd
         </p>
         <p
           style={{
             position: "absolute",
-            top: "1167px",
-            left: "123px",
+            top: "1414px",
+            left: "283px",
             whiteSpace: "nowrap",
           }}
-          className="ft30"
+          className="ft10"
         >
           &nbsp;Floor,&nbsp;Mohan&nbsp;Cooperative&nbsp;Industrial&nbsp;Estate,&nbsp;Main&nbsp;Mathura&nbsp;Road,&nbsp;New&nbsp;Delhi&nbsp;–&nbsp;110044.&nbsp;&nbsp;Phone:&nbsp;+91-11-61400200&nbsp;
         </p>
         <p
           style={{
             position: "absolute",
-            top: "1183px",
-            left: "393px",
+            top: "1440px",
+            left: "500px",
             whiteSpace: "nowrap",
           }}
-          className="ft32"
+          className="ft12"
         >
           www.eupheus.in
         </p>
         <p
           style={{
             position: "absolute",
-            top: "1183px",
+            top: "1178px",
             left: "501px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
           }}
-          className="ft30"
+          className="ft10"
         >
           &nbsp;
         </p>
         <p
           style={{
             position: "absolute",
-            top: "1199px",
+            top: "1194px",
             left: "447px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
           }}
-          className="ft30"
+          className="ft10"
         >
           &nbsp;
         </p>
         <p
           style={{
             position: "absolute",
-            top: "58px",
+            top: "62px",
             left: "438px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
           }}
-          className="ft30"
+          className="ft10"
         >
           &nbsp;&nbsp;&nbsp;&nbsp;
         </p>
         <p
           style={{
             position: "absolute",
-            top: "115px",
+            top: "119px",
             left: "438px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
           }}
-          className="ft30"
+          className="ft10"
         >
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         </p>
         <p
           style={{
             position: "absolute",
-            top: "131px",
+            top: "135px",
             left: "438px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
           }}
-          className="ft30"
+          className="ft10"
         >
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         </p>
         <p
           style={{
             position: "absolute",
-            top: "1122px",
+            top: "1117px",
             left: "884px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
           }}
-          className="ft33"
+          className="ft13"
         >
           &nbsp;
         </p>
         <p
           style={{
             position: "absolute",
-            top: "1137px",
+            top: "1132px",
             left: "108px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
           }}
-          className="ft33"
+          className="ft13"
         >
           &nbsp;
         </p>
         <p
           style={{
             position: "absolute",
-            top: "1131px",
+            top: "1126px",
             left: "108px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
           }}
-          className="ft34"
+          className="ft14"
+        >
+          &nbsp;
+        </p>
+        <p
+          style={{
+            position: "absolute",
+            top: "165px",
+            left: "199px",
+            whiteSpace: "nowrap",
+          }}
+          className="ft15"
         >
           &nbsp;
         </p>
@@ -2698,7 +2789,7 @@ const AofPdf = () => {
             top: "156px",
             left: "181px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft35"
         >
@@ -2712,7 +2803,7 @@ const AofPdf = () => {
             top: "172px",
             left: "181px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft35"
         >
@@ -2724,7 +2815,7 @@ const AofPdf = () => {
             top: "188px",
             left: "150px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft35"
         >
@@ -2736,7 +2827,7 @@ const AofPdf = () => {
             top: "205px",
             left: "181px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft37"
         >
@@ -2750,7 +2841,7 @@ const AofPdf = () => {
             top: "237px",
             left: "150px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft35"
         >
@@ -2762,7 +2853,7 @@ const AofPdf = () => {
             top: "253px",
             left: "181px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft35"
         >
@@ -2774,7 +2865,7 @@ const AofPdf = () => {
             top: "269px",
             left: "108px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft35"
         >
@@ -2786,7 +2877,7 @@ const AofPdf = () => {
             top: "269px",
             left: "150px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft37"
         >
@@ -2822,7 +2913,7 @@ const AofPdf = () => {
             top: "481px",
             left: "108px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft35"
         >
@@ -2834,7 +2925,7 @@ const AofPdf = () => {
             top: "481px",
             left: "150px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft37"
         >
@@ -2860,7 +2951,7 @@ const AofPdf = () => {
             top: "611px",
             left: "108px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft35"
         >
@@ -2872,7 +2963,7 @@ const AofPdf = () => {
             top: "628px",
             left: "150px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft37"
         >
@@ -2896,7 +2987,7 @@ const AofPdf = () => {
             top: "742px",
             left: "155px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft35"
         >
@@ -2908,7 +2999,7 @@ const AofPdf = () => {
             top: "758px",
             left: "181px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft35"
         >
@@ -2920,7 +3011,7 @@ const AofPdf = () => {
             top: "774px",
             left: "155px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft37"
         >
@@ -2934,7 +3025,7 @@ const AofPdf = () => {
             top: "807px",
             left: "181px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft37"
         >
@@ -2948,7 +3039,7 @@ const AofPdf = () => {
             top: "839px",
             left: "108px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft35"
         >
@@ -2960,7 +3051,7 @@ const AofPdf = () => {
             top: "856px",
             left: "150px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft37"
         >
@@ -2978,7 +3069,7 @@ const AofPdf = () => {
             top: "920px",
             left: "108px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft35"
         >
@@ -2990,7 +3081,7 @@ const AofPdf = () => {
             top: "937px",
             left: "150px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft37"
         >
@@ -3004,7 +3095,7 @@ const AofPdf = () => {
             top: "969px",
             left: "108px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft35"
         >
@@ -3016,7 +3107,7 @@ const AofPdf = () => {
             top: "986px",
             left: "150px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft35"
         >
@@ -3028,7 +3119,7 @@ const AofPdf = () => {
             top: "1002px",
             left: "108px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft35"
         >
@@ -3040,7 +3131,7 @@ const AofPdf = () => {
             top: "1018px",
             left: "150px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft35"
         >
@@ -3052,7 +3143,7 @@ const AofPdf = () => {
             top: "1034px",
             left: "108px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft35"
         >
@@ -3064,7 +3155,7 @@ const AofPdf = () => {
             top: "1051px",
             left: "150px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft37"
         >
@@ -3078,159 +3169,160 @@ const AofPdf = () => {
         </p>
       </div>
 
-      <div
-        id="page4-div"
-        style={{ position: "relative", width: "892px", height: "1262px" }}
-      >
-        <img width={892} height={1262} src={target4} alt="background image" />
+
+      <div id="page1-div" style={{ position: "relative", width: "41cm" }}>
+        <img width={1092} height={1462} src={target3} alt="background image" />
         <p
           style={{
             position: "absolute",
-            top: "1149px",
-            left: "301px",
-            whiteSpace: "nowrap"
+            top: "1394px",
+            left: "431px",
+            whiteSpace: "nowrap",
           }}
-          className="ft40"
+          className="ft10"
         >
           Proficiency&nbsp;Learning&nbsp;Solutions&nbsp;Private&nbsp;Limited&nbsp;
         </p>
         <p
           style={{
             position: "absolute",
-            top: "1167px",
-            left: "66px",
-            whiteSpace: "nowrap"
+            top: "1414px",
+            left: "235px",
+            whiteSpace: "nowrap",
           }}
-          className="ft40"
+          className="ft10"
         >
           A-12,&nbsp;2
         </p>
         <p
           style={{
             position: "absolute",
-            top: "1167px",
-            left: "113px",
+            top: "1414px",
+            left: "273px",
             whiteSpace: "nowrap",
           }}
-          className="ft41"
+          className="ft11"
         >
           nd
         </p>
         <p
           style={{
             position: "absolute",
-            top: "1167px",
-            left: "123px",
+            top: "1414px",
+            left: "283px",
             whiteSpace: "nowrap",
           }}
-          className="ft40"
+          className="ft10"
         >
           &nbsp;Floor,&nbsp;Mohan&nbsp;Cooperative&nbsp;Industrial&nbsp;Estate,&nbsp;Main&nbsp;Mathura&nbsp;Road,&nbsp;New&nbsp;Delhi&nbsp;–&nbsp;110044.&nbsp;&nbsp;Phone:&nbsp;+91-11-61400200&nbsp;
         </p>
         <p
           style={{
             position: "absolute",
-            top: "1183px",
-            left: "393px",
+            top: "1440px",
+            left: "500px",
             whiteSpace: "nowrap",
           }}
-          className="ft42"
+          className="ft12"
         >
           www.eupheus.in
         </p>
         <p
           style={{
             position: "absolute",
-            top: "1183px",
+            top: "1178px",
             left: "501px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
           }}
-          className="ft40"
+          className="ft10"
         >
           &nbsp;
         </p>
         <p
           style={{
             position: "absolute",
-            top: "1199px",
+            top: "1194px",
             left: "447px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
           }}
-          className="ft40"
+          className="ft10"
         >
           &nbsp;
         </p>
         <p
           style={{
             position: "absolute",
-            top: "58px",
+            top: "62px",
             left: "438px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
           }}
-          className="ft40"
+          className="ft10"
         >
           &nbsp;&nbsp;&nbsp;&nbsp;
         </p>
         <p
           style={{
             position: "absolute",
-            top: "115px",
+            top: "119px",
             left: "438px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
           }}
-          className="ft40"
+          className="ft10"
         >
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         </p>
         <p
           style={{
             position: "absolute",
-            top: "131px",
+            top: "135px",
             left: "438px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
           }}
-          className="ft40"
+          className="ft10"
         >
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         </p>
         <p
           style={{
             position: "absolute",
-            top: "1122px",
+            top: "1117px",
             left: "884px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
           }}
-          className="ft43"
+          className="ft13"
         >
           &nbsp;
         </p>
         <p
           style={{
             position: "absolute",
-            top: "1137px",
+            top: "1132px",
             left: "108px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
           }}
-          className="ft43"
+          className="ft13"
         >
           &nbsp;
         </p>
         <p
           style={{
             position: "absolute",
-            top: "1131px",
+            top: "1126px",
             left: "108px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
           }}
-          className="ft44"
+          className="ft14"
+        >
+          &nbsp;
+        </p>
+        <p
+          style={{
+            position: "absolute",
+            top: "165px",
+            left: "199px",
+            whiteSpace: "nowrap",
+          }}
+          className="ft15"
         >
           &nbsp;
         </p>
@@ -3240,7 +3332,7 @@ const AofPdf = () => {
             top: "156px",
             left: "150px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft48"
         >
@@ -3268,7 +3360,7 @@ const AofPdf = () => {
             top: "320px",
             left: "150px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft45"
         >
@@ -3280,7 +3372,7 @@ const AofPdf = () => {
             top: "354px",
             left: "108px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft49"
         >
@@ -3294,7 +3386,7 @@ const AofPdf = () => {
             top: "408px",
             left: "116px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft48"
         >
@@ -3308,7 +3400,7 @@ const AofPdf = () => {
             top: "424px",
             left: "510px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft45"
         >
@@ -3320,7 +3412,7 @@ const AofPdf = () => {
             top: "441px",
             left: "108px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft48"
         >
@@ -3334,7 +3426,7 @@ const AofPdf = () => {
             top: "474px",
             left: "116px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft48"
         >
@@ -3348,7 +3440,7 @@ const AofPdf = () => {
             top: "490px",
             left: "512px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft45"
         >
@@ -3360,7 +3452,7 @@ const AofPdf = () => {
             top: "506px",
             left: "108px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft45"
         >
@@ -3372,7 +3464,7 @@ const AofPdf = () => {
             top: "522px",
             left: "116px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft45"
         >
@@ -3384,7 +3476,7 @@ const AofPdf = () => {
             top: "522px",
             left: "168px",
             whiteSpace: "nowrap",
-            fontSize:"9pt" 
+            fontSize: "9pt",
           }}
           className="ft46"
         >
@@ -3396,7 +3488,7 @@ const AofPdf = () => {
             top: "522px",
             left: "318px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft45"
         >
@@ -3408,7 +3500,7 @@ const AofPdf = () => {
             top: "539px",
             left: "116px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft48"
         >
@@ -3422,7 +3514,7 @@ const AofPdf = () => {
             top: "555px",
             left: "157px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft46"
         >
@@ -3434,7 +3526,7 @@ const AofPdf = () => {
             top: "555px",
             left: "275px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft45"
         >
@@ -3446,7 +3538,7 @@ const AofPdf = () => {
             top: "555px",
             left: "316px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft45"
         >
@@ -3458,7 +3550,7 @@ const AofPdf = () => {
             top: "571px",
             left: "116px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft48"
         >
@@ -3472,7 +3564,7 @@ const AofPdf = () => {
             top: "523px",
             left: "511px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft45"
         >
@@ -3484,7 +3576,7 @@ const AofPdf = () => {
             top: "522px",
             left: "563px",
             whiteSpace: "nowrap",
-            fontSize:"9pt" 
+            fontSize: "9pt",
           }}
           className="ft47"
         >
@@ -3496,7 +3588,7 @@ const AofPdf = () => {
             top: "523px",
             left: "743px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft45"
         >
@@ -3508,7 +3600,7 @@ const AofPdf = () => {
             top: "523px",
             left: "766px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft45"
         >
@@ -3565,7 +3657,7 @@ const AofPdf = () => {
             position: "absolute",
             top: "572px",
             left: "511px",
-            whiteSpace: "nowrap" 
+            whiteSpace: "nowrap",
           }}
           className="ft48"
         >
@@ -3592,7 +3684,7 @@ const AofPdf = () => {
             top: "621px",
             left: "349px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft45"
         >
@@ -3604,7 +3696,7 @@ const AofPdf = () => {
             top: "621px",
             left: "512px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft45"
         >
@@ -3616,7 +3708,7 @@ const AofPdf = () => {
             top: "621px",
             left: "634px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft45"
         >
@@ -3628,7 +3720,7 @@ const AofPdf = () => {
             top: "621px",
             left: "686px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft45"
         >
@@ -3640,7 +3732,7 @@ const AofPdf = () => {
             top: "621px",
             left: "739px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft45"
         >
@@ -3652,7 +3744,7 @@ const AofPdf = () => {
             top: "637px",
             left: "116px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft48"
         >
@@ -3666,7 +3758,7 @@ const AofPdf = () => {
             top: "669px",
             left: "108px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft45"
         >
@@ -3674,164 +3766,160 @@ const AofPdf = () => {
         </p>
       </div>
 
-      <div
-        id="page5-div"
-        style={{ position: "relative", width: "892px", height: "1262px" }}
-      >
-        <img
-          width={892}
-          height={1262}
-          src={target5}
-          alt="background image"
-        />
+
+      <div id="page1-div" style={{ position: "relative", width: "41cm" }}>
+        <img width={1092} height={1462} src={target3} alt="background image" />
         <p
           style={{
             position: "absolute",
-            top: "1149px",
-            left: "301px",
+            top: "1394px",
+            left: "431px",
             whiteSpace: "nowrap",
           }}
-          className="ft50"
+          className="ft10"
         >
           Proficiency&nbsp;Learning&nbsp;Solutions&nbsp;Private&nbsp;Limited&nbsp;
         </p>
         <p
           style={{
             position: "absolute",
-            top: "1167px",
-            left: "66px",
+            top: "1414px",
+            left: "235px",
             whiteSpace: "nowrap",
           }}
-          className="ft50"
+          className="ft10"
         >
           A-12,&nbsp;2
         </p>
         <p
           style={{
             position: "absolute",
-            top: "1167px",
-            left: "113px",
+            top: "1414px",
+            left: "273px",
             whiteSpace: "nowrap",
           }}
-          className="ft51"
+          className="ft11"
         >
           nd
         </p>
         <p
           style={{
             position: "absolute",
-            top: "1167px",
-            left: "123px",
+            top: "1414px",
+            left: "283px",
             whiteSpace: "nowrap",
           }}
-          className="ft50"
+          className="ft10"
         >
           &nbsp;Floor,&nbsp;Mohan&nbsp;Cooperative&nbsp;Industrial&nbsp;Estate,&nbsp;Main&nbsp;Mathura&nbsp;Road,&nbsp;New&nbsp;Delhi&nbsp;–&nbsp;110044.&nbsp;&nbsp;Phone:&nbsp;+91-11-61400200&nbsp;
         </p>
         <p
           style={{
             position: "absolute",
-            top: "1183px",
-            left: "393px",
+            top: "1440px",
+            left: "500px",
             whiteSpace: "nowrap",
           }}
-          className="ft52"
+          className="ft12"
         >
           www.eupheus.in
         </p>
         <p
           style={{
             position: "absolute",
-            top: "1183px",
+            top: "1178px",
             left: "501px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
           }}
-          className="ft50"
+          className="ft10"
         >
           &nbsp;
         </p>
         <p
           style={{
             position: "absolute",
-            top: "1199px",
+            top: "1194px",
             left: "447px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
           }}
-          className="ft50"
+          className="ft10"
         >
           &nbsp;
         </p>
         <p
           style={{
             position: "absolute",
-            top: "58px",
+            top: "62px",
             left: "438px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
           }}
-          className="ft50"
+          className="ft10"
         >
           &nbsp;&nbsp;&nbsp;&nbsp;
         </p>
         <p
           style={{
             position: "absolute",
-            top: "115px",
+            top: "119px",
             left: "438px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
           }}
-          className="ft50"
+          className="ft10"
         >
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         </p>
         <p
           style={{
             position: "absolute",
-            top: "131px",
+            top: "135px",
             left: "438px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
           }}
-          className="ft50"
+          className="ft10"
         >
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         </p>
         <p
           style={{
             position: "absolute",
-            top: "1122px",
+            top: "1117px",
             left: "884px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
           }}
-          className="ft53"
+          className="ft13"
         >
           &nbsp;
         </p>
         <p
           style={{
             position: "absolute",
-            top: "1137px",
+            top: "1132px",
             left: "108px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
           }}
-          className="ft53"
+          className="ft13"
         >
           &nbsp;
         </p>
         <p
           style={{
             position: "absolute",
-            top: "1131px",
+            top: "1126px",
             left: "108px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
           }}
-          className="ft54"
+          className="ft14"
+        >
+          &nbsp;
+        </p>
+        <p
+          style={{
+            position: "absolute",
+            top: "165px",
+            left: "199px",
+            whiteSpace: "nowrap",
+          }}
+          className="ft15"
         >
           &nbsp;
         </p>
@@ -3841,7 +3929,7 @@ const AofPdf = () => {
             top: "156px",
             left: "395px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft55"
         >
@@ -3853,7 +3941,7 @@ const AofPdf = () => {
             top: "172px",
             left: "108px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft55"
         >
@@ -3865,7 +3953,7 @@ const AofPdf = () => {
             top: "188px",
             left: "368px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft55"
         >
@@ -3877,7 +3965,7 @@ const AofPdf = () => {
             top: "205px",
             left: "108px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft55"
         >
@@ -3889,7 +3977,7 @@ const AofPdf = () => {
             top: "223px",
             left: "156px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft55"
         >
@@ -3901,7 +3989,7 @@ const AofPdf = () => {
             top: "223px",
             left: "361px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft55"
         >
@@ -3913,7 +4001,7 @@ const AofPdf = () => {
             top: "223px",
             left: "554px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft55"
         >
@@ -3925,7 +4013,7 @@ const AofPdf = () => {
             top: "243px",
             left: "117px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft56"
         >
@@ -3937,7 +4025,7 @@ const AofPdf = () => {
             top: "243px",
             left: "333px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft56"
         >
@@ -3949,7 +4037,7 @@ const AofPdf = () => {
             top: "243px",
             left: "417px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft56"
         >
@@ -3961,7 +4049,7 @@ const AofPdf = () => {
             top: "262px",
             left: "117px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft56"
         >
@@ -3973,7 +4061,7 @@ const AofPdf = () => {
             top: "262px",
             left: "352px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft56"
         >
@@ -3985,7 +4073,7 @@ const AofPdf = () => {
             top: "262px",
             left: "417px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft56"
         >
@@ -3997,7 +4085,7 @@ const AofPdf = () => {
             top: "282px",
             left: "117px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft56"
         >
@@ -4009,7 +4097,7 @@ const AofPdf = () => {
             top: "282px",
             left: "352px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft56"
         >
@@ -4021,7 +4109,7 @@ const AofPdf = () => {
             top: "282px",
             left: "417px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft56"
         >
@@ -4033,7 +4121,7 @@ const AofPdf = () => {
             top: "302px",
             left: "117px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft56"
         >
@@ -4045,7 +4133,7 @@ const AofPdf = () => {
             top: "297px",
             left: "367px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft56"
         >
@@ -4057,7 +4145,7 @@ const AofPdf = () => {
             top: "302px",
             left: "417px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft56"
         >
@@ -4069,7 +4157,7 @@ const AofPdf = () => {
             top: "321px",
             left: "117px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft56"
         >
@@ -4081,7 +4169,7 @@ const AofPdf = () => {
             top: "321px",
             left: "357px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft56"
         >
@@ -4093,7 +4181,7 @@ const AofPdf = () => {
             top: "321px",
             left: "417px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft56"
         >
@@ -4105,7 +4193,7 @@ const AofPdf = () => {
             top: "341px",
             left: "117px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft56"
         >
@@ -4117,7 +4205,7 @@ const AofPdf = () => {
             top: "341px",
             left: "349px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft56"
         >
@@ -4129,7 +4217,7 @@ const AofPdf = () => {
             top: "341px",
             left: "417px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft56"
         >
@@ -4141,7 +4229,7 @@ const AofPdf = () => {
             top: "361px",
             left: "117px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft56"
         >
@@ -4153,7 +4241,7 @@ const AofPdf = () => {
             top: "356px",
             left: "367px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft56"
         >
@@ -4165,7 +4253,7 @@ const AofPdf = () => {
             top: "361px",
             left: "417px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft56"
         >
@@ -4177,7 +4265,7 @@ const AofPdf = () => {
             top: "380px",
             left: "117px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft56"
         >
@@ -4189,7 +4277,7 @@ const AofPdf = () => {
             top: "375px",
             left: "367px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft56"
         >
@@ -4201,7 +4289,7 @@ const AofPdf = () => {
             top: "380px",
             left: "417px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft56"
         >
@@ -4213,7 +4301,7 @@ const AofPdf = () => {
             top: "400px",
             left: "117px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft56"
         >
@@ -4225,7 +4313,7 @@ const AofPdf = () => {
             top: "400px",
             left: "352px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft56"
         >
@@ -4237,7 +4325,7 @@ const AofPdf = () => {
             top: "400px",
             left: "417px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft56"
         >
@@ -4249,7 +4337,7 @@ const AofPdf = () => {
             top: "420px",
             left: "117px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft56"
         >
@@ -4261,7 +4349,7 @@ const AofPdf = () => {
             top: "420px",
             left: "352px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft56"
         >
@@ -4273,7 +4361,7 @@ const AofPdf = () => {
             top: "420px",
             left: "417px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft56"
         >
@@ -4285,7 +4373,7 @@ const AofPdf = () => {
             top: "439px",
             left: "117px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft56"
         >
@@ -4297,7 +4385,7 @@ const AofPdf = () => {
             top: "434px",
             left: "367px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft56"
         >
@@ -4309,7 +4397,7 @@ const AofPdf = () => {
             top: "439px",
             left: "417px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft56"
         >
@@ -4321,7 +4409,7 @@ const AofPdf = () => {
             top: "459px",
             left: "117px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft56"
         >
@@ -4333,7 +4421,7 @@ const AofPdf = () => {
             top: "459px",
             left: "352px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft56"
         >
@@ -4345,7 +4433,7 @@ const AofPdf = () => {
             top: "459px",
             left: "417px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft56"
         >
@@ -4357,7 +4445,7 @@ const AofPdf = () => {
             top: "478px",
             left: "117px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft55"
         >
@@ -4369,7 +4457,7 @@ const AofPdf = () => {
             top: "478px",
             left: "333px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft55"
         >
@@ -4381,7 +4469,7 @@ const AofPdf = () => {
             top: "478px",
             left: "417px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft55"
         >
@@ -4393,7 +4481,7 @@ const AofPdf = () => {
             top: "497px",
             left: "108px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft59"
         >
@@ -4407,7 +4495,7 @@ const AofPdf = () => {
             top: "529px",
             left: "116px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft55"
         >
@@ -4419,7 +4507,7 @@ const AofPdf = () => {
             top: "529px",
             left: "510px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft55"
         >
@@ -4431,7 +4519,7 @@ const AofPdf = () => {
             top: "546px",
             left: "108px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft59"
         >
@@ -4447,7 +4535,7 @@ const AofPdf = () => {
             top: "595px",
             left: "116px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft55"
         >
@@ -4459,7 +4547,7 @@ const AofPdf = () => {
             top: "595px",
             left: "512px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft55"
         >
@@ -4471,7 +4559,7 @@ const AofPdf = () => {
             top: "611px",
             left: "108px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft55"
         >
@@ -4483,7 +4571,7 @@ const AofPdf = () => {
             top: "627px",
             left: "116px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft55"
         >
@@ -4495,7 +4583,7 @@ const AofPdf = () => {
             top: "627px",
             left: "318px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft55"
         >
@@ -4507,7 +4595,7 @@ const AofPdf = () => {
             top: "627px",
             left: "512px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft55"
         >
@@ -4519,7 +4607,7 @@ const AofPdf = () => {
             top: "627px",
             left: "751px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft55"
         >
@@ -4531,7 +4619,7 @@ const AofPdf = () => {
             top: "652px",
             left: "116px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft55"
         >
@@ -4543,7 +4631,7 @@ const AofPdf = () => {
             top: "652px",
             left: "316px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft55"
         >
@@ -4555,7 +4643,7 @@ const AofPdf = () => {
             top: "652px",
             left: "512px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft55"
         >
@@ -4567,7 +4655,7 @@ const AofPdf = () => {
             top: "652px",
             left: "755px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft55"
         >
@@ -4579,7 +4667,7 @@ const AofPdf = () => {
             top: "676px",
             left: "116px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft55"
         >
@@ -4591,7 +4679,7 @@ const AofPdf = () => {
             top: "704px",
             left: "884px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft55"
         >
@@ -4603,7 +4691,6 @@ const AofPdf = () => {
             top: "725px",
             left: "394px",
             whiteSpace: "nowrap",
-            
           }}
           className="ft55"
         >
@@ -4615,7 +4702,7 @@ const AofPdf = () => {
             top: "741px",
             left: "116px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft55"
         >
@@ -4627,7 +4714,7 @@ const AofPdf = () => {
             top: "765px",
             left: "134px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft55"
         >
@@ -4639,7 +4726,7 @@ const AofPdf = () => {
             top: "784px",
             left: "116px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft510"
         >
@@ -4669,7 +4756,7 @@ const AofPdf = () => {
             top: "975px",
             left: "108px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft57"
         >
@@ -4681,7 +4768,7 @@ const AofPdf = () => {
             top: "975px",
             left: "533px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft55"
         >
@@ -4693,7 +4780,7 @@ const AofPdf = () => {
             top: "993px",
             left: "108px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft510"
         >
@@ -4729,7 +4816,7 @@ const AofPdf = () => {
             top: "1044px",
             left: "533px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft55"
         >
@@ -4818,7 +4905,7 @@ const AofPdf = () => {
             top: "1081px",
             left: "533px",
             whiteSpace: "nowrap",
-            fontSize:"11pt" 
+            fontSize: "11pt",
           }}
           className="ft55"
         >
