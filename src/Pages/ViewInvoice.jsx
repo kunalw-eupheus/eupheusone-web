@@ -361,11 +361,11 @@ const ViewInvoice = () => {
         },
       ]);
       // console.log("first")
-      // console.log(searchRow)
+      console.log(searchRow)
     } else {
       // console.log("second")
       setSearchRow(tempArr);
-      // console.log(searchRow)
+      console.log(searchRow)
     }
   };
 
@@ -539,7 +539,7 @@ const ViewInvoice = () => {
                                 component="th"
                                 scope="row"
                               >
-                                {row.inv_no}
+                                {row.docnum}
                               </TableCell>
                               <TableCell align="center">
                                 {row.docdate}

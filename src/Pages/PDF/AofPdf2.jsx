@@ -24,7 +24,9 @@ const AofPdf2 = () => {
         >
           <div>No.: _________________</div>
           <div>Date :____________________</div>
-          <div>2022-23 To 2024-25</div>
+          <div style={{border: "2px solid black"}}>
+            <div style={{margin: "5px"}}>2022-23 To 2024-25</div>
+          </div>
         </div>
 
         <div
@@ -40,7 +42,7 @@ const AofPdf2 = () => {
             </div>
             <div className="flex justify-start" style={{ marginTop: "5px" }}>
               Status*: Sole Proprietary/ Partnership/ LLP/Pvt. Ltd. / Public
-              Ltd. /Trust: ____
+              Ltd. /Trust: ____________________________
             </div>
             <div className="flex justify-start" style={{ marginTop: "5px" }}>
               Address*: ________________________________
@@ -48,18 +50,18 @@ const AofPdf2 = () => {
             <div className="flex justify-between" style={{ marginTop: "5px" }}>
               <div>City*:__________________</div>
               <div>State*:_________________</div>
-              <div>Pin Code*:_____________</div>
+              <div>Pin Code*:__________________</div>
             </div>
             <div className="flex justify-between" style={{ marginTop: "5px" }}>
               <div>Phone*:__________________</div>
               <div>Mobile*:_________________</div>
-              <div>E-Mail*:_____________</div>
+              <div>E-Mail*:____________________</div>
             </div>
             <div className="flex justify-between" style={{ marginTop: "5px" }}>
               <div>
                 Firm/ Company/Trust Registration Number*:__________________
               </div>
-              <div>Dated:_________________</div>
+              <div>Dated:_____________________</div>
             </div>
             <div className="flex justify-between" style={{ marginTop: "5px" }}>
               <div>PAN No*:__________________(Copy Enclosed)</div>
@@ -236,9 +238,7 @@ const AofPdf2 = () => {
             which expression shall unless repugnant to the context means and
             include its successors and assigns of the ONE PART
           </div>
-          <div className="flex justify-center">
-            And
-          </div>
+          <div className="flex justify-center">And</div>
           <div style={{ margin: "10px" }}>
             ____________________________________________________________ (the
             "Distributor"), with its principal place of business located at _
@@ -263,29 +263,29 @@ const AofPdf2 = () => {
         <div style={{ margin: "10px" }} className="flex container">
           <div>1. </div>
           <div>
-            <b>Credit Limit.</b> Distributer shall be entitled to a maximum annual
-            Credit Limit of Rs.10 LAKHS_Rupees _TEN LAKHS during the term of
-            this agreement.
+            <b>Credit Limit.</b> Distributer shall be entitled to a maximum
+            annual Credit Limit of Rs.10 LAKHS_Rupees _TEN LAKHS during the term
+            of this agreement.
           </div>
         </div>
         <div style={{ margin: "10px" }} className="flex container">
           <div>2. </div>
           <div>
-            <b>Payment Process.</b> The Distributor is required to pay 60% of the total
-            invoiced amount, within 90 Calendar Days from the date of invoice
-            and balance payment of 40% within 120 Calendar Days from the date of
-            Invoice. Payment shall be made via interbank transfer to Eupheus
-            account at a bank designated by Eupheus or by Demand Draft.
+            <b>Payment Process.</b> The Distributor is required to pay 60% of
+            the total invoiced amount, within 90 Calendar Days from the date of
+            invoice and balance payment of 40% within 120 Calendar Days from the
+            date of Invoice. Payment shall be made via interbank transfer to
+            Eupheus account at a bank designated by Eupheus or by Demand Draft.
           </div>
         </div>
         <div style={{ margin: "10px" }} className="flex container">
           <div>3. </div>
           <div>
-            <b>Discount.</b> The Distributor shall be entitled to discount(s) on the
-            products as per Annexure – 1, which shall be applicable in the event
-            the payment is received as per the following Clause 2 above and such
-            Turnover discount shall be applicable on Net Business i.e. Net
-            Business would mean sales value as per invoice less discounts
+            <b>Discount.</b> The Distributor shall be entitled to discount(s) on
+            the products as per Annexure – 1, which shall be applicable in the
+            event the payment is received as per the following Clause 2 above
+            and such Turnover discount shall be applicable on Net Business i.e.
+            Net Business would mean sales value as per invoice less discounts
             allowed/applied and adjusting the value of Returns as per Eupheus’
             credit note.{" "}
           </div>
@@ -301,24 +301,24 @@ const AofPdf2 = () => {
         <div style={{ margin: "10px" }} className="flex container">
           <div>5. </div>
           <div>
-            <b>Risk of Loss.</b> Title, risk of loss, theft and damage shall pass to
-            Distributor upon delivery of Product to the carrier, whether
+            <b>Risk of Loss.</b> Title, risk of loss, theft and damage shall
+            pass to Distributor upon delivery of Product to the carrier, whether
             appointed by the Distributor.
           </div>
         </div>
         <div style={{ margin: "10px" }} className="flex container">
           <div>6. </div>
           <div>
-            <b>Defective Products.</b> In the event that the Product is found to be
-            defective Distributor shall promptly notify Eupheus through e-mail
-            or post of the existence of such Defect in the Product within three
-            (3) Calendar days of acceptance of the Products. Both Distributor
-            and Eupheus shall, in good faith, work to resolve the problem. After
-            Eupheus determines that the product is defective and cannot be
-            remedied without having such Defective Product shipped back to
-            Eupheus, Eupheus will ship a replacement for the Defective Product
-            within a reasonable time and Distributor shall, upon notice of
-            shipment by Eupheus, exchange the Defective Product with the
+            <b>Defective Products.</b> In the event that the Product is found to
+            be defective Distributor shall promptly notify Eupheus through
+            e-mail or post of the existence of such Defect in the Product within
+            three (3) Calendar days of acceptance of the Products. Both
+            Distributor and Eupheus shall, in good faith, work to resolve the
+            problem. After Eupheus determines that the product is defective and
+            cannot be remedied without having such Defective Product shipped
+            back to Eupheus, Eupheus will ship a replacement for the Defective
+            Product within a reasonable time and Distributor shall, upon notice
+            of shipment by Eupheus, exchange the Defective Product with the
             different product.
           </div>
         </div>
@@ -332,26 +332,29 @@ const AofPdf2 = () => {
         <div style={{ margin: "10px" }} className="flex container">
           <div>7. </div>
           <div>
-            <b>Return Policy.</b> The unsold books once delivered may be returned to
-            Eupheus by the Distributor subject to the following conditions: <br/> (a)
-            A maximum 10 % (ten percent) of invoiced value will be allowed to be
-            returned if unutilized (“Returns”) quantity at any given point of
-            time. <br/>(b) The returned books shall not be utilized or used by any
-            person and are in good condition, meaning thereby that the books
-            shall not be torn or dirty or any scribbled marks or pen marks or
-            bound or damaged or otherwise in such condition that the books are
-            unfit for resale by Eupheus. <br/>(c) Such returns need to be notified by
-            the Distributor through e-mail or post. <br/>(d) Such return of books
-            shall be delivered by the Distributor with reasonable care to the
-            warehouse/Clearing & Forwarding Agent of Eupheus, details of which
-            shall be provided by Eupheus, within 180 days of date of delivery
-            and in no case later than 31st August of the year in which such
-            books were invoiced/ supplied. <br/>(e) The liability of expenses
-            incurred by the Distributor for such return of books shall be of the
-            Distributor and in no way such expenses shall be reimbursed to the
-            Distributor by Eupheus. <br/>(f) Any additional/special discount(s)
-            applied at the time of sale shall be adjusted for the return of
-            books and credit note will be calculated accordingly.
+            <b>Return Policy.</b> The unsold books once delivered may be
+            returned to Eupheus by the Distributor subject to the following
+            conditions: <br /> (a) A maximum 10 % (ten percent) of invoiced
+            value will be allowed to be returned if unutilized (“Returns”)
+            quantity at any given point of time. <br />
+            (b) The returned books shall not be utilized or used by any person
+            and are in good condition, meaning thereby that the books shall not
+            be torn or dirty or any scribbled marks or pen marks or bound or
+            damaged or otherwise in such condition that the books are unfit for
+            resale by Eupheus. <br />
+            (c) Such returns need to be notified by the Distributor through
+            e-mail or post. <br />
+            (d) Such return of books shall be delivered by the Distributor with
+            reasonable care to the warehouse/Clearing & Forwarding Agent of
+            Eupheus, details of which shall be provided by Eupheus, within 180
+            days of date of delivery and in no case later than 31st August of
+            the year in which such books were invoiced/ supplied. <br />
+            (e) The liability of expenses incurred by the Distributor for such
+            return of books shall be of the Distributor and in no way such
+            expenses shall be reimbursed to the Distributor by Eupheus. <br />
+            (f) Any additional/special discount(s) applied at the time of sale
+            shall be adjusted for the return of books and credit note will be
+            calculated accordingly.
           </div>
         </div>
         <div style={{ margin: "10px" }} className="flex container">
@@ -379,37 +382,40 @@ const AofPdf2 = () => {
         <div style={{ margin: "10px" }} className="flex container">
           <div>9. </div>
           <div>
-            <b>Non Disclosure:</b> Each party shall protect the other's Confidential
-            Information from unauthorized dissemination and use the same degree
-            of care that such party uses to protect its own information. Neither
-            party shall disclose to third parties the other's Confidential
-            Information without the prior written consent of the other party.
-            Neither party shall use the other's Confidential Information for
-            purposes other than those necessary to directly further the purposes
-            of this Agreement. Each employee or agent of the Distributor,
-            performing duties hereunder, shall be made aware of this Agreement
-            and said employee or agent of the Distributor is bound to the same
-            level of confidentiality contained herein.
+            <b>Non Disclosure:</b> Each party shall protect the other's
+            Confidential Information from unauthorized dissemination and use the
+            same degree of care that such party uses to protect its own
+            information. Neither party shall disclose to third parties the
+            other's Confidential Information without the prior written consent
+            of the other party. Neither party shall use the other's Confidential
+            Information for purposes other than those necessary to directly
+            further the purposes of this Agreement. Each employee or agent of
+            the Distributor, performing duties hereunder, shall be made aware of
+            this Agreement and said employee or agent of the Distributor is
+            bound to the same level of confidentiality contained herein.
           </div>
         </div>
         <div style={{ margin: "10px" }} className="flex container">
           <div>10. </div>
           <div>
-            <b>Termination of Agreement:</b> The term of this Agreement shall be for
-            from the date of signing of this Agreement unless sooner terminated
-            to 31st March 2025. Following such Initial Term, this Agreement can
-            be renewed for successive three (3) year on mutual agreement on the
-            same terms or amended terms, unless either party notifies the other
-            in writing of an intention not to renew the Agreement. Termination
-            shall not relieve either party of obligations incurred prior
-            thereto. This Agreement may be terminated under the following
-            stipulations without exception under any circumstances: <br/>a. by the
-            Distributor at anytime upon ninety (90) days written notice to
-            Eupheus citing the reason. <br/>b. by Eupheus upon ninety (90) days
-            written notice to the Distributor citing the reason. <br/>c. by Eupheus
-            upon ninety (90) days written notice to the Distributor in the event
-            of the Distributor’s involvement in voluntary or involuntary
-            bankruptcy proceedings under the Bankruptcy Laws of India;
+            <b>Termination of Agreement:</b> The term of this Agreement shall be
+            for from the date of signing of this Agreement unless sooner
+            terminated to 31st March 2025. Following such Initial Term, this
+            Agreement can be renewed for successive three (3) year on mutual
+            agreement on the same terms or amended terms, unless either party
+            notifies the other in writing of an intention not to renew the
+            Agreement. Termination shall not relieve either party of obligations
+            incurred prior thereto. This Agreement may be terminated under the
+            following stipulations without exception under any circumstances:{" "}
+            <br />
+            a. by the Distributor at anytime upon ninety (90) days written
+            notice to Eupheus citing the reason. <br />
+            b. by Eupheus upon ninety (90) days written notice to the
+            Distributor citing the reason. <br />
+            c. by Eupheus upon ninety (90) days written notice to the
+            Distributor in the event of the Distributor’s involvement in
+            voluntary or involuntary bankruptcy proceedings under the Bankruptcy
+            Laws of India;
           </div>
         </div>
       </div>
@@ -422,8 +428,8 @@ const AofPdf2 = () => {
         <div style={{ margin: "10px" }} className="flex container">
           <div>11. </div>
           <div>
-            <b>Relationship between the Parties:</b> The relationship between the
-            parties established by this Agreement shall be solely that of
+            <b>Relationship between the Parties:</b> The relationship between
+            the parties established by this Agreement shall be solely that of
             supplier and distributor and all rights and powers not expressly
             granted to the Distributor are expressly reserved to Eupheus. The
             Distributor shall have no right, power or authority in any way to
@@ -434,33 +440,33 @@ const AofPdf2 = () => {
         <div style={{ margin: "10px" }} className="flex container">
           <div>12. </div>
           <div>
-            <b>Severability:</b> The invalidity or unenforceability of any provisions
-            of this Agreement shall not affect validity or enforceability of any
-            other provision of this Agreement, which shall remain in full force
-            and effect.
+            <b>Severability:</b> The invalidity or unenforceability of any
+            provisions of this Agreement shall not affect validity or
+            enforceability of any other provision of this Agreement, which shall
+            remain in full force and effect.
           </div>
         </div>
         <div style={{ margin: "10px" }} className="flex container">
           <div>13. </div>
           <div>
-            <b>Amendments:</b> No change or modification of this Agreement will be
-            valid unless it is in writing and signed by each party to this
+            <b>Amendments:</b> No change or modification of this Agreement will
+            be valid unless it is in writing and signed by each party to this
             Agreement.
           </div>
         </div>
         <div style={{ margin: "10px" }} className="flex container">
           <div>14. </div>
           <div>
-            <b>Applicable Law:</b> This Agreement shall be governed by Laws of India
-            and the courts of Delhi shall have exclusive jurisdiction.
+            <b>Applicable Law:</b> This Agreement shall be governed by Laws of
+            India and the courts of Delhi shall have exclusive jurisdiction.
           </div>
         </div>
         <div style={{ margin: "10px" }} className="flex container">
           <div>15. </div>
           <div>
-            <b>Resolution of Disputes:</b> Any dispute/claims arising out of or in
-            connection with this contract, including any question regarding its
-            existence, validity or termination shall be first tried by
+            <b>Resolution of Disputes:</b> Any dispute/claims arising out of or
+            in connection with this contract, including any question regarding
+            its existence, validity or termination shall be first tried by
             negotiation between the parties by their authorised representatives
             within fourteen (14) days after one party delivers a written request
             with details of disputes/claims for a meeting to the other party. If
@@ -495,9 +501,9 @@ const AofPdf2 = () => {
             <div>
               <b>Solutions Private Limited</b>
             </div>
-            <div style={{ marginTop: "20px" }}>By: ___________</div>
-            <div style={{ marginTop: "2px" }}>Name: ___________</div>
-            <div style={{ marginTop: "2px" }}>Title: ___________</div>
+            <div style={{ marginTop: "20px" }}>By: _____________</div>
+            <div style={{ marginTop: "2px" }}>Name: _____________</div>
+            <div style={{ marginTop: "2px" }}>Title: _____________</div>
             <div style={{ marginTop: "2px" }}>(Authorised Officer)</div>
             <div style={{ marginTop: "2px" }}>Witness1: _______________</div>
           </div>
@@ -505,9 +511,9 @@ const AofPdf2 = () => {
             <div>
               <b>For Customer</b>
             </div>
-            <div style={{ marginTop: "45px" }}>By: ___________</div>
-            <div style={{ marginTop: "2px" }}>Name: ___________</div>
-            <div style={{ marginTop: "2px" }}>Title: ___________</div>
+            <div style={{ marginTop: "45px" }}>By: _____________</div>
+            <div style={{ marginTop: "2px" }}>Name: _____________</div>
+            <div style={{ marginTop: "2px" }}>Title: _____________</div>
             <div style={{ marginTop: "2px" }}>(Authorised Officer)</div>
             <div style={{ marginTop: "2px" }}>Witness1: _______________</div>
           </div>
@@ -529,7 +535,7 @@ const AofPdf2 = () => {
 
         <div>
           <div style={{ margin: "40px" }}>
-            <table style={{ border: "1px solid black", width: "100%" }}>
+            <table style={{ border: "1px solid black", width: "100%"}}>
               <tr style={{ border: "1px solid black" }}>
                 <th style={{ border: "1px solid black", width: "40%" }}>
                   Type of Discounts
@@ -540,48 +546,71 @@ const AofPdf2 = () => {
                 </th>
               </tr>
               <tr style={{ border: "1px solid black" }}>
-                <td style={{ border: "1px solid black" }}>Ramesh Raman</td>
-                <td style={{ border: "1px solid black" }}>5000</td>
-                <td style={{ border: "1px solid black" }}>5000</td>
+                <td style={{ border: "1px solid black" }}>EUPHEUS</td>
+                <td style={{ border: "1px solid black" }}></td>
+                <td style={{ border: "1px solid black" }}></td>
               </tr>
 
               <tr style={{ border: "1px solid black" }}>
-                <td style={{ border: "1px solid black" }}>Ramesh Raman</td>
-                <td style={{ border: "1px solid black" }}>5000</td>
-                <td style={{ border: "1px solid black" }}>5000</td>
+                <td style={{ border: "1px solid black" }}>a) English</td>
+                <td style={{ border: "1px solid black" }}>25% </td>
+                <td style={{ border: "1px solid black" }}>On GROSS </td>
               </tr>
 
               <tr style={{ border: "1px solid black" }}>
-                <td style={{ border: "1px solid black" }}>Ramesh Raman</td>
-                <td style={{ border: "1px solid black" }}>5000</td>
-                <td style={{ border: "1px solid black" }}>5000</td>
+                <td style={{ border: "1px solid black" }}>b) others </td>
+                <td style={{ border: "1px solid black" }}>30% </td>
+                <td style={{ border: "1px solid black" }}>On GROSS </td>
               </tr>
 
               <tr style={{ border: "1px solid black" }}>
-                <td style={{ border: "1px solid black" }}>Shabbir Hussein</td>
-                <td style={{ border: "1px solid black" }}>7000</td>
-                <td style={{ border: "1px solid black" }}>5000</td>
+                <td style={{ border: "1px solid black" }}>&nbsp;</td>
+                <td style={{ border: "1px solid black" }}>&nbsp;</td>
+                <td style={{ border: "1px solid black" }}>&nbsp;</td>
               </tr>
               <tr style={{ border: "1px solid black" }}>
-                <td style={{ border: "1px solid black" }}>Shabbir Hussein</td>
-                <td style={{ border: "1px solid black" }}>7000</td>
-                <td style={{ border: "1px solid black" }}>5000</td>
+                <td style={{ border: "1px solid black" }}>CASH DISCOUNT</td>
+                <td style={{ border: "1px solid black" }}>5%</td>
+                <td style={{ border: "1px solid black" }}>AS PER POLICY</td>
               </tr>
               <tr style={{ border: "1px solid black" }}>
-                <td style={{ border: "1px solid black" }}>Shabbir Hussein</td>
-                <td style={{ border: "1px solid black" }}>7000</td>
-                <td style={{ border: "1px solid black" }}>5000</td>
+                <td style={{ border: "1px solid black" }}>TOD</td>
+                <td style={{ border: "1px solid black" }}>SLAB</td>
+                <td style={{ border: "1px solid black" }}>ON NET SALE(SALE-RETURN) </td>
               </tr>
               <tr style={{ border: "1px solid black" }}>
-                <td style={{ border: "1px solid black" }}>Shabbir Hussein</td>
-                <td style={{ border: "1px solid black" }}>7000</td>
-                <td style={{ border: "1px solid black" }}>5000</td>
+                <td style={{ border: "1px solid black" }}>&nbsp;</td>
+                <td style={{ border: "1px solid black" }}>&nbsp;</td>
+                <td style={{ border: "1px solid black" }}>&nbsp;</td>
               </tr>
               <tr style={{ border: "1px solid black" }}>
-                <td style={{ border: "1px solid black" }}>Shabbir Hussein</td>
-                <td style={{ border: "1px solid black" }}>7000</td>
-                <td style={{ border: "1px solid black" }}>5000</td>
+                <td style={{ border: "1px solid black" }}>ALLIED </td>
+                <td style={{ border: "1px solid black" }}></td>
+                <td style={{ border: "1px solid black" }}></td>
               </tr>
+              <tr style={{ border: "1px solid black" }}>
+                <td style={{ border: "1px solid black" }}>a) Chemistry</td>
+                <td style={{ border: "1px solid black" }}>25%</td>
+                <td style={{ border: "1px solid black" }}>On GROSS</td>
+              </tr>
+              <tr style={{ border: "1px solid black" }}>
+                <td style={{ border: "1px solid black" }}>b) others </td>
+                <td style={{ border: "1px solid black" }}>30%</td>
+                <td style={{ border: "1px solid black" }}>On GROSS</td>
+              </tr>
+              <tr style={{ border: "1px solid black" }}>
+                <td style={{ border: "1px solid black" }}>&nbsp;</td>
+                <td style={{ border: "1px solid black" }}>&nbsp;</td>
+                <td style={{ border: "1px solid black" }}>&nbsp;</td>
+              </tr>
+              <tr style={{ border: "1px solid black" }}>
+                <td style={{ border: "1px solid black" }}>learning links</td>
+                <td style={{ border: "1px solid black" }}>30% </td>
+                <td style={{ border: "1px solid black" }}>On GROSS </td>
+              </tr>
+
+
+              
             </table>
           </div>
         </div>
@@ -617,11 +646,12 @@ const AofPdf2 = () => {
             </b>
           </div>
           <div style={{ margin: "20px" }}>
-            I/ We……………………………………………………………………………………………………………………………………… (Name of the
-            Proprietor/Karta/Authorized Signatory), being ……………………………………………………………………
-            (Designation) of ………………………………………………………….(Legal Name as per PAN) do
-            hereby state that I/We am/are not liable to registration under the
-            provisions of Goods and Service Tax Act.
+            I/ We……………………………………………………………………………………………………………………………………… (Name of
+            the Proprietor/Karta/Authorized Signatory), being
+            …………………………………………………………………… (Designation) of
+            ………………………………………………………….(Legal Name as per PAN) do hereby state that
+            I/We am/are not liable to registration under the provisions of Goods
+            and Service Tax Act.
           </div>
           <div style={{ margin: "20px" }}>
             I/We declare that as soon as we Become eligible for GST
@@ -630,17 +660,19 @@ const AofPdf2 = () => {
             Solutions Private Limited.
           </div>
           <div className="flex justify-around" style={{ marginTop: "20px" }}>
-          <div>
-            <div style={{ marginTop: "60px" }}><u>GSTIN AAACA1234DIZL</u></div>
-          </div>
-          <div>
             <div>
-              <b>For Customer</b>
+              <div style={{ marginTop: "60px" }}>
+                <u>GSTIN AAACA1234DIZL</u>
+              </div>
             </div>
-            <div style={{ marginTop: "30px" }}>(Stamp and Signature)</div>
-            <div style={{ marginTop: "5px" }}>Date: _______________</div>
+            <div>
+              <div>
+                <b>For Customer</b>
+              </div>
+              <div style={{ marginTop: "30px" }}>(Stamp and Signature)</div>
+              <div style={{ marginTop: "5px" }}>Date: _______________</div>
+            </div>
           </div>
-        </div>
         </div>
       </div>
     </div>

@@ -11,6 +11,8 @@ import orderImg from "../assets/img/order.png";
 import documentImg from "../assets/img/documents.png";
 import zohoImg from "../assets/img/zoho.png";
 import invoiceLogo from "../assets/img/invoice_logo.jpg"
+import creditLogo from "../assets/img/creditNote.jpg"
+import CustLedger from "../assets/img/custLedger.jpg";
 import SwipeableTemporaryDrawer from "../Components/Material/MaterialSidebar";
 
 // import { Map } from "@mui/icons-material";
@@ -173,13 +175,13 @@ const PrintPDF = () => {
               <h1 className="text-gray-100 sm:text-2xl text-base font-semibold absolute top-[2rem] left-[2rem]">
                 Welcome
               </h1>
-              <a
+              {/* <a
                 href="https://skool.ai/bucket/crmv2/androidApp/app-release9.apk"
                 download="latest_apk_download"
                 className="absolute sm:top-[2rem] top-[3rem] sm:right-[2rem] right-[1rem]"
               >
                 <BasicButton text={"download latest apk"} size={"small"} />
-              </a>
+              </a> */}
 
               <div className="w-full flex flex-col px-4 pb-6 sm:flex-row gap-6 items-center justify-center">
 
@@ -209,8 +211,13 @@ const PrintPDF = () => {
                   <span className="md:text-2xl sm:text-base text-sm font-bold">
                     Credit Note
                   </span>
+                  <img
+                    src={creditLogo}
+                    className="md:w-[10.8rem] sm:w-[7.5rem] w-[4rem] h-auto "
+                    alt=""
+                  />
                   {/* <Link to="/order_processing">
-                    <BasicButton text={"Print"} />
+                    <BasicButton text={"Next"} />
                   </Link> */}
                 </section>
 
@@ -223,8 +230,13 @@ const PrintPDF = () => {
                   <span className="md:text-2xl sm:text-base text-sm font-bold">
                     Cust Ledger
                   </span>
-                  {/* <Link to="/order_processing">
-                    <BasicButton text={"Print"} />
+                  <img
+                    src={CustLedger}
+                    className="md:w-[10.8rem] sm:w-[7.5rem] w-[4rem] h-auto "
+                    alt=""
+                  />
+                  {/* <Link to="/order_processing" >
+                    <BasicButton text={"Next"} />
                   </Link> */}
                 </section>
                 {/* <div className="flex sm:w-[60%]  flex-row gap-4 ">
