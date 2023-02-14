@@ -197,9 +197,14 @@ const PrintPDF = () => {
                     className="md:w-[10.8rem] sm:w-[7.5rem] w-[4rem] h-auto "
                     alt=""
                   />
-                  <Link to="/invoice_pdf">
-                    <BasicButton text={"Next"} />
+                 <div className="flex justify-around">
+                 <Link to="/invoice_pdf_single" className="mr-6">
+                    <BasicButton text={"Single-PDF"} />
                   </Link>
+                  <Link to="/invoice_pdf_double" className="ml-6">
+                    <BasicButton text={"Bulk-PDF"} />
+                  </Link>
+                 </div>
                 </section>
 
                 <section className="flex sm:w-[30%] sm:h-[19rem] w-full sm:flex-col cursor-not-allowed flex-row gap-4 hover:shadow-2xl items-center justify-between px-4 py-4 bg-gray-200 rounded-md">

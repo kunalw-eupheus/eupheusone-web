@@ -32,9 +32,9 @@ const ViewPdf = () => {
       </button> */}
 
       <div ref={printRef}>
-      <AofPdf/>
+      {/* <AofPdf/> */}
         {/* <CustLedger/> */}
-        {/* <Inv/> */}
+        <Inv/>
         {/* <CreditNote/> */}
       </div>
     </div>
