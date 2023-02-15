@@ -17,7 +17,7 @@ const SearchDropDown = ({
   multiple,
   seriesId,
 }) => {
-  // console.log(data)
+  // console.log(data, Name)
   const defaultProps = {
     options: data,
     getOptionLabel: (option) => {
@@ -297,6 +297,10 @@ const SearchDropDown = ({
       // console.log(value, type, seriesId)
       handleOrderProcessingForm(value, type);
     }
+    if (type === "select_city_location") {
+      // console.log(value, type, seriesId)
+      handleOrderProcessingForm(value, type);
+    }
     if (type === "kys_comp_publisher") {
       handleOrderProcessingForm(value, type);
     }
@@ -306,6 +310,10 @@ const SearchDropDown = ({
     if (type === "select_school_type") {
       handleOrderProcessingForm(value, type);
     } 
+    if (type === "aof_status") {
+      // console.log(value, type)
+      handleOrderProcessingForm(value, type);
+    }
     else {
       return;
     }

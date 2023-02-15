@@ -263,7 +263,7 @@ const ViewInvoiceSingle = () => {
         Authorization: `${Cookies.get("accessToken")}`,
       },
     });
-    // console.log(res.data.message);
+    console.log(res.data.message);
     if (res.data.message.length === 0) {
       alert("No Data Available");
     }
@@ -611,7 +611,7 @@ const ViewInvoiceSingle = () => {
                                 component="th"
                                 scope="row"
                               >
-                                {row.docnum}
+                                {row.inv_no=="N/A" || !row.inv_no ? row.docnum : row.inv_no}
                               </TableCell>
                               <TableCell align="center">
                                 {row.docdate}
