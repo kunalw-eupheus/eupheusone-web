@@ -327,7 +327,8 @@ const AddSchool = () => {
             <div className="w-full flex flex-col gap-4 items-center mt-[7rem]">
               <CustomizedSteppers
                 activeStep={calActiceStep()}
-                steps={["Basic Details", "Contact Details", "Address Details"]}
+                // steps={["Basic Details", "Contact Details", "Address Details"]}
+                steps={["", "", ""]}
               />
               {/* step 1 */}
               {steps.step1 ? (

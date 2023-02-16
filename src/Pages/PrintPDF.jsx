@@ -198,12 +198,12 @@ const PrintPDF = () => {
                     alt=""
                   />
                  <div className="flex justify-around">
-                 <Link to="/invoice_pdf_single" className="mr-6">
-                    <BasicButton text={"Single-PDF"} />
+                 <Link to="/invoice_pdf_single" className="mr-1">
+                    <BasicButton text={"Single-Invoice"} />
                   </Link>
-                  <Link to="/invoice_pdf_double" className="ml-6">
-                    <BasicButton text={"Bulk-PDF"} />
-                  </Link>
+                  {/* <Link to="/invoice_pdf_double" className="ml-6">
+                    <BasicButton text={"Bulk-Invoice"} />
+                  </Link> */}
                  </div>
                 </section>
 

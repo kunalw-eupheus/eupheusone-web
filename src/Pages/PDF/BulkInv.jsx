@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import "./Inv.css";
 import eupheusLogo from "./eupheusLogo.png";
 import { useParams } from 'react-router-dom';
-
+import instance from "../../Instance";
 import { DataGrid } from '@mui/x-data-grid';
 import axios from "axios";
 import Cookies from "js-cookie";
@@ -50,17 +50,29 @@ const BulkInv = () => {
   const { bp,fromdate,todate } = useParams();
   const getAllData = async () => {
 
-    const res = await axios.post(`http://192.168.7.148:5070/api/doc_print/invoice/bulk/data`,
-     {
-       bp:bp,
-       todate:fromdate,
-       fromdate:todate
-    },
-    {  headers: {
-        accesskey: `auth74961a98ba76d4e4`,
-      },}
-    ).catch((e)=>{
-        console.log(e.message)
+    // const res = await axios.post(`http://192.168.7.148:5070/api/doc_print/invoice/bulk/data`,
+    //  {
+    //    bp:bp,
+    //    todate:fromdate,
+    //    fromdate:todate
+    // },
+    // {  headers: {
+    //     accesskey: `auth74961a98ba76d4e4`,
+    //   },}
+    // ).catch((e)=>{
+    //     console.log(e.message)
+    // });
+    const res = await instance({
+      url: `doc_print/invoice/bulk/data`,
+      method: "post",
+      data:  {
+        bp:bp,
+        todate:fromdate,
+        fromdate:todate
+     },
+      headers: {
+        Authorization: Cookies.get("accessToken"),
+      },
     });
     let data = res.data.message.message[0]
     console.log(data)

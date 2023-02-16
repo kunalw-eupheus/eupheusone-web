@@ -64,6 +64,32 @@ const AOF = () => {
   const [city, setCity] = useState([]);
   const [date, setDate] = useState("");
   const [nameOfSchool, setNameOfSchool] = useState(null);
+
+  const [pinCode, setPinCode] = useState("");
+  const [stateSelect, setStateSelect] = useState("");
+  const [citySelect, setCitySelect] = useState("");
+  const [ifsc, setIfsc] = useState("");
+
+  const [aofStatus, setAofStatus] = useState("");
+  const [schoolAddress, setSchoolAddress] = useState("");
+  const [schoolEmail, setSchoolEmail] = useState("");
+  const [panNo, setPanNo] = useState("");
+  const [gstNo, setGstNo] = useState("");
+  const [gstYear, setGstYear] = useState("");
+  const [proprietorName, setProprietorName] = useState("");
+  const [panNoP, setPanNoP] = useState("");
+  const [addressP, setAddressP] = useState("");
+  const [pinCodeP, setPinCodeP] = useState("");
+  const [phoneP, setPhoneP] = useState("");
+  const [mobileP, setMobileP] = useState("");
+  const [emailP, setEmailP] = useState("");
+  const [partyBankerName, setPartyBankerName] = useState("");
+  const [accNoP, setAccNoP] = useState("");
+  const [ifscP, setIfscP] = useState("");
+  const [aofAcc, setAofAcc] = useState("");
+
+  
+
   const sidebarRef = useRef();
   const snackbarRef = useRef();
 
@@ -177,7 +203,7 @@ const AOF = () => {
         </li>
       );
     }
-    console.log(content)
+    // console.log(content);
     return content;
   };
 
@@ -219,6 +245,7 @@ const AOF = () => {
         </li>
       );
     }
+    // console.log(content)
     return content;
   };
 
@@ -255,24 +282,36 @@ const AOF = () => {
       case "Name of Proprietor/Partner/Director/Trustee *":
         console.log(value);
         break;
-      // case "aof_status":
-      //   console.log(value.title);
-      //   break;
-      case "Address *":
-        console.log(value.title);
-        break;
-      case "Name":
+      case "PAN NO*":
         console.log(value);
         break;
-      // case "aof_status":
-      //   console.log(value.title);
-      //   break;
-      // case "aof_status":
-      //   console.log(value.title);
-      //   break;
-      // case "aof_status":
-      //   console.log(value.title);
-      //   break;
+      case "Address*":
+        console.log(value);
+        break;
+      case "Pin Code*":
+        console.log(value);
+        break;
+      case "Phone*":
+        console.log(value);
+        break;
+      case "Mobile*":
+        console.log(value);
+        break;
+      case "E-Mail*":
+        console.log(value);
+        break;
+      case "Name and address of the party’s main bankers *":
+        console.log(value);
+        break;
+      case "Account Number *":
+        console.log(value);
+        break;
+      case "IFSC *":
+        console.log(value);
+        break;
+      case "aof_acc":
+        console.log(value);
+        break;
       case "publisher":
         let tempArr = [...publisherData];
         for (let ele of tempArr) {
@@ -362,60 +401,6 @@ const AOF = () => {
     title: "AOF",
     details: ["Home", "/AOF"],
   };
-
-  //   if (status === "Start Day") {
-  //     setLoading(true);
-  //     const res = await axios.post(
-  //       "https://nodecrmv2.herokuapp.com/api/user/start_day",
-  //       {
-  //         category: "start",
-  //         coordinates: [[currentLocation.lng, currentLocation.lat]],
-  //       },
-  //       {
-  //         headers: {
-  //           authorization: Cookies.get("accessToken"),
-  //         },
-  //       }
-  //     );
-  //     console.log(res);
-  //     setStatus("End Day");
-  //     setLoading(false);
-  //   } else {
-  //     setLoading(true);
-  //     const running = await axios.post(
-  //       "https://nodecrmv2.herokuapp.com/api/user/start_day",
-  //       {
-  //         category: "running",
-  //         coordinates: Co_ordinates,
-  //       },
-  //       {
-  //         headers: {
-  //           authorization: Cookies.get("accessToken"),
-  //         },
-  //       }
-  //     );
-
-  //     console.log(running);
-
-  //     const res = await axios.post(
-  //       "https://nodecrmv2.herokuapp.com/api/user/start_day",
-  //       {
-  //         category: "end",
-  //         coordinates: [[currentLocation.lng, currentLocation.lat]],
-  //       },
-  //       {
-  //         headers: {
-  //           authorization: Cookies.get("accessToken"),
-  //         },
-  //       }
-  //     );
-
-  //     console.log(res);
-  //     setStatus("Start Day");
-  //     localStorage.clear();
-  //     setLoading(false);
-  //   }
-  // };
 
   const handleSidebarCollapsed = () => {
     // setSidebarCollapsed(!sidebarCollapsed);
@@ -670,36 +655,42 @@ const AOF = () => {
                     </div>
 
                     <BasicTextFields
-                      lable={"PAN NO *"}
+                      lable={"PAN NO*"}
+                      handleOrderProcessingForm={handleOrderProcessingForm}
                       variant={"standard"}
                       multiline={false}
                     />
                     <BasicTextFields
-                      lable={"Address *"}
+                      lable={"Address*"}
+                      handleOrderProcessingForm={handleOrderProcessingForm}
                       variant={"standard"}
                       multiline={false}
                     />
                     <BasicTextFields
-                      lable={"Pin Code *"}
+                      lable={"Pin Code*"}
+                      handleOrderProcessingForm={handleOrderProcessingForm}
                       type={"number"}
                       variant={"standard"}
                       multiline={false}
                     />
 
                     <BasicTextFields
-                      lable={"Phone *"}
+                      lable={"Phone*"}
+                      handleOrderProcessingForm={handleOrderProcessingForm}
                       type={"number"}
                       variant={"standard"}
                       multiline={false}
                     />
                     <BasicTextFields
-                      lable={"Mobile *"}
+                      lable={"Mobile*"}
+                      handleOrderProcessingForm={handleOrderProcessingForm}
                       type={"number"}
                       variant={"standard"}
                       multiline={false}
                     />
                     <BasicTextFields
-                      lable={"E-Mail *"}
+                      lable={"E-Mail*"}
+                      handleOrderProcessingForm={handleOrderProcessingForm}
                       variant={"standard"}
                       multiline={false}
                     />
@@ -741,6 +732,7 @@ const AOF = () => {
                     <div className="sm:col-span-2">
                       <BasicTextFields
                         lable={"Name and address of the party’s main bankers *"}
+                        handleOrderProcessingForm={handleOrderProcessingForm}
                         variant={"standard"}
                         multiline={false}
                       />
@@ -748,6 +740,7 @@ const AOF = () => {
 
                     <BasicTextFields
                       lable={"Account Number *"}
+                      handleOrderProcessingForm={handleOrderProcessingForm}
                       variant={"standard"}
                       type={"number"}
                       multiline={false}
@@ -755,12 +748,14 @@ const AOF = () => {
                     <SearchDropDown
                       Name={"aof_acc"}
                       data={[{ title: "SB" }, { title: "CA" }, { title: "CC" }]}
+                      handleOrderProcessingForm={handleOrderProcessingForm}
                       label={"Type of A/c "}
                       color={"rgb(243, 244, 246)"}
                     />
                     <BasicTextFields
                       lable={"IFSC *"}
-                      type={"number"}
+                      handleOrderProcessingForm={handleOrderProcessingForm}
+                      // type={"number"}
                       variant={"standard"}
                       multiline={false}
                     />

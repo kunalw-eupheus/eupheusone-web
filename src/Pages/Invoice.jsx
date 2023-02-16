@@ -47,8 +47,10 @@ const Invoice = () => {
   const [searchRow, setSearchRow] = useState([]);
   const [invoiceId, setInvoiceId] = useState("");
   const [invoiceId2, setInvoiceId2] = useState("");
+  const [bpCode, setbpCode] = useState("");
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [customer, setCustomer] = useState([]);
   const navigate = useNavigate();
 
   const navInfo = {
@@ -128,7 +130,8 @@ const Invoice = () => {
   // };
 
   useEffect(() => {
-    getInvoices();
+    getCustomers();
+    // getInvoices();
     const userType = Cookies.get("type");
     if (userType === "admin") setIsAdmin(true);
 
@@ -150,7 +153,7 @@ const Invoice = () => {
   const getInvoices = async () => {
     setLoading(true);
     const res = await instance({
-      url: `eup_invoice/geteupinvoices`,
+      url: `eup_invoice/geteupinvoices/`,
       method: "GET",
       headers: {
         Authorization: `${Cookies.get("accessToken")}`,
@@ -185,6 +188,7 @@ const Invoice = () => {
   };
 
   const handleOrderProcessingForm = async (value, type) => {
+    // console.log(value,type)
     switch (type) {
       case "select_state":
         getCity(value.fk_state_id);
@@ -194,9 +198,45 @@ const Invoice = () => {
       case "select_city":
         setStateAndCity({ ...stateAndCity, city: value.id });
         break;
+      case "invoice_data":
+        // console.log(value.bp_code)
+        setbpCode(value.bp_code);
+        break;
       default:
         break;
     }
+  };
+
+  const getCustomers = async () => {
+    const res = await instance({
+      url: "sales_data/get_all_bps",
+      method: "GET",
+      headers: {
+        Authorization: `${Cookies.get("accessToken")}`,
+      },
+    });
+    console.log(res.data.message);
+    setCustomer(res.data.message);
+  };
+
+  const searchInvoice = async () => {
+    console.log(bpCode);
+    setLoading(true);
+    const res = await instance({
+      url: `eup_invoice/geteupinvoices/${bpCode}`,
+      method: "GET",
+      headers: {
+        Authorization: `${Cookies.get("accessToken")}`,
+      },
+    });
+    console.log(res.data);
+    if (res.data.status === "error") {
+      alert(res.data.message);
+    } else {
+      setInvoiceData(res.data.message);
+      setRowdata(res.data.message);
+    }
+    setLoading(false);
   };
 
   const getCity = async (Id) => {
@@ -267,6 +307,21 @@ const Invoice = () => {
             <div className=" sm:px-8 px-2 py-3 bg-[#141728]">
               <Paper>
                 <TableContainer component={Paper}>
+                  <Toolbar className="grid grid-cols-2 grid-rows-2 md:flex md:justify-around md:items-center px-6 py-3 gap-6 bg-slate-500">
+                    {/* <div className="sm:w-auto w-full"> */}
+                    <SearchDropDown
+                      label={"Select Customer"}
+                      handleOrderProcessingForm={handleOrderProcessingForm}
+                      color={"rgb(243, 244, 246)"}
+                      data={customer}
+                      Name="invoice_data"
+                    />
+                    {/* </div> */}
+
+                    <div className="sm:w-auto w-[50vw]" onClick={searchInvoice}>
+                      <BasicButton text={"Search Invoice"} />
+                    </div>
+                  </Toolbar>
                   <Toolbar className="bg-slate-400">
                     <TextField
                       id="search-bar"
@@ -369,8 +424,8 @@ const Invoice = () => {
                               {/* <TableCell align="center" component="th" scope="row">
                           {row.id}
                         </TableCell> */}
-                              <TableCell align="center">""</TableCell>
-                              <TableCell align="center">""</TableCell>
+                              <TableCell align="center">{!row.inv_no||row.inv_no=="N/A" ? row.docnum :row.inv_no}</TableCell>
+                              <TableCell align="center">{row.inv_type}</TableCell>
                               <TableCell align="center">
                                 {row.cardname}
                               </TableCell>

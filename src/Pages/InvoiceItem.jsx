@@ -152,7 +152,7 @@ const InvoiceItem = () => {
     // console.log(invoiceid)
     setLoading(true);
     const res = await instance({
-      url: `eup_invoice/geteupinvoices/${invoiceid}`,
+      url: `eup_invoice/geteupinvoices/detail/${invoiceid}`,
       method: "GET",
       headers: {
         Authorization: `${Cookies.get("accessToken")}`,
