@@ -19,7 +19,8 @@ import {
   School,
   ShoppingBag,
   AssignmentReturnOutlined,
-  ReceiptOutlined
+  ReceiptOutlined,
+  PrintOutlined
 } from "@mui/icons-material";
 import { Collapse } from "@mui/material";
 import { Link } from "react-router-dom";
@@ -608,20 +609,42 @@ const SwipeableTemporaryDrawer = React.forwardRef((props, ref) => {
         <aside
           // onClick={openDialog}
           className={`px-6 py-2 flex gap-4 ${
-            highLight === "" ? "bg-gray-500" : ""
+            highLight === "projection" ? "bg-gray-500" : ""
           } cursor-pointer group hover:bg-gray-500 rounded-md transition-all duration-150 ease-linear`}
         >
           <LocationCityOutlined
             className={`${
-              highLight === "" ? "!text-[#659DBD]" : "!text-gray-400"
+              highLight === "projection" ? "!text-[#659DBD]" : "!text-gray-400"
             } group-hover:!text-[#659DBD] !transition-all !duration-150 !ease-linear`}
           />
           <span
             className={`${
-              highLight === "" ? "text-gray-200" : "text-gray-400"
+              highLight === "projection" ? "text-gray-200" : "text-gray-400"
             } group-hover:!text-gray-100 transition-all duration-150 ease-linear`}
           >
             Projection
+          </span>
+        </aside>
+      </Link>
+
+      <Link to="/print_pdf">
+        <aside
+          // onClick={openDialog}
+          className={`px-6 py-2 flex gap-4 ${
+            highLight === "printpdf" ? "bg-gray-500" : ""
+          } cursor-pointer group hover:bg-gray-500 rounded-md transition-all duration-150 ease-linear`}
+        >
+          <PrintOutlined
+            className={`${
+              highLight === "printpdf" ? "!text-[#659DBD]" : "!text-gray-400"
+            } group-hover:!text-[#659DBD] !transition-all !duration-150 !ease-linear`}
+          />
+          <span
+            className={`${
+              highLight === "printpdf" ? "text-gray-200" : "text-gray-400"
+            } group-hover:!text-gray-100 transition-all duration-150 ease-linear`}
+          >
+            Doc Print
           </span>
         </aside>
       </Link>

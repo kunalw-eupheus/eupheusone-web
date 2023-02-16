@@ -58,7 +58,9 @@ import ClassklapManageSchool from "./Pages/ClassklapManageSchool";
 import AddSchoolCK from "./Pages/AddSchoolCK";
 import LocationTraining from "./Pages/LocationTraining";
 import PrintPDF from "./Pages/PrintPDF"
-import ViewInvoice from "./Pages/ViewInvoice";
+import ViewInvoiceSingle from "./Pages/ViewInvoiceSingle";
+import ViewInvoiceDouble from "./Pages/ViewInvoiceDouble";
+import BulkInv from "./Pages/PDF/BulkInv";
 function App() {
   const isAuth = useSelector((state) => state.auth.user);
   const MsAuth = useSelector((state) => state.auth.msAuth);
@@ -173,7 +175,7 @@ function App() {
             path="/pdf_view"
             element={isAuth || MsAuth ? <MyDocument /> : <Login />}
           /> */}
-              {/* <Route path="/aof" element={isAuth || MsAuth ? <AOF /> : <Login />} /> */}
+              <Route path="/aof" element={isAuth || MsAuth ? <AOF /> : <Login />} />
               {/* kys */}
               <Route
                 path="/kys"
@@ -254,8 +256,13 @@ function App() {
               />
 
               <Route
-                path="/view_pdf"
+                path="/view_pdf/:docnum/:docdate"
                 element={<ViewPdf />}
+              />
+
+             <Route
+                path="/bulkinv_pdf/:bp/:todate/:fromdate"
+                element={<BulkInv />}
               />
 
               <Route
@@ -286,8 +293,13 @@ function App() {
               />
 
               <Route
-                path="/invoice_pdf"
-                element={isAuth || MsAuth ? <ViewInvoice /> : <Login />}
+                path="/invoice_pdf_single"
+                element={isAuth || MsAuth ? <ViewInvoiceSingle /> : <Login />}
+              />
+
+              <Route
+                path="/invoice_pdf_double"
+                element={isAuth || MsAuth ? <ViewInvoiceDouble /> : <Login />}
               />
 
               {/* Admin */}

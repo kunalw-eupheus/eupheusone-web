@@ -760,7 +760,7 @@ const InvoiceTraining = () => {
                               {/* <TableCell align="center" component="th" scope="row">
                           {row.id}
                         </TableCell> */}
-                              <TableCell align="center">{row.docnum}</TableCell>
+                              <TableCell align="center">{row.inv_no=="N/A" || !row.inv_no || row.inv_no.length==0 ? row.docnum : row.inv_no}</TableCell>
                               <TableCell align="center">
                                 {row.docdate}
                               </TableCell>

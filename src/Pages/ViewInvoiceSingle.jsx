@@ -3,7 +3,7 @@ import { useState } from "react";
 import Navbar from "../Components/Navbar";
 import Sidebar from "../Components/Sidebar";
 // import { Add } from '@mui/icons-material'
-import { Link } from "react-router-dom";
+import { Link, redirect } from "react-router-dom";
 import DataTable from "../Components/DataTable";
 // import { rows, ManageSchoolRows } from '../DummyData'
 import SearchDropDown from "../Components/SearchDropDown";
@@ -25,8 +25,9 @@ import Paper from "@mui/material/Paper";
 import IconButton from "@mui/material/IconButton";
 import SearchIcon from "@mui/icons-material/Search";
 import TablePagination from "@mui/material/TablePagination";
+import { useNavigate  } from "react-router-dom"
 
-const ViewInvoice = () => {
+const ViewInvoiceSingle = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [highLight, setHighLight] = useState("printpdf");
   const [loading, setLoading] = useState(false);
@@ -42,7 +43,7 @@ const ViewInvoice = () => {
   const [searchRow, setSearchRow] = useState([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-  const [bpCode, setBpCode] = useState("")
+  const [bpCode, setBpCode] = useState("");
 
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
@@ -56,6 +57,8 @@ const ViewInvoice = () => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
+
+  const navigate = useNavigate()
 
   const navInfo = {
     title: "Manage School",
@@ -92,7 +95,7 @@ const ViewInvoice = () => {
   };
 
   useEffect(() => {
-    getCustomers()
+    getCustomers();
     const handleWidth = () => {
       if (window.innerWidth > 1024) {
         setSidebarCollapsed(false);
@@ -174,19 +177,19 @@ const ViewInvoice = () => {
         // getSchoolByState(value.fk_state_id);
         // setStateAndCity({ ...stateAndCity, state: value.fk_state_id });
         break;
-        case "select_state_training":
-          // console.log(value);
-          setStateId(value.id);
-          // getCity(value.fk_state_id);
-          // getSchoolByState(value.fk_state_id);
-          // setStateAndCity({ ...stateAndCity, state: value.fk_state_id });
-          break;
-        case "invoice_pdf_data":
-            // console.log(value);
-            setBpCode(value.bp_code)
-            // setType(value.types);
-            // setStateAndCity({ ...stateAndCity, city: value.id });
-            break;
+      case "select_state_training":
+        // console.log(value);
+        setStateId(value.id);
+        // getCity(value.fk_state_id);
+        // getSchoolByState(value.fk_state_id);
+        // setStateAndCity({ ...stateAndCity, state: value.fk_state_id });
+        break;
+      case "invoice_pdf_data":
+        // console.log(value);
+        setBpCode(value.bp_code);
+        // setType(value.types);
+        // setStateAndCity({ ...stateAndCity, city: value.id });
+        break;
       case "select_type":
         // console.log(value);
         setType(value.types);
@@ -248,23 +251,23 @@ const ViewInvoice = () => {
   }, []);
 
   const searchSchool = async () => {
-    console.log(bpCode)
+    console.log(bpCode);
     setSchoolRow([]);
     // setSearchRow([]);
     // if (type === "Classklap") {
     //   console.log(stateId)
-      const res = await instance({
-        url: `eup_invoice/get/allbps/${bpCode}`,
-        method: "GET",
-        headers: {
-          Authorization: `${Cookies.get("accessToken")}`,
-        },
-      });
-      console.log(res.data.message);
-    //   if(res.data.message.length === 0){
-    //     alert("No Data Available")
-    //   }
-      setSchoolRow(res.data.message);
+    const res = await instance({
+      url: `eup_invoice/get/allbps/${bpCode}`,
+      method: "GET",
+      headers: {
+        Authorization: `${Cookies.get("accessToken")}`,
+      },
+    });
+    console.log(res.data.message);
+    if (res.data.message.length === 0) {
+      alert("No Data Available");
+    }
+    setSchoolRow(res.data.message);
     //   // console.log(stateId)
     //   // console.log(type)
     // } else if (type === "Eupheus Learning") {
@@ -315,6 +318,29 @@ const ViewInvoice = () => {
     searchSchool();
   };
 
+  // const history = useHistory();
+  const handlePrintPDF = async (docNum, docDate) => {
+    let postdata = {
+      category : "inv",
+      doc_num : docNum,
+      doc_date: docDate
+    }
+    setLoading(true);
+    const res = await instance({
+      url: `doc_print/invoice/getdata`,
+      method: "post",
+      data: postdata,
+      headers: {
+        Authorization: Cookies.get("accessToken"),
+      },
+    });
+    let downloadUrl = res.data.message
+    console.log(downloadUrl)
+    // redirect("https://www.google.com/")
+    window.open(downloadUrl)
+    setLoading(false)
+  };
+
   const updateSchool = (schoolId) => {
     console.log(schoolId);
   };
@@ -327,7 +353,7 @@ const ViewInvoice = () => {
   const filterTable = () => {
     // console.log(searchVal);
     // console.log(schoolRow)
-    setPage(0)
+    setPage(0);
     let tempArr = [];
     for (let ele of schoolRow) {
       // console.log(ele.cardname)
@@ -361,11 +387,11 @@ const ViewInvoice = () => {
         },
       ]);
       // console.log("first")
-      // console.log(searchRow)
+      console.log(searchRow);
     } else {
       // console.log("second")
       setSearchRow(tempArr);
-      // console.log(searchRow)
+      console.log(searchRow);
     }
   };
 
@@ -442,6 +468,48 @@ const ViewInvoice = () => {
                 <BasicButton text={"Search Customer"} />
               </div>
             </div>
+
+            {/* <div className="grid grid-cols-2 grid-rows-2 md:flex md:justify-around md:items-center px-6 mb-8 py-3 mt-6 gap-6 rounded-md bg-slate-600">
+
+              <div className="flex flex-col gap-2 w-full md:w-[20vw]">
+                <label className="text-gray-100">Customer</label>
+
+                <SearchDropDown
+                  label={"Select Customer"}
+                  handleOrderProcessingForm={handleOrderProcessingForm}
+                  color={"rgb(243, 244, 246)"}
+                  data={customer}
+                  Name="invoice_pdf_data"
+                />
+              </div>
+              <div className="flex flex-col gap-2 w-full md:w-[20vw]">
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <Stack spacing={3}>
+                    <DesktopDatePicker
+                      label="Date desktop"
+                      inputFormat="MM/DD/YYYY"
+                      value={value}
+                      onChange={handleChange}
+                      renderInput={(params) => <TextField {...params} />}
+                    />
+                  </Stack>
+                </LocalizationProvider>
+              </div>
+              <div className="flex flex-col gap-2 w-full md:w-[20vw]">
+                <label className="text-gray-100">End Date</label>
+
+                <SearchDropDown
+                  label={"Select Customer"}
+                  handleOrderProcessingForm={handleOrderProcessingForm}
+                  color={"rgb(243, 244, 246)"}
+                  data={customer}
+                  Name="invoice_pdf_data"
+                />
+              </div>
+              <div className="sm:w-auto w-[30vw]" onClick={searchSchool}>
+                <BasicButton text={"Search Customer"} />
+              </div>
+            </div> */}
             {/* <div className="w-full flex gap-3 justify-end">
               <Link to="/addschooltraining">
                 <BasicButton text={"Create New School"} />
@@ -482,7 +550,11 @@ const ViewInvoice = () => {
                         { label: "All", value: -1 },
                       ]}
                       colSpan={3}
-                      count={searchRow.length=== 0 ?schoolRow.length: searchRow.length}
+                      count={
+                        searchRow.length === 0
+                          ? schoolRow.length
+                          : searchRow.length
+                      }
                       rowsPerPage={rowsPerPage}
                       page={page}
                       slotProps={{
@@ -513,7 +585,7 @@ const ViewInvoice = () => {
                           Doc Total
                         </TableCell>
                         <TableCell className="!w-[10rem]" align="center">
-                          Print
+                          
                         </TableCell>
                       </TableRow>
                     </TableHead>
@@ -539,7 +611,7 @@ const ViewInvoice = () => {
                                 component="th"
                                 scope="row"
                               >
-                                {row.inv_no}
+                                {row.inv_no=="N/A" || !row.inv_no ? row.docnum : row.inv_no}
                               </TableCell>
                               <TableCell align="center">
                                 {row.docdate}
@@ -547,12 +619,17 @@ const ViewInvoice = () => {
                               <TableCell align="center">
                                 {row.doctotal}
                               </TableCell>
-                       
-                                <TableCell align="center">
-                                  {"row.ck_code"}
-                                </TableCell>
-                         
-                  
+
+                              <TableCell align="center">
+                                <div
+                                  className="sm:w-auto w-[50vw]"
+                                  onClick={() => {
+                                    handlePrintPDF(row.docnum, row.docdate);
+                                  }}
+                                >
+                                  <BasicButton text={"Print PDF"} />
+                                </div>
+                              </TableCell>
                             </TableRow>
                           ))
                         : (rowsPerPage > 0
@@ -623,4 +700,4 @@ const ViewInvoice = () => {
   );
 };
 
-export default ViewInvoice;
+export default ViewInvoiceSingle;

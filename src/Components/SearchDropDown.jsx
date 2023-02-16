@@ -17,7 +17,7 @@ const SearchDropDown = ({
   multiple,
   seriesId,
 }) => {
-  // console.log(data)
+  // console.log(data, Name)
   const defaultProps = {
     options: data,
     getOptionLabel: (option) => {
@@ -107,27 +107,27 @@ const SearchDropDown = ({
         // manage School
         case "select_state":
           // console.log(option)
-          return option.fk_state.state          ;
+          return option.fk_state.state;
           break;
         case "select_state_training":
           // console.log(option)
           return option.state;
           break;
 
-          case "select_state_location":
-            // console.log(option)
-            return option.state;
-            break;
+        case "select_state_location":
+          // console.log(option)
+          return option.state;
+          break;
 
-            case "select_city_location":
-              // console.log(option)
-              return option.city;
-              break;
-          case "select_school_id":
-            // console.log(option)
-            return option.school_name;
-            break;
-          case "select_city_training":
+        case "select_city_location":
+          // console.log(option)
+          return option.city;
+          break;
+        case "select_school_id":
+          // console.log(option)
+          return option.school_name;
+          break;
+        case "select_city_training":
           // console.log(option)
           return option.city;
           break;
@@ -149,9 +149,13 @@ const SearchDropDown = ({
           return option.bp_name;
           break;
         case "invoice_pdf_data":
-            // console.log(option)
-            return option.bp_name;
-            break;
+          // console.log(option)
+          return option.bp_name;
+          break;
+        case "invoice_data":
+          // console.log(option)
+          return option.bp_name;
+          break;
         case "series_aof":
           return option.series;
           break;
@@ -252,7 +256,7 @@ const SearchDropDown = ({
       handleOrderProcessingForm(value, type);
     }
     if (type === "select_state_training") {
-      console.log(value, type)
+      console.log(value, type);
       handleOrderProcessingForm(value, type);
     }
     if (type === "select_city_training") {
@@ -297,16 +301,30 @@ const SearchDropDown = ({
       // console.log(value, type, seriesId)
       handleOrderProcessingForm(value, type);
     }
+    if (type === "select_city_location") {
+      // console.log(value, type, seriesId)
+      handleOrderProcessingForm(value, type);
+    }
     if (type === "kys_comp_publisher") {
       handleOrderProcessingForm(value, type);
     }
     if (type === "invoice_pdf_data") {
       handleOrderProcessingForm(value, type);
-    }  
+    }
+    if (type === "invoice_data") {
+      handleOrderProcessingForm(value, type);
+    }
     if (type === "select_school_type") {
       handleOrderProcessingForm(value, type);
-    } 
-    else {
+    }
+    if (type === "aof_status") {
+      // console.log(value, type)
+      handleOrderProcessingForm(value, type);
+    }
+    if (type === "aof_acc") {
+      // console.log(value, type)
+      handleOrderProcessingForm(value, type);
+    } else {
       return;
     }
   };

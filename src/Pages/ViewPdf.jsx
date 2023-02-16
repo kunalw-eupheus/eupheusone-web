@@ -4,6 +4,7 @@ import React, { useEffect, useRef } from "react";
 import CreditNote from './PDF/CreditNote';
 import Inv from './PDF/Inv';
 import CustLedger from './PDF/CustLedger';
+import AofPdf from './PDF/AofPdf2';
 
 const ViewPdf = () => {
   const printRef = useRef();
@@ -24,12 +25,14 @@ const ViewPdf = () => {
   };
 
   return (
+    // <div className='bg-white'>
     <div className='bg-white w-[21cm]'>
       {/* <button type="button" onClick={handleDownloadPdf}>
         Download as PDF
       </button> */}
 
       <div ref={printRef}>
+      {/* <AofPdf/> */}
         {/* <CustLedger/> */}
         <Inv/>
         {/* <CreditNote/> */}

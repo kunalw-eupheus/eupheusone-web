@@ -707,7 +707,7 @@ const Sidebar = ({ sidebarCollapsed, highLight, show }) => {
             </span>
           </aside>
         </Link> */}
-{/* 
+
         <Link to="/print_pdf">
           <aside
             className={`px-6 py-2 flex gap-4 ${
@@ -724,10 +724,10 @@ const Sidebar = ({ sidebarCollapsed, highLight, show }) => {
                 highLight === "printpdf" ? "text-gray-200" : "text-gray-400"
               } group-hover:!text-gray-100 transition-all duration-150 ease-linear`}
             >
-              Print PDF
+              Doc Print
             </span>
           </aside>
-        </Link> */}
+        </Link>
 
         {/* </Link> */}
       </div>

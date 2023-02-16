@@ -10,6 +10,12 @@ import CustomizedSteppers from "../Components/Material/Stepper";
 import SearchDropDown from "../Components/SearchDropDown";
 import BasicTextFields from "../Components/Material/TextField";
 import DatePicker from "../Components/Material/Date";
+import IconButton from "@mui/material/IconButton";
+import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { Stack } from "@mui/system";
+
 import {
   Accordion,
   AccordionDetails,
@@ -19,7 +25,7 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-import { Add, ExpandMore } from "@mui/icons-material";
+import { Add, ExpandMore, Delete } from "@mui/icons-material";
 import RowRadioButtonsGroup from "../Components/Material/RowRadioButtonGroup";
 import instance from "../Instance";
 import Cookies from "js-cookie";
@@ -29,6 +35,7 @@ import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
+import Snackbars from "../Components/Material/SnackBar";
 
 const AOF = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
@@ -39,6 +46,8 @@ const AOF = () => {
   const [loading, setLoading] = useState(false);
   const [suppliers, setSuppliers] = useState(1);
   const [cheque, setCheque] = useState(1);
+  const [snackbarErrStatus, setSnackbarErrStatus] = useState(true);
+  const [errMessage, setErrMessage] = useState("");
   const [steps, setSteps] = useState({
     step1: true,
     step2: false,
@@ -50,8 +59,64 @@ const AOF = () => {
     special: { applicable: false, type: "" },
   });
   const [publisherData, setPublisherData] = useState([]);
-  const [pubData, setPubData] = useState([])
+  const [seriesData, setSeriesData] = useState([]);
+  const [state, setState] = useState([]);
+  const [city, setCity] = useState([]);
+  const [date, setDate] = useState("");
+  const [nameOfSchool, setNameOfSchool] = useState(null);
+
+  const [pinCode, setPinCode] = useState("");
+  const [stateSelect, setStateSelect] = useState("");
+  const [citySelect, setCitySelect] = useState("");
+  const [ifsc, setIfsc] = useState("");
+
+  const [aofStatus, setAofStatus] = useState("");
+  const [schoolAddress, setSchoolAddress] = useState("");
+  const [schoolEmail, setSchoolEmail] = useState("");
+  const [panNo, setPanNo] = useState("");
+  const [gstNo, setGstNo] = useState("");
+  const [gstYear, setGstYear] = useState("");
+  const [proprietorName, setProprietorName] = useState("");
+  const [panNoP, setPanNoP] = useState("");
+  const [addressP, setAddressP] = useState("");
+  const [pinCodeP, setPinCodeP] = useState("");
+  const [phoneP, setPhoneP] = useState("");
+  const [mobileP, setMobileP] = useState("");
+  const [emailP, setEmailP] = useState("");
+  const [partyBankerName, setPartyBankerName] = useState("");
+  const [accNoP, setAccNoP] = useState("");
+  const [ifscP, setIfscP] = useState("");
+  const [aofAcc, setAofAcc] = useState("");
+
+  
+
   const sidebarRef = useRef();
+  const snackbarRef = useRef();
+
+  const getState = async () => {
+    const state = await instance({
+      url: "location/state/stateswithcode/get",
+      method: "GET",
+      headers: {
+        Authorization: Cookies.get("accessToken"),
+      },
+    });
+    // console.log(state.data.message);
+    setState(state.data.message);
+  };
+
+  const getCity = async (id) => {
+    // console.log(id);
+    const city = await instance({
+      url: `location/city/${id}`,
+      method: "GET",
+      headers: {
+        Authorization: Cookies.get("accessToken"),
+      },
+    });
+    // console.log(city.data.message);
+    setCity(city.data.message);
+  };
 
   const handleRadioButtons = (type, value) => {
     switch (type) {
@@ -79,6 +144,21 @@ const AOF = () => {
         break;
       case "special type":
         setStep4({ ...step4, special: { applicable: true, type: value } });
+        break;
+
+      case "publisher":
+        console.log(type, value);
+        // setStep4({ ...step4, special: { applicable: true, type: value } });
+        break;
+
+      case "publisher":
+        console.log(type, value);
+        // setStep4({ ...step4, special: { applicable: true, type: value } });
+        break;
+
+      case "series":
+        console.log(type, value);
+        // setStep4({ ...step4, special: { applicable: true, type: value } });
         break;
 
       default:
@@ -111,6 +191,7 @@ const AOF = () => {
           <span className="mt-4 text-gray-100">{i + 1}.</span>
           <BasicTextFields
             lable={"Name"}
+            handleOrderProcessingForm={handleOrderProcessingForm}
             variant={"standard"}
             multiline={false}
           />
@@ -122,6 +203,7 @@ const AOF = () => {
         </li>
       );
     }
+    // console.log(content);
     return content;
   };
 
@@ -163,15 +245,72 @@ const AOF = () => {
         </li>
       );
     }
+    // console.log(content)
     return content;
   };
 
   const handleOrderProcessingForm = (value, type) => {
+    // console.log(value, type);
     switch (type) {
-      case "series_aof":
-        setLoading(true);
-        getTitleBySeries(value.id);
-        setLoading(false);
+      // case "series_aof":
+      //   setLoading(true);
+      //   getTitleBySeries(value.id);
+      //   setLoading(false);
+      //   break;
+      case "Name Of Party/School *":
+        console.log(value);
+        setNameOfSchool(value);
+        break;
+      case "aof_status":
+        console.log(value.title);
+        break;
+      case "Address *":
+        console.log(value);
+        break;
+      case "E-Mail *":
+        console.log(value);
+        break;
+      case "PAN NO *":
+        console.log(value);
+        break;
+      case "GST NO *":
+        console.log(value);
+        break;
+      case "GST Year of establishment of business":
+        console.log(value);
+        break;
+      case "Name of Proprietor/Partner/Director/Trustee *":
+        console.log(value);
+        break;
+      case "PAN NO*":
+        console.log(value);
+        break;
+      case "Address*":
+        console.log(value);
+        break;
+      case "Pin Code*":
+        console.log(value);
+        break;
+      case "Phone*":
+        console.log(value);
+        break;
+      case "Mobile*":
+        console.log(value);
+        break;
+      case "E-Mail*":
+        console.log(value);
+        break;
+      case "Name and address of the party’s main bankers *":
+        console.log(value);
+        break;
+      case "Account Number *":
+        console.log(value);
+        break;
+      case "IFSC *":
+        console.log(value);
+        break;
+      case "aof_acc":
+        console.log(value);
         break;
       case "publisher":
         let tempArr = [...publisherData];
@@ -181,12 +320,56 @@ const AOF = () => {
         tempArr.push(value);
         // console.log(tempArr)
         setPublisherData(tempArr);
-        console.log(publisherData)
+        break;
+
+      case "Pin Code *":
+        console.log(value);
+        break;
+
+      case "select_state_location":
+        //   console.log(value , "hihihiihii");
+        //   setStateId(value.id);
+        console.log(value);
+        getCity(value.id);
+        // getCity(value.fk_state_id);
+        // getSchoolByState(value.fk_state_id);
+        // setStateAndCity({ ...stateAndCity, state: value.fk_state_id });
+        break;
+
+      case "select_city_location":
+        console.log(value);
+        break;
+
+      case "Mobile *":
+        console.log(value);
+        break;
+
+      case "Phone *":
+        console.log(value);
+        break;
+
+      case "Firm/ Company/Trust Registration Number *":
+        console.log(value);
+        break;
+
+      case "series_aof":
+        let tempArr2 = [...seriesData];
+        for (let ele of tempArr2) {
+          if (ele === value) return;
+        }
+        tempArr2.push(value);
+        console.log(tempArr2);
+        setSeriesData(tempArr2);
         break;
 
       default:
         break;
     }
+  };
+
+  const handleStartDate = (newValue) => {
+    // console.log(newValue)
+    setDate(newValue);
   };
 
   useLayoutEffect(() => {
@@ -219,66 +402,13 @@ const AOF = () => {
     details: ["Home", "/AOF"],
   };
 
-  //   if (status === "Start Day") {
-  //     setLoading(true);
-  //     const res = await axios.post(
-  //       "https://nodecrmv2.herokuapp.com/api/user/start_day",
-  //       {
-  //         category: "start",
-  //         coordinates: [[currentLocation.lng, currentLocation.lat]],
-  //       },
-  //       {
-  //         headers: {
-  //           authorization: Cookies.get("accessToken"),
-  //         },
-  //       }
-  //     );
-  //     console.log(res);
-  //     setStatus("End Day");
-  //     setLoading(false);
-  //   } else {
-  //     setLoading(true);
-  //     const running = await axios.post(
-  //       "https://nodecrmv2.herokuapp.com/api/user/start_day",
-  //       {
-  //         category: "running",
-  //         coordinates: Co_ordinates,
-  //       },
-  //       {
-  //         headers: {
-  //           authorization: Cookies.get("accessToken"),
-  //         },
-  //       }
-  //     );
-
-  //     console.log(running);
-
-  //     const res = await axios.post(
-  //       "https://nodecrmv2.herokuapp.com/api/user/start_day",
-  //       {
-  //         category: "end",
-  //         coordinates: [[currentLocation.lng, currentLocation.lat]],
-  //       },
-  //       {
-  //         headers: {
-  //           authorization: Cookies.get("accessToken"),
-  //         },
-  //       }
-  //     );
-
-  //     console.log(res);
-  //     setStatus("Start Day");
-  //     localStorage.clear();
-  //     setLoading(false);
-  //   }
-  // };
-
   const handleSidebarCollapsed = () => {
     // setSidebarCollapsed(!sidebarCollapsed);
     sidebarRef.current.openSidebar();
   };
 
   useEffect(() => {
+    getState();
     const handleWidth = () => {
       if (window.innerWidth > 1024) {
         setSidebarCollapsed(false);
@@ -296,8 +426,36 @@ const AOF = () => {
   }, []);
 
   const handlePublisher = () => {
-    setPubData([{id: "123"}, {id: "234"}, {id: "345"}])
-  }
+    console.log(publisherData);
+    // setPubData([{id: "123"}, {id: "234"}, {id: "345"}])
+  };
+  const handleDelete = (id, type) => {
+    switch (type) {
+      case "publisher":
+        // console.log(id)
+        // console.log(publisherData)
+        let tempData = [];
+        for (let ele of publisherData) {
+          if (ele.id !== id) {
+            tempData.push(ele);
+          }
+        }
+        setPublisherData([]);
+        setPublisherData(tempData);
+        break;
+
+      case "series":
+        let tempData2 = [];
+        for (let ele of seriesData) {
+          if (ele.id !== id) {
+            tempData2.push(ele);
+          }
+        }
+        setSeriesData([]);
+        setSeriesData(tempData2);
+        break;
+    }
+  };
 
   return (
     <>
@@ -323,6 +481,11 @@ const AOF = () => {
             window.innerWidth < 1024 ? null : "md:ml-[30vw] ml-[85vw]"
           } `}
         >
+          <Snackbars
+            ref={snackbarRef}
+            snackbarErrStatus={snackbarErrStatus}
+            errMessage={errMessage}
+          />
           <Navbar
             handleSidebarCollapsed={handleSidebarCollapsed}
             info={navInfo}
@@ -343,6 +506,7 @@ const AOF = () => {
                   <div className="grid sm:grid-rows-5 sm:grid-cols-3 grid-rows-[15] grid-cols-1 w-full mt-6 gap-6 rounded-md bg-slate-600">
                     <BasicTextFields
                       lable={"Name Of Party/School *"}
+                      handleOrderProcessingForm={handleOrderProcessingForm}
                       variant={"standard"}
                       multiline={false}
                     />
@@ -358,66 +522,95 @@ const AOF = () => {
                         { title: "Trust" },
                       ]}
                       label={"Select Status *"}
+                      handleOrderProcessingForm={handleOrderProcessingForm}
                       color={"rgb(243, 244, 246)"}
                     />
                     <BasicTextFields
                       lable={"Address *"}
                       variant={"standard"}
+                      handleOrderProcessingForm={handleOrderProcessingForm}
                       multiline={false}
                     />
-                    <BasicTextFields
-                      lable={"State *"}
-                      variant={"standard"}
-                      multiline={false}
+                    <SearchDropDown
+                      label={"State *"}
+                      // seriesId={""}
+                      handleOrderProcessingForm={handleOrderProcessingForm}
+                      color={"rgb(243, 244, 246)"}
+                      data={state}
+                      multiple={false}
+                      Name={"select_state_location"}
                     />
-                    <BasicTextFields
-                      lable={"City *"}
-                      variant={"standard"}
-                      multiline={false}
+                    <SearchDropDown
+                      label={"City *"}
+                      handleOrderProcessingForm={handleOrderProcessingForm}
+                      color={"rgb(243, 244, 246)"}
+                      data={city}
+                      Name="select_city_location"
                     />
                     <BasicTextFields
                       lable={"Pin Code *"}
+                      handleOrderProcessingForm={handleOrderProcessingForm}
                       variant={"standard"}
                       type={"number"}
                       multiline={false}
                     />
                     <BasicTextFields
                       lable={"Mobile *"}
+                      handleOrderProcessingForm={handleOrderProcessingForm}
                       type={"number"}
                       variant={"standard"}
                       multiline={false}
                     />
                     <BasicTextFields
                       lable={"Phone *"}
+                      handleOrderProcessingForm={handleOrderProcessingForm}
                       type={"number"}
                       variant={"standard"}
                       multiline={false}
                     />
                     <BasicTextFields
                       lable={"E-Mail *"}
+                      handleOrderProcessingForm={handleOrderProcessingForm}
                       variant={"standard"}
                       multiline={false}
                     />
                     <div className="sm:col-span-2">
                       <BasicTextFields
                         lable={"Firm/ Company/Trust Registration Number *"}
+                        handleOrderProcessingForm={handleOrderProcessingForm}
                         variant={"standard"}
                         multiline={false}
                       />
                     </div>
-                    <DatePicker label={"Dated"} />
+                    {/* <DatePicker label={"Dated"} /> */}
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                      <Stack spacing={3}>
+                        <DesktopDatePicker
+                          label="Select Date"
+                          inputFormat="MM/DD/YYYY"
+                          value={date}
+                          onChange={handleStartDate}
+                          // handleOrderProcessingForm={handleOrderProcessingForm}
+                          renderInput={(params) => <TextField {...params} />}
+                        />
+                      </Stack>
+                    </LocalizationProvider>
+
                     <BasicTextFields
                       lable={"PAN NO *"}
+                      handleOrderProcessingForm={handleOrderProcessingForm}
                       variant={"standard"}
                       multiline={false}
                     />
                     <BasicTextFields
                       lable={"GST NO *"}
+                      handleOrderProcessingForm={handleOrderProcessingForm}
                       variant={"standard"}
                       multiline={false}
                     />
                     <BasicTextFields
                       lable={"GST Year of establishment of business"}
+                      handleOrderProcessingForm={handleOrderProcessingForm}
                       variant={"standard"}
                       type={"number"}
                       multiline={false}
@@ -426,11 +619,22 @@ const AOF = () => {
                   <div
                     className="mt-3"
                     onClick={() => {
-                      setSteps({ step1: false, step2: true, step3: false });
-                      window.scroll({
-                        top: 0,
-                        behavior: "smooth",
-                      });
+                      if (
+                        // // formik.values.school_name &&
+                        // // formik.values.board &&
+                        // // formik.values.category
+                        nameOfSchool
+                      ) {
+                        setSteps({ step1: false, step2: true, step3: false });
+                        window.scroll({
+                          top: 0,
+                          behavior: "smooth",
+                        });
+                      } else {
+                        setSnackbarErrStatus(true);
+                        setErrMessage("Please Fill All The Fields");
+                        snackbarRef.current.openSnackbar();
+                      }
                     }}
                   >
                     <BasicButton text={"Next"} />
@@ -444,42 +648,49 @@ const AOF = () => {
                     <div className="sm:col-span-2">
                       <BasicTextFields
                         lable={"Name of Proprietor/Partner/Director/Trustee *"}
+                        handleOrderProcessingForm={handleOrderProcessingForm}
                         variant={"standard"}
                         multiline={false}
                       />
                     </div>
 
                     <BasicTextFields
-                      lable={"PAN NO *"}
+                      lable={"PAN NO*"}
+                      handleOrderProcessingForm={handleOrderProcessingForm}
                       variant={"standard"}
                       multiline={false}
                     />
                     <BasicTextFields
-                      lable={"Address *"}
+                      lable={"Address*"}
+                      handleOrderProcessingForm={handleOrderProcessingForm}
                       variant={"standard"}
                       multiline={false}
                     />
                     <BasicTextFields
-                      lable={"Pin Code *"}
+                      lable={"Pin Code*"}
+                      handleOrderProcessingForm={handleOrderProcessingForm}
                       type={"number"}
                       variant={"standard"}
                       multiline={false}
                     />
 
                     <BasicTextFields
-                      lable={"Phone *"}
+                      lable={"Phone*"}
+                      handleOrderProcessingForm={handleOrderProcessingForm}
                       type={"number"}
                       variant={"standard"}
                       multiline={false}
                     />
                     <BasicTextFields
-                      lable={"Mobile *"}
+                      lable={"Mobile*"}
+                      handleOrderProcessingForm={handleOrderProcessingForm}
                       type={"number"}
                       variant={"standard"}
                       multiline={false}
                     />
                     <BasicTextFields
-                      lable={"E-Mail *"}
+                      lable={"E-Mail*"}
+                      handleOrderProcessingForm={handleOrderProcessingForm}
                       variant={"standard"}
                       multiline={false}
                     />
@@ -521,6 +732,7 @@ const AOF = () => {
                     <div className="sm:col-span-2">
                       <BasicTextFields
                         lable={"Name and address of the party’s main bankers *"}
+                        handleOrderProcessingForm={handleOrderProcessingForm}
                         variant={"standard"}
                         multiline={false}
                       />
@@ -528,6 +740,7 @@ const AOF = () => {
 
                     <BasicTextFields
                       lable={"Account Number *"}
+                      handleOrderProcessingForm={handleOrderProcessingForm}
                       variant={"standard"}
                       type={"number"}
                       multiline={false}
@@ -535,12 +748,14 @@ const AOF = () => {
                     <SearchDropDown
                       Name={"aof_acc"}
                       data={[{ title: "SB" }, { title: "CA" }, { title: "CC" }]}
+                      handleOrderProcessingForm={handleOrderProcessingForm}
                       label={"Type of A/c "}
                       color={"rgb(243, 244, 246)"}
                     />
                     <BasicTextFields
                       lable={"IFSC *"}
-                      type={"number"}
+                      handleOrderProcessingForm={handleOrderProcessingForm}
+                      // type={"number"}
                       variant={"standard"}
                       multiline={false}
                     />
@@ -735,73 +950,104 @@ const AOF = () => {
                                   label={"Select Publisher"}
                                   color={"rgb(243, 244, 246)"}
                                 />
-                                <div className="!flex justify-end" onClick={handlePublisher}>
+                                {/* <div className="!flex justify-end" onClick={handlePublisher}>
                                   <BasicButton text={"Add"} />
-                                </div>
+                                </div> */}
                               </div>
 
-                              <Table sx={{ minWidth: 650 }} aria-label="customized table">
-                    <TableHead className="bg-slate-600">
-                      <TableRow>
-                        <TableCell className="!w-[13rem]" align="center">
-                          Publisher
-                        </TableCell>
-                        <TableCell className="!w-[8rem]" align="center">
-                          Percentage
-                        </TableCell>
-                        <TableCell className="!w-[10rem]" align="center">
-                         
-                        </TableCell>
-                       
-                      </TableRow>
-                    </TableHead>
-                    {pubData.map((row) => {
-                    <TableBody className="bg-slate-400">
-                            <TableRow
-                              key={"row.series"}
-                              sx={{
-                                "&:last-child td, &:last-child th": {
-                                  border: 0,
-                                },
-                              }}
-                            >
-                            
-                          
-                              <TableCell align="center">
-                                {row.bp_name}
-                              </TableCell>
-                              <TableCell align="center">
-                              <TextField
-                                  // InputLabelProps={{
-                                  //   style: { color: "white" },
-                                  // }}
-                                  // inputProps={{
-                                  //   style: { color: "white" },
-                                  // }}
-                                  id="outlined-basic"
-                                  label="Enter Percentage"
-                                  variant="standard"
-                                />
-                              </TableCell>
-                              <TableCell align="center">
-                              <RowRadioButtonsGroup
-                                  handleRadioButtons={handleRadioButtons}
-                                  name={"special"}
-                                  value={[
-                                    {
-                                      label: "Gross",
-                                      value: "yes",
-                                    },
-                                    { label: "Net", value: "no" },
-                                  ]}
-                                />
-                              </TableCell>
-                            </TableRow>   
-                    </TableBody>
-                  })}
-                  </Table>
-
-
+                              <Table
+                                sx={{ minWidth: 650 }}
+                                aria-label="customized table"
+                              >
+                                <TableHead className="bg-slate-600">
+                                  <TableRow>
+                                    <TableCell
+                                      className="!w-[13rem]"
+                                      align="center"
+                                    >
+                                      Publisher
+                                    </TableCell>
+                                    <TableCell
+                                      className="!w-[8rem]"
+                                      align="center"
+                                    >
+                                      Percentage
+                                    </TableCell>
+                                    <TableCell
+                                      className="!w-[10rem]"
+                                      align="center"
+                                    ></TableCell>
+                                    <TableCell
+                                      className="!w-[4rem]"
+                                      align="center"
+                                    ></TableCell>
+                                  </TableRow>
+                                </TableHead>
+                                {publisherData.map((row) => {
+                                  return (
+                                    <TableBody className="bg-slate-400">
+                                      <TableRow
+                                        key={"row.series"}
+                                        sx={{
+                                          "&:last-child td, &:last-child th": {
+                                            border: 0,
+                                          },
+                                        }}
+                                      >
+                                        <TableCell align="center">
+                                          {row.bp_name}
+                                        </TableCell>
+                                        <TableCell align="center">
+                                          <TextField
+                                            // InputLabelProps={{
+                                            //   style: { color: "white" },
+                                            // }}
+                                            // inputProps={{
+                                            //   style: { color: "white" },
+                                            // }}
+                                            id="outlined-basic"
+                                            label="Enter Percentage"
+                                            variant="standard"
+                                          />
+                                        </TableCell>
+                                        <TableCell align="center">
+                                          <RowRadioButtonsGroup
+                                            handleRadioButtons={
+                                              handleRadioButtons
+                                            }
+                                            name={"publisher"}
+                                            value={[
+                                              {
+                                                label: "Gross",
+                                                value: "gross",
+                                              },
+                                              { label: "Net", value: "net" },
+                                            ]}
+                                          />
+                                        </TableCell>
+                                        <TableCell align="center">
+                                          <div>
+                                            <IconButton
+                                              type="submit"
+                                              aria-label="search"
+                                              onClick={() => {
+                                                handleDelete(
+                                                  row.id,
+                                                  "publisher"
+                                                );
+                                              }}
+                                            >
+                                              <Delete
+                                              // style={{ fill: "blue" }}
+                                              />
+                                            </IconButton>
+                                          </div>
+                                        </TableCell>
+                                      </TableRow>
+                                    </TableBody>
+                                  );
+                                })}
+                              </Table>
                             </Typography>
                             <div className="w-full flex justify-center">
                               <hr className="text-gray-100 w-[80%] my-4" />
@@ -819,30 +1065,96 @@ const AOF = () => {
                                 label={"Select Series"}
                                 color={"rgb(243, 244, 246)"}
                               />
-                              <div className="flex justify-around items-center">
-                                <TextField
-                                  InputLabelProps={{
-                                    style: { color: "white" },
-                                  }}
-                                  inputProps={{
-                                    style: { color: "white" },
-                                  }}
-                                  id="outlined-basic"
-                                  label="Enter Percentage"
-                                  variant="standard"
-                                />
-                                <RowRadioButtonsGroup
-                                  handleRadioButtons={handleRadioButtons}
-                                  name={"tod"}
-                                  value={[
-                                    {
-                                      label: "Gross",
-                                      value: "yes",
-                                    },
-                                    { label: "Net", value: "no" },
-                                  ]}
-                                />
-                              </div>
+                              <Table
+                                sx={{ minWidth: 650 }}
+                                aria-label="customized table"
+                              >
+                                <TableHead className="bg-slate-600">
+                                  <TableRow>
+                                    <TableCell
+                                      className="!w-[13rem]"
+                                      align="center"
+                                    >
+                                      Series
+                                    </TableCell>
+                                    <TableCell
+                                      className="!w-[8rem]"
+                                      align="center"
+                                    >
+                                      Percentage
+                                    </TableCell>
+                                    <TableCell
+                                      className="!w-[10rem]"
+                                      align="center"
+                                    ></TableCell>
+                                    <TableCell
+                                      className="!w-[4rem]"
+                                      align="center"
+                                    ></TableCell>
+                                  </TableRow>
+                                </TableHead>
+                                {seriesData.map((row) => {
+                                  return (
+                                    <TableBody className="bg-slate-400">
+                                      <TableRow
+                                        key={"row.series"}
+                                        sx={{
+                                          "&:last-child td, &:last-child th": {
+                                            border: 0,
+                                          },
+                                        }}
+                                      >
+                                        <TableCell align="center">
+                                          {row.series}
+                                        </TableCell>
+                                        <TableCell align="center">
+                                          <TextField
+                                            // InputLabelProps={{
+                                            //   style: { color: "white" },
+                                            // }}
+                                            // inputProps={{
+                                            //   style: { color: "white" },
+                                            // }}
+                                            id="outlined-basic"
+                                            label="Enter Percentage"
+                                            variant="standard"
+                                          />
+                                        </TableCell>
+                                        <TableCell align="center">
+                                          <RowRadioButtonsGroup
+                                            handleRadioButtons={
+                                              handleRadioButtons
+                                            }
+                                            name={"series"}
+                                            value={[
+                                              {
+                                                label: "Gross",
+                                                value: "gross",
+                                              },
+                                              { label: "Net", value: "net" },
+                                            ]}
+                                          />
+                                        </TableCell>
+                                        <TableCell align="center">
+                                          <div>
+                                            <IconButton
+                                              type="submit"
+                                              aria-label="search"
+                                              onClick={() => {
+                                                handleDelete(row.id, "series");
+                                              }}
+                                            >
+                                              <Delete
+                                              // style={{ fill: "blue" }}
+                                              />
+                                            </IconButton>
+                                          </div>
+                                        </TableCell>
+                                      </TableRow>
+                                    </TableBody>
+                                  );
+                                })}
+                              </Table>
                             </Typography>
                             <div className="w-full flex justify-center">
                               <hr className="text-gray-100 w-[80%] my-4" />
@@ -859,7 +1171,7 @@ const AOF = () => {
                                 label={"Select Title"}
                                 color={"rgb(243, 244, 246)"}
                               />
-                              <div className="flex justify-around items-center">
+                              {/* <div className="flex justify-around items-center">
                                 <TextField
                                   InputLabelProps={{
                                     style: { color: "white" },
@@ -882,7 +1194,95 @@ const AOF = () => {
                                     { label: "Net", value: "no" },
                                   ]}
                                 />
-                              </div>
+                              </div> */}
+                              <Table
+                                sx={{ minWidth: 650 }}
+                                aria-label="customized table"
+                              >
+                                <TableHead className="bg-slate-600">
+                                  <TableRow>
+                                    <TableCell
+                                      className="!w-[13rem]"
+                                      align="center"
+                                    >
+                                      Title
+                                    </TableCell>
+                                    <TableCell
+                                      className="!w-[8rem]"
+                                      align="center"
+                                    >
+                                      Percentage
+                                    </TableCell>
+                                    <TableCell
+                                      className="!w-[10rem]"
+                                      align="center"
+                                    ></TableCell>
+                                    <TableCell
+                                      className="!w-[4rem]"
+                                      align="center"
+                                    ></TableCell>
+                                  </TableRow>
+                                </TableHead>
+                                {/* {seriesData.map((row) => {
+                                  return ( */}
+                                <TableBody className="bg-slate-400">
+                                  <TableRow
+                                    key={"row.series"}
+                                    sx={{
+                                      "&:last-child td, &:last-child th": {
+                                        border: 0,
+                                      },
+                                    }}
+                                  >
+                                    <TableCell align="center">
+                                      {"row.series"}
+                                    </TableCell>
+                                    <TableCell align="center">
+                                      <TextField
+                                        // InputLabelProps={{
+                                        //   style: { color: "white" },
+                                        // }}
+                                        // inputProps={{
+                                        //   style: { color: "white" },
+                                        // }}
+                                        id="outlined-basic"
+                                        label="Enter Percentage"
+                                        variant="standard"
+                                      />
+                                    </TableCell>
+                                    <TableCell align="center">
+                                      <RowRadioButtonsGroup
+                                        handleRadioButtons={handleRadioButtons}
+                                        name={"special"}
+                                        value={[
+                                          {
+                                            label: "Gross",
+                                            value: "yes",
+                                          },
+                                          { label: "Net", value: "no" },
+                                        ]}
+                                      />
+                                    </TableCell>
+                                    <TableCell align="center">
+                                      <div>
+                                        <IconButton
+                                          type="submit"
+                                          aria-label="search"
+                                          onClick={() => {
+                                            handleDelete("row.id", "series");
+                                          }}
+                                        >
+                                          <Delete
+                                          // style={{ fill: "blue" }}
+                                          />
+                                        </IconButton>
+                                      </div>
+                                    </TableCell>
+                                  </TableRow>
+                                </TableBody>
+                                {/* );
+                                })} */}
+                              </Table>
                             </Typography>
                           </>
                         ) : null}

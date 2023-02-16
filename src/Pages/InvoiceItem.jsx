@@ -149,14 +149,16 @@ const InvoiceItem = () => {
   let { invoiceid } = useParams();
 
   const getInvoiceDetails = async () => {
+    // console.log(invoiceid)
     setLoading(true);
     const res = await instance({
-      url: `eup_invoice/geteupinvoices/${invoiceid}`,
+      url: `eup_invoice/geteupinvoices/detail/${invoiceid}`,
       method: "GET",
       headers: {
         Authorization: `${Cookies.get("accessToken")}`,
       },
     });
+    console.log(res)
     console.log(res.data.message[0].eup_invoice_addresses[0]);
     setItems(res.data.message[0].eup_invoice_items);
     setAddress(res.data.message[0].eup_invoice_addresses[0]);
