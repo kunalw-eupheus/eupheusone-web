@@ -55,13 +55,15 @@ const Inv = () => {
     //     },
     //     {
     //       headers: {
-    //         accesskey: `auth74961a98ba76d4e4`,
+    //         accesskey: ``,
     //       },
     //     }
     //   )
     //   .catch((e) => {
     //     console.log(e.message);
     //   });
+
+    // console.log(process.env.CRM_V2KEY)
 
       const res = await instance({
         url: `doc_print/invoice/detail`,
@@ -72,7 +74,8 @@ const Inv = () => {
           doc_date: docdate,
         },
         headers: {
-          Authorization: Cookies.get("accessToken"),
+          // Authorization: Cookies.get("accessToken"),
+          accesskey: `auth74961a98ba76d4e4`,
         },
       });
     let data = res.data.message.message[0];

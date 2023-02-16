@@ -112,6 +112,7 @@ const ViewInvoiceSingle = () => {
   }, []);
 
   const getCustomers = async () => {
+    // console.log(process.env.CRM_V2KEY)
     const res = await instance({
       url: "sales_data/get_all_bps",
       method: "GET",

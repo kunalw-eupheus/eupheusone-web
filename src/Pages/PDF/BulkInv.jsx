@@ -71,7 +71,8 @@ const BulkInv = () => {
         fromdate:todate
      },
       headers: {
-        Authorization: Cookies.get("accessToken"),
+        // Authorization: Cookies.get("accessToken"),
+        accesskey: `auth74961a98ba76d4e4`
       },
     });
     let data = res.data.message.message[0]
