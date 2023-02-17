@@ -65,7 +65,7 @@ const AOF = () => {
   const [date, setDate] = useState("");
   const [nameOfSchool, setNameOfSchool] = useState(null);
 
-  const [pinCode, setPinCode] = useState("");
+  const [pinCode, setPinCode] = useState(null);
   const [stateSelect, setStateSelect] = useState("");
   const [citySelect, setCitySelect] = useState("");
   const [ifsc, setIfsc] = useState("");
@@ -87,8 +87,6 @@ const AOF = () => {
   const [accNoP, setAccNoP] = useState("");
   const [ifscP, setIfscP] = useState("");
   const [aofAcc, setAofAcc] = useState("");
-
-  
 
   const sidebarRef = useRef();
   const snackbarRef = useRef();
@@ -119,31 +117,43 @@ const AOF = () => {
   };
 
   const handleRadioButtons = (type, value) => {
+    // console.log(type, value);
     switch (type) {
       case "tod applicable":
         if (value === "yes") {
+          console.log("tod applicable selected Yes");
           setStep4({ ...step4, tod: { applicable: true, type: false } });
         } else {
+          console.log("tod applicable selected No");
           setStep4({ ...step4, tod: { applicable: false, type: false } });
         }
         break;
       case "tod type":
         if (value === "yes") {
+          console.log("Overall business value selected");
           setStep4({ ...step4, tod: { applicable: true, type: true } });
         } else {
+          console.log("Specific selected");
           setStep4({ ...step4, tod: { applicable: true, type: false } });
         }
 
         break;
       case "special applicable":
         if (value === "yes") {
+          console.log("special applicable yes");
           setStep4({ ...step4, special: { applicable: true, type: "" } });
         } else {
+          console.log("special applicable no");
           setStep4({ ...step4, special: { applicable: false, type: "" } });
         }
         break;
       case "special type":
         setStep4({ ...step4, special: { applicable: true, type: value } });
+        break;
+
+      case "tod":
+        console.log(type, value);
+        // setStep4({ ...step4, special: { applicable: true, type: value } });
         break;
 
       case "publisher":
@@ -197,6 +207,7 @@ const AOF = () => {
           />
           <BasicTextFields
             lable={"Annual Business"}
+            handleOrderProcessingForm={handleOrderProcessingForm}
             variant={"standard"}
             multiline={false}
           />
@@ -226,16 +237,19 @@ const AOF = () => {
           <span className="mt-4 text-gray-100">{i + 1}.</span>
           <BasicTextFields
             lable={"Cheque No"}
+            handleOrderProcessingForm = {handleOrderProcessingForm}
             variant={"standard"}
             multiline={false}
           />
           <BasicTextFields
             lable={"Bank"}
+            handleOrderProcessingForm = {handleOrderProcessingForm}
             variant={"standard"}
             multiline={false}
           />
           <BasicTextFields
             lable={"Branch/IFSC"}
+            handleOrderProcessingForm = {handleOrderProcessingForm}
             variant={"standard"}
             multiline={false}
           />
@@ -250,7 +264,7 @@ const AOF = () => {
   };
 
   const handleOrderProcessingForm = (value, type) => {
-    // console.log(value, type);
+    console.log(value, type);
     switch (type) {
       // case "series_aof":
       //   setLoading(true);
@@ -323,6 +337,7 @@ const AOF = () => {
         break;
 
       case "Pin Code *":
+        setPinCode(value)
         console.log(value);
         break;
 
@@ -348,6 +363,10 @@ const AOF = () => {
         console.log(value);
         break;
 
+      case "Enter Percentage":
+        console.log(value);
+        break;
+
       case "Firm/ Company/Trust Registration Number *":
         console.log(value);
         break;
@@ -368,7 +387,7 @@ const AOF = () => {
   };
 
   const handleStartDate = (newValue) => {
-    // console.log(newValue)
+    console.log(newValue)
     setDate(newValue);
   };
 
@@ -623,7 +642,8 @@ const AOF = () => {
                         // // formik.values.school_name &&
                         // // formik.values.board &&
                         // // formik.values.category
-                        nameOfSchool
+                        nameOfSchool,
+                        pinCode
                       ) {
                         setSteps({ step1: false, step2: true, step3: false });
                         window.scroll({
@@ -840,7 +860,7 @@ const AOF = () => {
                         {step4.tod.type ? (
                           <>
                             <Typography className="!flex !items-center justify-around">
-                              <TextField
+                              {/* <TextField
                                 InputLabelProps={{
                                   style: { color: "white" },
                                 }}
@@ -849,8 +869,21 @@ const AOF = () => {
                                 }}
                                 type={"number"}
                                 id="outlined-basic"
-                                label="Enter Percentage"
+                                label="Enter Percentage............"
+                                handleOrderProcessingForm={
+                                  handleOrderProcessingForm
+                                }
+                                name={"TODpercent"}
                                 variant="standard"
+                              /> */}
+                              <BasicTextFields
+                                lable={"Enter Percentage (TOD)"}
+                                handleOrderProcessingForm={
+                                  handleOrderProcessingForm
+                                }
+                                type={"number"}
+                                variant={"standard"}
+                                multiline={false}
                               />
                               <RowRadioButtonsGroup
                                 handleRadioButtons={handleRadioButtons}
@@ -908,7 +941,7 @@ const AOF = () => {
                         {step4.special.type === "overall" ? (
                           <>
                             <Typography className="!flex !items-center justify-around">
-                              <TextField
+                              {/* <TextField
                                 InputLabelProps={{
                                   style: { color: "white" },
                                 }}
@@ -919,6 +952,15 @@ const AOF = () => {
                                 id="outlined-basic"
                                 label="Enter Percentage"
                                 variant="standard"
+                              /> */}
+                              <BasicTextFields
+                                lable={"Enter Percentage (special)"}
+                                handleOrderProcessingForm={
+                                  handleOrderProcessingForm
+                                }
+                                type={"number"}
+                                variant={"standard"}
+                                multiline={false}
                               />
                               <RowRadioButtonsGroup
                                 handleRadioButtons={handleRadioButtons}
