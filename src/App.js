@@ -18,6 +18,7 @@ import ManageSchool from "./Pages/ManageSchool";
 // import AdminState from "./Pages/AdminState";
 // import AdminCity from "./Pages/AdminCity";
 // import AdminCountry from "./Pages/AdminCountry";
+import AddNewCity from "./Pages/AddNewCity"
 import SchoolTagging from "./Pages/SchoolTagging";
 import Schools from "./Pages/Schools";
 import TagSchool from "./Pages/TagSchool";
@@ -57,10 +58,11 @@ import ClassklapDashboard from "./Pages/ClassklapDashboard";
 import ClassklapManageSchool from "./Pages/ClassklapManageSchool";
 import AddSchoolCK from "./Pages/AddSchoolCK";
 import LocationTraining from "./Pages/LocationTraining";
-import PrintPDF from "./Pages/PrintPDF"
+import PrintPDF from "./Pages/PrintPDF";
 import ViewInvoiceSingle from "./Pages/ViewInvoiceSingle";
 import ViewInvoiceDouble from "./Pages/ViewInvoiceDouble";
 import BulkInv from "./Pages/PDF/BulkInv";
+import CustLedger from "./Pages/PDF/CustLedger";
 function App() {
   const isAuth = useSelector((state) => state.auth.user);
   const MsAuth = useSelector((state) => state.auth.msAuth);
@@ -175,7 +177,10 @@ function App() {
             path="/pdf_view"
             element={isAuth || MsAuth ? <MyDocument /> : <Login />}
           /> */}
-              <Route path="/aof" element={isAuth || MsAuth ? <AOF /> : <Login />} />
+              <Route
+                path="/aof"
+                element={isAuth || MsAuth ? <AOF /> : <Login />}
+              />
               {/* kys */}
               <Route
                 path="/kys"
@@ -255,12 +260,9 @@ function App() {
                 element={isAuth || MsAuth ? <InvoiceTraining /> : <Login />}
               />
 
-              <Route
-                path="/view_pdf/:docnum/:docdate"
-                element={<ViewPdf />}
-              />
+              <Route path="/view_pdf/:docnum/:docdate" element={<ViewPdf />} />
 
-             <Route
+              <Route
                 path="/bulkinv_pdf/:bp/:todate/:fromdate"
                 element={<BulkInv />}
               />
@@ -300,6 +302,16 @@ function App() {
               <Route
                 path="/invoice_pdf_double"
                 element={isAuth || MsAuth ? <ViewInvoiceDouble /> : <Login />}
+              />
+
+              <Route
+                path="/cust_ledger"
+                element={isAuth || MsAuth ? <CustLedger /> : <Login />}
+              />
+
+              <Route
+                path="/add_new_city"
+                element={isAuth || MsAuth ? <AddNewCity /> : <Login />}
               />
 
               {/* Admin */}

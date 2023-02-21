@@ -172,13 +172,13 @@ const Home = () => {
               <h1 className="text-gray-100 sm:text-2xl text-base font-semibold absolute top-[2rem] left-[2rem]">
                 Welcome
               </h1>
-              <a
+              {/* <a
                 href="https://lmseupheus.s3.amazonaws.com/crmv2/androidApp/app-release.apk"
                 download="latest_apk_download"
                 className="absolute sm:top-[2rem] top-[3rem] sm:right-[2rem] right-[1rem]"
               >
                 <BasicButton text={"download latest apk"} size={"small"} />
-              </a>
+              </a> */}
 
               <div className="w-full flex flex-col px-4 pb-6 sm:flex-row gap-6 items-center justify-center">
                 <section className="flex sm:w-[30%] sm:h-[19rem] w-full sm:flex-col flex-row gap-4 hover:shadow-2xl items-center justify-between px-4 py-4 bg-gray-200 rounded-md">

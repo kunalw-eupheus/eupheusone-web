@@ -8,11 +8,13 @@ import DataTable from "../Components/DataTable";
 // import { rows, ManageSchoolRows } from '../DummyData'
 import SearchDropDown from "../Components/SearchDropDown";
 import SwipeableTemporaryDrawer from "../Components/Material/MaterialSidebar";
+import BasicTextFields from "../Components/Material/TextField";
 import instance from "../Instance";
 import { useLayoutEffect } from "react";
 import Cookies from "js-cookie";
 import BasicButton from "../Components/Material/Button";
 import { Backdrop, CircularProgress, Toolbar } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import Table from "@mui/material/Table";
@@ -36,12 +38,13 @@ const LocationTraining = () => {
   const sidebarRef = useRef();
   const [states, setStates] = useState([]);
   // const [type, setType] = useState([]);
-  const [city, setCity] = useState([]);
+  const [city, setCity] = useState("");
   const [schoolRow, setSchoolRow] = useState([]);
   const [searchVal, setSearchVal] = useState("");
   const [searchRow, setSearchRow] = useState([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [stateId2, setStateId2]= useState("")
 
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
@@ -57,8 +60,8 @@ const LocationTraining = () => {
   };
 
   const navInfo = {
-    title: "Manage School",
-    details: ["Home", " / Manage School"],
+    title: "Add City",
+    details: ["Home", " / Manage School", "/ Add City"],
   };
 
   const types = [
@@ -90,8 +93,10 @@ const LocationTraining = () => {
     sidebarRef.current.openSidebar();
   };
 
+  const navigate = useNavigate();
+
   useEffect(() => {
-    getState()
+    getState();
     const handleWidth = () => {
       if (window.innerWidth > 1024) {
         setSidebarCollapsed(false);
@@ -140,6 +145,36 @@ const LocationTraining = () => {
     setLoading(false);
   };
 
+
+  const addCity = async () => {
+
+    let newData = {
+        city: city,
+        fk_state_id: stateId2
+    }
+
+    const res = await instance({
+        url: `school/create/ckschool`,
+        method: "POST",
+        data: newData,
+        headers: {
+          Authorization: Cookies.get("accessToken"),
+        },
+      });
+      console.log(res);
+      if (res.data.status === "success") {
+        // console.log(res);
+        // setSnackbarErrStatus(false);
+        // setErrMessage("New City Added");
+        // snackbarRef.current.openSnackbar();
+        setTimeout(() => {
+          navigate("/manageSchoolTraining");
+        }, 1000);
+      }
+  }
+
+  
+
   const getSchoolByState = async (id) => {
     setLoading(true);
 
@@ -172,17 +207,24 @@ const LocationTraining = () => {
         // getSchoolByState(value.fk_state_id);
         // setStateAndCity({ ...stateAndCity, state: value.fk_state_id });
         break;
-        case "select_state_location":
-        //   console.log(value , "hihihiihii");
+      case "select_state_location":
+        setStateId2(value.id)
+        //   console.log(value.id , "hihihiihii");
         //   setStateId(value.id);
-          getCity(value.id)
-          // getCity(value.fk_state_id);
-          // getSchoolByState(value.fk_state_id);
-          // setStateAndCity({ ...stateAndCity, state: value.fk_state_id });
-          break;
+        // getCity(value.id);
+        // getCity(value.fk_state_id);
+        // getSchoolByState(value.fk_state_id);
+        // setStateAndCity({ ...stateAndCity, state: value.fk_state_id });
+        break;
       case "select_type":
         // console.log(value);
         setType(value.types);
+        // setStateAndCity({ ...stateAndCity, city: value.id });
+        break;
+      case "Enter City Name *":
+        // console.log(value);
+        setCity(value)
+        // setType(value.types);
         // setStateAndCity({ ...stateAndCity, city: value.id });
         break;
       default:
@@ -244,7 +286,7 @@ const LocationTraining = () => {
     setSchoolRow([]);
     setSearchRow([]);
     if (type === "Classklap") {
-      console.log(stateId)
+      console.log(stateId);
       const res = await instance({
         url: `school/ckschools/get/${stateId}`,
         method: "GET",
@@ -253,8 +295,8 @@ const LocationTraining = () => {
         },
       });
       // console.log(res.data.message);
-      if(res.data.message.length === 0){
-        alert("No Data Available")
+      if (res.data.message.length === 0) {
+        alert("No Data Available");
       }
       setSchoolRow(res.data.message);
       // console.log(stateId)
@@ -268,8 +310,8 @@ const LocationTraining = () => {
         },
       });
       // console.log(res.data.message);
-      if(res.data.message.length === 0){
-        alert("No Data Available")
+      if (res.data.message.length === 0) {
+        alert("No Data Available");
       }
       setSchoolRow(res.data.message);
       // console.log(stateId)
@@ -283,8 +325,8 @@ const LocationTraining = () => {
         },
       });
       // console.log(res.data.message);
-      if(res.data.message.length === 0){
-        alert("No Data Available")
+      if (res.data.message.length === 0) {
+        alert("No Data Available");
       }
       setSchoolRow(res.data.message);
       // console.log(stateId)
@@ -319,7 +361,7 @@ const LocationTraining = () => {
   const filterTable = () => {
     // console.log(searchVal);
     // console.log(schoolRow)
-    setPage(0)
+    setPage(0);
     let tempArr = [];
     for (let ele of schoolRow) {
       // console.log(ele.cardname)
@@ -391,12 +433,11 @@ const LocationTraining = () => {
         />
         <div className="min-h-[100vh] pt-[2vh] max-h-full bg-[#141728]">
           <div className=" sm:px-8 px-2 py-3 bg-[#141728]">
-
-          <div className="w-full flex gap-3 justify-end">
+            {/* <div className="w-full flex gap-3 justify-end">
               <Link to="/add_new_city">
                 <BasicButton text={"Add New City"} />
               </Link>
-            </div>
+            </div> */}
 
             <div className="grid grid-cols-2 grid-rows-2 md:flex md:justify-around md:items-center px-6 mb-8 py-3 mt-6 gap-6 rounded-md bg-slate-600">
               <div className="flex flex-col gap-2 w-full md:w-[20vw]">
@@ -410,15 +451,15 @@ const LocationTraining = () => {
                   Name="select_type"
                 /> */}
 
-                    <SearchDropDown
-                      label={"Select State *"}
-                      // seriesId={""}
-                      handleOrderProcessingForm={handleOrderProcessingForm}
-                      color={"rgb(243, 244, 246)"}
-                      data={state}
-                      multiple={false}
-                      Name={"select_state_location"}
-                    />
+                <SearchDropDown
+                  label={"Select State *"}
+                  // seriesId={""}
+                  handleOrderProcessingForm={handleOrderProcessingForm}
+                  color={"rgb(243, 244, 246)"}
+                  data={state}
+                  multiple={false}
+                  Name={"select_state_location"}
+                />
 
                 {/* <Autocomplete
                   disablePortal
@@ -434,13 +475,20 @@ const LocationTraining = () => {
               <div className="flex flex-col gap-2 w-full md:w-[20vw]">
                 <label className="text-gray-100">City</label>
 
-                <SearchDropDown
+                <BasicTextFields
+                  lable={"Enter City Name *"}
+                  handleOrderProcessingForm={handleOrderProcessingForm}
+                  variant={"standard"}
+                  multiline={false}
+                />
+
+                {/* <SearchDropDown
                   label={"Select City"}
                   handleOrderProcessingForm={handleOrderProcessingForm}
                   color={"rgb(243, 244, 246)"}
                   data={city}
                   Name="select_city_location"
-                />
+                /> */}
               </div>
               {/* <div className=" flex flex-col gap-2 w-full md:w-[20vw]">
                 <label className="text-gray-100">City</label>
@@ -457,13 +505,10 @@ const LocationTraining = () => {
               {/* <button className="w-full md:w-[20vw] col-span-2 md:ml-10 focus:outline-0 mt-8 text-gray-300 hover:shadow-md h-10 bg-slate-500 transition-all duration-200 ease-linear active:bg-slate-700 active:scale-95 rounded-md">
                 Search School
               </button> */}
-              {/* <div className="sm:w-auto w-[50vw]" onClick={searchSchool}>
-                <BasicButton text={"Search School"} />
-              </div> */}
+              <div className="sm:w-auto w-[50vw]" onClick={addCity}>
+                <BasicButton text={"Add City"} />
+              </div>
             </div>
-
-            
-
           </div>
         </div>
       </div>

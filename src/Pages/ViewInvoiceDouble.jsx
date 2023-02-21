@@ -29,7 +29,7 @@ import { useNavigate } from "react-router-dom";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { Stack } from "@mui/system";
-import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
+import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 
 const ViewInvoiceDouble = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
@@ -48,9 +48,8 @@ const ViewInvoiceDouble = () => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [bpCode, setBpCode] = useState("");
-  const [startDate, setStartDate] = useState("")
-  const [endDate, setEndDate] = useState("")
-
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
 
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
@@ -138,46 +137,53 @@ const ViewInvoiceDouble = () => {
     setCustomer(res.data.message);
   };
 
-  
   const handlePDF = async () => {
-    let strtMonth = startDate.$M+1
-    if(strtMonth < 10) strtMonth = `0${strtMonth}`
-    let strtDay = startDate.$D
-    if( strtDay < 10) strtDay = `0${strtDay}`
-    let strtYr = startDate.$y
-    let strtDte = `${strtYr}-${strtMonth}-${strtDay}`
-    // console.log(strtDte)
+    let strtMonth = startDate.$M + 1;
+    if (strtMonth < 10) strtMonth = `0${strtMonth}`;
+    let strtDay = startDate.$D;
+    if (strtDay < 10) strtDay = `0${strtDay}`;
+    let strtYr = startDate.$y;
+    let strtDte = `${strtYr}-${strtMonth}-${strtDay}`;
+    
 
+    let endMonth = endDate.$M + 1;
+    if (endMonth < 10) endMonth = `0${endMonth}`;
+    let endDay = endDate.$D;
+    // console.log(endDay)
+    if (endDay < 10) endDay = `0${endDay}`;
+    let endYr = endDate.$y;
+    let endDte = `${endYr}-${endMonth}-${endDay}`;
 
-    let endMonth = endDate.$M+1
-    if(endMonth < 10) endMonth = `0${endMonth}`
-    let endDay = endDate.$D
-    if( endDay < 10) strtDay = `0${endDay}`
-    let endYr = endDate.$y
-    let endDte = `${endYr}-${endMonth}-${endDay}`
-    // console.log(endDte)\
+    console.log("startDate= ",strtDte);
+    console.log("endDate= ",endDte);
+    console.log("bpCode= ",bpCode);
 
     let postdata = {
-        bp : bpCode,
-        todate : strtDte,
-        fromdate: endDte
-      }
-      setLoading(true);
-      const res = await instance({
-        url: `doc_print/invoice/bulk/print`,
-        method: "post",
-        data: postdata,
-        headers: {
-          Authorization: Cookies.get("accessToken"),
-        },
-      });
-    //   console.log(res.data.message)
-      let downloadUrl = res.data.message
-      window.open(downloadUrl)
-      setLoading(false)
+      bp: bpCode,
+      // bp: "CBP510860",
+      todate: endDte,
+      fromdate: strtDte,
+    };
+    console.log(postdata)
+    setLoading(true);
+    const res = await instance({
+      url: `doc_print/invoice/bulk/data`,
+      method: "post",
+      data: postdata,
+      headers: {
+        Authorization: Cookies.get("accessToken"),
+      },
+    });
+    console.log(res.data.message);
+    if (res.data.message === "No Invoice Found") {
+      alert(res.data.message);
+    } else {
+      let downloadUrl = res.data.message;
+      window.open(downloadUrl);
+    }
+    setLoading(false);
 
     // navigate(`/bulkinv_pdf/${bpCode}/${strtDte}/${endDte}`)
-
   };
 
   const getSchool = async (stateId, cityId) => {
@@ -496,7 +502,6 @@ const ViewInvoiceDouble = () => {
               </div> */}
 
               <div className="flex flex-col gap-2 w-full md:w-[20vw]">
-
                 <SearchDropDown
                   label={"Select Customer"}
                   handleOrderProcessingForm={handleOrderProcessingForm}
@@ -530,14 +535,12 @@ const ViewInvoiceDouble = () => {
               </div>
 
               <div className="flex flex-col gap-2 w-full md:w-[15vw]">
-
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <Stack spacing={3}>
                     <DesktopDatePicker
                       label="Select End Date"
                       inputFormat="MM/DD/YYYY"
                       value={endDate}
-
                       onChange={handleEndDate}
                       renderInput={(params) => <TextField {...params} />}
                     />
@@ -610,7 +613,7 @@ const ViewInvoiceDouble = () => {
                 <BasicButton text={"Create New School"} />
               </Link>
             </div> */}
-{/* 
+            {/* 
             <div className=" sm:px-8 px-2 py-3 bg-[#141728] mt-4">
               <Paper>
                 <TableContainer component={Paper}>
