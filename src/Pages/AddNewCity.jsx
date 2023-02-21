@@ -27,6 +27,7 @@ import Paper from "@mui/material/Paper";
 import IconButton from "@mui/material/IconButton";
 import SearchIcon from "@mui/icons-material/Search";
 import TablePagination from "@mui/material/TablePagination";
+import Snackbars from "../Components/Material/SnackBar";
 
 const LocationTraining = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
@@ -45,6 +46,10 @@ const LocationTraining = () => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [stateId2, setStateId2]= useState("")
+  const [errMessage, setErrMessage] = useState("");
+  const [snackbarErrStatus, setSnackbarErrStatus] = useState(true);
+
+  const snackbarRef = useRef();
 
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
@@ -153,8 +158,10 @@ const LocationTraining = () => {
         fk_state_id: stateId2
     }
 
+    // console.log(newData)
+
     const res = await instance({
-        url: `school/create/ckschool`,
+        url: `location/city/create/bytraining`,
         method: "POST",
         data: newData,
         headers: {
@@ -162,14 +169,35 @@ const LocationTraining = () => {
         },
       });
       console.log(res);
+
+      if(!stateId2 || stateId2.length===0){
+        setSnackbarErrStatus(true);
+        setErrMessage("Select a State");
+        snackbarRef.current.openSnackbar();
+        return
+      }
+
+      if(!city || city.length===0){
+        setSnackbarErrStatus(true);
+        setErrMessage("Enter a City Name");
+        snackbarRef.current.openSnackbar();
+        return
+      }
+
       if (res.data.status === "success") {
         // console.log(res);
-        // setSnackbarErrStatus(false);
-        // setErrMessage("New City Added");
-        // snackbarRef.current.openSnackbar();
+        setSnackbarErrStatus(false);
+        setErrMessage("New City Added");
+        snackbarRef.current.openSnackbar();
         setTimeout(() => {
-          navigate("/manageSchoolTraining");
-        }, 1000);
+          // console.log("first")
+          navigate("/locationTraining");
+        }, 1500);
+      }else if(res.data.status === "error"){
+        // alert(res.data.message)
+        setSnackbarErrStatus(true);
+        setErrMessage("This City Already Exist");
+        snackbarRef.current.openSnackbar();
       }
   }
 
@@ -427,6 +455,13 @@ const LocationTraining = () => {
           window.innerWidth < 1024 ? null : "md:ml-[30vw] ml-[60vw]"
         } `}
       >
+
+          <Snackbars
+            ref={snackbarRef}
+            snackbarErrStatus={snackbarErrStatus}
+            errMessage={errMessage}
+          />
+
         <Navbar
           handleSidebarCollapsed={handleSidebarCollapsed}
           info={navInfo}
