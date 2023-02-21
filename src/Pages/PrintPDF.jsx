@@ -188,7 +188,7 @@ const PrintPDF = () => {
               
 
               
-                <section className="flex sm:w-[30%] sm:h-[19rem] w-full sm:flex-col flex-row gap-4 hover:shadow-2xl items-center justify-between px-4 py-4 bg-gray-200 rounded-md">
+                <section className="flex sm:w-[30%] sm:h-[23rem] w-full sm:flex-col flex-row gap-4 hover:shadow-2xl items-center justify-between px-4 py-4 bg-gray-200 rounded-md">
                 <span className="md:text-2xl sm:text-base text-sm font-bold">
                     Invoice PDF
                   </span>
@@ -197,17 +197,17 @@ const PrintPDF = () => {
                     className="md:w-[10.8rem] sm:w-[7.5rem] w-[4rem] h-auto "
                     alt=""
                   />
-                 <div className="flex justify-around">
-                 <Link to="/invoice_pdf_single" className="mr-1">
+                 <div>
+                 <Link to="/invoice_pdf_single">
                     <BasicButton text={"Single-Invoice"} />
                   </Link>
-                  {/* <Link to="/invoice_pdf_double" className="ml-6">
+                  {/* <Link to="/invoice_pdf_double">
                     <BasicButton text={"Bulk-Invoice"} />
                   </Link> */}
                  </div>
                 </section>
 
-                <section className="flex sm:w-[30%] sm:h-[19rem] w-full sm:flex-col cursor-not-allowed flex-row gap-4 hover:shadow-2xl items-center justify-between px-4 py-4 bg-gray-200 rounded-md">
+                <section className="flex sm:w-[30%] sm:h-[23rem] w-full sm:flex-col cursor-not-allowed flex-row gap-4 hover:shadow-2xl items-center justify-between px-4 py-4 bg-gray-200 rounded-md">
                   {/* <img
                     src={orderImg}
                     className="md:w-[10.8rem] sm:w-[7.5rem] w-[4rem] h-auto "
@@ -226,7 +226,7 @@ const PrintPDF = () => {
                   </Link> */}
                 </section>
 
-                <section className="flex sm:w-[30%] sm:h-[19rem] w-full sm:flex-col cursor-not-allowed flex-row gap-4 hover:shadow-2xl items-center justify-between px-4 py-4 bg-gray-200 rounded-md">
+                <section className="flex sm:w-[30%] sm:h-[23rem] w-full sm:flex-col cursor-not-allowed flex-row gap-4 hover:shadow-2xl items-center justify-between px-4 py-4 bg-gray-200 rounded-md">
                   {/* <img
                     src={orderImg}
                     className="md:w-[10.8rem] sm:w-[7.5rem] w-[4rem] h-auto "

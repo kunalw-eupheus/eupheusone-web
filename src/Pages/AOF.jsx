@@ -72,7 +72,10 @@ const AOF = () => {
 
   const [aofStatus, setAofStatus] = useState("");
   const [schoolAddress, setSchoolAddress] = useState("");
+  const [mobile, setMobile] = useState("")
+  const [phone, setPhone] = useState("")
   const [schoolEmail, setSchoolEmail] = useState("");
+  const [firmRegNo, setFirmRegNo] = useState("")
   const [panNo, setPanNo] = useState("");
   const [gstNo, setGstNo] = useState("");
   const [gstYear, setGstYear] = useState("");
@@ -277,21 +280,27 @@ const AOF = () => {
         break;
       case "aof_status":
         console.log(value.title);
+        setAofStatus(value.title)
         break;
       case "Address *":
         console.log(value);
+        setSchoolAddress(value)
         break;
       case "E-Mail *":
         console.log(value);
+        setSchoolEmail(value)
         break;
       case "PAN NO *":
         console.log(value);
+        setPanNo(value)
         break;
       case "GST NO *":
         console.log(value);
+        setGstNo(value)
         break;
       case "GST Year of establishment of business":
         console.log(value);
+        setGstYear(value)
         break;
       case "Name of Proprietor/Partner/Director/Trustee *":
         console.log(value);
@@ -345,6 +354,7 @@ const AOF = () => {
         //   console.log(value , "hihihiihii");
         //   setStateId(value.id);
         console.log(value);
+        setStateSelect(value.state)
         getCity(value.id);
         // getCity(value.fk_state_id);
         // getSchoolByState(value.fk_state_id);
@@ -353,14 +363,17 @@ const AOF = () => {
 
       case "select_city_location":
         console.log(value);
+        setCitySelect(value.city)
         break;
 
       case "Mobile *":
+        setMobile(value)
         console.log(value);
         break;
 
       case "Phone *":
         console.log(value);
+        setPhone(value)
         break;
 
       case "Enter Percentage":
@@ -369,6 +382,7 @@ const AOF = () => {
 
       case "Firm/ Company/Trust Registration Number *":
         console.log(value);
+        setFirmRegNo(value)
         break;
 
       case "series_aof":
@@ -388,7 +402,7 @@ const AOF = () => {
 
   const handleStartDate = (newValue) => {
     console.log(newValue)
-    setDate(newValue);
+    setDate(newValue.$d);
   };
 
   useLayoutEffect(() => {
@@ -639,11 +653,19 @@ const AOF = () => {
                     className="mt-3"
                     onClick={() => {
                       if (
-                        // // formik.values.school_name &&
-                        // // formik.values.board &&
-                        // // formik.values.category
                         nameOfSchool,
-                        pinCode
+                        aofStatus,
+                        schoolAddress,
+                        stateSelect,
+                        citySelect,
+                        pinCode,
+                        mobile,
+                        phone,
+                        schoolEmail,
+                        firmRegNo,
+                        panNo,
+                        gstNo,
+                        gstYear
                       ) {
                         setSteps({ step1: false, step2: true, step3: false });
                         window.scroll({

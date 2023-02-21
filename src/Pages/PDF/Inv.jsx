@@ -38,7 +38,13 @@ const Inv = () => {
   const [tableData, setTableData] = useState([]);
   const [totalQuantity, setTotalQuantity] = useState("");
   const [freightCharge, setFreightCharge] = useState("");
-
+  const [curr, setCurr] = useState("");
+  const [invType, setInvType] = useState("");
+  const [gstNum, setGstNum] = useState("09AAJCP2139H1ZA");
+  const [amntChrgbleWord, setamntChrgbleWord] = useState("");
+  const [totalRup, setTotalRup] = useState("");
+  const [taxAmnt, setTaxAmnt] = useState("");
+  const [vatSum, setVatSum] = useState("");
   useEffect(() => {
     getAllData();
   }, []);
@@ -65,21 +71,21 @@ const Inv = () => {
 
     // console.log(process.env.CRM_V2KEY)
 
-      const res = await instance({
-        url: `doc_print/invoice/detail`,
-        method: "post",
-        data:  {
-          category: "inv",
-          doc_num: docnum,
-          doc_date: docdate,
-        },
-        headers: {
-          // Authorization: Cookies.get("accessToken"),
-          accesskey: `auth74961a98ba76d4e4`,
-        },
-      });
+    const res = await instance({
+      url: `doc_print/invoice/detail`,
+      method: "post",
+      data: {
+        category: "inv",
+        doc_num: docnum,
+        doc_date: docdate,
+      },
+      headers: {
+        // Authorization: Cookies.get("accessToken"),
+        accesskey: `auth74961a98ba76d4e4`,
+      },
+    });
     let data = res.data.message.message[0];
-    console.log(data);
+    // console.log(data);
     setBillTo(data.bill_to[0]);
     setBillToAddress(data.bill_to[1]);
     setShipTo(data.SHIPTOCODE);
@@ -107,11 +113,99 @@ const Inv = () => {
     setTaxedAmount(data.tax_amount);
     setstateCode(data.state_code);
     setFreightCharge(data.Freight_charges);
+    setCurr(data.CUR);
+    setInvType(data.inv_type);
+
+    // {`${curr} ${converter.toWords(Number(total.slice(-2)))} Only`}
+
+    let cnv = data.total.toString();
+    // console.log(typeof(cnv));
+
+    let sp = cnv.split(".");
+    let rup = parseInt(sp[0]);
+    let pai = parseInt(sp[1]);
+    // setRupee(parseInt(sp[0]));
+    // setPaise(parseInt(sp[1]));
+
+    let totalR = "";
+    let paiseR = "";
+    let totalT = "";
+    if (rup != 0) {
+      totalR = converter.toWords(rup);
+      //  console.log(totalR);
+      //  console.log(typeof(rup))
+    }
+    if (pai != 0) {
+      paiseR = converter.toWords(pai);
+    }
+
+    if (paiseR != "") {
+      totalT = totalR + " " + paiseR + " paise only";
+    } else {
+      totalT = totalR + "  only";
+    }
+    // console.log(totalT)
+    let words = totalT.split(" ");
+
+    for (let i = 0; i < words.length; i++) {
+      words[i] = words[i].charAt(0).toUpperCase() + words[i].slice(1);
+    }
+    totalT = words.join(" ");
+    console.log(totalT);
+
+    setTotalRup(totalT);
+
+    let cnvTax = data.tax_amount.toString();
+    // console.log(typeof(cnv));
+
+    let spTax = cnvTax.split(".");
+    let rupTax = parseInt(spTax[0]);
+    let paiTax = parseInt(spTax[1]);
+    // setRupee(parseInt(sp[0]));
+    // setPaise(parseInt(sp[1]));
+
+    let totalRTax = "";
+    let paiseTax = "";
+    let totalTTax = "";
+    if (rupTax != 0) {
+      totalRTax = converter.toWords(rupTax);
+      //  console.log(totalR);
+      //  console.log(typeof(rup))
+    }
+    if (paiTax != 0) {
+      paiseTax = converter.toWords(paiTax);
+    }
+
+    if (paiseTax != "") {
+      totalTTax = totalRTax + " " + paiseTax + "  paise only";
+    } else {
+      totalTTax = totalRTax + "  only";
+    }
+    // console.log(totalTTax)
+    let wordsTax = totalTTax.split(" ");
+
+    for (let i = 0; i < wordsTax.length; i++) {
+      wordsTax[i] = wordsTax[i].charAt(0).toUpperCase() + wordsTax[i].slice(1);
+    }
+    totalTTax = wordsTax.join(" ");
+    console.log(totalTTax);
+    setTaxAmnt(totalTTax);
+
+    if (data.inv_type === "TAX INVOICE") setGstNum("07AAJCP2139H1ZE");
+    else if (data.inv_type === "EXPORT INVOICE") setGstNum("09AAJCP2139H1ZA");
 
     let dataTable = res.data.message.items;
     let totalQuant = 0;
+
+    let untxAmnt = 0;
     for (let obj of dataTable) {
-      console.log(obj);
+      untxAmnt = untxAmnt + obj.PRICE;
+    }
+    // console.log(untxAmnt)
+    setVatSum(untxAmnt);
+
+    for (let obj of dataTable) {
+      // console.log(obj);
       totalQuant += obj.quantity;
     }
     let srl = 1;
@@ -216,7 +310,7 @@ const Inv = () => {
                   fontSize: "9pt",
                 }}
               >
-                BILL OF SUPPLY
+                {invType}
               </p>
             </td>
             <td
@@ -1114,7 +1208,7 @@ const Inv = () => {
                   fontSize: "9pt",
                 }}
               >
-                LRno Bill of Ladding/LR-RR No.
+                Bill of Ladding/LR-RR No.
               </p>
               <p
                 className="s5"
@@ -1636,7 +1730,8 @@ const Inv = () => {
                   fontSize: "7pt",
                 }}
               >
-                CGST [INR]
+                {/* CGST [INR] */}
+                CGST [{curr}]
               </p>
             </td>
             <td
@@ -1664,7 +1759,8 @@ const Inv = () => {
                   fontSize: "7pt",
                 }}
               >
-                SGST[INR]
+                {/* SGST[INR] */}
+                SGST[{curr}]
               </p>
             </td>
             <td
@@ -1692,7 +1788,8 @@ const Inv = () => {
                   fontSize: "7pt",
                 }}
               >
-                IGST [INR]
+                {/* IGST [INR] */}
+                IGST[{curr}]
               </p>
             </td>
             <td
@@ -2001,7 +2098,8 @@ const Inv = () => {
                     }}
                   >
                     {/* 240.00 */}
-                    {item.quantity}
+                    {parseFloat(item.quantity).toFixed(2)}
+                    {/* {item.quantity} */}
                   </p>
                 </td>
                 <td
@@ -2026,7 +2124,8 @@ const Inv = () => {
                     }}
                   >
                     {/* 490.00 */}
-                    {item.PRICE}
+                    {/* {item.PRICE} */}
+                    {parseFloat(item.PRICE).toFixed(2)}
                   </p>
                 </td>
                 <td
@@ -2051,7 +2150,8 @@ const Inv = () => {
                     }}
                   >
                     {/* 20.00 */}
-                    {item.DiscPrcnt}
+                    {/* {item.DiscPrcnt} */}
+                    {parseFloat(item.DiscPrcnt).toFixed(2)}
                   </p>
                 </td>
                 <td
@@ -2076,7 +2176,8 @@ const Inv = () => {
                     }}
                   >
                     {/* 94080.00 */}
-                    {item.VATSUM}
+                    {/* {item.VATSUM} */}
+                    {parseFloat(item.VATSUM).toFixed(2)}
                   </p>
                 </td>
                 <td
@@ -2101,7 +2202,8 @@ const Inv = () => {
                     }}
                   >
                     {/* 0.00 */}
-                    {item.CGSTRATE}
+                    {/* {item.CGSTRATE} */}
+                    {parseFloat(item.CGSTRATE).toFixed(2)}
                   </p>
                 </td>
                 <td
@@ -2125,7 +2227,8 @@ const Inv = () => {
                       fontSize: "8pt",
                     }}
                   >
-                    {item.CGSTAMNT}
+                    {/* {item.CGSTAMNT} */}
+                    {parseFloat(item.CGSTAMNT).toFixed(2)}
                   </p>
                 </td>
                 <td
@@ -2150,7 +2253,8 @@ const Inv = () => {
                     }}
                   >
                     {/* 0.00 */}
-                    {item.SGSTRATE}
+                    {/* {item.SGSTRATE} */}
+                    {parseFloat(item.SGSTRATE).toFixed(2)}
                   </p>
                 </td>
                 <td
@@ -2175,7 +2279,8 @@ const Inv = () => {
                     }}
                   >
                     {/* 0.00 */}
-                    {item.SGSTAMNT}
+                    {/* {item.SGSTAMNT} */}
+                    {parseFloat(item.SGSTAMNT).toFixed(2)}
                   </p>
                 </td>
                 <td
@@ -2200,7 +2305,8 @@ const Inv = () => {
                     }}
                   >
                     {/* 0.00 */}
-                    {item.IGSTRATE}
+                    {/* {item.IGSTRATE} */}
+                    {parseFloat(item.IGSTRATE).toFixed(2)}
                   </p>
                 </td>
                 <td
@@ -2225,7 +2331,8 @@ const Inv = () => {
                     }}
                   >
                     {/* 0.00 */}
-                    {item.IGSTAMNT}
+                    {/* {item.IGSTAMNT} */}
+                    {parseFloat(item.IGSTAMNT).toFixed(2)}
                   </p>
                 </td>
                 <td
@@ -2808,7 +2915,7 @@ const Inv = () => {
                 }}
               >
                 {/* INR Two Lakhs Eighty-Two Thousand Two Hundred Forty */}
-                {`INR ${converter.toWords(Number(total))} Only`}
+                {`${curr} ${totalRup}`}
               </p>
             </td>
             <td
@@ -2836,7 +2943,7 @@ const Inv = () => {
                 }}
               >
                 {/* Untaxed Amount :- INR 282240.00  */}
-                {`Untaxed Amount :- INR ${total}`}
+                {`Untaxed Amount :- ${curr} ${parseFloat(vatSum).toFixed(2)}`}
               </p>
               <p style={{ textIndent: "0pt", textAlign: "left" }}>
                 <br />
@@ -2850,7 +2957,7 @@ const Inv = () => {
                   fontSize: "8pt",
                 }}
               >
-                Freight :- INR {freightCharge}
+                Freight :- {`${curr} `} {parseFloat(freightCharge).toFixed(2)}
               </p>
             </td>
             <td
@@ -2892,8 +2999,7 @@ const Inv = () => {
                   fontSize: "8pt",
                 }}
               >
-                Tax Amount (In Words) :
-                {`INR ${converter.toWords(Number(taxedAmount))} Only`}
+                Tax Amount (In Words) :{`${curr} ${taxAmnt} Only`}
               </p>
             </td>
             <td
@@ -2953,7 +3059,7 @@ const Inv = () => {
                   fontSize: "8pt",
                 }}
               >
-                :- INR {taxedAmount}
+                :- {`${curr} `} {taxedAmount}
               </p>
             </td>
             <td
@@ -3089,7 +3195,7 @@ const Inv = () => {
                   fontSize: "8pt",
                 }}
               >
-                {`:- INR ${total}`}
+                {`:- ${curr} ${parseFloat(total).toFixed(2)}`}
               </p>
             </td>
             <td
@@ -3312,7 +3418,7 @@ const Inv = () => {
               >
                 GSTIN/UIN :{" "}
                 <span className="s3" style={{ fontSize: "8pt" }}>
-                  09AAJCP2139H1ZA
+                  {gstNum}
                 </span>
               </p>
             </td>

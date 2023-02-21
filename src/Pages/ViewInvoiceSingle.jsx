@@ -336,9 +336,9 @@ const ViewInvoiceSingle = () => {
       },
     });
     let downloadUrl = res.data.message
-    console.log(downloadUrl)
+    // console.log(downloadUrl)
     // redirect("https://www.google.com/")
-    window.open(downloadUrl)
+    window.open(downloadUrl) || window.location.assign(downloadUrl)
     setLoading(false)
   };
 

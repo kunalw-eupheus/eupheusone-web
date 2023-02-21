@@ -18,6 +18,7 @@ import ManageSchool from "./Pages/ManageSchool";
 // import AdminState from "./Pages/AdminState";
 // import AdminCity from "./Pages/AdminCity";
 // import AdminCountry from "./Pages/AdminCountry";
+import AddNewCity from "./Pages/AddNewCity"
 import SchoolTagging from "./Pages/SchoolTagging";
 import Schools from "./Pages/Schools";
 import TagSchool from "./Pages/TagSchool";
@@ -306,6 +307,11 @@ function App() {
               <Route
                 path="/cust_ledger"
                 element={isAuth || MsAuth ? <CustLedger /> : <Login />}
+              />
+
+              <Route
+                path="/add_new_city"
+                element={isAuth || MsAuth ? <AddNewCity /> : <Login />}
               />
 
               {/* Admin */}
