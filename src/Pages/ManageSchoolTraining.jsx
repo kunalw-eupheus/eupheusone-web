@@ -63,7 +63,7 @@ const ManageSchoolTraining = () => {
 
   const types = [
     { types: "Classklap" },
-    // { types: "Eupheus Learning" },
+    { types: "Eupheus Learning" },
     // { types: "All" },
   ];
 

@@ -60,8 +60,8 @@ const ClassklapSchool = () => {
   };
 
   const navInfo = {
-    title: "Manage School",
-    details: ["Home", " / Manage School"],
+    title: "CK School",
+    details: ["Home", " / CK School"],
   };
 
   const types = [

@@ -57,8 +57,8 @@ const LocationTraining = () => {
   };
 
   const navInfo = {
-    title: "Manage School",
-    details: ["Home", " / Manage School"],
+    title: "Location",
+    details: ["Home", " / Location"],
   };
 
   const types = [
