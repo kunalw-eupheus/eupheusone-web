@@ -185,6 +185,29 @@ const Sidebar = ({ sidebarCollapsed, highLight, show }) => {
           </aside>
         </Link>
 
+        {/* <Link to="/ck_school_training">
+          <aside
+            className={`px-6 py-2 flex gap-4 cursor-pointer ${
+              highLight === "ckSchool" ? "bg-gray-500" : ""
+            } group hover:bg-gray-500 rounded-md transition-all duration-150 ease-linear`}
+          >
+            <School
+              className={`${
+                highLight === "ckSchool"
+                  ? "!text-[#659DBD]"
+                  : "!text-gray-400"
+              } group-hover:!text-[#659DBD] !transition-all !duration-150 !ease-linear`}
+            />
+            <span
+              className={`${
+                highLight === "ckSchool" ? "text-gray-200" : "text-gray-400"
+              } group-hover:!text-gray-100 transition-all duration-150 ease-linear`}
+            >
+              CK Schools
+            </span>
+          </aside>
+        </Link> */}
+
         {/* </Link> */}
       </div>
       :
@@ -708,7 +731,7 @@ const Sidebar = ({ sidebarCollapsed, highLight, show }) => {
           </aside>
         </Link> */}
 
-        <Link to="/print_pdf">
+        {/* <Link to="/print_pdf">
           <aside
             className={`px-6 py-2 flex gap-4 ${
               highLight === "printpdf" ? "bg-gray-500" : ""
@@ -727,7 +750,7 @@ const Sidebar = ({ sidebarCollapsed, highLight, show }) => {
               Doc Print
             </span>
           </aside>
-        </Link>
+        </Link> */}
 
         {/* </Link> */}
       </div>

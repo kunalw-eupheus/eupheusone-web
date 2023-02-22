@@ -8,13 +8,11 @@ import DataTable from "../Components/DataTable";
 // import { rows, ManageSchoolRows } from '../DummyData'
 import SearchDropDown from "../Components/SearchDropDown";
 import SwipeableTemporaryDrawer from "../Components/Material/MaterialSidebar";
-import BasicTextFields from "../Components/Material/TextField";
 import instance from "../Instance";
 import { useLayoutEffect } from "react";
 import Cookies from "js-cookie";
 import BasicButton from "../Components/Material/Button";
 import { Backdrop, CircularProgress, Toolbar } from "@mui/material";
-import { useNavigate } from "react-router-dom";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import Table from "@mui/material/Table";
@@ -27,29 +25,26 @@ import Paper from "@mui/material/Paper";
 import IconButton from "@mui/material/IconButton";
 import SearchIcon from "@mui/icons-material/Search";
 import TablePagination from "@mui/material/TablePagination";
-import Snackbars from "../Components/Material/SnackBar";
+import DialogSlide from "../Components/Material/Dialog6"
 
-const LocationTraining = () => {
+const ClassklapSchool = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
-  const [highLight, setHighLight] = useState("location");
+  const [highLight, setHighLight] = useState("ckSchool");
   const [loading, setLoading] = useState(false);
-  const [state, setState] = useState([]);
+  const [state, setState] = useState({ state: "", type: "" });
   const [stateId, setStateId] = useState("");
   const [type, setType] = useState("");
   const sidebarRef = useRef();
   const [states, setStates] = useState([]);
   // const [type, setType] = useState([]);
-  const [city, setCity] = useState("");
+  const [city, setCity] = useState({ disable: true });
   const [schoolRow, setSchoolRow] = useState([]);
   const [searchVal, setSearchVal] = useState("");
   const [searchRow, setSearchRow] = useState([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-  const [stateId2, setStateId2]= useState("")
-  const [errMessage, setErrMessage] = useState("");
-  const [snackbarErrStatus, setSnackbarErrStatus] = useState(true);
-
-  const snackbarRef = useRef();
+  const [ckState, setCkState] = useState("")
+  const [invceId, setInvceId] = useState("")
 
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
@@ -65,8 +60,8 @@ const LocationTraining = () => {
   };
 
   const navInfo = {
-    title: "Add City",
-    details: ["Home", " / Manage School", "/ Add City"],
+    title: "Manage School",
+    details: ["Home", " / Manage School"],
   };
 
   const types = [
@@ -98,10 +93,7 @@ const LocationTraining = () => {
     sidebarRef.current.openSidebar();
   };
 
-  const navigate = useNavigate();
-
   useEffect(() => {
-    getState();
     const handleWidth = () => {
       if (window.innerWidth > 1024) {
         setSidebarCollapsed(false);
@@ -117,17 +109,6 @@ const LocationTraining = () => {
     };
   }, []);
 
-  const getState = async () => {
-    const state = await instance({
-      url: "location/state/stateswithcode/get",
-      method: "GET",
-      headers: {
-        Authorization: Cookies.get("accessToken"),
-      },
-    });
-    console.log(state.data.message);
-    setState(state.data.message);
-  };
   const getSchool = async (stateId, cityId) => {
     setLoading(true);
     const res = await instance({
@@ -149,59 +130,6 @@ const LocationTraining = () => {
     // setSchoolRow(rows);
     setLoading(false);
   };
-
-
-  const addCity = async () => {
-
-    let newData = {
-        city: city,
-        fk_state_id: stateId2
-    }
-
-    // console.log(newData)
-
-    const res = await instance({
-        url: `location/city/create/bytraining`,
-        method: "POST",
-        data: newData,
-        headers: {
-          Authorization: Cookies.get("accessToken"),
-        },
-      });
-      // console.log(res);
-
-      if(!stateId2 || stateId2.length===0){
-        setSnackbarErrStatus(true);
-        setErrMessage("Select a State");
-        snackbarRef.current.openSnackbar();
-        return
-      }
-
-      if(!city || city.length===0){
-        setSnackbarErrStatus(true);
-        setErrMessage("Enter a City Name");
-        snackbarRef.current.openSnackbar();
-        return
-      }
-
-      if (res.data.status === "success") {
-        // console.log(res);
-        setSnackbarErrStatus(false);
-        setErrMessage("New City Added");
-        snackbarRef.current.openSnackbar();
-        setTimeout(() => {
-          // console.log("first")
-          navigate("/locationTraining");
-        }, 1500);
-      }else if(res.data.status === "error"){
-        // alert(res.data.message)
-        setSnackbarErrStatus(true);
-        setErrMessage("This City Already Exist");
-        snackbarRef.current.openSnackbar();
-      }
-  }
-
-  
 
   const getSchoolByState = async (id) => {
     setLoading(true);
@@ -235,56 +163,60 @@ const LocationTraining = () => {
         // getSchoolByState(value.fk_state_id);
         // setStateAndCity({ ...stateAndCity, state: value.fk_state_id });
         break;
-      case "select_state_location":
-        setStateId2(value.id)
-        //   console.log(value.id , "hihihiihii");
-        //   setStateId(value.id);
-        // getCity(value.id);
-        // getCity(value.fk_state_id);
-        // getSchoolByState(value.fk_state_id);
-        // setStateAndCity({ ...stateAndCity, state: value.fk_state_id });
-        break;
+        case "select_state_training":
+          // console.log(value);
+          setStateId(value.id);
+          // getCity(value.fk_state_id);
+          // getSchoolByState(value.fk_state_id);
+          // setStateAndCity({ ...stateAndCity, state: value.fk_state_id });
+          break;
       case "select_type":
         // console.log(value);
         setType(value.types);
         // setStateAndCity({ ...stateAndCity, city: value.id });
         break;
-      case "Enter City Name *":
-        // console.log(value);
-        setCity(value)
-        // setType(value.types);
-        // setStateAndCity({ ...stateAndCity, city: value.id });
-        break;
+    case "select_ck_state":
+        console.log(value)
+        setCkState(value.name)
+
       default:
         break;
     }
   };
 
-  const getCity = async (id) => {
-    // console.log(id);
-    const city = await instance({
-      url: `location/city/${id}`,
+  const getCity = async (Id) => {
+    setLoading(true);
+    const res = await instance({
+      url: `location/city/${Id}`,
       method: "GET",
       headers: {
-        Authorization: Cookies.get("accessToken"),
+        Authorization: `${Cookies.get("accessToken")}`,
       },
     });
-    // console.log(city.data.message);
-    setCity(city.data.message);
+    setCity(res.data.message);
+    setLoading(false);
   };
 
   useLayoutEffect(() => {
     const getStates = async () => {
       const res = await instance({
-        url: "location/state/stateswithcode/get",
+        url: "ck/states",
         method: "GET",
         headers: {
           Authorization: `${Cookies.get("accessToken")}`,
         },
       });
       console.log(res.data.message);
-      setStates(res.data.message);
+      let tempData = []
+      let stateData = res.data.message
+      for(let itm of stateData){
+        tempData.push({name: itm})
+      }
+      console.log(tempData)
+      setStates(tempData);
     };
+
+    
 
     const getSchoolData = async () => {
       const res = await instance({
@@ -305,61 +237,55 @@ const LocationTraining = () => {
       });
       // setSchoolRow(rows);
     };
-    // getStates();
+    getStates();
 
     // getSchoolData();
   }, []);
 
+
+  const openDialogue3 = () => {
+    dialogRef.current.openDialog();
+  };
+
+  const dialogRef = useRef();
+
+  const handleInvoiceView = (invceId) => {
+    console.log(invceId)
+    setInvceId(invceId)
+    // setLoading(true)
+    // setInvoiceId2(invceId);
+    // setTimeout(() => {
+    //   // console.log("Delayed for 1 second.");
+      openDialogue3();
+    //   setLoading(false)
+    // }, 1000)
+    // openDialogue2();
+  };
+
+  
   const searchSchool = async () => {
     setSchoolRow([]);
     setSearchRow([]);
-    if (type === "Classklap") {
-      console.log(stateId);
+    // if (type === "Classklap") {
+      console.log(ckState)
       const res = await instance({
-        url: `school/ckschools/get/${stateId}`,
+        url: `ck/getschool/state/${ckState}`,
         method: "GET",
         headers: {
           Authorization: `${Cookies.get("accessToken")}`,
         },
       });
-      // console.log(res.data.message);
-      if (res.data.message.length === 0) {
-        alert("No Data Available");
+    //   console.log(res.data.message);
+      if(res.data.message.length === 0){
+        alert("No Data Available")
       }
+    //   console.log(res.data.message)
       setSchoolRow(res.data.message);
+        setSearchRow(res.data.message);
+
       // console.log(stateId)
       // console.log(type)
-    } else if (type === "Eupheus Learning") {
-      const res = await instance({
-        url: `school/eupschools/get/${stateId}`,
-        method: "GET",
-        headers: {
-          Authorization: `${Cookies.get("accessToken")}`,
-        },
-      });
-      // console.log(res.data.message);
-      if (res.data.message.length === 0) {
-        alert("No Data Available");
-      }
-      setSchoolRow(res.data.message);
-      // console.log(stateId)
-      // console.log(type)
-    } else if (type === "All") {
-      const res = await instance({
-        url: `school/ckeupschools/get/${stateId}`,
-        method: "GET",
-        headers: {
-          Authorization: `${Cookies.get("accessToken")}`,
-        },
-      });
-      // console.log(res.data.message);
-      if (res.data.message.length === 0) {
-        alert("No Data Available");
-      }
-      setSchoolRow(res.data.message);
-      // console.log(stateId)
-      // console.log(type)
-    }
+    // } 
   };
 
   const updateSchoolCode = async (schoolId, statId) => {
@@ -389,7 +315,7 @@ const LocationTraining = () => {
   const filterTable = () => {
     // console.log(searchVal);
     // console.log(schoolRow)
-    setPage(0);
+    setPage(0)
     let tempArr = [];
     for (let ele of schoolRow) {
       // console.log(ele.cardname)
@@ -433,6 +359,7 @@ const LocationTraining = () => {
 
   return (
     <div className="flex bg-[#111322]">
+    <DialogSlide ref={dialogRef} invoiceId={invceId} />
       <Backdrop
         sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
         open={loading}
@@ -455,28 +382,15 @@ const LocationTraining = () => {
           window.innerWidth < 1024 ? null : "md:ml-[30vw] ml-[60vw]"
         } `}
       >
-
-          <Snackbars
-            ref={snackbarRef}
-            snackbarErrStatus={snackbarErrStatus}
-            errMessage={errMessage}
-          />
-
         <Navbar
           handleSidebarCollapsed={handleSidebarCollapsed}
           info={navInfo}
         />
         <div className="min-h-[100vh] pt-[2vh] max-h-full bg-[#141728]">
           <div className=" sm:px-8 px-2 py-3 bg-[#141728]">
-            {/* <div className="w-full flex gap-3 justify-end">
-              <Link to="/add_new_city">
-                <BasicButton text={"Add New City"} />
-              </Link>
-            </div> */}
-
             <div className="grid grid-cols-2 grid-rows-2 md:flex md:justify-around md:items-center px-6 mb-8 py-3 mt-6 gap-6 rounded-md bg-slate-600">
-              <div className="flex flex-col gap-2 w-full md:w-[20vw]">
-                <label className="text-gray-100">State</label>
+              {/* <div className="flex flex-col gap-2 w-full md:w-[20vw]"> */}
+                {/* <label className="text-gray-100">Type</label> */}
 
                 {/* <SearchDropDown
                   label={"Select Type"}
@@ -485,16 +399,6 @@ const LocationTraining = () => {
                   data={types}
                   Name="select_type"
                 /> */}
-
-                <SearchDropDown
-                  label={"Select State *"}
-                  // seriesId={""}
-                  handleOrderProcessingForm={handleOrderProcessingForm}
-                  color={"rgb(243, 244, 246)"}
-                  data={state}
-                  multiple={false}
-                  Name={"select_state_location"}
-                />
 
                 {/* <Autocomplete
                   disablePortal
@@ -505,25 +409,18 @@ const LocationTraining = () => {
                     <TextField {...params} label="Movie" />
                   )}
                 /> */}
-              </div>
+              {/* </div> */}
 
               <div className="flex flex-col gap-2 w-full md:w-[20vw]">
-                <label className="text-gray-100">City</label>
+                <label className="text-gray-100">State</label>
 
-                <BasicTextFields
-                  lable={"Enter City Name *"}
-                  handleOrderProcessingForm={handleOrderProcessingForm}
-                  variant={"standard"}
-                  multiline={false}
-                />
-
-                {/* <SearchDropDown
-                  label={"Select City"}
+                <SearchDropDown
+                  label={"Select State"}
                   handleOrderProcessingForm={handleOrderProcessingForm}
                   color={"rgb(243, 244, 246)"}
-                  data={city}
-                  Name="select_city_location"
-                /> */}
+                  data={states}
+                  Name="select_ck_state"
+                />
               </div>
               {/* <div className=" flex flex-col gap-2 w-full md:w-[20vw]">
                 <label className="text-gray-100">City</label>
@@ -540,9 +437,165 @@ const LocationTraining = () => {
               {/* <button className="w-full md:w-[20vw] col-span-2 md:ml-10 focus:outline-0 mt-8 text-gray-300 hover:shadow-md h-10 bg-slate-500 transition-all duration-200 ease-linear active:bg-slate-700 active:scale-95 rounded-md">
                 Search School
               </button> */}
-              <div className="sm:w-auto w-[50vw]" onClick={addCity}>
-                <BasicButton text={"Add City"} />
+              <div className="sm:w-auto w-[50vw]" onClick={searchSchool}>
+                <BasicButton text={"Search School"} />
               </div>
+            </div>
+            {/* <div className="w-full flex gap-3 justify-end">
+              <Link to="/addschooltraining">
+                <BasicButton text={"Create New School"} />
+              </Link>
+            </div> */}
+
+            <div className=" sm:px-8 px-2 py-3 bg-[#141728] mt-4">
+              <Paper>
+                <TableContainer component={Paper}>
+                  <Toolbar className="bg-slate-400">
+                    {/* <form> */}
+                    <TextField
+                      id="search-bar"
+                      className="text"
+                      onInput={(e) => {
+                        handleSearch(e.target.value);
+                      }}
+                      label="Enter School Name"
+                      variant="outlined"
+                      placeholder="Search..."
+                      size="small"
+                    />
+                    <div className="bg-slate-300">
+                      <IconButton
+                        type="submit"
+                        aria-label="search"
+                        onClick={filterTable}
+                      >
+                        <SearchIcon style={{ fill: "blue" }} />
+                      </IconButton>
+                    </div>
+
+                    <TablePagination
+                      rowsPerPageOptions={[
+                        10,
+                        50,
+                        100,
+                        { label: "All", value: -1 },
+                      ]}
+                      colSpan={3}
+                      count={searchRow.length=== 0 ?schoolRow.length: searchRow.length}
+                      rowsPerPage={rowsPerPage}
+                      page={page}
+                      slotProps={{
+                        select: {
+                          "aria-label": "rows per page",
+                        },
+                        actions: {
+                          showFirstButton: true,
+                          showLastButton: true,
+                        },
+                      }}
+                      onPageChange={handleChangePage}
+                      onRowsPerPageChange={handleChangeRowsPerPage}
+                    />
+                    {/* </form> */}
+                  </Toolbar>
+
+                  <Table sx={{ minWidth: 650 }} aria-label="customized table">
+                    <TableHead className="bg-slate-500">
+                      <TableRow>
+                        <TableCell className="!w-[13rem]" align="center">
+                          School Name
+                        </TableCell>
+                        <TableCell className="!w-[13rem]" align="center">
+                          School Code
+                        </TableCell>
+
+                        <TableCell className="!w-[13rem]" align="left">
+                          View
+                        </TableCell>
+                       
+                        
+                       
+                      </TableRow>
+                    </TableHead>
+                    <TableBody className="bg-slate-200">
+                      {searchRow.length === 0
+                        ? (rowsPerPage > 0
+                            ? schoolRow.slice(
+                                page * rowsPerPage,
+                                page * rowsPerPage + rowsPerPage
+                              )
+                            : schoolRow
+                          ).map((row) => (
+                            <TableRow
+                              key={row.code}
+                              sx={{
+                                "&:last-child td, &:last-child th": {
+                                  border: 0,
+                                },
+                              }}
+                            >
+                              <TableCell
+                                align="center"
+                                component="th"
+                                scope="row"
+                              >
+                                {row.name}
+                              </TableCell>
+                              <TableCell align="center">
+                                {row.code}
+                              </TableCell>
+
+                              <TableCell align="center">
+                                code
+                              </TableCell>
+                             
+                            </TableRow>
+                          ))
+                        : (rowsPerPage > 0
+                            ? searchRow.slice(
+                                page * rowsPerPage,
+                                page * rowsPerPage + rowsPerPage
+                              )
+                            : searchRow
+                          ).map((row) => (
+                            <TableRow
+                              key={row.code}
+                              sx={{
+                                "&:last-child td, &:last-child th": {
+                                  border: 0,
+                                },
+                              }}
+                            >
+                              <TableCell
+                                align="center"
+                                component="th"
+                                scope="row"
+                              >
+                                {row.name}
+                              </TableCell>
+                              <TableCell align="center">
+                                {row.code}
+                              </TableCell>
+
+                              <TableCell align="center">
+                              <div
+                                  className="sm:w-auto w-[50vw]"
+                                  onClick={() => {
+                                    handleInvoiceView(row.code);
+                                  }}
+                                >
+                                  <BasicButton text={"View"} />
+                                </div>
+                              </TableCell>
+                           
+              
+                   
+                            </TableRow>
+                          ))}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+              </Paper>
             </div>
           </div>
         </div>
@@ -551,4 +604,4 @@ const LocationTraining = () => {
   );
 };
 
-export default LocationTraining;
+export default ClassklapSchool;

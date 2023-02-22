@@ -91,7 +91,7 @@ const Inv = () => {
       },
     });
     let data = res.data.message.message[0];
-    // console.log(data);
+    console.log(data);
     setBillTo(data.bill_to[0]);
     setBillToAddress(data.bill_to[1]);
     setShipTo(data.SHIPTOCODE);

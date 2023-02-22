@@ -119,6 +119,11 @@ const SearchDropDown = ({
           return option.state;
           break;
 
+        case "select_ck_state":
+          // console.log(option)
+          return option.name;
+          break;
+
         case "select_city_location":
           // console.log(option)
           return option.city;
@@ -309,6 +314,9 @@ const SearchDropDown = ({
       handleOrderProcessingForm(value, type);
     }
     if (type === "invoice_pdf_data") {
+      handleOrderProcessingForm(value, type);
+    }
+    if (type === "select_ck_state") {
       handleOrderProcessingForm(value, type);
     }
     if (type === "invoice_data") {
