@@ -26,13 +26,14 @@ const AddSchoolTraining = () => {
   const [snackbarErrStatus, setSnackbarErrStatus] = useState(true);
   const [state, setState] = useState([]);
   const [city, setCity] = useState([]);
-  const [schoolType, setSchoolType] = useState("")
+  const [schoolType, setSchoolType] = useState("");
   const [steps, setSteps] = useState({
     step1: true,
     step2: false,
     step3: false,
     step4: false,
   });
+  const [ckSchoolCode, setCkSchoolCode] = useState("")
   const sidebarRef = useRef();
   const snackbarRef = useRef();
 
@@ -249,6 +250,10 @@ const AddSchoolTraining = () => {
         // console.log(formik.values.school_state);
         getCity(value.id);
         break;
+      case "Enter CK School Code":
+        setCkSchoolCode(value)
+        // console.log(value)
+        break
       case "select_city_training":
         // console.log(value);
         formik.values.school_city = value.id;
@@ -256,8 +261,8 @@ const AddSchoolTraining = () => {
         // getCity(value.id)
         break;
       case "select_school_type":
-        // console.log(value);
-        setSchoolType(value.type)
+        console.log(value.type);
+        setSchoolType(value.type);
         // formik.values.school_city = value.id;
         // console.log(formik.values.school_city);
         // getCity(value.id)
@@ -371,7 +376,7 @@ const AddSchoolTraining = () => {
         },
       ],
     };
-
+    newData.ckCode = ckSchoolCode
     newData.school_name = formik.values.school_name;
     newData.state = formik.values.school_state;
     newData.city = formik.values.school_city;
@@ -399,7 +404,7 @@ const AddSchoolTraining = () => {
         Authorization: Cookies.get("accessToken"),
       },
     });
-    // console.log(res);
+    console.log(res);
     if (res.data.status === "success") {
       // console.log(res);
       setSnackbarErrStatus(false);
@@ -504,6 +509,17 @@ const AddSchoolTraining = () => {
                       data={[{ type: "New Business" }, { type: "Renewal" }]}
                       color={"rgb(243, 244, 246)"}
                     />
+
+                    {schoolType === "Renewal" ? 
+                    <BasicTextFields
+                      lable={"Enter CK School Code"}
+                      handleOrderProcessingForm={handleOrderProcessingForm}
+                      variant={"standard"}
+                      multiline={false}
+                    />
+                    :
+                    ""
+                  }
                     {/* <SearchDropDown
                       handleOrderProcessingForm={handleOrderProcessingForm}
                       Name={"category_addschool"}

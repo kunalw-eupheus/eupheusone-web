@@ -6,8 +6,14 @@ import instance from "../../Instance";
 import { DataGrid } from "@mui/x-data-grid";
 import axios from "axios";
 import Cookies from "js-cookie";
-var converter = require("number-to-words");
+import { ToWords } from 'to-words';
 
+// var converter = require("number-to-words");
+const toWords = new ToWords();
+
+// let words = toWords.convert(120003);
+// console.log(words)
+// console.log("words")
 const Inv = () => {
   const [billTo, setBillTo] = useState("");
   const [billToAddress, setBillToAddress] = useState("");
@@ -85,7 +91,7 @@ const Inv = () => {
       },
     });
     let data = res.data.message.message[0];
-    // console.log(data);
+    console.log(data);
     setBillTo(data.bill_to[0]);
     setBillToAddress(data.bill_to[1]);
     setShipTo(data.SHIPTOCODE);
@@ -119,7 +125,8 @@ const Inv = () => {
     // {`${curr} ${converter.toWords(Number(total.slice(-2)))} Only`}
 
     let cnv = data.total.toString();
-    // console.log(typeof(cnv));
+    cnv = parseFloat(cnv).toFixed(2)
+    // console.log(cnv);
 
     let sp = cnv.split(".");
     let rup = parseInt(sp[0]);
@@ -130,19 +137,23 @@ const Inv = () => {
     let totalR = "";
     let paiseR = "";
     let totalT = "";
+    // console.log(rup)
+    // console.log(pai)
     if (rup != 0) {
-      totalR = converter.toWords(rup);
+      // totalR = converter.toWords(rup);
+      totalR = toWords.convert(rup);
       //  console.log(totalR);
       //  console.log(typeof(rup))
     }
     if (pai != 0) {
-      paiseR = converter.toWords(pai);
+      // paiseR = converter.toWords(pai);
+      paiseR = toWords.convert(pai)
     }
 
     if (paiseR != "") {
-      totalT = totalR + " " + paiseR + " paise only";
+      totalT = totalR + " And " + paiseR + " paise only";
     } else {
-      totalT = totalR + "  only";
+      totalT = totalR + " only";
     }
     // console.log(totalT)
     let words = totalT.split(" ");
@@ -151,11 +162,12 @@ const Inv = () => {
       words[i] = words[i].charAt(0).toUpperCase() + words[i].slice(1);
     }
     totalT = words.join(" ");
-    console.log(totalT);
+    // console.log(totalT);
 
     setTotalRup(totalT);
 
     let cnvTax = data.tax_amount.toString();
+    cnvTax = parseFloat(cnvTax).toFixed(2)
     // console.log(typeof(cnv));
 
     let spTax = cnvTax.split(".");
@@ -168,18 +180,21 @@ const Inv = () => {
     let paiseTax = "";
     let totalTTax = "";
     if (rupTax != 0) {
-      totalRTax = converter.toWords(rupTax);
+      // totalRTax = converter.toWords(rupTax);
+      totalRTax = toWords.convert(rupTax)
       //  console.log(totalR);
       //  console.log(typeof(rup))
     }
     if (paiTax != 0) {
-      paiseTax = converter.toWords(paiTax);
+      // paiseTax = converter.toWords(paiTax);
+      paiseTax = toWords.convert(paiTax)
     }
 
     if (paiseTax != "") {
-      totalTTax = totalRTax + " " + paiseTax + "  paise only";
+      totalTTax = totalRTax + " And " + paiseTax + " paise only";
     } else {
-      totalTTax = totalRTax + "  only";
+      // console.log(totalRTax)
+      totalTTax = totalRTax + "zero only";
     }
     // console.log(totalTTax)
     let wordsTax = totalTTax.split(" ");
@@ -188,7 +203,7 @@ const Inv = () => {
       wordsTax[i] = wordsTax[i].charAt(0).toUpperCase() + wordsTax[i].slice(1);
     }
     totalTTax = wordsTax.join(" ");
-    console.log(totalTTax);
+    // console.log(totalTTax);
     setTaxAmnt(totalTTax);
 
     if (data.inv_type === "TAX INVOICE") setGstNum("07AAJCP2139H1ZE");
@@ -197,9 +212,11 @@ const Inv = () => {
     let dataTable = res.data.message.items;
     let totalQuant = 0;
 
+    console.log(dataTable)
+
     let untxAmnt = 0;
     for (let obj of dataTable) {
-      untxAmnt = untxAmnt + obj.PRICE;
+      untxAmnt = untxAmnt + obj.VATSUM;
     }
     // console.log(untxAmnt)
     setVatSum(untxAmnt);
@@ -2999,7 +3016,7 @@ const Inv = () => {
                   fontSize: "8pt",
                 }}
               >
-                Tax Amount (In Words) :{`${curr} ${taxAmnt} Only`}
+                Tax Amount (In Words) :{`${curr} ${taxAmnt}`}
               </p>
             </td>
             <td
@@ -3365,7 +3382,7 @@ const Inv = () => {
               >
                 CIN:{" "}
                 <span className="s10" style={{ fontSize: "8pt" }}>
-                  U80904DL2016PTC309293
+                  U80904PB2016PTC054953
                 </span>
               </p>
             </td>

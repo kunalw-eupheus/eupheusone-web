@@ -18,7 +18,7 @@ import ManageSchool from "./Pages/ManageSchool";
 // import AdminState from "./Pages/AdminState";
 // import AdminCity from "./Pages/AdminCity";
 // import AdminCountry from "./Pages/AdminCountry";
-import AddNewCity from "./Pages/AddNewCity"
+import AddNewCity from "./Pages/AddNewCity";
 import SchoolTagging from "./Pages/SchoolTagging";
 import Schools from "./Pages/Schools";
 import TagSchool from "./Pages/TagSchool";
@@ -63,6 +63,7 @@ import ViewInvoiceSingle from "./Pages/ViewInvoiceSingle";
 import ViewInvoiceDouble from "./Pages/ViewInvoiceDouble";
 import BulkInv from "./Pages/PDF/BulkInv";
 import CustLedger from "./Pages/PDF/CustLedger";
+import ClassklapSchool from "./Pages/ClassklapSchool";
 function App() {
   const isAuth = useSelector((state) => state.auth.user);
   const MsAuth = useSelector((state) => state.auth.msAuth);
@@ -312,6 +313,11 @@ function App() {
               <Route
                 path="/add_new_city"
                 element={isAuth || MsAuth ? <AddNewCity /> : <Login />}
+              />
+
+              <Route
+                path="/ck_school_training"
+                element={isAuth || MsAuth ? <ClassklapSchool /> : <Login />}
               />
 
               {/* Admin */}
