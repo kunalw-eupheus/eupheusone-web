@@ -16,7 +16,7 @@ import instance from "../Instance";
 import ControlledSearchDropDown from "../Components/Material/ControlledSearchDropDown";
 import Snackbars from "../Components/Material/SnackBar";
 
-const UpdateSchoolTraining = () => {
+const UpdateSchoolTrainingEU = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [loading, setLoading] = useState(false);
   const [boards, setBoards] = useState(null);
@@ -37,7 +37,8 @@ const UpdateSchoolTraining = () => {
 
   const show = null;
 
-  let { id } = useParams();
+  let { scid } = useParams();
+  let { stid } = useParams();
 
   const formik = useFormik({
     initialValues: {
@@ -331,6 +332,7 @@ const UpdateSchoolTraining = () => {
 
   const addNewSchool = async () => {
     let dataToUpdate = {
+        
       schoolContanct: [
         {
           category: "signatory",
@@ -378,10 +380,11 @@ const UpdateSchoolTraining = () => {
     if (formik.values.school_pin.length !== 0) {
       dataToUpdate.pin = formik.values.school_pin;
     }
-    console.log(dataToUpdate);
-    console.log(id)
+    // console.log(dataToUpdate);
+    console.log(stid)
+    console.log(scid)
     const res = await instance({
-      url: `school/ckschool/update/${id}`,
+      url: `school/update/ckschool/${scid}/${stid}`,
       method: "PUT",
       data: dataToUpdate,
       headers: {
@@ -390,7 +393,7 @@ const UpdateSchoolTraining = () => {
     });
     // console.log(res.data.status);
     if (res.data.status === "success") {
-      // console.log(res);
+      console.log(res);
       setSnackbarErrStatus(false)
       setErrMessage("School Updated Successfully");
       snackbarRef.current.openSnackbar();
@@ -455,7 +458,7 @@ const UpdateSchoolTraining = () => {
               {/* step 2 */}
               {steps.step2 ? (
                 <div className="flex flex-col gap-4 items-start w-[90%] px-6 bg-slate-600 rounded-md py-6 mb-[5rem]">
-                  <h3 className="text-white">Signatory Contact Details</h3>
+                <h3 className="text-white">Signatory Contact Details</h3>
                   <div className="grid sm:grid-rows-2 sm:grid-cols-3 grid-rows-5 grid-cols-1 w-full mt-6 gap-6 rounded-md bg-slate-600">
                     {/* <h3>School Signatory</h3> */}
                     <BasicTextFields
@@ -522,7 +525,7 @@ const UpdateSchoolTraining = () => {
 
               {steps.step3 ? (
                 <div className="flex flex-col gap-4 items-start w-[90%] px-6 bg-slate-600 rounded-md py-6 mb-[5rem]">
-                   <h3 className="text-white">Service Person Contact Details</h3>
+                <h3 className="text-white">Service Person Contact Details</h3>
                   <div className="grid sm:grid-rows-2 sm:grid-cols-3 grid-rows-5 grid-cols-1 w-full mt-6 gap-6 rounded-md bg-slate-600">
                     {/* <h3>School Signatory</h3> */}
                     <BasicTextFields
@@ -590,7 +593,7 @@ const UpdateSchoolTraining = () => {
               {/* step 4 */}
               {steps.step4 ? (
                 <div className="flex flex-col gap-4 items-start w-[90%] px-6 bg-slate-600 rounded-md py-6 mb-[5rem]">
-                  <h3 className="text-white">Address Details</h3>
+                <h3 className="text-white">Address Details</h3>
                   <div className="grid sm:grid-rows-2 sm:grid-cols-3 grid-rows-4 grid-cols-1 w-full mt-6 gap-6 rounded-md bg-slate-600">
                     {/* <SearchDropDown
                       handleOrderProcessingForm={handleOrderProcessingForm}
@@ -680,4 +683,4 @@ const UpdateSchoolTraining = () => {
   );
 };
 
-export default UpdateSchoolTraining;
+export default UpdateSchoolTrainingEU;
