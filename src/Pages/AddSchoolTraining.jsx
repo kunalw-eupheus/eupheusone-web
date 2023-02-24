@@ -394,7 +394,7 @@ const AddSchoolTraining = () => {
     newData.schoolContanct[1].designation =
       formik.values.school_service_designation;
 
-    // console.log(newData)
+    console.log(newData)
 
     const res = await instance({
       url: `school/create/ckschool`,
@@ -477,16 +477,16 @@ const AddSchoolTraining = () => {
               <CustomizedSteppers
                 activeStep={calActiceStep()}
                 steps={[
-                  "Basic Details",
-                  "Signatory Contact Details",
-                  "Service Person Contact Details",
-                  "Address Details",
+                  "",
+                  "",
+                  "",
+                  "",
                 ]}
               />
               {/* step 1 */}
               {steps.step1 ? (
                 <div className="flex flex-col gap-4 items-start w-[90%] px-6 bg-slate-600 rounded-md py-6 mb-[5rem]">
-                  <h3>School Details</h3>
+                  <h3 className="text-white">Basic Details</h3>
                   <div className="grid sm:grid-rows-2 sm:grid-cols-2 grid-rows-4 grid-cols-1 w-full mt-6 gap-6 rounded-md bg-slate-600">
                     <BasicTextFields
                       lable={"Enter School Name *"}
@@ -562,8 +562,10 @@ const AddSchoolTraining = () => {
               {/* step 2 */}
               {steps.step2 ? (
                 <div className="flex flex-col gap-4 items-start w-[90%] px-6 bg-slate-600 rounded-md py-6 mb-[5rem]">
+                  <h3 className="text-white">Signatory Contact Details</h3>
                   <div className="grid sm:grid-rows-2 sm:grid-cols-3 grid-rows-5 grid-cols-1 w-full mt-6 gap-6 rounded-md bg-slate-600">
                     {/* <h3>School Signatory</h3> */}
+                    
                     <BasicTextFields
                       lable={"School Signatory Full Name *"}
                       handleOrderProcessingForm={handleOrderProcessingForm}
@@ -630,8 +632,10 @@ const AddSchoolTraining = () => {
 
               {steps.step3 ? (
                 <div className="flex flex-col gap-4 items-start w-[90%] px-6 bg-slate-600 rounded-md py-6 mb-[5rem]">
+                  <h3 className="text-white">Service Person Contact Details</h3>
                   <div className="grid sm:grid-rows-2 sm:grid-cols-3 grid-rows-5 grid-cols-1 w-full mt-6 gap-6 rounded-md bg-slate-600">
                     {/* <h3>School Signatory</h3> */}
+                    
                     <BasicTextFields
                       lable={"School Service Person Full Name *"}
                       handleOrderProcessingForm={handleOrderProcessingForm}
@@ -699,7 +703,9 @@ const AddSchoolTraining = () => {
               {/* step 4 */}
               {steps.step4 ? (
                 <div className="flex flex-col gap-4 items-start w-[90%] px-6 bg-slate-600 rounded-md py-6 mb-[5rem]">
+                  <h3 className="text-white">Address Details</h3>
                   <div className="grid sm:grid-rows-2 sm:grid-cols-3 grid-rows-4 grid-cols-1 w-full mt-6 gap-6 rounded-md bg-slate-600">
+                  
                     {/* <SearchDropDown
                       handleOrderProcessingForm={handleOrderProcessingForm}
                       label={"School Full Name *"}

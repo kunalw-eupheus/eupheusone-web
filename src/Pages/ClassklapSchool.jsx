@@ -60,8 +60,8 @@ const ClassklapSchool = () => {
   };
 
   const navInfo = {
-    title: "Manage School",
-    details: ["Home", " / Manage School"],
+    title: "CK School",
+    details: ["Home", " / CK School"],
   };
 
   const types = [
@@ -250,15 +250,15 @@ const ClassklapSchool = () => {
   const dialogRef = useRef();
 
   const handleInvoiceView = (invceId) => {
-    console.log(invceId)
+    // console.log(invceId)
     setInvceId(invceId)
-    // setLoading(true)
+    setLoading(true)
     // setInvoiceId2(invceId);
-    // setTimeout(() => {
+    setTimeout(() => {
     //   // console.log("Delayed for 1 second.");
       openDialogue3();
-    //   setLoading(false)
-    // }, 1000)
+      setLoading(false)
+    }, 1000)
     // openDialogue2();
   };
 

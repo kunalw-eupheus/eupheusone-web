@@ -64,6 +64,7 @@ import ViewInvoiceDouble from "./Pages/ViewInvoiceDouble";
 import BulkInv from "./Pages/PDF/BulkInv";
 import CustLedger from "./Pages/PDF/CustLedger";
 import ClassklapSchool from "./Pages/ClassklapSchool";
+import UpdateSchoolTrainingEU from "./Pages/UpdateSchoolTrainingEU";
 function App() {
   const isAuth = useSelector((state) => state.auth.user);
   const MsAuth = useSelector((state) => state.auth.msAuth);
@@ -150,6 +151,13 @@ function App() {
                 path="/update_school_training/:id"
                 element={
                   isAuth || MsAuth ? <UpdateSchoolTraining /> : <Login />
+                }
+              />
+
+              <Route
+                path="/update_school_training_eu/:scid/:stid"
+                element={
+                  isAuth || MsAuth ? <UpdateSchoolTrainingEU /> : <Login />
                 }
               />
 
