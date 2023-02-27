@@ -148,7 +148,7 @@ function App() {
               />
 
               <Route
-                path="/update_school_training/:id"
+                path="/update_school_training/:id/:scode"
                 element={
                   isAuth || MsAuth ? <UpdateSchoolTraining /> : <Login />
                 }
