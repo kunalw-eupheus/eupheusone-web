@@ -569,7 +569,7 @@ const ManageSchoolTraining = () => {
                                 {type === "Classklap" ? (
                                   <div className="w-full flex gap-3 justify-end">
                                     <Link
-                                      to={`/update_school_training/${row.id}`}
+                                      to={`/update_school_training/${row.id}/${row.ck_code}`}
                                     >
                                       <BasicButton text={"Edit"} />
                                     </Link>
@@ -644,7 +644,7 @@ const ManageSchoolTraining = () => {
                                 {type === "Classklap" ? (
                                   <div className="w-full flex gap-3 justify-end">
                                     <Link
-                                      to={`/update_school_training/${row.id}`}
+                                      to={`/update_school_training/${row.id}/${row.ck_code}`}
                                     >
                                       <BasicButton text={"Edit"} />
                                     </Link>
