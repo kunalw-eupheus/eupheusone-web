@@ -222,7 +222,6 @@ const UpdateSchoolTraining = () => {
     setSerMobile(serviceSchoolContact.phone);
     setSerEmail(serviceSchoolContact.email);
 
-    // window.location.reload(false)
   };
 
   const handleOrderProcessingForm = async (value, type) => {

@@ -394,6 +394,9 @@ const Invoice = () => {
                         <TableCell className="!w-[8rem]" align="center">
                           Doc Total
                         </TableCell>
+                        <TableCell className="!w-[5rem]" align="center">
+                          Tag
+                        </TableCell>
                         <TableCell
                           className="!w-[7rem]"
                           align="center"
@@ -438,6 +441,10 @@ const Invoice = () => {
                               </TableCell>
 
                               <TableCell align="center">
+                                {row.tag === false ? "No" : "Yes"}
+                              </TableCell>
+
+                              <TableCell align="center">
                                 <div
                                   className="sm:w-auto w-[50vw]"
                                   onClick={() => {
@@ -478,31 +485,21 @@ const Invoice = () => {
                               {/* <TableCell align="center" component="th" scope="row">
                           {row.id}
                         </TableCell> */}
+                        <TableCell align="center">{!row.inv_no||row.inv_no=="N/A" ? row.docnum :row.inv_no}</TableCell>
+                        <TableCell align="center">{row.inv_type}</TableCell>
                               <TableCell align="center">
                                 {row.cardname}
                               </TableCell>
                               <TableCell align="center">
                                 {row.docdate}
                               </TableCell>
-                              <TableCell align="center">{row.docnum}</TableCell>
+                              {/* <TableCell align="center">{row.docnum}</TableCell> */}
                               <TableCell align="center">
                                 {row.doctotal}
                               </TableCell>
 
                               <TableCell align="center">
-                                {/* <DialogSlide ref={dialogRef} invoiceId={row.id}/> */}
-                                {row.id ? (
-                                  <div
-                                    className="sm:w-auto w-[50vw]"
-                                    onClick={() => {
-                                      handleSchoolAdd(row.id);
-                                    }}
-                                  >
-                                    <BasicButton text={"Add School"} />
-                                  </div>
-                                ) : (
-                                  ""
-                                )}
+                                {row.tag === false ? "No" : "Yes"}
                               </TableCell>
 
                               <TableCell align="center">
@@ -515,6 +512,21 @@ const Invoice = () => {
                                     }}
                                   >
                                     <BasicButton text={"View"} />
+                                  </div>
+                                ) : (
+                                  ""
+                                )}
+                              </TableCell>
+                              <TableCell align="center">
+                                {/* <DialogSlide ref={dialogRef} invoiceId={row.id}/> */}
+                                {row.id ? (
+                                  <div
+                                    className="sm:w-auto w-[50vw]"
+                                    onClick={() => {
+                                      handleSchoolAdd(row.id);
+                                    }}
+                                  >
+                                    <BasicButton text={"Add School"} />
                                   </div>
                                 ) : (
                                   ""

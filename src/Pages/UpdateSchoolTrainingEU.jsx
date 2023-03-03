@@ -32,6 +32,18 @@ const UpdateSchoolTrainingEU = () => {
     step3: false,
     step4: false,
   });
+
+  const [sigFullName, setSigFullName] = useState(null);
+  const [sigDesig, setSigDesig] = useState(null);
+  const [sigMobile, setSigMobile] = useState(null);
+  const [sigEmail, setSigEmail] = useState(null);
+  const [serFullName, setSerFullName] = useState(null);
+  const [serDesig, setSerDesig] = useState(null);
+  const [serMobile, setSerMobile] = useState(null);
+  const [serEmail, setSerEmail] = useState(null);
+  const [schlAddress, setSchlAddress] = useState(null);
+  const [pinCode, setPinCode] = useState(null);
+
   const sidebarRef = useRef();
   const snackbarRef = useRef();
 
@@ -39,6 +51,49 @@ const UpdateSchoolTrainingEU = () => {
 
   let { scid } = useParams();
   let { stid } = useParams();
+  let { scode } = useParams();
+
+  let getSchoolCode = async () => {
+    console.log(scode);
+    if (!scode || scode === "null") {
+      // console.log("first")
+      return
+    }else{
+      const res = await instance({
+        url: `school/ckschools/get/detail/${scode}`,
+        method: "GET",
+        headers: {
+          Authorization: Cookies.get("accessToken"),
+        },
+      });
+      let defaultData = res.data;
+      console.log(defaultData);
+      let schoolContact = defaultData.school_contacts;
+      let signtrySchoolContact, serviceSchoolContact;
+      for (let obj of schoolContact) {
+        if (obj.category === "signatory") {
+          signtrySchoolContact = obj;
+        } else {
+          serviceSchoolContact = obj;
+        }
+      }
+      let schoolAddress = defaultData.school_addresses[0];
+
+      // console.log(schoolAddress);
+      setSchlAddress(schoolAddress.address);
+      setPinCode(schoolAddress.pin);
+      // console.log(signtrySchoolContact.name);
+      setSigFullName(signtrySchoolContact.name);
+      setSigDesig(signtrySchoolContact.designation);
+      setSigMobile(signtrySchoolContact.phone);
+      setSigEmail(signtrySchoolContact.email);
+      // console.log(serviceSchoolContact);
+      setSerFullName(serviceSchoolContact.name);
+      setSerDesig(serviceSchoolContact.designation);
+      setSerMobile(serviceSchoolContact.phone);
+      setSerEmail(serviceSchoolContact.email);
+    }
+  };
 
   const formik = useFormik({
     initialValues: {
@@ -189,32 +244,41 @@ const UpdateSchoolTrainingEU = () => {
         formik.values.school_name = value;
         break;
       case "School Signatory Full Name":
+        setSigFullName(value)
         formik.values.school_signatory_name = value;
         break;
       // step 2
       case "School Signatory Designation":
+        setSigDesig(value)
         formik.values.school_signatory_designation = value;
         break;
       case "School Signatory Mobile Number":
+        setSigMobile(value)
         formik.values.school_signatory_mobile = value;
         break;
       case "School Signatory Email ID":
+        setSigEmail(value)
         formik.values.school_signatory_email = value;
         break;
       case "School Service Person Full Name":
+        setSerFullName(value)
         formik.values.school_service_name = value;
         break;
       // step 2
       case "School Service Person Designation":
+        setSerDesig(value)
         formik.values.school_service_designation = value;
         break;
       case "School Service Person Mobile Number":
+        setSerMobile(value)
         formik.values.school_service_mobile = value;
         break;
       case "School Service Person Email ID":
+        setSerEmail(value)
         formik.values.school_service_email = value;
         break;
       case "School Address":
+        setSchlAddress(value)
         // console.log(value)
         formik.values.school_address = value;
         break;
@@ -227,6 +291,7 @@ const UpdateSchoolTrainingEU = () => {
         formik.values.school_state = value;
         break;
       case "School Pin Code":
+        setPinCode(value)
         // console.log(value)
         formik.values.school_pin = value;
         break;
@@ -241,9 +306,11 @@ const UpdateSchoolTrainingEU = () => {
         formik.values.city = value.id;
         break;
       case "Enter Address *":
+        
         formik.values.address = value;
         break;
       case "Enter Pin Code *":
+        
         formik.values.pin_code = value;
         break;
       default:
@@ -314,6 +381,7 @@ const UpdateSchoolTrainingEU = () => {
   };
 
   useEffect(() => {
+    getSchoolCode();
     const handleWidth = () => {
       if (window.innerWidth > 1024) {
         setSidebarCollapsed(false);
@@ -332,7 +400,6 @@ const UpdateSchoolTrainingEU = () => {
 
   const addNewSchool = async () => {
     let dataToUpdate = {
-        
       schoolContanct: [
         {
           category: "signatory",
@@ -381,8 +448,8 @@ const UpdateSchoolTrainingEU = () => {
       dataToUpdate.pin = formik.values.school_pin;
     }
     // console.log(dataToUpdate);
-    console.log(stid)
-    console.log(scid)
+    console.log(stid);
+    console.log(scid);
     const res = await instance({
       url: `school/update/ckschool/${scid}/${stid}`,
       method: "PUT",
@@ -394,7 +461,7 @@ const UpdateSchoolTrainingEU = () => {
     // console.log(res.data.status);
     if (res.data.status === "success") {
       console.log(res);
-      setSnackbarErrStatus(false)
+      setSnackbarErrStatus(false);
       setErrMessage("School Updated Successfully");
       snackbarRef.current.openSnackbar();
       setTimeout(() => {
@@ -449,32 +516,31 @@ const UpdateSchoolTrainingEU = () => {
             <div className="w-full flex flex-col gap-4 items-center mt-[7rem]">
               <CustomizedSteppers
                 activeStep={calActiceStep()}
-                steps={[
-                  "",
-                  "",
-                  "",
-                ]}
+                steps={["", "", ""]}
               />
               {/* step 2 */}
               {steps.step2 ? (
                 <div className="flex flex-col gap-4 items-start w-[90%] px-6 bg-slate-600 rounded-md py-6 mb-[5rem]">
-                <h3 className="text-white">Signatory Contact Details</h3>
+                  <h3 className="text-white">Signatory Contact Details</h3>
                   <div className="grid sm:grid-rows-2 sm:grid-cols-3 grid-rows-5 grid-cols-1 w-full mt-6 gap-6 rounded-md bg-slate-600">
                     {/* <h3>School Signatory</h3> */}
                     <BasicTextFields
                       lable={"School Signatory Full Name"}
+                      value={sigFullName}
                       handleOrderProcessingForm={handleOrderProcessingForm}
                       variant={"standard"}
                       multiline={false}
                     />
                     <BasicTextFields
                       lable={"School Signatory Designation"}
+                      value={sigDesig}
                       handleOrderProcessingForm={handleOrderProcessingForm}
                       variant={"standard"}
                       multiline={false}
                     />
                     <BasicTextFields
                       lable={"School Signatory Mobile Number"}
+                      value={sigMobile}
                       handleOrderProcessingForm={handleOrderProcessingForm}
                       type={"number"}
                       variant={"standard"}
@@ -483,6 +549,7 @@ const UpdateSchoolTrainingEU = () => {
 
                     <BasicTextFields
                       lable={"School Signatory Email ID"}
+                      value={sigEmail}
                       variant={"standard"}
                       handleOrderProcessingForm={handleOrderProcessingForm}
                       multiline={false}
@@ -525,23 +592,26 @@ const UpdateSchoolTrainingEU = () => {
 
               {steps.step3 ? (
                 <div className="flex flex-col gap-4 items-start w-[90%] px-6 bg-slate-600 rounded-md py-6 mb-[5rem]">
-                <h3 className="text-white">Service Person Contact Details</h3>
+                  <h3 className="text-white">Service Person Contact Details</h3>
                   <div className="grid sm:grid-rows-2 sm:grid-cols-3 grid-rows-5 grid-cols-1 w-full mt-6 gap-6 rounded-md bg-slate-600">
                     {/* <h3>School Signatory</h3> */}
                     <BasicTextFields
                       lable={"School Service Person Full Name"}
+                      value={serFullName}
                       handleOrderProcessingForm={handleOrderProcessingForm}
                       variant={"standard"}
                       multiline={false}
                     />
                     <BasicTextFields
                       lable={"School Service Person Designation"}
+                      value={serDesig}
                       handleOrderProcessingForm={handleOrderProcessingForm}
                       variant={"standard"}
                       multiline={false}
                     />
                     <BasicTextFields
                       lable={"School Service Person Mobile Number"}
+                      value={serMobile}
                       handleOrderProcessingForm={handleOrderProcessingForm}
                       type={"number"}
                       variant={"standard"}
@@ -550,6 +620,7 @@ const UpdateSchoolTrainingEU = () => {
 
                     <BasicTextFields
                       lable={"School Service Person Email ID"}
+                      value={serEmail}
                       variant={"standard"}
                       handleOrderProcessingForm={handleOrderProcessingForm}
                       multiline={false}
@@ -593,7 +664,7 @@ const UpdateSchoolTrainingEU = () => {
               {/* step 4 */}
               {steps.step4 ? (
                 <div className="flex flex-col gap-4 items-start w-[90%] px-6 bg-slate-600 rounded-md py-6 mb-[5rem]">
-                <h3 className="text-white">Address Details</h3>
+                  <h3 className="text-white">Address Details</h3>
                   <div className="grid sm:grid-rows-2 sm:grid-cols-3 grid-rows-4 grid-cols-1 w-full mt-6 gap-6 rounded-md bg-slate-600">
                     {/* <SearchDropDown
                       handleOrderProcessingForm={handleOrderProcessingForm}
@@ -619,6 +690,7 @@ const UpdateSchoolTrainingEU = () => {
 
                     <BasicTextFields
                       lable={"School Address"}
+                      value={schlAddress}
                       handleOrderProcessingForm={handleOrderProcessingForm}
                       variant={"standard"}
                       multiline={false}
@@ -637,6 +709,7 @@ const UpdateSchoolTrainingEU = () => {
                     /> */}
                     <BasicTextFields
                       lable={"School Pin Code"}
+                      value={pinCode}
                       handleOrderProcessingForm={handleOrderProcessingForm}
                       variant={"standard"}
                       type={"number"}

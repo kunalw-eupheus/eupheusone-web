@@ -155,6 +155,17 @@ export default function DataTable({
             // row?.Status?.toLowerCase().indexOf(q) > -1
           );
           break;
+          case "GatepassInvoice":
+            // console.log(row)
+            return (
+              row?.inv_no?.toLowerCase().indexOf(q) > -1 ||
+              row.cardname?.toLowerCase().indexOf(q) > -1 ||
+              row?.boxes?.toLowerCase().indexOf(q) > -1 ||
+              row?.docdate?.toLowerCase().indexOf(q) > -1||
+              row?.eup_invoice_addresses[0].ShipToAddress1?.toLowerCase().indexOf(q) > -1
+
+            );
+            break;
         default:
           break;
       }

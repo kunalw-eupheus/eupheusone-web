@@ -119,6 +119,11 @@ const SearchDropDown = ({
           return option.state;
           break;
 
+          case "select_schools":
+            // console.log(option)
+            return option.school_name;
+            break;
+
         case "select_ck_state":
           // console.log(option)
           return option.name;
@@ -307,6 +312,10 @@ const SearchDropDown = ({
       handleOrderProcessingForm(value, type);
     }
     if (type === "select_city_location") {
+      // console.log(value, type, seriesId)
+      handleOrderProcessingForm(value, type);
+    }
+    if (type === "select_schools") {
       // console.log(value, type, seriesId)
       handleOrderProcessingForm(value, type);
     }
