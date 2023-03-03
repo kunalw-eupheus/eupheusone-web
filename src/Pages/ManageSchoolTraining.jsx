@@ -577,7 +577,7 @@ const ManageSchoolTraining = () => {
                                 ) : (
                                   <div className="w-full flex gap-3 justify-end">
                                     <Link
-                                      to={`/update_school_training_eu/${row.id}/${stateId}`}
+                                      to={`/update_school_training_eu/${row.id}/${stateId}/${row.ck_code}`}
                                     >
                                       <BasicButton text={"Edit"} />
                                     </Link>

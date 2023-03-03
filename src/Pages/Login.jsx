@@ -93,10 +93,11 @@ const Login = () => {
         navigate("/manageSchoolTraining");
         console.log("testing1")
       }
-      // else if(res.data.type === "training" && res.data.company === "Classklap"){
-      //   navigate("/ck_dashboard");
-      //   console.log("testing2")
-      // }
+      else if(res.data.type === "warehouse_GP" && res.data.company === "Euphues"){
+        navigate("/gatepass_dashboard");
+        console.log("testing2")
+      }
+      
       // else if(res.data.company === "Euphues"){
         // navigate("/ck_dashboard");
         // console.log("testing2")

@@ -59,11 +59,14 @@ const AOF = () => {
     special: { applicable: false, type: "" },
   });
   const [publisherData, setPublisherData] = useState([]);
+  const [publisherData2, setPublisherData2] = useState([]);
   const [seriesData, setSeriesData] = useState([]);
+  const [allSchool, setAllSchool] = useState([])
   const [state, setState] = useState([]);
   const [city, setCity] = useState([]);
   const [date, setDate] = useState("");
-  const [nameOfSchool, setNameOfSchool] = useState(null);
+  const [nameOfSchool, setNameOfSchool] = useState("");
+  const [idOfSchool ,setIdOfSchool] = useState("")
 
   const [pinCode, setPinCode] = useState(null);
   const [stateSelect, setStateSelect] = useState("");
@@ -72,10 +75,10 @@ const AOF = () => {
 
   const [aofStatus, setAofStatus] = useState("");
   const [schoolAddress, setSchoolAddress] = useState("");
-  const [mobile, setMobile] = useState("")
-  const [phone, setPhone] = useState("")
+  const [mobile, setMobile] = useState("");
+  const [phone, setPhone] = useState("");
   const [schoolEmail, setSchoolEmail] = useState("");
-  const [firmRegNo, setFirmRegNo] = useState("")
+  const [firmRegNo, setFirmRegNo] = useState("");
   const [panNo, setPanNo] = useState("");
   const [gstNo, setGstNo] = useState("");
   const [gstYear, setGstYear] = useState("");
@@ -90,9 +93,125 @@ const AOF = () => {
   const [accNoP, setAccNoP] = useState("");
   const [ifscP, setIfscP] = useState("");
   const [aofAcc, setAofAcc] = useState("");
+  const [todOption ,setTodOption] = useState("")
+  const [todCondition ,setTodCondition] = useState("")
+  const [todPercent, setTodPercent] = useState("")
+  const [cashOption, setCashOption] = useState("")
 
   const sidebarRef = useRef();
   const snackbarRef = useRef();
+
+
+  const postFormData = async () => {
+    let postData = {
+      name: nameOfSchool,
+      fk_school_id: idOfSchool,
+      fk_state_id: stateSelect,
+      fk_city_id: citySelect,
+      zip_code: pinCode,
+      address: schoolAddress,
+      phone: phone,
+      mobile: mobile,
+      email: schoolEmail,
+      firm_reg: firmRegNo,
+      date: date,
+      pan: panNo,
+      gst: gstNo,
+      business_est: gstYear,
+      t_name: proprietorName,
+      t_pan: panNoP,
+      t_zip_code: pinCodeP,
+      t_address: addressP,
+      t_phone: phoneP,
+      t_mobile: mobileP,
+      t_email: emailP,
+      // cp: [
+      //   { cp_name: "dsff", cp_business: "dsfds" },
+      //   { cp_name: "dsff", cp_business: "dsfds" },
+      //   { cp_name: "dsff", cp_business: "dsfds" },
+      // ],
+      ab_name: partyBankerName,
+      ab_account_no: accNoP,
+      ab_acc_type: aofAcc,
+      ab_ifsc: ifscP,
+      // cheque: [
+      //   {
+      //     abc_cheque_no: "fdsfds",
+      //     abc_bank: "dsfsdf",
+      //     abc_branch_ifsc: "dsfdsfd",
+      //     abc_cheque_link: "dsfdsfd",
+      //   },
+      //   {
+      //     abc_cheque_no: "fdsfds",
+      //     abc_bank: "dsfsdf",
+      //     abc_branch_ifsc: "dsfdsfd",
+      //     abc_cheque_link: "dsfdsfd",
+      //   },
+      // ],
+      cash: [
+        {
+          type: "cash",
+          eligibile: cashOption,
+        },
+      ],
+      tod: [
+        {
+          type: "tod",
+          eligibile: todCondition,
+          percentages: todPercent,
+          percentages_type: todOption,
+        },
+      ],
+      special: [
+        {
+          type: "special",
+          eligibile: "yes",
+          dis_type: "specific",
+          category: "series",
+          fk_category_id: "40481858-d49b-4a24-bbd3-b68617ce16f1",
+          percentages: "30",
+          percentages_type: "net",
+        },
+        {
+          type: "special",
+          eligibile: "yes",
+          dis_type: "specific",
+          category: "items",
+          fk_category_id: "c12db2ed-de50-4533-a8c4-39dd1cc506a3",
+          percentages: "30",
+          percentages_type: "net",
+        },
+      ],
+    };
+    // console.log(id);
+    const res = await instance({
+      url: `sales_data/aof/create`,
+      method: "POST",
+      data : postData,
+      headers: {
+        Authorization: Cookies.get("accessToken"),
+      },
+    });
+    console.log(res);
+    // setCity(city.data.message);
+  };
+
+  const handleDataSubmit = async () => {
+    console.log("first")
+    postFormData()
+  }
+
+  const getSchools = async () => {
+    const state = await instance({
+      url: "school/get/allschools",
+      method: "GET",
+      headers: {
+        Authorization: Cookies.get("accessToken"),
+      },
+    });
+    // console.log(state.data.message);
+    setAllSchool(state.data.message);
+  };
 
   const getState = async () => {
     const state = await instance({
@@ -124,10 +243,12 @@ const AOF = () => {
     switch (type) {
       case "tod applicable":
         if (value === "yes") {
-          console.log("tod applicable selected Yes");
+          // console.log("tod applicable selected Yes");
+          setTodCondition("Yes")
           setStep4({ ...step4, tod: { applicable: true, type: false } });
         } else {
-          console.log("tod applicable selected No");
+          // console.log("tod applicable selected No");
+          setTodCondition("No")
           setStep4({ ...step4, tod: { applicable: false, type: false } });
         }
         break;
@@ -155,19 +276,42 @@ const AOF = () => {
         break;
 
       case "tod":
-        console.log(type, value);
+        // console.log(value);
+        if(value === "yes") setTodOption("gross")
+        else setTodOption("net")
         // setStep4({ ...step4, special: { applicable: true, type: value } });
         break;
 
+        case "cash":
+          // console.log(value);
+          setCashOption(value)
+          // setStep4({ ...step4, special: { applicable: true, type: value } });
+          break;
+
       case "publisher":
-        console.log(type, value);
+        // console.log(type, value);
+        let tempData = [...publisherData]
+        let tempArr = []
+        for(let obj of tempData){
+          let tempObj = {
+            type: "special",
+            eligibile: "yes",
+            dis_type: "specific",
+            category: "items",
+          }
+          tempObj.fk_category_id = obj.id
+          tempObj.percentages_type = value
+          tempArr.push(tempObj)
+        }
+        console.log(tempArr)
+        setPublisherData2(tempArr)
         // setStep4({ ...step4, special: { applicable: true, type: value } });
         break;
 
-      case "publisher":
-        console.log(type, value);
-        // setStep4({ ...step4, special: { applicable: true, type: value } });
-        break;
+      // case "publisher":
+      //   console.log(type, value);
+      //   // setStep4({ ...step4, special: { applicable: true, type: value } });
+      //   break;
 
       case "series":
         console.log(type, value);
@@ -217,7 +361,7 @@ const AOF = () => {
         </li>
       );
     }
-    // console.log(content);
+    console.log(content);
     return content;
   };
 
@@ -240,19 +384,19 @@ const AOF = () => {
           <span className="mt-4 text-gray-100">{i + 1}.</span>
           <BasicTextFields
             lable={"Cheque No"}
-            handleOrderProcessingForm = {handleOrderProcessingForm}
+            handleOrderProcessingForm={handleOrderProcessingForm}
             variant={"standard"}
             multiline={false}
           />
           <BasicTextFields
             lable={"Bank"}
-            handleOrderProcessingForm = {handleOrderProcessingForm}
+            handleOrderProcessingForm={handleOrderProcessingForm}
             variant={"standard"}
             multiline={false}
           />
           <BasicTextFields
             lable={"Branch/IFSC"}
-            handleOrderProcessingForm = {handleOrderProcessingForm}
+            handleOrderProcessingForm={handleOrderProcessingForm}
             variant={"standard"}
             multiline={false}
           />
@@ -267,73 +411,88 @@ const AOF = () => {
   };
 
   const handleOrderProcessingForm = (value, type) => {
-    console.log(value, type);
+    // console.log(value, type);
     switch (type) {
-      // case "series_aof":
-      //   setLoading(true);
-      //   getTitleBySeries(value.id);
-      //   setLoading(false);
-      //   break;
-      case "Name Of Party/School *":
+      case "Enter Percentage (TOD)":
+        // console.log(value)
+        setTodPercent(value)
+        break;
+      case "select_schools":
         console.log(value);
-        setNameOfSchool(value);
+        setNameOfSchool(value.school_name);
+        setIdOfSchool(value.id)
+        break;
+      case "Name Of Party/School *":
+        // console.log(value);
+        // setNameOfSchool(value);
         break;
       case "aof_status":
         console.log(value.title);
-        setAofStatus(value.title)
+        setAofStatus(value.title);
         break;
       case "Address *":
         console.log(value);
-        setSchoolAddress(value)
+        setSchoolAddress(value);
         break;
       case "E-Mail *":
         console.log(value);
-        setSchoolEmail(value)
+        setSchoolEmail(value);
         break;
       case "PAN NO *":
         console.log(value);
-        setPanNo(value)
+        setPanNo(value);
         break;
       case "GST NO *":
         console.log(value);
-        setGstNo(value)
+        setGstNo(value);
         break;
       case "GST Year of establishment of business":
         console.log(value);
-        setGstYear(value)
+        setGstYear(value);
         break;
       case "Name of Proprietor/Partner/Director/Trustee *":
         console.log(value);
+        setProprietorName(value)
         break;
       case "PAN NO*":
         console.log(value);
+        setPanNoP(value)
         break;
       case "Address*":
         console.log(value);
+        setAddressP(value)
         break;
       case "Pin Code*":
         console.log(value);
+        setPinCodeP(value)
         break;
       case "Phone*":
         console.log(value);
+        setPhoneP(value)
         break;
       case "Mobile*":
         console.log(value);
+        setMobileP(value)
         break;
       case "E-Mail*":
         console.log(value);
+        setEmailP(value)
         break;
       case "Name and address of the party’s main bankers *":
         console.log(value);
+        setPartyBankerName(value)
         break;
       case "Account Number *":
         console.log(value);
+        setAccNoP(value)
         break;
       case "IFSC *":
         console.log(value);
+        setIfscP(value)
         break;
       case "aof_acc":
         console.log(value);
+        setAofAcc(value.title)
         break;
       case "publisher":
         let tempArr = [...publisherData];
@@ -346,15 +505,15 @@ const AOF = () => {
         break;
 
       case "Pin Code *":
-        setPinCode(value)
+        setPinCode(value);
         console.log(value);
         break;
 
       case "select_state_location":
         //   console.log(value , "hihihiihii");
         //   setStateId(value.id);
-        console.log(value);
-        setStateSelect(value.state)
+        // console.log(value);
+        setStateSelect(value.id);
         getCity(value.id);
         // getCity(value.fk_state_id);
         // getSchoolByState(value.fk_state_id);
@@ -363,17 +522,17 @@ const AOF = () => {
 
       case "select_city_location":
         console.log(value);
-        setCitySelect(value.city)
+        setCitySelect(value.id);
         break;
 
       case "Mobile *":
-        setMobile(value)
+        setMobile(value);
         console.log(value);
         break;
 
       case "Phone *":
         console.log(value);
-        setPhone(value)
+        setPhone(value);
         break;
 
       case "Enter Percentage":
@@ -382,7 +541,7 @@ const AOF = () => {
 
       case "Firm/ Company/Trust Registration Number *":
         console.log(value);
-        setFirmRegNo(value)
+        setFirmRegNo(value);
         break;
 
       case "series_aof":
@@ -401,8 +560,10 @@ const AOF = () => {
   };
 
   const handleStartDate = (newValue) => {
-    console.log(newValue)
-    setDate(newValue.$d);
+    // console.log(newValue);
+    let date = `${newValue.$y}-${newValue.$M+1}-${newValue.$D}`
+    // console.log(date)
+    setDate(date);
   };
 
   useLayoutEffect(() => {
@@ -442,6 +603,7 @@ const AOF = () => {
 
   useEffect(() => {
     getState();
+    getSchools()
     const handleWidth = () => {
       if (window.innerWidth > 1024) {
         setSidebarCollapsed(false);
@@ -537,11 +699,21 @@ const AOF = () => {
               {steps.step1 ? (
                 <div className="flex flex-col gap-4 items-start w-[90%] px-6 bg-slate-600 rounded-md py-6 mb-[5rem]">
                   <div className="grid sm:grid-rows-5 sm:grid-cols-3 grid-rows-[15] grid-cols-1 w-full mt-6 gap-6 rounded-md bg-slate-600">
-                    <BasicTextFields
+                    {/* <BasicTextFields
                       lable={"Name Of Party/School *"}
                       handleOrderProcessingForm={handleOrderProcessingForm}
                       variant={"standard"}
                       multiline={false}
+                    /> */}
+
+                    <SearchDropDown
+                      label={"Name Of Party/School *"}
+                      // seriesId={""}
+                      handleOrderProcessingForm={handleOrderProcessingForm}
+                      color={"rgb(243, 244, 246)"}
+                      data={allSchool}
+                      multiple={false}
+                      Name={"select_schools"}
                     />
 
                     <SearchDropDown
@@ -653,7 +825,7 @@ const AOF = () => {
                     className="mt-3"
                     onClick={() => {
                       if (
-                        nameOfSchool,
+                        (nameOfSchool,
                         aofStatus,
                         schoolAddress,
                         stateSelect,
@@ -665,7 +837,7 @@ const AOF = () => {
                         firmRegNo,
                         panNo,
                         gstNo,
-                        gstYear
+                        gstYear)
                       ) {
                         setSteps({ step1: false, step2: true, step3: false });
                         window.scroll({
@@ -1367,7 +1539,7 @@ const AOF = () => {
                           <RowRadioButtonsGroup
                             handleRadioButtons={handleRadioButtons}
                             // heading={"Applicable"}
-                            name={"tod"}
+                            name={"cash"}
                             value={[
                               { label: "Yes", value: "yes" },
                               { label: "No", value: "no" },
@@ -1377,7 +1549,7 @@ const AOF = () => {
                       </AccordionDetails>
                     </Accordion>
                   </div>
-                  <div>
+                  <div onClick={handleDataSubmit}>
                     <BasicButton text={"Submit"} />
                   </div>
 

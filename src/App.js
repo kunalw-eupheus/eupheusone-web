@@ -65,6 +65,9 @@ import BulkInv from "./Pages/PDF/BulkInv";
 import CustLedger from "./Pages/PDF/CustLedger";
 import ClassklapSchool from "./Pages/ClassklapSchool";
 import UpdateSchoolTrainingEU from "./Pages/UpdateSchoolTrainingEU";
+import GatePass from "./Pages/PDF/GatePass";
+import GatePassDashboard from "./Pages/GatePassDashboard";
+import GatePassInvoice from "./Pages/GatePassInvoice";
 function App() {
   const isAuth = useSelector((state) => state.auth.user);
   const MsAuth = useSelector((state) => state.auth.msAuth);
@@ -155,7 +158,7 @@ function App() {
               />
 
               <Route
-                path="/update_school_training_eu/:scid/:stid"
+                path="/update_school_training_eu/:scid/:stid/:scode"
                 element={
                   isAuth || MsAuth ? <UpdateSchoolTrainingEU /> : <Login />
                 }
@@ -319,6 +322,11 @@ function App() {
               />
 
               <Route
+                path="/gate_pass_pdf"
+                element={isAuth || MsAuth ? <GatePass /> : <Login />}
+              />
+
+              <Route
                 path="/add_new_city"
                 element={isAuth || MsAuth ? <AddNewCity /> : <Login />}
               />
@@ -326,6 +334,16 @@ function App() {
               <Route
                 path="/ck_school_training"
                 element={isAuth || MsAuth ? <ClassklapSchool /> : <Login />}
+              />
+
+              <Route
+                path="/gatepass_dashboard"
+                element={isAuth || MsAuth ? <GatePassDashboard /> : <Login />}
+              />
+
+              <Route
+                path="/gatepass_invoice"
+                element={isAuth || MsAuth ? <GatePassInvoice /> : <Login />}
               />
 
               {/* Admin */}
