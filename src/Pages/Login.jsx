@@ -90,10 +90,12 @@ const Login = () => {
       dispatch(authActions.login());
 
       if(res.data.type === "training" && res.data.company === "Euphues"){
+        // dispatch(authActions.login());
         navigate("/manageSchoolTraining");
         console.log("testing1")
       }
       else if(res.data.type === "warehouse_GP" && res.data.company === "Euphues"){
+        // dispatch(authActions.login());
         navigate("/gatepass_dashboard");
         console.log("testing2")
       }
@@ -104,6 +106,7 @@ const Login = () => {
       // }
       else{
         navigate("/");
+        // dispatch(authActions.login());
         console.log("testing3")
       }
       

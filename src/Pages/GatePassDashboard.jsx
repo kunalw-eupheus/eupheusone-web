@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 // import { rows, ManageSchoolRows } from '../DummyData'
 import DataTable from "../Components/DataTable";
 // import SearchDropDown from "../Components/SearchDropDown";
-import SwipeableTemporaryDrawer from "../Components/Material/MaterialSidebar";
+import SwipeableTemporaryDrawer from "../Components/Material/MaterialSidebar3";
 import instance from "../Instance";
 import { useLayoutEffect } from "react";
 import Cookies from "js-cookie";
@@ -27,7 +27,7 @@ import { useFormik } from "formik";
 import { useNavigate } from "react-router-dom";
 // import { DataGrid } from "@mui/x-data-grid";
 // import Button from "@mui/material/Button";
-import DialogSlide from "../Components/Material/Dialog2";
+import DialogSlide from "../Components/Material/Dialog7";
 import DialogSlide2 from "../Components/Material/Dialog3";
 // import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 // import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
@@ -697,10 +697,14 @@ const GatePassDashboard = () => {
     console.log(res.data);
   };
 
+  const handleName = async () => {
+    openDialogue()
+  }
+
   return (
     <div>
-      <DialogSlide ref={dialogRef} invoiceId={invoiceId} />
-      <DialogSlide2 ref={dialogRef2} invoiceId={invoiceId2} />
+      <DialogSlide ref={dialogRef} invoiceArr={invNoArr} />
+      {/* <DialogSlide2 ref={dialogRef2} invoiceId={invoiceId2} /> */}
 
       <Snackbars
         ref={snackbarRef}
@@ -807,8 +811,8 @@ const GatePassDashboard = () => {
                       onPageChange={handleChangePage}
                       onRowsPerPageChange={handleChangeRowsPerPage}
                     />
-                    <div className="justify-end ml-9" onClick={createData}>
-                      <BasicButton text={"Create New PDF"} />
+                    <div className="justify-end ml-9" onClick={handleName}>
+                      <BasicButton text={"Create"} />
                     </div>
                   </Toolbar>
 

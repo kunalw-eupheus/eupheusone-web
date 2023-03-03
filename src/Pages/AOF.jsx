@@ -98,6 +98,8 @@ const AOF = () => {
   const [todPercent, setTodPercent] = useState("")
   const [cashOption, setCashOption] = useState("")
 
+  const [publisherForm,setPublisherForm] = useState([])
+
   const sidebarRef = useRef();
   const snackbarRef = useRef();
 
@@ -361,7 +363,6 @@ const AOF = () => {
         </li>
       );
     }
-    console.log(content);
     return content;
   };
 
@@ -411,8 +412,10 @@ const AOF = () => {
   };
 
   const handleOrderProcessingForm = (value, type) => {
-    // console.log(value, type);
+    console.log(value, type, publisherForm);
     switch (type) {
+      // case "Name":
+
       case "Enter Percentage (TOD)":
         // console.log(value)
         setTodPercent(value)
@@ -824,31 +827,31 @@ const AOF = () => {
                   <div
                     className="mt-3"
                     onClick={() => {
-                      if (
-                        (nameOfSchool,
-                        aofStatus,
-                        schoolAddress,
-                        stateSelect,
-                        citySelect,
-                        pinCode,
-                        mobile,
-                        phone,
-                        schoolEmail,
-                        firmRegNo,
-                        panNo,
-                        gstNo,
-                        gstYear)
-                      ) {
+                      // if (
+                        // (nameOfSchool,
+                        // aofStatus,
+                        // schoolAddress,
+                        // stateSelect,
+                        // citySelect,
+                        // pinCode,
+                        // mobile,
+                        // phone,
+                        // schoolEmail,
+                        // firmRegNo,
+                        // panNo,
+                        // gstNo,
+                        // gstYear)
+                      // ) {
                         setSteps({ step1: false, step2: true, step3: false });
                         window.scroll({
                           top: 0,
                           behavior: "smooth",
                         });
-                      } else {
-                        setSnackbarErrStatus(true);
-                        setErrMessage("Please Fill All The Fields");
-                        snackbarRef.current.openSnackbar();
-                      }
+                      // } else {
+                        // setSnackbarErrStatus(true);
+                        // setErrMessage("Please Fill All The Fields");
+                        // snackbarRef.current.openSnackbar();
+                      // }
                     }}
                   >
                     <BasicButton text={"Next"} />
