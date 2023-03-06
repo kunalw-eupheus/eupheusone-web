@@ -272,6 +272,11 @@ function App() {
                 element={isAuth || MsAuth ? <InvoiceTraining /> : <Login />}
               />
 
+              <Route
+                path="/order_training"
+                element={isAuth || MsAuth ? <InvoiceTraining /> : <Login />}
+              />
+
               <Route path="/view_pdf/:docnum/:docdate" element={<ViewPdf />} />
 
               <Route

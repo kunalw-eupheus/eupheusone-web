@@ -375,9 +375,9 @@ const AOF = () => {
   //   }
   //   return content;
   // };
-  const test = (len) => {
-    console.log(len)
-    // setPublisherLength("len")
+
+  const handleTest = (value,index) => {
+    console.log(value, index)
   }
 
   const handleForm = () => {
@@ -387,10 +387,11 @@ const AOF = () => {
         <li className="flex gap-4 items-center">
           <span className="mt-4 text-gray-100">{i + 1}.</span>
           <BasicTextFields
-            lable={"Name"}
+            lable={`Name`}
             handleOrderProcessingForm={handleOrderProcessingForm}
             variant={"standard"}
             multiline={false}
+            // Name={"Name"}
           />
           <BasicTextFields
             lable={"Annual Business"}
@@ -401,9 +402,7 @@ const AOF = () => {
         </li>
       );
     }
-    // console.log(content)
-    test(content.length)
-    // setPublisherLength(content.length)
+    // test(content.length)
     return content;
   };
 

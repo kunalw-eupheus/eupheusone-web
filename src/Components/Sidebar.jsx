@@ -208,6 +208,30 @@ const Sidebar = ({ sidebarCollapsed, highLight, show }) => {
           </aside>
         </Link>
 
+{/* 
+        <Link to="/order_training">
+          <aside
+            className={`px-6 py-2 flex gap-4 cursor-pointer ${
+              highLight === "order" ? "bg-gray-500" : ""
+            } group hover:bg-gray-500 rounded-md transition-all duration-150 ease-linear`}
+          >
+            <ReceiptOutlined
+              className={`${
+                highLight === "order"
+                  ? "!text-[#659DBD]"
+                  : "!text-gray-400"
+              } group-hover:!text-[#659DBD] !transition-all !duration-150 !ease-linear`}
+            />
+            <span
+              className={`${
+                highLight === "order" ? "text-gray-200" : "text-gray-400"
+              } group-hover:!text-gray-100 transition-all duration-150 ease-linear`}
+            >
+              Order Tagging
+            </span>
+          </aside>
+        </Link> */}
+
         {/* </Link> */}
       </div>
       :
@@ -625,7 +649,7 @@ const Sidebar = ({ sidebarCollapsed, highLight, show }) => {
             </span>
           </aside>
         </Link>
-        <Link to="/aof">
+        {/* <Link to="/aof">
           <aside
             className={`px-6 py-2 flex gap-4 ${
               highLight === "aof" ? "bg-gray-500" : ""
@@ -644,7 +668,7 @@ const Sidebar = ({ sidebarCollapsed, highLight, show }) => {
               AOF
             </span>
           </aside>
-        </Link>
+        </Link> */}
         <Link to="/kys">
           <aside
             className={`px-6 py-2 flex gap-4 ${

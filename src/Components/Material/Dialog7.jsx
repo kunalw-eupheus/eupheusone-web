@@ -260,7 +260,7 @@ const DialogSlide7 = React.forwardRef((props, ref) => {
         fullWidth
       >
         <DialogTitle className="!bg-gray-500 text-white">
-          Enter Name
+          Enter Remark
         </DialogTitle>
         <DialogContent className="!bg-gray-500 flex justify-center items-center">
           <DialogContentText
@@ -284,7 +284,7 @@ const DialogSlide7 = React.forwardRef((props, ref) => {
             /> */}
             <TextField
               required
-              label="Enter Name"
+              label="Enter Remark"
               variant="standard"
               type={"text"}
               disabled={false}
