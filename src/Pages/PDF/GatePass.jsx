@@ -21,7 +21,8 @@ const GatePass = () => {
       url: `eup_invoice/get/invoices/gatepass/pdfdata/${id}`,
       method: "GET",
       headers: {
-        Authorization: `${Cookies.get("accessToken")}`,
+        // Authorization: `${Cookies.get("accessToken")}`,
+        accesskey: `auth74961a98ba76d4e4`
       },
     });
     // console.log(res.data.message.gatecode)
