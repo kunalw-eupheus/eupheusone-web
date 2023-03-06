@@ -58,6 +58,7 @@ const GatePassDashboard = () => {
   const [invoiceId2, setInvoiceId2] = useState("");
   const [searchVal, setSearchVal] = useState("");
   const [searchRow, setSearchRow] = useState([]);
+  const [checkedItems, setCheckedItems] = useState({});
 
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -215,8 +216,12 @@ const GatePassDashboard = () => {
       },
     });
     if (res.data.message) {
-      // console.log(res.data);
-      setSchoolRow(res.data.message);
+      let data = res.data.message
+      for(let obj of data){
+        obj.checked = false
+      }
+      // console.log(data);
+      setSchoolRow(data);
     }
   };
 
@@ -660,21 +665,30 @@ const GatePassDashboard = () => {
   //   }
   // };
 
-  const handleCheckbox = (invId) => {
-    console.log(invId);
-    let tempArr = [];
-    let hasVal = invNoArr.includes(invId);
-    if (hasVal) {
-      for (let ele of invNoArr) {
-        if (ele !== invId) {
-          tempArr.push(ele);
-        }
-      }
-    } else {
-      tempArr = [...invNoArr, invId];
+  const handleCheckbox = (event, row) => {
+    console.log(event.target.checked, row)  
+  
+    let tempArr = [...schoolRow];
+    for(let obj of tempArr){
+      if(obj.id === row.id)
+      // console.log(obj, row.id)
+      obj.checked = !obj.checked
+      // console.log(obj)
     }
-    console.log(tempArr);
-    setInvNoArr(tempArr);
+    setSchoolRow(tempArr)
+    // console.log(tempArr)
+    // let hasVal = invNoArr.includes(invId);
+    // if (hasVal) {
+      // for (let ele of invNoArr) {
+      //   if (ele !== invId) {
+      //     tempArr.push(ele);
+      //   }
+      // }
+    // } else {
+    //   tempArr = [...invNoArr, invId];
+    // }
+    // console.log(tempArr);
+    // setInvNoArr(tempArr);
   };
 
   const createData = async () => {
@@ -698,6 +712,15 @@ const GatePassDashboard = () => {
   };
 
   const handleName = async () => {
+    let checkArr = []
+    for(let obj of schoolRow){
+      if(obj.checked){
+        console.log(obj)
+        checkArr.push(obj.inv_no)
+      }
+    }
+    // console.log(checkArr)
+    setInvNoArr(checkArr);
     openDialogue()
   }
 
@@ -858,10 +881,10 @@ const GatePassDashboard = () => {
                             >
                               <TableCell align="center">
                                 <input
-                                  type="checkbox"
-                                  //   name={row}
-                                  //   checked={checkedItems}
-                                  onChange={() => handleCheckbox(row.inv_no)}
+                                type="checkbox"
+                                name={row}
+                                checked={row.checked}
+                                onChange={(e) => handleCheckbox(e, row)}
                                 />
                               </TableCell>
                               <TableCell align="center">{row.inv_no}</TableCell>
@@ -895,9 +918,9 @@ const GatePassDashboard = () => {
                               <TableCell align="center">
                                 <input
                                   type="checkbox"
-                                  //   name={row}
-                                  //   checked={checkedItems}
-                                  onChange={() => handleCheckbox(row.inv_no)}
+                                  name={row}
+                                  checked={row.checked}
+                                  onChange={(e) => handleCheckbox(e, row)}
                                 />
                               </TableCell>
                               <TableCell align="center">{row.inv_no}</TableCell>
