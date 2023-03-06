@@ -4,6 +4,7 @@ import Cookies from "js-cookie";
 import eupheusLogo from "./eupheusLogo.png";
 import "./Inv.css";
 import { useState } from 'react';
+import { useParams } from 'react-router-dom';
 
 const GatePass = () => {
 
@@ -14,9 +15,10 @@ const GatePass = () => {
     getPDFData()
   }, []);
 
+  const {id} = useParams()
   const getPDFData = async () => {
     const res = await instance({
-      url: "eup_invoice/get/invoices/gatepass/pdfdata/388b5734-cefb-468d-af83-3ac95a1c7338",
+      url: `eup_invoice/get/invoices/gatepass/pdfdata/${id}`,
       method: "GET",
       headers: {
         Authorization: `${Cookies.get("accessToken")}`,
