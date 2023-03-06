@@ -51,6 +51,7 @@ const Inv = () => {
   const [totalRup, setTotalRup] = useState("");
   const [taxAmnt, setTaxAmnt] = useState("");
   const [vatSum, setVatSum] = useState("");
+  const [cinNum, setCinNum] = useState("")
   useEffect(() => {
     getAllData();
   }, []);
@@ -92,6 +93,7 @@ const Inv = () => {
     });
     let data = res.data.message.message[0];
     console.log(data);
+    setCinNum(data.cin)
     setBillTo(data.bill_to[0]);
     setBillToAddress(data.bill_to[1]);
     setShipTo(data.SHIPTOCODE);
@@ -3382,7 +3384,8 @@ const Inv = () => {
               >
                 CIN:{" "}
                 <span className="s10" style={{ fontSize: "8pt" }}>
-                  U80904PB2016PTC054953
+                  {/* U80904PB2016PTC054953 */}
+                  {cinNum}
                 </span>
               </p>
             </td>

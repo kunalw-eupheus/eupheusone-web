@@ -208,7 +208,7 @@ const Sidebar = ({ sidebarCollapsed, highLight, show }) => {
           </aside>
         </Link>
 
-{/* 
+
         <Link to="/order_training">
           <aside
             className={`px-6 py-2 flex gap-4 cursor-pointer ${
@@ -230,7 +230,7 @@ const Sidebar = ({ sidebarCollapsed, highLight, show }) => {
               Order Tagging
             </span>
           </aside>
-        </Link> */}
+        </Link>
 
         {/* </Link> */}
       </div>

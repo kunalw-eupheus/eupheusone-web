@@ -26,8 +26,8 @@ import { useFormik } from "formik";
 import { useNavigate } from "react-router-dom";
 // import { DataGrid } from "@mui/x-data-grid";
 // import Button from "@mui/material/Button";
-import DialogSlide from "../Components/Material/Dialog2";
-import DialogSlide2 from "../Components/Material/Dialog3";
+import DialogSlide from "../Components/Material/Dialog8";
+import DialogSlide2 from "../Components/Material/Dialog9";
 // import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 // import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import IconButton from "@mui/material/IconButton";
@@ -37,7 +37,7 @@ import TablePagination from "@mui/material/TablePagination";
 
 const OrderTraining = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
-  const [highLight, setHighLight] = useState("invoice");
+  const [highLight, setHighLight] = useState("order");
   const [loading, setLoading] = useState(false);
   const [stateAndCity, setStateAndCity] = useState({ state: "", city: "" });
   const sidebarRef = useRef();
@@ -180,7 +180,8 @@ const OrderTraining = () => {
   const getInvoiceData = async () => {
     // setLoading(true);
     const res = await instance({
-      url: `ckInvoice/getckinvoices`,
+      // url: `ckInvoice/getckinvoices`,
+      url: `ckOrders/getckorders`,
       method: "GET",
       headers: {
         Authorization: `${Cookies.get("accessToken")}`,
@@ -549,6 +550,7 @@ const OrderTraining = () => {
   };
 
   const handleSchoolAdd = (invceId) => {
+    console.log(invceId)
     setInvoiceId(invceId);
     openDialogue();
   };
@@ -588,7 +590,8 @@ const OrderTraining = () => {
     for (let ele of rowdata) {
       console.log(ele)
       let docuNumb = ele.docnum.toLowerCase();
-      if (docuNumb.indexOf(searchVal.toLowerCase()) > -1) {
+      let cardName = ele.cardname.toLowerCase()
+      if (docuNumb.indexOf(searchVal.toLowerCase()) > -1 || cardName.indexOf(searchVal.toLowerCase()) > -1) {
         tempArr.push(ele);
       }
     }
@@ -672,7 +675,7 @@ const OrderTraining = () => {
                       onInput={(e) => {
                         handleSearch(e.target.value);
                       }}
-                      label="Enter Invoice No"
+                      label="Enter Search Value"
                       variant="outlined"
                       placeholder="Search..."
                       size="small"
@@ -721,7 +724,7 @@ const OrderTraining = () => {
                         Sl No
                       </TableCell> */}
                         <TableCell className="!w-[8rem]" align="center">
-                          Invoice No
+                          Sl No
                         </TableCell>
                         <TableCell className="!w-[8rem]" align="center">
                           Doc Date
