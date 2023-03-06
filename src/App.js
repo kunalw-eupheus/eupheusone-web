@@ -68,6 +68,7 @@ import UpdateSchoolTrainingEU from "./Pages/UpdateSchoolTrainingEU";
 import GatePass from "./Pages/PDF/GatePass";
 import GatePassDashboard from "./Pages/GatePassDashboard";
 import GatePassInvoice from "./Pages/GatePassInvoice";
+import OrderTraining from "./Pages/OrderTraining";
 function App() {
   const isAuth = useSelector((state) => state.auth.user);
   const MsAuth = useSelector((state) => state.auth.msAuth);
@@ -270,6 +271,11 @@ function App() {
               <Route
                 path="/invoice_training"
                 element={isAuth || MsAuth ? <InvoiceTraining /> : <Login />}
+              />
+
+              <Route
+                path="/order_training"
+                element={isAuth || MsAuth ? <OrderTraining /> : <Login />}
               />
 
               <Route path="/view_pdf/:docnum/:docdate" element={<ViewPdf />} />

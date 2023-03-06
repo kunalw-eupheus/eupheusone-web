@@ -37,6 +37,29 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Snackbars from "../Components/Material/SnackBar";
 
+
+// const Supplier = () => {
+//   return (
+//     <>
+//     <li className="flex gap-4 items-center">
+//           <span className="mt-4 text-gray-100">{i + 1}.</span>
+//           <BasicTextFields
+//             lable={"Name"}
+//             handleOrderProcessingForm={handleOrderProcessingForm}
+//             variant={"standard"}
+//             multiline={false}
+//           />
+//           <BasicTextFields
+//             lable={"Annual Business"}
+//             handleOrderProcessingForm={handleOrderProcessingForm}
+//             variant={"standard"}
+//             multiline={false}
+//           />
+//         </li>
+//     </>
+//   )
+// }
+
 const AOF = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const navigate = useNavigate();
@@ -99,6 +122,7 @@ const AOF = () => {
   const [cashOption, setCashOption] = useState("")
 
   const [publisherForm,setPublisherForm] = useState([])
+  const [publisherLength, setPublisherLength] = useState("")
 
   const sidebarRef = useRef();
   const snackbarRef = useRef();
@@ -199,7 +223,7 @@ const AOF = () => {
   };
 
   const handleDataSubmit = async () => {
-    console.log("first")
+    // console.log("first")
     postFormData()
   }
 
@@ -342,6 +366,20 @@ const AOF = () => {
     }
   };
 
+  // const handleForm = () => {
+  //   let content = [];
+  //   for (let i = 0; i < suppliers; i++) {
+  //     content.push(
+  //       <Supplier/>
+  //     );
+  //   }
+  //   return content;
+  // };
+
+  const handleTest = (value,index) => {
+    console.log(value, index)
+  }
+
   const handleForm = () => {
     let content = [];
     for (let i = 0; i < suppliers; i++) {
@@ -349,10 +387,11 @@ const AOF = () => {
         <li className="flex gap-4 items-center">
           <span className="mt-4 text-gray-100">{i + 1}.</span>
           <BasicTextFields
-            lable={"Name"}
+            lable={`Name`}
             handleOrderProcessingForm={handleOrderProcessingForm}
             variant={"standard"}
             multiline={false}
+            // Name={"Name"}
           />
           <BasicTextFields
             lable={"Annual Business"}
@@ -363,6 +402,7 @@ const AOF = () => {
         </li>
       );
     }
+    // test(content.length)
     return content;
   };
 
@@ -412,7 +452,7 @@ const AOF = () => {
   };
 
   const handleOrderProcessingForm = (value, type) => {
-    console.log(value, type, publisherForm);
+    console.log(value, type);
     switch (type) {
       // case "Name":
 

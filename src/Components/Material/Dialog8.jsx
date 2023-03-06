@@ -23,8 +23,8 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-const DialogSlide7 = React.forwardRef((props, ref) => {
-  const [open, setOpen] = useState(false);
+const DialogSlide8 = React.forwardRef((props, ref) => {
+  const [open, setOpen] = React.useState(false);
   const [series, setSeries] = useState([]);
   const [grade, setGrade] = useState([]);
   const [mrp, setMrp] = useState("");
@@ -34,7 +34,6 @@ const DialogSlide7 = React.forwardRef((props, ref) => {
   const [schlName, setSchlName] = useState("");
   const [loading, setLoading] = useState(false);
   const [errMessage, setErrMessage] = useState("");
-  const [name, setName] = useState("")
 
   const formik = useFormik({
     initialValues: {
@@ -195,7 +194,7 @@ const DialogSlide7 = React.forwardRef((props, ref) => {
     console.log("Schoolid= ", formik.values.schoolID);
 
     const res = await instance({
-      url: `ckInvoice/upadateckinvoices/${props.invoiceId}/${formik.values.schoolID}`,
+      url: `ckOrders/upadateckorders/${props.invoiceId}/${formik.values.schoolID}`,
       method: "PUT",
       headers: {
         Authorization: `${Cookies.get("accessToken")}`,
@@ -210,30 +209,6 @@ const DialogSlide7 = React.forwardRef((props, ref) => {
       setOpen(false);
       setSchlName("");
     }
-  };
-
-  const createData = async () => {
-    let invArr = props.invoiceArr
-    let postData = {
-      name: name,
-      invoice: invArr,
-    };
-    // console.log(postData)
-    // setLoading(true)
-    const res = await instance({
-      url: `eup_invoice/get/invoices/gatepass/create`,
-      method: "post",
-      data: postData,
-      headers: {
-        Authorization: Cookies.get("accessToken"),
-      },
-    });
-    //   setLoading(false);
-    console.log(res);
-    let url = res.data.message
-    window.open(url) || window.location.assign(url)
-
-    setOpen(false);
   };
 
   return (
@@ -260,12 +235,12 @@ const DialogSlide7 = React.forwardRef((props, ref) => {
         fullWidth
       >
         <DialogTitle className="!bg-gray-500 text-white">
-          Enter Remark
+          Enter School Code
         </DialogTitle>
         <DialogContent className="!bg-gray-500 flex justify-center items-center">
           <DialogContentText
             id="alert-dialog-slide-description"
-            className="!text-gray-600 !sm:text-base !text-sm grid sm:gap-8 gap-6"
+            className="!text-gray-600 !sm:text-base !text-sm grid sm:grid-cols-2 grid-cols-1 sm:gap-8 gap-6"
           >
             {/* <SearchDropDown
               label={"Select Series"}
@@ -284,26 +259,29 @@ const DialogSlide7 = React.forwardRef((props, ref) => {
             /> */}
             <TextField
               required
-              label="Enter Remark"
+              label="School Code"
               variant="standard"
               type={"text"}
               disabled={false}
               // defaultValue="0"
               InputLabelProps={{ style: { color: "white" } }}
-              onChange={(e) => setName(e.target.value)}
+              onBlur={(newValue) => getSchoolName(newValue.target.value)}
             />
 
             <TextField
-              className="!w-[500px]"
-            //   required
-              label="Selected Invoice"
+              className="!w-[300px]"
+              required
+              label="School Name"
               variant="standard"
               type={"text"}
               disabled={false}
-              defaultValue={props.invoiceArr.toString()}
-              value={props.invoiceArr.toString()}
+              defaultValue={schlName}
+              value={schlName}
               InputLabelProps={{ style: { color: "white" } }}
               inputProps={{ readOnly: true }}
+              //   onBlur={() =>
+              //     handleProjectionForm("newValue", "School Name")
+              //   }
             />
           </DialogContentText>
         </DialogContent>
@@ -312,14 +290,14 @@ const DialogSlide7 = React.forwardRef((props, ref) => {
           {/* <Button onClick={handleClose}>Cancle</Button> */}
           <div
             onClick={() => {
-            //   console.log(schlName.length);
-              if (name.length === 0) {
-                // console.log("error");
+              console.log(schlName.length);
+              if (schlName.length === 0) {
+                console.log("error");
                 setSnackbarErrStatus(true);
                 setErrMessage("Please Enter All the Fields");
                 snackbarRef.current.openSnackbar();
               } else {
-                createData();
+                handleUpadateInvoice();
               }
             }}
           >
@@ -331,4 +309,4 @@ const DialogSlide7 = React.forwardRef((props, ref) => {
   );
 });
 
-export default DialogSlide7;
+export default DialogSlide8;

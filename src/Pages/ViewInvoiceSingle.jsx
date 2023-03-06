@@ -258,7 +258,7 @@ const ViewInvoiceSingle = () => {
     // if (type === "Classklap") {
     //   console.log(stateId)
     const res = await instance({
-      url: `eup_invoice/get/allbps/${bpCode}`,
+      url: `doc_print/invoive/list/${bpCode}`,
       method: "GET",
       headers: {
         Authorization: `${Cookies.get("accessToken")}`,

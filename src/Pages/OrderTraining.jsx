@@ -1,14 +1,13 @@
 import React, { useEffect, useRef } from "react";
 import { useState } from "react";
 import Navbar from "../Components/Navbar";
-import Sidebar from "../Components/Sidebar3";
+import Sidebar from "../Components/Sidebar";
 // import { Add } from '@mui/icons-material'
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 // import DataTable from "../Components/DataTable";
 // import { rows, ManageSchoolRows } from '../DummyData'
-import DataTable from "../Components/DataTable";
-// import SearchDropDown from "../Components/SearchDropDown";
-import SwipeableTemporaryDrawer from "../Components/Material/MaterialSidebar3";
+import SearchDropDown from "../Components/SearchDropDown";
+import SwipeableTemporaryDrawer from "../Components/Material/MaterialSidebar";
 import instance from "../Instance";
 import { useLayoutEffect } from "react";
 import Cookies from "js-cookie";
@@ -27,8 +26,8 @@ import { useFormik } from "formik";
 import { useNavigate } from "react-router-dom";
 // import { DataGrid } from "@mui/x-data-grid";
 // import Button from "@mui/material/Button";
-import DialogSlide from "../Components/Material/Dialog7";
-import DialogSlide2 from "../Components/Material/Dialog3";
+import DialogSlide from "../Components/Material/Dialog8";
+import DialogSlide2 from "../Components/Material/Dialog9";
 // import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 // import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import IconButton from "@mui/material/IconButton";
@@ -36,9 +35,9 @@ import SearchIcon from "@mui/icons-material/Search";
 import TextField from "@mui/material/TextField";
 import TablePagination from "@mui/material/TablePagination";
 
-const GatePassDashboard = () => {
+const OrderTraining = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
-  const [highLight, setHighLight] = useState("gpdashboard");
+  const [highLight, setHighLight] = useState("order");
   const [loading, setLoading] = useState(false);
   const [stateAndCity, setStateAndCity] = useState({ state: "", city: "" });
   const sidebarRef = useRef();
@@ -49,7 +48,7 @@ const GatePassDashboard = () => {
   const [snackbarErrStatus, setSnackbarErrStatus] = useState(false);
   const [snackbarMsg, setSnackbarMsg] = useState("");
   const [rowdata, setRowdata] = useState([]);
-  const [invoices, setInvoices] = useState([]);
+  const [grade, setGrade] = useState([]);
   const [quantity, setQuantity] = useState(0);
   const [open, setOpen] = useState(false);
   const [open2, setOpen2] = useState(false);
@@ -58,43 +57,15 @@ const GatePassDashboard = () => {
   const [invoiceId2, setInvoiceId2] = useState("");
   const [searchVal, setSearchVal] = useState("");
   const [searchRow, setSearchRow] = useState([]);
-  const [checkedItems, setCheckedItems] = useState({});
 
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-
-  const [invNoArr, setInvNoArr] = useState([]);
-
-  const Tablecolumns = [
-    { field: "inv_no", headerName: "Invoice No", width: 150 },
-    {
-      field: "cardname",
-      headerName: "Card Name",
-      width: 250,
-    },
-    {
-      field: "docdate",
-      headerName: "Doc Date",
-      width: 100,
-    },
-    {
-      field: "boxes",
-      headerName: "Boxes",
-      width: 80,
-    },
-    {
-      field: "eup_invoice_addresses",
-      headerName: "Shipping Address",
-      width: 200,
-    },
-  ];
 
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rowdata.length) : 0;
 
   const handleChangePage = (event, newPage) => {
-    console.log(newPage);
     setPage(newPage);
   };
 
@@ -104,8 +75,8 @@ const GatePassDashboard = () => {
   };
 
   const navInfo = {
-    title: "Gatepass",
-    details: ["Gatepass", " / Create Gatepass"],
+    title: "Invoice",
+    details: ["Home", " / Invoice"],
   };
 
   const handleSidebarCollapsed = () => {
@@ -209,19 +180,16 @@ const GatePassDashboard = () => {
   const getInvoiceData = async () => {
     // setLoading(true);
     const res = await instance({
-      url: `eup_invoice/get/invoices/gatepass`,
+      // url: `ckInvoice/getckinvoices`,
+      url: `ckOrders/getckorders`,
       method: "GET",
       headers: {
         Authorization: `${Cookies.get("accessToken")}`,
       },
     });
     if (res.data.message) {
-      let data = res.data.message
-      for(let obj of data){
-        obj.checked = false
-      }
-      // console.log(data);
-      setSchoolRow(data);
+      console.log(res.data.message);
+      setRowdata(res.data.message);
     }
   };
 
@@ -331,10 +299,69 @@ const GatePassDashboard = () => {
     };
     getStates();
 
-    // getSchoolData();
+    getSchoolData();
   }, []);
 
   const snackbarRef = useRef();
+
+  let tempData = [
+    {
+      id: 12,
+      CustomerName: "FirstName",
+      InvoiceDate: "12/03/2022",
+      InvoiceNo: "123",
+      TotalAmount: "350",
+    },
+    {
+      id: 23,
+      CustomerName: "SecondName",
+      InvoiceDate: "25/03/2022",
+      InvoiceNo: "234",
+      TotalAmount: "320",
+    },
+    {
+      id: 34,
+      CustomerName: "ThirdName",
+      InvoiceDate: "08/07/2022",
+      InvoiceNo: "345",
+      TotalAmount: "1250",
+    },
+    {
+      id: 45,
+      CustomerName: "FourthName",
+      InvoiceDate: "22/09/2022",
+      InvoiceNo: "456",
+      TotalAmount: "950",
+    },
+    {
+      id: 56,
+      CustomerName: "FifthName",
+      InvoiceDate: "21/11/2022",
+      InvoiceNo: "567",
+      TotalAmount: "800",
+    },
+    {
+      id: 67,
+      CustomerName: "SixthName",
+      InvoiceDate: "16/09/2022",
+      InvoiceNo: "678",
+      TotalAmount: "650",
+    },
+    {
+      id: 78,
+      CustomerName: "SeventhName",
+      InvoiceDate: "28/03/2022",
+      InvoiceNo: "789",
+      TotalAmount: "100",
+    },
+    {
+      id: 89,
+      CustomerName: "EighthName",
+      InvoiceDate: "19/08/2022",
+      InvoiceNo: "890",
+      TotalAmount: "300",
+    },
+  ];
 
   const handleQuantityChange = (seriesId, newValue) => {
     // console.log(seriesId, newValue);
@@ -523,18 +550,19 @@ const GatePassDashboard = () => {
   };
 
   const handleSchoolAdd = (invceId) => {
+    console.log(invceId)
     setInvoiceId(invceId);
     openDialogue();
   };
 
   const handleInvoiceView = (invceId) => {
-    setLoading(true);
+    setLoading(true)
     setInvoiceId2(invceId);
     setTimeout(() => {
       // console.log("Delayed for 1 second.");
       openDialogue2();
-      setLoading(false);
-    }, 1000);
+      setLoading(false)
+    }, 1000)
     // openDialogue2();
   };
 
@@ -554,184 +582,39 @@ const GatePassDashboard = () => {
     setSearchVal(val.trim());
   };
 
-
   const filterTable = () => {
     // console.log(searchVal);
-    // console.log(schoolRow)
-    setPage(0);
+    // console.log(rowdata)
+    setPage(0)
     let tempArr = [];
-    for (let ele of schoolRow) {
-      // console.log(ele.cardname)
-      let cardName = ele.cardname.toLowerCase();
-      let invNo = ele.inv_no.toLowerCase()
-      let date = ele.docdate.toLowerCase()
-      if (cardName.indexOf(searchVal.toLowerCase()) > -1 || invNo.indexOf(searchVal.toLowerCase()) > -1
-      || date.indexOf(searchVal.toLowerCase()) > -1) {
+    for (let ele of rowdata) {
+      console.log(ele)
+      let docuNumb = ele.docnum.toLowerCase();
+      let cardName = ele.cardname.toLowerCase()
+      if (docuNumb.indexOf(searchVal.toLowerCase()) > -1 || cardName.indexOf(searchVal.toLowerCase()) > -1) {
         tempArr.push(ele);
       }
     }
-    console.log("searchRow")
-    console.log(tempArr);
     setSearchRow([]);
-    
     if (tempArr.length === 0) {
-      console.log("first")
-      alert("No Data Found")
-      // console.log(searchRow)
-      // setSearchRow([
-      //   {
-      //     id: null,
-      //     ck_code: null,
-      //     school_name: null,
-      //     school_addresses: [
-      //       {
-      //         id: null,
-      //         fk_state: {
-      //           id: null,
-      //           state: null,
-      //         },
-      //         fk_city: {
-      //           id: null,
-      //           city: null,
-      //         },
-      //       },
-      //     ],
-      //   },
-      // ]);
-      // console.log("first")
-      // console.log(searchRow)
+      setSearchRow([
+        {
+          docnum: null,
+          docdate: null,
+          docdate: null,
+          doctotal: null,
+          id: null,
+        },
+      ]);
     } else {
-      console.log("second")
-      console.log(tempArr)
       setSearchRow(tempArr);
-      // console.log(searchRow)
     }
   };
-
-  // const filterTable = () => {
-  //   // console.log(searchVal);
-  //   // console.log(schoolRow)
-  //   setPage(0);
-  //   let tempArr = [];
-  //   for (let ele of schoolRow) {
-  //     // console.log(ele)
-  //     let cardName = ele.cardname.toLowerCase();
-  //     let invNo = ele.inv_no.toLowerCase();
-  //     let docDate = ele.docdate.toLowerCase();
-  //     let boxes = ele.boxes.toLowerCase();
-  //     let address = ele.eup_invoice_addresses[0].ShipToAddress1.toLowerCase();
-  //     // console.log(address)
-  //     if (
-  //       cardName.indexOf(searchVal.toLowerCase()) > -1 
-  //       // ||
-  //       // invNo.indexOf(searchVal.toLowerCase()) > -1 ||
-  //       // docDate.indexOf(searchVal.toLowerCase()) > -1 ||
-  //       // boxes.indexOf(searchVal.toLowerCase()) > -1 ||
-  //       // address.indexOf(searchVal.toLowerCase()) > -1
-  //     ) {
-  //       console.log(ele)
-  //       tempArr.push(ele);
-  //     }
-  //   }
-  //   // if (cardName.indexOf(searchVal.toLowerCase()) > -1 || invNo.indexOf(searchVal.toLowerCase()) > -1) {
-  //   //   tempArr.push(ele);
-  //   // }
-  //   console.log(tempArr);
-  //   setSearchRow([]);
-  //   if (tempArr.length === 0) {
-  //     alert("No Data Found");
-  //     // setSearchRow([
-  //     //   {
-  //     //     id: null,
-  //     //     ck_code: null,
-  //     //     school_name: null,
-  //     //     school_addresses: [
-  //     //       {
-  //     //         id: null,
-  //     //         fk_state: {
-  //     //           id: null,
-  //     //           state: null,
-  //     //         },
-  //     //         fk_city: {
-  //     //           id: null,
-  //     //           city: null,
-  //     //         },
-  //     //       },
-  //     //     ],
-  //     //   },
-  //     // ]);
-  //     // console.log("first")
-  //     // console.log(searchRow)
-  //   } else {
-  //     // console.log("second")
-  //     setSearchRow(tempArr);
-  //     // console.log(searchRow)
-  //   }
-  // };
-
-  const handleCheckbox = (event, row) => {
-    console.log(event.target.checked, row)  
-  
-    let tempArr = [...schoolRow];
-    for(let obj of tempArr){
-      if(obj.id === row.id)
-      // console.log(obj, row.id)
-      obj.checked = !obj.checked
-      // console.log(obj)
-    }
-    setSchoolRow(tempArr)
-    // console.log(tempArr)
-    // let hasVal = invNoArr.includes(invId);
-    // if (hasVal) {
-      // for (let ele of invNoArr) {
-      //   if (ele !== invId) {
-      //     tempArr.push(ele);
-      //   }
-      // }
-    // } else {
-    //   tempArr = [...invNoArr, invId];
-    // }
-    // console.log(tempArr);
-    // setInvNoArr(tempArr);
-  };
-
-  const createData = async () => {
-    console.log(invNoArr);
-    let postData = {
-      name: "test1",
-      invoice: invNoArr,
-    };
-    // console.log(postData)
-    // setLoading(true);
-    const res = await instance({
-      url: `eup_invoice/get/invoices/gatepass/create`,
-      method: "post",
-      data: postData,
-      headers: {
-        Authorization: Cookies.get("accessToken"),
-      },
-    });
-    //   setLoading(false);
-    console.log(res.data);
-  };
-
-  const handleName = async () => {
-    let checkArr = []
-    for(let obj of schoolRow){
-      if(obj.checked){
-        console.log(obj)
-        checkArr.push(obj.inv_no)
-      }
-    }
-    // console.log(checkArr)
-    setInvNoArr(checkArr);
-    openDialogue()
-  }
 
   return (
     <div>
-      <DialogSlide ref={dialogRef} invoiceArr={invNoArr} />
-      {/* <DialogSlide2 ref={dialogRef2} invoiceId={invoiceId2} /> */}
+      <DialogSlide ref={dialogRef} invoiceId={invoiceId} />
+      <DialogSlide2 ref={dialogRef2} invoiceId={invoiceId2} />
 
       <Snackbars
         ref={snackbarRef}
@@ -767,14 +650,6 @@ const GatePassDashboard = () => {
           />
           <div className="min-h-[100vh] pt-[0vh] max-h-full bg-[#141728]">
             <div className=" sm:px-8 px-2 py-3 bg-[#141728] mt-4">
-              {/* 
-            <DataTable
-              rows={invoices}
-              checkbox={false}
-              Tablecolumns={Tablecolumns}
-              tableName="GatepassInvoice"
-            /> */}
-
               {/* <div
                 style={{ height: 450, width: "100%" }}
                 className="bg-slate-200 rounded-md px-10 pt-16"
@@ -791,8 +666,10 @@ const GatePassDashboard = () => {
               </div> */}
               <Paper>
                 <TableContainer component={Paper}>
-                  <Toolbar className="bg-slate-400">
-                    <TextField
+               
+                <Toolbar className="bg-slate-400">
+
+                   <TextField
                       id="search-bar"
                       className="text"
                       onInput={(e) => {
@@ -804,26 +681,25 @@ const GatePassDashboard = () => {
                       size="small"
                     />
                     <div className="bg-slate-300">
-                      <IconButton
-                        type="submit"
-                        aria-label="search"
-                        onClick={filterTable}
-                      >
-                        <SearchIcon style={{ fill: "blue" }} />
-                      </IconButton>
+                    <IconButton
+                      type="submit"
+                      aria-label="search"
+                      onClick={filterTable}
+                    >
+                      <SearchIcon style={{ fill: "blue" }} />
+                    </IconButton>
                     </div>
+  
 
-                    <TablePagination
+                  <TablePagination 
                       rowsPerPageOptions={[
-                        10, 50, 100,
-                        // { label: "All", value: -1 },
+                        10,
+                        50,
+                        100,
+                        { label: "All", value: -1 },
                       ]}
                       colSpan={3}
-                      count={
-                        searchRow.length === 0
-                          ? schoolRow.length
-                          : searchRow.length
-                      }
+                      count={searchRow.length=== 0 ? rowdata.length : searchRow.length}
                       rowsPerPage={rowsPerPage}
                       page={page}
                       slotProps={{
@@ -838,127 +714,177 @@ const GatePassDashboard = () => {
                       onPageChange={handleChangePage}
                       onRowsPerPageChange={handleChangeRowsPerPage}
                     />
-                    <div className="justify-end ml-9" onClick={handleName}>
-                      <BasicButton text={"Create"} />
-                    </div>
                   </Toolbar>
-
+           
+                  
                   <Table sx={{ minWidth: 650 }} aria-label="customized table">
                     <TableHead className="bg-slate-500">
                       <TableRow>
-                        <TableCell className="!w-[4rem]" align="center">
-                          Select
+                        {/* <TableCell className="!w-[5rem]" align="center">
+                        Sl No
+                      </TableCell> */}
+                        <TableCell className="!w-[8rem]" align="center">
+                          Sl No
                         </TableCell>
                         <TableCell className="!w-[8rem]" align="center">
-                          Invoice No
-                        </TableCell>
-                        <TableCell className="!w-[5rem]" align="center">
                           Doc Date
                         </TableCell>
                         <TableCell className="!w-[13rem]" align="center">
                           Customer Name
                         </TableCell>
-                        <TableCell className="!w-[5rem]" align="center">
-                          Boxes
+                        <TableCell className="!w-[8rem]" align="center">
+                          Doc Total
                         </TableCell>
-                        <TableCell className="!w-[15rem]" align="center">
-                          School Address
+                        <TableCell className="!w-[10rem]" align="center">
+                          School Name
+                        </TableCell>
+                        <TableCell className="!w-[8rem]" align="left">
+                          Details
                         </TableCell>
                       </TableRow>
                     </TableHead>
                     <TableBody className="bg-slate-200">
                       {searchRow.length === 0
                         ? (rowsPerPage > 0
-                            ? schoolRow.slice(
+                            ? rowdata.slice(
                                 page * rowsPerPage,
                                 page * rowsPerPage + rowsPerPage
                               )
-                            : schoolRow
+                            : rowdata
                           ).map((row) => (
                             <TableRow
-                              key={row.id}
+                              key={row.series}
                               sx={{
                                 "&:last-child td, &:last-child th": {
                                   border: 0,
                                 },
                               }}
                             >
-                              <TableCell align="center">
-                                <input
-                                type="checkbox"
-                                name={row}
-                                checked={row.checked}
-                                onChange={(e) => handleCheckbox(e, row)}
-                                />
-                              </TableCell>
-                              <TableCell align="center">{row.inv_no}</TableCell>
+                              {/* <TableCell align="center" component="th" scope="row">
+                          {row.id}
+                        </TableCell> */}
+                              <TableCell align="center">{row.inv_no=="N/A" || !row.inv_no || row.inv_no.length==0 ? row.docnum : row.inv_no}</TableCell>
                               <TableCell align="center">
                                 {row.docdate}
                               </TableCell>
                               <TableCell align="center">
                                 {row.cardname}
                               </TableCell>
-                              <TableCell align="center">{row.boxes}</TableCell>
                               <TableCell align="center">
-                                {row.eup_invoice_addresses[0].ShipToAddress1}
+                                {row.doctotal}
+                              </TableCell>
+
+                              <TableCell align="center">
+                                {/* <DialogSlide ref={dialogRef} invoiceId={row.id}/> */}
+
+                                <div
+                                  className="sm:w-auto w-[50vw]"
+                                  onClick={() => {
+                                    handleSchoolAdd(row.id);
+                                  }}
+                                >
+                                  <BasicButton text={"Add School"} />
+                                </div>
+                              </TableCell>
+
+                              {/* <TableCell align="center">
+                          <SearchDropDown
+                            label={"Select Grade"}
+                            seriesId={row.id}
+                            handleOrderProcessingForm={handleProjectionForm}
+                            data={grade}
+                            multiple={true}
+                            Name={"grades"}
+                          />
+                        </TableCell> */}
+                              <TableCell align="center">
+                                {/* <DialogSlide2 ref={dialogRef2}/> */}
+                                <div
+                                  className="sm:w-auto w-[50vw]"
+                                  onClick={() => {
+                                    handleInvoiceView(row.id);
+                                  }}
+                                >
+                                  <BasicButton text={"View"} />
+                                </div>
                               </TableCell>
                             </TableRow>
                           ))
-                        : (rowsPerPage > 0
+                        : 
+                        (rowsPerPage > 0
                             ? searchRow.slice(
                                 page * rowsPerPage,
                                 page * rowsPerPage + rowsPerPage
                               )
                             : searchRow
-                          ).map((row) => (
+                          )
+                        .map((row) => (
                             <TableRow
-                              key={row.school_name}
+                              key={row.series}
                               sx={{
                                 "&:last-child td, &:last-child th": {
                                   border: 0,
                                 },
                               }}
                             >
-                              <TableCell align="center">
-                                <input
-                                  type="checkbox"
-                                  name={row}
-                                  checked={row.checked}
-                                  onChange={(e) => handleCheckbox(e, row)}
-                                />
-                              </TableCell>
-                              <TableCell align="center">{row.inv_no}</TableCell>
+                              {/* <TableCell align="center" component="th" scope="row">
+                          {row.id}
+                        </TableCell> */}
+                              <TableCell align="center">{row.docnum}</TableCell>
                               <TableCell align="center">
                                 {row.docdate}
                               </TableCell>
                               <TableCell align="center">
                                 {row.cardname}
                               </TableCell>
-                              <TableCell align="center">{row.boxes}</TableCell>
                               <TableCell align="center">
-                                {row.eup_invoice_addresses.length>0? 
-                                row.eup_invoice_addresses[0].ShipToAddress1:
-                                ""}
+                                {row.doctotal}
+                              </TableCell>
+
+                              <TableCell align="center">
+                                {/* <DialogSlide ref={dialogRef} invoiceId={row.id}/> */}
+                                {row.id ? (
+                                  <div
+                                    className="sm:w-auto w-[50vw]"
+                                    onClick={() => {
+                                      handleSchoolAdd(row.id);
+                                    }}
+                                  >
+                                    <BasicButton text={"Add School"} />
+                                  </div>
+                                ) : (
+                                  ""
+                                )}
+                              </TableCell>
+
+                              {/* <TableCell align="center">
+                          <SearchDropDown
+                            label={"Select Grade"}
+                            seriesId={row.id}
+                            handleOrderProcessingForm={handleProjectionForm}
+                            data={grade}
+                            multiple={true}
+                            Name={"grades"}
+                          />
+                        </TableCell> */}
+                              <TableCell align="center">
+                                {/* <DialogSlide2 ref={dialogRef2}/> */}
+                                {row.id ? (
+                                  <div
+                                    className="sm:w-auto w-[50vw]"
+                                    onClick={() => {
+                                      handleInvoiceView(row.id);
+                                    }}
+                                  >
+                                    <BasicButton text={"View"} />
+                                  </div>
+                                ) : (
+                                  ""
+                                )}
                               </TableCell>
                             </TableRow>
                           ))}
-                      {/* {invoices.map((row) => {
-                        <TableRow
-                          key={row.id}
-                          sx={{
-                            "&:last-child td, &:last-child th": {
-                              border: 0,
-                            },
-                          }}
-                        >
-                          <TableCell align="center">{"row.cardname"}</TableCell>
-                          <TableCell align="center">{"row.docdate"}</TableCell>
-                          <TableCell align="center">{"row.cardname"}</TableCell>
-                          <TableCell align="center">{"row.doctotal"}</TableCell>
-
-                          <TableCell align="center">{"sdsdsd"}</TableCell>
-                        </TableRow>;
-                      })} */}
+                      <TableRow></TableRow>
                     </TableBody>
                   </Table>
                 </TableContainer>
@@ -971,4 +897,4 @@ const GatePassDashboard = () => {
   );
 };
 
-export default GatePassDashboard;
+export default OrderTraining;
