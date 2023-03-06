@@ -575,7 +575,7 @@ const GatePassDashboard = () => {
     setSearchRow([]);
     
     if (tempArr.length === 0) {
-      console.log("first")
+      // console.log("first")
       alert("No Data Found")
       // console.log(searchRow)
       // setSearchRow([
@@ -601,8 +601,8 @@ const GatePassDashboard = () => {
       // console.log("first")
       // console.log(searchRow)
     } else {
-      console.log("second")
-      console.log(tempArr)
+      // console.log("second")
+      // console.log(tempArr)
       setSearchRow(tempArr);
       // console.log(searchRow)
     }

@@ -10,6 +10,7 @@ const GatePass = () => {
 
   const [invData, setInvData] = useState([])
   const [gatePassNo, setGatePassNo] = useState("")
+  const [gatePassDate, setGatePassDate] = useState("")
 
   useEffect(() => { 
     getPDFData()
@@ -32,9 +33,10 @@ const GatePass = () => {
       obj.slNo = sl
       sl++
     }
-    // console.log(apiData)
+    // console.log(res.data.message)
     setInvData(apiData)
     setGatePassNo(res.data.message.gatecode)
+    setGatePassDate(res.data.message.date)
   }
 
   return (
@@ -79,7 +81,7 @@ const GatePass = () => {
         }}
       >
         Khasra No. 75, Village Malakpur, Ecotech-2, Opp. NTPC Ltd.(Netra)
-        Greater Noida, Gautam Budh Nagar, Uttar Pradesh, Pin -201306
+        Greater Noida, Gautam Budh Nagar,
       </p>
 
       <p
@@ -100,16 +102,24 @@ const GatePass = () => {
       <p style={{ textIndent: "0pt", textAlign: "left" }}></p>
       <h1
         style={{
-          paddingTop: "0",
-          paddingBottom: "1pt",
           paddingLeft: "11pt",
           textIndent: "0pt",
           textAlign: "left",
           fontSize: "9pt",
         }}
       >
+        <div>
         Gate Pass No : {gatePassNo}
+        </div>
+        
       </h1>
+      <h1 style={{
+          paddingLeft: "450pt",
+          fontSize: "9pt",
+        }}>
+          Date: {gatePassDate}
+        </h1>
+  
       <table
         style={{ borderCollapse: "collapse", marginLeft: "6.75pt" }}
         cellSpacing={0}
