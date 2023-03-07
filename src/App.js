@@ -328,7 +328,7 @@ function App() {
               />
 
               <Route
-                path="/gate_pass_pdf"
+                path="/gate_pass_pdf/:id"
                 element={isAuth || MsAuth ? <GatePass /> : <Login />}
               />
 

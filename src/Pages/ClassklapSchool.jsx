@@ -313,13 +313,13 @@ const ClassklapSchool = () => {
   };
 
   const filterTable = () => {
-    // console.log(searchVal);
-    // console.log(schoolRow)
+    console.log(searchVal);
+    console.log(schoolRow)
     setPage(0)
     let tempArr = [];
     for (let ele of schoolRow) {
       // console.log(ele.cardname)
-      let schoolName = ele.school_name.toLowerCase();
+      let schoolName = ele.name.toLowerCase();
       if (schoolName.indexOf(searchVal.toLowerCase()) > -1) {
         tempArr.push(ele);
       }
@@ -327,27 +327,29 @@ const ClassklapSchool = () => {
     console.log(tempArr);
     setSearchRow([]);
     if (tempArr.length === 0) {
+      alert("No Data Found")
       // console.log(searchRow)
-      setSearchRow([
-        {
-          id: null,
-          ck_code: null,
-          school_name: null,
-          school_addresses: [
-            {
-              id: null,
-              fk_state: {
-                id: null,
-                state: null,
-              },
-              fk_city: {
-                id: null,
-                city: null,
-              },
-            },
-          ],
-        },
-      ]);
+      // setSearchRow([
+      //   {
+      //     id: null,
+      //     ck_code: null,
+      //     school_name: null,
+      //     school_addresses: [
+      //       {
+      //         id: null,
+      //         fk_state: {
+      //           id: null,
+      //           state: null,
+      //         },
+      //         fk_city: {
+      //           id: null,
+      //           city: null,
+      //         },
+      //       },
+      //     ],
+      //   },
+      // ]);
+
       // console.log("first")
       // console.log(searchRow)
     } else {
@@ -546,7 +548,14 @@ const ClassklapSchool = () => {
                               </TableCell>
 
                               <TableCell align="center">
-                                code
+                              <div
+                                  className="sm:w-auto w-[50vw]"
+                                  onClick={() => {
+                                    handleInvoiceView(row.code);
+                                  }}
+                                >
+                                  <BasicButton text={"View"} />
+                                </div>
                               </TableCell>
                              
                             </TableRow>

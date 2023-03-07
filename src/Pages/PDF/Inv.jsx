@@ -2976,7 +2976,7 @@ const Inv = () => {
                   fontSize: "8pt",
                 }}
               >
-                Freight :- {`${curr} `} {parseFloat(freightCharge).toFixed(2)}
+                Freight :- {`${curr} `} {parseFloat(freightCharge ? freightCharge : 0).toFixed(2)}
               </p>
             </td>
             <td
