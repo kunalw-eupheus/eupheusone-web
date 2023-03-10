@@ -9,6 +9,7 @@ import BasicButton from "../Components/Material/Button";
 import CustomizedSteppers from "../Components/Material/Stepper";
 import SearchDropDown from "../Components/SearchDropDown";
 import BasicTextFields from "../Components/Material/TextField";
+// import TextField from '@mui/material/TextField';
 import DatePicker from "../Components/Material/Date";
 import IconButton from "@mui/material/IconButton";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
@@ -36,7 +37,6 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Snackbars from "../Components/Material/SnackBar";
-
 
 // const Supplier = () => {
 //   return (
@@ -84,12 +84,12 @@ const AOF = () => {
   const [publisherData, setPublisherData] = useState([]);
   const [publisherData2, setPublisherData2] = useState([]);
   const [seriesData, setSeriesData] = useState([]);
-  const [allSchool, setAllSchool] = useState([])
+  const [allSchool, setAllSchool] = useState([]);
   const [state, setState] = useState([]);
   const [city, setCity] = useState([]);
   const [date, setDate] = useState("");
   const [nameOfSchool, setNameOfSchool] = useState("");
-  const [idOfSchool ,setIdOfSchool] = useState("")
+  const [idOfSchool, setIdOfSchool] = useState("");
 
   const [pinCode, setPinCode] = useState(null);
   const [stateSelect, setStateSelect] = useState("");
@@ -116,19 +116,33 @@ const AOF = () => {
   const [accNoP, setAccNoP] = useState("");
   const [ifscP, setIfscP] = useState("");
   const [aofAcc, setAofAcc] = useState("");
-  const [todOption ,setTodOption] = useState("")
-  const [todCondition ,setTodCondition] = useState("")
-  const [todPercent, setTodPercent] = useState("")
-  const [cashOption, setCashOption] = useState("")
+  const [todOption, setTodOption] = useState("");
+  const [todCondition, setTodCondition] = useState("");
+  const [todPercent, setTodPercent] = useState("");
+  const [cashOption, setCashOption] = useState("");
 
-  const [publisherForm,setPublisherForm] = useState([])
-  const [publisherLength, setPublisherLength] = useState("")
+  const [publisherForm, setPublisherForm] = useState([]);
+  const [publisherArr, setPublisherArr] = useState([]);
+  const [chequeForm, setChequeForm] = useState([]);
+  const [chequeArr, setChequeArr] = useState([]);
+  const [publisherLength, setPublisherLength] = useState("");
 
   const sidebarRef = useRef();
   const snackbarRef = useRef();
 
-
   const postFormData = async () => {
+    let pubArr = [...publisherForm];
+    for (let obj of pubArr) {
+      delete obj.idx;
+    }
+    // console.log(pubArr)
+
+    let chekArr = [...chequeForm];
+    for (let obj of chekArr) {
+      delete obj.idx;
+    }
+    // console.log(chekArr)
+
     let postData = {
       name: nameOfSchool,
       fk_school_id: idOfSchool,
@@ -151,6 +165,7 @@ const AOF = () => {
       t_phone: phoneP,
       t_mobile: mobileP,
       t_email: emailP,
+      cp: pubArr,
       // cp: [
       //   { cp_name: "dsff", cp_business: "dsfds" },
       //   { cp_name: "dsff", cp_business: "dsfds" },
@@ -160,6 +175,7 @@ const AOF = () => {
       ab_account_no: accNoP,
       ab_acc_type: aofAcc,
       ab_ifsc: ifscP,
+      cheque: chekArr,
       // cheque: [
       //   {
       //     abc_cheque_no: "fdsfds",
@@ -209,23 +225,22 @@ const AOF = () => {
         },
       ],
     };
-    // console.log(id);
-    const res = await instance({
-      url: `sales_data/aof/create`,
-      method: "POST",
-      data : postData,
-      headers: {
-        Authorization: Cookies.get("accessToken"),
-      },
-    });
-    console.log(res);
+    console.log(postData);
+    // const res = await instance({
+    //   url: `sales_data/aof/create`,
+    //   method: "POST",
+    //   data: postData,
+    //   headers: {
+    //     Authorization: Cookies.get("accessToken"),
+    //   },
+    // });
+    // console.log(res);
     // setCity(city.data.message);
   };
 
   const handleDataSubmit = async () => {
-    // console.log("first")
-    postFormData()
-  }
+    postFormData();
+  };
 
   const getSchools = async () => {
     const state = await instance({
@@ -265,16 +280,16 @@ const AOF = () => {
   };
 
   const handleRadioButtons = (type, value) => {
-    // console.log(type, value);
+    console.log(type, value);
     switch (type) {
       case "tod applicable":
         if (value === "yes") {
           // console.log("tod applicable selected Yes");
-          setTodCondition("Yes")
+          setTodCondition("Yes");
           setStep4({ ...step4, tod: { applicable: true, type: false } });
         } else {
           // console.log("tod applicable selected No");
-          setTodCondition("No")
+          setTodCondition("No");
           setStep4({ ...step4, tod: { applicable: false, type: false } });
         }
         break;
@@ -286,7 +301,6 @@ const AOF = () => {
           console.log("Specific selected");
           setStep4({ ...step4, tod: { applicable: true, type: false } });
         }
-
         break;
       case "special applicable":
         if (value === "yes") {
@@ -297,40 +311,48 @@ const AOF = () => {
           setStep4({ ...step4, special: { applicable: false, type: "" } });
         }
         break;
+
       case "special type":
+        console.log(value);
         setStep4({ ...step4, special: { applicable: true, type: value } });
         break;
 
       case "tod":
         // console.log(value);
-        if(value === "yes") setTodOption("gross")
-        else setTodOption("net")
+        if (value === "yes") setTodOption("gross");
+        else setTodOption("net");
         // setStep4({ ...step4, special: { applicable: true, type: value } });
         break;
 
-        case "cash":
-          // console.log(value);
-          setCashOption(value)
-          // setStep4({ ...step4, special: { applicable: true, type: value } });
-          break;
+      case "cash":
+        // console.log(value);
+        setCashOption(value);
+        // setStep4({ ...step4, special: { applicable: true, type: value } });
+        break;
+
+      case "tod_special":
+        console.log(value);
+        // setCashOption(value);
+        // setStep4({ ...step4, special: { applicable: true, type: value } });
+        break;
 
       case "publisher":
         // console.log(type, value);
-        let tempData = [...publisherData]
-        let tempArr = []
-        for(let obj of tempData){
+        let tempData = [...publisherData];
+        let tempArr = [];
+        for (let obj of tempData) {
           let tempObj = {
             type: "special",
             eligibile: "yes",
             dis_type: "specific",
             category: "items",
-          }
-          tempObj.fk_category_id = obj.id
-          tempObj.percentages_type = value
-          tempArr.push(tempObj)
+          };
+          tempObj.fk_category_id = obj.id;
+          tempObj.percentages_type = value;
+          tempArr.push(tempObj);
         }
-        console.log(tempArr)
-        setPublisherData2(tempArr)
+        console.log(tempArr);
+        setPublisherData2(tempArr);
         // setStep4({ ...step4, special: { applicable: true, type: value } });
         break;
 
@@ -376,33 +398,54 @@ const AOF = () => {
   //   return content;
   // };
 
-  const handleTest = (value,index) => {
-    console.log(value, index)
-  }
+  const handlePublisherForm = (field, value, index) => {
+    console.log(field, value, index);
+    let tempArr = [...publisherForm];
+    if (tempArr.length < index + 1) {
+      let obj = {};
+      obj.idx = index;
+      if (field === "Name") obj.cp_name = value;
+      if (field === "AnnualBusiness") obj.cp_business = value;
+      tempArr.push(obj);
+    } else {
+      for (let obj of tempArr) {
+        if (obj.idx === index) {
+          if (field === "Name") obj.cp_name = value;
+          if (field === "AnnualBusiness") obj.cp_business = value;
+        }
+      }
+    }
+    console.log(tempArr);
+    setPublisherForm(tempArr);
+  };
 
+  // var contents = []
   const handleForm = () => {
     let content = [];
     for (let i = 0; i < suppliers; i++) {
       content.push(
         <li className="flex gap-4 items-center">
           <span className="mt-4 text-gray-100">{i + 1}.</span>
-          <BasicTextFields
-            lable={`Name`}
-            handleOrderProcessingForm={handleOrderProcessingForm}
+          <TextField
+            label={`Name`}
+            // handleOrderProcessingForm={handleOrderProcessingForm}
+            onChange={(e) => handlePublisherForm("Name", e.target.value, i)}
             variant={"standard"}
             multiline={false}
             // Name={"Name"}
           />
-          <BasicTextFields
-            lable={"Annual Business"}
-            handleOrderProcessingForm={handleOrderProcessingForm}
+          <TextField
+            label={"Annual Business"}
+            // handleOrderProcessingForm={handleOrderProcessingForm}
+            onChange={(e) =>
+              handlePublisherForm("AnnualBusiness", e.target.value, i)
+            }
             variant={"standard"}
             multiline={false}
           />
         </li>
       );
     }
-    // test(content.length)
     return content;
   };
 
@@ -417,27 +460,63 @@ const AOF = () => {
     setTitle(titles.data.message);
   };
 
+  const handleChequesForm = (field, value, index) => {
+    // console.log(suppliers);
+    console.log(field, value, index);
+    let tempArr = [...chequeForm];
+    if (tempArr.length < index + 1) {
+      let obj = {};
+      obj.idx = index;
+      if (field === "ChequeNo") obj.abc_cheque_no = value;
+      if (field === "Bank") obj.abc_bank = value;
+      if (field === "Branch") obj.abc_branch_ifsc = value;
+      obj.abc_cheque_link = "dsfdsfd";
+      tempArr.push(obj);
+    } else {
+      for (let obj of tempArr) {
+        if (obj.idx === index) {
+          if (field === "ChequeNo") obj.abc_cheque_no = value;
+          if (field === "Bank") obj.abc_bank = value;
+          if (field === "Branch") obj.abc_branch_ifsc = value;
+        }
+      }
+    }
+    console.log(tempArr);
+    setChequeForm(tempArr);
+
+    // let chekArr = []
+    // for(let obj of tempArr){
+    //     delete obj.idx
+    //     chekArr.push(obj)
+    // }
+    // console.log(chekArr)
+    // setChequeArr(chekArr)
+  };
+
   const handleCheques = () => {
     let content = [];
     for (let i = 0; i < cheque; i++) {
       content.push(
         <li className="flex gap-4 items-center">
           <span className="mt-4 text-gray-100">{i + 1}.</span>
-          <BasicTextFields
-            lable={"Cheque No"}
-            handleOrderProcessingForm={handleOrderProcessingForm}
+          <TextField
+            label={"Cheque No"}
+            // handleOrderProcessingForm={handleOrderProcessingForm}
+            onChange={(e) => handleChequesForm("ChequeNo", e.target.value, i)}
             variant={"standard"}
             multiline={false}
           />
-          <BasicTextFields
-            lable={"Bank"}
-            handleOrderProcessingForm={handleOrderProcessingForm}
+          <TextField
+            label={"Bank"}
+            // handleOrderProcessingForm={handleOrderProcessingForm}
+            onChange={(e) => handleChequesForm("Bank", e.target.value, i)}
             variant={"standard"}
             multiline={false}
           />
-          <BasicTextFields
-            lable={"Branch/IFSC"}
-            handleOrderProcessingForm={handleOrderProcessingForm}
+          <TextField
+            label={"Branch/IFSC"}
+            // handleOrderProcessingForm={handleOrderProcessingForm}
+            onChange={(e) => handleChequesForm("Branch", e.target.value, i)}
             variant={"standard"}
             multiline={false}
           />
@@ -458,12 +537,16 @@ const AOF = () => {
 
       case "Enter Percentage (TOD)":
         // console.log(value)
-        setTodPercent(value)
+        setTodPercent(value);
+        break;
+      case "Enter Percentage (special)":
+        console.log(value);
+        // setTodPercent(value);
         break;
       case "select_schools":
         console.log(value);
         setNameOfSchool(value.school_name);
-        setIdOfSchool(value.id)
+        setIdOfSchool(value.id);
         break;
       case "Name Of Party/School *":
         // console.log(value);
@@ -495,47 +578,47 @@ const AOF = () => {
         break;
       case "Name of Proprietor/Partner/Director/Trustee *":
         console.log(value);
-        setProprietorName(value)
+        setProprietorName(value);
         break;
       case "PAN NO*":
         console.log(value);
-        setPanNoP(value)
+        setPanNoP(value);
         break;
       case "Address*":
         console.log(value);
-        setAddressP(value)
+        setAddressP(value);
         break;
       case "Pin Code*":
         console.log(value);
-        setPinCodeP(value)
+        setPinCodeP(value);
         break;
       case "Phone*":
         console.log(value);
-        setPhoneP(value)
+        setPhoneP(value);
         break;
       case "Mobile*":
         console.log(value);
-        setMobileP(value)
+        setMobileP(value);
         break;
       case "E-Mail*":
         console.log(value);
-        setEmailP(value)
+        setEmailP(value);
         break;
       case "Name and address of the party’s main bankers *":
         console.log(value);
-        setPartyBankerName(value)
+        setPartyBankerName(value);
         break;
       case "Account Number *":
         console.log(value);
-        setAccNoP(value)
+        setAccNoP(value);
         break;
       case "IFSC *":
         console.log(value);
-        setIfscP(value)
+        setIfscP(value);
         break;
       case "aof_acc":
         console.log(value);
-        setAofAcc(value.title)
+        setAofAcc(value.title);
         break;
       case "publisher":
         let tempArr = [...publisherData];
@@ -555,7 +638,7 @@ const AOF = () => {
       case "select_state_location":
         //   console.log(value , "hihihiihii");
         //   setStateId(value.id);
-        // console.log(value);
+        console.log(value);
         setStateSelect(value.id);
         getCity(value.id);
         // getCity(value.fk_state_id);
@@ -604,7 +687,7 @@ const AOF = () => {
 
   const handleStartDate = (newValue) => {
     // console.log(newValue);
-    let date = `${newValue.$y}-${newValue.$M+1}-${newValue.$D}`
+    let date = `${newValue.$y}-${newValue.$M + 1}-${newValue.$D}`;
     // console.log(date)
     setDate(date);
   };
@@ -646,7 +729,7 @@ const AOF = () => {
 
   useEffect(() => {
     getState();
-    getSchools()
+    getSchools();
     const handleWidth = () => {
       if (window.innerWidth > 1024) {
         setSidebarCollapsed(false);
@@ -868,29 +951,29 @@ const AOF = () => {
                     className="mt-3"
                     onClick={() => {
                       // if (
-                        // (nameOfSchool,
-                        // aofStatus,
-                        // schoolAddress,
-                        // stateSelect,
-                        // citySelect,
-                        // pinCode,
-                        // mobile,
-                        // phone,
-                        // schoolEmail,
-                        // firmRegNo,
-                        // panNo,
-                        // gstNo,
-                        // gstYear)
+                      // (nameOfSchool,
+                      // aofStatus,
+                      // schoolAddress,
+                      // stateSelect,
+                      // citySelect,
+                      // pinCode,
+                      // mobile,
+                      // phone,
+                      // schoolEmail,
+                      // firmRegNo,
+                      // panNo,
+                      // gstNo,
+                      // gstYear)
                       // ) {
-                        setSteps({ step1: false, step2: true, step3: false });
-                        window.scroll({
-                          top: 0,
-                          behavior: "smooth",
-                        });
+                      setSteps({ step1: false, step2: true, step3: false });
+                      window.scroll({
+                        top: 0,
+                        behavior: "smooth",
+                      });
                       // } else {
-                        // setSnackbarErrStatus(true);
-                        // setErrMessage("Please Fill All The Fields");
-                        // snackbarRef.current.openSnackbar();
+                      // setSnackbarErrStatus(true);
+                      // setErrMessage("Please Fill All The Fields");
+                      // snackbarRef.current.openSnackbar();
                       // }
                     }}
                   >
@@ -1201,7 +1284,7 @@ const AOF = () => {
                               />
                               <RowRadioButtonsGroup
                                 handleRadioButtons={handleRadioButtons}
-                                name={"tod"}
+                                name={"tod_special"}
                                 value={[
                                   {
                                     label: "Gross",
@@ -1435,21 +1518,20 @@ const AOF = () => {
                                 })}
                               </Table>
                             </Typography>
-                            <div className="w-full flex justify-center">
+                            {/* <div className="w-full flex justify-center">
                               <hr className="text-gray-100 w-[80%] my-4" />
-                            </div>
-                            <Typography className="flex flex-col gap-2">
-                              <h1 className="sm:text-base font-semibold text-sm text-gray-100">
+                            </div> */}
+                            {/* <Typography className="flex flex-col gap-2"> */}
+                              {/* <h1 className="sm:text-base font-semibold text-sm text-gray-100">
                                 Select Title:
-                              </h1>
-                              <SearchDropDown
+                              </h1> */}
+                              {/* <SearchDropDown
                                 Name={"title_aof"}
                                 disable={title.length > 0 ? false : true}
                                 data={title}
-                                // handleOrderProcessingForm={handleOrderProcessingForm}
                                 label={"Select Title"}
                                 color={"rgb(243, 244, 246)"}
-                              />
+                              /> */}
                               {/* <div className="flex justify-around items-center">
                                 <TextField
                                   InputLabelProps={{
@@ -1474,7 +1556,7 @@ const AOF = () => {
                                   ]}
                                 />
                               </div> */}
-                              <Table
+                              {/* <Table
                                 sx={{ minWidth: 650 }}
                                 aria-label="customized table"
                               >
@@ -1501,10 +1583,10 @@ const AOF = () => {
                                       align="center"
                                     ></TableCell>
                                   </TableRow>
-                                </TableHead>
+                                </TableHead> */}
                                 {/* {seriesData.map((row) => {
                                   return ( */}
-                                <TableBody className="bg-slate-400">
+                                {/* <TableBody className="bg-slate-400">
                                   <TableRow
                                     key={"row.series"}
                                     sx={{
@@ -1527,8 +1609,8 @@ const AOF = () => {
                                         id="outlined-basic"
                                         label="Enter Percentage"
                                         variant="standard"
-                                      />
-                                    </TableCell>
+                                      /> */}
+                                    {/* </TableCell>
                                     <TableCell align="center">
                                       <RowRadioButtonsGroup
                                         handleRadioButtons={handleRadioButtons}
@@ -1541,8 +1623,8 @@ const AOF = () => {
                                           { label: "Net", value: "no" },
                                         ]}
                                       />
-                                    </TableCell>
-                                    <TableCell align="center">
+                                    </TableCell> */}
+                                    {/* <TableCell align="center">
                                       <div>
                                         <IconButton
                                           type="submit"
@@ -1558,11 +1640,11 @@ const AOF = () => {
                                       </div>
                                     </TableCell>
                                   </TableRow>
-                                </TableBody>
+                                </TableBody> */}
                                 {/* );
                                 })} */}
-                              </Table>
-                            </Typography>
+                              {/* </Table> */}
+                            {/* </Typography> */}
                           </>
                         ) : null}
                       </AccordionDetails>
