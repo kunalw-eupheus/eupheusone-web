@@ -4,7 +4,7 @@ import eupheusLogo from "./eupheusLogo.png";
 
 const AofPdf2 = () => {
   return (
-    <div>
+    <div  className='bg-white w-[21cm]'>
       <div className="h-[30cm]">
         <div className="flex justify-center">
           <img width={170} src={eupheusLogo} />

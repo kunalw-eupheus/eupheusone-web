@@ -69,6 +69,8 @@ import GatePass from "./Pages/PDF/GatePass";
 import GatePassDashboard from "./Pages/GatePassDashboard";
 import GatePassInvoice from "./Pages/GatePassInvoice";
 import OrderTraining from "./Pages/OrderTraining";
+import AofPdf from "./Pages/PDF/AofPdf";
+import AofPdf2 from "./Pages/PDF/AofPdf2";
 function App() {
   const isAuth = useSelector((state) => state.auth.user);
   const MsAuth = useSelector((state) => state.auth.msAuth);
@@ -279,6 +281,8 @@ function App() {
               />
 
               <Route path="/view_pdf/:docnum/:docdate" element={<ViewPdf />} />
+
+              <Route path="/view_aof_pdf" element={<AofPdf2 />} />
 
               <Route
                 path="/bulkinv_pdf/:bp/:todate/:fromdate"
