@@ -283,7 +283,7 @@ function App() {
 
               <Route path="/view_pdf/:docnum/:docdate" element={<ViewPdf />} />
 
-              <Route path="/view_aof_pdf" element={<AofPdf2 />} />
+              <Route path="/view_aof_pdf/:aofid" element={<AofPdf2 />} />
 
               <Route
                 path="/bulkinv_pdf/:bp/:todate/:fromdate"

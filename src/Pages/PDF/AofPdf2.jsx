@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import eupheusLogo from "./eupheusLogo.png";
 import instance from "../../Instance";
 import Cookies from "js-cookie";
+import { useParams } from 'react-router-dom';
 
 const AofPdf2 = () => {
   const [date, setDate] = useState("");
@@ -40,6 +41,9 @@ const AofPdf2 = () => {
     getData();
   }, []);
 
+
+  const { aofid } = useParams();
+
   const monthMap = {
     "01": "January",
     "02": "February",
@@ -56,7 +60,8 @@ const AofPdf2 = () => {
   };
   const getData = async () => {
     const res = await instance({
-      url: `sales_data/aof/get/detail/a6663609-a912-4e0e-9a37-4935213a3d1a`,
+      // url: `sales_data/aof/get/detail/a6663609-a912-4e0e-9a37-4935213a3d1a`,
+      url: `sales_data/aof/get/detail/${aofid}`,
       method: "GET",
       headers: {
         Authorization: Cookies.get("accessToken"),
