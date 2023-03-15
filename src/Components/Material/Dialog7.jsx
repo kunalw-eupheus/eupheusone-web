@@ -18,6 +18,7 @@ import { TextField } from "@mui/material";
 import Snackbars from "./SnackBar";
 import { useRef } from "react";
 import { Backdrop, CircularProgress } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -35,6 +36,8 @@ const DialogSlide7 = React.forwardRef((props, ref) => {
   const [loading, setLoading] = useState(false);
   const [errMessage, setErrMessage] = useState("");
   const [name, setName] = useState("")
+
+  const navigate = useNavigate();
 
   const formik = useFormik({
     initialValues: {
@@ -234,6 +237,8 @@ const DialogSlide7 = React.forwardRef((props, ref) => {
     window.open(url) || window.location.assign(url)
 
     setOpen(false);
+    window.location.reload(false)
+    // navigate("/gatepass_dashboard");
   };
 
   return (

@@ -1,10 +1,129 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import eupheusLogo from "./eupheusLogo.png";
+import instance from "../../Instance";
+import Cookies from "js-cookie";
 
 const AofPdf2 = () => {
+  const [date, setDate] = useState("");
+  const [partySchool, setPartySchool] = useState("");
+  const [solePPPStatus, setSolePPPStatus] = useState("");
+  const [address, setAddress] = useState("");
+  const [city, setCity] = useState("");
+  const [state, setState] = useState("");
+  const [pinCode, setPinCode] = useState("");
+  const [phone, setPhone] = useState("");
+  const [mobile, setMobile] = useState("");
+  const [email, setEmail] = useState("");
+  const [firmRegNo, setFirmRegNo] = useState("");
+  const [panNo, setPanNo] = useState("");
+  const [gstNo, setGstNo] = useState("");
+  const [estYear, setEstYear] = useState("");
+  const [aofName, setAofName] = useState("");
+  const [aofPan, setAofPan] = useState("");
+  const [aofAddress, setAofAddress] = useState("");
+  const [aofPin, setAofPin] = useState("");
+  const [aofPhone, setAofPhone] = useState("");
+  const [aofMobile, setAofMobile] = useState("");
+  const [aofEmail, setAofEmail] = useState("");
+  const [creditParties, setCreditParties] = useState([]);
+  const [bankName, setBankName] = useState("");
+  const [accNo, setAccNo] = useState("");
+  const [accType, setAccType] = useState("");
+  const [accIfsc, setAccIfsc] = useState("");
+  const [bankChecq, setBankChecq] = useState([]);
+  const [day, setDay] = useState("");
+  const [month, setMonth] = useState("");
+  const [year, setYear] = useState("");
+
+  useEffect(() => {
+    getData();
+  }, []);
+
+  const monthMap = {
+    "01": "January",
+    "02": "February",
+    "03": "March",
+    "04": "April",
+    "05": "May",
+    "06": "June",
+    "07": "July",
+    "08": "August",
+    "09": "September",
+    "10": "October",
+    "11": "November",
+    "12": "December",
+  };
+  const getData = async () => {
+    const res = await instance({
+      url: `sales_data/aof/get/detail/a6663609-a912-4e0e-9a37-4935213a3d1a`,
+      method: "GET",
+      headers: {
+        Authorization: Cookies.get("accessToken"),
+      },
+    });
+    console.log(res.data.message);
+    let data = res.data.message;
+    let date1 = data.date;
+    setDate(date1);
+    console.log(date1);
+    let dateArr = date1.split("-");
+    // console.log(dateArr)
+    let day = dateArr[2];
+    setDay(day);
+    let month = monthMap[dateArr[1]];
+    setMonth(month);
+    let year = dateArr[0];
+    setYear(year);
+    // console.log(month)
+    // console.log(monthMap[month]);
+    setPartySchool(data.fk_school.school_name);
+    setSolePPPStatus(data.status === true ? "Yes" : "No");
+    setAddress(data.address);
+    setCity(data.fk_city.city);
+    setState(data.fk_state.state);
+    setPinCode(data.zip_code);
+    setPhone(data.phone);
+    setMobile(data.mobile);
+    setEmail(data.email);
+    setFirmRegNo(data.firm_reg);
+    setPanNo(data.pan);
+    setGstNo(data.gst);
+    setEstYear(data.business_est);
+    let aofData = res.data.message.aof_trustees[0];
+    setAofName(aofData.name);
+    setAofPan(aofData.pan);
+    setAofAddress(aofData.address);
+    setAofPin(aofData.zip_code);
+    setAofPhone(aofData.phone);
+    setAofMobile(aofData.mobile);
+    setAofEmail(aofData.email);
+    let crdtPrts = aofData.aof_credit_parties;
+    let i = 1;
+    for (let obj of crdtPrts) {
+      obj.sl = i;
+      i++;
+    }
+    // console.log(crdtPrts)
+    setCreditParties(crdtPrts);
+
+    let bnkData = res.data.message.aof_banks[0];
+    setBankName(bnkData.name);
+    setAccNo(bnkData.account_no);
+    setAccType(bnkData.acc_type);
+    setAccIfsc(bnkData.ifsc);
+    let bnkDataArr = bnkData.aof_bank_cheques;
+    let j = 1;
+    for (let obj of bnkDataArr) {
+      obj.sl = j;
+      j++;
+    }
+    console.log(bnkDataArr);
+    setBankChecq(bnkDataArr);
+  };
+
   return (
-    <div  className='bg-white w-[21cm]'>
+    <div className="bg-white w-[21cm]">
       <div className="h-[30cm]">
         <div className="flex justify-center">
           <img width={170} src={eupheusLogo} />
@@ -23,9 +142,9 @@ const AofPdf2 = () => {
           style={{ marginTop: "30px", fontSize: "11pt" }}
         >
           <div>No.: _________________</div>
-          <div>Date :____________________</div>
-          <div style={{border: "2px solid black"}}>
-            <div style={{margin: "5px"}}>2022-23 To 2024-25</div>
+          <div>Date : {date}</div>
+          <div style={{ border: "2px solid black" }}>
+            <div style={{ margin: "5px" }}>2022-23 To 2024-25</div>
           </div>
         </div>
 
@@ -38,34 +157,32 @@ const AofPdf2 = () => {
         >
           <div style={{ margin: "20px" }}>
             <div className="flex justify-start">
-              <b>Name of Party School*: ___________________________________</b>
+              <b>Name of Party School*: {partySchool}</b>
             </div>
             <div className="flex justify-start" style={{ marginTop: "5px" }}>
               Status*: Sole Proprietary/ Partnership/ LLP/Pvt. Ltd. / Public
-              Ltd. /Trust: ____________________________
+              Ltd. /Trust: {solePPPStatus}
             </div>
             <div className="flex justify-start" style={{ marginTop: "5px" }}>
-              Address*: ________________________________
+              Address*: {address}
             </div>
             <div className="flex justify-between" style={{ marginTop: "5px" }}>
-              <div>City*:__________________</div>
-              <div>State*:_________________</div>
-              <div>Pin Code*:__________________</div>
+              <div>City*: {city}</div>
+              <div>State*: {state}</div>
+              <div>Pin Code*: {pinCode}</div>
             </div>
             <div className="flex justify-between" style={{ marginTop: "5px" }}>
-              <div>Phone*:__________________</div>
-              <div>Mobile*:_________________</div>
-              <div>E-Mail*:____________________</div>
+              <div>Phone*: {phone}</div>
+              <div>Mobile*: {mobile}</div>
+              <div>E-Mail*: {email}</div>
             </div>
             <div className="flex justify-between" style={{ marginTop: "5px" }}>
-              <div>
-                Firm/ Company/Trust Registration Number*:__________________
-              </div>
-              <div>Dated:_____________________</div>
+              <div>Firm/ Company/Trust Registration Number*:{firmRegNo}</div>
+              <div>Dated: {date}</div>
             </div>
             <div className="flex justify-between" style={{ marginTop: "5px" }}>
-              <div>PAN No*:__________________(Copy Enclosed)</div>
-              <div>GST. No*:_________________</div>
+              <div>PAN No*: {panNo}(Copy Enclosed)</div>
+              <div>GST. No*:{gstNo}</div>
             </div>
             <div className="flex justify-between" style={{ marginTop: "5px" }}>
               <div>
@@ -74,10 +191,7 @@ const AofPdf2 = () => {
               </div>
             </div>
             <div className="flex justify-between" style={{ marginTop: "5px" }}>
-              <div>
-                Year of establishment of
-                business:___________________________________
-              </div>
+              <div>Year of establishment of business: {estYear}</div>
             </div>
           </div>
         </div>
@@ -93,20 +207,20 @@ const AofPdf2 = () => {
             <div className="flex justify-start">
               <b>
                 Name of Proprietor/Partner/Director/Trustee*:
-                _________________________
+                {aofName}
               </b>
             </div>
             <div className="flex justify-start" style={{ marginTop: "5px" }}>
-              PAN No.*: ___________________
+              PAN No.*: {aofPan}
             </div>
             <div className="flex justify-between" style={{ marginTop: "5px" }}>
-              <div>Address*: ________________________________</div>
-              <div>Pin Code*:__________________________________________</div>
+              <div>Address*: {aofAddress}</div>
+              <div>Pin Code*: {aofPin}</div>
             </div>
             <div className="flex justify-between" style={{ marginTop: "5px" }}>
-              <div>Phone*:__________________</div>
-              <div>Mobile*:_________________</div>
-              <div>E-Mail*:_____________</div>
+              <div>Phone*: {aofPhone}</div>
+              <div>Mobile*: {aofMobile}</div>
+              <div>E-Mail*: {aofEmail}</div>
             </div>
           </div>
         </div>
@@ -123,7 +237,20 @@ const AofPdf2 = () => {
               Name of other Publishers/Suppliers from whom the party has credit
               facilities:
             </div>
-            <div className="flex justify-around" style={{ marginTop: "5px" }}>
+            {creditParties.map((item) => {
+              return (
+                <div
+                  className="flex justify-around"
+                  style={{ marginTop: "5px" }}
+                >
+                  <div>
+                    {item.sl}. {item.name}
+                  </div>
+                  <div>Annual Business: {item.business}</div>
+                </div>
+              );
+            })}
+            {/* <div className="flex justify-around" style={{ marginTop: "5px" }}>
               <div>1. ________________________________</div>
               <div>
                 Annual Business: __________________________________________
@@ -140,7 +267,7 @@ const AofPdf2 = () => {
               <div>
                 Annual Business: __________________________________________
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
 
@@ -153,21 +280,34 @@ const AofPdf2 = () => {
         >
           <div style={{ margin: "20px" }}>
             <div className="flex justify-start">
-              Name and address of the party’s main
-              bankers*:_______________________________
+              Name and address of the party’s main bankers*:{bankName}
             </div>
             <div className="flex justify-between" style={{ marginTop: "5px" }}>
-              <div>Account Number*:________________________________</div>
+              <div>Account Number*:{accNo}</div>
               <div>
                 Type of A/c (SB/CA/CC):
-                __________________________________________
+                {accType}
               </div>
             </div>
-            <div className="flex justify-start">
-              IFSC*:_______________________________
-            </div>
+            <div className="flex justify-start">IFSC*: {accIfsc}</div>
             <div className="flex justify-start">Detail of Cheques*:</div>
-            <div className="flex justify-around" style={{ marginTop: "5px" }}>
+
+            {bankChecq.map((item) => {
+              return (
+                <div
+                  className="flex justify-around"
+                  style={{ marginTop: "5px" }}
+                >
+                  <div>
+                    {item.sl}. Cheque No.: {item.cheque_no}
+                  </div>
+                  <div>Bank: {item.bank}</div>
+                  <div>Branch/IFSC: {item.branch_ifsc}</div>
+                </div>
+              );
+            })}
+
+            {/* <div className="flex justify-around" style={{ marginTop: "5px" }}>
               <div>1. Cheque No.: ___________________</div>
               <div>Bank: ______________</div>
               <div>Branch/IFSC: ____________</div>
@@ -181,7 +321,7 @@ const AofPdf2 = () => {
               <div>3. Cheque No.: ___________________</div>
               <div>Bank: ______________</div>
               <div>Branch/IFSC: ____________</div>
-            </div>
+            </div> */}
           </div>
         </div>
 
@@ -212,9 +352,9 @@ const AofPdf2 = () => {
       </div>
 
       <div className="h-[30cm]">
-        <div className="flex justify-center" style={{ marginTop: "30px" }}>
+        {/* <div className="flex justify-center" style={{ marginTop: "30px" }}>
           <img width={170} src={eupheusLogo} />
-        </div>
+        </div> */}
 
         <div className="flex justify-center" style={{ marginTop: "50px" }}>
           <b style={{ borderBottom: "1px solid black" }}>
@@ -229,27 +369,26 @@ const AofPdf2 = () => {
           }}
         >
           <div style={{ margin: "10px" }}>
-            THIS AGREEMENT is made on this ___________ day of ________________,
-            2022 , by and between Proficiency Learning Solutions Pvt. Ltd.,
-            company incorporated and registered under the Companies Act, 2013
-            with its registered office located at 5th Floor, Cabin No 3, Right
-            side at Plot No E-196, Phase 8B, Mohali, Mohali, Punjab, India,
-            160020 through Mr Ram kumar Hereinafter referred to as “Eupheus”
-            which expression shall unless repugnant to the context means and
-            include its successors and assigns of the ONE PART
+            THIS AGREEMENT is made on this {`${day} TH `} day of {`${month} `},
+            {`${year} `} , by and between Proficiency Learning Solutions Pvt.
+            Ltd., company incorporated and registered under the Companies Act,
+            2013 with its registered office located at 5th Floor, Cabin No 3,
+            Right side at Plot No E-196, Phase 8B, Mohali, Mohali, Punjab,
+            India, 160020 through ___________ Hereinafter referred to as
+            “Eupheus” which expression shall unless repugnant to the context
+            means and include its successors and assigns of the ONE PART
           </div>
           <div className="flex justify-center">And</div>
           <div style={{ margin: "10px" }}>
-            ____________________________________________________________ (the
-            "Distributor"), with its principal place of business located at _
-            B-2345 AMAR COLONY LAJPAT NAGAR ___NEW DELHI 110024_ through MR
-            SUSHIL KUMAR SHARMA which expression shall unless repugnant to the
-            context or meaning thereof, include its successors and permitted
-            assigns, through its Authorized Signatory, on the OTHER PART.{" "}
+            {`${partySchool} `} (the "Distributor"), with its principal place of
+            business located at {`${address}, ${city}, ${state}, ${pinCode} `} through {`${aofName}`} which expression shall unless
+            repugnant to the context or meaning thereof, include its successors
+            and permitted assigns, through its Authorized Signatory, on the
+            OTHER PART.
           </div>
         </div>
         <div style={{ margin: "10px" }} className="flex justify-center">
-          Eupheus and ABC BOOK SHOP PRIVATE LIMITED shall collectively be
+          Eupheus and {`${partySchool} `} shall collectively be
           referred to as “Parties” and individually as “Party” wherever the
           context permits.
         </div>
@@ -325,9 +464,9 @@ const AofPdf2 = () => {
       </div>
 
       <div className="h-[30cm]">
-        <div className="flex justify-center" style={{ marginTop: "30px" }}>
+        {/* <div className="flex justify-center" style={{ marginTop: "30px" }}>
           <img width={170} src={eupheusLogo} />
-        </div>
+        </div> */}
 
         <div style={{ margin: "10px" }} className="flex container">
           <div>7. </div>
@@ -421,9 +560,9 @@ const AofPdf2 = () => {
       </div>
 
       <div className="h-[30cm]">
-        <div className="flex justify-center" style={{ marginTop: "30px" }}>
+        {/* <div className="flex justify-center" style={{ marginTop: "30px" }}>
           <img width={170} src={eupheusLogo} />
-        </div>
+        </div> */}
 
         <div style={{ margin: "10px" }} className="flex container">
           <div>11. </div>
@@ -512,7 +651,7 @@ const AofPdf2 = () => {
               <b>For Customer</b>
             </div>
             <div style={{ marginTop: "45px" }}>By: _____________</div>
-            <div style={{ marginTop: "2px" }}>Name: _____________</div>
+            <div style={{ marginTop: "2px" }}>Name: _{aofName}_</div>
             <div style={{ marginTop: "2px" }}>Title: _____________</div>
             <div style={{ marginTop: "2px" }}>(Authorised Officer)</div>
             <div style={{ marginTop: "2px" }}>Witness1: _______________</div>
@@ -521,9 +660,9 @@ const AofPdf2 = () => {
       </div>
 
       <div className="h-[30cm]">
-        <div className="flex justify-center" style={{ marginTop: "30px" }}>
+        {/* <div className="flex justify-center" style={{ marginTop: "30px" }}>
           <img width={170} src={eupheusLogo} />
-        </div>
+        </div> */}
         <div className="flex justify-center" style={{ marginTop: "50px" }}>
           <b style={{ borderBottom: "1px solid black" }}>Annexure A</b>
         </div>
@@ -535,7 +674,7 @@ const AofPdf2 = () => {
 
         <div>
           <div style={{ margin: "40px" }}>
-            <table style={{ border: "1px solid black", width: "100%"}}>
+            <table style={{ border: "1px solid black", width: "100%" }}>
               <tr style={{ border: "1px solid black" }}>
                 <th style={{ border: "1px solid black", width: "40%" }}>
                   Type of Discounts
@@ -576,7 +715,9 @@ const AofPdf2 = () => {
               <tr style={{ border: "1px solid black" }}>
                 <td style={{ border: "1px solid black" }}>TOD</td>
                 <td style={{ border: "1px solid black" }}>SLAB</td>
-                <td style={{ border: "1px solid black" }}>ON NET SALE(SALE-RETURN) </td>
+                <td style={{ border: "1px solid black" }}>
+                  ON NET SALE(SALE-RETURN){" "}
+                </td>
               </tr>
               <tr style={{ border: "1px solid black" }}>
                 <td style={{ border: "1px solid black" }}>&nbsp;</td>
@@ -608,9 +749,6 @@ const AofPdf2 = () => {
                 <td style={{ border: "1px solid black" }}>30% </td>
                 <td style={{ border: "1px solid black" }}>On GROSS </td>
               </tr>
-
-
-              
             </table>
           </div>
         </div>

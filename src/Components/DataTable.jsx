@@ -166,6 +166,16 @@ export default function DataTable({
 
             );
             break;
+
+            // case "AOFtable":
+            //   console.log(row)
+            //   return (
+            //     row?.name?.toLowerCase().indexOf(q) > -1
+            //     // row.City.toLowerCase().indexOf(q) > -1 ||
+            //     // row?.Quantity?.toLowerCase().indexOf(q) > -1 ||
+            //     // row?.Status?.toLowerCase().indexOf(q) > -1
+            //   );
+            //   break;
         default:
           break;
       }
