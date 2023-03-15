@@ -445,6 +445,18 @@ const AOF = () => {
 
                             <TableCell align="center">{row.status}</TableCell>
 
+                            <TableCell align="center">
+                            {/* <DialogSlide2 ref={dialogRef2}/> */}
+                            <div
+                                  className="sm:w-auto w-[50vw]"
+                                  onClick={() => {
+                                    handleAofView(row.id);
+                                  }}
+                                >
+                                  <BasicButton text={"View"} />
+                                </div>
+                            </TableCell>
+
                             {/* <TableCell align="center"> */}
                               {/* {row.id ? (
                                   <div
