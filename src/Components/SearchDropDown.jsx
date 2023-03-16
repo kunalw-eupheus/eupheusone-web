@@ -119,10 +119,10 @@ const SearchDropDown = ({
           return option.state;
           break;
 
-          case "select_schools":
-            // console.log(option)
-            return option.school_name;
-            break;
+        case "select_schools":
+          // console.log(option)
+          return option.school_name;
+          break;
 
         case "select_ck_state":
           // console.log(option)
@@ -169,6 +169,9 @@ const SearchDropDown = ({
         case "series_aof":
           return option.series;
           break;
+        case "series_aof_item":
+          return option.series;
+          break;
         case "title_aof":
           return option.item_name;
           break;
@@ -201,8 +204,8 @@ const SearchDropDown = ({
           break;
 
         case "items_aof":
-          return option.series
-          break
+          return option.series;
+          break;
 
         default:
           return "";
@@ -279,8 +282,8 @@ const SearchDropDown = ({
     if (type === "select_type") {
       handleOrderProcessingForm(value, type);
     }
-    if(type === "items_aof"){
-      handleOrderProcessingForm(value, type)
+    if (type === "items_aof") {
+      handleOrderProcessingForm(value, type);
     }
     if (type === "publisher_name") {
       handleOrderProcessingForm(value, type);
@@ -308,6 +311,9 @@ const SearchDropDown = ({
       handleOrderProcessingForm(value, type, seriesId);
     }
     if (type === "fees") {
+      handleOrderProcessingForm(value, type);
+    }
+    if (type === "series_aof_item") {
       handleOrderProcessingForm(value, type);
     }
     if (type === "to_convert") {

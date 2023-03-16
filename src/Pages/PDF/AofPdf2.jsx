@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import eupheusLogo from "./eupheusLogo.png";
 import instance from "../../Instance";
 import Cookies from "js-cookie";
-import { useParams } from 'react-router-dom';
+import { useParams } from "react-router-dom";
 
 const AofPdf2 = () => {
   const [date, setDate] = useState("");
@@ -36,11 +36,15 @@ const AofPdf2 = () => {
   const [day, setDay] = useState("");
   const [month, setMonth] = useState("");
   const [year, setYear] = useState("");
+  const [todDiscData, setTodDiscData] = useState({});
+  const [cashDiscData, setCashDiscData] = useState({});
+  const [cashDiscArr, setSpecDiscArr] = useState([]);
+  const [seriesArr, setSeriesArr] = useState([]);
+  const [publisheArr, setPublisherArr] = useState([]);
 
   useEffect(() => {
     getData();
   }, []);
-
 
   const { aofid } = useParams();
 
@@ -54,9 +58,9 @@ const AofPdf2 = () => {
     "07": "July",
     "08": "August",
     "09": "September",
-    "10": "October",
-    "11": "November",
-    "12": "December",
+    10: "October",
+    11: "November",
+    12: "December",
   };
   const getData = async () => {
     const res = await instance({
@@ -67,11 +71,11 @@ const AofPdf2 = () => {
         Authorization: Cookies.get("accessToken"),
       },
     });
-    console.log(res.data.message);
+    // console.log(res.data.message);
     let data = res.data.message;
     let date1 = data.date;
     setDate(date1);
-    console.log(date1);
+    // console.log(date1);
     let dateArr = date1.split("-");
     // console.log(dateArr)
     let day = dateArr[2];
@@ -123,8 +127,38 @@ const AofPdf2 = () => {
       obj.sl = j;
       j++;
     }
-    console.log(bnkDataArr);
+    // console.log(bnkDataArr);
     setBankChecq(bnkDataArr);
+    // console.log(res.data.tod)
+    let todDiscData = res.data.tod[0];
+    let cashDiscData = res.data.cash[0];
+    let specialDiscArr = res.data.special;
+    // console.log(specialDiscArr)
+    setTodDiscData(todDiscData);
+    setCashDiscData(cashDiscData);
+    // setSpecDiscArr(specialDiscArr)
+    let seriesArr = [],
+      publisherArr = [];
+    for (let obj of specialDiscArr) {
+      if (obj.series) seriesArr.push(obj);
+      if (obj.publisher) publisherArr.push(obj);
+    }
+    // console.log(seriesArr)
+    let m = 1;
+    for (let obj of seriesArr) {
+      obj.sl = m;
+      m++;
+    }
+    console.log(seriesArr)
+    setSeriesArr(seriesArr);
+    // console.log(publisherArr)
+    let n = 1;
+    for (let obj of publisherArr) {
+      obj.sl = n;
+      n++;
+    }
+    console.log(publisherArr)
+    setPublisherArr(publisherArr);
   };
 
   return (
@@ -386,16 +420,15 @@ const AofPdf2 = () => {
           <div className="flex justify-center">And</div>
           <div style={{ margin: "10px" }}>
             {`${partySchool} `} (the "Distributor"), with its principal place of
-            business located at {`${address}, ${city}, ${state}, ${pinCode} `} through {`${aofName}`} which expression shall unless
-            repugnant to the context or meaning thereof, include its successors
-            and permitted assigns, through its Authorized Signatory, on the
-            OTHER PART.
+            business located at {`${address}, ${city}, ${state}, ${pinCode} `}{" "}
+            through {`${aofName}`} which expression shall unless repugnant to
+            the context or meaning thereof, include its successors and permitted
+            assigns, through its Authorized Signatory, on the OTHER PART.
           </div>
         </div>
         <div style={{ margin: "10px" }} className="flex justify-center">
-          Eupheus and {`${partySchool} `} shall collectively be
-          referred to as “Parties” and individually as “Party” wherever the
-          context permits.
+          Eupheus and {`${partySchool} `} shall collectively be referred to as
+          “Parties” and individually as “Party” wherever the context permits.
         </div>
 
         <div style={{ margin: "10px" }} className="flex justify-center">
@@ -690,21 +723,19 @@ const AofPdf2 = () => {
                 </th>
               </tr>
               <tr style={{ border: "1px solid black" }}>
-                <td style={{ border: "1px solid black" }}>EUPHEUS</td>
-                <td style={{ border: "1px solid black" }}></td>
-                <td style={{ border: "1px solid black" }}></td>
+                <td style={{ border: "1px solid black" }}>&nbsp;</td>
+                <td style={{ border: "1px solid black" }}>&nbsp;</td>
+                <td style={{ border: "1px solid black" }}>&nbsp;</td>
               </tr>
 
               <tr style={{ border: "1px solid black" }}>
-                <td style={{ border: "1px solid black" }}>a) English</td>
-                <td style={{ border: "1px solid black" }}>25% </td>
-                <td style={{ border: "1px solid black" }}>On GROSS </td>
-              </tr>
-
-              <tr style={{ border: "1px solid black" }}>
-                <td style={{ border: "1px solid black" }}>b) others </td>
-                <td style={{ border: "1px solid black" }}>30% </td>
-                <td style={{ border: "1px solid black" }}>On GROSS </td>
+                <td style={{ border: "1px solid black" }}>TOD</td>
+                <td
+                  style={{ border: "1px solid black" }}
+                >{`${todDiscData.percent} %`}</td>
+                <td
+                  style={{ border: "1px solid black" }}
+                >{`${todDiscData.remark}  (${todDiscData.percentages_type})`}</td>
               </tr>
 
               <tr style={{ border: "1px solid black" }}>
@@ -714,15 +745,12 @@ const AofPdf2 = () => {
               </tr>
               <tr style={{ border: "1px solid black" }}>
                 <td style={{ border: "1px solid black" }}>CASH DISCOUNT</td>
-                <td style={{ border: "1px solid black" }}>5%</td>
-                <td style={{ border: "1px solid black" }}>AS PER POLICY</td>
-              </tr>
-              <tr style={{ border: "1px solid black" }}>
-                <td style={{ border: "1px solid black" }}>TOD</td>
-                <td style={{ border: "1px solid black" }}>SLAB</td>
-                <td style={{ border: "1px solid black" }}>
-                  ON NET SALE(SALE-RETURN){" "}
-                </td>
+                <td
+                  style={{ border: "1px solid black" }}
+                >{`${cashDiscData.percent} %`}</td>
+                <td
+                  style={{ border: "1px solid black" }}
+                >{`${todDiscData.remark}`}</td>
               </tr>
               <tr style={{ border: "1px solid black" }}>
                 <td style={{ border: "1px solid black" }}>&nbsp;</td>
@@ -730,30 +758,58 @@ const AofPdf2 = () => {
                 <td style={{ border: "1px solid black" }}>&nbsp;</td>
               </tr>
               <tr style={{ border: "1px solid black" }}>
-                <td style={{ border: "1px solid black" }}>ALLIED </td>
+                <td style={{ border: "1px solid black" }}>SPECIAL </td>
                 <td style={{ border: "1px solid black" }}></td>
                 <td style={{ border: "1px solid black" }}></td>
               </tr>
+              {/* <tr style={{ border: "1px solid black" }}>
+                <td style={{ border: "1px solid black" }}>&nbsp;</td>
+                <td style={{ border: "1px solid black" }}>&nbsp;</td>
+                <td style={{ border: "1px solid black" }}>&nbsp;</td>
+              </tr> */}
               <tr style={{ border: "1px solid black" }}>
-                <td style={{ border: "1px solid black" }}>a) Chemistry</td>
-                <td style={{ border: "1px solid black" }}>25%</td>
-                <td style={{ border: "1px solid black" }}>On GROSS</td>
+                <td style={{ border: "1px solid black" }}>Publisher </td>
+                <td style={{ border: "1px solid black" }}></td>
+                <td style={{ border: "1px solid black" }}></td>
               </tr>
+              {publisheArr.map((i) => {
+                return (
+                  <tr style={{ border: "1px solid black" }}>
+                    <td
+                      style={{ border: "1px solid black" }}
+                    >{`${i.sl}) ${i.publisher.name}`}</td>
+                    <td style={{ border: "1px solid black" }}>{`${i.publisher.percent} %`}</td>
+                    <td style={{ border: "1px solid black" }}>{`On ${i.publisher.percentages_type}`}</td>
+                  </tr>
+                );
+              })}
               <tr style={{ border: "1px solid black" }}>
-                <td style={{ border: "1px solid black" }}>b) others </td>
-                <td style={{ border: "1px solid black" }}>30%</td>
-                <td style={{ border: "1px solid black" }}>On GROSS</td>
+                <td style={{ border: "1px solid black" }}>Series </td>
+                <td style={{ border: "1px solid black" }}></td>
+                <td style={{ border: "1px solid black" }}></td>
               </tr>
+              {seriesArr.map((i) => {
+                return (
+                  <tr style={{ border: "1px solid black" }}>
+                    <td
+                      style={{ border: "1px solid black" }}
+                    >{`${i.sl}) ${i.series.name}`}</td>
+                    <td style={{ border: "1px solid black" }}>{`${i.series.percent} %`}</td>
+                    <td style={{ border: "1px solid black" }}>{`On ${i.series.percentages_type}`}</td>
+                  </tr>
+                );
+              })}
+
               <tr style={{ border: "1px solid black" }}>
                 <td style={{ border: "1px solid black" }}>&nbsp;</td>
                 <td style={{ border: "1px solid black" }}>&nbsp;</td>
                 <td style={{ border: "1px solid black" }}>&nbsp;</td>
               </tr>
-              <tr style={{ border: "1px solid black" }}>
+              {/* <tr style={{ border: "1px solid black" }}>
                 <td style={{ border: "1px solid black" }}>learning links</td>
                 <td style={{ border: "1px solid black" }}>30% </td>
                 <td style={{ border: "1px solid black" }}>On GROSS </td>
-              </tr>
+              </tr> */}
             </table>
           </div>
         </div>
