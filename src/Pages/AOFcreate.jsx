@@ -154,18 +154,22 @@ const AOFcreate = () => {
       delete obj.idx;
     }
     // console.log(publisherData2)
-    let tempPublisherArr = [...publisherData]
-    for(let items of tempPublisherArr){
-      delete items.bp_name
+    let tempPublisherArr = [...publisherData];
+    for (let items of tempPublisherArr) {
+      delete items.bp_name;
     }
     // console.log(tempPublisherArr)
-    let tempSeriesArr = [...seriesData]
-    for(let items of tempSeriesArr){
-      delete items.series
+    let tempSeriesArr = [...seriesData];
+    for (let items of tempSeriesArr) {
+      delete items.series;
     }
     // console.log(tempSeriesArr)
     // console.log(specialSpecific)
-    let specialData = [...tempPublisherArr, ...tempSeriesArr, ...specialSpecific];
+    let specialData = [
+      ...tempPublisherArr,
+      ...tempSeriesArr,
+      ...specialSpecific,
+    ];
     console.log(specialData);
 
     let postData = {
@@ -264,8 +268,8 @@ const AOFcreate = () => {
     alert(res.data.message);
     // // setCity(city.data.message);
     setTimeout(() => {
-        navigate("/aof");
-      }, 1000);
+      navigate("/aof");
+    }, 1000);
   };
 
   const handleDataSubmit = async () => {
@@ -631,16 +635,17 @@ const AOFcreate = () => {
     return content;
   };
 
-  const getTitleBySeries = async (id) => {
-    const titles = await instance({
-      url: `items/getSeriesItem/${id}`,
-      method: "GET",
-      headers: {
-        Authorization: `${Cookies.get("accessToken")}`,
-      },
-    });
-    setTitle(titles.data.message);
-  };
+  // const getTitleBySeries = async (id) => {
+  //   const titles = await instance({
+  //     url: `items/getSeriesItem/${id}`,
+  //     method: "GET",
+  //     headers: {
+  //       Authorization: `${Cookies.get("accessToken")}`,
+  //     },
+  //   });
+  //   console.log(titles)
+  //   // setTitle(titles.data.message);
+  // };
 
   const handleChequesForm = (field, value, index) => {
     // console.log(suppliers);
@@ -723,7 +728,7 @@ const AOFcreate = () => {
   };
 
   const handleOrderProcessingForm = (value, type) => {
-    console.log(value, type);
+    // console.log(value, type);
     switch (type) {
       // case "Name":
 
@@ -782,6 +787,10 @@ const AOFcreate = () => {
       case "PAN NO*":
         console.log(value);
         setPanNoP(value);
+        break;
+      case "items_aof":
+        console.log(value);
+        // setPanNoP(value);
         break;
       case "Address*":
         console.log(value);
@@ -976,8 +985,20 @@ const AOFcreate = () => {
       });
       setSeries(allSeries.data.message);
     };
+    // const getTitleBySeries = async (id) => {
+    //   const titles = await instance({
+    //     url: `items/getSeriesItem/${id}`,
+    //     method: "GET",
+    //     headers: {
+    //       Authorization: `${Cookies.get("accessToken")}`,
+    //     },
+    //   });
+    //   console.log(titles)
+    //   // setTitle(titles.data.message);
+    // };
     getPublishers();
     getSries();
+    // getTitleBySeries()
   }, []);
 
   const navInfo = {
@@ -1219,31 +1240,31 @@ const AOFcreate = () => {
                   <div
                     className="mt-3"
                     onClick={() => {
-                      if (
-                        (nameOfSchool,
-                        aofStatus,
-                        schoolAddress,
-                        stateSelect,
-                        citySelect,
-                        pinCode,
-                        mobile,
-                        phone,
-                        schoolEmail,
-                        firmRegNo,
-                        panNo,
-                        gstNo,
-                        gstYear)
-                      ) {
-                        setSteps({ step1: false, step2: true, step3: false });
-                        window.scroll({
-                          top: 0,
-                          behavior: "smooth",
-                        });
-                      } else {
-                        setSnackbarErrStatus(true);
-                        setErrMessage("Please Fill All The Fields");
-                        snackbarRef.current.openSnackbar();
-                      }
+                      // if (
+                      //   (nameOfSchool,
+                      //   aofStatus,
+                      //   schoolAddress,
+                      //   stateSelect,
+                      //   citySelect,
+                      //   pinCode,
+                      //   mobile,
+                      //   phone,
+                      //   schoolEmail,
+                      //   firmRegNo,
+                      //   panNo,
+                      //   gstNo,
+                      //   gstYear)
+                      // ) {
+                      setSteps({ step1: false, step2: true, step3: false });
+                      window.scroll({
+                        top: 0,
+                        behavior: "smooth",
+                      });
+                      // } else {
+                      //   setSnackbarErrStatus(true);
+                      //   setErrMessage("Please Fill All The Fields");
+                      //   snackbarRef.current.openSnackbar();
+                      // }
                     }}
                   >
                     <BasicButton text={"Next"} />
@@ -1322,25 +1343,25 @@ const AOFcreate = () => {
                   </div>
                   <div
                     onClick={() => {
-                      if (
-                        (panNoP,
-                        addressP,
-                        pinCodeP,
-                        phoneP,
-                        mobileP,
-                        emailP,
-                        proprietorName)
-                      ) {
-                        setSteps({ step1: false, step2: false, step3: true });
-                        window.scroll({
-                          top: 0,
-                          behavior: "smooth",
-                        });
-                      } else {
-                        setSnackbarErrStatus(true);
-                        setErrMessage("Please Fill All The Fields");
-                        snackbarRef.current.openSnackbar();
-                      }
+                      // if (
+                      //   (panNoP,
+                      //   addressP,
+                      //   pinCodeP,
+                      //   phoneP,
+                      //   mobileP,
+                      //   emailP,
+                      //   proprietorName)
+                      // ) {
+                      setSteps({ step1: false, step2: false, step3: true });
+                      window.scroll({
+                        top: 0,
+                        behavior: "smooth",
+                      });
+                      // } else {
+                      //   setSnackbarErrStatus(true);
+                      //   setErrMessage("Please Fill All The Fields");
+                      //   snackbarRef.current.openSnackbar();
+                      // }
                     }}
                     className="mt-3"
                   >
@@ -1399,22 +1420,22 @@ const AOFcreate = () => {
                   </div>
                   <div
                     onClick={() => {
-                      if ((partyBankerName, accNoP, aofAcc, ifscP)) {
-                        setSteps({
-                          step1: false,
-                          step2: false,
-                          step3: false,
-                          step4: true,
-                        });
-                        window.scroll({
-                          top: 0,
-                          behavior: "smooth",
-                        });
-                      } else {
-                        setSnackbarErrStatus(true);
-                        setErrMessage("Please Fill All The Fields");
-                        snackbarRef.current.openSnackbar();
-                      }
+                      // if ((partyBankerName, accNoP, aofAcc, ifscP)) {
+                      setSteps({
+                        step1: false,
+                        step2: false,
+                        step3: false,
+                        step4: true,
+                      });
+                      window.scroll({
+                        top: 0,
+                        behavior: "smooth",
+                      });
+                      // } else {
+                      //   setSnackbarErrStatus(true);
+                      //   setErrMessage("Please Fill All The Fields");
+                      //   snackbarRef.current.openSnackbar();
+                      // }
                     }}
                     className="mt-3"
                   >
@@ -1447,7 +1468,7 @@ const AOFcreate = () => {
                             name={"tod applicable"}
                             value={[
                               { label: "Yes", value: "yes" },
-                              // { label: "No", value: "no" },
+                              { label: "No", value: "no" },
                             ]}
                           />
                         </Typography>
@@ -1528,7 +1549,7 @@ const AOFcreate = () => {
                             name={"special applicable"}
                             value={[
                               { label: "Yes", value: "yes" },
-                              // { label: "No", value: "no" },
+                              { label: "No", value: "no" },
                             ]}
                           />
                         </Typography>
@@ -1733,13 +1754,13 @@ const AOFcreate = () => {
                                 <TableHead className="bg-slate-600">
                                   <TableRow>
                                     <TableCell
-                                      className="!w-[13rem]"
+                                      className="!w-[8rem]"
                                       align="center"
                                     >
                                       Series
                                     </TableCell>
                                     <TableCell
-                                      className="!w-[8rem]"
+                                      className="!w-[3rem]"
                                       align="center"
                                     >
                                       Percentage
@@ -1750,6 +1771,12 @@ const AOFcreate = () => {
                                     ></TableCell>
                                     <TableCell
                                       className="!w-[4rem]"
+                                      align="center"
+                                    >
+                                      Select Items
+                                    </TableCell>
+                                    <TableCell
+                                      className="!w-[2rem]"
                                       align="center"
                                     ></TableCell>
                                   </TableRow>
@@ -1804,6 +1831,19 @@ const AOFcreate = () => {
                                           />
                                         </TableCell>
                                         <TableCell align="center">
+                                          <SearchDropDown
+                                            Name={"items_aof"}
+                                            data={series}
+                                            disable={series.length < 1 ? true : false}
+                                            multiple={true}
+                                            handleOrderProcessingForm={
+                                              handleOrderProcessingForm
+                                            }
+                                            label={"Select Items"}
+                                            color={"rgb(243, 244, 246)"}
+                                          />
+                                        </TableCell>
+                                        <TableCell align="center">
                                           <div>
                                             <IconButton
                                               type="submit"
@@ -1829,19 +1869,19 @@ const AOFcreate = () => {
                             </Typography>
                             {/* <div className="w-full flex justify-center">
                               <hr className="text-gray-100 w-[80%] my-4" />
-                            </div> */}
-                            {/* <Typography className="flex flex-col gap-2"> */}
-                            {/* <h1 className="sm:text-base font-semibold text-sm text-gray-100">
+                            </div>
+                            <Typography className="flex flex-col gap-2">
+                            <h1 className="sm:text-base font-semibold text-sm text-gray-100">
                                 Select Title:
-                              </h1> */}
-                            {/* <SearchDropDown
+                              </h1>
+                            <SearchDropDown
                                 Name={"title_aof"}
                                 disable={title.length > 0 ? false : true}
                                 data={title}
                                 label={"Select Title"}
                                 color={"rgb(243, 244, 246)"}
-                              /> */}
-                            {/* <div className="flex justify-around items-center">
+                              />
+                            <div className="flex justify-around items-center">
                                 <TextField
                                   InputLabelProps={{
                                     style: { color: "white" },
@@ -1864,8 +1904,8 @@ const AOFcreate = () => {
                                     { label: "Net", value: "no" },
                                   ]}
                                 />
-                              </div> */}
-                            {/* <Table
+                              </div>
+                            <Table
                                 sx={{ minWidth: 650 }}
                                 aria-label="customized table"
                               >
@@ -1894,8 +1934,8 @@ const AOFcreate = () => {
                                   </TableRow>
                                 </TableHead> */}
                             {/* {seriesData.map((row) => {
-                                  return ( */}
-                            {/* <TableBody className="bg-slate-400">
+                                  return (
+                            <TableBody className="bg-slate-400">
                                   <TableRow
                                     key={"row.series"}
                                     sx={{
@@ -1903,8 +1943,8 @@ const AOFcreate = () => {
                                         border: 0,
                                       },
                                     }}
-                                  >
-                                    <TableCell align="center">
+                                  > */}
+                            {/* <TableCell align="center">
                                       {"row.series"}
                                     </TableCell>
                                     <TableCell align="center">
@@ -1947,11 +1987,11 @@ const AOFcreate = () => {
                                           />
                                         </IconButton>
                                       </div>
-                                    </TableCell>
-                                  </TableRow>
-                                </TableBody> */}
-                            {/* );
-                                })} */}
+                                    </TableCell> */}
+                            {/* </TableRow> */}
+                            {/* </TableBody> */}
+                            {/* ); */}
+                            {/* })} */}
                             {/* </Table> */}
                             {/* </Typography> */}
                           </>
