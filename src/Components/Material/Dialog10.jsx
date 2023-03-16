@@ -1,0 +1,633 @@
+import * as React from "react";
+import Button from "@mui/material/Button";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
+import Slide from "@mui/material/Slide";
+import SearchDropDown from "../SearchDropDown";
+import BasicTextFields from "./TextField";
+import BasicButton from "./Button";
+import { useLayoutEffect } from "react";
+import instance from "../../Instance";
+import { useState } from "react";
+import Cookies from "js-cookie";
+import { useFormik } from "formik";
+import { TextField } from "@mui/material";
+import Snackbars from "./SnackBar";
+import { useRef } from "react";
+import { useEffect } from "react";
+import Grid from "@mui/material/Unstable_Grid2";
+import Box from "@mui/material/Box";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Paper from "@mui/material/Paper";
+import CloseIcon from '@mui/icons-material/Close';
+import IconButton from '@mui/material/IconButton';
+
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
+
+const DialogSlide10 = React.forwardRef((props, ref) => {
+  const [open, setOpen] = React.useState(false);
+  const [series, setSeries] = useState([]);
+  const [grade, setGrade] = useState([]);
+  const [mrp, setMrp] = useState("");
+  const [total, setTotal] = useState("");
+  const [snackbarErrStatus, setSnackbarErrStatus] = useState(false);
+  const [snackbarMsg, setSnackbarMsg] = useState("");
+  const [schlName, setSchlName] = useState("default");
+  const [invoiceDetails, setInvoiceDetails] = useState([]);
+  const [invoiceItems, setInvoiceItems] = useState([]);
+  const [cardNum, setCardNum] = useState("");
+  const [DocDate, setDocDate] = useState("");
+  const [DocTotal, setDocTotal] = useState("");
+  const [BillFrom, setBillFrom] = useState("");
+  const [BillTo, setBillTo] = useState("");
+  const [schoolCode, setschoolCode] = useState("");
+  const [DispatchFrom, setDispatchFrom] = useState("");
+  const [ShipsTo, setShipsTo] = useState("");
+
+const [aofName, setAofName] = useState("")
+const [address, setAddress] = useState("")
+const [school, setSchool] = useState("")
+const [date, setDate] = useState("")
+const [city, setCity] = useState("")
+const [state, setState] = useState("")
+const [busiEst, setBusiEst] = useState("")
+const [firmReg, setFirmReg] = useState("")
+const [gst, setGst] = useState("")
+const [pan, setPan] = useState("")
+const [zip, setZip] = useState("")
+const [status, setStatus] = useState("")
+const [banks, setBanks] = useState([])
+const [trustes, setTrustes] = useState([])
+
+  const formik = useFormik({
+    initialValues: {
+      CardNum: "",
+      DocDate: "",
+      DocTotal: "",
+      BillFrom: "",
+      BillTo: "",
+      schoolCode: "",
+      DispatchFrom: "",
+      ShipsTo: "",
+    },
+    validate: () => {},
+    onSubmit: async (values) => {
+      console.log(values);
+
+      if (!values.schoolCode.length) {
+        // console.log("first")
+        setSnackbarErrStatus(true);
+        setSnackbarMsg("Enter a value");
+        snackbarRef.current.openSnackbar();
+      } else {
+        // console.log("second")
+        setSnackbarErrStatus(false);
+        setSnackbarMsg("No of school added");
+        snackbarRef.current.openSnackbar();
+        setOpen(false);
+        // setTimeout(() => {
+        //   window.location.reload();
+        // }, 1000);
+      }
+    },
+  });
+
+
+  const getInvoiceDetails = async () => {
+    console.log(props.aofId);
+    const res = await instance({
+      url: `sales_data/aof/get/detail/${props.aofId}`,
+      method: "GET",
+      headers: {
+        Authorization: Cookies.get("accessToken"),
+      },
+    });
+    // setSeries(res.data.message);
+    console.log(res.data.message)
+    if (res.data.status === "success") {
+        let data = res.data.message
+        setAofName(data.name)
+        setAddress(data.address)
+        setSchool(data.fk_school.school_name)
+        setDate(data.date)
+        setCity(data.fk_city.city)
+        setState(data.fk_state.state)
+        setBusiEst(data.business_est)
+        setFirmReg(data.firm_reg)
+        setGst(data.gst)
+        setPan(data.pan)
+        setZip(data.zip_code)
+        setStatus(data.status)
+        setBanks(data.aof_banks)
+        setTrustes(data.aof_trustees)
+    //   setCardNum(res.data.message[0].docnum);
+      // formik.values.DocNum = res.data.message[0].docnum;
+    //   setDocDate(res.data.message[0].docdate)
+      // formik.values.DocDate = res.data.message[0].docdate;
+      // formik.values.DocTotal = res.data.message[0].doctotal;
+    //   setDocTotal(res.data.message[0].doctotal)
+      // formik.values.BillFrom =
+        // res.data.message[0].ck_invoice_addresses[0].BillFromName;
+        // setBillFrom(res.data.message[0].ck_invoice_addresses[0].BillFromName)
+      // formik.values.BillTo =
+        // res.data.message[0].ck_invoice_addresses[0].BillToName;
+        // setBillTo(res.data.message[0].ck_invoice_addresses[0].BillToName)
+      // console.log(res.data.message[0].ck_invoice_addresses[0].BillToName)
+      // formik.values.DispatchFrom =
+        // res.data.message[0].ck_invoice_addresses[0].DispatchFromAddress1;
+        // setDispatchFrom(res.data.message[0].ck_invoice_addresses[0].DispatchFromAddress1)
+      // formik.values.ShipsTo =
+      //   res.data.message[0].ck_invoice_addresses[0].ShipToAddress1;
+
+        // setShipsTo(res.data.message[0].ck_invoice_addresses[0].ShipToAddress1)
+
+      // setInvoiceDetails(res.data.message);
+    //   setInvoiceItems(res.data.message[0].ck_invoice_items);
+      // console.log(res.data.message[0].docnum)
+    }
+  };
+
+
+
+  useLayoutEffect(() => {
+    const getAllSeries = async () => {
+      const res = await instance({
+        url: `series/get/all`,
+        method: "GET",
+        headers: {
+          Authorization: Cookies.get("accessToken"),
+        },
+      });
+      setSeries(res.data.message);
+      //   console.log(res.data.message);
+    };
+    const getAllGrade = async () => {
+      const res = await instance({
+        url: `grades/getAll`,
+        method: "GET",
+        headers: {
+          Authorization: Cookies.get("accessToken"),
+        },
+      });
+      setGrade(res.data.message);
+      //   console.log(res.data.message);
+    };
+    getAllSeries();
+    getAllGrade();
+  }, []);
+
+  const snackbarRef = useRef();
+
+  React.useImperativeHandle(ref, () => ({
+    openDialog() {
+      getInvoiceDetails();
+      setOpen(true);
+    },
+  }));
+
+  const handleButtonClick = () => {
+    props.handleDialogButton();
+    setOpen(false);
+  };
+
+  const getSeriesPrice = async (id) => {
+    const res = await instance({
+      url: `series/get/seriessum/${id}`,
+      method: "GET",
+      headers: {
+        Authorization: Cookies.get("accessToken"),
+      },
+    });
+    setMrp(res.data.message.sum);
+  };
+
+  const handleProjectionForm = (value, type) => {
+    console.log(value, type);
+    switch (type) {
+      case "series_name":
+        getSeriesPrice(value.id);
+        formik.values.series = value.id;
+        break;
+      case "grades":
+        formik.values.grade = value.map((item) => {
+          return { fk_grade_id: item.id };
+        });
+        break;
+      case "Quantity":
+        formik.values.quantity = value;
+        setTotal(mrp * value);
+        break;
+      case "School Code":
+        console.log(value);
+        formik.values.schoolCode = value;
+        break;
+      case "School Name":
+        console.log(value);
+        setSchlName(value);
+        formik.values.schoolName = value;
+        break;
+      default:
+        break;
+    }
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const getName = (code) => {
+    handleProjectionForm(code, "School Code");
+    handleProjectionForm("newValue", "School Name");
+  };
+
+  return (
+    <div>
+      <Snackbars
+        ref={snackbarRef}
+        snackbarErrStatus={snackbarErrStatus}
+        errMessage={snackbarMsg}
+      />
+      <Dialog
+        open={open}
+        TransitionComponent={Transition}
+        keepMounted
+        onClose={handleClose}
+        aria-describedby="alert-dialog-slide-description"
+        className="!w-[100vw]"
+        maxWidth={"lg"}
+        fullWidth
+      >
+        <DialogTitle className="!bg-gray-500 text-white">
+          {/* <div
+            onClick={() => {
+              getInvoiceDetails();
+            }}
+          >
+            <BasicButton text={"Show Data"} />
+          </div> */}
+        </DialogTitle>
+        <DialogContent className="!bg-gray-500">
+          <DialogContentText
+            id="alert-dialog-slide-description"
+            className="!text-gray-600 !sm:text-base !text-sm grid sm:grid-cols-1 grid-cols-1 sm:gap-8 gap-6"
+          >
+            {/* <TextField
+              required
+              label="Card Name"
+              variant="standard"
+              type={"text"}
+              disabled={false}
+              // defaultValue={invoiceDetails[0].cardname}
+              // value={invoiceDetails[0].cardname}
+              InputLabelProps={{ style: { color: "white" } }}
+              inputProps={{ readOnly: true }}
+            /> */}
+
+          <div className="flex justify-end">
+          <IconButton onClick={handleClose}>
+            <CloseIcon />
+        </IconButton>
+          </div>
+            
+
+            <Box sx={{ flexGrow: 1 }}>
+              <Grid
+                container
+                spacing={{ xs: 2, md: 3 }}
+                columns={{ xs: 4, sm: 8, md: 12 }}
+              >
+                <Grid xs={2} sm={4} md={4}>
+                  <TextField
+                    label="Name"
+                    variant="standard"
+                    type={"text"}
+                    disabled={false}
+                    // defaultValue={formik.values.DocNum}
+                    defaultValue={aofName}
+                    value={aofName}
+                    // value={formik.values.DocNum}
+                    InputLabelProps={{ style: { color: "white" } }}
+                    inputProps={{ readOnly: true }}
+                  />
+                </Grid>
+                <Grid xs={2} sm={4} md={4}>
+                  <TextField
+                    label="Address"
+                    variant="standard"
+                    type={"text"}
+                    disabled={false}
+                    defaultValue={address}
+                    value={address}
+                    InputLabelProps={{ style: { color: "white" } }}
+                    inputProps={{ readOnly: true }}
+                  />
+                </Grid>
+                <Grid xs={2} sm={4} md={4}>
+                  <TextField
+                    label="School"
+                    variant="standard"
+                    type={"text"}
+                    disabled={false}
+                    defaultValue={school}
+                    value={school}
+                    InputLabelProps={{ style: { color: "white" } }}
+                    inputProps={{ readOnly: true }}
+                  />
+                </Grid>
+                <Grid xs={2} sm={4} md={4}>
+                  <TextField
+                    label="Date"
+                    variant="standard"
+                    type={"text"}
+                    disabled={false}
+                    defaultValue={date}
+                    value={date}
+                    InputLabelProps={{ style: { color: "white" } }}
+                    inputProps={{ readOnly: true }}
+                  />
+                </Grid>
+                <Grid xs={2} sm={4} md={4}>
+                  <TextField
+                    label="City"
+                    variant="standard"
+                    type={"text"}
+                    disabled={false}
+                    defaultValue={city}
+                    value={city}
+                    InputLabelProps={{ style: { color: "white" } }}
+                    inputProps={{ readOnly: true }}
+                  />
+                </Grid>
+                <Grid xs={2} sm={4} md={4}>
+                  <TextField
+                    label="State"
+                    variant="standard"
+                    type={"text"}
+                    disabled={false}
+                    defaultValue={state}
+                    value={state}
+                    InputLabelProps={{ style: { color: "white" } }}
+                    inputProps={{ readOnly: true }}
+                  />
+                </Grid>
+                <Grid xs={2} sm={4} md={4}>
+                  <TextField
+                    label="Business Est."
+                    variant="standard"
+                    type={"text"}
+                    disabled={false}
+                    defaultValue={busiEst}
+                    value={busiEst}
+                    InputLabelProps={{ style: { color: "white" } }}
+                    inputProps={{ readOnly: true }}
+                  />
+                </Grid>
+                <Grid xs={2} sm={4} md={4}>
+                  <TextField
+                    label="Firm Reg."
+                    variant="standard"
+                    type={"text"}
+                    disabled={false}
+                    defaultValue={firmReg}
+                    value={firmReg}
+                    InputLabelProps={{ style: { color: "white" } }}
+                    inputProps={{ readOnly: true }}
+                  />
+                </Grid>
+                <Grid xs={2} sm={4} md={4}>
+                  <TextField
+                    label="GST"
+                    variant="standard"
+                    type={"text"}
+                    disabled={false}
+                    defaultValue={gst}
+                    value={gst}
+                    InputLabelProps={{ style: { color: "white" } }}
+                    inputProps={{ readOnly: true }}
+                  />
+                </Grid>
+                <Grid xs={2} sm={4} md={4}>
+                  <TextField
+                    label="PAN No"
+                    variant="standard"
+                    type={"text"}
+                    disabled={false}
+                    defaultValue={pan}
+                    value={pan}
+                    InputLabelProps={{ style: { color: "white" } }}
+                    inputProps={{ readOnly: true }}
+                  />
+                </Grid>
+                <Grid xs={2} sm={4} md={4}>
+                  <TextField
+                    label="Zip Code"
+                    variant="standard"
+                    type={"text"}
+                    disabled={false}
+                    defaultValue={zip}
+                    value={zip}
+                    InputLabelProps={{ style: { color: "white" } }}
+                    inputProps={{ readOnly: true }}
+                  />
+                </Grid>
+                <Grid xs={2} sm={4} md={4}>
+                  <TextField
+                    label="Status"
+                    variant="standard"
+                    type={"text"}
+                    disabled={false}
+                    defaultValue={status}
+                    value={status}
+                    InputLabelProps={{ style: { color: "white" } }}
+                    inputProps={{ readOnly: true }}
+                  />
+                </Grid>
+              </Grid>
+            </Box>
+          </DialogContentText>
+          {/* </DialogContent> */}
+
+          {/* <div className="mt-9">
+            <DialogTitle className="!bg-gray-500 text-white">
+              Address
+            </DialogTitle>
+            <DialogContentText
+              id="alert-dialog-slide-description"
+              className="!text-gray-600 !sm:text-base !text-sm grid sm:grid-cols-1 grid-cols-1 sm:gap-8 gap-6"
+            >
+              <Box sx={{ flexGrow: 1 }}>
+                <Grid
+                  container
+                  spacing={{ xs: 2, md: 3 }}
+                  columns={{ xs: 4, sm: 8, md: 12 }}
+                >
+                  <Grid xs={2} sm={6} md={6}>
+                    <TextField
+                      className="!w-full"
+                      label="Bill From"
+                      variant="standard"
+                      type={"text"}
+                      disabled={false}
+                      defaultValue={BillFrom}
+                      value={BillFrom}
+                      InputLabelProps={{ style: { color: "white" } }}
+                      inputProps={{ readOnly: true }}
+                    />
+                  </Grid>
+                  <Grid xs={2} sm={6} md={6}>
+                    <TextField
+                      className="!w-full"
+                      label="Bill To"
+                      variant="standard"
+                      type={"text"}
+                      disabled={false}
+                      defaultValue={BillTo}
+                      value={BillTo}
+                      InputLabelProps={{ style: { color: "white" } }}
+                      inputProps={{ readOnly: true }}
+                    />
+                  </Grid>
+            
+              
+                </Grid>
+
+                <div className="mt-4">
+                <Grid container spacing={2}>
+                  <Grid xs={12}>
+                  <TextField
+                      className="!w-full "
+                      // id="outlined-multiline-static"
+                      // multiline
+                      label="Dispatch From"
+                      variant="standard"
+                      type={"text"}
+                      disabled={false}
+                      defaultValue={DispatchFrom}
+                      value={DispatchFrom}
+                      InputLabelProps={{ style: { color: "white" } }}
+                      inputProps={{ readOnly: true }}
+                    />
+                  </Grid>
+                  <Grid xs={12}>
+                  <TextField
+                      className="!w-full"
+                      // multiline
+                      label="Ships To"
+                      variant="standard"
+                      type={"text"}
+                      disabled={false}
+                      defaultValue={ShipsTo}
+                      value={ShipsTo}
+                      InputLabelProps={{ style: { color: "white" } }}
+                      inputProps={{ readOnly: true }}
+                    />
+                  </Grid>
+                </Grid>
+                </div>
+           
+              </Box>
+            </DialogContentText>
+          </div> */}
+
+
+          <div className="mt-9">
+            <DialogTitle className="!bg-gray-500 text-white">Banks</DialogTitle>
+            <DialogContentText
+              id="alert-dialog-slide-description"
+              className="!text-gray-600 !sm:text-base !text-sm grid sm:grid-cols-1 grid-cols-1 sm:gap-8 gap-6"
+            >
+              <TableContainer component={Paper}>
+                <Table sx={{ minWidth: 650 }} aria-label="customized table">
+                  <TableHead className="bg-slate-500">
+                    <TableRow>
+                      <TableCell className="!w-[12rem]" align="center">
+                        Acc Name
+                      </TableCell>
+                      <TableCell className="!w-[8rem]" align="center">
+                        Acc No
+                      </TableCell>
+                      <TableCell className="!w-[8rem]" align="center">
+                        IFSC
+                      </TableCell>
+                      <TableCell className="!w-[8rem]" align="center">
+                        Acc Type
+                      </TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody className="bg-slate-200">
+                    {banks.map((row) => (
+                      <TableRow>
+                        <TableCell align="center">
+                          {row.name}
+                        </TableCell>
+                        <TableCell align="center">{row.account_no}</TableCell>
+                        <TableCell align="center">{row.ifsc}</TableCell>
+                        <TableCell align="center">
+                          {row.acc_type}
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            </DialogContentText>
+          </div>
+          <div className="mt-4">
+            <DialogTitle className="!bg-gray-500 text-white">Trustees</DialogTitle>
+            <DialogContentText
+              id="alert-dialog-slide-description"
+              className="!text-gray-600 !sm:text-base !text-sm grid sm:grid-cols-1 grid-cols-1 sm:gap-8 gap-6"
+            >
+              <TableContainer component={Paper}>
+                <Table sx={{ minWidth: 650 }} aria-label="customized table">
+                  <TableHead className="bg-slate-500">
+                    <TableRow>
+                      <TableCell className="!w-[12rem]" align="center">
+                        Name
+                      </TableCell>
+                      <TableCell className="!w-[8rem]" align="center">
+                        Address
+                      </TableCell>
+                      <TableCell className="!w-[8rem]" align="center">
+                        Mobile
+                      </TableCell>
+                      <TableCell className="!w-[8rem]" align="center">
+                        Email
+                      </TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody className="bg-slate-200">
+                    {trustes.map((row) => (
+                      <TableRow>
+                        <TableCell align="center">
+                          {row.name}
+                        </TableCell>
+                        <TableCell align="center">{row.address}</TableCell>
+                        <TableCell align="center">{row.mobile}</TableCell>
+                        <TableCell align="center">
+                          {row.email}
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            </DialogContentText>
+          </div>
+        </DialogContent>
+      </Dialog>
+    </div>
+  );
+});
+
+export default DialogSlide10;

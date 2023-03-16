@@ -32,7 +32,7 @@ export default function RowRadioButtonsGroup({
             <FormControlLabel
               style={{ color: "white" }}
               value={item.value}
-              onClick={() => handleRadioButtons(name, item.value)}
+              onClick={() => handleRadioButtons(name, item.value, defaultValue)}
               control={
                 <Radio
                   size="small"

@@ -71,6 +71,7 @@ import GatePassInvoice from "./Pages/GatePassInvoice";
 import OrderTraining from "./Pages/OrderTraining";
 import AofPdf from "./Pages/PDF/AofPdf";
 import AofPdf2 from "./Pages/PDF/AofPdf2";
+import AOFcreate from "./Pages/AOFcreate";
 function App() {
   const isAuth = useSelector((state) => state.auth.user);
   const MsAuth = useSelector((state) => state.auth.msAuth);
@@ -282,7 +283,7 @@ function App() {
 
               <Route path="/view_pdf/:docnum/:docdate" element={<ViewPdf />} />
 
-              <Route path="/view_aof_pdf" element={<AofPdf2 />} />
+              <Route path="/view_aof_pdf/:aofid" element={<AofPdf2 />} />
 
               <Route
                 path="/bulkinv_pdf/:bp/:todate/:fromdate"
@@ -333,7 +334,7 @@ function App() {
 
               <Route
                 path="/gate_pass_pdf/:id"
-                element={isAuth || MsAuth ? <GatePass /> : <Login />}
+                element={<GatePass />}
               />
 
               <Route
@@ -354,6 +355,11 @@ function App() {
               <Route
                 path="/gatepass_invoice"
                 element={isAuth || MsAuth ? <GatePassInvoice /> : <Login />}
+              />
+
+              <Route
+                path="/aof_create"
+                element={isAuth || MsAuth ? <AOFcreate /> : <Login />}
               />
 
               {/* Admin */}

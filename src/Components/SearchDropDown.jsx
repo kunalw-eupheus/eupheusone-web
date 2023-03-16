@@ -200,6 +200,10 @@ const SearchDropDown = ({
           return option.type;
           break;
 
+        case "items_aof":
+          return option.series
+          break
+
         default:
           return "";
           break;
@@ -274,6 +278,9 @@ const SearchDropDown = ({
     }
     if (type === "select_type") {
       handleOrderProcessingForm(value, type);
+    }
+    if(type === "items_aof"){
+      handleOrderProcessingForm(value, type)
     }
     if (type === "publisher_name") {
       handleOrderProcessingForm(value, type);
