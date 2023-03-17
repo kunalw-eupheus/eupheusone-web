@@ -85,6 +85,7 @@ const AOFcreate = () => {
   // const [publisherData2, setPublisherData2] = useState([]);
   const [seriesData, setSeriesData] = useState([]);
   const [specialSpecific, setSpecialSpecific] = useState([]);
+  const [itemsData, setItemsData] = useState([])
   // const [seriesData2, setSeriesData2] = useState([]);
   const [allSchool, setAllSchool] = useState([]);
   const [state, setState] = useState([]);
@@ -757,8 +758,41 @@ const AOFcreate = () => {
         // setNameOfSchool(value);
         break;
       case "aof_status":
-        console.log(value.title);
+        // console.log(value.title);
         setAofStatus(value.title);
+        break;
+      case "title_aof":
+        console.log(value);
+        // let tempArr2 = [...seriesData];
+        console.log(itemsData);
+        // console.log(publisherData2)
+        // console.log(value);
+        let tempArr2 = [...itemsData];
+        // let arr1 = []
+        for (let ele of tempArr2) {
+          // console.log(ele)
+          // console.log(value)
+          if (ele.fk_category_id === value.id) return;
+        }
+
+        let tempObj2 = {
+          type: "special",
+          eligibile: "yes",
+          dis_type: "specific",
+          category: "items",
+          percentages: "",
+          percentages_type: "",
+          fk_category_id: value.id,
+          series: value.item_name,
+        };
+
+        tempArr2.push(tempObj2);
+        // console.log(tempArr2);
+        setItemsData(tempArr2);
+
+        break;
+
+        // setAofStatus(value.title);
         break;
       case "Address *":
         console.log(value);
@@ -863,9 +897,9 @@ const AOFcreate = () => {
         break;
 
       case "series_aof_item":
-        getTitleBySeries(value.id)
+        getTitleBySeries(value.id);
         // console.log(value)
-        break
+        break;
 
       case "select_state_location":
         //   console.log(value , "hihihiihii");
@@ -931,48 +965,23 @@ const AOFcreate = () => {
         setSeriesData(tempArr1);
 
         break;
-      // for (let ele of tempArr2) {
-      //   if (ele === value) return;
-      // }
-      // tempArr2.push(value);
-      // console.log(tempArr2);
-      // setSeriesData(tempArr2);
-
-      // let tempB = [];
-      // for (let obj of tempArr) {
-      //   let tempObj = {
-      //     type: "special",
-      //     eligibile: "yes",
-      //     dis_type: "specific",
-      //     category: "series",
-      //     percentages: "",
-      //     percentages_type: "",
-      //   };
-      //   tempObj.fk_category_id = obj.id;
-      //   tempObj.percentages_type = value;
-      //   tempB.push(tempObj);
-      // }
-      // console.log(tempB);
-      // setSeriesData2(tempB);
-
-      // break;
 
       default:
         break;
     }
   };
 
-    const getTitleBySeries = async (id) => {
-      const titles = await instance({
-        url: `items/getSeriesItem/${id}`,
-        method: "GET",
-        headers: {
-          Authorization: `${Cookies.get("accessToken")}`,
-        },
-      });
-      // console.log(titles)
-      setTitle(titles.data.message);
-    };
+  const getTitleBySeries = async (id) => {
+    const titles = await instance({
+      url: `items/getSeriesItem/${id}`,
+      method: "GET",
+      headers: {
+        Authorization: `${Cookies.get("accessToken")}`,
+      },
+    });
+    // console.log(titles.data.message)
+    setTitle(titles.data.message);
+  };
 
   const handleStartDate = (newValue) => {
     // console.log(newValue);
@@ -1082,6 +1091,22 @@ const AOFcreate = () => {
         console.log(tempData1);
         setSeriesData([]);
         setSeriesData(tempData1);
+        break;
+
+        case "items":
+          console.log(id);
+          console.log(itemsData);
+          let tempData2 = [];
+          let dataArr2 = [...itemsData];
+          for (let ele of dataArr2) {
+            if (ele.fk_category_id !== id) {
+              tempData2.push(ele);
+            }
+          }
+          console.log(tempData2);
+          setItemsData([]);
+          setItemsData(tempData2);
+          break;
     }
   };
 
@@ -1904,10 +1929,13 @@ const AOFcreate = () => {
                                 Name={"title_aof"}
                                 disable={title.length > 0 ? false : true}
                                 data={title}
+                                handleOrderProcessingForm={
+                                  handleOrderProcessingForm
+                                }
                                 label={"Select Title"}
                                 color={"rgb(243, 244, 246)"}
                               />
-                              <div className="flex justify-around items-center">
+                              {/* <div className="flex justify-around items-center">
                                 <TextField
                                   InputLabelProps={{
                                     style: { color: "white" },
@@ -1930,7 +1958,7 @@ const AOFcreate = () => {
                                     { label: "Net", value: "no" },
                                   ]}
                                 />
-                              </div>
+                              </div> */}
                               <Table
                                 sx={{ minWidth: 650 }}
                                 aria-label="customized table"
@@ -1938,13 +1966,13 @@ const AOFcreate = () => {
                                 <TableHead className="bg-slate-600">
                                   <TableRow>
                                     <TableCell
-                                      className="!w-[13rem]"
+                                      className="!w-[8rem]"
                                       align="center"
                                     >
                                       Title
                                     </TableCell>
                                     <TableCell
-                                      className="!w-[8rem]"
+                                      className="!w-[3rem]"
                                       align="center"
                                     >
                                       Percentage
@@ -1954,16 +1982,16 @@ const AOFcreate = () => {
                                       align="center"
                                     ></TableCell>
                                     <TableCell
-                                      className="!w-[4rem]"
+                                      className="!w-[2rem]"
                                       align="center"
                                     ></TableCell>
                                   </TableRow>
                                 </TableHead>
-                                {seriesData.map((row) => {
+                                {itemsData.map((row) => {
                                   return (
                                     <TableBody className="bg-slate-400">
                                       <TableRow
-                                        key={"row.series"}
+                                        key={row.fk_category_id}
                                         sx={{
                                           "&:last-child td, &:last-child th": {
                                             border: 0,
@@ -1971,7 +1999,7 @@ const AOFcreate = () => {
                                         }}
                                       >
                                         <TableCell align="center">
-                                          {"row.series"}
+                                          {row.series}
                                         </TableCell>
                                         <TableCell align="center">
                                           <TextField
@@ -2008,8 +2036,8 @@ const AOFcreate = () => {
                                               aria-label="search"
                                               onClick={() => {
                                                 handleDelete(
-                                                  "row.id",
-                                                  "series"
+                                                  row.fk_category_id,
+                                                  "items"
                                                 );
                                               }}
                                             >

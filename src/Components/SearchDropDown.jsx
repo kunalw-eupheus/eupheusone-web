@@ -173,6 +173,7 @@ const SearchDropDown = ({
           return option.series;
           break;
         case "title_aof":
+          // console.log(option)
           return option.item_name;
           break;
         // kys
@@ -311,6 +312,9 @@ const SearchDropDown = ({
       handleOrderProcessingForm(value, type, seriesId);
     }
     if (type === "fees") {
+      handleOrderProcessingForm(value, type);
+    }
+    if (type === "title_aof") {
       handleOrderProcessingForm(value, type);
     }
     if (type === "series_aof_item") {

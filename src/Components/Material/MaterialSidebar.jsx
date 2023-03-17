@@ -672,7 +672,7 @@ const SwipeableTemporaryDrawer = React.forwardRef((props, ref) => {
         </aside>
       </Link>
 
-      <Link to="/print_pdf">
+      {/* <Link to="/print_pdf">
         <aside
           // onClick={openDialog}
           className={`px-6 py-2 flex gap-4 ${
@@ -692,7 +692,7 @@ const SwipeableTemporaryDrawer = React.forwardRef((props, ref) => {
             Doc Print
           </span>
         </aside>
-      </Link>
+      </Link> */}
 
       {/* <Link to="/return">
         <aside
