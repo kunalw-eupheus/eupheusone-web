@@ -180,6 +180,8 @@ const AOFcreate = () => {
       t_phone: phoneP,
       t_mobile: mobileP,
       t_email: emailP,
+      credit_limit:creditLimit,
+      credit_type: creditLimitType,
       cp: pubArr,
       // cp: [
       //   { cp_name: "dsff", cp_business: "dsfds" },
@@ -1293,31 +1295,31 @@ const AOFcreate = () => {
                   <div
                     className="mt-3"
                     onClick={() => {
-                      // if (
-                      //   (nameOfSchool,
-                      //   aofStatus,
-                      //   schoolAddress,
-                      //   stateSelect,
-                      //   citySelect,
-                      //   pinCode,
-                      //   mobile,
-                      //   phone,
-                      //   schoolEmail,
-                      //   firmRegNo,
-                      //   panNo,
-                      //   gstNo,
-                      //   gstYear)
-                      // ) {
+                      if (
+                        (nameOfSchool,
+                        aofStatus,
+                        schoolAddress,
+                        stateSelect,
+                        citySelect,
+                        pinCode,
+                        mobile,
+                        phone,
+                        schoolEmail,
+                        firmRegNo,
+                        panNo,
+                        gstNo,
+                        gstYear)
+                      ) {
                       setSteps({ step1: false, step2: true, step3: false });
                       window.scroll({
                         top: 0,
                         behavior: "smooth",
                       });
-                      // } else {
-                      //   setSnackbarErrStatus(true);
-                      //   setErrMessage("Please Fill All The Fields");
-                      //   snackbarRef.current.openSnackbar();
-                      // }
+                      } else {
+                        setSnackbarErrStatus(true);
+                        setErrMessage("Please Fill All The Fields");
+                        snackbarRef.current.openSnackbar();
+                      }
                     }}
                   >
                     <BasicButton text={"Next"} />
@@ -1396,25 +1398,25 @@ const AOFcreate = () => {
                   </div>
                   <div
                     onClick={() => {
-                      // if (
-                      //   (panNoP,
-                      //   addressP,
-                      //   pinCodeP,
-                      //   phoneP,
-                      //   mobileP,
-                      //   emailP,
-                      //   proprietorName)
-                      // ) {
+                      if (
+                        (panNoP,
+                        addressP,
+                        pinCodeP,
+                        phoneP,
+                        mobileP,
+                        emailP,
+                        proprietorName)
+                      ) {
                       setSteps({ step1: false, step2: false, step3: true });
                       window.scroll({
                         top: 0,
                         behavior: "smooth",
                       });
-                      // } else {
-                      //   setSnackbarErrStatus(true);
-                      //   setErrMessage("Please Fill All The Fields");
-                      //   snackbarRef.current.openSnackbar();
-                      // }
+                      } else {
+                        setSnackbarErrStatus(true);
+                        setErrMessage("Please Fill All The Fields");
+                        snackbarRef.current.openSnackbar();
+                      }
                     }}
                     className="mt-3"
                   >
@@ -1473,7 +1475,7 @@ const AOFcreate = () => {
                   </div>
                   <div
                     onClick={() => {
-                      // if ((partyBankerName, accNoP, aofAcc, ifscP)) {
+                      if ((partyBankerName, accNoP, aofAcc, ifscP)) {
                       setSteps({
                         step1: false,
                         step2: false,
@@ -1484,11 +1486,11 @@ const AOFcreate = () => {
                         top: 0,
                         behavior: "smooth",
                       });
-                      // } else {
-                      //   setSnackbarErrStatus(true);
-                      //   setErrMessage("Please Fill All The Fields");
-                      //   snackbarRef.current.openSnackbar();
-                      // }
+                      } else {
+                        setSnackbarErrStatus(true);
+                        setErrMessage("Please Fill All The Fields");
+                        snackbarRef.current.openSnackbar();
+                      }
                     }}
                     className="mt-3"
                   >
@@ -1512,7 +1514,7 @@ const AOFcreate = () => {
                     <div className="sm:col-span-2">
                       <SearchDropDown
                         Name={"cred_lim_type"}
-                        data={[{ title: "Thousand" }, { title: "Lacks" }]}
+                        data={[{ title: "Thousands" }, { title: "Lacks" }]}
                         handleOrderProcessingForm={handleOrderProcessingForm}
                         label={"Select Credit Type"}
                         color={"rgb(243, 244, 246)"}
