@@ -176,6 +176,10 @@ const SearchDropDown = ({
           // console.log(option)
           return option.item_name;
           break;
+        case "cred_lim_type":
+          // console.log(option)
+          return option.title;
+          break;
         // kys
         case "grades":
           return option.name;
@@ -339,6 +343,11 @@ const SearchDropDown = ({
     if (type === "kys_comp_publisher") {
       handleOrderProcessingForm(value, type);
     }
+
+    if (type === "cred_lim_type") {
+      handleOrderProcessingForm(value, type);
+    }
+    
     if (type === "invoice_pdf_data") {
       handleOrderProcessingForm(value, type);
     }

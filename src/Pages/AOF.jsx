@@ -401,8 +401,8 @@ const AOF = () => {
                             }}
                           >
                             <TableCell align="center">{row.name}</TableCell>
-                            <TableCell align="center">{row.email}</TableCell>
                             <TableCell align="center">{row.phone}</TableCell>
+                            <TableCell align="center">{row.email}</TableCell>
                             <TableCell align="center">{row.school}</TableCell>
 
                             <TableCell align="center">{row.status}</TableCell>

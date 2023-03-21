@@ -38,28 +38,6 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Snackbars from "../Components/Material/SnackBar";
 
-// const Supplier = () => {
-//   return (
-//     <>
-//     <li className="flex gap-4 items-center">
-//           <span className="mt-4 text-gray-100">{i + 1}.</span>
-//           <BasicTextFields
-//             lable={"Name"}
-//             handleOrderProcessingForm={handleOrderProcessingForm}
-//             variant={"standard"}
-//             multiline={false}
-//           />
-//           <BasicTextFields
-//             lable={"Annual Business"}
-//             handleOrderProcessingForm={handleOrderProcessingForm}
-//             variant={"standard"}
-//             multiline={false}
-//           />
-//         </li>
-//     </>
-//   )
-// }
-
 const AOFcreate = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const navigate = useNavigate();
@@ -85,7 +63,7 @@ const AOFcreate = () => {
   // const [publisherData2, setPublisherData2] = useState([]);
   const [seriesData, setSeriesData] = useState([]);
   const [specialSpecific, setSpecialSpecific] = useState([]);
-  const [itemsData, setItemsData] = useState([])
+  const [itemsData, setItemsData] = useState([]);
   // const [seriesData2, setSeriesData2] = useState([]);
   const [allSchool, setAllSchool] = useState([]);
   const [state, setState] = useState([]);
@@ -125,10 +103,7 @@ const AOFcreate = () => {
   const [cashOption, setCashOption] = useState("");
 
   const [publisherForm, setPublisherForm] = useState([]);
-  const [publisherArr, setPublisherArr] = useState([]);
   const [chequeForm, setChequeForm] = useState([]);
-  const [chequeArr, setChequeArr] = useState([]);
-  const [publisherLength, setPublisherLength] = useState("");
 
   const [special_obj, setSpecialObj] = useState({
     type: "special",
@@ -139,6 +114,8 @@ const AOFcreate = () => {
     percentages: "",
     percentages_type: "",
   });
+  const [creditLimit, setcrditLimit] = useState("");
+  const [creditLimitType, setcrditLimitType] = useState("");
 
   const sidebarRef = useRef();
   const snackbarRef = useRef();
@@ -164,17 +141,25 @@ const AOFcreate = () => {
     for (let items of tempSeriesArr) {
       delete items.series;
     }
+    let tempItemsArr = [...itemsData];
+    // console.log(tempItemsArr)
+    for (let items of tempItemsArr) {
+      delete items.series;
+    }
+    console.log(tempItemsArr);
     // console.log(tempSeriesArr)
     // console.log(specialSpecific)
     let specialData = [
       ...tempPublisherArr,
       ...tempSeriesArr,
+      ...tempItemsArr,
       ...specialSpecific,
     ];
     console.log(specialData);
 
     let postData = {
       name: nameOfSchool,
+      status_type: aofStatus,
       fk_school_id: idOfSchool,
       fk_state_id: stateSelect,
       fk_city_id: citySelect,
@@ -377,7 +362,7 @@ const AOFcreate = () => {
         if (value === "yes") {
           // console.log("tod applicable selected Yes");
           setTodCondition("yes");
-          setStep4({ ...step4, tod: { applicable: true, type: false } });
+          setStep4({ ...step4, tod: { applicable: false, type: false } });
         } else {
           // console.log("tod applicable selected No");
           setTodCondition("no");
@@ -512,16 +497,36 @@ const AOFcreate = () => {
         // setStep4({ ...step4, special: { applicable: true, type: value } });
         break;
 
+      case "items":
+        // console.log(type, value, defaultValue);
+
+        let val2 = value;
+        let id2 = defaultValue;
+
+        console.log(val2, id2);
+
+        let dataArr2 = [...itemsData];
+        let tempArr2 = [];
+        for (let obj of dataArr2) {
+          if (id2 === obj.fk_category_id) {
+            // console.log(obj)
+            obj.percentages_type = val2;
+          }
+          tempArr2.push(obj);
+        }
+
+        console.log(tempArr2);
+        setItemsData([]);
+        setItemsData(tempArr2);
+        // setStep4({ ...step4, special: { applicable: true, type: value } });
+        break;
+
       default:
         break;
     }
   };
 
   const handleTablePercent = (val, id) => {
-    console.log(val, id);
-    // console.log(publisherData)
-    // console.log(publisherData2);
-
     let dataArr = [...publisherData];
     let tempArr = [];
     for (let obj of dataArr) {
@@ -538,11 +543,6 @@ const AOFcreate = () => {
   };
 
   const handleTablePercent2 = (val, id) => {
-    // console.log(val, id)
-    // console.log(val, id);
-    // console.log(publisherData)
-    // console.log(publisherData2);
-
     let dataArr = [...seriesData];
     let tempArr = [];
     for (let obj of dataArr) {
@@ -556,6 +556,23 @@ const AOFcreate = () => {
     console.log(tempArr);
     setSeriesData([]);
     setSeriesData(tempArr);
+  };
+
+  const handleTablePercent3 = (val, id) => {
+    console.log(val, id);
+    let dataArr = [...itemsData];
+    let tempArr = [];
+    for (let obj of dataArr) {
+      if (id === obj.fk_category_id) {
+        // console.log(obj)
+        obj.percentages = val;
+      }
+      tempArr.push(obj);
+    }
+
+    console.log(tempArr);
+    setItemsData([]);
+    setItemsData(tempArr);
   };
 
   const show = null;
@@ -758,7 +775,7 @@ const AOFcreate = () => {
         // setNameOfSchool(value);
         break;
       case "aof_status":
-        // console.log(value.title);
+        console.log(value.title);
         setAofStatus(value.title);
         break;
       case "title_aof":
@@ -825,6 +842,16 @@ const AOFcreate = () => {
       case "items_aof":
         console.log(value);
         // setPanNoP(value);
+        break;
+      case "cred_lim_type":
+        console.log(value);
+        // setPanNoP(value);
+        setcrditLimitType(value.title);
+        break;
+      case "Credit Limit":
+        console.log(value);
+        // setPanNoP(value);
+        setcrditLimit(value)
         break;
       case "Address*":
         console.log(value);
@@ -984,9 +1011,7 @@ const AOFcreate = () => {
   };
 
   const handleStartDate = (newValue) => {
-    // console.log(newValue);
     let date = `${newValue.$y}-${newValue.$M + 1}-${newValue.$D}`;
-    // console.log(date)
     setDate(date);
   };
 
@@ -1011,17 +1036,7 @@ const AOFcreate = () => {
       });
       setSeries(allSeries.data.message);
     };
-    // const getTitleBySeries = async (id) => {
-    //   const titles = await instance({
-    //     url: `items/getSeriesItem/${id}`,
-    //     method: "GET",
-    //     headers: {
-    //       Authorization: `${Cookies.get("accessToken")}`,
-    //     },
-    //   });
-    //   console.log(titles)
-    //   // setTitle(titles.data.message);
-    // };
+
     getPublishers();
     getSries();
     // getTitleBySeries()
@@ -1056,10 +1071,6 @@ const AOFcreate = () => {
     };
   }, []);
 
-  const handlePublisher = () => {
-    console.log(publisherData);
-    // setPubData([{id: "123"}, {id: "234"}, {id: "345"}])
-  };
   const handleDelete = (id, type) => {
     switch (type) {
       case "publisher":
@@ -1093,20 +1104,20 @@ const AOFcreate = () => {
         setSeriesData(tempData1);
         break;
 
-        case "items":
-          console.log(id);
-          console.log(itemsData);
-          let tempData2 = [];
-          let dataArr2 = [...itemsData];
-          for (let ele of dataArr2) {
-            if (ele.fk_category_id !== id) {
-              tempData2.push(ele);
-            }
+      case "items":
+        console.log(id);
+        console.log(itemsData);
+        let tempData2 = [];
+        let dataArr2 = [...itemsData];
+        for (let ele of dataArr2) {
+          if (ele.fk_category_id !== id) {
+            tempData2.push(ele);
           }
-          console.log(tempData2);
-          setItemsData([]);
-          setItemsData(tempData2);
-          break;
+        }
+        console.log(tempData2);
+        setItemsData([]);
+        setItemsData(tempData2);
+        break;
     }
   };
 
@@ -1488,6 +1499,27 @@ const AOFcreate = () => {
               {/* step 4 */}
               {steps.step4 ? (
                 <div className="flex flex-col gap-4  md:w-[90%] sm:w-[70%] w-[95%] px-6 bg-slate-600 rounded-md py-6 mb-[5rem] justify-center items-start">
+            
+
+                  <div className="grid sm:grid-rows-2 sm:grid-cols-3 grid-rows-4 grid-cols-1 w-full mt-6 gap-6 rounded-md bg-slate-600">
+                    <BasicTextFields
+                      lable={"Credit Limit"}
+                      handleOrderProcessingForm={handleOrderProcessingForm}
+                      type={"number"}
+                      variant={"standard"}
+                      multiline={false}
+                    />
+                    <div className="sm:col-span-2">
+                      <SearchDropDown
+                        Name={"cred_lim_type"}
+                        data={[{ title: "Thousand" }, { title: "Lacks" }]}
+                        handleOrderProcessingForm={handleOrderProcessingForm}
+                        label={"Select Credit Type"}
+                        color={"rgb(243, 244, 246)"}
+                      />
+                    </div>
+                  </div>
+
                   <div className="flex flex-col justify-center items-start w-full mt-6 rounded-md bg-slate-600">
                     <Accordion
                       defaultExpanded={true}
@@ -1669,109 +1701,114 @@ const AOFcreate = () => {
                                 </div> */}
                               </div>
 
-                              <Table
-                                sx={{ minWidth: 650 }}
-                                aria-label="customized table"
-                              >
-                                <TableHead className="bg-slate-600">
-                                  <TableRow>
-                                    <TableCell
-                                      className="!w-[8rem]"
-                                      align="center"
-                                    >
-                                      Publisher
-                                    </TableCell>
-                                    <TableCell
-                                      className="!w-[3rem]"
-                                      align="center"
-                                    >
-                                      Percentage
-                                    </TableCell>
-                                    <TableCell
-                                      className="!w-[10rem]"
-                                      align="center"
-                                    ></TableCell>
-                                    <TableCell
-                                      className="!w-[2rem]"
-                                      align="center"
-                                    ></TableCell>
-                                  </TableRow>
-                                </TableHead>
-                                {publisherData.map((row) => {
-                                  return (
-                                    <TableBody className="bg-slate-400">
-                                      <TableRow
-                                        key={"row.series"}
-                                        sx={{
-                                          "&:last-child td, &:last-child th": {
-                                            border: 0,
-                                          },
-                                        }}
+                              {publisherData.length === 0 ? (
+                                ""
+                              ) : (
+                                <Table
+                                  sx={{ minWidth: 650 }}
+                                  aria-label="customized table"
+                                >
+                                  <TableHead className="bg-slate-600">
+                                    <TableRow>
+                                      <TableCell
+                                        className="!w-[8rem]"
+                                        align="center"
                                       >
-                                        <TableCell align="center">
-                                          {row.bp_name}
-                                        </TableCell>
-
-                                        <TableCell align="center">
-                                          <TextField
-                                            // InputLabelProps={{
-                                            //   style: { color: "white" },
-                                            // }}
-                                            // inputProps={{
-                                            //   style: { color: "white" },
-                                            // }}
-                                            onChange={(e) =>
-                                              handleTablePercent(
-                                                e.target.value,
-                                                row.fk_category_id
-                                              )
-                                            }
-                                            id="outlined-basic"
-                                            label="Enter Percentage"
-                                            variant="standard"
-                                          />
-                                        </TableCell>
-
-                                        <TableCell align="center">
-                                          <RowRadioButtonsGroup
-                                            handleRadioButtons={
-                                              handleRadioButtons
-                                            }
-                                            name={"publisher"}
-                                            value={[
+                                        Publisher
+                                      </TableCell>
+                                      <TableCell
+                                        className="!w-[3rem]"
+                                        align="center"
+                                      >
+                                        Percentage
+                                      </TableCell>
+                                      <TableCell
+                                        className="!w-[10rem]"
+                                        align="center"
+                                      ></TableCell>
+                                      <TableCell
+                                        className="!w-[2rem]"
+                                        align="center"
+                                      ></TableCell>
+                                    </TableRow>
+                                  </TableHead>
+                                  {publisherData.map((row) => {
+                                    return (
+                                      <TableBody className="bg-slate-400">
+                                        <TableRow
+                                          key={"row.series"}
+                                          sx={{
+                                            "&:last-child td, &:last-child th":
                                               {
-                                                label: "Gross",
-                                                value: "gross",
+                                                border: 0,
                                               },
-                                              { label: "Net", value: "net" },
-                                            ]}
-                                            defaultValue={row.fk_category_id}
-                                          />
-                                        </TableCell>
+                                          }}
+                                        >
+                                          <TableCell align="center">
+                                            {row.bp_name}
+                                          </TableCell>
 
-                                        <TableCell align="center">
-                                          <div>
-                                            <IconButton
-                                              type="submit"
-                                              aria-label="search"
-                                              onClick={() => {
-                                                handleDelete(
-                                                  row.fk_category_id,
-                                                  "publisher"
-                                                );
-                                              }}
-                                            >
-                                              <Delete
-                                              // style={{ fill: "blue" }}
-                                              />
-                                            </IconButton>
-                                          </div>
-                                        </TableCell>
-                                      </TableRow>
-                                    </TableBody>
-                                  );
-                                })}
-                              </Table>
+                                          <TableCell align="center">
+                                            <TextField
+                                              // InputLabelProps={{
+                                              //   style: { color: "white" },
+                                              // }}
+                                              // inputProps={{
+                                              //   style: { color: "white" },
+                                              // }}
+                                              onChange={(e) =>
+                                                handleTablePercent(
+                                                  e.target.value,
+                                                  row.fk_category_id
+                                                )
+                                              }
+                                              id="outlined-basic"
+                                              label="Enter Percentage"
+                                              variant="standard"
+                                            />
+                                          </TableCell>
+
+                                          <TableCell align="center">
+                                            <RowRadioButtonsGroup
+                                              handleRadioButtons={
+                                                handleRadioButtons
+                                              }
+                                              name={"publisher"}
+                                              value={[
+                                                {
+                                                  label: "Gross",
+                                                  value: "gross",
+                                                },
+                                                { label: "Net", value: "net" },
+                                              ]}
+                                              defaultValue={row.fk_category_id}
+                                            />
+                                          </TableCell>
+
+                                          <TableCell align="center">
+                                            <div>
+                                              <IconButton
+                                                type="submit"
+                                                aria-label="search"
+                                                onClick={() => {
+                                                  handleDelete(
+                                                    row.fk_category_id,
+                                                    "publisher"
+                                                  );
+                                                }}
+                                              >
+                                                <Delete
+                                                // style={{ fill: "blue" }}
+                                                />
+                                              </IconButton>
+                                            </div>
+                                          </TableCell>
+                                        </TableRow>
+                                      </TableBody>
+                                    );
+                                  })}
+                                </Table>
+                              )}
                             </Typography>
                             <div className="w-full flex justify-center">
                               <hr className="text-gray-100 w-[80%] my-4" />
@@ -1789,90 +1826,94 @@ const AOFcreate = () => {
                                 label={"Select Series"}
                                 color={"rgb(243, 244, 246)"}
                               />
-                              <Table
-                                sx={{ minWidth: 650 }}
-                                aria-label="customized table"
-                              >
-                                <TableHead className="bg-slate-600">
-                                  <TableRow>
-                                    <TableCell
-                                      className="!w-[8rem]"
-                                      align="center"
-                                    >
-                                      Series
-                                    </TableCell>
-                                    <TableCell
-                                      className="!w-[3rem]"
-                                      align="center"
-                                    >
-                                      Percentage
-                                    </TableCell>
-                                    <TableCell
-                                      className="!w-[10rem]"
-                                      align="center"
-                                    ></TableCell>
-                                    {/* <TableCell
+                              {seriesData.length === 0 ? (
+                                ""
+                              ) : (
+                                <Table
+                                  sx={{ minWidth: 650 }}
+                                  aria-label="customized table"
+                                >
+                                  <TableHead className="bg-slate-600">
+                                    <TableRow>
+                                      <TableCell
+                                        className="!w-[8rem]"
+                                        align="center"
+                                      >
+                                        Series
+                                      </TableCell>
+                                      <TableCell
+                                        className="!w-[3rem]"
+                                        align="center"
+                                      >
+                                        Percentage
+                                      </TableCell>
+                                      <TableCell
+                                        className="!w-[10rem]"
+                                        align="center"
+                                      ></TableCell>
+                                      {/* <TableCell
                                       className="!w-[4rem]"
                                       align="center"
                                     >
                                       Select Items
                                     </TableCell> */}
-                                    <TableCell
-                                      className="!w-[2rem]"
-                                      align="center"
-                                    ></TableCell>
-                                  </TableRow>
-                                </TableHead>
-                                {seriesData.map((row) => {
-                                  return (
-                                    <TableBody className="bg-slate-400">
-                                      <TableRow
-                                        key={"row.series"}
-                                        sx={{
-                                          "&:last-child td, &:last-child th": {
-                                            border: 0,
-                                          },
-                                        }}
-                                      >
-                                        <TableCell align="center">
-                                          {row.series}
-                                        </TableCell>
-                                        <TableCell align="center">
-                                          <TextField
-                                            // InputLabelProps={{
-                                            //   style: { color: "white" },
-                                            // }}
-                                            // inputProps={{
-                                            //   style: { color: "white" },
-                                            // }}
-                                            onChange={(e) =>
-                                              handleTablePercent2(
-                                                e.target.value,
-                                                row.fk_category_id
-                                              )
-                                            }
-                                            id="outlined-basic"
-                                            label="Enter Percentage"
-                                            variant="standard"
-                                          />
-                                        </TableCell>
-                                        <TableCell align="center">
-                                          <RowRadioButtonsGroup
-                                            handleRadioButtons={
-                                              handleRadioButtons
-                                            }
-                                            name={"series"}
-                                            value={[
+                                      <TableCell
+                                        className="!w-[2rem]"
+                                        align="center"
+                                      ></TableCell>
+                                    </TableRow>
+                                  </TableHead>
+                                  {seriesData.map((row) => {
+                                    return (
+                                      <TableBody className="bg-slate-400">
+                                        <TableRow
+                                          key={"row.series"}
+                                          sx={{
+                                            "&:last-child td, &:last-child th":
                                               {
-                                                label: "Gross",
-                                                value: "gross",
+                                                border: 0,
                                               },
-                                              { label: "Net", value: "net" },
-                                            ]}
-                                            defaultValue={row.fk_category_id}
-                                          />
-                                        </TableCell>
-                                        {/* <TableCell align="center">
+                                          }}
+                                        >
+                                          <TableCell align="center">
+                                            {row.series}
+                                          </TableCell>
+                                          <TableCell align="center">
+                                            <TextField
+                                              // InputLabelProps={{
+                                              //   style: { color: "white" },
+                                              // }}
+                                              // inputProps={{
+                                              //   style: { color: "white" },
+                                              // }}
+                                              onChange={(e) =>
+                                                handleTablePercent2(
+                                                  e.target.value,
+                                                  row.fk_category_id
+                                                )
+                                              }
+                                              id="outlined-basic"
+                                              label="Enter Percentage"
+                                              variant="standard"
+                                            />
+                                          </TableCell>
+                                          <TableCell align="center">
+                                            <RowRadioButtonsGroup
+                                              handleRadioButtons={
+                                                handleRadioButtons
+                                              }
+                                              name={"series"}
+                                              value={[
+                                                {
+                                                  label: "Gross",
+                                                  value: "gross",
+                                                },
+                                                { label: "Net", value: "net" },
+                                              ]}
+                                              defaultValue={row.fk_category_id}
+                                            />
+                                          </TableCell>
+                                          {/* <TableCell align="center">
                                           <SearchDropDown
                                             Name={"items_aof"}
                                             data={series}
@@ -1885,29 +1926,30 @@ const AOFcreate = () => {
                                             color={"rgb(243, 244, 246)"}
                                           />
                                         </TableCell> */}
-                                        <TableCell align="center">
-                                          <div>
-                                            <IconButton
-                                              type="submit"
-                                              aria-label="search"
-                                              onClick={() => {
-                                                handleDelete(
-                                                  row.fk_category_id,
-                                                  "series"
-                                                );
-                                              }}
-                                            >
-                                              <Delete
-                                              // style={{ fill: "blue" }}
-                                              />
-                                            </IconButton>
-                                          </div>
-                                        </TableCell>
-                                      </TableRow>
-                                    </TableBody>
-                                  );
-                                })}
-                              </Table>
+                                          <TableCell align="center">
+                                            <div>
+                                              <IconButton
+                                                type="submit"
+                                                aria-label="search"
+                                                onClick={() => {
+                                                  handleDelete(
+                                                    row.fk_category_id,
+                                                    "series"
+                                                  );
+                                                }}
+                                              >
+                                                <Delete
+                                                // style={{ fill: "blue" }}
+                                                />
+                                              </IconButton>
+                                            </div>
+                                          </TableCell>
+                                        </TableRow>
+                                      </TableBody>
+                                    );
+                                  })}
+                                </Table>
+                              )}
                             </Typography>
                             <div className="w-full flex justify-center">
                               <hr className="text-gray-100 w-[80%] my-4" />
@@ -1959,99 +2001,111 @@ const AOFcreate = () => {
                                   ]}
                                 />
                               </div> */}
-                              <Table
-                                sx={{ minWidth: 650 }}
-                                aria-label="customized table"
-                              >
-                                <TableHead className="bg-slate-600">
-                                  <TableRow>
-                                    <TableCell
-                                      className="!w-[8rem]"
-                                      align="center"
-                                    >
-                                      Title
-                                    </TableCell>
-                                    <TableCell
-                                      className="!w-[3rem]"
-                                      align="center"
-                                    >
-                                      Percentage
-                                    </TableCell>
-                                    <TableCell
-                                      className="!w-[10rem]"
-                                      align="center"
-                                    ></TableCell>
-                                    <TableCell
-                                      className="!w-[2rem]"
-                                      align="center"
-                                    ></TableCell>
-                                  </TableRow>
-                                </TableHead>
-                                {itemsData.map((row) => {
-                                  return (
-                                    <TableBody className="bg-slate-400">
-                                      <TableRow
-                                        key={row.fk_category_id}
-                                        sx={{
-                                          "&:last-child td, &:last-child th": {
-                                            border: 0,
-                                          },
-                                        }}
+                              {itemsData.length === 0 ? (
+                                ""
+                              ) : (
+                                <Table
+                                  sx={{ minWidth: 650 }}
+                                  aria-label="customized table"
+                                >
+                                  <TableHead className="bg-slate-600">
+                                    <TableRow>
+                                      <TableCell
+                                        className="!w-[8rem]"
+                                        align="center"
                                       >
-                                        <TableCell align="center">
-                                          {row.series}
-                                        </TableCell>
-                                        <TableCell align="center">
-                                          <TextField
-                                            // InputLabelProps={{
-                                            //   style: { color: "white" },
-                                            // }}
-                                            // inputProps={{
-                                            //   style: { color: "white" },
-                                            // }}
-                                            id="outlined-basic"
-                                            label="Enter Percentage"
-                                            variant="standard"
-                                          />
-                                        </TableCell>
-                                        <TableCell align="center">
-                                          <RowRadioButtonsGroup
-                                            handleRadioButtons={
-                                              handleRadioButtons
-                                            }
-                                            name={"special"}
-                                            value={[
+                                        Title
+                                      </TableCell>
+                                      <TableCell
+                                        className="!w-[3rem]"
+                                        align="center"
+                                      >
+                                        Percentage
+                                      </TableCell>
+                                      <TableCell
+                                        className="!w-[10rem]"
+                                        align="center"
+                                      ></TableCell>
+                                      <TableCell
+                                        className="!w-[2rem]"
+                                        align="center"
+                                      ></TableCell>
+                                    </TableRow>
+                                  </TableHead>
+                                  {itemsData.map((row) => {
+                                    return (
+                                      <TableBody className="bg-slate-400">
+                                        <TableRow
+                                          key={row.fk_category_id}
+                                          sx={{
+                                            "&:last-child td, &:last-child th":
                                               {
-                                                label: "Gross",
-                                                value: "yes",
+                                                border: 0,
                                               },
-                                              { label: "Net", value: "no" },
-                                            ]}
-                                          />
-                                        </TableCell>
-                                        <TableCell align="center">
-                                          <div>
-                                            <IconButton
-                                              type="submit"
-                                              aria-label="search"
-                                              onClick={() => {
-                                                handleDelete(
-                                                  row.fk_category_id,
-                                                  "items"
-                                                );
-                                              }}
-                                            >
-                                              <Delete
-                                              // style={{ fill: "blue" }}
-                                              />
-                                            </IconButton>
-                                          </div>
-                                        </TableCell>
-                                      </TableRow>
-                                    </TableBody>
-                                  );
-                                })}
-                              </Table>
+                                          }}
+                                        >
+                                          <TableCell align="center">
+                                            {row.series}
+                                          </TableCell>
+                                          <TableCell align="center">
+                                            <TextField
+                                              // InputLabelProps={{
+                                              //   style: { color: "white" },
+                                              // }}
+                                              // inputProps={{
+                                              //   style: { color: "white" },
+                                              // }}
+                                              onChange={(e) =>
+                                                handleTablePercent3(
+                                                  e.target.value,
+                                                  row.fk_category_id
+                                                )
+                                              }
+                                              id="outlined-basic"
+                                              label="Enter Percentage"
+                                              variant="standard"
+                                            />
+                                          </TableCell>
+                                          <TableCell align="center">
+                                            <RowRadioButtonsGroup
+                                              handleRadioButtons={
+                                                handleRadioButtons
+                                              }
+                                              name={"items"}
+                                              value={[
+                                                {
+                                                  label: "Gross",
+                                                  value: "gross",
+                                                },
+                                                { label: "Net", value: "net" },
+                                              ]}
+                                              defaultValue={row.fk_category_id}
+                                            />
+                                          </TableCell>
+                                          <TableCell align="center">
+                                            <div>
+                                              <IconButton
+                                                type="submit"
+                                                aria-label="search"
+                                                onClick={() => {
+                                                  handleDelete(
+                                                    row.fk_category_id,
+                                                    "items"
+                                                  );
+                                                }}
+                                              >
+                                                <Delete
+                                                // style={{ fill: "blue" }}
+                                                />
+                                              </IconButton>
+                                            </div>
+                                          </TableCell>
+                                        </TableRow>
+                                      </TableBody>
+                                    );
+                                  })}
+                                </Table>
+                              )}
                             </Typography>
                           </>
                         ) : null}

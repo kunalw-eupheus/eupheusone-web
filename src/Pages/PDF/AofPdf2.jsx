@@ -1,9 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useLayoutEffect } from "react";
 import { Link } from "react-router-dom";
 import eupheusLogo from "./eupheusLogo.png";
 import instance from "../../Instance";
 import Cookies from "js-cookie";
 import { useParams } from "react-router-dom";
+import { getToken } from "../../util/msAuth";
+import { protectedResources } from "../../util/msConfig";
+
 
 const AofPdf2 = () => {
   const [date, setDate] = useState("");
@@ -42,8 +45,47 @@ const AofPdf2 = () => {
   const [seriesArr, setSeriesArr] = useState([]);
   const [publisheArr, setPublisherArr] = useState([]);
 
+  const [modelOpen, setModelOpen] = useState(false);
+  const [user, setUser] = useState({});
+
+
+
   useEffect(() => {
     getData();
+  }, []);
+
+  useLayoutEffect(() => {
+    const getUser = async () => {
+      if (Cookies.get("ms-auth")) {
+        const accessToken = await getToken(
+          protectedResources.apiTodoList.scopes.read
+        );
+        const res = await instance({
+          url: "user/profile",
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        });
+        // console.log(res.data.message)
+        setUser(res.data.message);
+      } else {
+        const res = await instance({
+          url: "user/profile",
+          method: "GET",
+          headers: {
+            Authorization: `${Cookies.get("accessToken")}`,
+          },
+        }).catch((err) => {
+          if (err.response.status === 401) {
+            setModelOpen(true);
+          }
+        });
+        // console.log(res.data.message)
+        setUser(res.data.message);
+      }
+    };
+    getUser();
   }, []);
 
   const { aofid } = useParams();
@@ -413,7 +455,7 @@ const AofPdf2 = () => {
             Ltd., company incorporated and registered under the Companies Act,
             2013 with its registered office located at 5th Floor, Cabin No 3,
             Right side at Plot No E-196, Phase 8B, Mohali, Mohali, Punjab,
-            India, 160020 through ___________ Hereinafter referred to as
+            India, 160020 through __{user.first_name}__ Hereinafter referred to as
             “Eupheus” which expression shall unless repugnant to the context
             means and include its successors and assigns of the ONE PART
           </div>
@@ -679,7 +721,7 @@ const AofPdf2 = () => {
               <b>Solutions Private Limited</b>
             </div>
             <div style={{ marginTop: "20px" }}>By: _____________</div>
-            <div style={{ marginTop: "2px" }}>Name: _____________</div>
+            <div style={{ marginTop: "2px" }}>Name: __{user.first_name}__</div>
             <div style={{ marginTop: "2px" }}>Title: _____________</div>
             <div style={{ marginTop: "2px" }}>(Authorised Officer)</div>
             <div style={{ marginTop: "2px" }}>Witness1: _______________</div>
@@ -732,7 +774,7 @@ const AofPdf2 = () => {
                 <td style={{ border: "1px solid black" }}>TOD</td>
                 <td
                   style={{ border: "1px solid black" }}
-                >{`${todDiscData.percent} %`}</td>
+                >{`${todDiscData.percent}`}</td>
                 <td
                   style={{ border: "1px solid black" }}
                 >{`${todDiscData.remark}  (${todDiscData.percentages_type})`}</td>

@@ -1,10 +1,91 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useParams } from "react-router-dom";
 import eupheusLogo from "./eupheusLogo.png";
 import "./CustLedger.css";
+import instance from "../../Instance";
+import { useState } from "react";
 
 const CustLedger = () => {
+  const [date, setDate] = useState("");
+  const [address, setAddress] = useState("");
+  const [bpCode, setBpCode] = useState("");
+  const [bpName, setBpName] = useState("");
+  const [curr, setCurr] = useState("");
+  const [openingDr, setOpeningDr] = useState("");
+  const [closingDr, setClosingDr] = useState("");
+  const [arrData, setArrData] = useState([]);
+  const [ttlDebit, setTtlDebit] = useState("");
+  const [ttlCredit, setTtlCredit] = useState("");
+
+  const { bp, todate, fromdate } = useParams();
+
+  useEffect(() => {
+    getAllData();
+  }, []);
+
+  const getAllData = async () => {
+    // const res = await axios
+    //   .post(
+    //     `http://192.168.7.148:5070/api/doc_print/invoice/detail`,
+    //     {
+    //       category: "inv",
+    //       doc_num: docnum,
+    //       doc_date: docdate,
+    //     },
+    //     {
+    //       headers: {
+    //         accesskey: ``,
+    //       },
+    //     }
+    //   )
+    //   .catch((e) => {
+    //     console.log(e.message);
+    //   });
+
+    // console.log(process.env.CRM_V2KEY)
+
+    console.log(bp, todate, fromdate);
+
+    const res = await instance({
+      url: `doc_print/ledger/getdata`,
+      method: "post",
+      data: {
+        bpcode: bp,
+        todate: todate,
+        fromdate: fromdate,
+      },
+      headers: {
+        // Authorization: Cookies.get("accessToken"),
+        accesskey: `auth74961a98ba76d4e4`,
+      },
+    });
+    let data = res.data.message.message[0];
+    let tableData = res.data.message.items;
+    let totalDebit = 0,
+      totalCredit = 0;
+    for (let obj of tableData) {
+      totalDebit += obj.debitAmount;
+      totalCredit += obj.creditAmount;
+      // console.log(obj.debitAmount)
+    }
+    // console.log(totalDebit)
+    setTtlDebit(totalDebit);
+    // console.log(totalCredit)
+    setTtlCredit(totalCredit);
+    // console.log(data);
+    setDate(data.date);
+    setAddress(data.address);
+    setBpCode(data.bpcode);
+    setBpName(data.bpname);
+    setCurr(data.cur);
+    setOpeningDr(data.opening);
+    setClosingDr(data.closing);
+    setArrData(tableData);
+    console.log(tableData);
+  };
+
   return (
-    <div className='bg-white w-[21cm]'>
+    <div className="bg-white w-[21cm]">
       <p style={{ textIndent: "0pt", textAlign: "left" }}>
         <span></span>
       </p>
@@ -12,13 +93,13 @@ const CustLedger = () => {
         <tbody>
           <tr>
             <td>
-            <div
-              style={{
-                  paddingLeft: "15pt"
-                }}>
+              <div
+                style={{
+                  paddingLeft: "15pt",
+                }}
+              >
                 <img width={320} height={94} src={eupheusLogo} />
-            </div>
-              
+              </div>
             </td>
             <td>
               <h1
@@ -49,14 +130,13 @@ const CustLedger = () => {
                   textAlign: "left",
                 }}
               >
-                New Delhi - 110044 Delhi - INDIA
+                New Delhi - 110044, Delhi - INDIA
               </h3>
             </td>
           </tr>
         </tbody>
       </table>
       <p />
-   
 
       <p style={{ textIndent: "0pt", textAlign: "left" }}>
         <br />
@@ -68,20 +148,18 @@ const CustLedger = () => {
             <td style={{ width: "726pt" }} colSpan={6}>
               <h2
                 style={{
-                  paddingLeft: "450pt",
+                  paddingLeft: "240pt",
                   textIndent: "0pt",
                   lineHeight: "180%",
                   textAlign: "left",
                 }}
               >
                 Customer Ledger
-
               </h2>
             </td>
           </tr>
-          </tbody>
-          </table>
-          
+        </tbody>
+      </table>
 
       <table style={{ borderCollapse: "collapse" }} cellSpacing={0}>
         <tbody>
@@ -95,7 +173,8 @@ const CustLedger = () => {
                   textAlign: "left",
                 }}
               >
-                Date: 01-Oct-2021 to 18-Oct-2022
+                {/* Date: {01-Oct-2021 to 18-Oct-2022} */}
+                Date: {date}
               </h2>
             </td>
           </tr>
@@ -114,7 +193,7 @@ const CustLedger = () => {
             </td>
           </tr> */}
 
-          <tr style={{ height: "18pt" }}>
+          <tr style={{ height: "18pt", borderBottom: '2px solid black' }}>
             <td
               style={{
                 width: "93pt",
@@ -131,7 +210,25 @@ const CustLedger = () => {
                   textAlign: "left",
                 }}
               >
-                Customer Code <span className="s8">CBP000211</span>
+                Customer Code{" "}
+                <span className="s8">
+                  {/* CBP000211 */}
+                  {bpCode}
+                </span>
+              </h2>
+              <h2
+                style={{
+                  paddingLeft: "15pt",
+                  textIndent: "0pt",
+                  lineHeight: "180%",
+                  textAlign: "left",
+                }}
+              >
+                Customer Name{" "}
+                <span className="s8">
+                  {/* MKK Enterprises */}
+                  {bpName}
+                </span>
               </h2>
             </td>
 
@@ -151,7 +248,11 @@ const CustLedger = () => {
                   textAlign: "left",
                 }}
               >
-                Customer Name <span className="s8">MKK Enterprises</span>
+                Address:{" "}
+                <span className="s8">
+                  {/* F-2/13 Ratiya Marg Sangam Vihar , New Delhi, DELHI,India, 110080 */}
+                  {address}
+                </span>
               </h2>
             </td>
 
@@ -170,16 +271,47 @@ const CustLedger = () => {
                   textAlign: "left",
                 }}
               >
-                Address:{" "}
-                <span className="s8">
-                  F-2/13 Ratiya Marg Sangam Vihar , New Delhi, DELHI,India,
-                  110080
-                </span>
+                {/* Address:{" "} */}
+                {/* <span className="s8"> */}
+                {/* F-2/13 Ratiya Marg Sangam Vihar , New Delhi, DELHI,India, 110080 */}
+                {/* {address} */}
+                {/* </span> */}
               </h2>
             </td>
           </tr>
 
-          <tr style={{ height: "18pt" }}>
+          {/* <hr style={{
+          background: 'black',
+          color: 'black',
+          borderColor: 'black',
+          height: '2px',
+          width: "100%"
+        }}/> */}
+
+          {/* <tr style={{
+          background: 'black',
+          color: 'black',
+          borderColor: 'black',
+          height: '12px',
+          width: "100%"
+        }}>
+        </tr> */}
+          {/* <div className="w-[21cm]" style={{
+          borderTop: "solid",
+          
+        }}>
+            Hello */}
+
+   
+
+          <tr
+            style={{
+              // background: "black",
+              color: "black",
+              borderColor: "black",
+              // height: "2px",
+            }}
+          >
             <td
               style={{
                 width: "93pt",
@@ -220,12 +352,13 @@ const CustLedger = () => {
                   textAlign: "left",
                 }}
               >
-                INR
+                {/* INR */}
+                {curr}
               </p>
             </td>
             <td
               style={{
-                width: "155pt",
+                width: "255pt",
                 borderTopStyle: "solid",
                 borderTopWidth: "1pt",
                 borderBottomStyle: "solid",
@@ -264,15 +397,18 @@ const CustLedger = () => {
                   textAlign: "right",
                 }}
               >
-                195,121.00
+                {/* 195,121.00 */}
+                {`${openingDr}.00`}
               </p>
             </td>
           </tr>
 
+          {/* </div> */}
+
           <tr style={{ height: "18pt" }}>
             <td
               style={{
-                width: "93pt",
+                width: "150pt",
                 borderTopStyle: "solid",
                 borderTopWidth: "1pt",
                 borderBottomStyle: "solid",
@@ -419,143 +555,156 @@ const CustLedger = () => {
               </p>
             </td>
           </tr>
-          <tr style={{ height: "24pt" }}>
-            <td
-              style={{
-                width: "93pt",
-                borderTopStyle: "solid",
-                borderTopWidth: "1pt",
-              }}
-            >
-              <p
-                className="s5"
-                style={{
-                  paddingLeft: "15pt",
-                  paddingTop: "5pt",
-                  textIndent: "0pt",
-                  textAlign: "left",
-                }}
-              >
-                CN/31581/21-22
-              </p>
-            </td>
-            <td
-              style={{
-                width: "114pt",
-                borderTopStyle: "solid",
-                borderTopWidth: "1pt",
-              }}
-            >
-              <p
-                className="s5"
-                style={{
-                  paddingTop: "5pt",
-                  paddingLeft: "44pt",
-                  textIndent: "0pt",
-                  textAlign: "left",
-                }}
-              >
-                14-Dec-2021
-              </p>
-            </td>
-            <td
-              style={{
-                width: "107pt",
-                borderTopStyle: "solid",
-                borderTopWidth: "1pt",
-              }}
-            >
-              <p
-                className="s6"
-                style={{
-                  paddingTop: "5pt",
-                  paddingLeft: "22pt",
-                  textIndent: "0pt",
-                  textAlign: "left",
-                }}
-              >
-                Credit Note
-              </p>
-            </td>
-            <td
-              style={{
-                width: "180pt",
-                borderTopStyle: "solid",
-                borderTopWidth: "1pt",
-              }}
-            >
-              <p
-                className="s6"
-                style={{
-                  paddingTop: "5pt",
-                  paddingLeft: "9pt",
-                  textIndent: "0pt",
-                  textAlign: "left",
-                }}
-              >
-                31581
-              </p>
-            </td>
-            <td
-              style={{
-                width: "55pt",
-                borderTopStyle: "solid",
-                borderTopWidth: "1pt",
-              }}
-            >
-              <p
-                className="s5"
-                style={{
-                  paddingTop: "5pt",
-                  paddingLeft: "9pt",
-                  paddingRight: "19pt",
-                  textIndent: "0pt",
-                  textAlign: "center",
-                }}
-              >
-                Cr
-              </p>
-            </td>
-            <td
-              style={{
-                width: "101pt",
-                borderTopStyle: "solid",
-                borderTopWidth: "1pt",
-              }}
-            >
-              <p
-                className="s5"
-                style={{
-                  paddingTop: "5pt",
-                  paddingRight: "22pt",
-                  textIndent: "0pt",
-                  textAlign: "right",
-                }}
-              >
-                0.00
-              </p>
-            </td>
-            <td
-              style={{
-                width: "169pt",
-                borderTopStyle: "solid",
-                borderTopWidth: "1pt",
-              }}
-            >
-              <p
-                className="s5"
-                style={{
-                  paddingTop: "5pt",
-                  paddingRight: "89pt",
-                  textIndent: "0pt",
-                  textAlign: "right",
-                }}
-              >
-                56,056.00
-              </p>
-            </td>
-          </tr>
-          <tr style={{ height: "26pt" }}>
+
+          {arrData.map((item) => {
+            return (
+              <tr style={{ height: "24pt" }}>
+                <td
+                  style={{
+                    width: "100pt",
+                    borderTopStyle: "solid",
+                    borderTopWidth: "1pt",
+                  }}
+                >
+                  <p
+                    className="s5"
+                    style={{
+                      paddingLeft: "15pt",
+                      paddingTop: "5pt",
+                      textIndent: "0pt",
+                      textAlign: "left",
+                    }}
+                  >
+                    {/* CN/31581/21-22 */}
+                    {item.docno}
+                  </p>
+                </td>
+                <td
+                  style={{
+                    width: "250pt",
+                    borderTopStyle: "solid",
+                    borderTopWidth: "1pt",
+                  }}
+                >
+                  <p
+                    className="s5"
+                    style={{
+                      paddingTop: "5pt",
+                      paddingLeft: "44pt",
+                      textIndent: "0pt",
+                      textAlign: "left",
+                    }}
+                  >
+                    {/* 14-Dec-2021 */}
+                    {item.docdate}
+                  </p>
+                </td>
+                <td
+                  style={{
+                    width: "107pt",
+                    borderTopStyle: "solid",
+                    borderTopWidth: "1pt",
+                  }}
+                >
+                  <p
+                    className="s6"
+                    style={{
+                      paddingTop: "5pt",
+                      paddingLeft: "22pt",
+                      textIndent: "0pt",
+                      textAlign: "left",
+                    }}
+                  >
+                    {/* Credit Note */}
+                    {item.desc}
+                  </p>
+                </td>
+                <td
+                  style={{
+                    width: "180pt",
+                    borderTopStyle: "solid",
+                    borderTopWidth: "1pt",
+                  }}
+                >
+                  <p
+                    className="s6"
+                    style={{
+                      paddingTop: "5pt",
+                      paddingLeft: "9pt",
+                      textIndent: "0pt",
+                      textAlign: "left",
+                    }}
+                  >
+                    {/* 31581 */}
+                    {item.ref}
+                  </p>
+                </td>
+                <td
+                  style={{
+                    width: "55pt",
+                    borderTopStyle: "solid",
+                    borderTopWidth: "1pt",
+                  }}
+                >
+                  <p
+                    className="s5"
+                    style={{
+                      paddingTop: "5pt",
+                      paddingLeft: "9pt",
+                      paddingRight: "19pt",
+                      textIndent: "0pt",
+                      textAlign: "center",
+                    }}
+                  >
+                    {/* Cr */}
+                    {item.DrCr}
+                  </p>
+                </td>
+                <td
+                  style={{
+                    width: "101pt",
+                    borderTopStyle: "solid",
+                    borderTopWidth: "1pt",
+                  }}
+                >
+                  <p
+                    className="s5"
+                    style={{
+                      paddingTop: "5pt",
+                      paddingRight: "22pt",
+                      textIndent: "0pt",
+                      textAlign: "right",
+                    }}
+                  >
+                    {/* 0.00 */}
+                    {`${item.debitAmount}.00`}
+                  </p>
+                </td>
+                <td
+                  style={{
+                    width: "169pt",
+                    borderTopStyle: "solid",
+                    borderTopWidth: "1pt",
+                  }}
+                >
+                  <p
+                    className="s5"
+                    style={{
+                      paddingTop: "5pt",
+                      paddingRight: "89pt",
+                      textIndent: "0pt",
+                      textAlign: "right",
+                    }}
+                  >
+                    {/* 56,056.00 */}
+                    {`${item.creditAmount}.00`}
+                  </p>
+                </td>
+              </tr>
+            );
+          })}
+
+          {/* <tr style={{ height: "26pt" }}>
             <td style={{ width: "93pt" }}>
               <p
                 className="s5"
@@ -878,7 +1027,8 @@ const CustLedger = () => {
                 167,200.00
               </p>
             </td>
-          </tr>
+          </tr> */}
+
           <tr style={{ height: "9pt" }}>
             <td
               style={{
@@ -951,7 +1101,8 @@ const CustLedger = () => {
                   textAlign: "right",
                 }}
               >
-                18,497.00
+                {/* 18,497.00 */}
+                {`${ttlDebit}.00`}
               </p>
             </td>
             <td
@@ -970,7 +1121,8 @@ const CustLedger = () => {
                   textAlign: "right",
                 }}
               >
-                226,392.00
+                {/* 226,392.00 */}
+                {`${ttlCredit}.00`}
               </p>
             </td>
           </tr>
@@ -980,13 +1132,14 @@ const CustLedger = () => {
                 className="s4"
                 style={{
                   paddingTop: "4pt",
-                  paddingLeft: "462pt",
+                  paddingLeft: "362pt",
                   textIndent: "0pt",
                   lineHeight: "9pt",
                   textAlign: "left",
                 }}
               >
-                Closing Balance : - -12,774.00
+                Closing Balance : {`${closingDr}.00`}
+                {/* -12,774.00 */}
               </p>
             </td>
           </tr>
@@ -1015,7 +1168,14 @@ const CustLedger = () => {
           textAlign: "left",
         }}
       ></p>
-      <hr/>
+      <hr
+        style={{
+          background: "black",
+          color: "black",
+          borderColor: "black",
+          height: "2px",
+        }}
+      />
       <p
         className="s9"
         style={{

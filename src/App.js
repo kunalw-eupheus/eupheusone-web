@@ -12,7 +12,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 // import Opportunities from "./Pages/Opportunities";
 import ManageSchool from "./Pages/ManageSchool";
 // import AdminLogin from "./Pages/AdminLogin";
-// import AdminHome from "./Pages/AdminHome";
+import AdminHome from "./Pages/AdminHome";
 // import AdminSignUp from "./Pages/AdminSignUp";
 // import AdminAllUser from "./Pages/AdminAllUser";
 // import AdminState from "./Pages/AdminState";
@@ -72,17 +72,24 @@ import OrderTraining from "./Pages/OrderTraining";
 import AofPdf from "./Pages/PDF/AofPdf";
 import AofPdf2 from "./Pages/PDF/AofPdf2";
 import AOFcreate from "./Pages/AOFcreate";
+import ViewCustomerLedger from "./Pages/ViewCustomerLedger";
+import AdminManageSchool from "./Pages/AdminManageSchool";
+import AdminAddSchool from "./Pages/AdminAddSchool";
+import AdminTagging from "./Pages/AdminTagging";
 function App() {
   const isAuth = useSelector((state) => state.auth.user);
   const MsAuth = useSelector((state) => state.auth.msAuth);
 
   // const isAuth = true
-  // const Admin = useSelector((state) => state.auth.admin);
-  const Admin = true;
+  const Admin = useSelector((state) => state.auth.admin);
+  // const Admin = true;
 
   return (
     <div>
       <div>
+        {/* {console.log(isAuth)} */}
+        {/* {console.log(MsAuth)} */}
+        {/* {console.log(Admin)} */}
         <div className="!font-Roboto bg-[#111322]">
           <BrowserRouter>
             <Routes>
@@ -328,14 +335,13 @@ function App() {
               />
 
               <Route
-                path="/cust_ledger"
-                element={isAuth || MsAuth ? <CustLedger /> : <Login />}
+                path="/customer_pdf"
+                element={isAuth || MsAuth ? <ViewCustomerLedger /> : <Login />}
               />
 
-              <Route
-                path="/gate_pass_pdf/:id"
-                element={<GatePass />}
-              />
+              <Route path="/cust_ledger/:bp/:todate/:fromdate" element={<CustLedger />} />
+
+              <Route path="/gate_pass_pdf/:id" element={<GatePass />} />
 
               <Route
                 path="/add_new_city"
@@ -365,10 +371,31 @@ function App() {
               {/* Admin */}
 
               {/* <Route path="/admin/signIn" element={<AdminLogin />} /> */}
-              {/* <Route
-            path="/admin/home"
-            element={Admin ? <AdminHome /> : <Login />}
-          /> */}
+
+              <Route
+                path="/admin/home"
+                // element={Admin ? <AdminHome /> : <Login />}
+                element={<AdminHome />}
+              />
+
+              <Route
+                path="/admin/manageschool"
+                // element={Admin ? <AdminManageSchool /> : <Login />}
+                element={<AdminManageSchool />}
+              />
+
+              <Route
+                path="/admin/addschool"
+                // element={Admin ? <AdminAddSchool /> : <Login />}
+                element={<AdminAddSchool />}
+              />
+
+              <Route
+                path="/admin/tagging"
+                // element={Admin ? <AdminHome /> : <Login />}
+                element={<AdminTagging />}
+              />
+
               {/* <Route
             path="/admin/user/create/new"
             element={Admin ? <AdminSignUp /> : <Login />}
