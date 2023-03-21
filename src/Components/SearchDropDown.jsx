@@ -119,10 +119,10 @@ const SearchDropDown = ({
           return option.state;
           break;
 
-          case "select_schools":
-            // console.log(option)
-            return option.school_name;
-            break;
+        case "select_schools":
+          // console.log(option)
+          return option.school_name;
+          break;
 
         case "select_ck_state":
           // console.log(option)
@@ -169,8 +169,16 @@ const SearchDropDown = ({
         case "series_aof":
           return option.series;
           break;
+        case "series_aof_item":
+          return option.series;
+          break;
         case "title_aof":
+          // console.log(option)
           return option.item_name;
+          break;
+        case "cred_lim_type":
+          // console.log(option)
+          return option.title;
           break;
         // kys
         case "grades":
@@ -201,8 +209,8 @@ const SearchDropDown = ({
           break;
 
         case "items_aof":
-          return option.series
-          break
+          return option.series;
+          break;
 
         default:
           return "";
@@ -279,8 +287,8 @@ const SearchDropDown = ({
     if (type === "select_type") {
       handleOrderProcessingForm(value, type);
     }
-    if(type === "items_aof"){
-      handleOrderProcessingForm(value, type)
+    if (type === "items_aof") {
+      handleOrderProcessingForm(value, type);
     }
     if (type === "publisher_name") {
       handleOrderProcessingForm(value, type);
@@ -310,6 +318,12 @@ const SearchDropDown = ({
     if (type === "fees") {
       handleOrderProcessingForm(value, type);
     }
+    if (type === "title_aof") {
+      handleOrderProcessingForm(value, type);
+    }
+    if (type === "series_aof_item") {
+      handleOrderProcessingForm(value, type);
+    }
     if (type === "to_convert") {
       // console.log(value, type, seriesId)
       handleOrderProcessingForm(value.convert, type, seriesId);
@@ -329,6 +343,11 @@ const SearchDropDown = ({
     if (type === "kys_comp_publisher") {
       handleOrderProcessingForm(value, type);
     }
+
+    if (type === "cred_lim_type") {
+      handleOrderProcessingForm(value, type);
+    }
+    
     if (type === "invoice_pdf_data") {
       handleOrderProcessingForm(value, type);
     }

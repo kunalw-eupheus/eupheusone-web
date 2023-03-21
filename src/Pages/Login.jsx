@@ -99,11 +99,10 @@ const Login = () => {
         navigate("/gatepass_dashboard");
         console.log("testing2")
       }
-      
-      // else if(res.data.company === "Euphues"){
-        // navigate("/ck_dashboard");
-        // console.log("testing2")
-      // }
+      else if(res.data.type === "admin" && res.data.company === "Eupheus"){
+        navigate("/aof")
+        console.log("This is in admin login")
+      }
       else{
         navigate("/");
         // dispatch(authActions.login());

@@ -10,8 +10,8 @@ import Loader from "../Components/Loader";
 import orderImg from "../assets/img/order.png";
 import documentImg from "../assets/img/documents.png";
 import zohoImg from "../assets/img/zoho.png";
-import invoiceLogo from "../assets/img/invoice_logo.jpg"
-import creditLogo from "../assets/img/creditNote.jpg"
+import invoiceLogo from "../assets/img/invoice_logo.jpg";
+import creditLogo from "../assets/img/creditNote.jpg";
 import CustLedger from "../assets/img/custLedger.jpg";
 import SwipeableTemporaryDrawer from "../Components/Material/MaterialSidebar";
 
@@ -184,12 +184,8 @@ const PrintPDF = () => {
               </a> */}
 
               <div className="w-full flex flex-col px-4 pb-6 sm:flex-row gap-6 items-center justify-center">
-
-              
-
-              
                 <section className="flex sm:w-[30%] sm:h-[23rem] w-full sm:flex-col flex-row gap-4 hover:shadow-2xl items-center justify-between px-4 py-4 bg-gray-200 rounded-md">
-                <span className="md:text-2xl sm:text-base text-sm font-bold">
+                  <span className="md:text-2xl sm:text-base text-sm font-bold">
                     Invoice PDF
                   </span>
                   <img
@@ -197,14 +193,19 @@ const PrintPDF = () => {
                     className="md:w-[10.8rem] sm:w-[7.5rem] w-[4rem] h-auto "
                     alt=""
                   />
-                 <div>
-                 <Link to="/invoice_pdf_single">
-                    <BasicButton text={"Single-Invoice"} />
-                  </Link>
-                  {/* <Link to="/invoice_pdf_double">
-                    <BasicButton text={"Bulk-Invoice"} />
-                  </Link> */}
-                 </div>
+                  <div className="flex gap-2">
+                    <div>
+                      <Link to="/invoice_pdf_single">
+                        <BasicButton text={"Single Invoice"} />
+                      </Link>
+                    </div>
+
+                    <div>
+                      <Link to="/invoice_pdf_double">
+                        <BasicButton text={"Bulk Invoice"} />
+                      </Link>
+                    </div>
+                  </div>
                 </section>
 
                 <section className="flex sm:w-[30%] sm:h-[23rem] w-full sm:flex-col cursor-not-allowed flex-row gap-4 hover:shadow-2xl items-center justify-between px-4 py-4 bg-gray-200 rounded-md">
@@ -233,14 +234,14 @@ const PrintPDF = () => {
                     alt=""
                   /> */}
                   <span className="md:text-2xl sm:text-base text-sm font-bold">
-                    Cust Ledger
+                    Customer Ledger
                   </span>
                   <img
                     src={CustLedger}
                     className="md:w-[10.8rem] sm:w-[7.5rem] w-[4rem] h-auto "
                     alt=""
                   />
-                  {/* <Link to="/order_processing" >
+                  {/* <Link to="/customer_pdf" >
                     <BasicButton text={"Next"} />
                   </Link> */}
                 </section>

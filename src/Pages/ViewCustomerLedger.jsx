@@ -3,7 +3,7 @@ import { useState } from "react";
 import Navbar from "../Components/Navbar";
 import Sidebar from "../Components/Sidebar";
 // import { Add } from '@mui/icons-material'
-import { Link, redirect } from "react-router-dom";
+import { Link, redirect, useParams } from "react-router-dom";
 import DataTable from "../Components/DataTable";
 // import { rows, ManageSchoolRows } from '../DummyData'
 import SearchDropDown from "../Components/SearchDropDown";
@@ -31,7 +31,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { Stack } from "@mui/system";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 
-const ViewInvoiceDouble = () => {
+const ViewCustomerLedger = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [highLight, setHighLight] = useState("printpdf");
   const [loading, setLoading] = useState(false);
@@ -47,60 +47,24 @@ const ViewInvoiceDouble = () => {
   const [searchRow, setSearchRow] = useState([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-  const [bpCode, setBpCode] = useState("");
-  const [startDate, setStartDate] = useState("");
-  const [endDate, setEndDate] = useState("");
-
-  // Avoid a layout jump when reaching the last page with empty rows.
-  const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - schoolRow.length) : 0;
-
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
-  };
-
-  const navigate = useNavigate();
+  const [bpCode, setBpCode] = useState(null);
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
+ 
 
   const navInfo = {
-    title: "Manage School",
-    details: ["Home", " / Manage School"],
+    title: "Doc Print",
+    details: ["Home", " / Doc Print", "/ Ledger"],
   };
 
-  const types = [
-    { types: "Classklap" },
-    { types: "Eupheus Learning" },
-    { types: "All" },
-  ];
 
-  const Tablecolumns = [
-    { field: "SchoolName", headerName: "School Name", width: 300 },
-    {
-      field: "State",
-      headerName: "State",
-      width: 120,
-    },
-    {
-      field: "City",
-      headerName: "City",
-      width: 120,
-    },
-    {
-      field: "School Code",
-      headerName: "SchoolCode",
-      width: 400,
-    },
-  ];
 
   const handleSidebarCollapsed = () => {
     sidebarRef.current.openSidebar();
   };
 
   const handleStartDate = (newValue) => {
+    // console.log(newValue)
     setStartDate(newValue);
   };
 
@@ -138,6 +102,7 @@ const ViewInvoiceDouble = () => {
   };
 
   const handlePDF = async () => {
+    if(!startDate || !endDate || !bpCode) alert("All fields are needed") 
     let strtMonth = startDate.$M + 1;
     if (strtMonth < 10) strtMonth = `0${strtMonth}`;
     let strtDay = startDate.$D;
@@ -159,76 +124,36 @@ const ViewInvoiceDouble = () => {
     console.log("bpCode= ",bpCode);
 
     let postdata = {
-      bp: bpCode,
+      bpcode: bpCode,
       // bp: "CBP510860",
       todate: endDte,
       fromdate: strtDte,
     };
     console.log(postdata)
-    setLoading(true);
-    const res = await instance({
-      url: `doc_print/invoice/bulk/data`,
-      method: "post",
-      data: postdata,
-      headers: {
-        Authorization: Cookies.get("accessToken"),
-      },
-    });
-    console.log(res.data.message);
-    if (res.data.message === "No Invoice Found") {
-      alert(res.data.message);
-    } else {
-      let downloadUrl = res.data.message;
-      window.open(downloadUrl);
-    }
-    setLoading(false);
+    // setLoading(true);
+    // const res = await instance({
+    //   url: `doc_print/invoice/bulk/data`,
+    //   method: "post",
+    //   data: postdata,
+    //   headers: {
+    //     Authorization: Cookies.get("accessToken"),
+    //   },
+    // });
+    // console.log(res.data.message);
+    // if (res.data.message === "No Invoice Found") {
+    //   alert(res.data.message);
+    // } else {
+    //   let downloadUrl = res.data.message;
+    //   window.open(downloadUrl);
+    // }
+    // setLoading(false);
 
     // navigate(`/bulkinv_pdf/${bpCode}/${strtDte}/${endDte}`)
   };
 
-  const getSchool = async (stateId, cityId) => {
-    setLoading(true);
-    const res = await instance({
-      url: `school/${stateId}/${cityId}`,
-      method: "GET",
-      headers: {
-        Authorization: `${Cookies.get("accessToken")}`,
-      },
-    });
-    // console.log(res.data.message);
-    const rows = res.data.message.map((item, index) => {
-      return {
-        id: item.id,
-        SchoolName: item.school_name,
-        State: item.school_addresses[0].fk_state.state,
-        Address: item.school_addresses[0].address,
-      };
-    });
-    // setSchoolRow(rows);
-    setLoading(false);
-  };
 
-  const getSchoolByState = async (id) => {
-    setLoading(true);
 
-    const res = await instance({
-      url: `school/${id}`,
-      method: "GET",
-      headers: {
-        Authorization: `${Cookies.get("accessToken")}`,
-      },
-    });
-    const rows = res.data.message.map((item, index) => {
-      return {
-        id: item.id,
-        SchoolName: item.school_name,
-        State: item.school_addresses[0].fk_state.state,
-        Address: item.school_addresses[0].address,
-      };
-    });
-    // setSchoolRow(rows);
-    setLoading(false);
-  };
+ 
 
   const handleOrderProcessingForm = async (value, type) => {
     // console.log(value, type);
@@ -248,7 +173,7 @@ const ViewInvoiceDouble = () => {
         // setStateAndCity({ ...stateAndCity, state: value.fk_state_id });
         break;
       case "invoice_pdf_data":
-        // console.log(value);
+        console.log(value);
         setBpCode(value.bp_code);
         // setType(value.types);
         // setStateAndCity({ ...stateAndCity, city: value.id });
@@ -263,200 +188,18 @@ const ViewInvoiceDouble = () => {
     }
   };
 
-  const getCity = async (Id) => {
-    setLoading(true);
-    const res = await instance({
-      url: `location/city/${Id}`,
-      method: "GET",
-      headers: {
-        Authorization: `${Cookies.get("accessToken")}`,
-      },
-    });
-    setCity(res.data.message);
-    setLoading(false);
-  };
+ 
 
   useLayoutEffect(() => {
-    const getStates = async () => {
-      const res = await instance({
-        url: "location/state/stateswithcode/get",
-        method: "GET",
-        headers: {
-          Authorization: `${Cookies.get("accessToken")}`,
-        },
-      });
-      console.log(res.data.message);
-      setStates(res.data.message);
-    };
 
-    const getSchoolData = async () => {
-      const res = await instance({
-        url: "school/b4c27059-8c42-4d35-8fe7-8dedffbfe641/294de4f3-0977-4482-b0de-2cfeaa827ba4",
-        method: "GET",
-        headers: {
-          Authorization: `${Cookies.get("accessToken")}`,
-        },
-      });
-      // console.log(res.data.message);
-      const rows = res.data.message.map((item, index) => {
-        return {
-          id: item.id,
-          SchoolName: item.school_name,
-          State: item.school_addresses[0].fk_state.state,
-          Address: item.school_addresses[0].address,
-        };
-      });
-      // setSchoolRow(rows);
-    };
     // getStates();
 
     // getSchoolData();
   }, []);
 
-  const searchSchool = async () => {
-    console.log(bpCode);
-    setSchoolRow([]);
-    // setSearchRow([]);
-    // if (type === "Classklap") {
-    //   console.log(stateId)
-    const res = await instance({
-      url: `eup_invoice/get/allbps/${bpCode}`,
-      method: "GET",
-      headers: {
-        Authorization: `${Cookies.get("accessToken")}`,
-      },
-    });
-    // console.log(res.data.message);
-    if (res.data.message.length === 0) {
-      alert("No Data Available");
-    }
-    setSchoolRow(res.data.message);
-    //   // console.log(stateId)
-    //   // console.log(type)
-    // } else if (type === "Eupheus Learning") {
-    //   const res = await instance({
-    //     url: `school/eupschools/get/${stateId}`,
-    //     method: "GET",
-    //     headers: {
-    //       Authorization: `${Cookies.get("accessToken")}`,
-    //     },
-    //   });
-    //   // console.log(res.data.message);
-    //   if(res.data.message.length === 0){
-    //     alert("No Data Available")
-    //   }
-    //   setSchoolRow(res.data.message);
-    //   // console.log(stateId)
-    //   // console.log(type)
-    // } else if (type === "All") {
-    //   const res = await instance({
-    //     url: `school/ckeupschools/get/${stateId}`,
-    //     method: "GET",
-    //     headers: {
-    //       Authorization: `${Cookies.get("accessToken")}`,
-    //     },
-    //   });
-    //   // console.log(res.data.message);
-    //   if(res.data.message.length === 0){
-    //     alert("No Data Available")
-    //   }
-    //   setSchoolRow(res.data.message);
-    //   // console.log(stateId)
-    //   // console.log(type)
-    // }
-  };
 
-  const updateSchoolCode = async (schoolId, statId) => {
-    console.log(schoolId, statId);
-    const res = await instance({
-      url: `school/update/ckschool/${schoolId}/${statId}`,
-      method: "PUT",
-      headers: {
-        Authorization: `${Cookies.get("accessToken")}`,
-      },
-    });
-    console.log(res.data.status);
-    if (res.data.status) {
-    }
-    searchSchool();
-  };
 
-  // const history = useHistory();
-  const handlePrintPDF = async (docNum, docDate) => {
-    let postdata = {
-      category: "inv",
-      doc_num: docNum,
-      doc_date: docDate,
-    };
-    setLoading(true);
-    const res = await instance({
-      url: `doc_print/invoice/getdata`,
-      method: "post",
-      data: postdata,
-      headers: {
-        Authorization: Cookies.get("accessToken"),
-      },
-    });
-    let downloadUrl = res.data.message;
-    // console.log(downloadUrl)
-    // redirect("https://www.google.com/")
-    window.open(downloadUrl);
-    setLoading(false);
-  };
 
-  const updateSchool = (schoolId) => {
-    console.log(schoolId);
-  };
-
-  const handleSearch = (val) => {
-    // console.log(val)
-    setSearchVal(val.trim());
-  };
-
-  const filterTable = () => {
-    // console.log(searchVal);
-    // console.log(schoolRow)
-    setPage(0);
-    let tempArr = [];
-    for (let ele of schoolRow) {
-      // console.log(ele.cardname)
-      let schoolName = ele.school_name.toLowerCase();
-      if (schoolName.indexOf(searchVal.toLowerCase()) > -1) {
-        tempArr.push(ele);
-      }
-    }
-    console.log(tempArr);
-    setSearchRow([]);
-    if (tempArr.length === 0) {
-      // console.log(searchRow)
-      setSearchRow([
-        {
-          id: null,
-          ck_code: null,
-          school_name: null,
-          school_addresses: [
-            {
-              id: null,
-              fk_state: {
-                id: null,
-                state: null,
-              },
-              fk_city: {
-                id: null,
-                city: null,
-              },
-            },
-          ],
-        },
-      ]);
-      // console.log("first")
-      console.log(searchRow);
-    } else {
-      // console.log("second")
-      setSearchRow(tempArr);
-      console.log(searchRow);
-    }
-  };
 
   return (
     <div className="flex bg-[#111322]">
@@ -771,4 +514,4 @@ const ViewInvoiceDouble = () => {
   );
 };
 
-export default ViewInvoiceDouble;
+export default ViewCustomerLedger;

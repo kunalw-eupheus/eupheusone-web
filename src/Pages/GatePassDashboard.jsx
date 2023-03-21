@@ -670,7 +670,7 @@ const GatePassDashboard = () => {
   // };
 
   const handleCheckbox = (event, row) => {
-    console.log(event.target.checked, row)  
+    // console.log(event.target.checked, row)  
   
     let tempArr = [...schoolRow];
     for(let obj of tempArr){
