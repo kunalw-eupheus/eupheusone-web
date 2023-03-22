@@ -247,9 +247,9 @@ const AdminManageSchool = () => {
               <Link to="/admin/addschool">
                 <BasicButton text={"Create New School"} />
               </Link>
-              <Link to="/admin/tagging">
+              {/* <Link to="/admin/tagging">
                 <BasicButton text={"Tag Existing School"} />
-              </Link>
+              </Link> */}
             </div>
 
             <DataTable

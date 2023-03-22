@@ -181,26 +181,26 @@ const SwipeableTemporaryDrawer4 = React.forwardRef((props, ref) => {
 
 
 
-      <Link to="/admin/home">
+      {/* <Link to="/admin/uploadinvoice">
         <aside
           className={`px-6 py-2 my-4 flex gap-4 ${
-            highLight === "order_pro" ? "bg-gray-500" : ""
+            highLight === "uploadinvoice" ? "bg-gray-500" : ""
           } cursor-pointer group hover:bg-gray-500 rounded-md transition-all duration-150 ease-linear`}
         >
           <ReceiptOutlined
             className={`${
-              highLight === "order_pro" ? "!text-[#659DBD]" : "!text-gray-400"
+              highLight === "uploadinvoice" ? "!text-[#659DBD]" : "!text-gray-400"
             } group-hover:!text-[#659DBD] !transition-all !duration-150 !ease-linear`}
           />
           <span
             className={`${
-              highLight === "order_pro" ? "text-gray-200" : "text-gray-400"
+              highLight === "uploadinvoice" ? "text-gray-200" : "text-gray-400"
             } group-hover:!text-gray-100 transition-all duration-150 ease-linear`}
           >
-            Invoice Tagging
+            Upload Invoice
           </span>
         </aside>
-      </Link>
+      </Link> */}
       
      
     </Box>

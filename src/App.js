@@ -76,6 +76,7 @@ import ViewCustomerLedger from "./Pages/ViewCustomerLedger";
 import AdminManageSchool from "./Pages/AdminManageSchool";
 import AdminAddSchool from "./Pages/AdminAddSchool";
 import AdminTagging from "./Pages/AdminTagging";
+import AdminUploadInvoice from "./Pages/AdminUploadInvoice";
 function App() {
   const isAuth = useSelector((state) => state.auth.user);
   const MsAuth = useSelector((state) => state.auth.msAuth);
@@ -89,7 +90,7 @@ function App() {
       <div>
         {/* {console.log(isAuth)} */}
         {/* {console.log(MsAuth)} */}
-        {/* {console.log(Admin)} */}
+        {console.log(Admin)}
         <div className="!font-Roboto bg-[#111322]">
           <BrowserRouter>
             <Routes>
@@ -339,7 +340,10 @@ function App() {
                 element={isAuth || MsAuth ? <ViewCustomerLedger /> : <Login />}
               />
 
-              <Route path="/cust_ledger/:bp/:todate/:fromdate" element={<CustLedger />} />
+              <Route
+                path="/cust_ledger/:bp/:todate/:fromdate"
+                element={<CustLedger />}
+              />
 
               <Route path="/gate_pass_pdf/:id" element={<GatePass />} />
 
@@ -374,27 +378,33 @@ function App() {
 
               <Route
                 path="/admin/home"
-                // element={Admin ? <AdminHome /> : <Login />}
-                element={<AdminHome />}
+                element={Admin ? <AdminHome /> : <Login />}
+                // element={<AdminHome />}
               />
 
               <Route
                 path="/admin/manageschool"
-                // element={Admin ? <AdminManageSchool /> : <Login />}
-                element={<AdminManageSchool />}
+                element={Admin ? <AdminManageSchool /> : <Login />}
+                // element={<AdminManageSchool />}
+              />
+
+              <Route
+                path="/admin/uploadinvoice"
+                element={Admin ? <AdminUploadInvoice /> : <Login />}
+                // element={<AdminManageSchool />}
               />
 
               <Route
                 path="/admin/addschool"
-                // element={Admin ? <AdminAddSchool /> : <Login />}
-                element={<AdminAddSchool />}
+                element={Admin ? <AdminAddSchool /> : <Login />}
+                // element={<AdminAddSchool />}
               />
 
-              <Route
+              {/* <Route
                 path="/admin/tagging"
-                // element={Admin ? <AdminHome /> : <Login />}
-                element={<AdminTagging />}
-              />
+                element={Admin ? <AdminHome /> : <Login />}
+                // element={<AdminTagging />}
+              /> */}
 
               {/* <Route
             path="/admin/user/create/new"

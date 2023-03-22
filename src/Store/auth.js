@@ -20,6 +20,7 @@ const authSlice = createSlice({
     logout(state) {
       state.user = false;
       state.msAuth = false;
+      state.admin = false
     },
     adminLogin(state) {
       state.admin = Cookies.get("admin");

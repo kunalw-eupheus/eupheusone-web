@@ -82,13 +82,14 @@ const Login = () => {
       Cookies.set("accessToken", `${res.data.accessToken}`);
       Cookies.set("type", `${res.data.type}`);
       Cookies.set("company", `${res.data.company}`)
-      if (res.data.admin) {
+      if (res.data.type === 'admin') {
         Cookies.set("admin", true);
         dispatch(authActions.adminLogin());
       }
       
       dispatch(authActions.login());
 
+      console.log(res.data.type, res.data.company)
       if(res.data.type === "training" && res.data.company === "Euphues"){
         // dispatch(authActions.login());
         navigate("/manageSchoolTraining");
@@ -99,8 +100,9 @@ const Login = () => {
         navigate("/gatepass_dashboard");
         console.log("testing2")
       }
-      else if(res.data.type === "admin" && res.data.company === "Eupheus"){
-        navigate("/aof")
+      else if(res.data.type === "admin" && res.data.company === "Euphues"){
+        console.log(res.data.company)
+        navigate("/admin/home")
         console.log("This is in admin login")
       }
       else{
