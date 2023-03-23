@@ -286,13 +286,6 @@ const AdminHome = () => {
                     <BasicButton text={"Process"} />
                   </Link> */}
 
-              <div>
-                <div className="text-white">Upload Excel File</div>
-                <input className="text-white" type="file" onChange={(e) => handleExcelFile(e)} />
-                <div onClick={uploadExcelData}>
-                  <BasicButton type="submit" text={"Upload"}/>
-                </div>
-              </div>
 
               {/* </div> */}
               {/* </div> */}

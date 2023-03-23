@@ -1,4 +1,5 @@
 import React, { useEffect, useLayoutEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import Navbar from "../Components/Navbar";
 import Sidebar from "../Components/Sidebar4";
@@ -14,6 +15,7 @@ import { Backdrop, CircularProgress } from "@mui/material";
 import instance from "../Instance";
 import ControlledSearchDropDown from "../Components/Material/ControlledSearchDropDown";
 import Snackbars from "../Components/Material/SnackBar";
+import { Navigate } from "react-router-dom";
 
 const AdminAddSchool = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
@@ -21,6 +23,7 @@ const AdminAddSchool = () => {
   const [loading, setLoading] = useState(false);
   const [boards, setBoards] = useState(null);
   const [category, setCategory] = useState(null);
+  const [userType, setUserType] = useState(null)
   const [values, setValues] = useState({ stateId: "" });
   const [errMessage, setErrMessage] = useState("");
   const [snackbarErrStatus, setSnackbarErrStatus] = useState(true);
@@ -36,10 +39,13 @@ const AdminAddSchool = () => {
 
   const show = null;
 
+  const navigate = useNavigate();
+
   const formik = useFormik({
     initialValues: {
       school_name: "",
       aff_code: "",
+      userId: "",
       board: "",
       category: "",
       name: "",
@@ -100,11 +106,12 @@ const AdminAddSchool = () => {
       // console.log(values)
       setLoading(true);
       const res = await instance({
-        url: "school/create",
+        url: "school/admin/create",
         method: "POST",
         data: {
           school_name: formik.values.school_name,
           aff_code: formik.values.aff_code,
+          userId: formik.values.userId,
           board: formik.values.board,
           category: formik.values.category,
           status: false,
@@ -133,12 +140,12 @@ const AdminAddSchool = () => {
             // behavior: "smooth",
           });
           setTimeout(() => {
-            window.location.reload();
-          }, 100);
+            // window.location.reload();
+            navigate("/admin/manageschool");
+          }, 300);
         }, 1500);
       }
-
-      setLoading(false);
+     setLoading(false);
     },
   });
 
@@ -162,6 +169,10 @@ const AdminAddSchool = () => {
         break;
       case "category_addschool":
         formik.values.category = value.id;
+        break;
+      case "user_addschool":
+        // console.log(value)
+        formik.values.userId = value.id;
         break;
       case "Enter School Name *":
         formik.values.school_name = value;
@@ -195,6 +206,7 @@ const AdminAddSchool = () => {
       case "select_city":
         formik.values.city = value.id;
         break;
+      
       case "Enter Address *":
         formik.values.address = value;
         break;
@@ -228,6 +240,17 @@ const AdminAddSchool = () => {
       });
       setCategory(category.data.message);
     };
+    const getUserType = async () => {
+      const userTpe = await instance({
+        url: "user/getuserids",
+        method: "GET",
+        headers: {
+          Authorization: Cookies.get("accessToken"),
+        },
+      });
+      // console.log(userType.data.message)
+      setUserType(userTpe.data.message);
+    };
     const getState = async () => {
       const state = await instance({
         url: "location/state/get/states",
@@ -241,6 +264,7 @@ const AdminAddSchool = () => {
     getBoards();
     getCategory();
     getState();
+    getUserType()
   }, []);
 
   const navInfo = {
@@ -364,6 +388,14 @@ const AdminAddSchool = () => {
                       label={"Select Category *"}
                       color={"rgb(243, 244, 246)"}
                     />
+                    <SearchDropDown
+                      handleOrderProcessingForm={handleOrderProcessingForm}
+                      Name={"user_addschool"}
+                      Initialvalue={formik.values.category}
+                      data={userType}
+                      label={"Select User *"}
+                      color={"rgb(243, 244, 246)"}
+                    />
                   </div>
                   <div
                     className="mt-3"
@@ -371,7 +403,8 @@ const AdminAddSchool = () => {
                       if (
                         formik.values.school_name &&
                         formik.values.board &&
-                        formik.values.category
+                        formik.values.category &&
+                        formik.values.userId
                       ) {
                         setSteps({ step1: false, step2: true, step3: false });
                         window.scroll({

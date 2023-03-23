@@ -67,8 +67,8 @@ const ViewInvoiceDouble = () => {
   const navigate = useNavigate();
 
   const navInfo = {
-    title: "Manage School",
-    details: ["Home", " / Manage School"],
+    title: "Doc Print",
+    details: ["Home", " / Doc Print"],
   };
 
   const types = [

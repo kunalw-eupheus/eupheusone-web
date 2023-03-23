@@ -38,6 +38,12 @@ const SearchDropDown = ({
           return option.schoolCategory;
           break;
 
+        case "user_addschool":
+          // console.log(option)
+          let userShow = `${option.emp_id} - ${option.first_name?option.first_name:""} ${option.middle_name?option.middle_name:""} ${option.last_name?option.last_name:""}`
+          return userShow
+          break;
+
         case "pref_transpoter":
           return option.name;
           break;
@@ -344,10 +350,14 @@ const SearchDropDown = ({
       handleOrderProcessingForm(value, type);
     }
 
+    if (type === "user_addschool") {
+      handleOrderProcessingForm(value, type);
+    }
+
     if (type === "cred_lim_type") {
       handleOrderProcessingForm(value, type);
     }
-    
+
     if (type === "invoice_pdf_data") {
       handleOrderProcessingForm(value, type);
     }
