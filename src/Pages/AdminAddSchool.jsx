@@ -23,7 +23,7 @@ const AdminAddSchool = () => {
   const [loading, setLoading] = useState(false);
   const [boards, setBoards] = useState(null);
   const [category, setCategory] = useState(null);
-  const [userType, setUserType] = useState(null)
+  const [userType, setUserType] = useState(null);
   const [values, setValues] = useState({ stateId: "" });
   const [errMessage, setErrMessage] = useState("");
   const [snackbarErrStatus, setSnackbarErrStatus] = useState(true);
@@ -145,7 +145,7 @@ const AdminAddSchool = () => {
           }, 300);
         }, 1500);
       }
-     setLoading(false);
+      setLoading(false);
     },
   });
 
@@ -203,10 +203,16 @@ const AdminAddSchool = () => {
         setValues({ stateId: value.fk_state_id });
         getCityByState(value.fk_state_id);
         break;
+      case "select_state_2":
+        console.log(value);
+        formik.values.state = value.id;
+        setValues({ stateId: value.id });
+        getCityByState(value.id);
+        break;
       case "select_city":
         formik.values.city = value.id;
         break;
-      
+
       case "Enter Address *":
         formik.values.address = value;
         break;
@@ -253,7 +259,7 @@ const AdminAddSchool = () => {
     };
     const getState = async () => {
       const state = await instance({
-        url: "location/state/get/states",
+        url: "location/state/stateswithcode/get",
         method: "GET",
         headers: {
           Authorization: Cookies.get("accessToken"),
@@ -264,7 +270,7 @@ const AdminAddSchool = () => {
     getBoards();
     getCategory();
     getState();
-    getUserType()
+    getUserType();
   }, []);
 
   const navInfo = {
@@ -495,7 +501,7 @@ const AdminAddSchool = () => {
                       handleOrderProcessingForm={handleOrderProcessingForm}
                       label={"Select State *"}
                       data={state}
-                      Name={"select_state"}
+                      Name={"select_state_2"}
                       color={"rgb(243, 244, 246)"}
                     />
                     <SearchDropDown

@@ -31,14 +31,24 @@ const AdminManageSchool = () => {
   const Tablecolumns = [
     { field: "SchoolName", headerName: "School Name", width: 300 },
     {
-      field: "State",
-      headerName: "State",
+      field: "SchoolCode",
+      headerName: "School Code",
+      width: 120,
+    },
+    {
+      field: "CrmId",
+      headerName: "CRM Id",
+      width: 120,
+    },
+    {
+      field: "Status",
+      headerName: "Status",
       width: 120,
     },
     {
       field: "Address",
       headerName: "Address",
-      width: 400,
+      width: 350,
     },
   ];
 
@@ -65,7 +75,7 @@ const AdminManageSchool = () => {
   const getSchool = async (stateId, cityId) => {
     setLoading(true);
     const res = await instance({
-      url: `school/${stateId}/${cityId}`,
+      url: `school/admin/get/${stateId}/${cityId}`,
       method: "GET",
       headers: {
         Authorization: `${Cookies.get("accessToken")}`,
@@ -76,11 +86,14 @@ const AdminManageSchool = () => {
       return {
         id: item.id,
         SchoolName: item.school_name,
-        State: item.school_addresses[0].fk_state.state,
+        SchoolCode: item.scode,
+        CrmId: item.temp_id,
+        // State: item.school_addresses[0].fk_state.state,
+        Status: item.status,
         Address: item.school_addresses[0].address,
       };
     });
-    // console.log(rows)
+    console.log(rows);
     setSchoolRow(rows);
     setLoading(false);
   };
@@ -89,17 +102,21 @@ const AdminManageSchool = () => {
     setLoading(true);
 
     const res = await instance({
-      url: `school/${id}`,
+      url: `school/admin/get/${id}`,
       method: "GET",
       headers: {
         Authorization: `${Cookies.get("accessToken")}`,
       },
     });
+    console.log(res.data.message);
     const rows = res.data.message.map((item, index) => {
       return {
         id: item.id,
         SchoolName: item.school_name,
-        State: item.school_addresses[0].fk_state.state,
+        SchoolCode: item.scode,
+        CrmId: item.temp_id,
+        // State: item.school_addresses[0].fk_state.state,
+        Status: item.status,
         Address: item.school_addresses[0].address,
       };
     });
@@ -108,13 +125,19 @@ const AdminManageSchool = () => {
   };
 
   const handleOrderProcessingForm = async (value, type) => {
-    console.log(value, type)
+    // console.log(value, type);
     switch (type) {
       case "select_state":
-        console.log(value)
+        console.log(value);
         getCity(value.fk_state_id);
         getSchoolByState(value.fk_state_id);
         setStateAndCity({ ...stateAndCity, state: value.fk_state_id });
+        break;
+      case "select_state_2":
+        console.log(value);
+        getCity(value.id);
+        getSchoolByState(value.id);
+        setStateAndCity({ ...stateAndCity, state: value.id });
         break;
       case "select_city":
         setStateAndCity({ ...stateAndCity, city: value.id });
@@ -140,7 +163,7 @@ const AdminManageSchool = () => {
   useLayoutEffect(() => {
     const getStates = async () => {
       const res = await instance({
-        url: "location/state/get/states",
+        url: "location/state/stateswithcode/get",
         method: "GET",
         headers: {
           Authorization: `${Cookies.get("accessToken")}`,
@@ -164,7 +187,10 @@ const AdminManageSchool = () => {
         return {
           id: item.id,
           SchoolName: item.school_name,
-          State: item.school_addresses[0].fk_state.state,
+          SchoolCode: item.scode,
+          CrmId: item.temp_id,
+          // State: item.school_addresses[0].fk_state.state,
+          Status: item.status,
           Address: item.school_addresses[0].address,
         };
       });
@@ -214,7 +240,7 @@ const AdminManageSchool = () => {
                   handleOrderProcessingForm={handleOrderProcessingForm}
                   color={"rgb(243, 244, 246)"}
                   data={states}
-                  Name="select_state"
+                  Name="select_state_2"
                 />
               </div>
               <div className=" flex flex-col gap-2 w-full md:w-[20vw]">
@@ -256,7 +282,7 @@ const AdminManageSchool = () => {
               rows={schoolRow}
               checkbox={false}
               Tablecolumns={Tablecolumns}
-              tableName="ManageSchool"
+              tableName="ManageSchoolAdmin"
             />
           </div>
         </div>

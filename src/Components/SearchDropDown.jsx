@@ -40,8 +40,12 @@ const SearchDropDown = ({
 
         case "user_addschool":
           // console.log(option)
-          let userShow = `${option.emp_id} - ${option.first_name?option.first_name:""} ${option.middle_name?option.middle_name:""} ${option.last_name?option.last_name:""}`
-          return userShow
+          let userShow = `${option.emp_id} - ${
+            option.first_name ? option.first_name : ""
+          } ${option.middle_name ? option.middle_name : ""} ${
+            option.last_name ? option.last_name : ""
+          }`;
+          return userShow;
           break;
 
         case "pref_transpoter":
@@ -114,6 +118,11 @@ const SearchDropDown = ({
         case "select_state":
           // console.log(option)
           return option.fk_state.state;
+          break;
+
+        case "select_state_2":
+          // console.log(option)
+          return option.state;
           break;
         case "select_state_training":
           // console.log(option)
@@ -281,6 +290,9 @@ const SearchDropDown = ({
     }
 
     if (type === "select_state") {
+      handleOrderProcessingForm(value, type);
+    }
+    if (type === "select_state_2") {
       handleOrderProcessingForm(value, type);
     }
     if (type === "select_state_training") {

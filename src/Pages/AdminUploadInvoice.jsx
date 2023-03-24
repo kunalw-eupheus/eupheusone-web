@@ -374,44 +374,67 @@ const AdminUploadInvoice = () => {
 
         if (sheets.length) {
           const rows = utils.sheet_to_json(wb.Sheets[sheets[0]]);
-          //   console.log(rows);
-          setExcelData(rows);
-          //   let tempExcelData = []
-          //   for (let i = 0; i < rows.length; i += 100) {
-          //     const chunk = rows.slice(i, i + 100);
-          //     // console.log(chunk)
-          //     tempExcelData.push(chunk)
-          //   }
-          //   // console.log(tempExcelData)
-          //   setExcelData(tempExcelData);
+            // console.log(rows);
+          let rowsArr = [];
+          for (let obj of rows) {
+            // console.log(obj)
+            let temp = {};
+            temp.inv = obj["INV NUMBER"];
+            temp.scode = obj["SCHOOL CODE"];
+            rowsArr.push(temp);
+          }
+          // console.log(rowsArr)
+          // setExcelData(rowsArr);
+          let tempExcelData = [];
+          for (let i = 0; i < rowsArr.length; i += 100) {
+            const chunk = rowsArr.slice(i, i + 100);
+            // console.log(chunk)
+            tempExcelData.push(chunk);
+          }
+          console.log(tempExcelData);
+          setExcelData(tempExcelData);
         }
       };
       reader.readAsArrayBuffer(file);
     }
   };
   const uploadExcelData = async () => {
-    let dataToPost = {
-      data: [
-        { inv: "TI/20/11", scode: "AT1" },
-        { inv: "TI/20/11", scode: "AT1" },
-        { inv: "TI/20/11", scode: "AT1" },
-        { inv: "TI/20/11", scode: "AT1" },
-        { inv: "TI/20/11", scode: "AT1" },
-      ],
+    console.log(excelData);
+    for (let arr of excelData) {
+      let dataToPost = {
+        data: arr,
+      };
+      const res = await instance({
+        url: `eup_invoice/create/inv/csv`,
+        method: "post",
+        data: dataToPost,
+        headers: {
+          Authorization: Cookies.get("accessToken"),
+        },
+      });
+      console.log(res.data.message);
+      if (res.data.status == false) {
+        alert("Error. Cannot Post Data");
+        return
+      }
+    }
+    alert("Data Posted Success");
+
+    // let dataToPost = {
     // data : excelData
-    };
-    console.log(dataToPost);
-    const res = await instance({
-          url: `eup_invoice/create/inv/csv`,
-          method: "post",
-          data: dataToPost,
-          headers: {
-            Authorization: Cookies.get("accessToken"),
-          },
-        });
-        if(res.data.status){
-            alert(res.data.message)
-        };
+    // };
+    // console.log(dataToPost);
+    // const res = await instance({
+    //       url: `eup_invoice/create/inv/csv`,
+    //       method: "post",
+    //       data: dataToPost,
+    //       headers: {
+    //         Authorization: Cookies.get("accessToken"),
+    //       },
+    //     });
+    //     if(res.data.status){
+    //         alert(res.data.message)
+    //     };
   };
 
   return (
@@ -452,16 +475,23 @@ const AdminUploadInvoice = () => {
             </div> */}
 
             <div className="grid grid-cols-2 grid-rows-2 md:flex md:justify-around md:items-center px-6 mb-8 py-3 mt-6 gap-6 rounded-md bg-slate-600">
-              <div className="flex flex-col gap-2 w-full md:w-[10vw] text-white">
+              <div className="flex flex-col gap-2 w-full md:w-[15vw] text-white">
                 Upload Excel File :
               </div>
 
-              <div className="flex flex-col gap-2 w-full md:w-[40vw]">
+              <div className="flex flex-col gap-2 w-full md:w-[20vw]">
                 <input
                   className="text-white"
                   type="file"
                   onChange={(e) => handleExcelFile(e)}
                 />
+              </div>
+
+              <div
+                className="flex flex-col gap-2 w-full md:w-[20vw]"
+                onClick={"downloadTemplate"}
+              >
+                <BasicButton type="submit" text={"Download Template"} />
               </div>
 
               <div

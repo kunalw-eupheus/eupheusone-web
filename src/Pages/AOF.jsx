@@ -24,7 +24,7 @@ import TextField from "@mui/material/TextField";
 import IconButton from "@mui/material/IconButton";
 import SearchIcon from "@mui/icons-material/Search";
 import TablePagination from "@mui/material/TablePagination";
-import DialogSlide2 from "../Components/Material/Dialog10";
+import DialogSlide2 from "../Components/Material/Dialog12";
 
 const AOF = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
@@ -114,6 +114,22 @@ const AOF = () => {
     }, 1000)
     // openDialogue2();
   };
+
+  const handleVerify = (aofId) => {
+    // console.log(abc)
+    setLoading(true)
+    setAofId(aofId);
+    setTimeout(() => {
+      // console.log("Delayed for 1 second.");
+      openDialogue2();
+      setLoading(false)
+    }, 1000)
+  }
+
+  const handleAofPDF = (invId) => {
+    // console.log(invId)
+    window.open(`view_aof_pdf2/${invId}`, '_blank', 'noreferrer')
+  }
 
   const openDialogue2 = () => {
     dialogRef2.current.openDialog();
@@ -381,6 +397,9 @@ const AOF = () => {
                       <TableCell className="!w-[8rem]" align="center">
                         View
                       </TableCell>
+                      <TableCell className="!w-[8rem]" align="center">
+                        Verify
+                      </TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody className="bg-slate-200">
@@ -412,10 +431,23 @@ const AOF = () => {
                             <div
                                   className="sm:w-auto w-[50vw]"
                                   onClick={() => {
-                                    handleAofView(row.id);
+                                    // handleAofView(row.id);
+                                    handleAofPDF(row.id);
                                   }}
                                 >
                                   <BasicButton text={"View"} />
+                                </div>
+                            </TableCell>
+                               <TableCell align="center">
+                            {/* <DialogSlide2 ref={dialogRef2}/> */}
+                            <div
+                                  className="sm:w-auto w-[50vw]"
+                                  onClick={() => {
+                                    // handleAofPDF(row.id);
+                                    handleVerify(row.id)
+                                  }}
+                                >
+                                  <BasicButton text={"VERIFY"} />
                                 </div>
                             </TableCell>
                           </TableRow>
@@ -450,10 +482,24 @@ const AOF = () => {
                             <div
                                   className="sm:w-auto w-[50vw]"
                                   onClick={() => {
-                                    handleAofView(row.id);
+                                    // handleAofView(row.id);
+                                    handleAofPDF(row.id);
                                   }}
                                 >
                                   <BasicButton text={"View"} />
+                                </div>
+                            </TableCell>
+
+                            <TableCell align="center">
+                            {/* <DialogSlide2 ref={dialogRef2}/> */}
+                            <div
+                                  className="sm:w-auto w-[50vw]"
+                                  onClick={() => {
+                                    // handleAofPDF(row.id);
+                                    handleVerify(row.id)
+                                  }}
+                                >
+                                  <BasicButton text={"VERIFY"} />
                                 </div>
                             </TableCell>
 

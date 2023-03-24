@@ -5,7 +5,8 @@ import { CleaningServices, Search } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import { Dialog } from "@mui/material";
 
-import DialogSlide from "../Components/Material/Dialog";
+import DialogSlide from "../Components/Material/Dialog11";
+import { useState } from "react";
 
 // const columns = [
 //   { field: "id", headerName: "CRM ID", width: 100 },
@@ -28,6 +29,8 @@ export default function DataTable({
 }) {
   const [q, setQ] = React.useState("");
   const [entries, setEntries] = React.useState(10);
+  const [schoolId, setSchoolId] = useState("")
+  const [schoolStatus, setSchoolStatus] = useState("")
   const navigate = useNavigate();
 
   const openDialog = () => {
@@ -103,6 +106,17 @@ export default function DataTable({
             row?.Address?.toLowerCase().indexOf(q) > -1
           );
           break;
+        case "ManageSchoolAdmin":
+          // setClickType("ManageSchoolAdmin")
+          // console.log(row)
+          return (
+            row?.SchoolName?.toLowerCase().indexOf(q) > -1 ||
+            row?.SchoolCode?.toLowerCase().indexOf(q) > -1 ||
+            row?.CrmId?.toLowerCase().indexOf(q) > -1 ||
+            row?.Status?.toLowerCase().indexOf(q) > -1 ||
+            row?.Address?.toLowerCase().indexOf(q) > -1
+          );
+          break;
         case "Projection":
           return (
             row?.Series?.toLowerCase().indexOf(q) > -1 ||
@@ -138,7 +152,7 @@ export default function DataTable({
           );
           break;
         case "ManageSchoolTraining":
-          console.log(row);
+          // console.log(row);
           return (
             row?.SchoolName?.toLowerCase().indexOf(q) > -1 ||
             // row.City.toLowerCase().indexOf(q) > -1 ||
@@ -155,27 +169,28 @@ export default function DataTable({
             // row?.Status?.toLowerCase().indexOf(q) > -1
           );
           break;
-          case "GatepassInvoice":
-            // console.log(row)
-            return (
-              row?.inv_no?.toLowerCase().indexOf(q) > -1 ||
-              row.cardname?.toLowerCase().indexOf(q) > -1 ||
-              row?.boxes?.toLowerCase().indexOf(q) > -1 ||
-              row?.docdate?.toLowerCase().indexOf(q) > -1||
-              row?.eup_invoice_addresses[0].ShipToAddress1?.toLowerCase().indexOf(q) > -1
+        case "GatepassInvoice":
+          // console.log(row)
+          return (
+            row?.inv_no?.toLowerCase().indexOf(q) > -1 ||
+            row.cardname?.toLowerCase().indexOf(q) > -1 ||
+            row?.boxes?.toLowerCase().indexOf(q) > -1 ||
+            row?.docdate?.toLowerCase().indexOf(q) > -1 ||
+            row?.eup_invoice_addresses[0].ShipToAddress1?.toLowerCase().indexOf(
+              q
+            ) > -1
+          );
+          break;
 
-            );
-            break;
-
-            // case "AOFtable":
-            //   console.log(row)
-            //   return (
-            //     row?.name?.toLowerCase().indexOf(q) > -1
-            //     // row.City.toLowerCase().indexOf(q) > -1 ||
-            //     // row?.Quantity?.toLowerCase().indexOf(q) > -1 ||
-            //     // row?.Status?.toLowerCase().indexOf(q) > -1
-            //   );
-            //   break;
+        // case "AOFtable":
+        //   console.log(row)
+        //   return (
+        //     row?.name?.toLowerCase().indexOf(q) > -1
+        //     // row.City.toLowerCase().indexOf(q) > -1 ||
+        //     // row?.Quantity?.toLowerCase().indexOf(q) > -1 ||
+        //     // row?.Status?.toLowerCase().indexOf(q) > -1
+        //   );
+        //   break;
         default:
           break;
       }
@@ -183,28 +198,38 @@ export default function DataTable({
   };
 
   const handleClick = (value) => {
-    console.log(value)
+    console.log(value);
     switch (tableName) {
-      case "ManageSchool":
-        navigate(`/update_school/${value[0]}`);
-        break;
-      case "Tagging":
-        // console.log('hi')
-        handleTaggingClick(value);
-        break;
-      case "Invoice":
-        // console.log(value)
-        // handleTaggingClick(value);
-        // navigate(`/invoice_item/${value[0]}`);
-        navigate(`/invoice_item`);
-        break;
-      case "InvoiceItem":
-        console.log(value, tableName);
-        dialogRef.current.openDialog();
+      // case "ManageSchool":
+      //   navigate(`/update_school/${value[0]}`);
+      //   break;
+      // case "Tagging":
+      //   // console.log('hi')
+      //   handleTaggingClick(value);
+      //   break;
+      // case "Invoice":
+      //   // console.log(value)
+      //   // handleTaggingClick(value);
+      //   // navigate(`/invoice_item/${value[0]}`);
+      //   navigate(`/invoice_item`);
+      //   break;
+      // case "InvoiceItem":
+      //   console.log(value, tableName);
+      //   dialogRef.current.openDialog();
+      //   // navigate(`/invoice_item`);
+      //   break;
+      // case "ManageSchoolTraining":
+      //   navigate(`/update_school_training/${value[0]}`);
+      //   break;
+      case "ManageSchoolAdmin":
+        let stats = value.row.Status
+        // console.log(stats)
+        setSchoolStatus(stats)
+        setSchoolId(value.id)
+        if (value.field === "Status") {
+          dialogRef.current.openDialog();
+        }
         // navigate(`/invoice_item`);
-        break;
-      case "ManageSchoolTraining":
-        navigate(`/update_school_training/${value[0]}`);
         break;
       default:
         // console.log(value)
@@ -216,7 +241,7 @@ export default function DataTable({
 
   return (
     <div className="relative mt-9">
-      <DialogSlide ref={dialogRef} />
+      <DialogSlide ref={dialogRef} schlId={schoolId} stat={schoolStatus}/>
 
       <div
         style={{ height: 450, width: "100%" }}
@@ -224,7 +249,8 @@ export default function DataTable({
       >
         <DataGrid
           rows={search(rows)}
-          onRowClick={(event) => console.log(event)}
+          // onRowClick={(event) => handleClick(event)}
+          onCellClick={(event) => handleClick(event)}
           columns={Tablecolumns}
           pageSize={entries}
           rowsPerPageOptions={[entries]}
