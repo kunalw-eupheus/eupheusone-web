@@ -21,7 +21,8 @@ import {
   ShoppingBag,
   AssignmentReturnOutlined,
   ReceiptOutlined,
-  PrintOutlined
+  PrintOutlined,
+  Timeline
 } from "@mui/icons-material";
 import { Collapse } from "@mui/material";
 import { Link } from "react-router-dom";
@@ -636,7 +637,7 @@ const SwipeableTemporaryDrawer = React.forwardRef((props, ref) => {
             highLight === "kys" ? "bg-gray-500" : ""
           } cursor-pointer group hover:bg-gray-500 rounded-md transition-all duration-150 ease-linear`}
         >
-          <LocationCityOutlined
+          <Timeline
             className={`${
               highLight === "kys" ? "!text-[#659DBD]" : "!text-gray-400"
             } group-hover:!text-[#659DBD] !transition-all !duration-150 !ease-linear`}

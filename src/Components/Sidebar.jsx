@@ -16,7 +16,7 @@ import {
   AssignmentReturnOutlined,
   ReceiptOutlined,
   PrintOutlined,
-  
+  Timeline
 } from "@mui/icons-material";
 import { Link } from "react-router-dom";
 import logoLight from "../assets/img/logo-light-icon.png";
@@ -675,7 +675,7 @@ const Sidebar = ({ sidebarCollapsed, highLight, show }) => {
               highLight === "kys" ? "bg-gray-500" : ""
             } cursor-pointer group hover:bg-gray-500 rounded-md transition-all duration-150 ease-linear`}
           >
-            <LocationCityOutlined
+            <Timeline
               className={`${
                 highLight === "kys" ? "!text-[#659DBD]" : "!text-gray-400"
               } group-hover:!text-[#659DBD] !transition-all !duration-150 !ease-linear`}
