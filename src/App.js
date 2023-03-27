@@ -77,6 +77,7 @@ import AdminManageSchool from "./Pages/AdminManageSchool";
 import AdminAddSchool from "./Pages/AdminAddSchool";
 import AdminTagging from "./Pages/AdminTagging";
 import AdminUploadInvoice from "./Pages/AdminUploadInvoice";
+import ZsmAOF from "./Pages/ZsmAof";
 function App() {
   const isAuth = useSelector((state) => state.auth.user);
   const MsAuth = useSelector((state) => state.auth.msAuth);
@@ -84,6 +85,7 @@ function App() {
   // const isAuth = true
   const Admin = useSelector((state) => state.auth.admin);
   // const Admin = true;
+  const Zsm = useSelector((state) => state.auth.zsm);
 
   return (
     <div>
@@ -399,6 +401,12 @@ function App() {
                 path="/admin/addschool"
                 element={Admin ? <AdminAddSchool /> : <Login />}
                 // element={<AdminAddSchool />}
+              />
+
+              <Route
+                path="/zsm/aof"
+                // element={Zsm ? <ZsmAOF/> : <Login />}
+                element={<ZsmAOF />}
               />
 
               {/* <Route

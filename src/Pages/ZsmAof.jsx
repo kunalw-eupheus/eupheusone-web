@@ -1,13 +1,13 @@
 import React, { useEffect, useRef } from "react";
 import { useState } from "react";
 import Navbar from "../Components/Navbar";
-import Sidebar from "../Components/Sidebar";
+import Sidebar from "../Components/Sidebar5";
 // import { Add } from '@mui/icons-material'
 import { Link } from "react-router-dom";
 import DataTable from "../Components/DataTable";
 // import { rows, ManageSchoolRows } from '../DummyData'
 import SearchDropDown from "../Components/SearchDropDown";
-import SwipeableTemporaryDrawer from "../Components/Material/MaterialSidebar";
+import SwipeableTemporaryDrawer from "../Components/Material/MaterialSidebar5";
 import instance from "../Instance";
 import { useLayoutEffect } from "react";
 import Cookies from "js-cookie";
@@ -26,7 +26,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import TablePagination from "@mui/material/TablePagination";
 import DialogSlide2 from "../Components/Material/Dialog12";
 
-const AOF = () => {
+const ZsmAOF = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [highLight, setHighLight] = useState("aof");
   const [loading, setLoading] = useState(false);
@@ -41,8 +41,8 @@ const AOF = () => {
   const [aofId, setAofId] = useState("")
 
   const navInfo = {
-    title: "AOF",
-    details: ["Home", " / AOF"],
+    title: "Manage School",
+    details: ["Home", " / Manage School"],
   };
   const [searchRow, setSearchRow] = useState([]);
 
@@ -531,4 +531,4 @@ const AOF = () => {
   );
 };
 
-export default AOF;
+export default ZsmAOF;

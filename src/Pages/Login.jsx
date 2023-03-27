@@ -86,29 +86,38 @@ const Login = () => {
         Cookies.set("admin", true);
         dispatch(authActions.adminLogin());
       }
+      if (res.data.type === 'zsm'){
+        Cookies.set("zsm", true)
+        dispatch(authActions.zsmLogin())
+      }
       
       dispatch(authActions.login());
 
-      console.log(res.data.type, res.data.company)
+      // console.log(res.data.type, res.data.company)
       if(res.data.type === "training" && res.data.company === "Euphues"){
         // dispatch(authActions.login());
         navigate("/manageSchoolTraining");
-        console.log("testing1")
+        // console.log("testing1")
       }
       else if(res.data.type === "warehouse_GP" && res.data.company === "Euphues"){
         // dispatch(authActions.login());
         navigate("/gatepass_dashboard");
-        console.log("testing2")
+        // console.log("testing2")
       }
       else if(res.data.type === "admin" && res.data.company === "Euphues"){
-        console.log(res.data.company)
+        // console.log(res.data.company)
         navigate("/admin/home")
-        console.log("This is in admin login")
+        // console.log("This is in admin login")
+      }
+      else if(res.data.type === "zsm" && res.data.company === "Euphues"){
+        // console.log(res.data.company)
+        navigate("/zsm/aof")
+        // console.log("This is in admin login")
       }
       else{
         navigate("/");
         // dispatch(authActions.login());
-        console.log("testing3")
+        // console.log("testing3")
       }
       
     }
