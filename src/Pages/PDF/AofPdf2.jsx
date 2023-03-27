@@ -7,7 +7,6 @@ import { useParams } from "react-router-dom";
 import { getToken } from "../../util/msAuth";
 import { protectedResources } from "../../util/msConfig";
 
-
 const AofPdf2 = () => {
   const [date, setDate] = useState("");
   const [partySchool, setPartySchool] = useState("");
@@ -41,49 +40,41 @@ const AofPdf2 = () => {
   const [year, setYear] = useState("");
   const [todDiscData, setTodDiscData] = useState({});
   const [cashDiscData, setCashDiscData] = useState({});
-  const [cashDiscArr, setSpecDiscArr] = useState([]);
+  const [specDiscArr, setSpecDiscArr] = useState([]);
   const [seriesArr, setSeriesArr] = useState([]);
   const [publisheArr, setPublisherArr] = useState([]);
 
   const [modelOpen, setModelOpen] = useState(false);
-  const [user, setUser] = useState({});
+  const [user, setUser] = useState("");
 
-
+  const [cashDiscDataAvail, setCashDiscDataAvail] = useState(true)
+  const [todDiscDataAvail,setTodDiscDataAvail] = useState(true)
+  const [specialArrAvail, setSpecialArrAvail] = useState(true)
+  const [seriesArrAval, setSeriesArrAval] = useState(true)
+  const [publisherArrAvail, setPublisherArrAvail] = useState(true)
 
   useEffect(() => {
     getData();
   }, []);
 
   useLayoutEffect(() => {
+    const userId = Cookies.get("id")
+    console.log(userId)
     const getUser = async () => {
-      if (Cookies.get("ms-auth")) {
-        const accessToken = await getToken(
-          protectedResources.apiTodoList.scopes.read
-        );
-        const res = await instance({
-          url: "user/profile",
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        });
-        // console.log(res.data.message)
-        setUser(res.data.message);
-      } else {
-        const res = await instance({
-          url: "user/profile",
-          method: "GET",
-          headers: {
-            Authorization: `${Cookies.get("accessToken")}`,
-          },
-        }).catch((err) => {
-          if (err.response.status === 401) {
-            setModelOpen(true);
-          }
-        });
-        // console.log(res.data.message)
-        setUser(res.data.message);
-      }
+      const res = await instance({
+        // url: `sales_data/aof/get/detail/a6663609-a912-4e0e-9a37-4935213a3d1a`,
+        url: `user/getuserdetail`,
+        method: "POST",
+        data: { id: userId },
+        headers: {
+          Authorization: Cookies.get("accessToken"),
+        },
+      });
+      // console.log(res.data.message);
+      let data = res.data.message
+      let name = `${data.first_name?data.first_name: ""} ${data.middle_name?data.middle_name:""} ${data.last_name?data.last_name:""}`
+      // console.log(name)
+      setUser(name);
     };
     getUser();
   }, []);
@@ -100,11 +91,12 @@ const AofPdf2 = () => {
     "07": "July",
     "08": "August",
     "09": "September",
-    10: "October",
-    11: "November",
-    12: "December",
+    "10": "October",
+    "11": "November",
+    "12": "December",
   };
   const getData = async () => {
+
     const res = await instance({
       // url: `sales_data/aof/get/detail/a6663609-a912-4e0e-9a37-4935213a3d1a`,
       url: `sales_data/aof/get/detail/${aofid}`,
@@ -171,14 +163,41 @@ const AofPdf2 = () => {
     }
     // console.log(bnkDataArr);
     setBankChecq(bnkDataArr);
-    // console.log(res.data.tod)
-    let todDiscData = res.data.tod[0];
-    let cashDiscData = res.data.cash[0];
+
+    console.log(res.data)
+    if(res.data.tod.length !== 0){
+      let todDiscData = res.data.tod[0];
+      setTodDiscData(todDiscData);
+    }else{
+      let todDiscData = {
+        percent: "",
+        remark: "",
+        percentages_type: "",  
+      }
+      setTodDiscDataAvail(false)
+      setTodDiscData(todDiscData);
+    }
+
+    
+    if(res.data.cash.length !== 0){
+      let cashDiscData = res.data.cash[0];
+      setCashDiscData(cashDiscData);
+    }else{
+      let cashDiscData = {
+        percent: ""
+      }
+      setCashDiscDataAvail(false)
+      setCashDiscData(cashDiscData);
+    }
+    
     let specialDiscArr = res.data.special;
     // console.log(specialDiscArr)
-    setTodDiscData(todDiscData);
-    setCashDiscData(cashDiscData);
-    // setSpecDiscArr(specialDiscArr)
+    if(specialDiscArr.length === 0){
+      setSpecialArrAvail(false)
+    }
+    
+    
+    setSpecDiscArr(specialDiscArr)
     let seriesArr = [],
       publisherArr = [];
     for (let obj of specialDiscArr) {
@@ -191,7 +210,10 @@ const AofPdf2 = () => {
       obj.sl = m;
       m++;
     }
-    console.log(seriesArr)
+    // console.log(seriesArr);
+    if(seriesArr.length === 0){
+      setSeriesArrAval(false)
+    }   
     setSeriesArr(seriesArr);
     // console.log(publisherArr)
     let n = 1;
@@ -199,12 +221,16 @@ const AofPdf2 = () => {
       obj.sl = n;
       n++;
     }
-    console.log(publisherArr)
+    // console.log(publisherArr);
+    if(publisherArr.length === 0){
+      setPublisherArrAvail(false)
+    }
     setPublisherArr(publisherArr);
   };
 
   return (
-    <div className="bg-white w-[21cm]">
+    <div className="bg-white">
+    <div className="bg-white w-[21cm] ml-60">
       <div className="h-[30cm]">
         <div className="flex justify-center">
           <img width={170} src={eupheusLogo} />
@@ -223,7 +249,7 @@ const AofPdf2 = () => {
           style={{ marginTop: "30px", fontSize: "11pt" }}
         >
           <div>No.: _________________</div>
-          <div>Date : {date}</div>
+          <div>Date : {date?date:""}</div>
           <div style={{ border: "2px solid black" }}>
             <div style={{ margin: "5px" }}>2022-23 To 2024-25</div>
           </div>
@@ -238,32 +264,32 @@ const AofPdf2 = () => {
         >
           <div style={{ margin: "20px" }}>
             <div className="flex justify-start">
-              <b>Name of Party School*: {partySchool}</b>
+              <b>Name of Party School*: {partySchool?partySchool:""}</b>
             </div>
             <div className="flex justify-start" style={{ marginTop: "5px" }}>
               Status*: Sole Proprietary/ Partnership/ LLP/Pvt. Ltd. / Public
-              Ltd. /Trust: {solePPPStatus}
+              Ltd. /Trust: {solePPPStatus?solePPPStatus:""}
             </div>
             <div className="flex justify-start" style={{ marginTop: "5px" }}>
-              Address*: {address}
+              Address*: {address?address:""}
             </div>
             <div className="flex justify-between" style={{ marginTop: "5px" }}>
-              <div>City*: {city}</div>
-              <div>State*: {state}</div>
-              <div>Pin Code*: {pinCode}</div>
+              <div>City*: {city?city:""}</div>
+              <div>State*: {state?state:""}</div>
+              <div>Pin Code*: {pinCode?pinCode:""}</div>
             </div>
             <div className="flex justify-between" style={{ marginTop: "5px" }}>
-              <div>Phone*: {phone}</div>
-              <div>Mobile*: {mobile}</div>
-              <div>E-Mail*: {email}</div>
+              <div>Phone*: {phone?phone:""}</div>
+              <div>Mobile*: {mobile?mobile:""}</div>
+              <div>E-Mail*: {email?email:""}</div>
             </div>
             <div className="flex justify-between" style={{ marginTop: "5px" }}>
-              <div>Firm/ Company/Trust Registration Number*:{firmRegNo}</div>
-              <div>Dated: {date}</div>
+              <div>Firm/ Company/Trust Registration Number*:{firmRegNo?firmRegNo:""}</div>
+              <div>Dated: {date?date:""}</div>
             </div>
             <div className="flex justify-between" style={{ marginTop: "5px" }}>
-              <div>PAN No*: {panNo}(Copy Enclosed)</div>
-              <div>GST. No*:{gstNo}</div>
+              <div>PAN No*: {panNo?panNo:""}(Copy Enclosed)</div>
+              <div>GST. No*:{gstNo?gstNo:""}</div>
             </div>
             <div className="flex justify-between" style={{ marginTop: "5px" }}>
               <div>
@@ -272,7 +298,7 @@ const AofPdf2 = () => {
               </div>
             </div>
             <div className="flex justify-between" style={{ marginTop: "5px" }}>
-              <div>Year of establishment of business: {estYear}</div>
+              <div>Year of establishment of business: {estYear?estYear:""}</div>
             </div>
           </div>
         </div>
@@ -288,20 +314,20 @@ const AofPdf2 = () => {
             <div className="flex justify-start">
               <b>
                 Name of Proprietor/Partner/Director/Trustee*:
-                {aofName}
+                {aofName?aofName:""}
               </b>
             </div>
             <div className="flex justify-start" style={{ marginTop: "5px" }}>
-              PAN No.*: {aofPan}
+              PAN No.*: {aofPan?aofPan:""}
             </div>
             <div className="flex justify-between" style={{ marginTop: "5px" }}>
-              <div>Address*: {aofAddress}</div>
-              <div>Pin Code*: {aofPin}</div>
+              <div>Address*: {aofAddress?aofAddress:""}</div>
+              <div>Pin Code*: {aofPin?aofPin:""}</div>
             </div>
             <div className="flex justify-between" style={{ marginTop: "5px" }}>
-              <div>Phone*: {aofPhone}</div>
-              <div>Mobile*: {aofMobile}</div>
-              <div>E-Mail*: {aofEmail}</div>
+              <div>Phone*: {aofPhone?aofPhone:""}</div>
+              <div>Mobile*: {aofMobile?aofMobile:""}</div>
+              <div>E-Mail*: {aofEmail?aofEmail:""}</div>
             </div>
           </div>
         </div>
@@ -325,9 +351,9 @@ const AofPdf2 = () => {
                   style={{ marginTop: "5px" }}
                 >
                   <div>
-                    {item.sl}. {item.name}
+                    {item.sl?item.sl:""}. {item.name?item.name:""}
                   </div>
-                  <div>Annual Business: {item.business}</div>
+                  <div>Annual Business: {item.business?item.business:""}</div>
                 </div>
               );
             })}
@@ -361,16 +387,16 @@ const AofPdf2 = () => {
         >
           <div style={{ margin: "20px" }}>
             <div className="flex justify-start">
-              Name and address of the party’s main bankers*:{bankName}
+              Name and address of the party’s main bankers*:{bankName?bankName:""}
             </div>
             <div className="flex justify-between" style={{ marginTop: "5px" }}>
-              <div>Account Number*:{accNo}</div>
+              <div>Account Number*:{accNo?accNo:""}</div>
               <div>
                 Type of A/c (SB/CA/CC):
                 {accType}
               </div>
             </div>
-            <div className="flex justify-start">IFSC*: {accIfsc}</div>
+            <div className="flex justify-start">IFSC*: {accIfsc?accIfsc:""}</div>
             <div className="flex justify-start">Detail of Cheques*:</div>
 
             {bankChecq.map((item) => {
@@ -380,10 +406,10 @@ const AofPdf2 = () => {
                   style={{ marginTop: "5px" }}
                 >
                   <div>
-                    {item.sl}. Cheque No.: {item.cheque_no}
+                    {item.sl?item.sl:""}. Cheque No.: {item.cheque_no?item.cheque_no:""}
                   </div>
-                  <div>Bank: {item.bank}</div>
-                  <div>Branch/IFSC: {item.branch_ifsc}</div>
+                  <div>Bank: {item.bank?item.bank:""}</div>
+                  <div>Branch/IFSC: {item.branch_ifsc?item.branch_ifsc:""}</div>
                 </div>
               );
             })}
@@ -450,26 +476,26 @@ const AofPdf2 = () => {
           }}
         >
           <div style={{ margin: "10px" }}>
-            THIS AGREEMENT is made on this {`${day} TH `} day of {`${month} `},
-            {`${year} `} , by and between Proficiency Learning Solutions Pvt.
+            THIS AGREEMENT is made on this {`${day?day:""} TH `} day of {`${month?month:""} `},
+            {`${year?year:""} `} , by and between Proficiency Learning Solutions Pvt.
             Ltd., company incorporated and registered under the Companies Act,
             2013 with its registered office located at 5th Floor, Cabin No 3,
             Right side at Plot No E-196, Phase 8B, Mohali, Mohali, Punjab,
-            India, 160020 through __{user.first_name}__ Hereinafter referred to as
-            “Eupheus” which expression shall unless repugnant to the context
+            India, 160020 through {user?user:""} Hereinafter referred to
+            as “Eupheus” which expression shall unless repugnant to the context
             means and include its successors and assigns of the ONE PART
           </div>
           <div className="flex justify-center">And</div>
           <div style={{ margin: "10px" }}>
-            {`${partySchool} `} (the "Distributor"), with its principal place of
-            business located at {`${address}, ${city}, ${state}, ${pinCode} `}{" "}
-            through {`${aofName}`} which expression shall unless repugnant to
+            {`${partySchool?partySchool:""} `} (the "Distributor"), with its principal place of
+            business located at {`${address?address:""}, ${city?city:""}, ${state?state:""}, ${pinCode?pinCode:""} `}{" "}
+            through {`${aofName?aofName:""}`} which expression shall unless repugnant to
             the context or meaning thereof, include its successors and permitted
             assigns, through its Authorized Signatory, on the OTHER PART.
           </div>
         </div>
         <div style={{ margin: "10px" }} className="flex justify-center">
-          Eupheus and {`${partySchool} `} shall collectively be referred to as
+          Eupheus and {`${partySchool?partySchool:""} `} shall collectively be referred to as
           “Parties” and individually as “Party” wherever the context permits.
         </div>
 
@@ -721,7 +747,7 @@ const AofPdf2 = () => {
               <b>Solutions Private Limited</b>
             </div>
             <div style={{ marginTop: "20px" }}>By: _____________</div>
-            <div style={{ marginTop: "2px" }}>Name: __{user.first_name}__</div>
+            <div style={{ marginTop: "2px" }}>Name: {user?user:""}</div>
             <div style={{ marginTop: "2px" }}>Title: _____________</div>
             <div style={{ marginTop: "2px" }}>(Authorised Officer)</div>
             <div style={{ marginTop: "2px" }}>Witness1: _______________</div>
@@ -731,7 +757,7 @@ const AofPdf2 = () => {
               <b>For Customer</b>
             </div>
             <div style={{ marginTop: "45px" }}>By: _____________</div>
-            <div style={{ marginTop: "2px" }}>Name: _{aofName}_</div>
+            <div style={{ marginTop: "2px" }}>Name: {aofName?aofName:""}</div>
             <div style={{ marginTop: "2px" }}>Title: _____________</div>
             <div style={{ marginTop: "2px" }}>(Authorised Officer)</div>
             <div style={{ marginTop: "2px" }}>Witness1: _______________</div>
@@ -764,89 +790,131 @@ const AofPdf2 = () => {
                   Remarks
                 </th>
               </tr>
+
+
+              {todDiscDataAvail?
               <tr style={{ border: "1px solid black" }}>
                 <td style={{ border: "1px solid black" }}>&nbsp;</td>
                 <td style={{ border: "1px solid black" }}>&nbsp;</td>
                 <td style={{ border: "1px solid black" }}>&nbsp;</td>
               </tr>
+               : ""}
 
+
+              {todDiscDataAvail?
               <tr style={{ border: "1px solid black" }}>
                 <td style={{ border: "1px solid black" }}>TOD</td>
                 <td
                   style={{ border: "1px solid black" }}
-                >{`${todDiscData.percent}`}</td>
+                >{`${todDiscData.percent?todDiscData.percent:""}`}</td>
                 <td
                   style={{ border: "1px solid black" }}
-                >{`${todDiscData.remark}  (${todDiscData.percentages_type})`}</td>
-              </tr>
+                >{`${todDiscData.remark?todDiscData.remark:""}  ${todDiscData.percentages_type?todDiscData.percentages_type:""}`}</td>
+              </tr> 
+              : ""}
 
+
+
+            {todDiscDataAvail?
               <tr style={{ border: "1px solid black" }}>
                 <td style={{ border: "1px solid black" }}>&nbsp;</td>
                 <td style={{ border: "1px solid black" }}>&nbsp;</td>
                 <td style={{ border: "1px solid black" }}>&nbsp;</td>
-              </tr>
+              </tr>:""}
+              
+              {cashDiscDataAvail?
               <tr style={{ border: "1px solid black" }}>
                 <td style={{ border: "1px solid black" }}>CASH DISCOUNT</td>
                 <td
                   style={{ border: "1px solid black" }}
-                >{`${cashDiscData.percent} %`}</td>
+                >{`${cashDiscData.percent?cashDiscData.percent:""} `}</td>
                 <td
                   style={{ border: "1px solid black" }}
-                >{`${todDiscData.remark}`}</td>
-              </tr>
+                >{`${todDiscData.remark?todDiscData.remark:""}`}</td>
+              </tr>:""}
+
+              {cashDiscDataAvail?
               <tr style={{ border: "1px solid black" }}>
                 <td style={{ border: "1px solid black" }}>&nbsp;</td>
                 <td style={{ border: "1px solid black" }}>&nbsp;</td>
                 <td style={{ border: "1px solid black" }}>&nbsp;</td>
               </tr>
+              :""}
+
+              {specialArrAvail?
               <tr style={{ border: "1px solid black" }}>
                 <td style={{ border: "1px solid black" }}>SPECIAL </td>
                 <td style={{ border: "1px solid black" }}></td>
                 <td style={{ border: "1px solid black" }}></td>
-              </tr>
+              </tr>:""}
               {/* <tr style={{ border: "1px solid black" }}>
                 <td style={{ border: "1px solid black" }}>&nbsp;</td>
                 <td style={{ border: "1px solid black" }}>&nbsp;</td>
                 <td style={{ border: "1px solid black" }}>&nbsp;</td>
               </tr> */}
+              
+              {publisherArrAvail?
               <tr style={{ border: "1px solid black" }}>
                 <td style={{ border: "1px solid black" }}>Publisher </td>
                 <td style={{ border: "1px solid black" }}></td>
                 <td style={{ border: "1px solid black" }}></td>
               </tr>
-              {publisheArr.map((i) => {
+              : ""}
+            
+            {publisherArrAvail?
+             <>
+             {publisheArr.map((i) => {
                 return (
                   <tr style={{ border: "1px solid black" }}>
                     <td
                       style={{ border: "1px solid black" }}
-                    >{`${i.sl}) ${i.publisher.name}`}</td>
-                    <td style={{ border: "1px solid black" }}>{`${i.publisher.percent} %`}</td>
-                    <td style={{ border: "1px solid black" }}>{`On ${i.publisher.percentages_type}`}</td>
+                    >{`${i.sl?i.sl:""}) ${i.publisher.name?i.publisher.name:""}`}</td>
+                    <td
+                      style={{ border: "1px solid black" }}
+                    >{`${i.publisher.percent?i.publisher.percent:""} %`}</td>
+                    <td
+                      style={{ border: "1px solid black" }}
+                    >{`On ${i.publisher.percentages_type?i.publisher.percentages_type:""}`}</td>
                   </tr>
                 );
               })}
+             </>
+             :""}
+          
+
+              {seriesArrAval?
               <tr style={{ border: "1px solid black" }}>
                 <td style={{ border: "1px solid black" }}>Series </td>
                 <td style={{ border: "1px solid black" }}></td>
                 <td style={{ border: "1px solid black" }}></td>
-              </tr>
+              </tr>:""}
+
+              {seriesArrAval?
+              <>
               {seriesArr.map((i) => {
                 return (
                   <tr style={{ border: "1px solid black" }}>
                     <td
                       style={{ border: "1px solid black" }}
-                    >{`${i.sl}) ${i.series.name}`}</td>
-                    <td style={{ border: "1px solid black" }}>{`${i.series.percent} %`}</td>
-                    <td style={{ border: "1px solid black" }}>{`On ${i.series.percentages_type}`}</td>
+                    >{`${i.sl?i.sl:""}) ${i.series.name?i.series.name:""}`}</td>
+                    <td
+                      style={{ border: "1px solid black" }}
+                    >{`${i.series.percent?i.series.percent:""} %`}</td>
+                    <td
+                      style={{ border: "1px solid black" }}
+                    >{`On ${i.series.percentages_type?i.series.percentages_type:""}`}</td>
                   </tr>
                 );
               })}
-
+              </>:""}
+              
+              {seriesArrAval?
               <tr style={{ border: "1px solid black" }}>
                 <td style={{ border: "1px solid black" }}>&nbsp;</td>
                 <td style={{ border: "1px solid black" }}>&nbsp;</td>
                 <td style={{ border: "1px solid black" }}>&nbsp;</td>
               </tr>
+              :""}
               {/* <tr style={{ border: "1px solid black" }}>
                 <td style={{ border: "1px solid black" }}>learning links</td>
                 <td style={{ border: "1px solid black" }}>30% </td>
@@ -917,6 +985,7 @@ const AofPdf2 = () => {
         </div>
       </div>
     </div>
+  </div>
   );
 };
 
