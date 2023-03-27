@@ -20,11 +20,15 @@ const authSlice = createSlice({
     logout(state) {
       state.user = false;
       state.msAuth = false;
-      state.admin = false
+      state.admin = false;
+      state.zsm = false;
     },
     adminLogin(state) {
       state.admin = Cookies.get("admin");
     },
+    zsmLogin(state){
+      state.zsm = Cookies.get("zsm")
+    }
   },
 });
 
