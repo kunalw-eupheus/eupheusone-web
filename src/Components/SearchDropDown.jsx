@@ -144,6 +144,11 @@ const SearchDropDown = ({
           return option.name;
           break;
 
+        case "party_type":
+          // console.log(option)
+          return option.title
+          break
+
         case "select_city_location":
           // console.log(option)
           return option.city;
@@ -298,6 +303,9 @@ const SearchDropDown = ({
     if (type === "select_state_training") {
       console.log(value, type);
       handleOrderProcessingForm(value, type);
+    }
+    if(type === "party_type"){
+      handleOrderProcessingForm(value, type)
     }
     if (type === "select_city_training") {
       handleOrderProcessingForm(value, type);

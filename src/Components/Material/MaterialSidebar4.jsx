@@ -21,7 +21,7 @@ import {
   ShoppingBag,
   AssignmentReturnOutlined,
   ReceiptOutlined,
-  PrintOutlined
+  PrintOutlined,
 } from "@mui/icons-material";
 import { Collapse } from "@mui/material";
 import { Link } from "react-router-dom";
@@ -36,7 +36,6 @@ const SwipeableTemporaryDrawer4 = React.forwardRef((props, ref) => {
   const [modelOpen, setModelOpen] = useState(false);
 
   const [userType, setUserType] = useState();
-
 
   const [isSchoolClicked, setIsSchoolClicked] = useState(
     props.show === 2 ? false : true
@@ -71,8 +70,8 @@ const SwipeableTemporaryDrawer4 = React.forwardRef((props, ref) => {
   }, []);
 
   React.useEffect(() => {
-    const userlogintype = Cookies.get("type")
-    setUserType(userlogintype)
+    const userlogintype = Cookies.get("type");
+    setUserType(userlogintype);
     if (props.show === null) {
       setIsSchoolClicked(false);
       setIsSchoolDetailClicked(false);
@@ -109,8 +108,6 @@ const SwipeableTemporaryDrawer4 = React.forwardRef((props, ref) => {
       //   onClick={toggleDrawer(anchor, false)}
       onKeyDown={toggleDrawer(anchor, false)}
     >
-
-     
       <div className="flex items-center gap-3 justify-center py-4">
         <img
           src={logoLight}
@@ -120,20 +117,13 @@ const SwipeableTemporaryDrawer4 = React.forwardRef((props, ref) => {
         <h4 className="text-gray-100">Eupheus Learning</h4>
       </div>
 
-
       <aside className="flex flex-col px-6 text-gray-200 py-4">
         <span className="text-lg">Hi, {user.first_name}</span>
         <span className="text-sm text-gray-300">{user.emp_id}</span>
         <hr className="text-gray-100 mt-4" />
       </aside>
-     
 
-
-        
-
-
- 
-         <Link to="/admin/home">
+      <Link to="/admin/home">
         <aside
           className={`px-6 py-2 my-4 hover:bg-gray-500 flex ${
             highLight === "dashboard" ? "bg-gray-500" : ""
@@ -153,7 +143,6 @@ const SwipeableTemporaryDrawer4 = React.forwardRef((props, ref) => {
               DashBoard
             </span>
           </div>
-
         </aside>
       </Link>
       <Link to="/admin/manageschool">
@@ -179,9 +168,7 @@ const SwipeableTemporaryDrawer4 = React.forwardRef((props, ref) => {
         </aside>
       </Link>
 
-
-
-      {/* <Link to="/admin/uploadinvoice">
+      <Link to="/admin/uploadinvoice">
         <aside
           className={`px-6 py-2 my-4 flex gap-4 ${
             highLight === "uploadinvoice" ? "bg-gray-500" : ""
@@ -189,7 +176,9 @@ const SwipeableTemporaryDrawer4 = React.forwardRef((props, ref) => {
         >
           <ReceiptOutlined
             className={`${
-              highLight === "uploadinvoice" ? "!text-[#659DBD]" : "!text-gray-400"
+              highLight === "uploadinvoice"
+                ? "!text-[#659DBD]"
+                : "!text-gray-400"
             } group-hover:!text-[#659DBD] !transition-all !duration-150 !ease-linear`}
           />
           <span
@@ -200,9 +189,7 @@ const SwipeableTemporaryDrawer4 = React.forwardRef((props, ref) => {
             Upload Invoice
           </span>
         </aside>
-      </Link> */}
-      
-     
+      </Link>
     </Box>
   );
 

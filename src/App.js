@@ -405,8 +405,8 @@ function App() {
 
               <Route
                 path="/zsm/aof"
-                // element={Zsm ? <ZsmAOF/> : <Login />}
-                element={<ZsmAOF />}
+                element={Zsm ? <ZsmAOF/> : <Login />}
+                // element={<ZsmAOF />}
               />
 
               {/* <Route
