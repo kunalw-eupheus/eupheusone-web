@@ -217,7 +217,13 @@ const AOF = () => {
     for (let ele of rowdata) {
       // console.log(ele)
       let docName = ele.name.toLowerCase();
-      if (docName.indexOf(searchVal.toLowerCase()) > -1) {
+      let phone = ele.phone
+      let schlName = ele.school.toLowerCase()
+      let email = ele.email.toLowerCase()
+      if (docName.indexOf(searchVal.toLowerCase()) > -1 || 
+      phone.indexOf(searchVal.toLowerCase()) > -1 ||
+      schlName.indexOf(searchVal.toLowerCase()) > -1 ||
+      email.indexOf(searchVal.toLowerCase()) > -1) {
         tempArr.push(ele);
       }
     }

@@ -16,7 +16,6 @@ import {
   AssignmentReturnOutlined,
   ReceiptOutlined,
   PrintOutlined,
-  
 } from "@mui/icons-material";
 import { Link } from "react-router-dom";
 import logoLight from "../assets/img/logo-light-icon.png";
@@ -45,8 +44,8 @@ const Sidebar4 = ({ sidebarCollapsed, highLight, show }) => {
   const dialogRef = useRef();
 
   useEffect(() => {
-    const userlogintype = Cookies.get("type")
-    setUserType(userlogintype)
+    const userlogintype = Cookies.get("type");
+    setUserType(userlogintype);
     if (show === null) {
       setIsSchoolClicked(false);
       setIsSchoolDetailClicked(false);
@@ -97,8 +96,6 @@ const Sidebar4 = ({ sidebarCollapsed, highLight, show }) => {
     >
       <TransitionsModal open={modelOpen} />;
       <DialogSlide ref={dialogRef} />
-      
-      
       <div
         className={`flex flex-col gap-4 transition-all ease-linear duration-100`}
       >
@@ -112,8 +109,9 @@ const Sidebar4 = ({ sidebarCollapsed, highLight, show }) => {
         </div>
 
         <aside className="flex flex-col px-6 text-gray-200">
-          <span className="text-lg">Hi, Admin
-          {/* {user.first_name} */}
+          <span className="text-lg">
+            Hi, Admin
+            {/* {user.first_name} */}
           </span>
           <span className="text-sm text-gray-300">{user.emp_id}</span>
           <hr className="text-gray-100 mt-4" />
@@ -167,9 +165,7 @@ const Sidebar4 = ({ sidebarCollapsed, highLight, show }) => {
           </aside>
         </Link>
 
-
-
-        {/* <Link to="/admin/uploadinvoice">
+        <Link to="/admin/uploadinvoice">
           <aside
             className={`px-6 py-2 flex gap-4 ${
               highLight === "uploadinvoice" ? "bg-gray-500" : ""
@@ -177,20 +173,22 @@ const Sidebar4 = ({ sidebarCollapsed, highLight, show }) => {
           >
             <ReceiptOutlined
               className={`${
-                highLight === "uploadinvoice" ? "!text-[#659DBD]" : "!text-gray-400"
+                highLight === "uploadinvoice"
+                  ? "!text-[#659DBD]"
+                  : "!text-gray-400"
               } group-hover:!text-[#659DBD] !transition-all !duration-150 !ease-linear`}
             />
             <span
               className={`${
-                highLight === "uploadinvoice" ? "text-gray-200" : "text-gray-400"
+                highLight === "uploadinvoice"
+                  ? "text-gray-200"
+                  : "text-gray-400"
               } group-hover:!text-gray-100 transition-all duration-150 ease-linear`}
             >
               Upload Invoice
             </span>
           </aside>
-        </Link> */}
-
-
+        </Link>
 
         {/* <Link to="/manage_order">
           <aside
@@ -235,7 +233,7 @@ const Sidebar4 = ({ sidebarCollapsed, highLight, show }) => {
             </span>
           </aside>
         </Link> */}
-       
+
         {/* <Link to="/projection">
           <aside
             className={`px-6 py-2 flex gap-4 ${
@@ -259,7 +257,6 @@ const Sidebar4 = ({ sidebarCollapsed, highLight, show }) => {
           </aside>
         </Link> */}
 
-
         {/* <Link to="/print_pdf">
           <aside
             className={`px-6 py-2 flex gap-4 ${
@@ -280,10 +277,7 @@ const Sidebar4 = ({ sidebarCollapsed, highLight, show }) => {
             </span>
           </aside>
         </Link> */}
-
-      
       </div>
-      
     </div>
   );
 };

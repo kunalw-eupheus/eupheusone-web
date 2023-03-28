@@ -41,34 +41,12 @@ const ZsmAOF = () => {
   const [aofId, setAofId] = useState("")
 
   const navInfo = {
-    title: "Manage School",
-    details: ["Home", " / Manage School"],
+    title: "AOF",
+    details: ["Home", " / AOF"],
   };
   const [searchRow, setSearchRow] = useState([]);
 
-  const Tablecolumns = [
-    { field: "name", headerName: "Name", width: 180 },
-    {
-      field: "phone",
-      headerName: "Phone",
-      width: 150,
-    },
-    {
-      field: "email",
-      headerName: "Email",
-      width: 150,
-    },
-    {
-      field: "school",
-      headerName: "School",
-      width: 220,
-    },
-    {
-      field: "status",
-      headerName: "Status",
-      width: 200,
-    },
-  ];
+
 
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rowdata.length) : 0;
@@ -215,24 +193,22 @@ const ZsmAOF = () => {
     setPage(0)
     let tempArr = [];
     for (let ele of rowdata) {
-      // console.log(ele)
+    //   console.log(ele)
       let docName = ele.name.toLowerCase();
-      if (docName.indexOf(searchVal.toLowerCase()) > -1) {
+      let phone = ele.phone
+      let schlName = ele.school.toLowerCase()
+      let email = ele.email.toLowerCase()
+      if (docName.indexOf(searchVal.toLowerCase()) > -1 || 
+      phone.indexOf(searchVal.toLowerCase()) > -1 ||
+      schlName.indexOf(searchVal.toLowerCase()) > -1 ||
+      email.indexOf(searchVal.toLowerCase()) > -1) {
         tempArr.push(ele);
       }
     }
     setSearchRow([]);
     if (tempArr.length === 0) {
       alert("No data Found")
-      // setSearchRow([
-      //   {
-      //     docnum: null,
-      //     docdate: null,
-      //     docdate: null,
-      //     doctotal: null,
-      //     id: null,
-      //   },
-      // ]);
+
     } else {
       setSearchRow(tempArr);
     }
@@ -271,9 +247,7 @@ const ZsmAOF = () => {
       });
       // setSchoolRow(rows);
     };
-    // getStates();
 
-    // getSchoolData();
   }, []);
 
   return (
@@ -307,27 +281,17 @@ const ZsmAOF = () => {
         />
         <div className="min-h-[100vh] pt-[2vh] max-h-full bg-[#141728]">
           <div className=" sm:px-8 px-2 py-3 bg-[#141728]">
-            {/* <div className="grid grid-cols-2 grid-rows-2 md:flex md:justify-around md:items-center px-6 mb-8 py-3 mt-6 gap-6 rounded-md bg-slate-600">
-            <Link to="/addschool">
-                <BasicButton text={"Create New School"} />
-              </Link>
-            </div> */}
+
             <div className="w-full flex gap-3 justify-end mt-4">
               <Link to="/aof_create">
                 <BasicButton text={"Create AOF"} />
               </Link>
             </div>
 
-            {/* <DataTable
-              rows={aofRow}
-              checkbox={false}
-              Tablecolumns={Tablecolumns}
-              tableName="AOFtable"
-            /> */}
 
             <Paper className="mt-5">
               <TableContainer component={Paper}>
-                <Toolbar className="bg-slate-400">
+                <Toolbar className="bg-slate-400 w-[106%]">
                   <TextField
                     id="search-bar"
                     className="text"
@@ -379,25 +343,28 @@ const ZsmAOF = () => {
                 <Table sx={{ minWidth: 650 }} aria-label="customized table">
                   <TableHead className="bg-slate-500">
                     <TableRow>
-                      <TableCell className="!w-[13rem]" align="center">
+                      <TableCell className="!w-[12rem]" align="center">
                         Name
                       </TableCell>
-                      <TableCell className="!w-[13rem]" align="center">
+                      <TableCell className="!w-[12rem]" align="center">
                         Phone
                       </TableCell>
-                      <TableCell className="!w-[13rem]" align="center">
+                      <TableCell className="!w-[10rem]" align="center">
                         Email
                       </TableCell>
-                      <TableCell className="!w-[10rem]" align="center">
+                      <TableCell className="!w-[8rem]" align="center">
                         School
                       </TableCell>
-                      <TableCell className="!w-[8rem]" align="center">
+                      <TableCell className="!w-[6rem]" align="center">
                         Status
                       </TableCell>
-                      <TableCell className="!w-[8rem]" align="center">
+                      <TableCell className="!w-[6rem]" align="center">
                         View
                       </TableCell>
-                      <TableCell className="!w-[8rem]" align="center">
+                      <TableCell className="!w-[6rem]" align="center">
+                        Download
+                      </TableCell>
+                      <TableCell className="!w-[6rem]" align="center">
                         Verify
                       </TableCell>
                     </TableRow>
@@ -427,24 +394,31 @@ const ZsmAOF = () => {
                             <TableCell align="center">{row.status}</TableCell>
 
                             <TableCell align="center">
-                            {/* <DialogSlide2 ref={dialogRef2}/> */}
                             <div
                                   className="sm:w-auto w-[50vw]"
                                   onClick={() => {
-                                    // handleAofView(row.id);
-                                    handleAofPDF(row.id);
+                                    "handleAofPDF(row.id);"
                                   }}
                                 >
                                   <BasicButton text={"View"} />
                                 </div>
                             </TableCell>
                                <TableCell align="center">
-                            {/* <DialogSlide2 ref={dialogRef2}/> */}
+
                             <div
                                   className="sm:w-auto w-[50vw]"
                                   onClick={() => {
-                                    // handleAofPDF(row.id);
-                                    handleVerify(row.id)
+                                    "handleVerify(row.id)"
+                                  }}
+                                >
+                                  <BasicButton text={"DOWNLOAD"} />
+                                </div>
+                            </TableCell>
+                            <TableCell align="center">
+                            <div
+                                  className="sm:w-auto w-[50vw]"
+                                  onClick={() => {
+                                    "handleVerify(row.id)"
                                   }}
                                 >
                                   <BasicButton text={"VERIFY"} />
@@ -467,9 +441,6 @@ const ZsmAOF = () => {
                               },
                             }}
                           >
-                            {/* <TableCell align="center" component="th" scope="row">
-                          {row.id}
-                        </TableCell> */}
                             <TableCell align="center">{row.name}</TableCell>
                             <TableCell align="center">{row.email}</TableCell>
                             <TableCell align="center">{row.phone}</TableCell>
@@ -478,12 +449,10 @@ const ZsmAOF = () => {
                             <TableCell align="center">{row.status}</TableCell>
 
                             <TableCell align="center">
-                            {/* <DialogSlide2 ref={dialogRef2}/> */}
                             <div
                                   className="sm:w-auto w-[50vw]"
                                   onClick={() => {
-                                    // handleAofView(row.id);
-                                    handleAofPDF(row.id);
+                                    "handleAofPDF(row.id);"
                                   }}
                                 >
                                   <BasicButton text={"View"} />
@@ -491,32 +460,27 @@ const ZsmAOF = () => {
                             </TableCell>
 
                             <TableCell align="center">
-                            {/* <DialogSlide2 ref={dialogRef2}/> */}
                             <div
                                   className="sm:w-auto w-[50vw]"
                                   onClick={() => {
-                                    // handleAofPDF(row.id);
-                                    handleVerify(row.id)
+                                    "handleVerify(row.id)"
+                                  }}
+                                >
+                                  <BasicButton text={"DOWNLOAD"} />
+                                </div>
+                            </TableCell>
+
+                            <TableCell align="center">
+                            <div
+                                  className="sm:w-auto w-[50vw]"
+                                  onClick={() => {
+                                    "handleVerify(row.id)"
                                   }}
                                 >
                                   <BasicButton text={"VERIFY"} />
                                 </div>
                             </TableCell>
 
-                            {/* <TableCell align="center"> */}
-                              {/* {row.id ? (
-                                  <div
-                                    className="sm:w-auto w-[50vw]"
-                                    onClick={() => {
-                                      handleInvoiceView(row.id);
-                                    }}
-                                  >
-                                    <BasicButton text={"View"} />
-                                  </div>
-                                ) : (
-                                  ""
-                                )} */}
-                            {/* </TableCell> */}
                           </TableRow>
                         ))}
                     <TableRow></TableRow>

@@ -131,6 +131,7 @@ const AofPdf2 = () => {
     setEmail(data.email);
     setFirmRegNo(data.firm_reg);
     setPanNo(data.pan);
+    // console.log(data.gst)
     setGstNo(data.gst);
     setEstYear(data.business_est);
     let aofData = res.data.message.aof_trustees[0];
@@ -539,8 +540,8 @@ const AofPdf2 = () => {
           <div>4. </div>
           <div>
             <b>Cost of Delivery.</b> Unless otherwise agreed between the Parties
-            herein, Eupheus shall not be responsible for all shipping cost,
-            including freight and domestic transportation charges.
+            herein, <b>Eupheus shall not be responsible for all shipping cost,
+            including freight and domestic transportation charges.</b> 
           </div>
         </div>
         <div style={{ margin: "10px" }} className="flex container">
@@ -643,9 +644,9 @@ const AofPdf2 = () => {
         <div style={{ margin: "10px" }} className="flex container">
           <div>10. </div>
           <div>
-            <b>Termination of Agreement:</b> The term of this Agreement shall be
+            <b>Termination of Agreement:</b>  <b>The term of this Agreement shall be
             for from the date of signing of this Agreement unless sooner
-            terminated to 31st March 2025. Following such Initial Term, this
+            terminated to 31st March 2025.</b> Following such Initial Term, this
             Agreement can be renewed for successive three (3) year on mutual
             agreement on the same terms or amended terms, unless either party
             notifies the other in writing of an intention not to renew the
@@ -944,6 +945,8 @@ const AofPdf2 = () => {
             <div style={{ marginTop: "5px" }}>Title/Designation: ________</div>
           </div>
         </div>
+        
+        {gstNo.length === 0 ? 
         <div style={{ marginTop: "20px", borderTop: "2px solid silver" }}>
           <div className="flex justify-center" style={{ marginTop: "20px" }}>
             <b style={{ borderBottom: "1px solid black" }}>Annexure B</b>
@@ -982,7 +985,8 @@ const AofPdf2 = () => {
               <div style={{ marginTop: "5px" }}>Date: _______________</div>
             </div>
           </div>
-        </div>
+        </div> : ""}
+
       </div>
     </div>
   </div>

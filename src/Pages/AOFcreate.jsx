@@ -93,10 +93,10 @@ const AOFcreate = () => {
   const [phoneP, setPhoneP] = useState("");
   const [mobileP, setMobileP] = useState("");
   const [emailP, setEmailP] = useState("");
-  const [partyBankerName, setPartyBankerName] = useState("");
-  const [accNoP, setAccNoP] = useState("");
-  const [ifscP, setIfscP] = useState("");
-  const [aofAcc, setAofAcc] = useState("");
+  const [partyBankerName, setPartyBankerName] = useState(null);
+  const [accNoP, setAccNoP] = useState(null);
+  const [ifscP, setIfscP] = useState(null);
+  const [aofAcc, setAofAcc] = useState(null);
   const [todOption, setTodOption] = useState("");
   const [todCondition, setTodCondition] = useState("");
   const [todPercent, setTodPercent] = useState("");
@@ -116,9 +116,23 @@ const AOFcreate = () => {
   });
   const [creditLimit, setcrditLimit] = useState("");
   const [creditLimitType, setcrditLimitType] = useState("");
+  const [partyType, setPartyType] = useState("School");
 
   const sidebarRef = useRef();
   const snackbarRef = useRef();
+
+  function isValid_IFSC_Code(ifsc_Code) {
+    console.log(ifsc_Code);
+    let regex = new RegExp(/^[A-Z]{4}0[A-Z0-9]{6}$/);
+    if (ifsc_Code == null) {
+      return false;
+    }
+    if (regex.test(ifsc_Code) == true) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 
   const postFormData = async () => {
     let pubArr = [...publisherForm];
@@ -180,7 +194,7 @@ const AOFcreate = () => {
       t_phone: phoneP,
       t_mobile: mobileP,
       t_email: emailP,
-      credit_limit:creditLimit,
+      credit_limit: creditLimit,
       credit_type: creditLimitType,
       cp: pubArr,
       // cp: [
@@ -748,10 +762,12 @@ const AOFcreate = () => {
   };
 
   const handleOrderProcessingForm = (value, type) => {
-    // console.log(value, type);
+    console.log(value, type);
     switch (type) {
-      // case "Name":
-
+      case "party_type":
+        // console.log(value);
+        setPartyType(value.title);
+        break;
       case "Enter Percentage (TOD)":
         // console.log(value)
         setTodPercent(value);
@@ -772,6 +788,10 @@ const AOFcreate = () => {
         setNameOfSchool(value.school_name);
         setIdOfSchool(value.id);
         break;
+      case "Enter Party Name *":
+        console.log(value)
+        setNameOfSchool(value)
+        break
       case "Name Of Party/School *":
         // console.log(value);
         // setNameOfSchool(value);
@@ -821,11 +841,11 @@ const AOFcreate = () => {
         console.log(value);
         setSchoolEmail(value);
         break;
-      case "PAN NO *":
+      case "PAN NO":
         console.log(value);
         setPanNo(value);
         break;
-      case "GST NO *":
+      case "GST NO":
         console.log(value);
         setGstNo(value);
         break;
@@ -837,8 +857,8 @@ const AOFcreate = () => {
         console.log(value);
         setProprietorName(value);
         break;
-      case "PAN NO*":
-        console.log(value);
+      case "PAN NO ":
+        console.log(value, "bbbbbb");
         setPanNoP(value);
         break;
       case "items_aof":
@@ -853,18 +873,18 @@ const AOFcreate = () => {
       case "Credit Limit":
         console.log(value);
         // setPanNoP(value);
-        setcrditLimit(value)
+        setcrditLimit(value);
         break;
-      case "Address*":
-        console.log(value);
+      case "Address ":
+        console.log(value, "bbbbb");
         setAddressP(value);
         break;
-      case "Pin Code*":
-        console.log(value);
+      case "Pin Code ":
+        console.log(value, "bbbbbb");
         setPinCodeP(value);
         break;
-      case "Phone*":
-        console.log(value);
+      case "Phone ":
+        console.log(value, "bbbbb");
         setPhoneP(value);
         break;
       case "Mobile*":
@@ -951,7 +971,7 @@ const AOFcreate = () => {
         console.log(value);
         break;
 
-      case "Phone *":
+      case "Phone":
         console.log(value);
         setPhone(value);
         break;
@@ -960,7 +980,7 @@ const AOFcreate = () => {
         console.log(value);
         break;
 
-      case "Firm/ Company/Trust Registration Number *":
+      case "Firm/ Company/Trust Registration Number":
         console.log(value);
         setFirmRegNo(value);
         break;
@@ -1176,16 +1196,49 @@ const AOFcreate = () => {
                       variant={"standard"}
                       multiline={false}
                     /> */}
-
-                    <SearchDropDown
-                      label={"Name Of Party/School *"}
-                      // seriesId={""}
+                    {/* <div className="grid sm:grid-rows-2 sm:grid-cols-3 grid-rows-4 grid-cols-1 w-full mt-6 gap-6 rounded-md bg-slate-600"> */}
+                    {/* <SearchDropDown
+                      Name={"cred_lim_type"}
+                      data={[{ title: "Thousands" }, { title: "Lacks" }]}
                       handleOrderProcessingForm={handleOrderProcessingForm}
+                      label={"Select State"}
                       color={"rgb(243, 244, 246)"}
-                      data={allSchool}
-                      multiple={false}
-                      Name={"select_schools"}
+                    /> */}
+                    {/* <div className="sm:col-span-2"> */}
+                    <SearchDropDown
+                      Name={"party_type"}
+                      data={[{ title: "School" }, { title: "Party" }]}
+                      handleOrderProcessingForm={handleOrderProcessingForm}
+                      label={"Select Party Type *"}
+                      color={"rgb(243, 244, 246)"}
                     />
+                    {/* </div> */}
+                    {/* </div> */}
+
+                    {partyType === "School" ? (
+                      <SearchDropDown
+                        label={"Name Of Party/School *"}
+                        // seriesId={""}
+                        handleOrderProcessingForm={handleOrderProcessingForm}
+                        color={"rgb(243, 244, 246)"}
+                        data={allSchool}
+                        multiple={false}
+                        Name={"select_schools"}
+                      />
+                    ) : (
+                      ""
+                    )}
+
+                    {partyType === "Party" ? (
+                      <BasicTextFields
+                        lable={"Enter Party Name *"}
+                        variant={"standard"}
+                        handleOrderProcessingForm={handleOrderProcessingForm}
+                        multiline={false}
+                      />
+                    ) : (
+                      ""
+                    )}
 
                     <SearchDropDown
                       Name={"aof_status"}
@@ -1238,7 +1291,7 @@ const AOFcreate = () => {
                       multiline={false}
                     />
                     <BasicTextFields
-                      lable={"Phone *"}
+                      lable={"Phone"}
                       handleOrderProcessingForm={handleOrderProcessingForm}
                       type={"number"}
                       variant={"standard"}
@@ -1250,19 +1303,19 @@ const AOFcreate = () => {
                       variant={"standard"}
                       multiline={false}
                     />
-                    <div className="sm:col-span-2">
-                      <BasicTextFields
-                        lable={"Firm/ Company/Trust Registration Number *"}
-                        handleOrderProcessingForm={handleOrderProcessingForm}
-                        variant={"standard"}
-                        multiline={false}
-                      />
-                    </div>
+                    {/* <div className="sm:col-span-2"> */}
+                    <BasicTextFields
+                      lable={"Firm/ Company/Trust Registration Number"}
+                      handleOrderProcessingForm={handleOrderProcessingForm}
+                      variant={"standard"}
+                      multiline={false}
+                    />
+                    {/* </div> */}
                     {/* <DatePicker label={"Dated"} /> */}
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                       <Stack spacing={3}>
                         <DesktopDatePicker
-                          label="Select Date"
+                          label="Select Date *"
                           inputFormat="MM/DD/YYYY"
                           value={date}
                           onChange={handleStartDate}
@@ -1273,13 +1326,13 @@ const AOFcreate = () => {
                     </LocalizationProvider>
 
                     <BasicTextFields
-                      lable={"PAN NO *"}
+                      lable={"PAN NO"}
                       handleOrderProcessingForm={handleOrderProcessingForm}
                       variant={"standard"}
                       multiline={false}
                     />
                     <BasicTextFields
-                      lable={"GST NO *"}
+                      lable={"GST NO"}
                       handleOrderProcessingForm={handleOrderProcessingForm}
                       variant={"standard"}
                       multiline={false}
@@ -1303,18 +1356,19 @@ const AOFcreate = () => {
                         citySelect,
                         pinCode,
                         mobile,
-                        phone,
-                        schoolEmail,
-                        firmRegNo,
-                        panNo,
-                        gstNo,
-                        gstYear)
+                        date,
+                        // phone,
+                        schoolEmail)
+                        // firmRegNo,
+                        // panNo,
+                        // gstNo,
+                        // gstYear
                       ) {
-                      setSteps({ step1: false, step2: true, step3: false });
-                      window.scroll({
-                        top: 0,
-                        behavior: "smooth",
-                      });
+                        setSteps({ step1: false, step2: true, step3: false });
+                        window.scroll({
+                          top: 0,
+                          behavior: "smooth",
+                        });
                       } else {
                         setSnackbarErrStatus(true);
                         setErrMessage("Please Fill All The Fields");
@@ -1340,19 +1394,19 @@ const AOFcreate = () => {
                     </div>
 
                     <BasicTextFields
-                      lable={"PAN NO*"}
+                      lable={"PAN NO "}
                       handleOrderProcessingForm={handleOrderProcessingForm}
                       variant={"standard"}
                       multiline={false}
                     />
                     <BasicTextFields
-                      lable={"Address*"}
+                      lable={"Address "}
                       handleOrderProcessingForm={handleOrderProcessingForm}
                       variant={"standard"}
                       multiline={false}
                     />
                     <BasicTextFields
-                      lable={"Pin Code*"}
+                      lable={"Pin Code "}
                       handleOrderProcessingForm={handleOrderProcessingForm}
                       type={"number"}
                       variant={"standard"}
@@ -1360,7 +1414,7 @@ const AOFcreate = () => {
                     />
 
                     <BasicTextFields
-                      lable={"Phone*"}
+                      lable={"Phone "}
                       handleOrderProcessingForm={handleOrderProcessingForm}
                       type={"number"}
                       variant={"standard"}
@@ -1399,19 +1453,17 @@ const AOFcreate = () => {
                   <div
                     onClick={() => {
                       if (
-                        (panNoP,
-                        addressP,
-                        pinCodeP,
-                        phoneP,
-                        mobileP,
-                        emailP,
-                        proprietorName)
+                        // panNoP,
+                        // addressP,
+                        // pinCodeP,
+                        // phoneP,
+                        (mobileP, emailP, proprietorName)
                       ) {
-                      setSteps({ step1: false, step2: false, step3: true });
-                      window.scroll({
-                        top: 0,
-                        behavior: "smooth",
-                      });
+                        setSteps({ step1: false, step2: false, step3: true });
+                        window.scroll({
+                          top: 0,
+                          behavior: "smooth",
+                        });
                       } else {
                         setSnackbarErrStatus(true);
                         setErrMessage("Please Fill All The Fields");
@@ -1475,22 +1527,32 @@ const AOFcreate = () => {
                   </div>
                   <div
                     onClick={() => {
-                      if ((partyBankerName, accNoP, aofAcc, ifscP)) {
-                      setSteps({
-                        step1: false,
-                        step2: false,
-                        step3: false,
-                        step4: true,
-                      });
-                      window.scroll({
-                        top: 0,
-                        behavior: "smooth",
-                      });
-                      } else {
+                      // console.log(isValid_IFSC_Code(ifscP));
+                      if (!partyBankerName || !accNoP || !aofAcc || !ifscP || chequeForm.length === 0) {
                         setSnackbarErrStatus(true);
                         setErrMessage("Please Fill All The Fields");
                         snackbarRef.current.openSnackbar();
+                      } else if (isValid_IFSC_Code(ifscP) === false) {
+                        setSnackbarErrStatus(true);
+                        setErrMessage("Please Enter a Valid IFSC Code");
+                        snackbarRef.current.openSnackbar();
+                      } else {
+                        setSteps({
+                          step1: false,
+                          step2: false,
+                          step3: false,
+                          step4: true,
+                        });
+                        window.scroll({
+                          top: 0,
+                          behavior: "smooth",
+                        });
                       }
+                      // else if(isValid_IFSC_Code(ifscP) === false){
+                      //   setSnackbarErrStatus(true);
+                      //   setErrMessage("Please Enter a Valid IFSC Code");
+                      //   snackbarRef.current.openSnackbar();
+                      // }
                     }}
                     className="mt-3"
                   >
@@ -1501,8 +1563,6 @@ const AOFcreate = () => {
               {/* step 4 */}
               {steps.step4 ? (
                 <div className="flex flex-col gap-4  md:w-[90%] sm:w-[70%] w-[95%] px-6 bg-slate-600 rounded-md py-6 mb-[5rem] justify-center items-start">
-            
-
                   <div className="grid sm:grid-rows-2 sm:grid-cols-3 grid-rows-4 grid-cols-1 w-full mt-6 gap-6 rounded-md bg-slate-600">
                     <BasicTextFields
                       lable={"Credit Limit"}
@@ -1668,7 +1728,7 @@ const AOFcreate = () => {
                                 variant={"standard"}
                                 multiline={false}
                               />
-                              <RowRadioButtonsGroup
+                              {/* <RowRadioButtonsGroup
                                 handleRadioButtons={handleRadioButtons}
                                 name={"tod_special"}
                                 value={[
@@ -1678,7 +1738,7 @@ const AOFcreate = () => {
                                   },
                                   { label: "Net", value: "no" },
                                 ]}
-                              />
+                              /> */}
                             </Typography>
                           </>
                         ) : null}
@@ -1724,10 +1784,10 @@ const AOFcreate = () => {
                                       >
                                         Percentage
                                       </TableCell>
-                                      <TableCell
+                                      {/* <TableCell
                                         className="!w-[10rem]"
                                         align="center"
-                                      ></TableCell>
+                                      ></TableCell> */}
                                       <TableCell
                                         className="!w-[2rem]"
                                         align="center"
@@ -1770,7 +1830,7 @@ const AOFcreate = () => {
                                             />
                                           </TableCell>
 
-                                          <TableCell align="center">
+                                          {/* <TableCell align="center">
                                             <RowRadioButtonsGroup
                                               handleRadioButtons={
                                                 handleRadioButtons
@@ -1785,7 +1845,7 @@ const AOFcreate = () => {
                                               ]}
                                               defaultValue={row.fk_category_id}
                                             />
-                                          </TableCell>
+                                          </TableCell> */}
 
                                           <TableCell align="center">
                                             <div>
@@ -1849,10 +1909,10 @@ const AOFcreate = () => {
                                       >
                                         Percentage
                                       </TableCell>
-                                      <TableCell
+                                      {/* <TableCell
                                         className="!w-[10rem]"
                                         align="center"
-                                      ></TableCell>
+                                      ></TableCell> */}
                                       {/* <TableCell
                                       className="!w-[4rem]"
                                       align="center"
@@ -1899,7 +1959,7 @@ const AOFcreate = () => {
                                               variant="standard"
                                             />
                                           </TableCell>
-                                          <TableCell align="center">
+                                          {/* <TableCell align="center">
                                             <RowRadioButtonsGroup
                                               handleRadioButtons={
                                                 handleRadioButtons
@@ -1914,7 +1974,7 @@ const AOFcreate = () => {
                                               ]}
                                               defaultValue={row.fk_category_id}
                                             />
-                                          </TableCell>
+                                          </TableCell> */}
                                           {/* <TableCell align="center">
                                           <SearchDropDown
                                             Name={"items_aof"}
@@ -2024,10 +2084,10 @@ const AOFcreate = () => {
                                       >
                                         Percentage
                                       </TableCell>
-                                      <TableCell
+                                      {/* <TableCell
                                         className="!w-[10rem]"
                                         align="center"
-                                      ></TableCell>
+                                      ></TableCell> */}
                                       <TableCell
                                         className="!w-[2rem]"
                                         align="center"
@@ -2068,7 +2128,7 @@ const AOFcreate = () => {
                                               variant="standard"
                                             />
                                           </TableCell>
-                                          <TableCell align="center">
+                                          {/* <TableCell align="center">
                                             <RowRadioButtonsGroup
                                               handleRadioButtons={
                                                 handleRadioButtons
@@ -2083,7 +2143,7 @@ const AOFcreate = () => {
                                               ]}
                                               defaultValue={row.fk_category_id}
                                             />
-                                          </TableCell>
+                                          </TableCell> */}
                                           <TableCell align="center">
                                             <div>
                                               <IconButton

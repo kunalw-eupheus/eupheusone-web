@@ -60,7 +60,7 @@ const AdminUploadInvoice = () => {
 
   const navInfo = {
     title: "Upload Invoice",
-    details: ["Home", " / Upload Invoice"],
+    details: ["Admin", " / Upload Invoice"],
   };
 
   const types = [
@@ -400,6 +400,11 @@ const AdminUploadInvoice = () => {
   };
   const uploadExcelData = async () => {
     console.log(excelData);
+    if(excelData.length === 0) {
+      alert("Please Upload a file")
+      return
+    }
+    // console.log("first")
     for (let arr of excelData) {
       let dataToPost = {
         data: arr,

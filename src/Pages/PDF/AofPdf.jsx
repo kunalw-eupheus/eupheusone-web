@@ -943,6 +943,8 @@ const AofPdf = () => {
             <div style={{ marginTop: "5px" }}>Title/Designation: ________</div>
           </div>
         </div>
+
+        {gstNo.length === 0 ? 
         <div style={{ marginTop: "20px", borderTop: "2px solid silver" }}>
           <div className="flex justify-center" style={{ marginTop: "20px" }}>
             <b style={{ borderBottom: "1px solid black" }}>Annexure B</b>
@@ -981,7 +983,8 @@ const AofPdf = () => {
               <div style={{ marginTop: "5px" }}>Date: _______________</div>
             </div>
           </div>
-        </div>
+        </div> : ""}
+        
       </div>
     </div>
   );
