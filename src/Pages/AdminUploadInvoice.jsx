@@ -494,7 +494,7 @@ const AdminUploadInvoice = () => {
 
               <div
                 className="flex flex-col gap-2 w-full md:w-[20vw]"
-                onClick={"downloadTemplate"}
+                onClick={()=>{console.log("No function added")}}
               >
                 <BasicButton type="submit" text={"Download Template"} />
               </div>

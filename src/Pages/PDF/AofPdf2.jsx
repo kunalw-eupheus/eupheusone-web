@@ -231,7 +231,7 @@ const AofPdf2 = () => {
 
   return (
     <div className="bg-white">
-    <div className="bg-white w-[21cm] ml-60">
+    <div className="bg-white ">
       <div className="h-[30cm]">
         <div className="flex justify-center">
           <img width={170} src={eupheusLogo} />

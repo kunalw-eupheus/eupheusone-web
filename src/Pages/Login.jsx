@@ -82,13 +82,35 @@ const Login = () => {
       Cookies.set("accessToken", `${res.data.accessToken}`);
       Cookies.set("type", `${res.data.type}`);
       Cookies.set("company", `${res.data.company}`)
+
       if (res.data.type === 'admin') {
-        Cookies.set("admin", true);
+        Cookies.set("admin", 
+        // true
+        `id: ${res.data.id}, accessToken: ${res.data.accessToken}`
+        );
         dispatch(authActions.adminLogin());
       }
       if (res.data.type === 'zsm'){
-        Cookies.set("zsm", true)
+        Cookies.set("zsm", 
+        // true
+        `id: ${res.data.id}, accessToken: ${res.data.accessToken}`)
         dispatch(authActions.zsmLogin())
+      }
+
+      if (res.data.type === 'finance'){
+        Cookies.set("finance",
+        //  true
+        `id: ${res.data.id}, accessToken: ${res.data.accessToken}`
+         )
+        dispatch(authActions.financeLogin())
+      }
+
+      if (res.data.type === 'saleshead'){
+        Cookies.set("saleshead", 
+        // true
+        `id: ${res.data.id}, accessToken: ${res.data.accessToken}`
+        )
+        dispatch(authActions.salesheadLogin())
       }
       
       dispatch(authActions.login());
@@ -112,6 +134,16 @@ const Login = () => {
       else if(res.data.type === "zsm" && res.data.company === "Euphues"){
         // console.log(res.data.company)
         navigate("/zsm/aof")
+        // console.log("This is in admin login")
+      }
+      else if(res.data.type === "finance" && res.data.company === "Euphues"){
+        // console.log(res.data.company)
+        navigate("/finance/aof")
+        // console.log("This is in admin login")
+      }
+      else if(res.data.type === "saleshead" && res.data.company === "Euphues"){
+        // console.log(res.data.company)
+        navigate("/saleshead/aof")
         // console.log("This is in admin login")
       }
       else{

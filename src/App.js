@@ -78,6 +78,11 @@ import AdminAddSchool from "./Pages/AdminAddSchool";
 import AdminTagging from "./Pages/AdminTagging";
 import AdminUploadInvoice from "./Pages/AdminUploadInvoice";
 import ZsmAOF from "./Pages/ZsmAof";
+import AdminInvoice from "./Pages/AdminInvoice";
+import AdminInvoiceItem from "./Pages/AdminInvoiceItem";
+import AdminAddSchoolQuantity from "./Pages/AdminAddSchoolQuantity";
+import FinanceAOF from "./Pages/FinanceAOF";
+import SalesheadAOF from "./Pages/SalesheadAOF";
 function App() {
   const isAuth = useSelector((state) => state.auth.user);
   const MsAuth = useSelector((state) => state.auth.msAuth);
@@ -86,13 +91,16 @@ function App() {
   const Admin = useSelector((state) => state.auth.admin);
   // const Admin = true;
   const Zsm = useSelector((state) => state.auth.zsm);
+  const Finance = useSelector((state) => state.auth.finance);
+  const Saleshead = useSelector((state)=> state.auth.saleshead)
+
 
   return (
     <div>
       <div>
         {/* {console.log(isAuth)} */}
         {/* {console.log(MsAuth)} */}
-        {console.log(Admin)}
+        {/* {console.log(Admin)} */}
         <div className="!font-Roboto bg-[#111322]">
           <BrowserRouter>
             <Routes>
@@ -402,11 +410,39 @@ function App() {
                 element={Admin ? <AdminAddSchool /> : <Login />}
                 // element={<AdminAddSchool />}
               />
+              <Route
+                path="/admin/invoice"
+                // element={Admin ? <AdminInvoice /> : <Login />}
+                element={<AdminInvoice />}
+              />
+              <Route
+                path="/admin/invoice_item/:invoiceid"
+                // element={Admin ? <AdminInvoiceItem /> : <Login />}
+                element={<AdminInvoiceItem />}
+              />
+
+              <Route
+                path="/admin/addschoolquantity/:invoiceid"
+                // element={Admin ? <AdminAddSchoolQuantity /> : <Login />}
+                element={<AdminAddSchoolQuantity />}
+              />
 
               <Route
                 path="/zsm/aof"
-                element={Zsm ? <ZsmAOF/> : <Login />}
-                // element={<ZsmAOF />}
+                // element={Zsm ? <ZsmAOF /> : <Login />}
+                element={<ZsmAOF />}
+              />
+
+              <Route
+                path="/finance/aof"
+                // element={Finance ? <FinanceAOF /> : <Login />}
+                element={<FinanceAOF />}
+              />
+
+              <Route
+                path="/saleshead/aof"
+                // element={Saleshead ? <SalesheadAOF /> : <Login />}
+                element={<SalesheadAOF />}
               />
 
               {/* <Route

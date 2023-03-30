@@ -122,7 +122,7 @@ const AOFcreate = () => {
   const snackbarRef = useRef();
 
   function isValid_IFSC_Code(ifsc_Code) {
-    console.log(ifsc_Code);
+    // console.log(ifsc_Code);
     let regex = new RegExp(/^[A-Z]{4}0[A-Z0-9]{6}$/);
     if (ifsc_Code == null) {
       return false;
@@ -160,7 +160,7 @@ const AOFcreate = () => {
     for (let items of tempItemsArr) {
       delete items.series;
     }
-    console.log(tempItemsArr);
+    // console.log(tempItemsArr);
     // console.log(tempSeriesArr)
     // console.log(specialSpecific)
     let specialData = [
@@ -302,8 +302,8 @@ const AOFcreate = () => {
     // console.log(res.status);
     if (res.status === 200) {
       let link = res.data;
-      console.log(index);
-      console.log(chequeForm);
+      // console.log(index);
+      // console.log(chequeForm);
       let tempArr = [...chequeForm];
       if (tempArr.length < index + 1) {
         let obj = {};
@@ -317,7 +317,7 @@ const AOFcreate = () => {
           }
         }
       }
-      console.log(tempArr);
+      // console.log(tempArr);
       setChequeForm(tempArr);
     } else {
       alert("Cannot upload image");
@@ -401,19 +401,19 @@ const AOFcreate = () => {
       case "special applicable":
         if (value === "yes") {
           special_obj.eligibile = "yes";
-          console.log(special_obj);
-          console.log("special applicable yes");
+          // console.log(special_obj);
+          // console.log("special applicable yes");
           setStep4({ ...step4, special: { applicable: true, type: "" } });
         } else {
           special_obj.eligibile = "no";
-          console.log(special_obj);
-          console.log("special applicable no");
+          // console.log(special_obj);
+          // console.log("special applicable no");
           setStep4({ ...step4, special: { applicable: false, type: "" } });
         }
         break;
 
       case "special type":
-        console.log(value);
+        // console.log(value);
         if (value === "overall") {
           setPublisherData([]);
           setSeriesData([]);
@@ -422,7 +422,7 @@ const AOFcreate = () => {
           setSpecialSpecific([]);
           special_obj.dis_type = "specific";
         }
-        console.log(special_obj);
+        // console.log(special_obj);
         setSpecialObj(special_obj);
         setStep4({ ...step4, special: { applicable: true, type: value } });
         break;
@@ -441,7 +441,7 @@ const AOFcreate = () => {
         break;
 
       case "tod_special":
-        console.log(value);
+        // console.log(value);
         if (value === "yes") {
           // console.log(value);
           special_obj.percentages_type = "gross";
@@ -450,7 +450,7 @@ const AOFcreate = () => {
           // console.log(value);
           special_obj.percentages_type = "net";
         }
-        console.log(special_obj);
+        // console.log(special_obj);
         setSpecialObj(special_obj);
         // setPublisherData2([{...special_obj}])
         setSpecialSpecific([{ ...special_obj }]);
@@ -490,12 +490,12 @@ const AOFcreate = () => {
       //   break;
 
       case "series":
-        console.log(type, value, defaultValue);
+        // console.log(type, value, defaultValue);
 
         let val1 = value;
         let id1 = defaultValue;
 
-        console.log(val1, id1);
+        // console.log(val1, id1);
 
         let dataArr1 = [...seriesData];
         let tempArr1 = [];
@@ -507,7 +507,7 @@ const AOFcreate = () => {
           tempArr1.push(obj);
         }
 
-        console.log(tempArr1);
+        // console.log(tempArr1);
         setSeriesData([]);
         setSeriesData(tempArr1);
         // setStep4({ ...step4, special: { applicable: true, type: value } });
@@ -519,7 +519,7 @@ const AOFcreate = () => {
         let val2 = value;
         let id2 = defaultValue;
 
-        console.log(val2, id2);
+        // console.log(val2, id2);
 
         let dataArr2 = [...itemsData];
         let tempArr2 = [];
@@ -531,7 +531,7 @@ const AOFcreate = () => {
           tempArr2.push(obj);
         }
 
-        console.log(tempArr2);
+        // console.log(tempArr2);
         setItemsData([]);
         setItemsData(tempArr2);
         // setStep4({ ...step4, special: { applicable: true, type: value } });
@@ -553,7 +553,7 @@ const AOFcreate = () => {
       tempArr.push(obj);
     }
 
-    console.log(tempArr);
+    // console.log(tempArr);
     setPublisherData([]);
     setPublisherData(tempArr);
   };
@@ -569,13 +569,13 @@ const AOFcreate = () => {
       tempArr.push(obj);
     }
 
-    console.log(tempArr);
+    // console.log(tempArr);
     setSeriesData([]);
     setSeriesData(tempArr);
   };
 
   const handleTablePercent3 = (val, id) => {
-    console.log(val, id);
+    // console.log(val, id);
     let dataArr = [...itemsData];
     let tempArr = [];
     for (let obj of dataArr) {
@@ -586,7 +586,7 @@ const AOFcreate = () => {
       tempArr.push(obj);
     }
 
-    console.log(tempArr);
+    // console.log(tempArr);
     setItemsData([]);
     setItemsData(tempArr);
   };
@@ -619,7 +619,7 @@ const AOFcreate = () => {
   // };
 
   const handlePublisherForm = (field, value, index) => {
-    console.log(field, value, index);
+    // console.log(field, value, index);
     let tempArr = [...publisherForm];
     if (tempArr.length < index + 1) {
       let obj = {};
@@ -635,7 +635,7 @@ const AOFcreate = () => {
         }
       }
     }
-    console.log(tempArr);
+    // console.log(tempArr);
     setPublisherForm(tempArr);
   };
 
@@ -702,7 +702,7 @@ const AOFcreate = () => {
         }
       }
     }
-    console.log(tempArr);
+    // console.log(tempArr);
     setChequeForm(tempArr);
 
     // let chekArr = []
@@ -762,7 +762,7 @@ const AOFcreate = () => {
   };
 
   const handleOrderProcessingForm = (value, type) => {
-    console.log(value, type);
+    // console.log(value, type);
     switch (type) {
       case "party_type":
         // console.log(value);
@@ -773,23 +773,23 @@ const AOFcreate = () => {
         setTodPercent(value);
         break;
       case "Enter Percentage (special)":
-        console.log(value);
+        // console.log(value);
         // console.log(special_obj)
         special_obj.percentages = value;
 
-        console.log(special_obj);
+        // console.log(special_obj);
         setSpecialObj(special_obj);
         // setPublisherData2([{...special_obj}])
         setSpecialSpecific([{ ...special_obj }]);
         // setTodPercent(value);
         break;
       case "select_schools":
-        console.log(value);
+        // console.log(value);
         setNameOfSchool(value.school_name);
         setIdOfSchool(value.id);
         break;
       case "Enter Party Name *":
-        console.log(value)
+        // console.log(value)
         setNameOfSchool(value)
         break
       case "Name Of Party/School *":
@@ -797,13 +797,13 @@ const AOFcreate = () => {
         // setNameOfSchool(value);
         break;
       case "aof_status":
-        console.log(value.title);
+        // console.log(value.title);
         setAofStatus(value.title);
         break;
       case "title_aof":
-        console.log(value);
+        // console.log(value);
         // let tempArr2 = [...seriesData];
-        console.log(itemsData);
+        // console.log(itemsData);
         // console.log(publisherData2)
         // console.log(value);
         let tempArr2 = [...itemsData];
@@ -834,87 +834,87 @@ const AOFcreate = () => {
         // setAofStatus(value.title);
         break;
       case "Address *":
-        console.log(value);
+        // console.log(value);
         setSchoolAddress(value);
         break;
       case "E-Mail *":
-        console.log(value);
+        // console.log(value);
         setSchoolEmail(value);
         break;
       case "PAN NO":
-        console.log(value);
+        // console.log(value);
         setPanNo(value);
         break;
       case "GST NO":
-        console.log(value);
+        // console.log(value);
         setGstNo(value);
         break;
       case "GST Year of establishment of business":
-        console.log(value);
+        // console.log(value);
         setGstYear(value);
         break;
       case "Name of Proprietor/Partner/Director/Trustee *":
-        console.log(value);
+        // console.log(value);
         setProprietorName(value);
         break;
       case "PAN NO ":
-        console.log(value, "bbbbbb");
+        // console.log(value, "bbbbbb");
         setPanNoP(value);
         break;
       case "items_aof":
-        console.log(value);
+        // console.log(value);
         // setPanNoP(value);
         break;
       case "cred_lim_type":
-        console.log(value);
+        // console.log(value);
         // setPanNoP(value);
         setcrditLimitType(value.title);
         break;
       case "Credit Limit":
-        console.log(value);
+        // console.log(value);
         // setPanNoP(value);
         setcrditLimit(value);
         break;
       case "Address ":
-        console.log(value, "bbbbb");
+        // console.log(value, "bbbbb");
         setAddressP(value);
         break;
       case "Pin Code ":
-        console.log(value, "bbbbbb");
+        // console.log(value, "bbbbbb");
         setPinCodeP(value);
         break;
       case "Phone ":
-        console.log(value, "bbbbb");
+        // console.log(value, "bbbbb");
         setPhoneP(value);
         break;
       case "Mobile*":
-        console.log(value);
+        // console.log(value);
         setMobileP(value);
         break;
       case "E-Mail*":
-        console.log(value);
+        // console.log(value);
         setEmailP(value);
         break;
       case "Name and address of the party’s main bankers *":
-        console.log(value);
+        // console.log(value);
         setPartyBankerName(value);
         break;
       case "Account Number *":
-        console.log(value);
+        // console.log(value);
         setAccNoP(value);
         break;
       case "IFSC *":
-        console.log(value);
+        // console.log(value);
         setIfscP(value);
         break;
       case "aof_acc":
-        console.log(value);
+        // console.log(value);
         setAofAcc(value.title);
         break;
       case "publisher":
-        console.log(publisherData);
+        // console.log(publisherData);
         // console.log(publisherData2)
-        console.log(value);
+        // console.log(value);
         let tempArr = [...publisherData];
         // let arr1 = []
         for (let ele of tempArr) {
@@ -935,14 +935,14 @@ const AOFcreate = () => {
         };
 
         tempArr.push(tempObj);
-        console.log(tempArr);
+        // console.log(tempArr);
         setPublisherData(tempArr);
 
         break;
 
       case "Pin Code *":
         setPinCode(value);
-        console.log(value);
+        // console.log(value);
         break;
 
       case "series_aof_item":
@@ -953,7 +953,7 @@ const AOFcreate = () => {
       case "select_state_location":
         //   console.log(value , "hihihiihii");
         //   setStateId(value.id);
-        console.log(value);
+        // console.log(value);
         setStateSelect(value.id);
         getCity(value.id);
         // getCity(value.fk_state_id);
@@ -962,34 +962,34 @@ const AOFcreate = () => {
         break;
 
       case "select_city_location":
-        console.log(value);
+        // console.log(value);
         setCitySelect(value.id);
         break;
 
       case "Mobile *":
         setMobile(value);
-        console.log(value);
+        // console.log(value);
         break;
 
       case "Phone":
-        console.log(value);
+        // console.log(value);
         setPhone(value);
         break;
 
       case "Enter Percentage":
-        console.log(value);
+        // console.log(value);
         break;
 
       case "Firm/ Company/Trust Registration Number":
-        console.log(value);
+        // console.log(value);
         setFirmRegNo(value);
         break;
 
       case "series_aof":
         // let tempArr2 = [...seriesData];
-        console.log(seriesData);
+        // console.log(seriesData);
         // console.log(publisherData2)
-        console.log(value);
+        // console.log(value);
         let tempArr1 = [...seriesData];
         // let arr1 = []
         for (let ele of tempArr1) {
@@ -1010,7 +1010,7 @@ const AOFcreate = () => {
         };
 
         tempArr1.push(tempObj1);
-        console.log(tempArr1);
+        // console.log(tempArr1);
         setSeriesData(tempArr1);
 
         break;
@@ -1112,8 +1112,8 @@ const AOFcreate = () => {
         break;
 
       case "series":
-        console.log(id);
-        console.log(seriesData);
+        // console.log(id);
+        // console.log(seriesData);
         let tempData1 = [];
         let dataArr1 = [...seriesData];
         for (let ele of dataArr1) {
@@ -1121,14 +1121,14 @@ const AOFcreate = () => {
             tempData1.push(ele);
           }
         }
-        console.log(tempData1);
+        // console.log(tempData1);
         setSeriesData([]);
         setSeriesData(tempData1);
         break;
 
       case "items":
-        console.log(id);
-        console.log(itemsData);
+        // console.log(id);
+        // console.log(itemsData);
         let tempData2 = [];
         let dataArr2 = [...itemsData];
         for (let ele of dataArr2) {
@@ -1136,7 +1136,7 @@ const AOFcreate = () => {
             tempData2.push(ele);
           }
         }
-        console.log(tempData2);
+        // console.log(tempData2);
         setItemsData([]);
         setItemsData(tempData2);
         break;
