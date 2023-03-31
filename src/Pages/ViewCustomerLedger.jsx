@@ -130,28 +130,45 @@ const ViewCustomerLedger = () => {
       todate: endDte,
       fromdate: strtDte,
     };
-    console.log(postdata)
+    // console.log(postdata)
     setLoading(true);
-    const res = await instance({
-      url: `doc_print/ledger/getdata`,
-      method: "post",
-      data: postdata,
-      headers: {
-        Authorization: Cookies.get("accessToken"),
-      },
-    });
-    console.log(res.data.message);
+    // const res = await instance({
+    //   url: `doc_print/ledger/getdata`,
+    //   method: "post",
+    //   data: postdata,
+    //   headers: {
+    //     Authorization: Cookies.get("accessToken"),
+    //   },
+    // });
+    // console.log(res.data.message);
     // if (res.data.message === "No Invoice Found") {
     //   alert(res.data.message);
     // } else {
     //   let downloadUrl = res.data.message;
     //   window.open(downloadUrl);
     // }
-    setLoading(false);
+
+
+     const res = await instance({
+      url: `doc_print/ledger/getpdf`,
+      method: "post",
+      data: postdata,
+      headers: {
+        Authorization: Cookies.get("accessToken"),
+      },
+    });
+    // setLoading(false);
+
+    // console.log(res.data.message)
+    let downloadUrl = res.data.message
+    // console.log(downloadUrl)
 
     // console.log(`/cust_ledger/${bpCode}/${strtDte}/${endDte}`)
     // navigate(`/cust_ledger/${bpCode}/${strtDte}/${endDte}`)
-    window.open(`/cust_ledger/${bpCode}/${strtDte}/${endDte}`, '_blank', 'noreferrer')
+    // window.open(`/cust_ledger/${bpCode}/${strtDte}/${endDte}`, '_blank', 'noreferrer')
+    window.open(downloadUrl) || window.location.assign(downloadUrl)
+
+    setLoading(false);
   };
 
 
