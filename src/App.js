@@ -433,21 +433,21 @@ function App() {
               />
 
               <Route
-                path="/zsm/aof"
-                // element={Zsm ? <ZsmAOF /> : <Login />}
-                element={<ZsmAOF />}
+                path="/zsm/verify_aof"
+                element={Zsm ? <ZsmAOF /> : <Login />}
+                // element={<ZsmAOF />}
               />
 
               <Route
                 path="/finance/aof"
-                // element={Finance ? <FinanceAOF /> : <Login />}
-                element={<FinanceAOF />}
+                element={Finance ? <FinanceAOF /> : <Login />}
+                // element={<FinanceAOF />}
               />
 
               <Route
                 path="/saleshead/aof"
-                // element={Saleshead ? <SalesheadAOF /> : <Login />}
-                element={<SalesheadAOF />}
+                element={Saleshead ? <SalesheadAOF /> : <Login />}
+                // element={<SalesheadAOF />}
               />
 
               {/* <Route

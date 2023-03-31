@@ -105,7 +105,7 @@ const Login = () => {
         dispatch(authActions.financeLogin())
       }
 
-      if (res.data.type === 'saleshead'){
+      if (res.data.type === 'sales_head'){
         Cookies.set("saleshead", 
         // true
         `id: ${res.data.id}, accessToken: ${res.data.accessToken}`
@@ -133,7 +133,7 @@ const Login = () => {
       }
       else if(res.data.type === "zsm" && res.data.company === "Euphues"){
         // console.log(res.data.company)
-        navigate("/zsm/aof")
+        navigate("/")
         // console.log("This is in admin login")
       }
       else if(res.data.type === "finance" && res.data.company === "Euphues"){
