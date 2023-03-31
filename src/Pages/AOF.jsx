@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from "react";
 import { useState } from "react";
 import Navbar from "../Components/Navbar";
 import Sidebar from "../Components/Sidebar";
+import { useNavigate } from "react-router-dom";
 // import { Add } from '@mui/icons-material'
 import { Link } from "react-router-dom";
 import DataTable from "../Components/DataTable";
@@ -39,6 +40,8 @@ const AOF = () => {
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [searchVal, setSearchVal] = useState("");
   const [aofId, setAofId] = useState("")
+  const navigate = useNavigate();
+
 
   const navInfo = {
     title: "AOF",
@@ -244,6 +247,11 @@ const AOF = () => {
     }
   };
 
+  const handleAofPDFEdit=(id)=>{
+    // alert(id)
+    navigate(`/aof_edit/${id}`)
+  }
+
   useLayoutEffect(() => {
     const getStates = async () => {
       const res = await instance({
@@ -403,6 +411,9 @@ const AOF = () => {
                       <TableCell className="!w-[8rem]" align="center">
                         View
                       </TableCell>
+                      {/* <TableCell className="!w-[8rem]" align="center">
+                        Edit
+                      </TableCell> */}
                       <TableCell className="!w-[8rem]" align="center">
                         Verify
                       </TableCell>
@@ -444,6 +455,18 @@ const AOF = () => {
                                   <BasicButton text={"View"} />
                                 </div>
                             </TableCell>
+                            {/* <TableCell align="center"> */}
+                            {/* <DialogSlide2 ref={dialogRef2}/> */}
+                            {/* <div
+                                  className="sm:w-auto w-[50vw]"
+                                  onClick={() => {
+                                    handleAofView(row.id);
+                                    handleAofPDFEdit(row.id);
+                                  }}
+                                >
+                                  <BasicButton text={"Edit"} />
+                                </div>
+                            </TableCell> */}
                                <TableCell align="center">
                             {/* <DialogSlide2 ref={dialogRef2}/> */}
                             <div

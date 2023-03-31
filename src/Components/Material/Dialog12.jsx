@@ -241,9 +241,9 @@ const DialogSlide12 = React.forwardRef((props, ref) => {
         fullWidth
       >
         <DialogTitle className="!bg-gray-500 text-white">
-          Do you want to verify this document?
+          Send Verification?
         </DialogTitle>
-
+{/* 
         <DialogContent className=" !bg-gray-500 text-white">
           {confirmVerify ? (
             <div>
@@ -258,10 +258,10 @@ const DialogSlide12 = React.forwardRef((props, ref) => {
           ) : (
             ""
           )}
-        </DialogContent>
+        </DialogContent> */}
 
         <DialogActions className="!bg-gray-500">
-          {confirmVerify ? (
+          {/* {confirmVerify ? (
             <div
               onClick={() => {
                 console.log(props);
@@ -271,7 +271,7 @@ const DialogSlide12 = React.forwardRef((props, ref) => {
             </div>
           ) : (
             ""
-          )}
+          )} */}
           <div
             onClick={() => {
               setConfirmVerify(true);

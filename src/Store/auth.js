@@ -22,12 +22,20 @@ const authSlice = createSlice({
       state.msAuth = false;
       state.admin = false;
       state.zsm = false;
+      state.finance = false;
+      state.saleshead = false;
     },
     adminLogin(state) {
-      state.admin = Cookies.get("admin");
+      state.admin = Cookies.get("admin")
     },
     zsmLogin(state){
       state.zsm = Cookies.get("zsm")
+    },
+    financeLogin(state){
+      state.finance = Cookies.get("finance")
+    },
+    salesheadLogin(state){
+      state.saleshead = Cookies.get("saleshead")
     }
   },
 });

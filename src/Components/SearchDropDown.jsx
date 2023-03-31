@@ -146,8 +146,8 @@ const SearchDropDown = ({
 
         case "party_type":
           // console.log(option)
-          return option.title
-          break
+          return option.title;
+          break;
 
         case "select_city_location":
           // console.log(option)
@@ -185,6 +185,9 @@ const SearchDropDown = ({
         case "invoice_data":
           // console.log(option)
           return option.bp_name;
+          break;
+        case "selec_typ":
+          return option.title;
           break;
         case "series_aof":
           return option.series;
@@ -300,12 +303,15 @@ const SearchDropDown = ({
     if (type === "select_state_2") {
       handleOrderProcessingForm(value, type);
     }
+    if (type === "selec_typ") {
+      handleOrderProcessingForm(value, type);
+    }
     if (type === "select_state_training") {
       console.log(value, type);
       handleOrderProcessingForm(value, type);
     }
-    if(type === "party_type"){
-      handleOrderProcessingForm(value, type)
+    if (type === "party_type") {
+      handleOrderProcessingForm(value, type);
     }
     if (type === "select_city_training") {
       handleOrderProcessingForm(value, type);
