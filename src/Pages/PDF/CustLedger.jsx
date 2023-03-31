@@ -121,9 +121,7 @@ const CustLedger = () => {
                   textAlign: "left",
                 }}
               >
-                A-12,2nd Floor,Mohan Cooperative Industrial Estate, Main Mathura
-                Road,
-              </h3>
+                Khasra No. 75, Village Malakpur, Ecotech-2, Opp. NTPC Ltd. (Netra), Greater Noida, Gautam Budh Nagar              </h3>
               <h3
                 style={{
                   paddingLeft: "150pt",
@@ -131,7 +129,7 @@ const CustLedger = () => {
                   textAlign: "left",
                 }}
               >
-                New Delhi - 110044, Delhi - INDIA
+                Greater Noida - 201306, Uttar Pradesh - INDIA
               </h3>
             </td>
           </tr>
