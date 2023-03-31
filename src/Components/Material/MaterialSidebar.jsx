@@ -633,7 +633,8 @@ const SwipeableTemporaryDrawer = React.forwardRef((props, ref) => {
               </span>
             </aside>
           </Link>
-          <Link to="/aof">
+          
+          {/* <Link to="/aof">
             <aside
               className={`px-6 py-2 my-4 flex gap-4 ${
                 highLight === "aof" ? "bg-gray-500" : ""
@@ -652,7 +653,7 @@ const SwipeableTemporaryDrawer = React.forwardRef((props, ref) => {
                 AOF
               </span>
             </aside>
-          </Link>
+          </Link> */}
 
           {isZsmLogin ? (
             <Link to="/aof">
