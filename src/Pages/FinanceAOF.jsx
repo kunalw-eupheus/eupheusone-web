@@ -266,11 +266,11 @@ const FinanceAOF = () => {
         />
         <div className="min-h-[100vh] pt-[2vh] max-h-full bg-[#141728]">
           <div className=" sm:px-8 px-2 py-3 bg-[#141728]">
-            <div className="w-full flex gap-3 justify-end mt-4">
+            {/* <div className="w-full flex gap-3 justify-end mt-4">
               <Link to="/aof_create">
                 <BasicButton text={"Create AOF"} />
               </Link>
-            </div>
+            </div> */}
 
             <Paper className="mt-5">
               <TableContainer component={Paper}>
@@ -345,7 +345,7 @@ const FinanceAOF = () => {
                         View
                       </TableCell>
                       <TableCell className="!w-[6rem]" align="center">
-                        Download
+                        Verify
                       </TableCell>
                       {/* <TableCell className="!w-[6rem]" align="center">
                         Verify
@@ -390,10 +390,10 @@ const FinanceAOF = () => {
                               <div
                                 className="sm:w-auto w-[50vw]"
                                 onClick={() => {
-                                  "handleVerify(row.id)";
+                                  handleVerify(row.id);
                                 }}
                               >
-                                <BasicButton text={"DOWNLOAD"} />
+                                <BasicButton text={"Verify"} />
                               </div>
                             </TableCell>
                             {/* <TableCell align="center">
@@ -445,10 +445,10 @@ const FinanceAOF = () => {
                               <div
                                 className="sm:w-auto w-[50vw]"
                                 onClick={() => {
-                                  "handleVerify(row.id)";
+                                  handleVerify(row.id);
                                 }}
                               >
-                                <BasicButton text={"DOWNLOAD"} />
+                                <BasicButton text={"Verify"} />
                               </div>
                             </TableCell>
                             {/* 

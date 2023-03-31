@@ -141,7 +141,7 @@ const Login = () => {
         navigate("/finance/aof")
         // console.log("This is in admin login")
       }
-      else if(res.data.type === "saleshead" && res.data.company === "Euphues"){
+      else if(res.data.type === "sales_head" && res.data.company === "Euphues"){
         // console.log(res.data.company)
         navigate("/saleshead/aof")
         // console.log("This is in admin login")

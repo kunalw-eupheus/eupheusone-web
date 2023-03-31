@@ -83,6 +83,7 @@ import AdminInvoiceItem from "./Pages/AdminInvoiceItem";
 import AdminAddSchoolQuantity from "./Pages/AdminAddSchoolQuantity";
 import FinanceAOF from "./Pages/FinanceAOF";
 import SalesheadAOF from "./Pages/SalesheadAOF";
+import AOFEdit from "./Pages/AOFEdit";
 function App() {
   const isAuth = useSelector((state) => state.auth.user);
   const MsAuth = useSelector((state) => state.auth.msAuth);
@@ -92,8 +93,7 @@ function App() {
   // const Admin = true;
   const Zsm = useSelector((state) => state.auth.zsm);
   const Finance = useSelector((state) => state.auth.finance);
-  const Saleshead = useSelector((state)=> state.auth.saleshead)
-
+  const Saleshead = useSelector((state) => state.auth.saleshead);
 
   return (
     <div>
@@ -381,6 +381,11 @@ function App() {
               <Route
                 path="/aof_create"
                 element={isAuth || MsAuth ? <AOFcreate /> : <Login />}
+              />
+
+              <Route
+                path="/aof_edit/:aofid"
+                element={isAuth || MsAuth ? <AOFEdit /> : <Login />}
               />
 
               {/* Admin */}

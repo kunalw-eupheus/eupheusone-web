@@ -2,7 +2,7 @@ import React, { useEffect, useLayoutEffect, useRef } from "react";
 import { useState } from "react";
 import Navbar from "../Components/Navbar";
 import Sidebar from "../Components/Sidebar";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Loader from "../Components/Loader";
 import SwipeableTemporaryDrawer from "../Components/Material/MaterialSidebar";
 import BasicButton from "../Components/Material/Button";
@@ -38,7 +38,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Snackbars from "../Components/Material/SnackBar";
 
-const AOFcreate = () => {
+const AOFEdit = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const navigate = useNavigate();
   const [publisher, setPublisher] = useState([]);
@@ -117,10 +117,212 @@ const AOFcreate = () => {
   const [creditLimit, setcrditLimit] = useState("");
   const [creditLimitType, setcrditLimitType] = useState("");
   const [partyType, setPartyType] = useState("School");
-  const [selectType, setSelectType] = useState("")
+
+
+
+
+
+
+//   const [date, setDate] = useState("");
+  const [partySchool, setPartySchool] = useState("");
+  const [solePPPStatus, setSolePPPStatus] = useState("");
+//   const [addressEdit, setAddressEdit] = useState("");
+//   const [city, setCity] = useState("");
+//   const [state, setState] = useState("");
+//   const [pinCode, setPinCode] = useState("");
+//   const [phone, setPhone] = useState("");
+//   const [mobile, setMobile] = useState("");
+  const [email, setEmail] = useState("");
+//   const [firmRegNo, setFirmRegNo] = useState("");
+//   const [panNo, setPanNo] = useState("");
+//   const [gstNo, setGstNo] = useState("");
+  const [estYear, setEstYear] = useState("");
+  const [aofName, setAofName] = useState("");
+  const [aofPan, setAofPan] = useState("");
+  const [aofAddress, setAofAddress] = useState("");
+  const [aofPin, setAofPin] = useState("");
+  const [aofPhone, setAofPhone] = useState("");
+  const [aofMobile, setAofMobile] = useState("");
+  const [aofEmail, setAofEmail] = useState("");
+  const [creditParties, setCreditParties] = useState([]);
+  const [bankName, setBankName] = useState("");
+  const [accNo, setAccNo] = useState("");
+  const [accType, setAccType] = useState("");
+  const [accIfsc, setAccIfsc] = useState("");
+  const [bankChecq, setBankChecq] = useState([]);
+  const [day, setDay] = useState("");
+  const [month, setMonth] = useState("");
+  const [year, setYear] = useState("");
+  const [todDiscData, setTodDiscData] = useState({});
+  const [cashDiscData, setCashDiscData] = useState({});
+  const [specDiscArr, setSpecDiscArr] = useState([]);
+  const [seriesArr, setSeriesArr] = useState([]);
+  const [publisheArr, setPublisherArr] = useState([]);
+
+  const [modelOpen, setModelOpen] = useState(false);
+  const [user, setUser] = useState("");
+
+  const [cashDiscDataAvail, setCashDiscDataAvail] = useState(true)
+  const [todDiscDataAvail,setTodDiscDataAvail] = useState(true)
+  const [specialArrAvail, setSpecialArrAvail] = useState(true)
+  const [seriesArrAval, setSeriesArrAval] = useState(true)
+  const [publisherArrAvail, setPublisherArrAvail] = useState(true)
+
+
+
+
+
 
   const sidebarRef = useRef();
   const snackbarRef = useRef();
+
+  const { aofid } = useParams();
+
+
+
+
+
+
+  const getAOFDetails = async () => {
+
+    const res = await instance({
+      // url: `sales_data/aof/get/detail/a6663609-a912-4e0e-9a37-4935213a3d1a`,
+      url: `sales_data/aof/get/detail/${aofid}`,
+      method: "GET",
+      headers: {
+        Authorization: Cookies.get("accessToken"),
+      },
+    });
+    // console.log(res.data.message);
+    let data = res.data.message;
+    // let date1 = data.date;
+    // console.log(date1)
+    // setDate(date1);
+    // // console.log(date1);
+    // let dateArr = date1.split("-");
+    // // console.log(dateArr)
+    // let day = dateArr[2];
+    // setDay(day);
+    // let month = monthMap[dateArr[1]];
+    // setMonth(month);
+    // let year = dateArr[0];
+    // setYear(year);
+    // // console.log(month)
+    // // console.log(monthMap[month]);
+    // setPartySchool(data.fk_school.school_name);
+    // setSolePPPStatus(data.status === true ? "Yes" : "No");
+    // console.log(data.mobile)
+    setSchoolAddress(data.address);
+    // setCity(data.fk_city.city);
+    // setState(data.fk_state.state);
+    setPinCode(data.zip_code);
+    setMobile(data.mobile)
+    setPhone(data.phone);
+    setSchoolEmail(data.email);
+    setFirmRegNo(data.firm_reg);
+    // setPanNo(data.pan);
+    // // console.log(data.gst)
+    // setGstNo(data.gst);
+    // setEstYear(data.business_est);
+    // let aofData = res.data.message.aof_trustees[0];
+    // setAofName(aofData.name);
+    // setAofPan(aofData.pan);
+    // setAofAddress(aofData.address);
+    // setAofPin(aofData.zip_code);
+    // setAofPhone(aofData.phone);
+    // setAofMobile(aofData.mobile);
+    // setAofEmail(aofData.email);
+    // let crdtPrts = aofData.aof_credit_parties;
+    // let i = 1;
+    // for (let obj of crdtPrts) {
+    //   obj.sl = i;
+    //   i++;
+    // }
+    // // console.log(crdtPrts)
+    // setCreditParties(crdtPrts);
+
+    // let bnkData = res.data.message.aof_banks[0];
+    // setBankName(bnkData.name);
+    // setAccNo(bnkData.account_no);
+    // setAccType(bnkData.acc_type);
+    // setAccIfsc(bnkData.ifsc);
+    // let bnkDataArr = bnkData.aof_bank_cheques;
+    // let j = 1;
+    // for (let obj of bnkDataArr) {
+    //   obj.sl = j;
+    //   j++;
+    // }
+    // // console.log(bnkDataArr);
+    // setBankChecq(bnkDataArr);
+
+    // console.log(res.data)
+    // if(res.data.tod.length !== 0){
+    //   let todDiscData = res.data.tod[0];
+    //   setTodDiscData(todDiscData);
+    // }else{
+    //   let todDiscData = {
+    //     percent: "",
+    //     remark: "",
+    //     percentages_type: "",  
+    //   }
+    //   setTodDiscDataAvail(false)
+    //   setTodDiscData(todDiscData);
+    // }
+
+    
+    // if(res.data.cash.length !== 0){
+    //   let cashDiscData = res.data.cash[0];
+    //   setCashDiscData(cashDiscData);
+    // }else{
+    //   let cashDiscData = {
+    //     percent: ""
+    //   }
+    //   setCashDiscDataAvail(false)
+    //   setCashDiscData(cashDiscData);
+    // }
+    
+    // let specialDiscArr = res.data.special;
+    // // console.log(specialDiscArr)
+    // if(specialDiscArr.length === 0){
+    //   setSpecialArrAvail(false)
+    // }
+    
+    
+    // setSpecDiscArr(specialDiscArr)
+    // let seriesArr = [],
+    //   publisherArr = [];
+    // for (let obj of specialDiscArr) {
+    //   if (obj.series) seriesArr.push(obj);
+    //   if (obj.publisher) publisherArr.push(obj);
+    // }
+    // // console.log(seriesArr)
+    // let m = 1;
+    // for (let obj of seriesArr) {
+    //   obj.sl = m;
+    //   m++;
+    // }
+    // // console.log(seriesArr);
+    // if(seriesArr.length === 0){
+    //   setSeriesArrAval(false)
+    // }   
+    // setSeriesArr(seriesArr);
+    // // console.log(publisherArr)
+    // let n = 1;
+    // for (let obj of publisherArr) {
+    //   obj.sl = n;
+    //   n++;
+    // }
+    // // console.log(publisherArr);
+    // if(publisherArr.length === 0){
+    //   setPublisherArrAvail(false)
+    // }
+    // setPublisherArr(publisherArr);
+  };
+  
+
+
+
+
 
   function isValid_IFSC_Code(ifsc_Code) {
     // console.log(ifsc_Code);
@@ -175,8 +377,6 @@ const AOFcreate = () => {
     let postData = {
       name: nameOfSchool,
       status_type: aofStatus,
-      aof_type: selectType,
-      party_type: partyType,
       fk_school_id: idOfSchool,
       fk_state_id: stateSelect,
       fk_city_id: citySelect,
@@ -198,7 +398,7 @@ const AOFcreate = () => {
       t_mobile: mobileP,
       t_email: emailP,
       credit_limit: creditLimit,
-      // credit_type: creditLimitType,
+      credit_type: creditLimitType,
       cp: pubArr,
       // cp: [
       //   { cp_name: "dsff", cp_business: "dsfds" },
@@ -767,11 +967,6 @@ const AOFcreate = () => {
   const handleOrderProcessingForm = (value, type) => {
     // console.log(value, type);
     switch (type) {
-      case "selec_typ":
-        // console.log(value)
-        if(value.title === "Allied") setSelectType("100")
-        if(value.title === "Eupheus") setSelectType("103")
-        break
       case "party_type":
         // console.log(value);
         setPartyType(value.title);
@@ -884,7 +1079,7 @@ const AOFcreate = () => {
         setcrditLimit(value);
         break;
       case "Address ":
-        // console.log(value, "bbbbb");
+        console.log(value, "bbbbb");
         setAddressP(value);
         break;
       case "Pin Code ":
@@ -1074,7 +1269,7 @@ const AOFcreate = () => {
 
   const navInfo = {
     title: "AOF",
-    details: ["Home", "/AOF"],
+    details: ["Home", "/Edit AOF"],
   };
 
   const handleSidebarCollapsed = () => {
@@ -1085,6 +1280,7 @@ const AOFcreate = () => {
   useEffect(() => {
     getState();
     getSchools();
+    getAOFDetails()
     const handleWidth = () => {
       if (window.innerWidth > 1024) {
         setSidebarCollapsed(false);
@@ -1187,7 +1383,7 @@ const AOFcreate = () => {
 
           <div className="min-h-[90vh] relative flex w-full justify-center items-start gap-4 bg-[#141728]">
             <h1 className="text-gray-100 md:text-2xl text-base font-semibold absolute top-[2rem] left-[2rem]">
-              Account Opening Form
+              Edit Account Opening Form
             </h1>
             <div className="w-full flex flex-col gap-4 items-center mt-[7rem]">
               <CustomizedSteppers
@@ -1205,13 +1401,13 @@ const AOFcreate = () => {
                       multiline={false}
                     /> */}
                     {/* <div className="grid sm:grid-rows-2 sm:grid-cols-3 grid-rows-4 grid-cols-1 w-full mt-6 gap-6 rounded-md bg-slate-600"> */}
-                    <SearchDropDown
-                      Name={"selec_typ"}
-                      data={[{ title: "Allied" }, { title: "Eupheus" }]}
+                    {/* <SearchDropDown
+                      Name={"cred_lim_type"}
+                      data={[{ title: "Thousands" }, { title: "Lacks" }]}
                       handleOrderProcessingForm={handleOrderProcessingForm}
-                      label={"Select Type"}
+                      label={"Select State"}
                       color={"rgb(243, 244, 246)"}
-                    />
+                    /> */}
                     {/* <div className="sm:col-span-2"> */}
                     <SearchDropDown
                       Name={"party_type"}
@@ -1265,6 +1461,8 @@ const AOFcreate = () => {
                     <BasicTextFields
                       lable={"Address *"}
                       variant={"standard"}
+                    //   defaultValue={schoolAddress}
+                      value={schoolAddress}
                       handleOrderProcessingForm={handleOrderProcessingForm}
                       multiline={false}
                     />
@@ -1284,17 +1482,20 @@ const AOFcreate = () => {
                       data={city}
                       Name="select_city_location"
                     />
+
+                    
                     <BasicTextFields
                       lable={"Pin Code *"}
                       handleOrderProcessingForm={handleOrderProcessingForm}
-                      variant={"standard"}
+                      value={pinCode}
                       type={"number"}
+                      variant={"standard"}
                       multiline={false}
                     />
-                    
                     <BasicTextFields
                       lable={"Mobile *"}
                       handleOrderProcessingForm={handleOrderProcessingForm}
+                      value={mobile}
                       type={"number"}
                       variant={"standard"}
                       multiline={false}
@@ -1302,26 +1503,27 @@ const AOFcreate = () => {
                     <BasicTextFields
                       lable={"Phone"}
                       handleOrderProcessingForm={handleOrderProcessingForm}
+                      value={phone}
                       type={"number"}
+                      variant={"standard"}
+                      multiline={false}
+                    />
+                    <BasicTextFields
+                      lable={"E-Mail *"}
+                      value={schoolEmail}
+                      handleOrderProcessingForm={handleOrderProcessingForm}
                       variant={"standard"}
                       multiline={false}
                     />
                     {/* <div className="sm:col-span-2"> */}
                     <BasicTextFields
-                      lable={"E-Mail *"}
-                      handleOrderProcessingForm={handleOrderProcessingForm}
-                      variant={"standard"}
-                      multiline={false}
-                    />
-                     {/* </div> */}
-                    <div className="sm:col-span-2">
-                    <BasicTextFields
                       lable={"Firm/ Company/Trust Registration Number"}
+                      value={firmRegNo}
                       handleOrderProcessingForm={handleOrderProcessingForm}
                       variant={"standard"}
                       multiline={false}
                     />
-                    </div>
+                    {/* </div> */}
                     {/* <DatePicker label={"Dated"} /> */}
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                       <Stack spacing={3}>
@@ -1582,7 +1784,7 @@ const AOFcreate = () => {
                       variant={"standard"}
                       multiline={false}
                     />
-                    {/* <div className="sm:col-span-2">
+                    <div className="sm:col-span-2">
                       <SearchDropDown
                         Name={"cred_lim_type"}
                         data={[{ title: "Thousands" }, { title: "Lacks" }]}
@@ -1590,7 +1792,7 @@ const AOFcreate = () => {
                         label={"Select Credit Type"}
                         color={"rgb(243, 244, 246)"}
                       />
-                    </div> */}
+                    </div>
                   </div>
 
                   <div className="flex flex-col justify-center items-start w-full mt-6 rounded-md bg-slate-600">
@@ -2228,4 +2430,4 @@ const AOFcreate = () => {
   );
 };
 
-export default AOFcreate;
+export default AOFEdit;

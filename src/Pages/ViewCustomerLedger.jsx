@@ -51,6 +51,7 @@ const ViewCustomerLedger = () => {
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
  
+  const navigate = useNavigate();
 
   const navInfo = {
     title: "Doc Print",
@@ -130,25 +131,27 @@ const ViewCustomerLedger = () => {
       fromdate: strtDte,
     };
     console.log(postdata)
-    // setLoading(true);
-    // const res = await instance({
-    //   url: `doc_print/invoice/bulk/data`,
-    //   method: "post",
-    //   data: postdata,
-    //   headers: {
-    //     Authorization: Cookies.get("accessToken"),
-    //   },
-    // });
-    // console.log(res.data.message);
+    setLoading(true);
+    const res = await instance({
+      url: `doc_print/ledger/getdata`,
+      method: "post",
+      data: postdata,
+      headers: {
+        Authorization: Cookies.get("accessToken"),
+      },
+    });
+    console.log(res.data.message);
     // if (res.data.message === "No Invoice Found") {
     //   alert(res.data.message);
     // } else {
     //   let downloadUrl = res.data.message;
     //   window.open(downloadUrl);
     // }
-    // setLoading(false);
+    setLoading(false);
 
-    // navigate(`/bulkinv_pdf/${bpCode}/${strtDte}/${endDte}`)
+    // console.log(`/cust_ledger/${bpCode}/${strtDte}/${endDte}`)
+    // navigate(`/cust_ledger/${bpCode}/${strtDte}/${endDte}`)
+    window.open(`/cust_ledger/${bpCode}/${strtDte}/${endDte}`, '_blank', 'noreferrer')
   };
 
 

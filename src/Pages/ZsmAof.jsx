@@ -408,10 +408,10 @@ const ZsmAOF = () => {
                             <div
                                   className="sm:w-auto w-[50vw]"
                                   onClick={() => {
-                                    "handleVerify(row.id)"
+                                    handleVerify(row.id)
                                   }}
                                 >
-                                  <BasicButton text={"DOWNLOAD"} />
+                                  <BasicButton text={"Verify"} />
                                 </div>
                             </TableCell>
                             {/* <TableCell align="center">
@@ -463,10 +463,10 @@ const ZsmAOF = () => {
                             <div
                                   className="sm:w-auto w-[50vw]"
                                   onClick={() => {
-                                    "handleVerify(row.id)"
+                                    handleVerify(row.id)
                                   }}
                                 >
-                                  <BasicButton text={"DOWNLOAD"} />
+                                  <BasicButton text={"Verify"} />
                                 </div>
                             </TableCell>
 {/* 

@@ -51,14 +51,15 @@ const CustLedger = () => {
       method: "post",
       data: {
         bpcode: bp,
-        todate: todate,
-        fromdate: fromdate,
+        todate:  fromdate,
+        fromdate: todate,
       },
       headers: {
         // Authorization: Cookies.get("accessToken"),
         accesskey: `auth74961a98ba76d4e4`,
       },
     });
+    // console.log(res.data.message)
     let data = res.data.message.message[0];
     let tableData = res.data.message.items;
     let totalDebit = 0,
