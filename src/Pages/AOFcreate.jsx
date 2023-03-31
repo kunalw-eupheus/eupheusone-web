@@ -117,7 +117,7 @@ const AOFcreate = () => {
   const [creditLimit, setcrditLimit] = useState("");
   const [creditLimitType, setcrditLimitType] = useState("");
   const [partyType, setPartyType] = useState("School");
-  const [selectType, setSelectType] = useState("")
+  const [selectType, setSelectType] = useState("");
 
   const sidebarRef = useRef();
   const snackbarRef = useRef();
@@ -769,9 +769,9 @@ const AOFcreate = () => {
     switch (type) {
       case "selec_typ":
         // console.log(value)
-        if(value.title === "Allied") setSelectType("100")
-        if(value.title === "Eupheus") setSelectType("103")
-        break
+        if (value.title === "Allied") setSelectType("100");
+        if (value.title === "Eupheus") setSelectType("103");
+        break;
       case "party_type":
         // console.log(value);
         setPartyType(value.title);
@@ -798,8 +798,8 @@ const AOFcreate = () => {
         break;
       case "Enter Party Name *":
         // console.log(value)
-        setNameOfSchool(value)
-        break
+        setNameOfSchool(value);
+        break;
       case "Name Of Party/School *":
         // console.log(value);
         // setNameOfSchool(value);
@@ -1041,8 +1041,19 @@ const AOFcreate = () => {
   };
 
   const handleStartDate = (newValue) => {
-    let date = `${newValue.$y}-${newValue.$M + 1}-${newValue.$D}`;
-    setDate(date);
+    // console.log(newValue.$y)
+    // let yr = newValue.$y
+    // let mnt = newValue.$M+1
+    // let dy = newValue.$D
+    // let date = `${yr}-${mnt}-${dy}`;
+    if (!newValue) {
+      setDate("");
+    } else {
+      console.log(newValue);
+      let date = `${newValue.$y}-${newValue.$M + 1}-${newValue.$D}`;
+      // console.log(date)
+      setDate(date);
+    }
   };
 
   useLayoutEffect(() => {
@@ -1291,7 +1302,7 @@ const AOFcreate = () => {
                       type={"number"}
                       multiline={false}
                     />
-                    
+
                     <BasicTextFields
                       lable={"Mobile *"}
                       handleOrderProcessingForm={handleOrderProcessingForm}
@@ -1313,14 +1324,14 @@ const AOFcreate = () => {
                       variant={"standard"}
                       multiline={false}
                     />
-                     {/* </div> */}
+                    {/* </div> */}
                     <div className="sm:col-span-2">
-                    <BasicTextFields
-                      lable={"Firm/ Company/Trust Registration Number"}
-                      handleOrderProcessingForm={handleOrderProcessingForm}
-                      variant={"standard"}
-                      multiline={false}
-                    />
+                      <BasicTextFields
+                        lable={"Firm/ Company/Trust Registration Number"}
+                        handleOrderProcessingForm={handleOrderProcessingForm}
+                        variant={"standard"}
+                        multiline={false}
+                      />
                     </div>
                     {/* <DatePicker label={"Dated"} /> */}
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -1539,15 +1550,76 @@ const AOFcreate = () => {
                   <div
                     onClick={() => {
                       // console.log(isValid_IFSC_Code(ifscP));
-                      if (!partyBankerName || !accNoP || !aofAcc || !ifscP || chequeForm.length === 0) {
+                      console.log(chequeForm);
+
+                      if (
+                        !partyBankerName ||
+                        !accNoP ||
+                        !aofAcc ||
+                        !ifscP ||
+                        chequeForm.length === 0
+                      ) {
                         setSnackbarErrStatus(true);
                         setErrMessage("Please Fill All The Fields");
                         snackbarRef.current.openSnackbar();
+                      } else if (chequeForm.length > 0) {
+                        for (let obj of chequeForm) {
+                          console.log(obj.abc_bank);
+                          if (
+                            !obj.abc_cheque_no ||
+                            obj.abc_cheque_no.length === 0
+                          ) {
+                            setSnackbarErrStatus(true);
+                            setErrMessage("Please Enter Cheque for each field");
+                            snackbarRef.current.openSnackbar();
+                            break;
+                          }
+                          if (!obj.abc_bank || obj.abc_bank.length === 0) {
+                            setSnackbarErrStatus(true);
+                            setErrMessage(
+                              "Please Enter Bank Name for each field"
+                            );
+                            snackbarRef.current.openSnackbar();
+                            break;
+                          }
+                          if (
+                            !obj.abc_branch_ifsc ||
+                            obj.abc_branch_ifsc.length === 0
+                          ) {
+                            setSnackbarErrStatus(true);
+                            setErrMessage(
+                              "Please Enter Bank IFSC for each field"
+                            );
+                            snackbarRef.current.openSnackbar();
+                            break;
+                          }
+                          if (obj.abc_cheque_link.length === 0) {
+                            setSnackbarErrStatus(true);
+                            setErrMessage(
+                              "Please Upload Cheque image for each field"
+                            );
+                            snackbarRef.current.openSnackbar();
+                            break;
+                          } else {
+                            console.log("nexttttt");
+                            setSteps({
+                              step1: false,
+                              step2: false,
+                              step3: false,
+                              step4: true,
+                            });
+                            window.scroll({
+                              top: 0,
+                              behavior: "smooth",
+                            });
+                          }
+                        }
                       } else if (isValid_IFSC_Code(ifscP) === false) {
                         setSnackbarErrStatus(true);
                         setErrMessage("Please Enter a Valid IFSC Code");
                         snackbarRef.current.openSnackbar();
                       } else {
+                        console.log("nexttttt");
                         setSteps({
                           step1: false,
                           step2: false,
