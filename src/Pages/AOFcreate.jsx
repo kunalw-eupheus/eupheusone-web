@@ -64,6 +64,7 @@ const AOFcreate = () => {
   const [seriesData, setSeriesData] = useState([]);
   const [specialSpecific, setSpecialSpecific] = useState([]);
   const [itemsData, setItemsData] = useState([]);
+  const [schoolData, setSchoolData] = useState([])
   // const [seriesData2, setSeriesData2] = useState([]);
   const [allSchool, setAllSchool] = useState([]);
   const [state, setState] = useState([]);
@@ -1023,6 +1024,36 @@ const AOFcreate = () => {
 
         break;
 
+        case "schools_aof":
+          // let tempArr2 = [...seriesData];
+          // console.log(seriesData);
+          // console.log(publisherData2)
+          // console.log(value);
+          let tempArr3 = [...allSchool];
+          // let arr1 = []
+          for (let ele of tempArr3) {
+            console.log(ele)
+            console.log(value)
+            if (ele.id === value.id) return;
+          }
+  
+          let tempObj3 = {
+            type: "special",
+            eligibile: "yes",
+            dis_type: "specific",
+            category: "series",
+            percentages: "",
+            percentages_type: "",
+            fk_category_id: value.id,
+            series: value.series,
+          };
+  
+          tempArr3.push(tempObj3);
+          console.log(tempArr3);
+          setSchoolData(tempArr3);
+  
+          break;
+
       default:
         break;
     }
@@ -1955,6 +1986,10 @@ const AOFcreate = () => {
                                 </Table>
                               )}
                             </Typography>
+
+
+
+
                             <div className="w-full flex justify-center">
                               <hr className="text-gray-100 w-[80%] my-4" />
                             </div>
@@ -2008,6 +2043,8 @@ const AOFcreate = () => {
                                       ></TableCell>
                                     </TableRow>
                                   </TableHead>
+
+                                  
                                   {seriesData.map((row) => {
                                     return (
                                       <TableBody className="bg-slate-400">
@@ -2096,6 +2133,8 @@ const AOFcreate = () => {
                                 </Table>
                               )}
                             </Typography>
+
+
                             <div className="w-full flex justify-center">
                               <hr className="text-gray-100 w-[80%] my-4" />
                             </div>
@@ -2252,6 +2291,154 @@ const AOFcreate = () => {
                                 </Table>
                               )}
                             </Typography>
+
+
+                            <div className="w-full flex justify-center">
+                              <hr className="text-gray-100 w-[80%] my-4" />
+                            </div>
+                            <Typography className="flex flex-col gap-2">
+                              <h1 className="sm:text-base font-semibold text-sm text-gray-100">
+                                Select Schools:
+                              </h1>
+                              <SearchDropDown
+                                Name={"schools_aof"}
+                                data={allSchool}
+                                handleOrderProcessingForm={
+                                  handleOrderProcessingForm
+                                }
+                                label={"Select School"}
+                                color={"rgb(243, 244, 246)"}
+                              />
+                              {schoolData.length === 0 ? (
+                                ""
+                              ) : (
+                                <Table
+                                  sx={{ minWidth: 650 }}
+                                  aria-label="customized table"
+                                >
+                                  <TableHead className="bg-slate-600">
+                                    <TableRow>
+                                      <TableCell
+                                        className="!w-[8rem]"
+                                        align="center"
+                                      >
+                                        Schools
+                                      </TableCell>
+                                      <TableCell
+                                        className="!w-[3rem]"
+                                        align="center"
+                                      >
+                                        Percentage
+                                      </TableCell>
+                                      {/* <TableCell
+                                        className="!w-[10rem]"
+                                        align="center"
+                                      ></TableCell> */}
+                                      {/* <TableCell
+                                      className="!w-[4rem]"
+                                      align="center"
+                                    >
+                                      Select Items
+                                    </TableCell> */}
+                                      <TableCell
+                                        className="!w-[2rem]"
+                                        align="center"
+                                      ></TableCell>
+                                    </TableRow>
+                                  </TableHead>
+
+                                  
+                                  {schoolData.map((row) => {
+                                    return (
+                                      <TableBody className="bg-slate-400">
+                                        <TableRow
+                                          key={"row.series"}
+                                          sx={{
+                                            "&:last-child td, &:last-child th":
+                                              {
+                                                border: 0,
+                                              },
+                                          }}
+                                        >
+                                          <TableCell align="center">
+                                            {row.school_name}
+                                          </TableCell>
+                                          <TableCell align="center">
+                                            <TextField
+                                              // InputLabelProps={{
+                                              //   style: { color: "white" },
+                                              // }}
+                                              // inputProps={{
+                                              //   style: { color: "white" },
+                                              // }}
+                                              onChange={(e) =>
+                                                handleTablePercent2(
+                                                  e.target.value,
+                                                  row.fk_category_id
+                                                )
+                                              }
+                                              id="outlined-basic"
+                                              label="Enter Percentage"
+                                              variant="standard"
+                                            />
+                                          </TableCell>
+                                          {/* <TableCell align="center">
+                                            <RowRadioButtonsGroup
+                                              handleRadioButtons={
+                                                handleRadioButtons
+                                              }
+                                              name={"series"}
+                                              value={[
+                                                {
+                                                  label: "Gross",
+                                                  value: "gross",
+                                                },
+                                                { label: "Net", value: "net" },
+                                              ]}
+                                              defaultValue={row.fk_category_id}
+                                            />
+                                          </TableCell> */}
+                                          {/* <TableCell align="center">
+                                          <SearchDropDown
+                                            Name={"items_aof"}
+                                            data={series}
+                                            disable={series.length < 1 ? true : false}
+                                            multiple={true}
+                                            handleOrderProcessingForm={
+                                              handleOrderProcessingForm
+                                            }
+                                            label={"Select Items"}
+                                            color={"rgb(243, 244, 246)"}
+                                          />
+                                        </TableCell> */}
+                                          <TableCell align="center">
+                                            <div>
+                                              <IconButton
+                                                type="submit"
+                                                aria-label="search"
+                                                onClick={() => {
+                                                  handleDelete(
+                                                    row.fk_category_id,
+                                                    "series"
+                                                  );
+                                                }}
+                                              >
+                                                <Delete
+                                                // style={{ fill: "blue" }}
+                                                />
+                                              </IconButton>
+                                            </div>
+                                          </TableCell>
+                                        </TableRow>
+                                      </TableBody>
+                                    );
+                                  })}
+                                </Table>
+                              )}
+                            </Typography>
+
+
+
                           </>
                         ) : null}
                       </AccordionDetails>
