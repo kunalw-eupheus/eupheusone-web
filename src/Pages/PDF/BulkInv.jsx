@@ -72,7 +72,9 @@ const BulkInv = () => {
      },
       headers: {
         // Authorization: Cookies.get("accessToken"),
-        accesskey: `auth74961a98ba76d4e4`
+        // accesskey: `auth74961a98ba76d4e4`
+        accesskey: `auth0026c3956e3d0fba`
+
       },
     });
     let data = res.data.message.message[0]
