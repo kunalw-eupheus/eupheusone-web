@@ -78,7 +78,7 @@ const Dropdown = ({ dropdownPopoverShow, handleDropDown }) => {
                     } py-2 px-4 justify-center transition-all hover:bg-slate-600 ease-linear duration-100 hover:border-l-2 font-normal flex w-full whitespace-no-wrap bg-transparent text-white`}
                     onClick={(e) => e.preventDefault()}
                   >
-                    <h1 className="w-fit sm:text-base text-xs">{item.name}</h1>
+                    <h1 className="w-fit sm:text-base text-xs text-white">{item.name}</h1>
                   </a>
                 );
               })}
