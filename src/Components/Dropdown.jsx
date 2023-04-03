@@ -1,9 +1,13 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { createPopper } from "@popperjs/core";
 import { KeyboardArrowDown } from "@mui/icons-material";
+import instance from "../Instance";
+import Cookies from "js-cookie";
 
 const Dropdown = ({ dropdownPopoverShow, handleDropDown }) => {
   // dropdown props
+
+  const [finYear, setFinYear] = useState([]);
 
   const btnDropdownRef = React.createRef();
   const popoverDropdownRef = React.createRef();
@@ -16,6 +20,23 @@ const Dropdown = ({ dropdownPopoverShow, handleDropDown }) => {
   const closeDropdownPopover = () => {
     handleDropDown();
   };
+
+  const getFinancialYear = async () => {
+    const res = await instance({
+      url: "common/financialyear-all",
+      method: "GET",
+      headers: {
+        Authorization: `${Cookies.get("accessToken")}`,
+      },
+    });
+    console.log(res.data);
+    setFinYear(res.data);
+  };
+
+  useEffect(() => {
+    getFinancialYear();
+  }, []);
+
   return (
     <>
       <div className="flex flex-wrap">
@@ -44,20 +65,25 @@ const Dropdown = ({ dropdownPopoverShow, handleDropDown }) => {
             <div
               ref={popoverDropdownRef}
               className={
-                (dropdownPopoverShow ? "h-[7rem] py-2 " : "h-0 ") +
+                (dropdownPopoverShow ? "h-[3rem] py-2 " : "h-0 ") +
                 " bg-[#67748e] text-base z-50 transition-all overflow-auto !mt-2 duration-200 ease-linear absolute -top-10 float-left  list-none text-left rounded shadow-lg min-w-full"
               }
             >
-              <a
-                href="#pablo"
-                className={`text-sm ${
-                  dropdownPopoverShow ? "block" : "hidden"
-                } py-2 px-4 justify-center transition-all hover:bg-slate-600 ease-linear duration-100 hover:border-l-2 font-normal flex w-full whitespace-no-wrap bg-transparent text-white`}
-                onClick={(e) => e.preventDefault()}
-              >
-                <h1 className="w-fit sm:text-base text-xs">FY 2022-23</h1>
-              </a>
-              <a
+              {finYear.map((item) => {
+                return (
+                  <a
+                    href="#pablo"
+                    className={`text-sm ${
+                      dropdownPopoverShow ? "block" : "hidden"
+                    } py-2 px-4 justify-center transition-all hover:bg-slate-600 ease-linear duration-100 hover:border-l-2 font-normal flex w-full whitespace-no-wrap bg-transparent text-white`}
+                    onClick={(e) => e.preventDefault()}
+                  >
+                    <h1 className="w-fit sm:text-base text-xs">{item.name}</h1>
+                  </a>
+                );
+              })}
+
+              {/* <a
                 href="#pablo"
                 className={`text-sm ${
                   dropdownPopoverShow ? "block" : "hidden"
@@ -65,8 +91,9 @@ const Dropdown = ({ dropdownPopoverShow, handleDropDown }) => {
                 onClick={(e) => e.preventDefault()}
               >
                 <h1 className="w-fit sm:text-base text-xs">FY 2022-23</h1>
-              </a>
-              <a
+              </a> */}
+
+              {/* <a
                 href="#pablo"
                 className={`text-sm ${
                   dropdownPopoverShow ? "block" : "hidden"
@@ -74,8 +101,9 @@ const Dropdown = ({ dropdownPopoverShow, handleDropDown }) => {
                 onClick={(e) => e.preventDefault()}
               >
                 <h1 className="w-fit sm:text-base text-xs">FY 2022-23</h1>
-              </a>
-              <a
+              </a> */}
+
+              {/* <a
                 href="#pablo"
                 className={`text-sm ${
                   dropdownPopoverShow ? "block" : "hidden"
@@ -84,6 +112,7 @@ const Dropdown = ({ dropdownPopoverShow, handleDropDown }) => {
               >
                 <h1 className="w-fit sm:text-base text-xs">FY 2022-23</h1>
               </a>
+               */}
             </div>
           </div>
         </div>

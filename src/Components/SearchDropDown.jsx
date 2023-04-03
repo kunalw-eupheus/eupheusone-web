@@ -192,6 +192,10 @@ const SearchDropDown = ({
         case "series_aof":
           return option.series;
           break;
+        case "schools_aof":
+          // console.log(option);
+          return option.school_name;
+          break;
         case "series_aof_item":
           return option.series;
           break;
@@ -330,6 +334,9 @@ const SearchDropDown = ({
     }
     // aof
     if (type === "series_aof") {
+      handleOrderProcessingForm(value, type);
+    }
+    if (type === "schools_aof") {
       handleOrderProcessingForm(value, type);
     }
     if (type === "publisher") {

@@ -64,6 +64,7 @@ const AOFcreate = () => {
   const [seriesData, setSeriesData] = useState([]);
   const [specialSpecific, setSpecialSpecific] = useState([]);
   const [itemsData, setItemsData] = useState([]);
+  const [schoolData, setSchoolData] = useState([])
   // const [seriesData2, setSeriesData2] = useState([]);
   const [allSchool, setAllSchool] = useState([]);
   const [state, setState] = useState([]);
@@ -1022,6 +1023,36 @@ const AOFcreate = () => {
         setSeriesData(tempArr1);
 
         break;
+
+        case "schools_aof":
+          // let tempArr2 = [...seriesData];
+          // console.log(seriesData);
+          // console.log(publisherData2)
+          // console.log(value);
+          let tempArr3 = [...allSchool];
+          // let arr1 = []
+          for (let ele of tempArr3) {
+            console.log(ele)
+            console.log(value)
+            if (ele.id === value.id) return;
+          }
+  
+          let tempObj3 = {
+            type: "special",
+            eligibile: "yes",
+            dis_type: "specific",
+            category: "series",
+            percentages: "",
+            percentages_type: "",
+            fk_category_id: value.id,
+            series: value.series,
+          };
+  
+          tempArr3.push(tempObj3);
+          console.log(tempArr3);
+          setSchoolData(tempArr3);
+  
+          break;
 
       default:
         break;
@@ -2270,15 +2301,15 @@ const AOFcreate = () => {
                                 Select Schools:
                               </h1>
                               <SearchDropDown
-                                Name={"series_aof"}
-                                data={series}
+                                Name={"schools_aof"}
+                                data={allSchool}
                                 handleOrderProcessingForm={
                                   handleOrderProcessingForm
                                 }
-                                label={"Select Series"}
+                                label={"Select School"}
                                 color={"rgb(243, 244, 246)"}
                               />
-                              {seriesData.length === 0 ? (
+                              {schoolData.length === 0 ? (
                                 ""
                               ) : (
                                 <Table
@@ -2317,7 +2348,7 @@ const AOFcreate = () => {
                                   </TableHead>
 
                                   
-                                  {seriesData.map((row) => {
+                                  {schoolData.map((row) => {
                                     return (
                                       <TableBody className="bg-slate-400">
                                         <TableRow
@@ -2330,7 +2361,7 @@ const AOFcreate = () => {
                                           }}
                                         >
                                           <TableCell align="center">
-                                            {row.series}
+                                            {row.school_name}
                                           </TableCell>
                                           <TableCell align="center">
                                             <TextField
