@@ -52,7 +52,7 @@ const Dropdown = ({ dropdownPopoverShow, handleDropDown }) => {
                   : openDropdownPopover();
               }}
             >
-              <span className="w-fit sm:text-base text-xs">FY 2022-23</span>
+              <span className="w-fit sm:text-base text-xs">FY 2023-24</span>
               <div
                 className={`transition-all duration-200 absolute sm:top-[0.65rem] top-[0.3rem] sm:right-3 right-0 ease-linear ${
                   dropdownPopoverShow ? " rotate-180" : null
