@@ -398,7 +398,7 @@ const CustLedger = () => {
                 }}
               >
                 {/* 195,121.00 */}
-                {`${openingDr}.00`}
+                {`${openingDr}`}
               </p>
             </td>
           </tr>
@@ -429,7 +429,7 @@ const CustLedger = () => {
             </td>
             <td
               style={{
-                width: "114pt",
+                width: "300pt",
                 borderTopStyle: "solid",
                 borderTopWidth: "1pt",
                 borderBottomStyle: "solid",
@@ -677,7 +677,7 @@ const CustLedger = () => {
                     }}
                   >
                     {/* 0.00 */}
-                    {`${item.debitAmount}.00`}
+                    {`${item.debitAmount}`}
                   </p>
                 </td>
                 <td
@@ -697,7 +697,7 @@ const CustLedger = () => {
                     }}
                   >
                     {/* 56,056.00 */}
-                    {`${item.creditAmount}.00`}
+                    {`${item.creditAmount}`}
                   </p>
                 </td>
               </tr>
@@ -1102,7 +1102,7 @@ const CustLedger = () => {
                 }}
               >
                 {/* 18,497.00 */}
-                {`${ttlDebit}.00`}
+                {`${ttlDebit}`}
               </p>
             </td>
             <td
@@ -1122,7 +1122,7 @@ const CustLedger = () => {
                 }}
               >
                 {/* 226,392.00 */}
-                {`${ttlCredit}.00`}
+                {`${ttlCredit}`}
               </p>
             </td>
           </tr>
@@ -1138,7 +1138,7 @@ const CustLedger = () => {
                   textAlign: "left",
                 }}
               >
-                Closing Balance : {`${closingDr}.00`}
+                Closing Balance : {`${closingDr}`}
                 {/* -12,774.00 */}
               </p>
             </td>

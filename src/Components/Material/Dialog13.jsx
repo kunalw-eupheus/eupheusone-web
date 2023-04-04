@@ -23,7 +23,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-const DialogSlide12 = React.forwardRef((props, ref) => {
+const DialogSlide13 = React.forwardRef((props, ref) => {
   const [open, setOpen] = React.useState(false);
   const [series, setSeries] = useState([]);
   const [grade, setGrade] = useState([]);
@@ -220,7 +220,7 @@ const DialogSlide12 = React.forwardRef((props, ref) => {
   const handleVerify = async () => {
     let id = props.aofId;
     const res = await instance({
-      url: `sales_data/aof/update/zsm/verification`,
+      url: `sales_data/aof/update/salesHead/verification`,
       method: "PUT",
       data: {
         status: true,
@@ -326,4 +326,4 @@ const DialogSlide12 = React.forwardRef((props, ref) => {
   );
 });
 
-export default DialogSlide12;
+export default DialogSlide13;

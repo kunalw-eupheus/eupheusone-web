@@ -31,7 +31,7 @@ import TransitionsModal from "./Material/Model";
 import DialogSlide from "./Material/Dialog";
 import { useRef } from "react";
 
-const Sidebar5 = ({ sidebarCollapsed, highLight, show }) => {
+const Sidebar6 = ({ sidebarCollapsed, highLight, show }) => {
   const [modelOpen, setModelOpen] = useState(false);
   const [isSchoolClicked, setIsSchoolClicked] = useState(
     show === 2 ? false : true
@@ -119,7 +119,7 @@ const Sidebar5 = ({ sidebarCollapsed, highLight, show }) => {
           <hr className="text-gray-100 mt-4" />
         </aside>
         
-        <Link to="/finance/aof">
+        <Link to="/saleshead/aof">
           <aside
             className={`px-6 py-2 hover:bg-gray-500 flex ${
               highLight === "aof" ? "bg-gray-500" : ""
@@ -289,4 +289,4 @@ const Sidebar5 = ({ sidebarCollapsed, highLight, show }) => {
   );
 };
 
-export default Sidebar5;
+export default Sidebar6;

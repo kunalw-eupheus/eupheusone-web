@@ -1,13 +1,13 @@
 import React, { useEffect, useRef } from "react";
 import { useState } from "react";
 import Navbar from "../Components/Navbar";
-import Sidebar from "../Components/Sidebar5";
+import Sidebar from "../Components/Sidebar6";
 // import { Add } from '@mui/icons-material'
 import { Link } from "react-router-dom";
 import DataTable from "../Components/DataTable";
 // import { rows, ManageSchoolRows } from '../DummyData'
 import SearchDropDown from "../Components/SearchDropDown";
-import SwipeableTemporaryDrawer from "../Components/Material/MaterialSidebar5";
+import SwipeableTemporaryDrawer from "../Components/Material/MaterialSidebar6";
 import instance from "../Instance";
 import { useLayoutEffect } from "react";
 import Cookies from "js-cookie";
@@ -24,7 +24,7 @@ import TextField from "@mui/material/TextField";
 import IconButton from "@mui/material/IconButton";
 import SearchIcon from "@mui/icons-material/Search";
 import TablePagination from "@mui/material/TablePagination";
-import DialogSlide2 from "../Components/Material/Dialog12";
+import DialogSlide2 from "../Components/Material/Dialog13";
 
 const SalesheadAOF = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);

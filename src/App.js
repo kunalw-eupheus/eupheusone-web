@@ -394,31 +394,31 @@ function App() {
 
               <Route
                 path="/admin/home"
-                element={Admin ? <AdminHome /> : <Login />}
+                element={Admin || MsAuth ? <AdminHome /> : <Login />}
                 // element={<AdminHome />}
               />
 
               <Route
                 path="/admin/manageschool"
-                element={Admin ? <AdminManageSchool /> : <Login />}
+                element={Admin || MsAuth ? <AdminManageSchool /> : <Login />}
                 // element={<AdminManageSchool />}
               />
 
               <Route
                 path="/admin/uploadinvoice"
-                element={Admin ? <AdminUploadInvoice /> : <Login />}
+                element={Admin || MsAuth ? <AdminUploadInvoice /> : <Login />}
                 // element={<AdminManageSchool />}
               />
 
               <Route
                 path="/admin/addschool"
-                element={Admin ? <AdminAddSchool /> : <Login />}
+                element={Admin || MsAuth ? <AdminAddSchool /> : <Login />}
                 // element={<AdminAddSchool />}
               />
               <Route
                 path="/admin/invoice"
-                // element={Admin ? <AdminInvoice /> : <Login />}
-                element={<AdminInvoice />}
+                element={Admin || MsAuth ? <AdminInvoice /> : <Login />}
+                // element={<AdminInvoice />}
               />
               <Route
                 path="/admin/invoice_item/:invoiceid"
@@ -434,19 +434,19 @@ function App() {
 
               <Route
                 path="/zsm/verify_aof"
-                element={Zsm ? <ZsmAOF /> : <Login />}
+                element={Zsm || MsAuth ? <ZsmAOF /> : <Login />}
                 // element={<ZsmAOF />}
               />
 
               <Route
                 path="/finance/aof"
-                element={Finance ? <FinanceAOF /> : <Login />}
+                element={Finance || MsAuth  ? <FinanceAOF /> : <Login />}
                 // element={<FinanceAOF />}
               />
 
               <Route
                 path="/saleshead/aof"
-                element={Saleshead ? <SalesheadAOF /> : <Login />}
+                element={Saleshead || MsAuth ? <SalesheadAOF /> : <Login />}
                 // element={<SalesheadAOF />}
               />
 
