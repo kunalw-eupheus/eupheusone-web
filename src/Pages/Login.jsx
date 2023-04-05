@@ -221,6 +221,7 @@ const Login = () => {
                         onChange={(e) => setPassword(e.target.value)}
                       />
                     </div>
+
                     {/* <div>
                       <label className="inline-flex items-center cursor-pointer">
                         <input
@@ -237,6 +238,7 @@ const Login = () => {
                         </span>
                       </label>
                     </div> */}
+
                     <Stack direction="row" spacing={2}>
                       <LoadingButton
                         loading={loading}
@@ -254,6 +256,7 @@ const Login = () => {
                       >
                         {loading ? "" : "SIGN IN"}
                       </LoadingButton>
+                      
                       {/* <LoadingButton
                         onClick={authLogin}
                         type="button"
