@@ -309,14 +309,15 @@ const Invoice = () => {
                 <TableContainer component={Paper}>
                   <Toolbar className="grid grid-cols-2 grid-rows-2 md:flex md:justify-around md:items-center px-6 py-3 gap-6 bg-slate-500">
                     {/* <div className="sm:w-auto w-full"> */}
-                    <SearchDropDown
-                      label={"Select Customer"}
-                      handleOrderProcessingForm={handleOrderProcessingForm}
-                      color={"rgb(243, 244, 246)"}
-                      data={customer}
-                      Name="invoice_data"
-                    />
-                    {/* </div> */}
+                    <div className="sm:col-span-2 w-[70%]">
+                      <SearchDropDown
+                        label={"Select Customer"}
+                        handleOrderProcessingForm={handleOrderProcessingForm}
+                        color={"rgb(243, 244, 246)"}
+                        data={customer}
+                        Name="invoice_data"
+                      />
+                    </div>
 
                     <div className="sm:w-auto w-[50vw]" onClick={searchInvoice}>
                       <BasicButton text={"Search Invoice"} />
@@ -427,8 +428,14 @@ const Invoice = () => {
                               {/* <TableCell align="center" component="th" scope="row">
                           {row.id}
                         </TableCell> */}
-                              <TableCell align="center">{!row.inv_no||row.inv_no=="N/A" ? row.docnum :row.inv_no}</TableCell>
-                              <TableCell align="center">{row.inv_type}</TableCell>
+                              <TableCell align="center">
+                                {!row.inv_no || row.inv_no == "N/A"
+                                  ? row.docnum
+                                  : row.inv_no}
+                              </TableCell>
+                              <TableCell align="center">
+                                {row.inv_type}
+                              </TableCell>
                               <TableCell align="center">
                                 {row.cardname}
                               </TableCell>
@@ -485,8 +492,14 @@ const Invoice = () => {
                               {/* <TableCell align="center" component="th" scope="row">
                           {row.id}
                         </TableCell> */}
-                        <TableCell align="center">{!row.inv_no||row.inv_no=="N/A" ? row.docnum :row.inv_no}</TableCell>
-                        <TableCell align="center">{row.inv_type}</TableCell>
+                              <TableCell align="center">
+                                {!row.inv_no || row.inv_no == "N/A"
+                                  ? row.docnum
+                                  : row.inv_no}
+                              </TableCell>
+                              <TableCell align="center">
+                                {row.inv_type}
+                              </TableCell>
                               <TableCell align="center">
                                 {row.cardname}
                               </TableCell>

@@ -37,6 +37,11 @@ const Dropdown = ({ dropdownPopoverShow, handleDropDown }) => {
     getFinancialYear();
   }, []);
 
+  const handleDropdownValue = (e) => {
+    e.preventDefault()
+    // console.log(e)
+  }
+
   return (
     <>
       <div className="flex flex-wrap">
@@ -52,7 +57,7 @@ const Dropdown = ({ dropdownPopoverShow, handleDropDown }) => {
                   : openDropdownPopover();
               }}
             >
-              <span className="w-fit sm:text-base text-xs">FY 2022-23</span>
+              <span className="w-fit sm:text-base text-xs">FY 2023-24</span>
               <div
                 className={`transition-all duration-200 absolute sm:top-[0.65rem] top-[0.3rem] sm:right-3 right-0 ease-linear ${
                   dropdownPopoverShow ? " rotate-180" : null
@@ -76,7 +81,7 @@ const Dropdown = ({ dropdownPopoverShow, handleDropDown }) => {
                     className={`text-sm ${
                       dropdownPopoverShow ? "block" : "hidden"
                     } py-2 px-4 justify-center transition-all hover:bg-slate-600 ease-linear duration-100 hover:border-l-2 font-normal flex w-full whitespace-no-wrap bg-transparent text-white`}
-                    onClick={(e) => e.preventDefault()}
+                    onClick={(e) => handleDropdownValue(e)}
                   >
                     <h1 className="w-fit sm:text-base text-xs text-white">{item.name}</h1>
                   </a>

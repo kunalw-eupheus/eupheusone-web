@@ -32,7 +32,7 @@ import TransitionsModal from "./Model";
 import { useRef } from "react";
 // import DialogSlide from "./Dialog";
 
-const SwipeableTemporaryDrawer5 = React.forwardRef((props, ref) => {
+const SwipeableTemporaryDrawer6 = React.forwardRef((props, ref) => {
   const [modelOpen, setModelOpen] = useState(false);
 
   const [userType, setUserType] = useState();
@@ -123,7 +123,7 @@ const SwipeableTemporaryDrawer5 = React.forwardRef((props, ref) => {
         <hr className="text-gray-100 mt-4" />
       </aside>
 
-      <Link to="/finance/aof">
+      <Link to="/saleshead/aof">
         <aside
           className={`px-6 py-2 my-4 hover:bg-gray-500 flex ${
             highLight === "aof" ? "bg-gray-500" : ""
@@ -168,4 +168,4 @@ const SwipeableTemporaryDrawer5 = React.forwardRef((props, ref) => {
   );
 });
 
-export default SwipeableTemporaryDrawer5;
+export default SwipeableTemporaryDrawer6;

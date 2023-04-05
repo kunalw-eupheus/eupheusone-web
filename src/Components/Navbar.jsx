@@ -54,6 +54,9 @@ const Navbar = ({ handleSidebarCollapsed, info }) => {
     Cookies.remove("user");
     Cookies.remove("company");
     Cookies.remove("admin")
+    Cookies.remove("zsm")
+    Cookies.remove("saleshead")
+    Cookies.remove("finance")
     dispatch(authActions.logout());
     navigate("/");
   };
