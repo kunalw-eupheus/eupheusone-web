@@ -16,6 +16,7 @@ const CustLedger = () => {
   const [arrData, setArrData] = useState([]);
   const [ttlDebit, setTtlDebit] = useState("");
   const [ttlCredit, setTtlCredit] = useState("");
+  const [totlAmnt, setTotlAmnt] = useState("")
 
   const { bp, todate, fromdate } = useParams();
 
@@ -60,7 +61,7 @@ const CustLedger = () => {
         accesskey: `auth0026c3956e3d0fba`
       },
     });
-    // console.log(res.data.message)
+    // console.log(res.data)
     let data = res.data.message.message[0];
     let tableData = res.data.message.items;
     let totalDebit = 0,
@@ -83,7 +84,11 @@ const CustLedger = () => {
     setOpeningDr(data.opening);
     setClosingDr(data.closing);
     setArrData(tableData);
-    console.log(tableData);
+    // console.log(tableData);
+    // console.log(data.opening , totalCredit)
+    let totalAmnt = data.opening + totalCredit
+    // console.log(totalAmnt)
+    setTotlAmnt(totalAmnt)
   };
 
   return (
@@ -1139,6 +1144,7 @@ const CustLedger = () => {
                 }}
               >
                 Closing Balance : {`${closingDr}`}
+                {/* Closing Balance : {`${totlAmnt}`} */}
                 {/* -12,774.00 */}
               </p>
             </td>

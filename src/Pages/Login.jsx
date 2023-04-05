@@ -74,84 +74,93 @@ const Login = () => {
 
     console.log(res.data);
     if (res.data.id && res.data.accessToken) {
-      Cookies.set(
-        "user",
-        `id: ${res.data.id}, accessToken: ${res.data.accessToken}`
-      );
+      if (res.data.type === "user") {
+        Cookies.set(
+          "user",
+          `id: ${res.data.id}, accessToken: ${res.data.accessToken}`
+        );
+      }
       Cookies.set("id", `${res.data.id}`);
       Cookies.set("accessToken", `${res.data.accessToken}`);
       Cookies.set("type", `${res.data.type}`);
-      Cookies.set("company", `${res.data.company}`)
+      Cookies.set("company", `${res.data.company}`);
 
-      if (res.data.type === 'admin') {
-        Cookies.set("admin", 
-        // true
-        `id: ${res.data.id}, accessToken: ${res.data.accessToken}`
+      if (res.data.type === "admin") {
+        Cookies.set(
+          "admin",
+          // true
+          `id: ${res.data.id}, accessToken: ${res.data.accessToken}`
         );
         dispatch(authActions.adminLogin());
       }
-      if (res.data.type === 'zsm'){
-        Cookies.set("zsm", 
-        // true
-        `id: ${res.data.id}, accessToken: ${res.data.accessToken}`)
-        dispatch(authActions.zsmLogin())
+      if (res.data.type === "zsm") {
+        Cookies.set(
+          "zsm",
+          // true
+          `id: ${res.data.id}, accessToken: ${res.data.accessToken}`
+        );
+        dispatch(authActions.zsmLogin());
       }
 
-      if (res.data.type === 'finance'){
-        Cookies.set("finance",
-        //  true
-        `id: ${res.data.id}, accessToken: ${res.data.accessToken}`
-         )
-        dispatch(authActions.financeLogin())
+      if (res.data.type === "finance") {
+        Cookies.set(
+          "finance",
+          //  true
+          `id: ${res.data.id}, accessToken: ${res.data.accessToken}`
+        );
+        dispatch(authActions.financeLogin());
       }
 
-      if (res.data.type === 'sales_head'){
-        Cookies.set("saleshead", 
-        // true
-        `id: ${res.data.id}, accessToken: ${res.data.accessToken}`
-        )
-        dispatch(authActions.salesheadLogin())
+      if (res.data.type === "sales_head") {
+        Cookies.set(
+          "saleshead",
+          // true
+          `id: ${res.data.id}, accessToken: ${res.data.accessToken}`
+        );
+        dispatch(authActions.salesheadLogin());
       }
-      
+
       dispatch(authActions.login());
 
       // console.log(res.data.type, res.data.company)
-      if(res.data.type === "training" && res.data.company === "Euphues"){
+      if (res.data.type === "training" && res.data.company === "Euphues") {
         // dispatch(authActions.login());
         navigate("/manageSchoolTraining");
         // console.log("testing1")
-      }
-      else if(res.data.type === "warehouse_GP" && res.data.company === "Euphues"){
+      } else if (
+        res.data.type === "warehouse_GP" &&
+        res.data.company === "Euphues"
+      ) {
         // dispatch(authActions.login());
         navigate("/gatepass_dashboard");
         // console.log("testing2")
-      }
-      else if(res.data.type === "admin" && res.data.company === "Euphues"){
+      } else if (res.data.type === "admin" && res.data.company === "Euphues") {
         // console.log(res.data.company)
-        navigate("/admin/home")
+        navigate("/admin/home");
         // console.log("This is in admin login")
-      }
-      else if(res.data.type === "zsm" && res.data.company === "Euphues"){
+      } else if (res.data.type === "zsm" && res.data.company === "Euphues") {
         // console.log(res.data.company)
-        navigate("/")
+        navigate("/");
         // console.log("This is in admin login")
-      }
-      else if(res.data.type === "finance" && res.data.company === "Euphues"){
+      } else if (
+        res.data.type === "finance" &&
+        res.data.company === "Euphues"
+      ) {
         // console.log(res.data.company)
-        navigate("/finance/aof")
+        navigate("/finance/aof");
         // console.log("This is in admin login")
-      }
-      else if(res.data.type === "sales_head" && res.data.company === "Euphues"){
+      } else if (
+        res.data.type === "sales_head" &&
+        res.data.company === "Euphues"
+      ) {
         // console.log(res.data.company)
-        navigate("/saleshead/aof")
+        navigate("/saleshead/aof");
         // console.log("This is in admin login")
-      }
-      else{
+      } else {
         navigate("/");
         // dispatch(authActions.login());
-        // console.log("testing3")
+        // console.log("testing3");
       }
-      
     }
     if (res.data.message) {
       setErrMessage(res.data.message);
