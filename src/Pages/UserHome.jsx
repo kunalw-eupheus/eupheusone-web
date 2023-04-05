@@ -10,15 +10,12 @@ import Loader from "../Components/Loader";
 import orderImg from "../assets/img/order.png";
 import documentImg from "../assets/img/documents.png";
 import zohoImg from "../assets/img/zoho.png";
-import invoiceLogo from "../assets/img/invoice_logo.jpg";
-import creditLogo from "../assets/img/creditNote.jpg";
-import CustLedger from "../assets/img/custLedger.jpg";
 import SwipeableTemporaryDrawer from "../Components/Material/MaterialSidebar";
 
 // import { Map } from "@mui/icons-material";
 import GMap from "../assets/map.png";
 import BasicButton from "../Components/Material/Button";
-const PrintPDF = () => {
+const UserHome = () => {
   const [status, setStatus] = useState("Start Day");
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [currentLocation, setCurrentLocation] = useState([]);
@@ -30,7 +27,7 @@ const PrintPDF = () => {
   const show = null;
   const temp = [];
   const Co_ordinates = JSON.parse(localStorage.getItem("co_ordinates"));
-
+ 
   useLayoutEffect(() => {
     navigator.geolocation.watchPosition(function (position) {
       // console.log("Latitude is :", position.coords.latitude);
@@ -140,7 +137,7 @@ const PrintPDF = () => {
         {loading ? <Loader /> : null}
 
         <Sidebar
-          highLight={"printpdf"}
+          highLight={"dashboard"}
           sidebarCollapsed={sidebarCollapsed}
           show={show}
         />
@@ -150,7 +147,7 @@ const PrintPDF = () => {
             ref={sidebarRef}
             sidebarCollapsed={sidebarCollapsed}
             show={show}
-            highLight={"printpdf"}
+            highLight={"dashboard"}
           />
         </div>
         <div
@@ -176,7 +173,7 @@ const PrintPDF = () => {
                 Welcome
               </h1>
               {/* <a
-                href="https://skool.ai/bucket/crmv2/androidApp/app-release9.apk"
+                href="https://lmseupheus.s3.amazonaws.com/crmv2/androidApp/app-release.apk"
                 download="latest_apk_download"
                 className="absolute sm:top-[2rem] top-[3rem] sm:right-[2rem] right-[1rem]"
               >
@@ -184,68 +181,27 @@ const PrintPDF = () => {
               </a> */}
 
               <div className="w-full flex flex-col px-4 pb-6 sm:flex-row gap-6 items-center justify-center">
-                <section className="flex sm:w-[30%] sm:h-[23rem] w-full sm:flex-col flex-row gap-4 hover:shadow-2xl items-center justify-between px-4 py-4 bg-gray-200 rounded-md">
-                  <span className="md:text-2xl sm:text-base text-sm font-bold">
-                    Invoice PDF
-                  </span>
+                <section className="flex sm:w-[30%] sm:h-[19rem] w-full sm:flex-col flex-row gap-4 hover:shadow-2xl items-center justify-between px-4 py-4 bg-gray-200 rounded-md">
                   <img
-                    src={invoiceLogo}
-                    className="md:w-[10.8rem] sm:w-[7.5rem] w-[4rem] h-auto "
-                    alt=""
-                  />
-                  <div className="flex gap-2">
-                    <div>
-                      <Link to="/invoice_pdf_single">
-                        <BasicButton text={"Single Invoice"} />
-                      </Link>
-                    </div>
-
-                    <div>
-                      <Link to="/invoice_pdf_double">
-                        <BasicButton text={"Bulk Invoice"} />
-                      </Link>
-                    </div>
-                  </div>
-                </section>
-
-                <section className="flex sm:w-[30%] sm:h-[23rem] w-full sm:flex-col cursor-not-allowed flex-row gap-4 hover:shadow-2xl items-center justify-between px-4 py-4 bg-gray-200 rounded-md">
-                  {/* <img
                     src={orderImg}
                     className="md:w-[10.8rem] sm:w-[7.5rem] w-[4rem] h-auto "
                     alt=""
-                  /> */}
-                  <span className="md:text-2xl sm:text-base text-sm font-bold">
-                    Credit Note
-                  </span>
-                  <img
-                    src={creditLogo}
-                    className="md:w-[10.8rem] sm:w-[7.5rem] w-[4rem] h-auto "
-                    alt=""
                   />
-                  {/* <Link to="/order_processing">
-                    <BasicButton text={"Next"} />
-                  </Link> */}
-                </section>
-
-                <section className="flex sm:w-[30%] sm:h-[23rem] w-full sm:flex-col cursor-not-allowed flex-row gap-4 hover:shadow-2xl items-center justify-between px-4 py-4 bg-gray-200 rounded-md">
-                  {/* <img
-                    src={orderImg}
-                    className="md:w-[10.8rem] sm:w-[7.5rem] w-[4rem] h-auto "
-                    alt=""
-                  /> */}
+                  {/* <div className="flex items-center gap-4"> */}
                   <span className="md:text-2xl sm:text-base text-sm font-bold">
-                    Customer Ledger
+                    Order Processing
                   </span>
-                  <img
-                    src={CustLedger}
-                    className="md:w-[10.8rem] sm:w-[7.5rem] w-[4rem] h-auto "
-                    alt=""
-                  />
-                  {/* <Link to="/customer_pdf" >
-                    <BasicButton text={"Next"} />
-                  </Link> */}
+                  {/* <button className="text-lg hover:shadow-2xl rounded-md text-gray-100 font-semibold px-6 py-1.5 bg-[#659DBD]">
+                    Process
+                  </button> */}
+                  {/* <div className="!w-fit"> */}
+                  <Link to="/order_processing">
+                    <BasicButton text={"Process"} />
+                  </Link>
+                  {/* </div> */}
+                  {/* </div> */}
                 </section>
-                {/* <div className="flex sm:w-[60%]  flex-row gap-4 ">
+                <div className="flex sm:w-[60%]  flex-row gap-4 ">
                   <section className="flex w-1/2 flex-col hover:shadow-2xl cursor-pointer gap-4 items-center justify-around sm:px-4 sm:py-4 bg-gray-200 rounded-md">
                     <a target="_blank" href="https://analytics.zoho.com/">
                       <img
@@ -255,7 +211,10 @@ const PrintPDF = () => {
                       />
                     </a>
                   </section>
-                  <section className="flex grayscale w-1/2 flex-col gap-4 hover:shadow-2xl cursor-not-allowed items-center justify-around px-4 py-4 bg-gray-200 rounded-md">
+
+                  <section onClick={()=>{
+                      navigate('/print_pdf')
+                  }} className="flex grayscale w-1/2 flex-col gap-4 hover:shadow-2xl cursor-pointer items-center justify-around px-4 py-4 bg-gray-200 rounded-md">
                     <img
                       src={documentImg}
                       className="sm:w-[14rem] w-[5rem] h-auto"
@@ -266,8 +225,20 @@ const PrintPDF = () => {
                       Documents
                     </span>
                   </section>
-       
-                </div> */}
+                  {/* <section className='flex grayscale w-1/2 flex-col gap-4
+                   hover:shadow-2xl items-center justify-around px-4 py-4 bg-gray-200 rounded-md'>
+                    <a href='https://skool.ai/bucket/crmv2/androidApp/app-release9.apk' download='latest_apk_download'>
+                    <img
+                      src="https://cdn.iconscout.com/icon/premium/png-256-thumb/download-button-1722967-1465259.png"
+                      className='sm:w-[14rem] w-[5rem] h-auto'
+                      alt=''
+                    />
+                    </a>
+
+                    <span className='md:text-2xl sm:text-base text-sm font-bold'>
+                    </span>
+                  </section> */}
+                </div>
               </div>
 
               {/* <GoogleMap sidebarCollapsed={sidebarCollapsed} /> */}
@@ -312,4 +283,4 @@ const PrintPDF = () => {
   );
 };
 
-export default PrintPDF;
+export default UserHome;

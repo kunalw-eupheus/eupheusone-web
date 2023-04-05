@@ -55,10 +55,38 @@ const AofPdf2 = () => {
   const [specialArrAvail, setSpecialArrAvail] = useState(true);
   const [seriesArrAval, setSeriesArrAval] = useState(true);
   const [publisherArrAvail, setPublisherArrAvail] = useState(true);
+  const [lat, setLat] = useState(null);
+  const [lng, setLng] = useState(null);
+  const [status, setStatus] = useState(null);
+  const [checked, setChecked] = useState(false)
 
   useEffect(() => {
     getData();
   }, []);
+
+
+  const getLocation = () => {
+
+
+    if(!checked) alert("Please select the checkbox to continue")
+
+
+    if (!navigator.geolocation) {
+      setStatus('Geolocation is not supported by your browser');
+    } else {
+      setStatus('Locating...');
+      navigator.geolocation.getCurrentPosition((position) => {
+        setStatus(null);
+        setLat(position.coords.latitude);
+        console.log("latitude=",position.coords.latitude)
+        setLng(position.coords.longitude);
+        console.log("longitude=",position.coords.longitude)
+        // console.log("---------------------")
+      }, () => {
+        setStatus('Unable to retrieve your location');
+      });
+    }
+  }
 
   useLayoutEffect(() => {
     const userId = Cookies.get("id");
@@ -1044,10 +1072,12 @@ const AofPdf2 = () => {
         <hr className="w-[95%] bg-black h-[2px] my-[1rem] mx-[1rem]" />
         <div className="flex flex-col sm:flex-row sm:justify-between mx-[1rem] ">
           <div>
-            <Checkbox />
+            <Checkbox 
+            checked={checked}
+            onChange={()=>{setChecked(!checked)}}/>
             Agree With Terms & Conditions
           </div>
-          <Button variant="contained">Submit</Button>
+          <Button onClick={getLocation} variant="contained">Submit</Button>
         </div>
       </div>
     </div>

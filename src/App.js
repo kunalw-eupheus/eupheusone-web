@@ -84,7 +84,13 @@ import AdminAddSchoolQuantity from "./Pages/AdminAddSchoolQuantity";
 import FinanceAOF from "./Pages/FinanceAOF";
 import SalesheadAOF from "./Pages/SalesheadAOF";
 import AOFEdit from "./Pages/AOFEdit";
+import { useEffect, useState } from "react";
+import Cookies from "js-cookie";
 function App() {
+
+  const [userCache, setUserCache] = useState(false)
+  const [adminCache ,setAdminCache] = useState(false)
+
   const isAuth = useSelector((state) => state.auth.user);
   const MsAuth = useSelector((state) => state.auth.msAuth);
 
@@ -110,7 +116,7 @@ function App() {
               />
               <Route
                 path="/"
-                element={isAuth || MsAuth ? <Home /> : <Login />}
+                element={isAuth || MsAuth || Admin ? <Home /> : <Login />}
               />
               {/* <Route
             path="/mySchool"
