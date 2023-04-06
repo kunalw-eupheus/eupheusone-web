@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useLayoutEffect } from "react"; 
+import React, { useEffect, useState, useLayoutEffect } from "react";
 import { Link } from "react-router-dom";
 import eupheusLogo from "./eupheusLogo.png";
 import instance from "../../Instance";
@@ -58,39 +58,38 @@ const AofPdf2 = () => {
   const [lat, setLat] = useState(null);
   const [lng, setLng] = useState(null);
   const [status, setStatus] = useState(null);
-  const [checked, setChecked] = useState(false)
+  const [checked, setChecked] = useState(false);
 
   useEffect(() => {
     getData();
   }, []);
 
-
   const getLocation = () => {
-
-
-    if(!checked) alert("Please select the checkbox to continue")
-
+    if (!checked) alert("Please select the checkbox to continue");
 
     if (!navigator.geolocation) {
-      setStatus('Geolocation is not supported by your browser');
+      setStatus("Geolocation is not supported by your browser");
     } else {
-      setStatus('Locating...');
-      navigator.geolocation.getCurrentPosition((position) => {
-        setStatus(null);
-        setLat(position.coords.latitude);
-        console.log("latitude=",position.coords.latitude)
-        setLng(position.coords.longitude);
-        console.log("longitude=",position.coords.longitude)
-        // console.log("---------------------")
-      }, () => {
-        setStatus('Unable to retrieve your location');
-      });
+      setStatus("Locating...");
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          setStatus(null);
+          setLat(position.coords.latitude);
+          console.log("latitude=", position.coords.latitude);
+          setLng(position.coords.longitude);
+          console.log("longitude=", position.coords.longitude);
+          // console.log("---------------------")
+        },
+        () => {
+          setStatus("Unable to retrieve your location");
+        }
+      );
     }
-  }
+  };
 
   useLayoutEffect(() => {
     const userId = Cookies.get("id");
-    console.log(userId);
+    // console.log(userId);
     const getUser = async () => {
       const res = await instance({
         // url: `sales_data/aof/get/detail/a6663609-a912-4e0e-9a37-4935213a3d1a`,
@@ -304,6 +303,13 @@ const AofPdf2 = () => {
                 <div>Mobile*: {mobile ? mobile : ""}</div>
                 <div>E-Mail*: {email ? email : ""}</div>
               </div>
+              <div className="flex flex-col sm:flex-row sm:justify-between">
+                <div>
+                  Total no of Students*:
+                  {firmRegNo ? firmRegNo : ""}
+                </div>
+                <div>Classes Up to: {date ? date : ""}</div>
+              </div>
               <div className="!flex gap-[2rem]">
                 <div>
                   Firm/ Company/Trust Registration Number*:
@@ -311,7 +317,7 @@ const AofPdf2 = () => {
                 </div>
                 <div>Dated: {date ? date : ""}</div>
               </div>
-              <div className="">
+              <div className="!flex gap-[4rem]">
                 <div>PAN No*: {panNo ? panNo : ""}(Copy Enclosed)</div>
                 <div>GST. No*:{gstNo ? gstNo : ""}</div>
               </div>
@@ -562,6 +568,23 @@ const AofPdf2 = () => {
           <div style={{ margin: "10px" }} className="flex container">
             <div>4. </div>
             <div>
+              <b>Delivery of Goods.</b> The Goods as per the specifications in
+              the Purchase Order issued by the Distributor shall be delivered
+              through a carrier appointed by Eupheus. The Goods may be picked up
+              from the designated warehouse of Eupheus upon the option of the
+              Distributor. In the event the Goods are received or picked up by
+              any other person appointed by the Distributor then the Distributor
+              shall provide details and specimen signatures of such persons at
+              the space provided at the end of this Agreement. Distributor and
+              all such authorized persons on behalf of the Distributor shall
+              sign and affix Distributor’s seal at the time of receiving the
+              Goods through the carrier or picking up the Goods from the
+              warehouse of Eupheus.{" "}
+            </div>
+          </div>
+          <div style={{ margin: "10px" }} className="flex container">
+            <div>5. </div>
+            <div>
               <b>Cost of Delivery.</b> Unless otherwise agreed between the
               Parties herein,{" "}
               <b>
@@ -571,7 +594,7 @@ const AofPdf2 = () => {
             </div>
           </div>
           <div style={{ margin: "10px" }} className="flex container">
-            <div>5. </div>
+            <div>6. </div>
             <div>
               <b>Risk of Loss.</b> Title, risk of loss, theft and damage shall
               pass to Distributor upon delivery of Product to the carrier,
@@ -579,7 +602,7 @@ const AofPdf2 = () => {
             </div>
           </div>
           <div style={{ margin: "10px" }} className="flex container">
-            <div>6. </div>
+            <div>7. </div>
             <div>
               <b>Defective Products.</b> In the event that the Product is found
               to be defective Distributor shall promptly notify Eupheus through
@@ -603,7 +626,7 @@ const AofPdf2 = () => {
 
           <div style={{ margin: "10px" }} className="">
             <div>
-              7.<b>Return Policy.</b> The unsold books once delivered may be
+              8.<b>Return Policy.</b> The unsold books once delivered may be
               returned to Eupheus by the Distributor subject to the following
               conditions: <br /> (a) A maximum 10 % (ten percent) of invoiced
               value will be allowed to be returned if unutilized (“Returns”)
@@ -629,7 +652,7 @@ const AofPdf2 = () => {
             </div>
           </div>
           <div style={{ margin: "10px" }} className="flex m-[1rem] sm:m-[2rem]">
-            <div>8. </div>
+            <div>9. </div>
             <div>
               <b>Trust Relationship:</b> The products supplied by Eupheus to the
               Distributor till the receipt of full payment by Eupheus shall be
@@ -652,7 +675,35 @@ const AofPdf2 = () => {
             </div>
           </div>
           <div style={{ margin: "10px" }} className="flex m-[1rem] sm:m-[2rem]">
-            <div>9. </div>
+            <div>10. </div>
+            <div>
+              <b>Printing and Publishing. </b> The Distributor has the limited
+              right of distributing the books purchased from Eupheus and is not
+              authorized to print or copy any of the artistic and literary works
+              of which Eupheus is the permitted and authorized user. Breach of
+              this section will be grounds for immediate termination of this
+              Agreement without prejudice to any other legal remedies Eupheus
+              may deem appropriate.
+            </div>
+          </div>
+          <div style={{ margin: "10px" }} className="flex m-[1rem] sm:m-[2rem]">
+            <div>11. </div>
+            <div>
+              <b>Prohibition from Selling on E-Commerce Platform. </b> The
+              Distributor shall not, without prior written permission from
+              Eupheus, sell or offer to sell, trade or offer to trade, either
+              directly or indirectly through itself or through its agents,
+              affiliates, associates, sister concerns or through any other third
+              party, the books purchased from Eupheus on any E-Commerce website,
+              platform, application or any other way whatsoever including but
+              not limited to Amazon, Flipkart and/or Snapdeal or any website,
+              platform or application that the Distributor has or may develop.
+              The breach of this clause may result in immediate termination of
+              this Agreement and blacklisting of the Distributor by Eupheus.
+            </div>
+          </div>
+          <div style={{ margin: "10px" }} className="flex m-[1rem] sm:m-[2rem]">
+            <div>12. </div>
             <div>
               <b>Non Disclosure:</b> Each party shall protect the other's
               Confidential Information from unauthorized dissemination and use
@@ -669,20 +720,44 @@ const AofPdf2 = () => {
             </div>
           </div>
           <div style={{ margin: "10px" }} className="flex m-[1rem] sm:m-[2rem]">
-            <div>10. </div>
+            <div>13. </div>
             <div>
-              <b>Termination of Agreement:</b>{" "}
-              <b>
-                The term of this Agreement shall be for from the date of signing
-                of this Agreement unless sooner terminated to 31st March 2025.
-              </b>{" "}
-              Following such Initial Term, this Agreement can be renewed for
-              successive three (3) year on mutual agreement on the same terms or
-              amended terms, unless either party notifies the other in writing
-              of an intention not to renew the Agreement. Termination shall not
-              relieve either party of obligations incurred prior thereto. This
-              Agreement may be terminated under the following stipulations
-              without exception under any circumstances: <br />
+              <b>Trademarks and Logo Use:</b> Eupheus hereby grants the right to
+              the Distributor to use the logo and trademark of the books solely
+              for the purpose of distribution of the books and the Distributor
+              shall not have any right over the trademarks or logos of the books
+              whatsoever and agree to act under the following terms and
+              conditions: <br />
+              a. This License is granted for the benefit of Distributor with a
+              legitimate intent to advertise and distribute the books of Eupheus{" "}
+              <br />
+              b. It is agreed by the Distributor that it does not acquire any
+              right, title or interest in or to the intellectual property rights
+              of the books of Eupheus; and <br />
+              c. The Distributor may not, under any circumstances, alter the
+              appearance of the Logos, marks, either by alteration, size, color
+              or combination with any other logo. Breach of this section will be
+              grounds for immediate termination of this Agreement without
+              prejudice to any other legal remedies Eupheus may deem
+              appropriate.
+            </div>
+          </div>
+
+          <div style={{ margin: "10px" }} className="flex m-[1rem] sm:m-[2rem]">
+            <div>14. </div>
+            <div>
+              <b>Termination of Agreement:</b> The term of this Agreement shall
+              be for three (3) years from the date of signing of this Agreement
+              unless sooner terminated. Following such Initial Term, this
+              Agreement can be renewed for successive three (3) year on mutual
+              agreement on the same terms or amended terms, unless either party
+              notifies the other in writing of an intention not to renew the
+              Agreement.
+              <br />
+              Termination shall not relieve either party of obligations incurred
+              prior thereto. This Agreement may be terminated under the
+              following stipulations without exception under any circumstances:
+              <br />
               a. by the Distributor at anytime upon ninety (90) days written
               notice to Eupheus citing the reason. <br />
               b. by Eupheus upon ninety (90) days written notice to the
@@ -701,7 +776,7 @@ const AofPdf2 = () => {
         </div> */}
 
           <div style={{ margin: "10px" }} className="flex m-[1rem] sm:m-[2rem]">
-            <div>11. </div>
+            <div>15. </div>
             <div>
               <b>Relationship between the Parties:</b> The relationship between
               the parties established by this Agreement shall be solely that of
@@ -713,7 +788,7 @@ const AofPdf2 = () => {
             </div>
           </div>
           <div style={{ margin: "10px" }} className="flex m-[1rem] sm:m-[2rem]">
-            <div>12. </div>
+            <div>16. </div>
             <div>
               <b>Severability:</b> The invalidity or unenforceability of any
               provisions of this Agreement shall not affect validity or
@@ -722,7 +797,7 @@ const AofPdf2 = () => {
             </div>
           </div>
           <div style={{ margin: "10px" }} className="flex m-[1rem] sm:m-[2rem]">
-            <div>13. </div>
+            <div>17. </div>
             <div>
               <b>Amendments:</b> No change or modification of this Agreement
               will be valid unless it is in writing and signed by each party to
@@ -730,14 +805,14 @@ const AofPdf2 = () => {
             </div>
           </div>
           <div style={{ margin: "10px" }} className="flex m-[1rem] sm:m-[2rem]">
-            <div>14. </div>
+            <div>18. </div>
             <div>
               <b>Applicable Law:</b> This Agreement shall be governed by Laws of
               India and the courts of Delhi shall have exclusive jurisdiction.
             </div>
           </div>
           <div style={{ margin: "10px" }} className="flex m-[1rem] sm:m-[2rem]">
-            <div>15. </div>
+            <div>19. </div>
             <div>
               <b>Resolution of Disputes:</b> Any dispute/claims arising out of
               or in connection with this contract, including any question
@@ -761,15 +836,15 @@ const AofPdf2 = () => {
             </div>
           </div>
 
-          <div style={{ margin: "40px" }}>
+          {/* <div style={{ margin: "40px" }}>
             <div style={{ marginTop: "30px" }}>
               IN WITNESS WHEREOF, the parties have caused this Agreement to be
               executed by their duly authorized officers as of the date and year
               indicated above.
             </div>
-          </div>
+          </div> */}
 
-          <div
+          {/* <div
             className="flex flex-col m-[2rem] sm:flex-row sm:justify-around sm:m-0"
             style={{ marginTop: "30px" }}
           >
@@ -798,7 +873,7 @@ const AofPdf2 = () => {
               <div style={{ marginTop: "2px" }}>(Authorised Officer)</div>
               <div style={{ marginTop: "2px" }}>Witness1: _______________</div>
             </div>
-          </div>
+          </div> */}
         </div>
 
         <div className="">
@@ -989,6 +1064,16 @@ const AofPdf2 = () => {
               </table>
             </div>
           </div>
+
+          <div style={{ margin: "40px" }}>
+            <div style={{ marginTop: "30px" }}>
+              IN WITNESS WHEREOF, the parties have caused this Agreement to be
+              executed by their duly authorized officers as of the date and year
+              indicated above.
+            </div>
+          </div>
+
+          
           <div
             className="flex flex-col m-[2rem] sm:flex-row sm:justify-around sm:m-0"
             style={{ marginTop: "20px" }}
@@ -1072,12 +1157,17 @@ const AofPdf2 = () => {
         <hr className="w-[95%] bg-black h-[2px] my-[1rem] mx-[1rem]" />
         <div className="flex flex-col sm:flex-row sm:justify-between mx-[1rem] ">
           <div>
-            <Checkbox 
-            checked={checked}
-            onChange={()=>{setChecked(!checked)}}/>
+            <Checkbox
+              checked={checked}
+              onChange={() => {
+                setChecked(!checked);
+              }}
+            />
             Agree With Terms & Conditions
           </div>
-          <Button onClick={getLocation} variant="contained">Submit</Button>
+          <Button onClick={getLocation} variant="contained">
+            Submit
+          </Button>
         </div>
       </div>
     </div>

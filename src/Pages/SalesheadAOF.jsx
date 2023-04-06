@@ -111,7 +111,7 @@ const SalesheadAOF = () => {
   const getAOFdetails = async () => {
     setLoading(true);
     const res = await instance({
-      url: `/sales_data/aof/get`,
+      url: `/sales_data/aof/get/salesHead/get`,
       method: "GET",
       headers: {
         Authorization: `${Cookies.get("accessToken")}`,
@@ -336,10 +336,10 @@ const SalesheadAOF = () => {
                         Email
                       </TableCell>
                       <TableCell className="!w-[8rem]" align="center">
-                        School
+                        Status
                       </TableCell>
                       <TableCell className="!w-[6rem]" align="center">
-                        Status
+                        ZSM Status
                       </TableCell>
                       <TableCell className="!w-[6rem]" align="center">
                         View
@@ -370,17 +370,17 @@ const SalesheadAOF = () => {
                             }}
                           >
                             <TableCell align="center">{row.name}</TableCell>
-                            <TableCell align="center">{row.phone}</TableCell>
+                            <TableCell align="center">{row.mobile}</TableCell>
                             <TableCell align="center">{row.email}</TableCell>
-                            <TableCell align="center">{row.school}</TableCell>
+                            <TableCell align="center">{row.status === true ? "Yes" : "No"}</TableCell>
 
-                            <TableCell align="center">{row.status}</TableCell>
+                            <TableCell align="center">{row.zms_status === true ? "Yes" : "No"}</TableCell>
 
                             <TableCell align="center">
                               <div
                                 className="sm:w-auto w-[50vw]"
                                 onClick={() => {
-                                  "handleAofPDF(row.id);";
+                                  handleAofPDF(row.id);
                                 }}
                               >
                                 <BasicButton text={"View"} />
@@ -424,17 +424,17 @@ const SalesheadAOF = () => {
                             }}
                           >
                             <TableCell align="center">{row.name}</TableCell>
+                            <TableCell align="center">{row.mobile}</TableCell>
                             <TableCell align="center">{row.email}</TableCell>
-                            <TableCell align="center">{row.phone}</TableCell>
-                            <TableCell align="center">{row.school}</TableCell>
+                            <TableCell align="center">{row.status === true ? "Yes" : "No"}</TableCell>
 
-                            <TableCell align="center">{row.status}</TableCell>
+                            <TableCell align="center">{row.zms_status === true ? "Yes" : "No"}</TableCell>
 
                             <TableCell align="center">
                               <div
                                 className="sm:w-auto w-[50vw]"
                                 onClick={() => {
-                                  "handleAofPDF(row.id);";
+                                  handleAofPDF(row.id);
                                 }}
                               >
                                 <BasicButton text={"View"} />

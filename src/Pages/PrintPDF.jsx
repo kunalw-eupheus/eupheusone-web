@@ -73,7 +73,7 @@ const PrintPDF = () => {
           },
         }
       );
-      console.log(res);
+      // console.log(res);
       setStatus("End Day");
       setLoading(false);
     } else {

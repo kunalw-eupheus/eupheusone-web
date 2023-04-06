@@ -116,7 +116,7 @@ function App() {
               />
               <Route
                 path="/"
-                element={isAuth || MsAuth || Admin ? <Home /> : <Login />}
+                element={isAuth || MsAuth || Admin || Zsm ? <Home /> : <Login />}
               />
               {/* <Route
             path="/mySchool"
@@ -309,6 +309,10 @@ function App() {
 
               <Route path="/view_aof_pdf/:aofid" element={<AofPdf />} />
               <Route path="/view_aof_pdf2/:aofid" element={<AofPdf2 />} />
+              <Route path="/zsm/view_aof_pdf2/:aofid" element={<AofPdf2 />} />
+              <Route path="/saleshead/view_aof_pdf2/:aofid" element={<AofPdf2 />} />
+              <Route path="/finance/view_aof_pdf2/:aofid" element={<AofPdf2 />} />
+
 
               <Route
                 path="/bulkinv_pdf/:bp/:todate/:fromdate"
