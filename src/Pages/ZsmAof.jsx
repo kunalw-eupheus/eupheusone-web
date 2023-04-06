@@ -105,8 +105,9 @@ const ZsmAOF = () => {
   }
 
   const handleAofPDF = (invId) => {
-    // console.log(invId)
+    console.log(invId)
     window.open(`view_aof_pdf2/${invId}`, '_blank', 'noreferrer')
+    // window.open(`aof`, '_blank', 'noreferrer')
   }
 
   const openDialogue2 = () => {
@@ -118,7 +119,7 @@ const ZsmAOF = () => {
   const getAOFdetails = async () => {
     setLoading(true);
     const res = await instance({
-      url: `/sales_data/aof/get`,
+      url: `/sales_data/aof/get/zsm/get`,
       method: "GET",
       headers: {
         Authorization: `${Cookies.get("accessToken")}`,
@@ -353,16 +354,16 @@ const ZsmAOF = () => {
                         Email
                       </TableCell>
                       <TableCell className="!w-[8rem]" align="center">
-                        School
+                        Status
                       </TableCell>
                       <TableCell className="!w-[6rem]" align="center">
-                        Status
+                        ZSM Status
                       </TableCell>
                       <TableCell className="!w-[6rem]" align="center">
                         View
                       </TableCell>
                       <TableCell className="!w-[6rem]" align="center">
-                        Download
+                        Verify
                       </TableCell>
                       {/* <TableCell className="!w-[6rem]" align="center">
                         Verify
@@ -387,17 +388,17 @@ const ZsmAOF = () => {
                             }}
                           >
                             <TableCell align="center">{row.name}</TableCell>
-                            <TableCell align="center">{row.phone}</TableCell>
+                            <TableCell align="center">{row.mobile}</TableCell>
                             <TableCell align="center">{row.email}</TableCell>
-                            <TableCell align="center">{row.school}</TableCell>
+                            <TableCell align="center">{row.status === true ? "Yes" : "No"}</TableCell>
 
-                            <TableCell align="center">{row.status}</TableCell>
+                            <TableCell align="center">{row.zms_status === true ? "Yes" : "No"}</TableCell>
 
                             <TableCell align="center">
                             <div
                                   className="sm:w-auto w-[50vw]"
                                   onClick={() => {
-                                    "handleAofPDF(row.id);"
+                                    handleAofPDF(row.id);
                                   }}
                                 >
                                   <BasicButton text={"View"} />
@@ -442,17 +443,17 @@ const ZsmAOF = () => {
                             }}
                           >
                             <TableCell align="center">{row.name}</TableCell>
+                            <TableCell align="center">{row.mobile}</TableCell>
                             <TableCell align="center">{row.email}</TableCell>
-                            <TableCell align="center">{row.phone}</TableCell>
-                            <TableCell align="center">{row.school}</TableCell>
+                            <TableCell align="center">{row.status === true ? "Yes" : "No"}</TableCell>
 
-                            <TableCell align="center">{row.status}</TableCell>
+                            <TableCell align="center">{row.zms_status === true ? "Yes" : "No"}</TableCell>
 
                             <TableCell align="center">
                             <div
                                   className="sm:w-auto w-[50vw]"
                                   onClick={() => {
-                                    "handleAofPDF(row.id);"
+                                    handleAofPDF(row.id);
                                   }}
                                 >
                                   <BasicButton text={"View"} />

@@ -141,7 +141,7 @@ const Login = () => {
       } else if (res.data.type === "zsm" && res.data.company === "Euphues") {
         // console.log(res.data.company)
         navigate("/");
-        // console.log("This is in admin login")
+        console.log("This is in zsm login")
       } else if (
         res.data.type === "finance" &&
         res.data.company === "Euphues"
