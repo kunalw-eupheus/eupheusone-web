@@ -10,7 +10,7 @@ import { CheckBox } from "@mui/icons-material";
 import { Checkbox } from "@mui/material";
 import { Button } from "@mui/material";
 
-const AofPdf2 = () => {
+const AofPdf3temp = () => {
   const [date, setDate] = useState("");
   const [partySchool, setPartySchool] = useState("");
   const [solePPPStatus, setSolePPPStatus] = useState("");
@@ -137,7 +137,8 @@ const AofPdf2 = () => {
         Authorization: Cookies.get("accessToken"),
       },
     });
-    // console.log(res.data.message);
+    console.log(res.data.message);
+    // console.log("first")
     let data = res.data.message;
     let date1 = data.date;
     setDate(date1);
@@ -260,7 +261,7 @@ const AofPdf2 = () => {
   };
 
   return (
-    <div className="bg-white">
+    <div className="bg-white w-[21cm]">
       <div className="bg-white ">
         <div className="">
           <div className="flex justify-center mt-[1rem]">
@@ -274,12 +275,13 @@ const AofPdf2 = () => {
             <u>CUSTOMER REGISTRATION FORM AND AGREEMENT</u>
           </div>
           <div
-            className=" flex flex-col ml-[6rem] sm:flex-row sm:justify-around"
+            // className=" flex flex-col ml-[6rem] sm:flex-row sm:justify-around"
+            className="flex justify-around"
             style={{ marginTop: "30px", fontSize: "11pt" }}
           >
             <div>No.: _________________</div>
             <div>Date : {date ? date : ""}</div>
-            <div className="border-2 border-black w-1/2 sm:w-[20%] ">
+            <div className="border-2 border-black sm:w-[20%] ">
               <div className="">2022-23 To 2024-25</div>
             </div>
           </div>
@@ -294,17 +296,24 @@ const AofPdf2 = () => {
                 Ltd. /Trust: {solePPPStatus ? solePPPStatus : ""}
               </div>
               <div className="">Address*: {address ? address : ""}</div>
-              <div className="flex flex-col sm:flex-row sm:justify-between">
+              <div 
+            //   className="flex flex-col sm:flex-row sm:justify-between"
+            className="flex justify-between"
+              >
                 <div>City*: {city ? city : ""}</div>
                 <div>State*: {state ? state : ""}</div>
                 <div>Pin Code*: {pinCode ? pinCode : ""}</div>
               </div>
-              <div className=" flex flex-col sm:flex-row sm:justify-between">
+              <div 
+            //   className=" flex flex-col sm:flex-row sm:justify-between"
+              className="flex justify-between">
                 <div>Phone*: {phone ? phone : ""}</div>
                 <div>Mobile*: {mobile ? mobile : ""}</div>
                 <div>E-Mail*: {email ? email : ""}</div>
               </div>
-              <div className="flex flex-col sm:flex-row sm:justify-between">
+              <div 
+            //   className="flex flex-col sm:flex-row sm:justify-between"
+            className="flex justify-between">
                 <div>
                   Total no of Students*:
                   {firmRegNo ? firmRegNo : ""}
@@ -349,13 +358,15 @@ const AofPdf2 = () => {
               <div className="" style={{ marginTop: "5px" }}>
                 PAN No.*: {aofPan ? aofPan : ""}
               </div>
-              <div className="!flex gap-[2rem]">
+              <div 
+              className="!flex gap-[4rem]">
                 <div>Address*: {aofAddress ? aofAddress : ""}</div>
                 <div>Pin Code*: {aofPin ? aofPin : ""}</div>
                 <div></div>
               </div>
               <div
-                className="flex flex-col sm:flex-row sm:justify-between"
+                // className="flex flex-col sm:flex-row sm:justify-between"
+                className="flex justify-between"
                 style={{ marginTop: "5px" }}
               >
                 <div>Phone*: {aofPhone ? aofPhone : ""}</div>
@@ -414,7 +425,8 @@ const AofPdf2 = () => {
                 {bankName ? bankName : ""}
               </div>
               <div
-                className="flex flex-col sm:flex-row sm:justify-between"
+                // className="flex flex-col sm:flex-row sm:justify-between"
+                className="flex justify-between"
                 style={{ marginTop: "5px" }}
               >
                 <div>Account Number*:{accNo ? accNo : ""}</div>
@@ -431,7 +443,8 @@ const AofPdf2 = () => {
               {bankChecq.map((item) => {
                 return (
                   <div
-                    className="flex flex-col sm:flex-row sm:justify-between"
+                    // className="flex flex-col sm:flex-row sm:justify-between"
+                    className="flex justify-between"
                     style={{ marginTop: "5px" }}
                   >
                     <div>
@@ -625,29 +638,31 @@ const AofPdf2 = () => {
           <img width={170} src={eupheusLogo} />
         </div> */}
 
-          <div style={{ margin: "10px" }} className="">
+          <div style={{ margin: "10px" }} className="flex m-[1rem] sm:m-[2rem]">
+          <div>8. </div>
             <div>
-              8.<b>Return Policy.</b> The unsold books once delivered may be
+              <b>Return Policy.</b> The unsold books once delivered may be
               returned to Eupheus by the Distributor subject to the following
-              conditions: <br /> (a) A maximum 10 % (ten percent) of invoiced
+              conditions: <br /> 
+              a. A maximum 10 % (ten percent) of invoiced
               value will be allowed to be returned if unutilized (“Returns”)
               quantity at any given point of time. <br />
-              (b) The returned books shall not be utilized or used by any person
+              b. The returned books shall not be utilized or used by any person
               and are in good condition, meaning thereby that the books shall
               not be torn or dirty or any scribbled marks or pen marks or bound
               or damaged or otherwise in such condition that the books are unfit
               for resale by Eupheus. <br />
-              (c) Such returns need to be notified by the Distributor through
+              c. Such returns need to be notified by the Distributor through
               e-mail or post. <br />
-              (d) Such return of books shall be delivered by the Distributor
+              d. Such return of books shall be delivered by the Distributor
               with reasonable care to the warehouse/Clearing & Forwarding Agent
               of Eupheus, details of which shall be provided by Eupheus, within
               180 days of date of delivery and in no case later than 31st August
               of the year in which such books were invoiced/ supplied. <br />
-              (e) The liability of expenses incurred by the Distributor for such
+              e. The liability of expenses incurred by the Distributor for such
               return of books shall be of the Distributor and in no way such
               expenses shall be reimbursed to the Distributor by Eupheus. <br />
-              (f) Any additional/special discount(s) applied at the time of sale
+              f. Any additional/special discount(s) applied at the time of sale
               shall be adjusted for the return of books and credit note will be
               calculated accordingly.
             </div>
@@ -771,7 +786,7 @@ const AofPdf2 = () => {
           </div>
         </div>
 
-        <div className=" m-[1rem] sm:m-[2rem]">
+        <div className="m-[1rem] sm:m-[2rem] ">
           {/* <div className="flex justify-center" style={{ marginTop: "30px" }}>
           <img width={170} src={eupheusLogo} />
         </div> */}
@@ -893,7 +908,7 @@ const AofPdf2 = () => {
             <table style={{ border: "1px solid black", width: "100%" }}>
               <tr style={{ border: "1px solid black" }}>
                 <th style={{ border: "1px solid black", width: "10%" }}>
-                  S. No
+                  S.No
                 </th>
                 <th style={{ border: "1px solid black", width: "30%" }}>
                   Name
@@ -904,12 +919,6 @@ const AofPdf2 = () => {
                 <th style={{ border: "1px solid black", width: "30%" }}>
                   Specimen Signatures
                 </th>
-              </tr>
-
-              <tr style={{ border: "1px solid black" }}>
-                <td style={{ border: "1px solid black" }}>&nbsp;</td>
-                <td style={{ border: "1px solid black" }}>&nbsp;</td>
-                <td style={{ border: "1px solid black" }}>&nbsp;</td>
               </tr>
 
               <tr style={{ border: "1px solid black" }}>
@@ -1131,7 +1140,8 @@ const AofPdf2 = () => {
           </div>
 
           <div
-            className="flex flex-col m-[2rem] sm:flex-row sm:justify-around sm:m-0"
+            // className="flex flex-col m-[2rem] sm:flex-row sm:justify-around sm:m-0"
+            className="flex justify-around"
             style={{ marginTop: "20px" }}
           >
             <div>
@@ -1210,7 +1220,7 @@ const AofPdf2 = () => {
             ""
           )}
         </div>
-        <hr className="w-[95%] bg-black h-[2px] my-[1rem] mx-[1rem]" />
+        {/* <hr className="w-[95%] bg-black h-[2px] my-[1rem] mx-[1rem]" />
         <div className="flex flex-col sm:flex-row sm:justify-between mx-[1rem] ">
           <div>
             <Checkbox
@@ -1224,10 +1234,10 @@ const AofPdf2 = () => {
           <Button onClick={getLocation} variant="contained">
             Submit
           </Button>
-        </div>
+        </div> */}
       </div>
     </div>
   );
 };
 
-export default AofPdf2;
+export default AofPdf3temp;

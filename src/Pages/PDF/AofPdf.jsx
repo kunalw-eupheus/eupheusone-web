@@ -47,19 +47,19 @@ const AofPdf = () => {
   const [modelOpen, setModelOpen] = useState(false);
   const [user, setUser] = useState("");
 
-  const [cashDiscDataAvail, setCashDiscDataAvail] = useState(true)
-  const [todDiscDataAvail,setTodDiscDataAvail] = useState(true)
-  const [specialArrAvail, setSpecialArrAvail] = useState(true)
-  const [seriesArrAval, setSeriesArrAval] = useState(true)
-  const [publisherArrAvail, setPublisherArrAvail] = useState(true)
+  const [cashDiscDataAvail, setCashDiscDataAvail] = useState(true);
+  const [todDiscDataAvail, setTodDiscDataAvail] = useState(true);
+  const [specialArrAvail, setSpecialArrAvail] = useState(true);
+  const [seriesArrAval, setSeriesArrAval] = useState(true);
+  const [publisherArrAvail, setPublisherArrAvail] = useState(true);
 
   useEffect(() => {
     getData();
   }, []);
 
   useLayoutEffect(() => {
-    const userId = Cookies.get("id")
-    console.log(userId)
+    const userId = Cookies.get("id");
+    console.log(userId);
     const getUser = async () => {
       const res = await instance({
         // url: `sales_data/aof/get/detail/a6663609-a912-4e0e-9a37-4935213a3d1a`,
@@ -71,8 +71,10 @@ const AofPdf = () => {
         },
       });
       // console.log(res.data.message);
-      let data = res.data.message
-      let name = `${data.first_name?data.first_name: ""} ${data.middle_name?data.middle_name:""} ${data.last_name?data.last_name:""}`
+      let data = res.data.message;
+      let name = `${data.first_name ? data.first_name : ""} ${
+        data.middle_name ? data.middle_name : ""
+      } ${data.last_name ? data.last_name : ""}`;
       // console.log(name)
       setUser(name);
     };
@@ -91,12 +93,11 @@ const AofPdf = () => {
     "07": "July",
     "08": "August",
     "09": "September",
-    "10": "October",
-    "11": "November",
-    "12": "December",
+    10: "October",
+    11: "November",
+    12: "December",
   };
   const getData = async () => {
-
     const res = await instance({
       // url: `sales_data/aof/get/detail/a6663609-a912-4e0e-9a37-4935213a3d1a`,
       url: `sales_data/aof/get/detail/${aofid}`,
@@ -164,40 +165,38 @@ const AofPdf = () => {
     // console.log(bnkDataArr);
     setBankChecq(bnkDataArr);
 
-    console.log(res.data)
-    if(res.data.tod.length !== 0){
+    console.log(res.data);
+    if (res.data.tod.length !== 0) {
       let todDiscData = res.data.tod[0];
       setTodDiscData(todDiscData);
-    }else{
+    } else {
       let todDiscData = {
         percent: "",
         remark: "",
-        percentages_type: "",  
-      }
-      setTodDiscDataAvail(false)
+        percentages_type: "",
+      };
+      setTodDiscDataAvail(false);
       setTodDiscData(todDiscData);
     }
 
-    
-    if(res.data.cash.length !== 0){
+    if (res.data.cash.length !== 0) {
       let cashDiscData = res.data.cash[0];
       setCashDiscData(cashDiscData);
-    }else{
+    } else {
       let cashDiscData = {
-        percent: ""
-      }
-      setCashDiscDataAvail(false)
+        percent: "",
+      };
+      setCashDiscDataAvail(false);
       setCashDiscData(cashDiscData);
     }
-    
+
     let specialDiscArr = res.data.special;
     // console.log(specialDiscArr)
-    if(specialDiscArr.length === 0){
-      setSpecialArrAvail(false)
+    if (specialDiscArr.length === 0) {
+      setSpecialArrAvail(false);
     }
-    
-    
-    setSpecDiscArr(specialDiscArr)
+
+    setSpecDiscArr(specialDiscArr);
     let seriesArr = [],
       publisherArr = [];
     for (let obj of specialDiscArr) {
@@ -211,9 +210,9 @@ const AofPdf = () => {
       m++;
     }
     // console.log(seriesArr);
-    if(seriesArr.length === 0){
-      setSeriesArrAval(false)
-    }   
+    if (seriesArr.length === 0) {
+      setSeriesArrAval(false);
+    }
     setSeriesArr(seriesArr);
     // console.log(publisherArr)
     let n = 1;
@@ -222,8 +221,8 @@ const AofPdf = () => {
       n++;
     }
     // console.log(publisherArr);
-    if(publisherArr.length === 0){
-      setPublisherArrAvail(false)
+    if (publisherArr.length === 0) {
+      setPublisherArrAvail(false);
     }
     setPublisherArr(publisherArr);
   };
@@ -248,7 +247,7 @@ const AofPdf = () => {
           style={{ marginTop: "30px", fontSize: "11pt" }}
         >
           <div>No.: _________________</div>
-          <div>Date : {date?date:""}</div>
+          <div>Date : {date ? date : ""}</div>
           <div style={{ border: "2px solid black" }}>
             <div style={{ margin: "5px" }}>2022-23 To 2024-25</div>
           </div>
@@ -263,32 +262,39 @@ const AofPdf = () => {
         >
           <div style={{ margin: "20px" }}>
             <div className="flex justify-start">
-              <b>Name of Party School*: {partySchool?partySchool:""}</b>
+              <b>Name of Party School*: {partySchool ? partySchool : ""}</b>
             </div>
             <div className="flex justify-start" style={{ marginTop: "5px" }}>
               Status*: Sole Proprietary/ Partnership/ LLP/Pvt. Ltd. / Public
-              Ltd. /Trust: {solePPPStatus?solePPPStatus:""}
+              Ltd. /Trust: {solePPPStatus ? solePPPStatus : ""}
             </div>
             <div className="flex justify-start" style={{ marginTop: "5px" }}>
-              Address*: {address?address:""}
+              Address*: {address ? address : ""}
             </div>
             <div className="flex justify-between" style={{ marginTop: "5px" }}>
-              <div>City*: {city?city:""}</div>
-              <div>State*: {state?state:""}</div>
-              <div>Pin Code*: {pinCode?pinCode:""}</div>
+              <div>City*: {city ? city : ""}</div>
+              <div>State*: {state ? state : ""}</div>
+              <div>Pin Code*: {pinCode ? pinCode : ""}</div>
             </div>
             <div className="flex justify-between" style={{ marginTop: "5px" }}>
-              <div>Phone*: {phone?phone:""}</div>
-              <div>Mobile*: {mobile?mobile:""}</div>
-              <div>E-Mail*: {email?email:""}</div>
+              <div>Phone*: {phone ? phone : ""}</div>
+              <div>Mobile*: {mobile ? mobile : ""}</div>
+              <div>E-Mail*: {email ? email : ""}</div>
             </div>
             <div className="flex justify-between" style={{ marginTop: "5px" }}>
-              <div>Firm/ Company/Trust Registration Number*:{firmRegNo?firmRegNo:""}</div>
-              <div>Dated: {date?date:""}</div>
+              <div>Total no of Students*:{firmRegNo ? firmRegNo : ""}</div>
+              <div>Classes Up to: {date ? date : ""}</div>
             </div>
             <div className="flex justify-between" style={{ marginTop: "5px" }}>
-              <div>PAN No*: {panNo?panNo:""}(Copy Enclosed)</div>
-              <div>GST. No*:{gstNo?gstNo:""}</div>
+              <div>
+                Firm/ Company/Trust Registration Number*:
+                {firmRegNo ? firmRegNo : ""}
+              </div>
+              <div>Dated: {date ? date : ""}</div>
+            </div>
+            <div className="flex justify-between" style={{ marginTop: "5px" }}>
+              <div>PAN No*: {panNo ? panNo : ""}(Copy Enclosed)</div>
+              <div>GST. No*:{gstNo ? gstNo : ""}</div>
             </div>
             <div className="flex justify-between" style={{ marginTop: "5px" }}>
               <div>
@@ -297,7 +303,9 @@ const AofPdf = () => {
               </div>
             </div>
             <div className="flex justify-between" style={{ marginTop: "5px" }}>
-              <div>Year of establishment of business: {estYear?estYear:""}</div>
+              <div>
+                Year of establishment of business: {estYear ? estYear : ""}
+              </div>
             </div>
           </div>
         </div>
@@ -313,20 +321,20 @@ const AofPdf = () => {
             <div className="flex justify-start">
               <b>
                 Name of Proprietor/Partner/Director/Trustee*:
-                {aofName?aofName:""}
+                {aofName ? aofName : ""}
               </b>
             </div>
             <div className="flex justify-start" style={{ marginTop: "5px" }}>
-              PAN No.*: {aofPan?aofPan:""}
+              PAN No.*: {aofPan ? aofPan : ""}
             </div>
             <div className="flex justify-between" style={{ marginTop: "5px" }}>
-              <div>Address*: {aofAddress?aofAddress:""}</div>
-              <div>Pin Code*: {aofPin?aofPin:""}</div>
+              <div>Address*: {aofAddress ? aofAddress : ""}</div>
+              <div>Pin Code*: {aofPin ? aofPin : ""}</div>
             </div>
             <div className="flex justify-between" style={{ marginTop: "5px" }}>
-              <div>Phone*: {aofPhone?aofPhone:""}</div>
-              <div>Mobile*: {aofMobile?aofMobile:""}</div>
-              <div>E-Mail*: {aofEmail?aofEmail:""}</div>
+              <div>Phone*: {aofPhone ? aofPhone : ""}</div>
+              <div>Mobile*: {aofMobile ? aofMobile : ""}</div>
+              <div>E-Mail*: {aofEmail ? aofEmail : ""}</div>
             </div>
           </div>
         </div>
@@ -350,9 +358,11 @@ const AofPdf = () => {
                   style={{ marginTop: "5px" }}
                 >
                   <div>
-                    {item.sl?item.sl:""}. {item.name?item.name:""}
+                    {item.sl ? item.sl : ""}. {item.name ? item.name : ""}
                   </div>
-                  <div>Annual Business: {item.business?item.business:""}</div>
+                  <div>
+                    Annual Business: {item.business ? item.business : ""}
+                  </div>
                 </div>
               );
             })}
@@ -386,16 +396,19 @@ const AofPdf = () => {
         >
           <div style={{ margin: "20px" }}>
             <div className="flex justify-start">
-              Name and address of the party’s main bankers*:{bankName?bankName:""}
+              Name and address of the party’s main bankers*:
+              {bankName ? bankName : ""}
             </div>
             <div className="flex justify-between" style={{ marginTop: "5px" }}>
-              <div>Account Number*:{accNo?accNo:""}</div>
+              <div>Account Number*:{accNo ? accNo : ""}</div>
               <div>
                 Type of A/c (SB/CA/CC):
                 {accType}
               </div>
             </div>
-            <div className="flex justify-start">IFSC*: {accIfsc?accIfsc:""}</div>
+            <div className="flex justify-start">
+              IFSC*: {accIfsc ? accIfsc : ""}
+            </div>
             <div className="flex justify-start">Detail of Cheques*:</div>
 
             {bankChecq.map((item) => {
@@ -405,10 +418,13 @@ const AofPdf = () => {
                   style={{ marginTop: "5px" }}
                 >
                   <div>
-                    {item.sl?item.sl:""}. Cheque No.: {item.cheque_no?item.cheque_no:""}
+                    {item.sl ? item.sl : ""}. Cheque No.:{" "}
+                    {item.cheque_no ? item.cheque_no : ""}
                   </div>
-                  <div>Bank: {item.bank?item.bank:""}</div>
-                  <div>Branch/IFSC: {item.branch_ifsc?item.branch_ifsc:""}</div>
+                  <div>Bank: {item.bank ? item.bank : ""}</div>
+                  <div>
+                    Branch/IFSC: {item.branch_ifsc ? item.branch_ifsc : ""}
+                  </div>
                 </div>
               );
             })}
@@ -475,27 +491,33 @@ const AofPdf = () => {
           }}
         >
           <div style={{ margin: "10px" }}>
-            THIS AGREEMENT is made on this {`${day?day:""} TH `} day of {`${month?month:""} `},
-            {`${year?year:""} `} , by and between Proficiency Learning Solutions Pvt.
-            Ltd., company incorporated and registered under the Companies Act,
-            2013 with its registered office located at 5th Floor, Cabin No 3,
-            Right side at Plot No E-196, Phase 8B, Mohali, Mohali, Punjab,
-            India, 160020 through {user?user:""} Hereinafter referred to
-            as “Eupheus” which expression shall unless repugnant to the context
-            means and include its successors and assigns of the ONE PART
+            THIS AGREEMENT is made on this {`${day ? day : ""} TH `} day of{" "}
+            {`${month ? month : ""} `},{`${year ? year : ""} `} , by and between
+            Proficiency Learning Solutions Pvt. Ltd., company incorporated and
+            registered under the Companies Act, 2013 with its registered office
+            located at 5th Floor, Cabin No 3, Right side at Plot No E-196, Phase
+            8B, Mohali, Mohali, Punjab, India, 160020 through {user ? user : ""}{" "}
+            Hereinafter referred to as “Eupheus” which expression shall unless
+            repugnant to the context means and include its successors and
+            assigns of the ONE PART
           </div>
           <div className="flex justify-center">And</div>
           <div style={{ margin: "10px" }}>
-            {`${partySchool?partySchool:""} `} (the "Distributor"), with its principal place of
-            business located at {`${address?address:""}, ${city?city:""}, ${state?state:""}, ${pinCode?pinCode:""} `}{" "}
-            through {`${aofName?aofName:""}`} which expression shall unless repugnant to
-            the context or meaning thereof, include its successors and permitted
-            assigns, through its Authorized Signatory, on the OTHER PART.
+            {`${partySchool ? partySchool : ""} `} (the "Distributor"), with its
+            principal place of business located at{" "}
+            {`${address ? address : ""}, ${city ? city : ""}, ${
+              state ? state : ""
+            }, ${pinCode ? pinCode : ""} `}{" "}
+            through {`${aofName ? aofName : ""}`} which expression shall unless
+            repugnant to the context or meaning thereof, include its successors
+            and permitted assigns, through its Authorized Signatory, on the
+            OTHER PART.
           </div>
         </div>
         <div style={{ margin: "10px" }} className="flex justify-center">
-          Eupheus and {`${partySchool?partySchool:""} `} shall collectively be referred to as
-          “Parties” and individually as “Party” wherever the context permits.
+          Eupheus and {`${partySchool ? partySchool : ""} `} shall collectively
+          be referred to as “Parties” and individually as “Party” wherever the
+          context permits.
         </div>
 
         <div style={{ margin: "10px" }} className="flex justify-center">
@@ -537,13 +559,29 @@ const AofPdf = () => {
         <div style={{ margin: "10px" }} className="flex container">
           <div>4. </div>
           <div>
+            <b>Delivery of Goods.</b> The Goods as per the specifications in the
+            Purchase Order issued by the Distributor shall be delivered through
+            a carrier appointed by Eupheus. The Goods may be picked up from the
+            designated warehouse of Eupheus upon the option of the Distributor.
+            In the event the Goods are received or picked up by any other person
+            appointed by the Distributor then the Distributor shall provide
+            details and specimen signatures of such persons at the space
+            provided at the end of this Agreement. Distributor and all such
+            authorized persons on behalf of the Distributor shall sign and affix
+            Distributor’s seal at the time of receiving the Goods through the
+            carrier or picking up the Goods from the warehouse of Eupheus.{" "}
+          </div>
+        </div>
+        <div style={{ margin: "10px" }} className="flex container">
+          <div>5. </div>
+          <div>
             <b>Cost of Delivery.</b> Unless otherwise agreed between the Parties
             herein, Eupheus shall not be responsible for all shipping cost,
             including freight and domestic transportation charges.
           </div>
         </div>
         <div style={{ margin: "10px" }} className="flex container">
-          <div>5. </div>
+          <div>6. </div>
           <div>
             <b>Risk of Loss.</b> Title, risk of loss, theft and damage shall
             pass to Distributor upon delivery of Product to the carrier, whether
@@ -551,7 +589,7 @@ const AofPdf = () => {
           </div>
         </div>
         <div style={{ margin: "10px" }} className="flex container">
-          <div>6. </div>
+          <div>7. </div>
           <div>
             <b>Defective Products.</b> In the event that the Product is found to
             be defective Distributor shall promptly notify Eupheus through
@@ -574,7 +612,7 @@ const AofPdf = () => {
         </div> */}
 
         <div style={{ margin: "10px" }} className="flex container">
-          <div>7. </div>
+          <div>8. </div>
           <div>
             <b>Return Policy.</b> The unsold books once delivered may be
             returned to Eupheus by the Distributor subject to the following
@@ -602,7 +640,7 @@ const AofPdf = () => {
           </div>
         </div>
         <div style={{ margin: "10px" }} className="flex container">
-          <div>8. </div>
+          <div>9. </div>
           <div>
             <b>Trust Relationship:</b> The products supplied by Eupheus to the
             Distributor till the receipt of full payment by Eupheus shall be
@@ -623,10 +661,40 @@ const AofPdf = () => {
             Managing Director / CFO of Eupheus.
           </div>
         </div>
+
         <div style={{ margin: "10px" }} className="flex container">
-          <div>9. </div>
+          <div>10. </div>
           <div>
-            <b>Non Disclosure:</b> Each party shall protect the other's
+            <b>Printing and Publishing:</b> The Distributor has the limited
+            right of distributing the books purchased from Eupheus and is not
+            authorized to print or copy any of the artistic and literary works
+            of which Eupheus is the permitted and authorized user. Breach of
+            this section will be grounds for immediate termination of this
+            Agreement without prejudice to any other legal remedies Eupheus may
+            deem appropriate.
+          </div>
+        </div>
+
+        <div style={{ margin: "10px" }} className="flex container">
+          <div>11. </div>
+          <div>
+            <b>Prohibition from Selling on E-Commerce Platform:</b>The
+            Distributor shall not, without prior written permission from
+            Eupheus, sell or offer to sell, trade or offer to trade, either
+            directly or indirectly through itself or through its agents,
+            affiliates, associates, sister concerns or through any other third
+            party, the books purchased from Eupheus on any E-Commerce website,
+            platform, application or any other way whatsoever including but not
+            limited to Amazon, Flipkart and/or Snapdeal or any website, platform
+            or application that the Distributor has or may develop. The breach
+            of this clause may result in immediate termination of this Agreement
+            and blacklisting of the Distributor by Eupheus.
+          </div>
+        </div>
+        <div style={{ margin: "10px" }} className="flex container">
+          <div>12. </div>
+          <div>
+            <b>Non-Disclosure:</b> Each party shall protect the other's
             Confidential Information from unauthorized dissemination and use the
             same degree of care that such party uses to protect its own
             information. Neither party shall disclose to third parties the
@@ -639,8 +707,32 @@ const AofPdf = () => {
             bound to the same level of confidentiality contained herein.
           </div>
         </div>
+
         <div style={{ margin: "10px" }} className="flex container">
-          <div>10. </div>
+          <div>13. </div>
+          <div>
+            <b>Trademarks and Logo Use:</b> Eupheus hereby grants the right to
+            the Distributor to use the logo and trademark of the books solely
+            for the purpose of distribution of the books and the Distributor
+            shall not have any right over the trademarks or logos of the books
+            whatsoever and agree to act under the following terms and
+            conditions: <br />
+            a. This License is granted for the benefit of Distributor with a
+            legitimate intent to advertise and distribute the books of Eupheus;{" "}
+            <br />
+            b. It is agreed by the Distributor that it does not acquire any
+            right, title or interest in or to the intellectual property rights
+            of the books of Eupheus; and <br />
+            c. The Distributor may not, under any circumstances, alter the
+            appearance of the Logos, marks, either by alteration, size, color or
+            combination with any other logo. Breach of this section will be
+            grounds for immediate termination of this Agreement without
+            prejudice to any other legal remedies Eupheus may deem appropriate.
+          </div>
+        </div>
+
+        <div style={{ margin: "10px" }} className="flex container">
+          <div>14. </div>
           <div>
             <b>Termination of Agreement:</b> The term of this Agreement shall be
             for from the date of signing of this Agreement unless sooner
@@ -669,8 +761,8 @@ const AofPdf = () => {
           <img width={170} src={eupheusLogo} />
         </div> */}
 
-        <div style={{ margin: "10px" }} className="flex container">
-          <div>11. </div>
+        {/* <div style={{ margin: "10px" }} className="flex container">
+          <div>15. </div>
           <div>
             <b>Relationship between the Parties:</b> The relationship between
             the parties established by this Agreement shall be solely that of
@@ -680,8 +772,8 @@ const AofPdf = () => {
             bind Eupheus for the fulfillment of any condition not herein
             contained, or to any contract or obligation, expressed or implied.
           </div>
-        </div>
-        <div style={{ margin: "10px" }} className="flex container">
+        </div> */}
+        {/* <div style={{ margin: "10px" }} className="flex container">
           <div>12. </div>
           <div>
             <b>Severability:</b> The invalidity or unenforceability of any
@@ -689,23 +781,23 @@ const AofPdf = () => {
             enforceability of any other provision of this Agreement, which shall
             remain in full force and effect.
           </div>
-        </div>
-        <div style={{ margin: "10px" }} className="flex container">
+        </div> */}
+        {/* <div style={{ margin: "10px" }} className="flex container">
           <div>13. </div>
           <div>
             <b>Amendments:</b> No change or modification of this Agreement will
             be valid unless it is in writing and signed by each party to this
             Agreement.
           </div>
-        </div>
-        <div style={{ margin: "10px" }} className="flex container">
+        </div> */}
+        {/* <div style={{ margin: "10px" }} className="flex container">
           <div>14. </div>
           <div>
             <b>Applicable Law:</b> This Agreement shall be governed by Laws of
             India and the courts of Delhi shall have exclusive jurisdiction.
           </div>
-        </div>
-        <div style={{ margin: "10px" }} className="flex container">
+        </div> */}
+        {/* <div style={{ margin: "10px" }} className="flex container">
           <div>15. </div>
           <div>
             <b>Resolution of Disputes:</b> Any dispute/claims arising out of or
@@ -727,10 +819,10 @@ const AofPdf = () => {
             The law governing this arbitration agreement shall be Indian Law.
             The law governing the contract shall be Indian Laws.
           </div>
-        </div>
+        </div> */}
 
         <div style={{ margin: "40px" }}>
-          <div style={{ marginTop: "30px" }}>
+          <div style={{ marginTop: "350px" }}>
             IN WITNESS WHEREOF, the parties have caused this Agreement to be
             executed by their duly authorized officers as of the date and year
             indicated above.
@@ -746,7 +838,7 @@ const AofPdf = () => {
               <b>Solutions Private Limited</b>
             </div>
             <div style={{ marginTop: "20px" }}>By: _____________</div>
-            <div style={{ marginTop: "2px" }}>Name: {user?user:""}</div>
+            <div style={{ marginTop: "2px" }}>Name: {user ? user : ""}</div>
             <div style={{ marginTop: "2px" }}>Title: _____________</div>
             <div style={{ marginTop: "2px" }}>(Authorised Officer)</div>
             <div style={{ marginTop: "2px" }}>Witness1: _______________</div>
@@ -756,7 +848,9 @@ const AofPdf = () => {
               <b>For Customer</b>
             </div>
             <div style={{ marginTop: "45px" }}>By: _____________</div>
-            <div style={{ marginTop: "2px" }}>Name: {aofName?aofName:""}</div>
+            <div style={{ marginTop: "2px" }}>
+              Name: {aofName ? aofName : ""}
+            </div>
             <div style={{ marginTop: "2px" }}>Title: _____________</div>
             <div style={{ marginTop: "2px" }}>(Authorised Officer)</div>
             <div style={{ marginTop: "2px" }}>Witness1: _______________</div>
@@ -790,130 +884,160 @@ const AofPdf = () => {
                 </th>
               </tr>
 
+              {todDiscDataAvail ? (
+                <tr style={{ border: "1px solid black" }}>
+                  <td style={{ border: "1px solid black" }}>&nbsp;</td>
+                  <td style={{ border: "1px solid black" }}>&nbsp;</td>
+                  <td style={{ border: "1px solid black" }}>&nbsp;</td>
+                </tr>
+              ) : (
+                ""
+              )}
 
-              {todDiscDataAvail?
-              <tr style={{ border: "1px solid black" }}>
-                <td style={{ border: "1px solid black" }}>&nbsp;</td>
-                <td style={{ border: "1px solid black" }}>&nbsp;</td>
-                <td style={{ border: "1px solid black" }}>&nbsp;</td>
-              </tr>
-               : ""}
+              {todDiscDataAvail ? (
+                <tr style={{ border: "1px solid black" }}>
+                  <td style={{ border: "1px solid black" }}>TOD</td>
+                  <td style={{ border: "1px solid black" }}>{`${
+                    todDiscData.percent ? todDiscData.percent : ""
+                  }`}</td>
+                  <td style={{ border: "1px solid black" }}>{`${
+                    todDiscData.remark ? todDiscData.remark : ""
+                  }  ${
+                    todDiscData.percentages_type
+                      ? todDiscData.percentages_type
+                      : ""
+                  }`}</td>
+                </tr>
+              ) : (
+                ""
+              )}
 
+              {todDiscDataAvail ? (
+                <tr style={{ border: "1px solid black" }}>
+                  <td style={{ border: "1px solid black" }}>&nbsp;</td>
+                  <td style={{ border: "1px solid black" }}>&nbsp;</td>
+                  <td style={{ border: "1px solid black" }}>&nbsp;</td>
+                </tr>
+              ) : (
+                ""
+              )}
 
-              {todDiscDataAvail?
-              <tr style={{ border: "1px solid black" }}>
-                <td style={{ border: "1px solid black" }}>TOD</td>
-                <td
-                  style={{ border: "1px solid black" }}
-                >{`${todDiscData.percent?todDiscData.percent:""}`}</td>
-                <td
-                  style={{ border: "1px solid black" }}
-                >{`${todDiscData.remark?todDiscData.remark:""}  ${todDiscData.percentages_type?todDiscData.percentages_type:""}`}</td>
-              </tr> 
-              : ""}
+              {cashDiscDataAvail ? (
+                <tr style={{ border: "1px solid black" }}>
+                  <td style={{ border: "1px solid black" }}>CASH DISCOUNT</td>
+                  <td style={{ border: "1px solid black" }}>{`${
+                    cashDiscData.percent ? cashDiscData.percent : ""
+                  } `}</td>
+                  <td style={{ border: "1px solid black" }}>{`${
+                    todDiscData.remark ? todDiscData.remark : ""
+                  }`}</td>
+                </tr>
+              ) : (
+                ""
+              )}
 
+              {cashDiscDataAvail ? (
+                <tr style={{ border: "1px solid black" }}>
+                  <td style={{ border: "1px solid black" }}>&nbsp;</td>
+                  <td style={{ border: "1px solid black" }}>&nbsp;</td>
+                  <td style={{ border: "1px solid black" }}>&nbsp;</td>
+                </tr>
+              ) : (
+                ""
+              )}
 
-
-            {todDiscDataAvail?
-              <tr style={{ border: "1px solid black" }}>
-                <td style={{ border: "1px solid black" }}>&nbsp;</td>
-                <td style={{ border: "1px solid black" }}>&nbsp;</td>
-                <td style={{ border: "1px solid black" }}>&nbsp;</td>
-              </tr>:""}
-              
-              {cashDiscDataAvail?
-              <tr style={{ border: "1px solid black" }}>
-                <td style={{ border: "1px solid black" }}>CASH DISCOUNT</td>
-                <td
-                  style={{ border: "1px solid black" }}
-                >{`${cashDiscData.percent?cashDiscData.percent:""} `}</td>
-                <td
-                  style={{ border: "1px solid black" }}
-                >{`${todDiscData.remark?todDiscData.remark:""}`}</td>
-              </tr>:""}
-
-              {cashDiscDataAvail?
-              <tr style={{ border: "1px solid black" }}>
-                <td style={{ border: "1px solid black" }}>&nbsp;</td>
-                <td style={{ border: "1px solid black" }}>&nbsp;</td>
-                <td style={{ border: "1px solid black" }}>&nbsp;</td>
-              </tr>
-              :""}
-
-              {specialArrAvail?
-              <tr style={{ border: "1px solid black" }}>
-                <td style={{ border: "1px solid black" }}>SPECIAL </td>
-                <td style={{ border: "1px solid black" }}></td>
-                <td style={{ border: "1px solid black" }}></td>
-              </tr>:""}
+              {specialArrAvail ? (
+                <tr style={{ border: "1px solid black" }}>
+                  <td style={{ border: "1px solid black" }}>SPECIAL </td>
+                  <td style={{ border: "1px solid black" }}></td>
+                  <td style={{ border: "1px solid black" }}></td>
+                </tr>
+              ) : (
+                ""
+              )}
               {/* <tr style={{ border: "1px solid black" }}>
                 <td style={{ border: "1px solid black" }}>&nbsp;</td>
                 <td style={{ border: "1px solid black" }}>&nbsp;</td>
                 <td style={{ border: "1px solid black" }}>&nbsp;</td>
               </tr> */}
-              
-              {publisherArrAvail?
-              <tr style={{ border: "1px solid black" }}>
-                <td style={{ border: "1px solid black" }}>Publisher </td>
-                <td style={{ border: "1px solid black" }}></td>
-                <td style={{ border: "1px solid black" }}></td>
-              </tr>
-              : ""}
-            
-            {publisherArrAvail?
-             <>
-             {publisheArr.map((i) => {
-                return (
-                  <tr style={{ border: "1px solid black" }}>
-                    <td
-                      style={{ border: "1px solid black" }}
-                    >{`${i.sl?i.sl:""}) ${i.publisher.name?i.publisher.name:""}`}</td>
-                    <td
-                      style={{ border: "1px solid black" }}
-                    >{`${i.publisher.percent?i.publisher.percent:""} %`}</td>
-                    <td
-                      style={{ border: "1px solid black" }}
-                    >{`On ${i.publisher.percentages_type?i.publisher.percentages_type:""}`}</td>
-                  </tr>
-                );
-              })}
-             </>
-             :""}
-          
 
-              {seriesArrAval?
-              <tr style={{ border: "1px solid black" }}>
-                <td style={{ border: "1px solid black" }}>Series </td>
-                <td style={{ border: "1px solid black" }}></td>
-                <td style={{ border: "1px solid black" }}></td>
-              </tr>:""}
+              {publisherArrAvail ? (
+                <tr style={{ border: "1px solid black" }}>
+                  <td style={{ border: "1px solid black" }}>Publisher </td>
+                  <td style={{ border: "1px solid black" }}></td>
+                  <td style={{ border: "1px solid black" }}></td>
+                </tr>
+              ) : (
+                ""
+              )}
 
-              {seriesArrAval?
-              <>
-              {seriesArr.map((i) => {
-                return (
-                  <tr style={{ border: "1px solid black" }}>
-                    <td
-                      style={{ border: "1px solid black" }}
-                    >{`${i.sl?i.sl:""}) ${i.series.name?i.series.name:""}`}</td>
-                    <td
-                      style={{ border: "1px solid black" }}
-                    >{`${i.series.percent?i.series.percent:""} %`}</td>
-                    <td
-                      style={{ border: "1px solid black" }}
-                    >{`On ${i.series.percentages_type?i.series.percentages_type:""}`}</td>
-                  </tr>
-                );
-              })}
-              </>:""}
-              
-              {seriesArrAval?
-              <tr style={{ border: "1px solid black" }}>
-                <td style={{ border: "1px solid black" }}>&nbsp;</td>
-                <td style={{ border: "1px solid black" }}>&nbsp;</td>
-                <td style={{ border: "1px solid black" }}>&nbsp;</td>
-              </tr>
-              :""}
+              {publisherArrAvail ? (
+                <>
+                  {publisheArr.map((i) => {
+                    return (
+                      <tr style={{ border: "1px solid black" }}>
+                        <td style={{ border: "1px solid black" }}>{`${
+                          i.sl ? i.sl : ""
+                        }) ${i.publisher.name ? i.publisher.name : ""}`}</td>
+                        <td style={{ border: "1px solid black" }}>{`${
+                          i.publisher.percent ? i.publisher.percent : ""
+                        } %`}</td>
+                        <td style={{ border: "1px solid black" }}>{`On ${
+                          i.publisher.percentages_type
+                            ? i.publisher.percentages_type
+                            : ""
+                        }`}</td>
+                      </tr>
+                    );
+                  })}
+                </>
+              ) : (
+                ""
+              )}
+
+              {seriesArrAval ? (
+                <tr style={{ border: "1px solid black" }}>
+                  <td style={{ border: "1px solid black" }}>Series </td>
+                  <td style={{ border: "1px solid black" }}></td>
+                  <td style={{ border: "1px solid black" }}></td>
+                </tr>
+              ) : (
+                ""
+              )}
+
+              {seriesArrAval ? (
+                <>
+                  {seriesArr.map((i) => {
+                    return (
+                      <tr style={{ border: "1px solid black" }}>
+                        <td style={{ border: "1px solid black" }}>{`${
+                          i.sl ? i.sl : ""
+                        }) ${i.series.name ? i.series.name : ""}`}</td>
+                        <td style={{ border: "1px solid black" }}>{`${
+                          i.series.percent ? i.series.percent : ""
+                        } %`}</td>
+                        <td style={{ border: "1px solid black" }}>{`On ${
+                          i.series.percentages_type
+                            ? i.series.percentages_type
+                            : ""
+                        }`}</td>
+                      </tr>
+                    );
+                  })}
+                </>
+              ) : (
+                ""
+              )}
+
+              {seriesArrAval ? (
+                <tr style={{ border: "1px solid black" }}>
+                  <td style={{ border: "1px solid black" }}>&nbsp;</td>
+                  <td style={{ border: "1px solid black" }}>&nbsp;</td>
+                  <td style={{ border: "1px solid black" }}>&nbsp;</td>
+                </tr>
+              ) : (
+                ""
+              )}
               {/* <tr style={{ border: "1px solid black" }}>
                 <td style={{ border: "1px solid black" }}>learning links</td>
                 <td style={{ border: "1px solid black" }}>30% </td>
@@ -944,47 +1068,49 @@ const AofPdf = () => {
           </div>
         </div>
 
-        {gstNo.length === 0 ? 
-        <div style={{ marginTop: "20px", borderTop: "2px solid silver" }}>
-          <div className="flex justify-center" style={{ marginTop: "20px" }}>
-            <b style={{ borderBottom: "1px solid black" }}>Annexure B</b>
-          </div>
-          <div className="flex justify-center" style={{ marginTop: "10px" }}>
-            <b>
-              Declaration of GST Not-Applicable under the provisions of Goods
-              and Service Tax Act
-            </b>
-          </div>
-          <div style={{ margin: "20px" }}>
-            I/ We……………………………………………………………………………………………………………………………………… (Name of
-            the Proprietor/Karta/Authorized Signatory), being
-            …………………………………………………………………… (Designation) of
-            ………………………………………………………….(Legal Name as per PAN) do hereby state that
-            I/We am/are not liable to registration under the provisions of Goods
-            and Service Tax Act.
-          </div>
-          <div style={{ margin: "20px" }}>
-            I/We declare that as soon as we Become eligible for GST
-            Registration, we shall get ourselves registered with the Goods and
-            Services Tax department and give our GSTN to Proficiency Learning
-            Solutions Private Limited.
-          </div>
-          <div className="flex justify-around" style={{ marginTop: "20px" }}>
-            <div>
-              <div style={{ marginTop: "60px" }}>
-                <u>GSTIN AAACA1234DIZL</u>
-              </div>
+        {gstNo.length === 0 ? (
+          <div style={{ marginTop: "20px", borderTop: "2px solid silver" }}>
+            <div className="flex justify-center" style={{ marginTop: "20px" }}>
+              <b style={{ borderBottom: "1px solid black" }}>Annexure B</b>
             </div>
-            <div>
+            <div className="flex justify-center" style={{ marginTop: "10px" }}>
+              <b>
+                Declaration of GST Not-Applicable under the provisions of Goods
+                and Service Tax Act
+              </b>
+            </div>
+            <div style={{ margin: "20px" }}>
+              I/ We……………………………………………………………………………………………………………………………………… (Name of
+              the Proprietor/Karta/Authorized Signatory), being
+              …………………………………………………………………… (Designation) of
+              ………………………………………………………….(Legal Name as per PAN) do hereby state
+              that I/We am/are not liable to registration under the provisions
+              of Goods and Service Tax Act.
+            </div>
+            <div style={{ margin: "20px" }}>
+              I/We declare that as soon as we Become eligible for GST
+              Registration, we shall get ourselves registered with the Goods and
+              Services Tax department and give our GSTN to Proficiency Learning
+              Solutions Private Limited.
+            </div>
+            <div className="flex justify-around" style={{ marginTop: "20px" }}>
               <div>
-                <b>For Customer</b>
+                <div style={{ marginTop: "60px" }}>
+                  <u>GSTIN AAACA1234DIZL</u>
+                </div>
               </div>
-              <div style={{ marginTop: "30px" }}>(Stamp and Signature)</div>
-              <div style={{ marginTop: "5px" }}>Date: _______________</div>
+              <div>
+                <div>
+                  <b>For Customer</b>
+                </div>
+                <div style={{ marginTop: "30px" }}>(Stamp and Signature)</div>
+                <div style={{ marginTop: "5px" }}>Date: _______________</div>
+              </div>
             </div>
           </div>
-        </div> : ""}
-        
+        ) : (
+          ""
+        )}
       </div>
     </div>
   );
