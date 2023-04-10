@@ -86,6 +86,7 @@ import SalesheadAOF from "./Pages/SalesheadAOF";
 import AOFEdit from "./Pages/AOFEdit";
 import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
+import AofPdf3temp from "./Pages/PDF/AofPdf3temp";
 function App() {
 
   const [userCache, setUserCache] = useState(false)
@@ -100,6 +101,7 @@ function App() {
   const Zsm = useSelector((state) => state.auth.zsm);
   const Finance = useSelector((state) => state.auth.finance);
   const Saleshead = useSelector((state) => state.auth.saleshead);
+  const Training = useSelector((state) => state.auth.training);
 
   return (
     <div>
@@ -149,7 +151,7 @@ function App() {
               <Route
                 path="/manageSchoolTraining"
                 element={
-                  isAuth || MsAuth ? <ManageSchoolTraining /> : <Login />
+                  isAuth || MsAuth || Training ? <ManageSchoolTraining /> : <Login />
                 }
               />
               <Route
@@ -170,7 +172,7 @@ function App() {
               />
               <Route
                 path="/addschooltraining"
-                element={isAuth || MsAuth ? <AddSchoolTraining /> : <Login />}
+                element={ MsAuth || Training ? <AddSchoolTraining /> : <Login />}
               />
 
               <Route
@@ -181,14 +183,14 @@ function App() {
               <Route
                 path="/update_school_training/:id/:scode"
                 element={
-                  isAuth || MsAuth ? <UpdateSchoolTraining /> : <Login />
+                   MsAuth || Training ? <UpdateSchoolTraining /> : <Login />
                 }
               />
 
               <Route
                 path="/update_school_training_eu/:scid/:stid/:scode"
                 element={
-                  isAuth || MsAuth ? <UpdateSchoolTrainingEU /> : <Login />
+                   MsAuth || Training ? <UpdateSchoolTrainingEU /> : <Login />
                 }
               />
 
@@ -297,17 +299,17 @@ function App() {
 
               <Route
                 path="/invoice_training"
-                element={isAuth || MsAuth ? <InvoiceTraining /> : <Login />}
+                element={ MsAuth || Training? <InvoiceTraining /> : <Login />}
               />
 
               <Route
                 path="/order_training"
-                element={isAuth || MsAuth ? <OrderTraining /> : <Login />}
+                element={ MsAuth || Training ? <OrderTraining /> : <Login />}
               />
 
               <Route path="/view_pdf/:docnum/:docdate" element={<ViewPdf />} />
 
-              <Route path="/view_aof_pdf/:aofid" element={<AofPdf />} />
+              <Route path="/view_aof_pdf/:aofid" element={<AofPdf3temp />} />
               <Route path="/view_aof_pdf2/:aofid" element={<AofPdf2 />} />
               <Route path="/zsm/view_aof_pdf2/:aofid" element={<AofPdf2 />} />
               <Route path="/saleshead/view_aof_pdf2/:aofid" element={<AofPdf2 />} />
@@ -338,7 +340,7 @@ function App() {
 
               <Route
                 path="/locationTraining"
-                element={isAuth || MsAuth ? <LocationTraining /> : <Login />}
+                element={ MsAuth || Training ? <LocationTraining /> : <Login />}
               />
 
               <Route
@@ -370,12 +372,12 @@ function App() {
 
               <Route
                 path="/add_new_city"
-                element={isAuth || MsAuth ? <AddNewCity /> : <Login />}
+                element={MsAuth || Training ? <AddNewCity /> : <Login />}
               />
 
               <Route
                 path="/ck_school_training"
-                element={isAuth || MsAuth ? <ClassklapSchool /> : <Login />}
+                element={ MsAuth || Training ? <ClassklapSchool /> : <Login />}
               />
 
               <Route

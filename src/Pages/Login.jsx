@@ -85,6 +85,16 @@ const Login = () => {
       Cookies.set("type", `${res.data.type}`);
       Cookies.set("company", `${res.data.company}`);
 
+
+      if (res.data.type === "training") {
+        Cookies.set(
+          "training",
+          // true
+          `id: ${res.data.id}, accessToken: ${res.data.accessToken}`
+        );
+        dispatch(authActions.trainingLogin());
+      }
+
       if (res.data.type === "admin") {
         Cookies.set(
           "admin",

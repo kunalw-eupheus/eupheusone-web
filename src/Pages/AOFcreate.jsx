@@ -47,8 +47,10 @@ const AOFcreate = () => {
   const [loading, setLoading] = useState(false);
   const [suppliers, setSuppliers] = useState(1);
   const [cheque, setCheque] = useState(1);
+  const [authPerson, setAuthPerson] = useState(1);
   const [snackbarErrStatus, setSnackbarErrStatus] = useState(true);
   const [errMessage, setErrMessage] = useState("");
+  const [remarkss,setRemarkss] = useState("")
   const [steps, setSteps] = useState({
     step1: true,
     step2: false,
@@ -64,7 +66,7 @@ const AOFcreate = () => {
   const [seriesData, setSeriesData] = useState([]);
   const [specialSpecific, setSpecialSpecific] = useState([]);
   const [itemsData, setItemsData] = useState([]);
-  const [schoolData, setSchoolData] = useState([])
+  const [schoolData, setSchoolData] = useState([]);
   // const [seriesData2, setSeriesData2] = useState([]);
   const [allSchool, setAllSchool] = useState([]);
   const [state, setState] = useState([]);
@@ -102,9 +104,11 @@ const AOFcreate = () => {
   const [todCondition, setTodCondition] = useState("");
   const [todPercent, setTodPercent] = useState("");
   const [cashOption, setCashOption] = useState("");
-
+  const [totalNoStudent, setTotalNoStudent] = useState("");
+  const [classesUpto, setClassesUpto] = useState("");
   const [publisherForm, setPublisherForm] = useState([]);
   const [chequeForm, setChequeForm] = useState([]);
+  const [publisherAuthForm, setPublisherAuthForm] = useState([]);
 
   const [special_obj, setSpecialObj] = useState({
     type: "special",
@@ -147,6 +151,12 @@ const AOFcreate = () => {
     for (let obj of chekArr) {
       delete obj.idx;
     }
+
+    let authArr = [...publisherAuthForm];
+    for (let obj of authArr) {
+      delete obj.idx;
+    }
+    // console.log(authArr)
     // console.log(publisherData2)
     let tempPublisherArr = [...publisherData];
     for (let items of tempPublisherArr) {
@@ -171,7 +181,7 @@ const AOFcreate = () => {
       ...tempItemsArr,
       ...specialSpecific,
     ];
-    console.log(specialData);
+    // console.log(specialData);
 
     let postData = {
       name: nameOfSchool,
@@ -199,7 +209,10 @@ const AOFcreate = () => {
       t_mobile: mobileP,
       t_email: emailP,
       credit_limit: creditLimit,
-      // credit_type: creditLimitType,
+      credit_type: creditLimitType,
+      remarks: remarkss,
+      students_number: totalNoStudent,
+      classes: classesUpto,
       cp: pubArr,
       // cp: [
       //   { cp_name: "dsff", cp_business: "dsfds" },
@@ -225,6 +238,7 @@ const AOFcreate = () => {
       //     abc_cheque_link: "dsfdsfd",
       //   },
       // ],
+      good_picks: authArr,
       cash: [
         {
           type: "cash",
@@ -643,6 +657,29 @@ const AOFcreate = () => {
     setPublisherForm(tempArr);
   };
 
+  const handlePublisherAuthForm = (field, value, index) => {
+    // console.log(field, value, index);
+    let tempArr = [...publisherAuthForm];
+    if (tempArr.length < index + 1) {
+      let obj = {};
+      obj.idx = index;
+      if (field === "Name") obj.name = value;
+      if (field === "Designation") obj.designation = value;
+      if (field === "Signature") obj.signature = value;
+      tempArr.push(obj);
+    } else {
+      for (let obj of tempArr) {
+        if (obj.idx === index) {
+          if (field === "Name") obj.name = value;
+          if (field === "Designation") obj.designation = value;
+          if (field === "Signature") obj.signature = value;
+        }
+      }
+    }
+    // console.log(tempArr);
+    setPublisherAuthForm(tempArr);
+  };
+
   // var contents = []
   const handleForm = () => {
     let content = [];
@@ -663,6 +700,44 @@ const AOFcreate = () => {
             // handleOrderProcessingForm={handleOrderProcessingForm}
             onChange={(e) =>
               handlePublisherForm("AnnualBusiness", e.target.value, i)
+            }
+            variant={"standard"}
+            multiline={false}
+          />
+        </li>
+      );
+    }
+    return content;
+  };
+
+  const handleAuthForm = () => {
+    let content = [];
+    for (let i = 0; i < authPerson; i++) {
+      content.push(
+        <li className="flex gap-4 items-center">
+          <span className="mt-4 text-gray-100">{i + 1}.</span>
+          <TextField
+            label={`Name`}
+            // handleOrderProcessingForm={handleOrderProcessingForm}
+            onChange={(e) => handlePublisherAuthForm("Name", e.target.value, i)}
+            variant={"standard"}
+            multiline={false}
+            // Name={"Name"}
+          />
+          <TextField
+            label={"Designation"}
+            // handleOrderProcessingForm={handleOrderProcessingForm}
+            onChange={(e) =>
+              handlePublisherAuthForm("Designation", e.target.value, i)
+            }
+            variant={"standard"}
+            multiline={false}
+          />
+          <TextField
+            label={"Signature"}
+            // handleOrderProcessingForm={handleOrderProcessingForm}
+            onChange={(e) =>
+              handlePublisherAuthForm("Signature", e.target.value, i)
             }
             variant={"standard"}
             multiline={false}
@@ -773,6 +848,11 @@ const AOFcreate = () => {
         if (value.title === "Allied") setSelectType("100");
         if (value.title === "Eupheus") setSelectType("103");
         break;
+
+      case "Classes Up to":
+        console.log(value);
+        setClassesUpto(value);
+        break;
       case "party_type":
         // console.log(value);
         setPartyType(value.title);
@@ -804,6 +884,14 @@ const AOFcreate = () => {
       case "Name Of Party/School *":
         // console.log(value);
         // setNameOfSchool(value);
+        break;
+      case "Total no of Students *":
+        // console.log(value)
+        setTotalNoStudent(value);
+        break;
+      case "Remarks":
+        console.log(value)
+        setRemarkss(value)
         break;
       case "aof_status":
         // console.log(value.title);
@@ -1024,35 +1112,35 @@ const AOFcreate = () => {
 
         break;
 
-        case "schools_aof":
-          // let tempArr2 = [...seriesData];
-          // console.log(seriesData);
-          // console.log(publisherData2)
-          // console.log(value);
-          let tempArr3 = [...allSchool];
-          // let arr1 = []
-          for (let ele of tempArr3) {
-            console.log(ele)
-            console.log(value)
-            if (ele.id === value.id) return;
-          }
-  
-          let tempObj3 = {
-            type: "special",
-            eligibile: "yes",
-            dis_type: "specific",
-            category: "series",
-            percentages: "",
-            percentages_type: "",
-            fk_category_id: value.id,
-            series: value.series,
-          };
-  
-          tempArr3.push(tempObj3);
-          console.log(tempArr3);
-          setSchoolData(tempArr3);
-  
-          break;
+      case "schools_aof":
+        // let tempArr2 = [...seriesData];
+        // console.log(seriesData);
+        // console.log(publisherData2)
+        // console.log(value);
+        let tempArr3 = [...allSchool];
+        // let arr1 = []
+        for (let ele of tempArr3) {
+          console.log(ele);
+          console.log(value);
+          if (ele.id === value.id) return;
+        }
+
+        let tempObj3 = {
+          type: "special",
+          eligibile: "yes",
+          dis_type: "specific",
+          category: "series",
+          percentages: "",
+          percentages_type: "",
+          fk_category_id: value.id,
+          series: value.series,
+        };
+
+        tempArr3.push(tempObj3);
+        console.log(tempArr3);
+        setSchoolData(tempArr3);
+
+        break;
 
       default:
         break;
@@ -1355,6 +1443,21 @@ const AOFcreate = () => {
                       variant={"standard"}
                       multiline={false}
                     />
+                    <div className="sm:col-span-2">
+                      <BasicTextFields
+                        lable={"Total no of Students *"}
+                        type={"number"}
+                        handleOrderProcessingForm={handleOrderProcessingForm}
+                        variant={"standard"}
+                        multiline={false}
+                      />
+                    </div>
+                    <BasicTextFields
+                      lable={"Classes Up to"}
+                      handleOrderProcessingForm={handleOrderProcessingForm}
+                      variant={"standard"}
+                      multiline={false}
+                    />
                     {/* </div> */}
                     <div className="sm:col-span-2">
                       <BasicTextFields
@@ -1411,7 +1514,8 @@ const AOFcreate = () => {
                         mobile,
                         date,
                         // phone,
-                        schoolEmail)
+                        schoolEmail,
+                        totalNoStudent)
                         // firmRegNo,
                         // panNo,
                         // gstNo,
@@ -1694,6 +1798,24 @@ const AOFcreate = () => {
                         color={"rgb(243, 244, 246)"}
                       />
                     </div> */}
+                  </div>
+
+                  <div className="w-full flex flex-col my-2 gap-2">
+                    <h1 className="font-semibold text-gray-100">
+                      Details of persons authorized on behalf of the Distributor
+                      to receive the Goods or pick up of Goods from Eupheus’s
+                      warehouse:
+                    </h1>
+                    <div onClick={() => setAuthPerson(authPerson + 1)}>
+                      {/* <BasicButton text={"Add More"} /> */}
+                      <Tooltip title="Add More Names">
+                        <Fab color={"red"} size="small" aria-label="add">
+                          <Add />
+                        </Fab>
+                      </Tooltip>
+                    </div>
+
+                    <ol className="list-decimal">{handleAuthForm()}</ol>
                   </div>
 
                   <div className="flex flex-col justify-center items-start w-full mt-6 rounded-md bg-slate-600">
@@ -1987,9 +2109,6 @@ const AOFcreate = () => {
                               )}
                             </Typography>
 
-
-
-
                             <div className="w-full flex justify-center">
                               <hr className="text-gray-100 w-[80%] my-4" />
                             </div>
@@ -2044,7 +2163,6 @@ const AOFcreate = () => {
                                     </TableRow>
                                   </TableHead>
 
-                                  
                                   {seriesData.map((row) => {
                                     return (
                                       <TableBody className="bg-slate-400">
@@ -2133,7 +2251,6 @@ const AOFcreate = () => {
                                 </Table>
                               )}
                             </Typography>
-
 
                             <div className="w-full flex justify-center">
                               <hr className="text-gray-100 w-[80%] my-4" />
@@ -2292,7 +2409,6 @@ const AOFcreate = () => {
                               )}
                             </Typography>
 
-
                             <div className="w-full flex justify-center">
                               <hr className="text-gray-100 w-[80%] my-4" />
                             </div>
@@ -2347,7 +2463,6 @@ const AOFcreate = () => {
                                     </TableRow>
                                   </TableHead>
 
-                                  
                                   {schoolData.map((row) => {
                                     return (
                                       <TableBody className="bg-slate-400">
@@ -2436,9 +2551,6 @@ const AOFcreate = () => {
                                 </Table>
                               )}
                             </Typography>
-
-
-
                           </>
                         ) : null}
                       </AccordionDetails>
@@ -2468,6 +2580,19 @@ const AOFcreate = () => {
                       </AccordionDetails>
                     </Accordion>
                   </div>
+
+
+                  <div className="grid sm:grid-rows-2 sm:grid-cols-3 grid-rows-4 grid-cols-1 w-full mt-6 gap-6 rounded-md bg-slate-600">
+                    <BasicTextFields
+                      lable={"Remarks"}
+                      handleOrderProcessingForm={handleOrderProcessingForm}
+                      // type={"number"}
+                      variant={"standard"}
+                      multiline={false}
+                    />
+                  </div>
+
+
                   <div onClick={handleDataSubmit}>
                     <BasicButton text={"Submit"} />
                   </div>

@@ -24,6 +24,7 @@ const authSlice = createSlice({
       state.zsm = false;
       state.finance = false;
       state.saleshead = false;
+      state.training = false
     },
     adminLogin(state) {
       state.admin = Cookies.get("admin")
@@ -36,6 +37,9 @@ const authSlice = createSlice({
     },
     salesheadLogin(state){
       state.saleshead = Cookies.get("saleshead")
+    },
+    trainingLogin(state){
+      state.training = Cookies.get("training")
     }
   },
 });
