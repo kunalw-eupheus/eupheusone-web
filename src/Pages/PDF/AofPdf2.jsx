@@ -46,6 +46,7 @@ const AofPdf2 = () => {
   const [specDiscArr, setSpecDiscArr] = useState([]);
   const [seriesArr, setSeriesArr] = useState([]);
   const [publisheArr, setPublisherArr] = useState([]);
+  const [goodPicks, setGoodPicks] = useState([])
 
   const [modelOpen, setModelOpen] = useState(false);
   const [user, setUser] = useState("");
@@ -140,6 +141,8 @@ const AofPdf2 = () => {
     // console.log(res.data.message);
     let data = res.data.message;
     let date1 = data.date;
+    // console.log(data.aof_goods_picks)
+    // setGoodPicks(data.aof_goods_picks)
     setDate(date1);
     // console.log(date1);
     let dateArr = date1.split("-");
