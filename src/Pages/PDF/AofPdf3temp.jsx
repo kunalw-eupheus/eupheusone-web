@@ -293,7 +293,7 @@ const AofPdf3temp = () => {
           >
             <div>No.: _________________</div>
             <div>Date : {date ? date : ""}</div>
-            <div className="border-2 border-black sm:w-[20%] ">
+            <div className="border-2 border-black sm:w-[10%] ">
               <div className="">2022-23 To 2024-25</div>
             </div>
           </div>

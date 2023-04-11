@@ -60,8 +60,10 @@ const AofPdf2 = () => {
   const [lng, setLng] = useState(null);
   const [status, setStatus] = useState(null);
   const [checked, setChecked] = useState(false);
-  const [classesUpto,setClassesUpto] = useState("")
-  const [studentNum,setStudentNum] = useState("")
+  const [classesUpto, setClassesUpto] = useState("");
+  const [studentNum, setStudentNum] = useState("");
+  const [bpCode, setBpCode] = useState("");
+  const [validDate, setValidDate] = useState("")
 
   useEffect(() => {
     getData();
@@ -143,8 +145,14 @@ const AofPdf2 = () => {
     // console.log(res.data.message);
     let data = res.data.message;
     let date1 = data.date;
-    console.log(data)
-    let goodPick = data.aof_goods_picks
+    if (data.bpcode) {
+      setBpCode(data.bpcode);
+    } else {
+      setBpCode(data.temp_bpcode);
+    }
+    setValidDate(data.valid)
+    console.log(data);
+    let goodPick = data.aof_goods_picks;
     let a = 1;
     for (let obj of goodPick) {
       obj.sl = a;
@@ -163,8 +171,8 @@ const AofPdf2 = () => {
     setYear(year);
     // console.log(month)
     // console.log(monthMap[month]);
-    setClassesUpto(data.classes)
-    setStudentNum(data.students_number)
+    setClassesUpto(data.classes);
+    setStudentNum(data.students_number);
     setPartySchool(data.fk_school.school_name);
     setSolePPPStatus(data.status === true ? "Yes" : "No");
     setAddress(data.address);
@@ -290,10 +298,10 @@ const AofPdf2 = () => {
             className=" flex flex-col ml-[6rem] sm:flex-row sm:justify-around"
             style={{ marginTop: "30px", fontSize: "11pt" }}
           >
-            <div>No.: _________________</div>
+            <div>No.: {bpCode}</div>
             <div>Date : {date ? date : ""}</div>
             <div className="border-2 border-black w-1/2 sm:w-[20%] ">
-              <div className="">2022-23 To 2024-25</div>
+              <div className="">{validDate}</div>
             </div>
           </div>
 
@@ -923,9 +931,15 @@ const AofPdf2 = () => {
                 return (
                   <tr style={{ border: "1px solid black" }}>
                     <td style={{ border: "1px solid black" }}>{` ${i.sl}`}</td>
-                    <td style={{ border: "1px solid black" }}>{` ${i.name}`}</td>
-                    <td style={{ border: "1px solid black" }}>{` ${i.designation}`}</td>
-                    <td style={{ border: "1px solid black" }}>{` ${i.signature}`}</td>
+                    <td
+                      style={{ border: "1px solid black" }}
+                    >{` ${i.name}`}</td>
+                    <td
+                      style={{ border: "1px solid black" }}
+                    >{` ${i.designation}`}</td>
+                    <td
+                      style={{ border: "1px solid black" }}
+                    >{` ${i.signature}`}</td>
                   </tr>
                 );
               })}

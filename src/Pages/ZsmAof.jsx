@@ -38,15 +38,13 @@ const ZsmAOF = () => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [searchVal, setSearchVal] = useState("");
-  const [aofId, setAofId] = useState("")
+  const [aofId, setAofId] = useState("");
 
   const navInfo = {
     title: "AOF",
     details: ["ZSM", " / AOF"],
   };
   const [searchRow, setSearchRow] = useState([]);
-
-
 
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rowdata.length) : 0;
@@ -82,33 +80,33 @@ const ZsmAOF = () => {
   }, []);
 
   const handleAofView = (invceId) => {
-    console.log(invceId)
-    setLoading(true)
+    console.log(invceId);
+    setLoading(true);
     setAofId(invceId);
     setTimeout(() => {
       // console.log("Delayed for 1 second.");
       openDialogue2();
-      setLoading(false)
-    }, 1000)
+      setLoading(false);
+    }, 1000);
     // openDialogue2();
   };
 
   const handleVerify = (aofId) => {
     // console.log(abc)
-    setLoading(true)
+    setLoading(true);
     setAofId(aofId);
     setTimeout(() => {
       // console.log("Delayed for 1 second.");
       openDialogue2();
-      setLoading(false)
-    }, 1000)
-  }
+      setLoading(false);
+    }, 1000);
+  };
 
   const handleAofPDF = (invId) => {
-    console.log(invId)
-    window.open(`view_aof_pdf2/${invId}`, '_blank', 'noreferrer')
+    console.log(invId);
+    window.open(`view_aof_pdf2/${invId}`, "_blank", "noreferrer");
     // window.open(`aof`, '_blank', 'noreferrer')
-  }
+  };
 
   const openDialogue2 = () => {
     dialogRef2.current.openDialog();
@@ -129,7 +127,6 @@ const ZsmAOF = () => {
     setRowdata(res.data.message);
     setLoading(false);
   };
-
 
   const handleSearch = (val) => {
     setSearchVal(val.trim());
@@ -187,29 +184,29 @@ const ZsmAOF = () => {
     setLoading(false);
   };
 
-
   const filterTable = () => {
     // console.log(searchVal);
     // console.log(rowdata)
-    setPage(0)
+    setPage(0);
     let tempArr = [];
     for (let ele of rowdata) {
-    //   console.log(ele)
+      //   console.log(ele)
       let docName = ele.name.toLowerCase();
-      let phone = ele.phone
-      let schlName = ele.school.toLowerCase()
-      let email = ele.email.toLowerCase()
-      if (docName.indexOf(searchVal.toLowerCase()) > -1 || 
-      phone.indexOf(searchVal.toLowerCase()) > -1 ||
-      schlName.indexOf(searchVal.toLowerCase()) > -1 ||
-      email.indexOf(searchVal.toLowerCase()) > -1) {
+      let phone = ele.phone;
+      let schlName = ele.school.toLowerCase();
+      let email = ele.email.toLowerCase();
+      if (
+        docName.indexOf(searchVal.toLowerCase()) > -1 ||
+        phone.indexOf(searchVal.toLowerCase()) > -1 ||
+        schlName.indexOf(searchVal.toLowerCase()) > -1 ||
+        email.indexOf(searchVal.toLowerCase()) > -1
+      ) {
         tempArr.push(ele);
       }
     }
     setSearchRow([]);
     if (tempArr.length === 0) {
-      alert("No data Found")
-
+      alert("No data Found");
     } else {
       setSearchRow(tempArr);
     }
@@ -248,7 +245,6 @@ const ZsmAOF = () => {
       });
       // setSchoolRow(rows);
     };
-
   }, []);
 
   return (
@@ -282,13 +278,11 @@ const ZsmAOF = () => {
         />
         <div className="min-h-[100vh] pt-[2vh] max-h-full bg-[#141728]">
           <div className=" sm:px-8 px-2 py-3 bg-[#141728]">
-
             <div className="w-full flex gap-3 justify-end mt-4">
               <Link to="/aof_create">
                 <BasicButton text={"Create AOF"} />
               </Link>
             </div>
-
 
             <Paper className="mt-5">
               <TableContainer component={Paper}>
@@ -390,30 +384,37 @@ const ZsmAOF = () => {
                             <TableCell align="center">{row.name}</TableCell>
                             <TableCell align="center">{row.mobile}</TableCell>
                             <TableCell align="center">{row.email}</TableCell>
-                            <TableCell align="center">{row.status === true ? "Yes" : "No"}</TableCell>
-
-                            <TableCell align="center">{row.zms_status === true ? "Yes" : "No"}</TableCell>
+                            <TableCell align="center">
+                              {row.zms_status === true ? "Approved" : "Pending"}
+                            </TableCell>
 
                             <TableCell align="center">
-                            <div
-                                  className="sm:w-auto w-[50vw]"
-                                  onClick={() => {
-                                    handleAofPDF(row.id);
-                                  }}
-                                >
-                                  <BasicButton text={"View"} />
-                                </div>
+                              {row.zms_status === true ? "Yes" : "No"}
                             </TableCell>
-                               <TableCell align="center">
 
-                            <div
+                            <TableCell align="center">
+                              <div
+                                className="sm:w-auto w-[50vw]"
+                                onClick={() => {
+                                  handleAofPDF(row.id);
+                                }}
+                              >
+                                <BasicButton text={"View"} />
+                              </div>
+                            </TableCell>
+                            <TableCell align="center">
+                              {row.zms_status === true ? (
+                                ""
+                              ) : (
+                                <div
                                   className="sm:w-auto w-[50vw]"
                                   onClick={() => {
-                                    handleVerify(row.id)
+                                    handleVerify(row.id);
                                   }}
                                 >
                                   <BasicButton text={"Verify"} />
                                 </div>
+                              )}
                             </TableCell>
                             {/* <TableCell align="center">
                             <div
@@ -445,32 +446,40 @@ const ZsmAOF = () => {
                             <TableCell align="center">{row.name}</TableCell>
                             <TableCell align="center">{row.mobile}</TableCell>
                             <TableCell align="center">{row.email}</TableCell>
-                            <TableCell align="center">{row.status === true ? "Yes" : "No"}</TableCell>
-
-                            <TableCell align="center">{row.zms_status === true ? "Yes" : "No"}</TableCell>
-
                             <TableCell align="center">
-                            <div
-                                  className="sm:w-auto w-[50vw]"
-                                  onClick={() => {
-                                    handleAofPDF(row.id);
-                                  }}
-                                >
-                                  <BasicButton text={"View"} />
-                                </div>
+                              {row.zms_status === true ? "Approved" : "Pending"}
                             </TableCell>
 
                             <TableCell align="center">
-                            <div
+                              {row.zms_status === true ? "Yes" : "No"}
+                            </TableCell>
+
+                            <TableCell align="center">
+                              <div
+                                className="sm:w-auto w-[50vw]"
+                                onClick={() => {
+                                  handleAofPDF(row.id);
+                                }}
+                              >
+                                <BasicButton text={"View"} />
+                              </div>
+                            </TableCell>
+
+                            <TableCell align="center">
+                              {row.zms_status === true ? (
+                                ""
+                              ) : (
+                                <div
                                   className="sm:w-auto w-[50vw]"
                                   onClick={() => {
-                                    handleVerify(row.id)
+                                    handleVerify(row.id);
                                   }}
                                 >
                                   <BasicButton text={"Verify"} />
                                 </div>
+                              )}
                             </TableCell>
-{/* 
+                            {/* 
                             <TableCell align="center">
                             <div
                                   className="sm:w-auto w-[50vw]"
@@ -481,7 +490,6 @@ const ZsmAOF = () => {
                                   <BasicButton text={"VERIFY"} />
                                 </div>
                             </TableCell> */}
-
                           </TableRow>
                         ))}
                     <TableRow></TableRow>
