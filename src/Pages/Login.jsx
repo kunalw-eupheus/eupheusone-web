@@ -72,13 +72,16 @@ const Login = () => {
       },
     });
 
-    console.log(res.data);
+    // console.log(res.data);
+    // console.log("here")
     if (res.data.id && res.data.accessToken) {
+      // console.log("here")
       if (res.data.type === "user") {
         Cookies.set(
           "user",
           `id: ${res.data.id}, accessToken: ${res.data.accessToken}`
         );
+        // dispatch(authActions.login());
       }
       Cookies.set("id", `${res.data.id}`);
       Cookies.set("accessToken", `${res.data.accessToken}`);
@@ -122,6 +125,7 @@ const Login = () => {
       }
 
       if (res.data.type === "sales_head") {
+        console.log("salesHead")
         Cookies.set(
           "saleshead",
           // true
@@ -151,7 +155,7 @@ const Login = () => {
       } else if (res.data.type === "zsm" && res.data.company === "Euphues") {
         // console.log(res.data.company)
         navigate("/");
-        console.log("This is in zsm login")
+        // console.log("This is in zsm login")
       } else if (
         res.data.type === "finance" &&
         res.data.company === "Euphues"
