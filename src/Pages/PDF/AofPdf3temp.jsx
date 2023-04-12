@@ -46,6 +46,7 @@ const AofPdf3temp = () => {
   const [specDiscArr, setSpecDiscArr] = useState([]);
   const [seriesArr, setSeriesArr] = useState([]);
   const [publisheArr, setPublisherArr] = useState([]);
+  const [goodPicks, setGoodPicks] = useState([]);
 
   const [modelOpen, setModelOpen] = useState(false);
   const [user, setUser] = useState("");
@@ -59,6 +60,8 @@ const AofPdf3temp = () => {
   const [lng, setLng] = useState(null);
   const [status, setStatus] = useState(null);
   const [checked, setChecked] = useState(false);
+  const [classesUpto,setClassesUpto] = useState("")
+  const [studentNum,setStudentNum] = useState("")
 
   useEffect(() => {
     getData();
@@ -140,6 +143,13 @@ const AofPdf3temp = () => {
     console.log(res.data.message);
     // console.log("first")
     let data = res.data.message;
+    let goodPick = data.aof_goods_picks
+    let a = 1;
+    for (let obj of goodPick) {
+      obj.sl = a;
+      a++;
+    }
+    setGoodPicks(goodPick);
     let date1 = data.date;
     setDate(date1);
     // console.log(date1);
@@ -153,6 +163,8 @@ const AofPdf3temp = () => {
     setYear(year);
     // console.log(month)
     // console.log(monthMap[month]);
+    setClassesUpto(data.classes)
+    setStudentNum(data.students_number)
     setPartySchool(data.fk_school.school_name);
     setSolePPPStatus(data.status === true ? "Yes" : "No");
     setAddress(data.address);
@@ -281,7 +293,7 @@ const AofPdf3temp = () => {
           >
             <div>No.: _________________</div>
             <div>Date : {date ? date : ""}</div>
-            <div className="border-2 border-black sm:w-[20%] ">
+            <div className="border-2 border-black sm:w-[10%] ">
               <div className="">2022-23 To 2024-25</div>
             </div>
           </div>
@@ -316,9 +328,9 @@ const AofPdf3temp = () => {
             className="flex justify-between">
                 <div>
                   Total no of Students*:
-                  {firmRegNo ? firmRegNo : ""}
+                  {studentNum ? studentNum : ""}
                 </div>
-                <div>Classes Up to: {date ? date : ""}</div>
+                <div>Classes Up to: {classesUpto ? classesUpto : ""}</div>
               </div>
               <div className="!flex gap-[2rem]">
                 <div>
@@ -921,6 +933,17 @@ const AofPdf3temp = () => {
                 </th>
               </tr>
 
+              {goodPicks.map((i) => {
+                return (
+                  <tr style={{ border: "1px solid black" }}>
+                    <td style={{ border: "1px solid black" }}>{` ${i.sl}`}</td>
+                    <td style={{ border: "1px solid black" }}>{` ${i.name}`}</td>
+                    <td style={{ border: "1px solid black" }}>{` ${i.designation}`}</td>
+                    <td style={{ border: "1px solid black" }}>{` ${i.signature}`}</td>
+                  </tr>
+                );
+              })}
+{/* 
               <tr style={{ border: "1px solid black" }}>
                 <td style={{ border: "1px solid black" }}>&nbsp;</td>
                 <td style={{ border: "1px solid black" }}>&nbsp;</td>
@@ -931,13 +954,7 @@ const AofPdf3temp = () => {
                 <td style={{ border: "1px solid black" }}>&nbsp;</td>
                 <td style={{ border: "1px solid black" }}>&nbsp;</td>
                 <td style={{ border: "1px solid black" }}>&nbsp;</td>
-              </tr>
-
-              <tr style={{ border: "1px solid black" }}>
-                <td style={{ border: "1px solid black" }}>&nbsp;</td>
-                <td style={{ border: "1px solid black" }}>&nbsp;</td>
-                <td style={{ border: "1px solid black" }}>&nbsp;</td>
-              </tr>
+              </tr> */}
             </table>
           </div>
         </div>
@@ -1066,7 +1083,7 @@ const AofPdf3temp = () => {
                           <td style={{ border: "1px solid black" }}>{`${
                             i.publisher.percent ? i.publisher.percent : ""
                           } %`}</td>
-                          <td style={{ border: "1px solid black" }}>{`On ${
+                          <td style={{ border: "1px solid black" }}>{`${
                             i.publisher.percentages_type
                               ? i.publisher.percentages_type
                               : ""
@@ -1100,7 +1117,7 @@ const AofPdf3temp = () => {
                           <td style={{ border: "1px solid black" }}>{`${
                             i.series.percent ? i.series.percent : ""
                           } %`}</td>
-                          <td style={{ border: "1px solid black" }}>{`On ${
+                          <td style={{ border: "1px solid black" }}>{`${
                             i.series.percentages_type
                               ? i.series.percentages_type
                               : ""
@@ -1185,10 +1202,10 @@ const AofPdf3temp = () => {
                 </b>
               </div>
               <div style={{ margin: "20px" }}>
-                I/ We……………………………………………………………………………………………………………………………………… (Name
+                I/ We  {partySchool ? partySchool : ""} (Name
                 of the Proprietor/Karta/Authorized Signatory), being
                 …………………………………………………………………… (Designation) of
-                ………………………………………………………….(Legal Name as per PAN) do hereby state
+                {partySchool ? partySchool : ""} .(Legal Name as per PAN) do hereby state
                 that I/We am/are not liable to registration under the provisions
                 of Goods and Service Tax Act.
               </div>
@@ -1204,7 +1221,7 @@ const AofPdf3temp = () => {
               >
                 <div>
                   <div style={{ marginTop: "60px" }}>
-                    <u>GSTIN AAACA1234DIZL</u>
+                    {/* <u>GSTIN AAACA1234DIZL</u> */}
                   </div>
                 </div>
                 <div>

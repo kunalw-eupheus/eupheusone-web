@@ -5,6 +5,10 @@ const initialAuthState = {
   user: Cookies.get("user") || null,
   admin: Cookies.get("admin") || null,
   msAuth: Cookies.get("ms-auth") || null,
+  saleshead: Cookies.get("saleshead") || null,
+  zsm : Cookies.get("zsm") || null,
+  finance : Cookies.get("finance") || null,
+  training : Cookies.get("training") || null
 };
 
 const authSlice = createSlice({

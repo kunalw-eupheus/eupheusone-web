@@ -347,9 +347,9 @@ const FinanceAOF = () => {
                       <TableCell className="!w-[6rem]" align="center">
                         Verify
                       </TableCell>
-                      {/* <TableCell className="!w-[6rem]" align="center">
-                        Verify
-                      </TableCell> */}
+                      <TableCell className="!w-[6rem]" align="center">
+                        Sync with SAP
+                      </TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody className="bg-slate-200">
@@ -372,9 +372,13 @@ const FinanceAOF = () => {
                             <TableCell align="center">{row.name}</TableCell>
                             <TableCell align="center">{row.mobile}</TableCell>
                             <TableCell align="center">{row.email}</TableCell>
-                            <TableCell align="center">{row.status === true ? "Yes" : "No"}</TableCell>
+                            <TableCell align="center">
+                              {row.zms_status === true ? "Approved" : "Pending"}
+                            </TableCell>
 
-                            <TableCell align="center">{row.zms_status === true ? "Yes" : "No"}</TableCell>
+                            <TableCell align="center">
+                              {row.zms_status === true ? "Yes" : "No"}
+                            </TableCell>
 
                             <TableCell align="center">
                               <div
@@ -387,25 +391,29 @@ const FinanceAOF = () => {
                               </div>
                             </TableCell>
                             <TableCell align="center">
-                              <div
-                                className="sm:w-auto w-[50vw]"
-                                onClick={() => {
-                                  handleVerify(row.id);
-                                }}
-                              >
-                                <BasicButton text={"Verify"} />
-                              </div>
+                              {row.zms_status === true ? (
+                                ""
+                              ) : (
+                                <div
+                                  className="sm:w-auto w-[50vw]"
+                                  onClick={() => {
+                                    handleVerify(row.id);
+                                  }}
+                                >
+                                  <BasicButton text={"Verify"} />
+                                </div>
+                              )}
                             </TableCell>
-                            {/* <TableCell align="center">
+                            <TableCell align="center">
                             <div
                                   className="sm:w-auto w-[50vw]"
                                   onClick={() => {
                                     "handleVerify(row.id)"
                                   }}
                                 >
-                                  <BasicButton text={"VERIFY"} />
+                                  <BasicButton text={"SYNC"} />
                                 </div>
-                            </TableCell> */}
+                            </TableCell>
                           </TableRow>
                         ))
                       : (rowsPerPage > 0
@@ -426,9 +434,13 @@ const FinanceAOF = () => {
                             <TableCell align="center">{row.name}</TableCell>
                             <TableCell align="center">{row.mobile}</TableCell>
                             <TableCell align="center">{row.email}</TableCell>
-                            <TableCell align="center">{row.status === true ? "Yes" : "No"}</TableCell>
+                            <TableCell align="center">
+                              {row.zms_status === true ? "Approved" : "Pending"}
+                            </TableCell>
 
-                            <TableCell align="center">{row.zms_status === true ? "Yes" : "No"}</TableCell>
+                            <TableCell align="center">
+                              {row.zms_status === true ? "Yes" : "No"}
+                            </TableCell>
 
                             <TableCell align="center">
                               <div
@@ -442,16 +454,20 @@ const FinanceAOF = () => {
                             </TableCell>
 
                             <TableCell align="center">
-                              <div
-                                className="sm:w-auto w-[50vw]"
-                                onClick={() => {
-                                  handleVerify(row.id);
-                                }}
-                              >
-                                <BasicButton text={"Verify"} />
-                              </div>
+                              {row.zms_status === true ? (
+                                ""
+                              ) : (
+                                <div
+                                  className="sm:w-auto w-[50vw]"
+                                  onClick={() => {
+                                    handleVerify(row.id);
+                                  }}
+                                >
+                                  <BasicButton text={"Verify"} />
+                                </div>
+                              )}
                             </TableCell>
-                            {/* 
+                            
                             <TableCell align="center">
                             <div
                                   className="sm:w-auto w-[50vw]"
@@ -459,9 +475,9 @@ const FinanceAOF = () => {
                                     "handleVerify(row.id)"
                                   }}
                                 >
-                                  <BasicButton text={"VERIFY"} />
+                                  <BasicButton text={"SYNC"} />
                                 </div>
-                            </TableCell> */}
+                            </TableCell>
                           </TableRow>
                         ))}
                     <TableRow></TableRow>

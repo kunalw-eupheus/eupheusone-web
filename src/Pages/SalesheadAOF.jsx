@@ -209,7 +209,7 @@ const SalesheadAOF = () => {
           Authorization: `${Cookies.get("accessToken")}`,
         },
       });
-    //   console.log(res.data.message);
+      //   console.log(res.data.message);
 
       setStates(res.data.message);
     };
@@ -372,9 +372,13 @@ const SalesheadAOF = () => {
                             <TableCell align="center">{row.name}</TableCell>
                             <TableCell align="center">{row.mobile}</TableCell>
                             <TableCell align="center">{row.email}</TableCell>
-                            <TableCell align="center">{row.status === true ? "Yes" : "No"}</TableCell>
+                            <TableCell align="center">
+                              {row.zms_status === true ? "Approved" : "Pending"}
+                            </TableCell>
 
-                            <TableCell align="center">{row.zms_status === true ? "Yes" : "No"}</TableCell>
+                            <TableCell align="center">
+                              {row.zms_status === true ? "Yes" : "No"}
+                            </TableCell>
 
                             <TableCell align="center">
                               <div
@@ -387,14 +391,18 @@ const SalesheadAOF = () => {
                               </div>
                             </TableCell>
                             <TableCell align="center">
-                              <div
-                                className="sm:w-auto w-[50vw]"
-                                onClick={() => {
-                                  handleVerify(row.id)
-                                }}
-                              >
-                                <BasicButton text={"Verify"} />
-                              </div>
+                              {row.zms_status === true ? (
+                                ""
+                              ) : (
+                                <div
+                                  className="sm:w-auto w-[50vw]"
+                                  onClick={() => {
+                                    handleVerify(row.id);
+                                  }}
+                                >
+                                  <BasicButton text={"Verify"} />
+                                </div>
+                              )}
                             </TableCell>
                             {/* <TableCell align="center">
                             <div
@@ -426,9 +434,13 @@ const SalesheadAOF = () => {
                             <TableCell align="center">{row.name}</TableCell>
                             <TableCell align="center">{row.mobile}</TableCell>
                             <TableCell align="center">{row.email}</TableCell>
-                            <TableCell align="center">{row.status === true ? "Yes" : "No"}</TableCell>
+                            <TableCell align="center">
+                              {row.zms_status === true ? "Approved" : "Pending"}
+                            </TableCell>
 
-                            <TableCell align="center">{row.zms_status === true ? "Yes" : "No"}</TableCell>
+                            <TableCell align="center">
+                              {row.zms_status === true ? "Yes" : "No"}
+                            </TableCell>
 
                             <TableCell align="center">
                               <div
@@ -442,14 +454,18 @@ const SalesheadAOF = () => {
                             </TableCell>
 
                             <TableCell align="center">
-                              <div
-                                className="sm:w-auto w-[50vw]"
-                                onClick={() => {
-                                  handleVerify(row.id);
-                                }}
-                              >
-                                <BasicButton text={"Verify"} />
-                              </div>
+                              {row.zms_status === true ? (
+                                ""
+                              ) : (
+                                <div
+                                  className="sm:w-auto w-[50vw]"
+                                  onClick={() => {
+                                    handleVerify(row.id);
+                                  }}
+                                >
+                                  <BasicButton text={"Verify"} />
+                                </div>
+                              )}
                             </TableCell>
                             {/* 
                             <TableCell align="center">
