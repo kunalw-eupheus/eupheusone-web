@@ -26,7 +26,7 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-import { Add, ExpandMore, Delete } from "@mui/icons-material";
+import { Add, ExpandMore, Delete, CloseFullscreen } from "@mui/icons-material";
 import RowRadioButtonsGroup from "../Components/Material/RowRadioButtonGroup";
 import instance from "../Instance";
 import Cookies from "js-cookie";
@@ -50,7 +50,7 @@ const AOFcreate = () => {
   const [authPerson, setAuthPerson] = useState(1);
   const [snackbarErrStatus, setSnackbarErrStatus] = useState(true);
   const [errMessage, setErrMessage] = useState("");
-  const [remarkss,setRemarkss] = useState("")
+  const [remarkss, setRemarkss] = useState("");
   const [steps, setSteps] = useState({
     step1: true,
     step2: false,
@@ -138,6 +138,22 @@ const AOFcreate = () => {
     } else {
       return false;
     }
+  }
+
+  function isValid_PAN(panNo) {
+    let regex = /^([a-zA-Z]){5}([0-9]){4}([a-zA-Z]){1}?$/;
+    if (regex.test(panNo)) {
+      return true;
+    }
+    return false;
+  }
+
+  function isValid_GST(gstNo) {
+    let regex = new RegExp(/^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$/);    
+    if (regex.test(gstNo)) {
+      return true;
+    }
+    return false;
   }
 
   const postFormData = async () => {
@@ -435,7 +451,7 @@ const AOFcreate = () => {
         if (value === "overall") {
           setPublisherData([]);
           setSeriesData([]);
-          special_obj.dis_type = "overall business";
+          special_obj.dis_type = "overall";
         } else {
           setSpecialSpecific([]);
           special_obj.dis_type = "specific";
@@ -890,8 +906,8 @@ const AOFcreate = () => {
         setTotalNoStudent(value);
         break;
       case "Remarks":
-        console.log(value)
-        setRemarkss(value)
+        console.log(value);
+        setRemarkss(value);
         break;
       case "aof_status":
         // console.log(value.title);
@@ -1505,31 +1521,60 @@ const AOFcreate = () => {
                     className="mt-3"
                     onClick={() => {
                       if (
-                        (nameOfSchool,
-                        aofStatus,
-                        schoolAddress,
-                        stateSelect,
-                        citySelect,
-                        pinCode,
-                        mobile,
-                        date,
+                        (!nameOfSchool,
+                        !aofStatus,
+                        !schoolAddress,
+                        !stateSelect,
+                        !citySelect,
+                        !pinCode,
+                        !mobile,
+                        !date,
                         // phone,
-                        schoolEmail,
-                        totalNoStudent)
+                        !schoolEmail,
+                        !totalNoStudent)
                         // firmRegNo,
                         // panNo,
                         // gstNo,
                         // gstYear
                       ) {
+                        setSnackbarErrStatus(true);
+                        setErrMessage("Please Fill All The Fields");
+                        snackbarRef.current.openSnackbar();
+                      } else if(panNo.length>0 || gstNo.length>0){
+                        if (panNo.length > 0) {
+                          // console.log(panNo);
+                          if (isValid_PAN(panNo) === false) {
+                            setSnackbarErrStatus(true);
+                            setErrMessage("Please Enter a Valid PAN Number");
+                            snackbarRef.current.openSnackbar();
+                          } else {
+                            setSteps({ step1: false, step2: true, step3: false });
+                            window.scroll({
+                              top: 0,
+                              behavior: "smooth",
+                            });
+                          }
+                        }
+                        if (gstNo.length > 0) {
+                          console.log(gstNo);
+                          if (isValid_GST(gstNo) === false) {
+                            setSnackbarErrStatus(true);
+                            setErrMessage("Please Enter a Valid GST Number");
+                            snackbarRef.current.openSnackbar();
+                          } else {
+                            setSteps({ step1: false, step2: true, step3: false });
+                            window.scroll({
+                              top: 0,
+                              behavior: "smooth",
+                            });
+                          }
+                        }
+                      } else {
                         setSteps({ step1: false, step2: true, step3: false });
                         window.scroll({
                           top: 0,
                           behavior: "smooth",
                         });
-                      } else {
-                        setSnackbarErrStatus(true);
-                        setErrMessage("Please Fill All The Fields");
-                        snackbarRef.current.openSnackbar();
                       }
                     }}
                   >
@@ -1754,7 +1799,7 @@ const AOFcreate = () => {
                         setErrMessage("Please Enter a Valid IFSC Code");
                         snackbarRef.current.openSnackbar();
                       } else {
-                        console.log("nexttttt");
+                        // console.log("nexttttt");
                         setSteps({
                           step1: false,
                           step2: false,
@@ -2581,7 +2626,6 @@ const AOFcreate = () => {
                     </Accordion>
                   </div>
 
-
                   <div className="grid sm:grid-rows-2 sm:grid-cols-3 grid-rows-4 grid-cols-1 w-full mt-6 gap-6 rounded-md bg-slate-600">
                     <BasicTextFields
                       lable={"Remarks"}
@@ -2591,7 +2635,6 @@ const AOFcreate = () => {
                       multiline={false}
                     />
                   </div>
-
 
                   <div onClick={handleDataSubmit}>
                     <BasicButton text={"Submit"} />

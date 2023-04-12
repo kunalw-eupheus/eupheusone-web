@@ -9,10 +9,15 @@ import { protectedResources } from "../../util/msConfig";
 import { CheckBox } from "@mui/icons-material";
 import { Checkbox } from "@mui/material";
 import { Button } from "@mui/material";
+// var converter = require('number-to-words')
+import { ToWords } from 'to-words';
+const toWords = new ToWords();
+
 
 const AofPdf2 = () => {
   const [date, setDate] = useState("");
   const [partySchool, setPartySchool] = useState("");
+  const [partySchoolAlt, setPartySchoolAlt] = useState("")
   const [solePPPStatus, setSolePPPStatus] = useState("");
   const [address, setAddress] = useState("");
   const [city, setCity] = useState("");
@@ -64,6 +69,7 @@ const AofPdf2 = () => {
   const [studentNum, setStudentNum] = useState("");
   const [bpCode, setBpCode] = useState("");
   const [validDate, setValidDate] = useState("")
+  const [creditLimit, setCreditLimit] = useState("")
 
   useEffect(() => {
     getData();
@@ -152,6 +158,12 @@ const AofPdf2 = () => {
     }
     setValidDate(data.valid)
     console.log(data);
+    // console.log(data.name)
+    let crdt_Lmt = data.credit_limit
+    // let crdt_Lmt_Word = converter.toWords(Number(crdt_Lmt))
+    let crdt_Lmt_Word = toWords.convert(Number(crdt_Lmt));
+    // console.log(crdt_Lmt_Word)
+    setCreditLimit(crdt_Lmt_Word)
     let goodPick = data.aof_goods_picks;
     let a = 1;
     for (let obj of goodPick) {
@@ -173,7 +185,11 @@ const AofPdf2 = () => {
     // console.log(monthMap[month]);
     setClassesUpto(data.classes);
     setStudentNum(data.students_number);
-    setPartySchool(data.fk_school.school_name);
+    if(data.fk_school){
+      setPartySchool(data.fk_school.school_name);
+    }else{
+      setPartySchool(data.name)
+    }
     setSolePPPStatus(data.status === true ? "Yes" : "No");
     setAddress(data.address);
     setCity(data.fk_city.city);
@@ -560,7 +576,7 @@ const AofPdf2 = () => {
             <div>1. </div>
             <div>
               <b>Credit Limit.</b> Distributer shall be entitled to a maximum
-              annual Credit Limit of Rs.10 LAKHS_Rupees _TEN LAKHS during the
+              annual Credit Limit of Rs. {creditLimit} during the
               term of this agreement.
             </div>
           </div>
