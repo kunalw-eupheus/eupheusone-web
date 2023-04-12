@@ -88,6 +88,7 @@ const AOFcreate = () => {
   const [firmRegNo, setFirmRegNo] = useState("");
   const [panNo, setPanNo] = useState("");
   const [gstNo, setGstNo] = useState("");
+  const [aadharNo, setAadharNo] = useState("");
   const [gstYear, setGstYear] = useState("");
   const [proprietorName, setProprietorName] = useState("");
   const [panNoP, setPanNoP] = useState("");
@@ -149,7 +150,9 @@ const AOFcreate = () => {
   }
 
   function isValid_GST(gstNo) {
-    let regex = new RegExp(/^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$/);    
+    let regex = new RegExp(
+      /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$/
+    );
     if (regex.test(gstNo)) {
       return true;
     }
@@ -318,10 +321,11 @@ const AOFcreate = () => {
     // const file = event.currentTarget["fileInput"].files[0];
     let file = e.target.files[0];
     // console.log(file.type)
-    if (file.type !== "image/jpeg") {
+    if (file.type !== "image/jpeg" && file.type !== "image/png") {
       alert("Please Select an image file only");
       return;
     }
+    // console.log("first")
     formdata.append("img", file);
     formdata.append("test", "test");
 
@@ -865,6 +869,10 @@ const AOFcreate = () => {
         if (value.title === "Eupheus") setSelectType("103");
         break;
 
+      case "Aadhar No":
+        console.log(value);
+        setAadharNo(value);
+        break;
       case "Classes Up to":
         console.log(value);
         setClassesUpto(value);
@@ -970,6 +978,10 @@ const AOFcreate = () => {
         // console.log(value);
         setProprietorName(value);
         break;
+      case "Name of Proprietor/Partner/Director/Trustee":
+        // console.log(value);
+        setProprietorName(value);
+        break;
       case "PAN NO ":
         // console.log(value, "bbbbbb");
         setPanNoP(value);
@@ -1004,7 +1016,15 @@ const AOFcreate = () => {
         // console.log(value);
         setMobileP(value);
         break;
+      case "Mobile":
+        // console.log(value);
+        setMobileP(value);
+        break;
       case "E-Mail*":
+        // console.log(value);
+        setEmailP(value);
+        break;
+      case "E-Mail":
         // console.log(value);
         setEmailP(value);
         break;
@@ -1353,7 +1373,10 @@ const AOFcreate = () => {
                     {/* <div className="grid sm:grid-rows-2 sm:grid-cols-3 grid-rows-4 grid-cols-1 w-full mt-6 gap-6 rounded-md bg-slate-600"> */}
                     <SearchDropDown
                       Name={"selec_typ"}
-                      data={[{ title: "Allied" }, { title: "Eupheus" }]}
+                      data={[
+                        // { title: "Allied" },
+                        { title: "Eupheus" },
+                      ]}
                       handleOrderProcessingForm={handleOrderProcessingForm}
                       label={"Select Type"}
                       color={"rgb(243, 244, 246)"}
@@ -1393,6 +1416,13 @@ const AOFcreate = () => {
                     ) : (
                       ""
                     )}
+
+                    <BasicTextFields
+                      lable={"Designation*"}
+                      variant={"standard"}
+                      handleOrderProcessingForm={handleOrderProcessingForm}
+                      multiline={false}
+                    />
 
                     <SearchDropDown
                       Name={"aof_status"}
@@ -1459,19 +1489,26 @@ const AOFcreate = () => {
                       variant={"standard"}
                       multiline={false}
                     />
-                    <div className="sm:col-span-2">
-                      <BasicTextFields
-                        lable={"Total no of Students *"}
-                        type={"number"}
-                        handleOrderProcessingForm={handleOrderProcessingForm}
-                        variant={"standard"}
-                        multiline={false}
-                      />
-                    </div>
+                    {/* <div className="sm:col-span-2"> */}
+                    <BasicTextFields
+                      lable={"Total no of Students *"}
+                      type={"number"}
+                      handleOrderProcessingForm={handleOrderProcessingForm}
+                      variant={"standard"}
+                      multiline={false}
+                    />
+                    {/* </div> */}
                     <BasicTextFields
                       lable={"Classes Up to"}
                       handleOrderProcessingForm={handleOrderProcessingForm}
                       variant={"standard"}
+                      multiline={false}
+                    />
+                    <BasicTextFields
+                      lable={"GST Year of establishment of business"}
+                      handleOrderProcessingForm={handleOrderProcessingForm}
+                      variant={"standard"}
+                      type={"number"}
                       multiline={false}
                     />
                     {/* </div> */}
@@ -1497,25 +1534,59 @@ const AOFcreate = () => {
                       </Stack>
                     </LocalizationProvider>
 
-                    <BasicTextFields
-                      lable={"PAN NO"}
-                      handleOrderProcessingForm={handleOrderProcessingForm}
-                      variant={"standard"}
-                      multiline={false}
-                    />
-                    <BasicTextFields
-                      lable={"GST NO"}
-                      handleOrderProcessingForm={handleOrderProcessingForm}
-                      variant={"standard"}
-                      multiline={false}
-                    />
-                    <BasicTextFields
-                      lable={"GST Year of establishment of business"}
-                      handleOrderProcessingForm={handleOrderProcessingForm}
-                      variant={"standard"}
-                      type={"number"}
-                      multiline={false}
-                    />
+                    <div className="sm:col-span-2">
+                      <BasicTextFields
+                        lable={"PAN NO"}
+                        handleOrderProcessingForm={handleOrderProcessingForm}
+                        variant={"standard"}
+                        multiline={false}
+                      />
+                    </div>
+
+                    {panNo.length > 0 ? (
+                      <input
+                        type="file"
+                        name="Upload PAN"
+                        // onChange={(e) => onFileChange(e, i)}
+                      />
+                    ) : (
+                      ""
+                    )}
+                    <div className="sm:col-span-2">
+                      <BasicTextFields
+                        lable={"GST NO"}
+                        handleOrderProcessingForm={handleOrderProcessingForm}
+                        variant={"standard"}
+                        multiline={false}
+                      />
+                    </div>
+                    {gstNo.length > 0 ? (
+                      <input
+                        type="file"
+                        name="Upload GST"
+                        // onChange={(e) => onFileChange(e, i)}
+                      />
+                    ) : (
+                      ""
+                    )}
+
+                    <div className="sm:col-span-2">
+                      <BasicTextFields
+                        lable={"Aadhar No"}
+                        handleOrderProcessingForm={handleOrderProcessingForm}
+                        variant={"standard"}
+                        multiline={false}
+                      />
+                    </div>
+                    {aadharNo.length > 0 ? (
+                      <input
+                        type="file"
+                        name="Upload Aadhar"
+                        // onChange={(e) => onFileChange(e, i)}
+                      />
+                    ) : (
+                      ""
+                    )}
                   </div>
                   <div
                     className="mt-3"
@@ -1540,34 +1611,32 @@ const AOFcreate = () => {
                         setSnackbarErrStatus(true);
                         setErrMessage("Please Fill All The Fields");
                         snackbarRef.current.openSnackbar();
-                      } else if(panNo.length>0 || gstNo.length>0){
+                      } else if (panNo.length > 0 || gstNo.length > 0) {
                         if (panNo.length > 0) {
                           // console.log(panNo);
                           if (isValid_PAN(panNo) === false) {
                             setSnackbarErrStatus(true);
                             setErrMessage("Please Enter a Valid PAN Number");
                             snackbarRef.current.openSnackbar();
-                          } else {
-                            setSteps({ step1: false, step2: true, step3: false });
-                            window.scroll({
-                              top: 0,
-                              behavior: "smooth",
-                            });
                           }
                         }
                         if (gstNo.length > 0) {
-                          console.log(gstNo);
+                          // console.log(gstNo);
                           if (isValid_GST(gstNo) === false) {
                             setSnackbarErrStatus(true);
                             setErrMessage("Please Enter a Valid GST Number");
                             snackbarRef.current.openSnackbar();
-                          } else {
-                            setSteps({ step1: false, step2: true, step3: false });
-                            window.scroll({
-                              top: 0,
-                              behavior: "smooth",
-                            });
                           }
+                        }
+                        if (
+                          isValid_PAN(panNo) === true &&
+                          isValid_GST(gstNo) === true
+                        ) {
+                          setSteps({ step1: false, step2: true, step3: false });
+                          window.scroll({
+                            top: 0,
+                            behavior: "smooth",
+                          });
                         }
                       } else {
                         setSteps({ step1: false, step2: true, step3: false });
@@ -1587,26 +1656,51 @@ const AOFcreate = () => {
                 <div className="flex flex-col gap-4 items-start w-[90%] px-6 bg-slate-600 rounded-md py-6 mb-[5rem]">
                   <div className="grid sm:grid-rows-3 sm:grid-cols-3 grid-rows-[7] grid-cols-1 w-full mt-6 gap-6 rounded-md bg-slate-600">
                     <div className="sm:col-span-2">
+                      {partyType === "School" ? (
+                        <BasicTextFields
+                          lable={"Name of Proprietor/Partner/Director/Trustee"}
+                          handleOrderProcessingForm={handleOrderProcessingForm}
+                          variant={"standard"}
+                          multiline={false}
+                        />
+                      ) : (
+                        <BasicTextFields
+                          lable={
+                            "Name of Proprietor/Partner/Director/Trustee *"
+                          }
+                          handleOrderProcessingForm={handleOrderProcessingForm}
+                          variant={"standard"}
+                          multiline={false}
+                        />
+                      )}
+                    </div>
+
+                    <div className="sm:col-span-2">
                       <BasicTextFields
-                        lable={"Name of Proprietor/Partner/Director/Trustee *"}
+                        lable={"PAN NO "}
                         handleOrderProcessingForm={handleOrderProcessingForm}
                         variant={"standard"}
                         multiline={false}
                       />
                     </div>
+                    {panNoP.length > 0 ? (
+                      <input
+                        type="file"
+                        name="Upload PAN"
+                        // onChange={(e) => onFileChange(e, i)}
+                      />
+                    ) : (
+                      ""
+                    )}
 
-                    <BasicTextFields
-                      lable={"PAN NO "}
-                      handleOrderProcessingForm={handleOrderProcessingForm}
-                      variant={"standard"}
-                      multiline={false}
-                    />
-                    <BasicTextFields
-                      lable={"Address "}
-                      handleOrderProcessingForm={handleOrderProcessingForm}
-                      variant={"standard"}
-                      multiline={false}
-                    />
+                    <div className="sm:col-span-2">
+                      <BasicTextFields
+                        lable={"Address "}
+                        handleOrderProcessingForm={handleOrderProcessingForm}
+                        variant={"standard"}
+                        multiline={false}
+                      />
+                    </div>
                     <BasicTextFields
                       lable={"Pin Code "}
                       handleOrderProcessingForm={handleOrderProcessingForm}
@@ -1622,19 +1716,40 @@ const AOFcreate = () => {
                       variant={"standard"}
                       multiline={false}
                     />
-                    <BasicTextFields
-                      lable={"Mobile*"}
-                      handleOrderProcessingForm={handleOrderProcessingForm}
-                      type={"number"}
-                      variant={"standard"}
-                      multiline={false}
-                    />
-                    <BasicTextFields
-                      lable={"E-Mail*"}
-                      handleOrderProcessingForm={handleOrderProcessingForm}
-                      variant={"standard"}
-                      multiline={false}
-                    />
+
+                    {partyType === "School" ? (
+                      <BasicTextFields
+                        lable={"Mobile"}
+                        handleOrderProcessingForm={handleOrderProcessingForm}
+                        type={"number"}
+                        variant={"standard"}
+                        multiline={false}
+                      />
+                    ) : (
+                      <BasicTextFields
+                        lable={"Mobile*"}
+                        handleOrderProcessingForm={handleOrderProcessingForm}
+                        type={"number"}
+                        variant={"standard"}
+                        multiline={false}
+                      />
+                    )}
+
+                    {partyType === "School" ? (
+                      <BasicTextFields
+                        lable={"E-Mail"}
+                        handleOrderProcessingForm={handleOrderProcessingForm}
+                        variant={"standard"}
+                        multiline={false}
+                      />
+                    ) : (
+                      <BasicTextFields
+                        lable={"E-Mail*"}
+                        handleOrderProcessingForm={handleOrderProcessingForm}
+                        variant={"standard"}
+                        multiline={false}
+                      />
+                    )}
                   </div>
                   <div className="w-full flex flex-col my-2 gap-2">
                     <h1 className="font-semibold text-gray-100">
@@ -1654,23 +1769,44 @@ const AOFcreate = () => {
                   </div>
                   <div
                     onClick={() => {
+                      if(partyType === "School"){
+                        setSteps({ step1: false, step2: false, step3: true });
+                          window.scroll({
+                          top: 0,
+                          behavior: "smooth",
+                        });
+                      }else{
                       if (
                         // panNoP,
                         // addressP,
                         // pinCodeP,
                         // phoneP,
-                        (mobileP, emailP, proprietorName)
+                        (!mobileP, !emailP, !proprietorName)
                       ) {
+                        setSnackbarErrStatus(true);
+                        setErrMessage("Please Fill All The Fields");
+                        snackbarRef.current.openSnackbar();
+                      } else if (panNoP.length > 0) {
+                        // console.log(panNo);
+                        if (isValid_PAN(panNoP) === false) {
+                          setSnackbarErrStatus(true);
+                          setErrMessage("Please Enter a Valid PAN Number");
+                          snackbarRef.current.openSnackbar();
+                        }else{
+                          setSteps({ step1: false, step2: false, step3: true });
+                          window.scroll({
+                          top: 0,
+                          behavior: "smooth",
+                        });
+                        }
+                      } else {
                         setSteps({ step1: false, step2: false, step3: true });
                         window.scroll({
                           top: 0,
                           behavior: "smooth",
                         });
-                      } else {
-                        setSnackbarErrStatus(true);
-                        setErrMessage("Please Fill All The Fields");
-                        snackbarRef.current.openSnackbar();
-                      }
+                      }                         
+                    }
                     }}
                     className="mt-3"
                   >

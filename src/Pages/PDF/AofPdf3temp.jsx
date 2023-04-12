@@ -9,10 +9,15 @@ import { protectedResources } from "../../util/msConfig";
 import { CheckBox } from "@mui/icons-material";
 import { Checkbox } from "@mui/material";
 import { Button } from "@mui/material";
+// var converter = require('number-to-words')
+import { ToWords } from "to-words";
+import moment from "moment";
+const toWords = new ToWords();
 
 const AofPdf3temp = () => {
   const [date, setDate] = useState("");
   const [partySchool, setPartySchool] = useState("");
+  const [partySchoolAlt, setPartySchoolAlt] = useState("");
   const [solePPPStatus, setSolePPPStatus] = useState("");
   const [address, setAddress] = useState("");
   const [city, setCity] = useState("");
@@ -46,6 +51,7 @@ const AofPdf3temp = () => {
   const [specDiscArr, setSpecDiscArr] = useState([]);
   const [seriesArr, setSeriesArr] = useState([]);
   const [publisheArr, setPublisherArr] = useState([]);
+  const [overallArr, setOverallArr] = useState([]);
   const [goodPicks, setGoodPicks] = useState([]);
 
   const [modelOpen, setModelOpen] = useState(false);
@@ -56,12 +62,16 @@ const AofPdf3temp = () => {
   const [specialArrAvail, setSpecialArrAvail] = useState(true);
   const [seriesArrAval, setSeriesArrAval] = useState(true);
   const [publisherArrAvail, setPublisherArrAvail] = useState(true);
+  const [overallArrAvail, setOverallArrAvail] = useState(true);
   const [lat, setLat] = useState(null);
   const [lng, setLng] = useState(null);
   const [status, setStatus] = useState(null);
   const [checked, setChecked] = useState(false);
-  const [classesUpto,setClassesUpto] = useState("")
-  const [studentNum,setStudentNum] = useState("")
+  const [classesUpto, setClassesUpto] = useState("");
+  const [studentNum, setStudentNum] = useState("");
+  const [bpCode, setBpCode] = useState("");
+  const [validDate, setValidDate] = useState("");
+  const [creditLimit, setCreditLimit] = useState("");
 
   useEffect(() => {
     getData();
@@ -141,17 +151,28 @@ const AofPdf3temp = () => {
       },
     });
     console.log(res.data.message);
-    // console.log("first")
     let data = res.data.message;
-    let goodPick = data.aof_goods_picks
+    let date1 = data.date;
+    let date1conv = moment(date1).format('DD-MM-YYYY');
+    if (data.bpcode) {
+      setBpCode(data.bpcode);
+    } else {
+      setBpCode(data.temp_bpcode);
+    }
+    setValidDate(data.valid);
+    // console.log(data);
+    // console.log(data.name)
+    let crdt_Lmt = data.credit_limit;
+    let crdt_Lmt_Word = toWords.convert(Number(crdt_Lmt));
+    setCreditLimit(crdt_Lmt_Word);
+    let goodPick = data.aof_goods_picks;
     let a = 1;
     for (let obj of goodPick) {
       obj.sl = a;
       a++;
     }
     setGoodPicks(goodPick);
-    let date1 = data.date;
-    setDate(date1);
+    setDate(date1conv);
     // console.log(date1);
     let dateArr = date1.split("-");
     // console.log(dateArr)
@@ -163,10 +184,14 @@ const AofPdf3temp = () => {
     setYear(year);
     // console.log(month)
     // console.log(monthMap[month]);
-    setClassesUpto(data.classes)
-    setStudentNum(data.students_number)
-    setPartySchool(data.fk_school.school_name);
-    setSolePPPStatus(data.status === true ? "Yes" : "No");
+    setClassesUpto(data.classes);
+    setStudentNum(data.students_number);
+    if (data.fk_school) {
+      setPartySchool(data.fk_school.school_name);
+    } else {
+      setPartySchool(data.name);
+    }
+    setSolePPPStatus(data.status_type);
     setAddress(data.address);
     setCity(data.fk_city.city);
     setState(data.fk_state.state);
@@ -236,17 +261,19 @@ const AofPdf3temp = () => {
     }
 
     let specialDiscArr = res.data.special;
-    // console.log(specialDiscArr)
+    console.log(specialDiscArr);
     if (specialDiscArr.length === 0) {
       setSpecialArrAvail(false);
     }
 
     setSpecDiscArr(specialDiscArr);
     let seriesArr = [],
-      publisherArr = [];
+      publisherArr = [],
+      overallArr = [];
     for (let obj of specialDiscArr) {
       if (obj.series) seriesArr.push(obj);
       if (obj.publisher) publisherArr.push(obj);
+      if (obj.overall) overallArr.push(obj);
     }
     // console.log(seriesArr)
     let m = 1;
@@ -270,6 +297,17 @@ const AofPdf3temp = () => {
       setPublisherArrAvail(false);
     }
     setPublisherArr(publisherArr);
+
+    let o = 1;
+    for (let obj of overallArr) {
+      obj.sl = o;
+      o++;
+    }
+    // console.log(seriesArr);
+    if (overallArr.length === 0) {
+      setOverallArrAvail(false);
+    }
+    setOverallArr(overallArr);
   };
 
   return (
@@ -287,14 +325,13 @@ const AofPdf3temp = () => {
             <u>CUSTOMER REGISTRATION FORM AND AGREEMENT</u>
           </div>
           <div
-            // className=" flex flex-col ml-[6rem] sm:flex-row sm:justify-around"
-            className="flex justify-around"
+            className=" flex justify-around"
             style={{ marginTop: "30px", fontSize: "11pt" }}
           >
-            <div>No.: _________________</div>
+            <div>No.: {bpCode}</div>
             <div>Date : {date ? date : ""}</div>
             <div className="border-2 border-black sm:w-[10%] ">
-              <div className="">2022-23 To 2024-25</div>
+              <div className="">{validDate}</div>
             </div>
           </div>
 
@@ -304,28 +341,20 @@ const AofPdf3temp = () => {
                 <b>Name of Party School*: {partySchool ? partySchool : ""}</b>
               </div>
               <div className="">
-                Status*: Sole Proprietary/ Partnership/ LLP/Pvt. Ltd. / Public
-                Ltd. /Trust: {solePPPStatus ? solePPPStatus : ""}
+                Status*: {solePPPStatus ? solePPPStatus : ""}
               </div>
               <div className="">Address*: {address ? address : ""}</div>
-              <div 
-            //   className="flex flex-col sm:flex-row sm:justify-between"
-            className="flex justify-between"
-              >
+              <div className="flex justify-between">
                 <div>City*: {city ? city : ""}</div>
                 <div>State*: {state ? state : ""}</div>
                 <div>Pin Code*: {pinCode ? pinCode : ""}</div>
               </div>
-              <div 
-            //   className=" flex flex-col sm:flex-row sm:justify-between"
-              className="flex justify-between">
-                <div>Phone*: {phone ? phone : ""}</div>
+              <div className=" flex justify-between">
+                <div>Phone: {phone ? phone : ""}</div>
                 <div>Mobile*: {mobile ? mobile : ""}</div>
                 <div>E-Mail*: {email ? email : ""}</div>
               </div>
-              <div 
-            //   className="flex flex-col sm:flex-row sm:justify-between"
-            className="flex justify-between">
+              <div className="flex justify-between">
                 <div>
                   Total no of Students*:
                   {studentNum ? studentNum : ""}
@@ -334,14 +363,14 @@ const AofPdf3temp = () => {
               </div>
               <div className="!flex gap-[2rem]">
                 <div>
-                  Firm/ Company/Trust Registration Number*:
+                  Firm/ Company/Trust Registration Number:
                   {firmRegNo ? firmRegNo : ""}
                 </div>
                 <div>Dated: {date ? date : ""}</div>
               </div>
               <div className="!flex gap-[4rem]">
-                <div>PAN No*: {panNo ? panNo : ""}(Copy Enclosed)</div>
-                <div>GST. No*:{gstNo ? gstNo : ""}</div>
+                <div>PAN No: {panNo ? panNo : ""}(Copy Enclosed)</div>
+                <div>GST. No:{gstNo ? gstNo : ""}</div>
               </div>
               <div className="">
                 <b>
@@ -368,20 +397,18 @@ const AofPdf3temp = () => {
                 </div>
               </div>
               <div className="" style={{ marginTop: "5px" }}>
-                PAN No.*: {aofPan ? aofPan : ""}
+                PAN No.: {aofPan ? aofPan : ""}
               </div>
-              <div 
-              className="!flex gap-[4rem]">
-                <div>Address*: {aofAddress ? aofAddress : ""}</div>
-                <div>Pin Code*: {aofPin ? aofPin : ""}</div>
+              <div className="!flex gap-[4rem]">
+                <div>Address: {aofAddress ? aofAddress : ""}</div>
+                <div>Pin Code: {aofPin ? aofPin : ""}</div>
                 <div></div>
               </div>
               <div
-                // className="flex flex-col sm:flex-row sm:justify-between"
                 className="flex justify-between"
                 style={{ marginTop: "5px" }}
               >
-                <div>Phone*: {aofPhone ? aofPhone : ""}</div>
+                <div>Phone: {aofPhone ? aofPhone : ""}</div>
                 <div>Mobile*: {aofMobile ? aofMobile : ""}</div>
                 <div>E-Mail*: {aofEmail ? aofEmail : ""}</div>
               </div>
@@ -437,7 +464,6 @@ const AofPdf3temp = () => {
                 {bankName ? bankName : ""}
               </div>
               <div
-                // className="flex flex-col sm:flex-row sm:justify-between"
                 className="flex justify-between"
                 style={{ marginTop: "5px" }}
               >
@@ -455,7 +481,6 @@ const AofPdf3temp = () => {
               {bankChecq.map((item) => {
                 return (
                   <div
-                    // className="flex flex-col sm:flex-row sm:justify-between"
                     className="flex justify-between"
                     style={{ marginTop: "5px" }}
                   >
@@ -564,8 +589,8 @@ const AofPdf3temp = () => {
             <div>1. </div>
             <div>
               <b>Credit Limit.</b> Distributer shall be entitled to a maximum
-              annual Credit Limit of Rs.10 LAKHS_Rupees _TEN LAKHS during the
-              term of this agreement.
+              annual Credit Limit of Rs. {creditLimit} during the term of this
+              agreement.
             </div>
           </div>
           <div style={{ margin: "10px" }} className="flex container">
@@ -650,31 +675,29 @@ const AofPdf3temp = () => {
           <img width={170} src={eupheusLogo} />
         </div> */}
 
-          <div style={{ margin: "10px" }} className="flex m-[1rem] sm:m-[2rem]">
-          <div>8. </div>
+          <div style={{ margin: "10px" }} className="">
             <div>
-              <b>Return Policy.</b> The unsold books once delivered may be
+              8.<b>Return Policy.</b> The unsold books once delivered may be
               returned to Eupheus by the Distributor subject to the following
-              conditions: <br /> 
-              a. A maximum 10 % (ten percent) of invoiced
+              conditions: <br /> (a) A maximum 10 % (ten percent) of invoiced
               value will be allowed to be returned if unutilized (“Returns”)
               quantity at any given point of time. <br />
-              b. The returned books shall not be utilized or used by any person
+              (b) The returned books shall not be utilized or used by any person
               and are in good condition, meaning thereby that the books shall
               not be torn or dirty or any scribbled marks or pen marks or bound
               or damaged or otherwise in such condition that the books are unfit
               for resale by Eupheus. <br />
-              c. Such returns need to be notified by the Distributor through
+              (c) Such returns need to be notified by the Distributor through
               e-mail or post. <br />
-              d. Such return of books shall be delivered by the Distributor
+              (d) Such return of books shall be delivered by the Distributor
               with reasonable care to the warehouse/Clearing & Forwarding Agent
               of Eupheus, details of which shall be provided by Eupheus, within
               180 days of date of delivery and in no case later than 31st August
               of the year in which such books were invoiced/ supplied. <br />
-              e. The liability of expenses incurred by the Distributor for such
+              (e) The liability of expenses incurred by the Distributor for such
               return of books shall be of the Distributor and in no way such
               expenses shall be reimbursed to the Distributor by Eupheus. <br />
-              f. Any additional/special discount(s) applied at the time of sale
+              (f) Any additional/special discount(s) applied at the time of sale
               shall be adjusted for the return of books and credit note will be
               calculated accordingly.
             </div>
@@ -798,7 +821,7 @@ const AofPdf3temp = () => {
           </div>
         </div>
 
-        <div className="m-[1rem] sm:m-[2rem] ">
+        <div className=" m-[1rem] sm:m-[2rem]">
           {/* <div className="flex justify-center" style={{ marginTop: "30px" }}>
           <img width={170} src={eupheusLogo} />
         </div> */}
@@ -920,7 +943,7 @@ const AofPdf3temp = () => {
             <table style={{ border: "1px solid black", width: "100%" }}>
               <tr style={{ border: "1px solid black" }}>
                 <th style={{ border: "1px solid black", width: "10%" }}>
-                  S.No
+                  S. No
                 </th>
                 <th style={{ border: "1px solid black", width: "30%" }}>
                   Name
@@ -937,13 +960,26 @@ const AofPdf3temp = () => {
                 return (
                   <tr style={{ border: "1px solid black" }}>
                     <td style={{ border: "1px solid black" }}>{` ${i.sl}`}</td>
-                    <td style={{ border: "1px solid black" }}>{` ${i.name}`}</td>
-                    <td style={{ border: "1px solid black" }}>{` ${i.designation}`}</td>
-                    <td style={{ border: "1px solid black" }}>{` ${i.signature}`}</td>
+                    <td
+                      style={{ border: "1px solid black" }}
+                    >{` ${i.name}`}</td>
+                    <td
+                      style={{ border: "1px solid black" }}
+                    >{` ${i.designation}`}</td>
+                    <td
+                      style={{ border: "1px solid black" }}
+                    >{` ${i.signature}`}</td>
                   </tr>
                 );
               })}
-{/* 
+
+              {/* 
+              <tr style={{ border: "1px solid black" }}>
+                <td style={{ border: "1px solid black" }}>&nbsp;</td>
+                <td style={{ border: "1px solid black" }}>&nbsp;</td>
+                <td style={{ border: "1px solid black" }}>&nbsp;</td>
+              </tr>
+
               <tr style={{ border: "1px solid black" }}>
                 <td style={{ border: "1px solid black" }}>&nbsp;</td>
                 <td style={{ border: "1px solid black" }}>&nbsp;</td>
@@ -1083,7 +1119,7 @@ const AofPdf3temp = () => {
                           <td style={{ border: "1px solid black" }}>{`${
                             i.publisher.percent ? i.publisher.percent : ""
                           } %`}</td>
-                          <td style={{ border: "1px solid black" }}>{`${
+                          <td style={{ border: "1px solid black" }}>{` ${
                             i.publisher.percentages_type
                               ? i.publisher.percentages_type
                               : ""
@@ -1130,6 +1166,40 @@ const AofPdf3temp = () => {
                   ""
                 )}
 
+                {overallArrAvail ? (
+                  <tr style={{ border: "1px solid black" }}>
+                    <td style={{ border: "1px solid black" }}>Overall </td>
+                    <td style={{ border: "1px solid black" }}></td>
+                    <td style={{ border: "1px solid black" }}></td>
+                  </tr>
+                ) : (
+                  ""
+                )}
+
+                {overallArrAvail ? (
+                  <>
+                    {overallArr.map((i) => {
+                      return (
+                        <tr style={{ border: "1px solid black" }}>
+                          <td style={{ border: "1px solid black" }}>{`${
+                            i.sl ? i.sl : ""
+                          }) ${i.overall.name ? i.overall.name : ""}`}</td>
+                          <td style={{ border: "1px solid black" }}>{`${
+                            i.overall.percent ? i.overall.percent : ""
+                          } %`}</td>
+                          <td style={{ border: "1px solid black" }}>{` ${
+                            i.overall.remark
+                              ? i.overall.remark
+                              : ""
+                          }`}</td>
+                        </tr>
+                      );
+                    })}
+                  </>
+                ) : (
+                  ""
+                )}
+
                 {seriesArrAval ? (
                   <tr style={{ border: "1px solid black" }}>
                     <td style={{ border: "1px solid black" }}>&nbsp;</td>
@@ -1157,7 +1227,6 @@ const AofPdf3temp = () => {
           </div>
 
           <div
-            // className="flex flex-col m-[2rem] sm:flex-row sm:justify-around sm:m-0"
             className="flex justify-around"
             style={{ marginTop: "20px" }}
           >
@@ -1202,12 +1271,12 @@ const AofPdf3temp = () => {
                 </b>
               </div>
               <div style={{ margin: "20px" }}>
-                I/ We  {partySchool ? partySchool : ""} (Name
-                of the Proprietor/Karta/Authorized Signatory), being
+                I/ We {partySchool ? partySchool : ""} (Name of the
+                Proprietor/Karta/Authorized Signatory), being
                 …………………………………………………………………… (Designation) of
-                {partySchool ? partySchool : ""} .(Legal Name as per PAN) do hereby state
-                that I/We am/are not liable to registration under the provisions
-                of Goods and Service Tax Act.
+                {partySchool ? partySchool : ""}.(Legal Name as per PAN) do
+                hereby state that I/We am/are not liable to registration under
+                the provisions of Goods and Service Tax Act.
               </div>
               <div style={{ margin: "20px" }}>
                 I/We declare that as soon as we Become eligible for GST

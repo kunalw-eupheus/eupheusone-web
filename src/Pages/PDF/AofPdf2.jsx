@@ -10,14 +10,14 @@ import { CheckBox } from "@mui/icons-material";
 import { Checkbox } from "@mui/material";
 import { Button } from "@mui/material";
 // var converter = require('number-to-words')
-import { ToWords } from 'to-words';
+import { ToWords } from "to-words";
+import moment from "moment";
 const toWords = new ToWords();
-
 
 const AofPdf2 = () => {
   const [date, setDate] = useState("");
   const [partySchool, setPartySchool] = useState("");
-  const [partySchoolAlt, setPartySchoolAlt] = useState("")
+  const [partySchoolAlt, setPartySchoolAlt] = useState("");
   const [solePPPStatus, setSolePPPStatus] = useState("");
   const [address, setAddress] = useState("");
   const [city, setCity] = useState("");
@@ -51,6 +51,7 @@ const AofPdf2 = () => {
   const [specDiscArr, setSpecDiscArr] = useState([]);
   const [seriesArr, setSeriesArr] = useState([]);
   const [publisheArr, setPublisherArr] = useState([]);
+  const [overallArr, setOverallArr] = useState([]);
   const [goodPicks, setGoodPicks] = useState([]);
 
   const [modelOpen, setModelOpen] = useState(false);
@@ -61,6 +62,7 @@ const AofPdf2 = () => {
   const [specialArrAvail, setSpecialArrAvail] = useState(true);
   const [seriesArrAval, setSeriesArrAval] = useState(true);
   const [publisherArrAvail, setPublisherArrAvail] = useState(true);
+  const [overallArrAvail, setOverallArrAvail] = useState(true);
   const [lat, setLat] = useState(null);
   const [lng, setLng] = useState(null);
   const [status, setStatus] = useState(null);
@@ -68,8 +70,8 @@ const AofPdf2 = () => {
   const [classesUpto, setClassesUpto] = useState("");
   const [studentNum, setStudentNum] = useState("");
   const [bpCode, setBpCode] = useState("");
-  const [validDate, setValidDate] = useState("")
-  const [creditLimit, setCreditLimit] = useState("")
+  const [validDate, setValidDate] = useState("");
+  const [creditLimit, setCreditLimit] = useState("");
 
   useEffect(() => {
     getData();
@@ -148,22 +150,22 @@ const AofPdf2 = () => {
         Authorization: Cookies.get("accessToken"),
       },
     });
-    // console.log(res.data.message);
+    console.log(res.data.message);
     let data = res.data.message;
     let date1 = data.date;
+    let date1conv = moment(date1).format('DD-MM-YYYY');
+    // console.log(date1conv)
     if (data.bpcode) {
       setBpCode(data.bpcode);
     } else {
       setBpCode(data.temp_bpcode);
     }
-    setValidDate(data.valid)
-    console.log(data);
+    setValidDate(data.valid);
+    // console.log(data);
     // console.log(data.name)
-    let crdt_Lmt = data.credit_limit
-    // let crdt_Lmt_Word = converter.toWords(Number(crdt_Lmt))
+    let crdt_Lmt = data.credit_limit;
     let crdt_Lmt_Word = toWords.convert(Number(crdt_Lmt));
-    // console.log(crdt_Lmt_Word)
-    setCreditLimit(crdt_Lmt_Word)
+    setCreditLimit(crdt_Lmt_Word);
     let goodPick = data.aof_goods_picks;
     let a = 1;
     for (let obj of goodPick) {
@@ -171,7 +173,7 @@ const AofPdf2 = () => {
       a++;
     }
     setGoodPicks(goodPick);
-    setDate(date1);
+    setDate(date1conv);
     // console.log(date1);
     let dateArr = date1.split("-");
     // console.log(dateArr)
@@ -185,12 +187,12 @@ const AofPdf2 = () => {
     // console.log(monthMap[month]);
     setClassesUpto(data.classes);
     setStudentNum(data.students_number);
-    if(data.fk_school){
+    if (data.fk_school) {
       setPartySchool(data.fk_school.school_name);
-    }else{
-      setPartySchool(data.name)
+    } else {
+      setPartySchool(data.name);
     }
-    setSolePPPStatus(data.status === true ? "Yes" : "No");
+    setSolePPPStatus(data.status_type);
     setAddress(data.address);
     setCity(data.fk_city.city);
     setState(data.fk_state.state);
@@ -260,17 +262,19 @@ const AofPdf2 = () => {
     }
 
     let specialDiscArr = res.data.special;
-    // console.log(specialDiscArr)
+    console.log(specialDiscArr);
     if (specialDiscArr.length === 0) {
       setSpecialArrAvail(false);
     }
 
     setSpecDiscArr(specialDiscArr);
     let seriesArr = [],
-      publisherArr = [];
+      publisherArr = [],
+      overallArr = [];
     for (let obj of specialDiscArr) {
       if (obj.series) seriesArr.push(obj);
       if (obj.publisher) publisherArr.push(obj);
+      if (obj.overall) overallArr.push(obj);
     }
     // console.log(seriesArr)
     let m = 1;
@@ -294,6 +298,17 @@ const AofPdf2 = () => {
       setPublisherArrAvail(false);
     }
     setPublisherArr(publisherArr);
+
+    let o = 1;
+    for (let obj of overallArr) {
+      obj.sl = o;
+      o++;
+    }
+    // console.log(seriesArr);
+    if (overallArr.length === 0) {
+      setOverallArrAvail(false);
+    }
+    setOverallArr(overallArr);
   };
 
   return (
@@ -327,8 +342,7 @@ const AofPdf2 = () => {
                 <b>Name of Party School*: {partySchool ? partySchool : ""}</b>
               </div>
               <div className="">
-                Status*: Sole Proprietary/ Partnership/ LLP/Pvt. Ltd. / Public
-                Ltd. /Trust: {solePPPStatus ? solePPPStatus : ""}
+              Status*: {solePPPStatus ? solePPPStatus : ""}
               </div>
               <div className="">Address*: {address ? address : ""}</div>
               <div className="flex flex-col sm:flex-row sm:justify-between">
@@ -337,7 +351,7 @@ const AofPdf2 = () => {
                 <div>Pin Code*: {pinCode ? pinCode : ""}</div>
               </div>
               <div className=" flex flex-col sm:flex-row sm:justify-between">
-                <div>Phone*: {phone ? phone : ""}</div>
+                <div>Phone: {phone ? phone : ""}</div>
                 <div>Mobile*: {mobile ? mobile : ""}</div>
                 <div>E-Mail*: {email ? email : ""}</div>
               </div>
@@ -350,14 +364,14 @@ const AofPdf2 = () => {
               </div>
               <div className="!flex gap-[2rem]">
                 <div>
-                  Firm/ Company/Trust Registration Number*:
+                  Firm/ Company/Trust Registration Number:
                   {firmRegNo ? firmRegNo : ""}
                 </div>
                 <div>Dated: {date ? date : ""}</div>
               </div>
               <div className="!flex gap-[4rem]">
-                <div>PAN No*: {panNo ? panNo : ""}(Copy Enclosed)</div>
-                <div>GST. No*:{gstNo ? gstNo : ""}</div>
+                <div>PAN No: {panNo ? panNo : ""}(Copy Enclosed)</div>
+                <div>GST. No:{gstNo ? gstNo : ""}</div>
               </div>
               <div className="">
                 <b>
@@ -384,18 +398,18 @@ const AofPdf2 = () => {
                 </div>
               </div>
               <div className="" style={{ marginTop: "5px" }}>
-                PAN No.*: {aofPan ? aofPan : ""}
+                PAN No.: {aofPan ? aofPan : ""}
               </div>
               <div className="!flex gap-[2rem]">
-                <div>Address*: {aofAddress ? aofAddress : ""}</div>
-                <div>Pin Code*: {aofPin ? aofPin : ""}</div>
+                <div>Address: {aofAddress ? aofAddress : ""}</div>
+                <div>Pin Code: {aofPin ? aofPin : ""}</div>
                 <div></div>
               </div>
               <div
                 className="flex flex-col sm:flex-row sm:justify-between"
                 style={{ marginTop: "5px" }}
               >
-                <div>Phone*: {aofPhone ? aofPhone : ""}</div>
+                <div>Phone: {aofPhone ? aofPhone : ""}</div>
                 <div>Mobile*: {aofMobile ? aofMobile : ""}</div>
                 <div>E-Mail*: {aofEmail ? aofEmail : ""}</div>
               </div>
@@ -576,8 +590,8 @@ const AofPdf2 = () => {
             <div>1. </div>
             <div>
               <b>Credit Limit.</b> Distributer shall be entitled to a maximum
-              annual Credit Limit of Rs. {creditLimit} during the
-              term of this agreement.
+              annual Credit Limit of Rs. {creditLimit} during the term of this
+              agreement.
             </div>
           </div>
           <div style={{ margin: "10px" }} className="flex container">
@@ -1143,6 +1157,40 @@ const AofPdf2 = () => {
                           <td style={{ border: "1px solid black" }}>{`${
                             i.series.percentages_type
                               ? i.series.percentages_type
+                              : ""
+                          }`}</td>
+                        </tr>
+                      );
+                    })}
+                  </>
+                ) : (
+                  ""
+                )}
+
+                {overallArrAvail ? (
+                  <tr style={{ border: "1px solid black" }}>
+                    <td style={{ border: "1px solid black" }}>Overall </td>
+                    <td style={{ border: "1px solid black" }}></td>
+                    <td style={{ border: "1px solid black" }}></td>
+                  </tr>
+                ) : (
+                  ""
+                )}
+
+                {overallArrAvail ? (
+                  <>
+                    {overallArr.map((i) => {
+                      return (
+                        <tr style={{ border: "1px solid black" }}>
+                          <td style={{ border: "1px solid black" }}>{`${
+                            i.sl ? i.sl : ""
+                          }) ${i.overall.name ? i.overall.name : ""}`}</td>
+                          <td style={{ border: "1px solid black" }}>{`${
+                            i.overall.percent ? i.overall.percent : ""
+                          } %`}</td>
+                          <td style={{ border: "1px solid black" }}>{` ${
+                            i.overall.remark
+                              ? i.overall.remark
                               : ""
                           }`}</td>
                         </tr>
