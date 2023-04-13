@@ -124,6 +124,10 @@ const AOFcreate = () => {
   const [creditLimitType, setcrditLimitType] = useState("");
   const [partyType, setPartyType] = useState("School");
   const [selectType, setSelectType] = useState("");
+  const [panLink, setPanLink] = useState("");
+  const [gstLink, setGstLink] = useState("");
+  const [adhrLink, setAdhrLink] = useState("");
+  const [desig, setDesignation] = useState("");
 
   const sidebarRef = useRef();
   const snackbarRef = useRef();
@@ -154,6 +158,14 @@ const AOFcreate = () => {
       /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$/
     );
     if (regex.test(gstNo)) {
+      return true;
+    }
+    return false;
+  }
+
+  function isValid_Aadhar(adhrNo) {
+    let regex = new RegExp(/^[2-9]{1}[0-9]{3}\s{1}[0-9]{4}\s{1}[0-9]{4}$/);
+    if (regex.test(adhrNo)) {
       return true;
     }
     return false;
@@ -232,6 +244,11 @@ const AOFcreate = () => {
       remarks: remarkss,
       students_number: totalNoStudent,
       classes: classesUpto,
+      designation: desig,
+      pan_url: panLink,
+      gst_url: gstLink,
+      adhar: aadharNo,
+      adhar_url: adhrLink,
       cp: pubArr,
       // cp: [
       //   { cp_name: "dsff", cp_business: "dsfds" },
@@ -317,7 +334,7 @@ const AOFcreate = () => {
 
   let formdata = new FormData();
   const onFileChange = async (e, index) => {
-    console.log(index);
+    // console.log(index);
     // const file = event.currentTarget["fileInput"].files[0];
     let file = e.target.files[0];
     // console.log(file.type)
@@ -357,6 +374,142 @@ const AOFcreate = () => {
       }
       // console.log(tempArr);
       setChequeForm(tempArr);
+    } else {
+      alert("Cannot upload image");
+    }
+  };
+
+  const onSignFileChange = async (e, index) => {
+    console.log(index);
+    // const file = event.currentTarget["fileInput"].files[0];
+    let file = e.target.files[0];
+    // console.log(file.type)
+    if (file.type !== "image/jpeg" && file.type !== "image/png") {
+      alert("Please Select an image file only");
+      return;
+    }
+    // console.log("first")
+    formdata.append("img", file);
+    formdata.append("test", "test");
+
+    const res = await instance({
+      url: `imagetoS3/add_image_s3`,
+      method: "POST",
+      data: formdata,
+      headers: {
+        Authorization: Cookies.get("accessToken"),
+      },
+    });
+    // console.log(res.status);
+    if (res.status === 200) {
+      let link = res.data;
+      // console.log(index);
+      // console.log(chequeForm);
+      let tempArr = [...publisherAuthForm];
+      if (tempArr.length < index + 1) {
+        let obj = {};
+        obj.idx = index;
+        obj.signature = link;
+        tempArr.push(obj);
+      } else {
+        for (let obj of tempArr) {
+          if (obj.idx === index) {
+            obj.signature = link;
+          }
+        }
+      }
+      console.log(tempArr);
+      setChequeForm(tempArr);
+    } else {
+      alert("Cannot upload image");
+    }
+  };
+
+  const onPanFileChange = async (e) => {
+    // console.log(index);
+    // const file = event.currentTarget["fileInput"].files[0];
+    let file = e.target.files[0];
+    // console.log(file.type)
+    if (file.type !== "image/jpeg" && file.type !== "image/png") {
+      alert("Please Select an image file only");
+      return;
+    }
+    // console.log("first")
+    formdata.append("img", file);
+    formdata.append("test", "test");
+
+    const res = await instance({
+      url: `imagetoS3/add_image_s3`,
+      method: "POST",
+      data: formdata,
+      headers: {
+        Authorization: Cookies.get("accessToken"),
+      },
+    });
+    // console.log(res.status);
+    if (res.status === 200) {
+      let link = res.data;
+      setPanLink(link);
+    } else {
+      alert("Cannot upload image");
+    }
+  };
+
+  const onGSTFileChange = async (e) => {
+    // console.log(index);
+    // const file = event.currentTarget["fileInput"].files[0];
+    let file = e.target.files[0];
+    // console.log(file.type)
+    if (file.type !== "image/jpeg" && file.type !== "image/png") {
+      alert("Please Select an image file only");
+      return;
+    }
+    // console.log("first")
+    formdata.append("img", file);
+    formdata.append("test", "test");
+
+    const res = await instance({
+      url: `imagetoS3/add_image_s3`,
+      method: "POST",
+      data: formdata,
+      headers: {
+        Authorization: Cookies.get("accessToken"),
+      },
+    });
+    // console.log(res.status);
+    if (res.status === 200) {
+      let link = res.data;
+      setGstLink(link);
+    } else {
+      alert("Cannot upload image");
+    }
+  };
+
+  const onAdhrFileChange = async (e) => {
+    // console.log(index);
+    // const file = event.currentTarget["fileInput"].files[0];
+    let file = e.target.files[0];
+    // console.log(file.type)
+    if (file.type !== "image/jpeg" && file.type !== "image/png") {
+      alert("Please Select an image file only");
+      return;
+    }
+    // console.log("first")
+    formdata.append("img", file);
+    formdata.append("test", "test");
+
+    const res = await instance({
+      url: `imagetoS3/add_image_s3`,
+      method: "POST",
+      data: formdata,
+      headers: {
+        Authorization: Cookies.get("accessToken"),
+      },
+    });
+    // console.log(res.status);
+    if (res.status === 200) {
+      let link = res.data;
+      setAdhrLink(link);
     } else {
       alert("Cannot upload image");
     }
@@ -696,7 +849,7 @@ const AOFcreate = () => {
         }
       }
     }
-    // console.log(tempArr);
+    console.log(tempArr);
     setPublisherAuthForm(tempArr);
   };
 
@@ -753,15 +906,15 @@ const AOFcreate = () => {
             variant={"standard"}
             multiline={false}
           />
-          <TextField
-            label={"Signature"}
-            // handleOrderProcessingForm={handleOrderProcessingForm}
-            onChange={(e) =>
-              handlePublisherAuthForm("Signature", e.target.value, i)
-            }
-            variant={"standard"}
-            multiline={false}
-          />
+          <div className="mt-6 flex">
+            <p2>Signature: </p2>
+            <input
+              label="Signature"
+              type="file"
+              name="file_upload"
+              onChange={(e) => onSignFileChange(e, i)}
+            />
+          </div>
         </li>
       );
     }
@@ -869,6 +1022,9 @@ const AOFcreate = () => {
         if (value.title === "Eupheus") setSelectType("103");
         break;
 
+      case "Designation*":
+        setDesignation(value);
+        break
       case "Aadhar No":
         console.log(value);
         setAadharNo(value);
@@ -953,7 +1109,7 @@ const AOFcreate = () => {
         break;
 
         // setAofStatus(value.title);
-        break;
+        // break;
       case "Address *":
         // console.log(value);
         setSchoolAddress(value);
@@ -1547,7 +1703,7 @@ const AOFcreate = () => {
                       <input
                         type="file"
                         name="Upload PAN"
-                        // onChange={(e) => onFileChange(e, i)}
+                        onChange={(e) => onPanFileChange(e)}
                       />
                     ) : (
                       ""
@@ -1564,7 +1720,7 @@ const AOFcreate = () => {
                       <input
                         type="file"
                         name="Upload GST"
-                        // onChange={(e) => onFileChange(e, i)}
+                        onChange={(e) => onGSTFileChange(e)}
                       />
                     ) : (
                       ""
@@ -1582,7 +1738,7 @@ const AOFcreate = () => {
                       <input
                         type="file"
                         name="Upload Aadhar"
-                        // onChange={(e) => onFileChange(e, i)}
+                        onChange={(e) => onAdhrFileChange(e)}
                       />
                     ) : (
                       ""
@@ -1611,33 +1767,27 @@ const AOFcreate = () => {
                         setSnackbarErrStatus(true);
                         setErrMessage("Please Fill All The Fields");
                         snackbarRef.current.openSnackbar();
-                      } else if (panNo.length > 0 || gstNo.length > 0) {
-                        if (panNo.length > 0) {
-                          // console.log(panNo);
-                          if (isValid_PAN(panNo) === false) {
-                            setSnackbarErrStatus(true);
-                            setErrMessage("Please Enter a Valid PAN Number");
-                            snackbarRef.current.openSnackbar();
-                          }
-                        }
-                        if (gstNo.length > 0) {
-                          // console.log(gstNo);
-                          if (isValid_GST(gstNo) === false) {
-                            setSnackbarErrStatus(true);
-                            setErrMessage("Please Enter a Valid GST Number");
-                            snackbarRef.current.openSnackbar();
-                          }
-                        }
-                        if (
-                          isValid_PAN(panNo) === true &&
-                          isValid_GST(gstNo) === true
-                        ) {
-                          setSteps({ step1: false, step2: true, step3: false });
-                          window.scroll({
-                            top: 0,
-                            behavior: "smooth",
-                          });
-                        }
+                      } else if (
+                        panNo.length > 0 &&
+                        isValid_PAN(panNo) === false
+                      ) {
+                        setSnackbarErrStatus(true);
+                        setErrMessage("Please Enter a Valid PAN Number");
+                        snackbarRef.current.openSnackbar();
+                      } else if (
+                        gstNo.length > 0 &&
+                        isValid_GST(gstNo) === false
+                      ) {
+                        setSnackbarErrStatus(true);
+                        setErrMessage("Please Enter a Valid GST Number");
+                        snackbarRef.current.openSnackbar();
+                      } else if (
+                        aadharNo.length > 0 &&
+                        isValid_Aadhar(aadharNo) === false
+                      ) {
+                        setSnackbarErrStatus(true);
+                        setErrMessage("Please Enter a Valid Aadhar Number");
+                        snackbarRef.current.openSnackbar();
                       } else {
                         setSteps({ step1: false, step2: true, step3: false });
                         window.scroll({
@@ -1769,44 +1919,48 @@ const AOFcreate = () => {
                   </div>
                   <div
                     onClick={() => {
-                      if(partyType === "School"){
-                        setSteps({ step1: false, step2: false, step3: true });
-                          window.scroll({
-                          top: 0,
-                          behavior: "smooth",
-                        });
-                      }else{
-                      if (
-                        // panNoP,
-                        // addressP,
-                        // pinCodeP,
-                        // phoneP,
-                        (!mobileP, !emailP, !proprietorName)
-                      ) {
-                        setSnackbarErrStatus(true);
-                        setErrMessage("Please Fill All The Fields");
-                        snackbarRef.current.openSnackbar();
-                      } else if (panNoP.length > 0) {
-                        // console.log(panNo);
-                        if (isValid_PAN(panNoP) === false) {
-                          setSnackbarErrStatus(true);
-                          setErrMessage("Please Enter a Valid PAN Number");
-                          snackbarRef.current.openSnackbar();
-                        }else{
-                          setSteps({ step1: false, step2: false, step3: true });
-                          window.scroll({
-                          top: 0,
-                          behavior: "smooth",
-                        });
-                        }
-                      } else {
+                      if (partyType === "School") {
                         setSteps({ step1: false, step2: false, step3: true });
                         window.scroll({
                           top: 0,
                           behavior: "smooth",
                         });
-                      }                         
-                    }
+                      } else {
+                        if (
+                          // panNoP,
+                          // addressP,
+                          // pinCodeP,
+                          // phoneP,
+                          (!mobileP, !emailP, !proprietorName)
+                        ) {
+                          setSnackbarErrStatus(true);
+                          setErrMessage("Please Fill All The Fields");
+                          snackbarRef.current.openSnackbar();
+                        } else if (panNoP.length > 0) {
+                          // console.log(panNo);
+                          if (isValid_PAN(panNoP) === false) {
+                            setSnackbarErrStatus(true);
+                            setErrMessage("Please Enter a Valid PAN Number");
+                            snackbarRef.current.openSnackbar();
+                          } else {
+                            setSteps({
+                              step1: false,
+                              step2: false,
+                              step3: true,
+                            });
+                            window.scroll({
+                              top: 0,
+                              behavior: "smooth",
+                            });
+                          }
+                        } else {
+                          setSteps({ step1: false, step2: false, step3: true });
+                          window.scroll({
+                            top: 0,
+                            behavior: "smooth",
+                          });
+                        }
+                      }
                     }}
                     className="mt-3"
                   >

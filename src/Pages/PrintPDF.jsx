@@ -241,9 +241,9 @@ const PrintPDF = () => {
                     className="md:w-[10.8rem] sm:w-[7.5rem] w-[4rem] h-auto "
                     alt=""
                   />
-                  {/* <Link to="/customer_pdf" >
+                  <Link to="/customer_pdf" >
                     <BasicButton text={"Next"} />
-                  </Link> */}
+                  </Link>
                 </section>
                 {/* <div className="flex sm:w-[60%]  flex-row gap-4 ">
                   <section className="flex w-1/2 flex-col hover:shadow-2xl cursor-pointer gap-4 items-center justify-around sm:px-4 sm:py-4 bg-gray-200 rounded-md">
