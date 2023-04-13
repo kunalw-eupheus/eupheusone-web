@@ -26,7 +26,7 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-import { Add, ExpandMore, Delete } from "@mui/icons-material";
+import { Add, ExpandMore, Delete, CloseFullscreen } from "@mui/icons-material";
 import RowRadioButtonsGroup from "../Components/Material/RowRadioButtonGroup";
 import instance from "../Instance";
 import Cookies from "js-cookie";
@@ -50,7 +50,7 @@ const AOFcreate = () => {
   const [authPerson, setAuthPerson] = useState(1);
   const [snackbarErrStatus, setSnackbarErrStatus] = useState(true);
   const [errMessage, setErrMessage] = useState("");
-  const [remarkss,setRemarkss] = useState("")
+  const [remarkss, setRemarkss] = useState("");
   const [steps, setSteps] = useState({
     step1: true,
     step2: false,
@@ -88,6 +88,7 @@ const AOFcreate = () => {
   const [firmRegNo, setFirmRegNo] = useState("");
   const [panNo, setPanNo] = useState("");
   const [gstNo, setGstNo] = useState("");
+  const [aadharNo, setAadharNo] = useState("");
   const [gstYear, setGstYear] = useState("");
   const [proprietorName, setProprietorName] = useState("");
   const [panNoP, setPanNoP] = useState("");
@@ -123,6 +124,10 @@ const AOFcreate = () => {
   const [creditLimitType, setcrditLimitType] = useState("");
   const [partyType, setPartyType] = useState("School");
   const [selectType, setSelectType] = useState("");
+  const [panLink, setPanLink] = useState("");
+  const [gstLink, setGstLink] = useState("");
+  const [adhrLink, setAdhrLink] = useState("");
+  const [desig, setDesignation] = useState("");
 
   const sidebarRef = useRef();
   const snackbarRef = useRef();
@@ -138,6 +143,32 @@ const AOFcreate = () => {
     } else {
       return false;
     }
+  }
+
+  function isValid_PAN(panNo) {
+    let regex = /^([a-zA-Z]){5}([0-9]){4}([a-zA-Z]){1}?$/;
+    if (regex.test(panNo)) {
+      return true;
+    }
+    return false;
+  }
+
+  function isValid_GST(gstNo) {
+    let regex = new RegExp(
+      /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$/
+    );
+    if (regex.test(gstNo)) {
+      return true;
+    }
+    return false;
+  }
+
+  function isValid_Aadhar(adhrNo) {
+    let regex = new RegExp(/^[2-9]{1}[0-9]{3}\s{1}[0-9]{4}\s{1}[0-9]{4}$/);
+    if (regex.test(adhrNo)) {
+      return true;
+    }
+    return false;
   }
 
   const postFormData = async () => {
@@ -213,6 +244,11 @@ const AOFcreate = () => {
       remarks: remarkss,
       students_number: totalNoStudent,
       classes: classesUpto,
+      designation: desig,
+      pan_url: panLink,
+      gst_url: gstLink,
+      adhar: aadharNo,
+      adhar_url: adhrLink,
       cp: pubArr,
       // cp: [
       //   { cp_name: "dsff", cp_business: "dsfds" },
@@ -298,14 +334,15 @@ const AOFcreate = () => {
 
   let formdata = new FormData();
   const onFileChange = async (e, index) => {
-    console.log(index);
+    // console.log(index);
     // const file = event.currentTarget["fileInput"].files[0];
     let file = e.target.files[0];
     // console.log(file.type)
-    if (file.type !== "image/jpeg") {
+    if (file.type !== "image/jpeg" && file.type !== "image/png") {
       alert("Please Select an image file only");
       return;
     }
+    // console.log("first")
     formdata.append("img", file);
     formdata.append("test", "test");
 
@@ -337,6 +374,142 @@ const AOFcreate = () => {
       }
       // console.log(tempArr);
       setChequeForm(tempArr);
+    } else {
+      alert("Cannot upload image");
+    }
+  };
+
+  const onSignFileChange = async (e, index) => {
+    console.log(index);
+    // const file = event.currentTarget["fileInput"].files[0];
+    let file = e.target.files[0];
+    // console.log(file.type)
+    if (file.type !== "image/jpeg" && file.type !== "image/png") {
+      alert("Please Select an image file only");
+      return;
+    }
+    // console.log("first")
+    formdata.append("img", file);
+    formdata.append("test", "test");
+
+    const res = await instance({
+      url: `imagetoS3/add_image_s3`,
+      method: "POST",
+      data: formdata,
+      headers: {
+        Authorization: Cookies.get("accessToken"),
+      },
+    });
+    // console.log(res.status);
+    if (res.status === 200) {
+      let link = res.data;
+      // console.log(index);
+      // console.log(chequeForm);
+      let tempArr = [...publisherAuthForm];
+      if (tempArr.length < index + 1) {
+        let obj = {};
+        obj.idx = index;
+        obj.signature = link;
+        tempArr.push(obj);
+      } else {
+        for (let obj of tempArr) {
+          if (obj.idx === index) {
+            obj.signature = link;
+          }
+        }
+      }
+      console.log(tempArr);
+      setChequeForm(tempArr);
+    } else {
+      alert("Cannot upload image");
+    }
+  };
+
+  const onPanFileChange = async (e) => {
+    // console.log(index);
+    // const file = event.currentTarget["fileInput"].files[0];
+    let file = e.target.files[0];
+    // console.log(file.type)
+    if (file.type !== "image/jpeg" && file.type !== "image/png") {
+      alert("Please Select an image file only");
+      return;
+    }
+    // console.log("first")
+    formdata.append("img", file);
+    formdata.append("test", "test");
+
+    const res = await instance({
+      url: `imagetoS3/add_image_s3`,
+      method: "POST",
+      data: formdata,
+      headers: {
+        Authorization: Cookies.get("accessToken"),
+      },
+    });
+    // console.log(res.status);
+    if (res.status === 200) {
+      let link = res.data;
+      setPanLink(link);
+    } else {
+      alert("Cannot upload image");
+    }
+  };
+
+  const onGSTFileChange = async (e) => {
+    // console.log(index);
+    // const file = event.currentTarget["fileInput"].files[0];
+    let file = e.target.files[0];
+    // console.log(file.type)
+    if (file.type !== "image/jpeg" && file.type !== "image/png") {
+      alert("Please Select an image file only");
+      return;
+    }
+    // console.log("first")
+    formdata.append("img", file);
+    formdata.append("test", "test");
+
+    const res = await instance({
+      url: `imagetoS3/add_image_s3`,
+      method: "POST",
+      data: formdata,
+      headers: {
+        Authorization: Cookies.get("accessToken"),
+      },
+    });
+    // console.log(res.status);
+    if (res.status === 200) {
+      let link = res.data;
+      setGstLink(link);
+    } else {
+      alert("Cannot upload image");
+    }
+  };
+
+  const onAdhrFileChange = async (e) => {
+    // console.log(index);
+    // const file = event.currentTarget["fileInput"].files[0];
+    let file = e.target.files[0];
+    // console.log(file.type)
+    if (file.type !== "image/jpeg" && file.type !== "image/png") {
+      alert("Please Select an image file only");
+      return;
+    }
+    // console.log("first")
+    formdata.append("img", file);
+    formdata.append("test", "test");
+
+    const res = await instance({
+      url: `imagetoS3/add_image_s3`,
+      method: "POST",
+      data: formdata,
+      headers: {
+        Authorization: Cookies.get("accessToken"),
+      },
+    });
+    // console.log(res.status);
+    if (res.status === 200) {
+      let link = res.data;
+      setAdhrLink(link);
     } else {
       alert("Cannot upload image");
     }
@@ -435,7 +608,7 @@ const AOFcreate = () => {
         if (value === "overall") {
           setPublisherData([]);
           setSeriesData([]);
-          special_obj.dis_type = "overall business";
+          special_obj.dis_type = "overall";
         } else {
           setSpecialSpecific([]);
           special_obj.dis_type = "specific";
@@ -676,7 +849,7 @@ const AOFcreate = () => {
         }
       }
     }
-    // console.log(tempArr);
+    console.log(tempArr);
     setPublisherAuthForm(tempArr);
   };
 
@@ -733,15 +906,15 @@ const AOFcreate = () => {
             variant={"standard"}
             multiline={false}
           />
-          <TextField
-            label={"Signature"}
-            // handleOrderProcessingForm={handleOrderProcessingForm}
-            onChange={(e) =>
-              handlePublisherAuthForm("Signature", e.target.value, i)
-            }
-            variant={"standard"}
-            multiline={false}
-          />
+          <div className="mt-6 flex">
+            <p2>Signature: </p2>
+            <input
+              label="Signature"
+              type="file"
+              name="file_upload"
+              onChange={(e) => onSignFileChange(e, i)}
+            />
+          </div>
         </li>
       );
     }
@@ -849,6 +1022,13 @@ const AOFcreate = () => {
         if (value.title === "Eupheus") setSelectType("103");
         break;
 
+      case "Designation*":
+        setDesignation(value);
+        break
+      case "Aadhar No":
+        console.log(value);
+        setAadharNo(value);
+        break;
       case "Classes Up to":
         console.log(value);
         setClassesUpto(value);
@@ -890,8 +1070,8 @@ const AOFcreate = () => {
         setTotalNoStudent(value);
         break;
       case "Remarks":
-        console.log(value)
-        setRemarkss(value)
+        console.log(value);
+        setRemarkss(value);
         break;
       case "aof_status":
         // console.log(value.title);
@@ -929,7 +1109,7 @@ const AOFcreate = () => {
         break;
 
         // setAofStatus(value.title);
-        break;
+        // break;
       case "Address *":
         // console.log(value);
         setSchoolAddress(value);
@@ -951,6 +1131,10 @@ const AOFcreate = () => {
         setGstYear(value);
         break;
       case "Name of Proprietor/Partner/Director/Trustee *":
+        // console.log(value);
+        setProprietorName(value);
+        break;
+      case "Name of Proprietor/Partner/Director/Trustee":
         // console.log(value);
         setProprietorName(value);
         break;
@@ -988,7 +1172,15 @@ const AOFcreate = () => {
         // console.log(value);
         setMobileP(value);
         break;
+      case "Mobile":
+        // console.log(value);
+        setMobileP(value);
+        break;
       case "E-Mail*":
+        // console.log(value);
+        setEmailP(value);
+        break;
+      case "E-Mail":
         // console.log(value);
         setEmailP(value);
         break;
@@ -1337,7 +1529,10 @@ const AOFcreate = () => {
                     {/* <div className="grid sm:grid-rows-2 sm:grid-cols-3 grid-rows-4 grid-cols-1 w-full mt-6 gap-6 rounded-md bg-slate-600"> */}
                     <SearchDropDown
                       Name={"selec_typ"}
-                      data={[{ title: "Allied" }, { title: "Eupheus" }]}
+                      data={[
+                        // { title: "Allied" },
+                        { title: "Eupheus" },
+                      ]}
                       handleOrderProcessingForm={handleOrderProcessingForm}
                       label={"Select Type"}
                       color={"rgb(243, 244, 246)"}
@@ -1377,6 +1572,13 @@ const AOFcreate = () => {
                     ) : (
                       ""
                     )}
+
+                    <BasicTextFields
+                      lable={"Designation*"}
+                      variant={"standard"}
+                      handleOrderProcessingForm={handleOrderProcessingForm}
+                      multiline={false}
+                    />
 
                     <SearchDropDown
                       Name={"aof_status"}
@@ -1443,19 +1645,26 @@ const AOFcreate = () => {
                       variant={"standard"}
                       multiline={false}
                     />
-                    <div className="sm:col-span-2">
-                      <BasicTextFields
-                        lable={"Total no of Students *"}
-                        type={"number"}
-                        handleOrderProcessingForm={handleOrderProcessingForm}
-                        variant={"standard"}
-                        multiline={false}
-                      />
-                    </div>
+                    {/* <div className="sm:col-span-2"> */}
+                    <BasicTextFields
+                      lable={"Total no of Students *"}
+                      type={"number"}
+                      handleOrderProcessingForm={handleOrderProcessingForm}
+                      variant={"standard"}
+                      multiline={false}
+                    />
+                    {/* </div> */}
                     <BasicTextFields
                       lable={"Classes Up to"}
                       handleOrderProcessingForm={handleOrderProcessingForm}
                       variant={"standard"}
+                      multiline={false}
+                    />
+                    <BasicTextFields
+                      lable={"GST Year of establishment of business"}
+                      handleOrderProcessingForm={handleOrderProcessingForm}
+                      variant={"standard"}
+                      type={"number"}
                       multiline={false}
                     />
                     {/* </div> */}
@@ -1481,55 +1690,110 @@ const AOFcreate = () => {
                       </Stack>
                     </LocalizationProvider>
 
-                    <BasicTextFields
-                      lable={"PAN NO"}
-                      handleOrderProcessingForm={handleOrderProcessingForm}
-                      variant={"standard"}
-                      multiline={false}
-                    />
-                    <BasicTextFields
-                      lable={"GST NO"}
-                      handleOrderProcessingForm={handleOrderProcessingForm}
-                      variant={"standard"}
-                      multiline={false}
-                    />
-                    <BasicTextFields
-                      lable={"GST Year of establishment of business"}
-                      handleOrderProcessingForm={handleOrderProcessingForm}
-                      variant={"standard"}
-                      type={"number"}
-                      multiline={false}
-                    />
+                    <div className="sm:col-span-2">
+                      <BasicTextFields
+                        lable={"PAN NO"}
+                        handleOrderProcessingForm={handleOrderProcessingForm}
+                        variant={"standard"}
+                        multiline={false}
+                      />
+                    </div>
+
+                    {panNo.length > 0 ? (
+                      <input
+                        type="file"
+                        name="Upload PAN"
+                        onChange={(e) => onPanFileChange(e)}
+                      />
+                    ) : (
+                      ""
+                    )}
+                    <div className="sm:col-span-2">
+                      <BasicTextFields
+                        lable={"GST NO"}
+                        handleOrderProcessingForm={handleOrderProcessingForm}
+                        variant={"standard"}
+                        multiline={false}
+                      />
+                    </div>
+                    {gstNo.length > 0 ? (
+                      <input
+                        type="file"
+                        name="Upload GST"
+                        onChange={(e) => onGSTFileChange(e)}
+                      />
+                    ) : (
+                      ""
+                    )}
+
+                    <div className="sm:col-span-2">
+                      <BasicTextFields
+                        lable={"Aadhar No"}
+                        handleOrderProcessingForm={handleOrderProcessingForm}
+                        variant={"standard"}
+                        multiline={false}
+                      />
+                    </div>
+                    {aadharNo.length > 0 ? (
+                      <input
+                        type="file"
+                        name="Upload Aadhar"
+                        onChange={(e) => onAdhrFileChange(e)}
+                      />
+                    ) : (
+                      ""
+                    )}
                   </div>
                   <div
                     className="mt-3"
                     onClick={() => {
                       if (
-                        (nameOfSchool,
-                        aofStatus,
-                        schoolAddress,
-                        stateSelect,
-                        citySelect,
-                        pinCode,
-                        mobile,
-                        date,
+                        (!nameOfSchool,
+                        !aofStatus,
+                        !schoolAddress,
+                        !stateSelect,
+                        !citySelect,
+                        !pinCode,
+                        !mobile,
+                        !date,
                         // phone,
-                        schoolEmail,
-                        totalNoStudent)
+                        !schoolEmail,
+                        !totalNoStudent)
                         // firmRegNo,
                         // panNo,
                         // gstNo,
                         // gstYear
                       ) {
+                        setSnackbarErrStatus(true);
+                        setErrMessage("Please Fill All The Fields");
+                        snackbarRef.current.openSnackbar();
+                      } else if (
+                        panNo.length > 0 &&
+                        isValid_PAN(panNo) === false
+                      ) {
+                        setSnackbarErrStatus(true);
+                        setErrMessage("Please Enter a Valid PAN Number");
+                        snackbarRef.current.openSnackbar();
+                      } else if (
+                        gstNo.length > 0 &&
+                        isValid_GST(gstNo) === false
+                      ) {
+                        setSnackbarErrStatus(true);
+                        setErrMessage("Please Enter a Valid GST Number");
+                        snackbarRef.current.openSnackbar();
+                      } else if (
+                        aadharNo.length > 0 &&
+                        isValid_Aadhar(aadharNo) === false
+                      ) {
+                        setSnackbarErrStatus(true);
+                        setErrMessage("Please Enter a Valid Aadhar Number");
+                        snackbarRef.current.openSnackbar();
+                      } else {
                         setSteps({ step1: false, step2: true, step3: false });
                         window.scroll({
                           top: 0,
                           behavior: "smooth",
                         });
-                      } else {
-                        setSnackbarErrStatus(true);
-                        setErrMessage("Please Fill All The Fields");
-                        snackbarRef.current.openSnackbar();
                       }
                     }}
                   >
@@ -1542,26 +1806,51 @@ const AOFcreate = () => {
                 <div className="flex flex-col gap-4 items-start w-[90%] px-6 bg-slate-600 rounded-md py-6 mb-[5rem]">
                   <div className="grid sm:grid-rows-3 sm:grid-cols-3 grid-rows-[7] grid-cols-1 w-full mt-6 gap-6 rounded-md bg-slate-600">
                     <div className="sm:col-span-2">
+                      {partyType === "School" ? (
+                        <BasicTextFields
+                          lable={"Name of Proprietor/Partner/Director/Trustee"}
+                          handleOrderProcessingForm={handleOrderProcessingForm}
+                          variant={"standard"}
+                          multiline={false}
+                        />
+                      ) : (
+                        <BasicTextFields
+                          lable={
+                            "Name of Proprietor/Partner/Director/Trustee *"
+                          }
+                          handleOrderProcessingForm={handleOrderProcessingForm}
+                          variant={"standard"}
+                          multiline={false}
+                        />
+                      )}
+                    </div>
+
+                    <div className="sm:col-span-2">
                       <BasicTextFields
-                        lable={"Name of Proprietor/Partner/Director/Trustee *"}
+                        lable={"PAN NO "}
                         handleOrderProcessingForm={handleOrderProcessingForm}
                         variant={"standard"}
                         multiline={false}
                       />
                     </div>
+                    {panNoP.length > 0 ? (
+                      <input
+                        type="file"
+                        name="Upload PAN"
+                        // onChange={(e) => onFileChange(e, i)}
+                      />
+                    ) : (
+                      ""
+                    )}
 
-                    <BasicTextFields
-                      lable={"PAN NO "}
-                      handleOrderProcessingForm={handleOrderProcessingForm}
-                      variant={"standard"}
-                      multiline={false}
-                    />
-                    <BasicTextFields
-                      lable={"Address "}
-                      handleOrderProcessingForm={handleOrderProcessingForm}
-                      variant={"standard"}
-                      multiline={false}
-                    />
+                    <div className="sm:col-span-2">
+                      <BasicTextFields
+                        lable={"Address "}
+                        handleOrderProcessingForm={handleOrderProcessingForm}
+                        variant={"standard"}
+                        multiline={false}
+                      />
+                    </div>
                     <BasicTextFields
                       lable={"Pin Code "}
                       handleOrderProcessingForm={handleOrderProcessingForm}
@@ -1577,19 +1866,40 @@ const AOFcreate = () => {
                       variant={"standard"}
                       multiline={false}
                     />
-                    <BasicTextFields
-                      lable={"Mobile*"}
-                      handleOrderProcessingForm={handleOrderProcessingForm}
-                      type={"number"}
-                      variant={"standard"}
-                      multiline={false}
-                    />
-                    <BasicTextFields
-                      lable={"E-Mail*"}
-                      handleOrderProcessingForm={handleOrderProcessingForm}
-                      variant={"standard"}
-                      multiline={false}
-                    />
+
+                    {partyType === "School" ? (
+                      <BasicTextFields
+                        lable={"Mobile"}
+                        handleOrderProcessingForm={handleOrderProcessingForm}
+                        type={"number"}
+                        variant={"standard"}
+                        multiline={false}
+                      />
+                    ) : (
+                      <BasicTextFields
+                        lable={"Mobile*"}
+                        handleOrderProcessingForm={handleOrderProcessingForm}
+                        type={"number"}
+                        variant={"standard"}
+                        multiline={false}
+                      />
+                    )}
+
+                    {partyType === "School" ? (
+                      <BasicTextFields
+                        lable={"E-Mail"}
+                        handleOrderProcessingForm={handleOrderProcessingForm}
+                        variant={"standard"}
+                        multiline={false}
+                      />
+                    ) : (
+                      <BasicTextFields
+                        lable={"E-Mail*"}
+                        handleOrderProcessingForm={handleOrderProcessingForm}
+                        variant={"standard"}
+                        multiline={false}
+                      />
+                    )}
                   </div>
                   <div className="w-full flex flex-col my-2 gap-2">
                     <h1 className="font-semibold text-gray-100">
@@ -1609,22 +1919,47 @@ const AOFcreate = () => {
                   </div>
                   <div
                     onClick={() => {
-                      if (
-                        // panNoP,
-                        // addressP,
-                        // pinCodeP,
-                        // phoneP,
-                        (mobileP, emailP, proprietorName)
-                      ) {
+                      if (partyType === "School") {
                         setSteps({ step1: false, step2: false, step3: true });
                         window.scroll({
                           top: 0,
                           behavior: "smooth",
                         });
                       } else {
-                        setSnackbarErrStatus(true);
-                        setErrMessage("Please Fill All The Fields");
-                        snackbarRef.current.openSnackbar();
+                        if (
+                          // panNoP,
+                          // addressP,
+                          // pinCodeP,
+                          // phoneP,
+                          (!mobileP, !emailP, !proprietorName)
+                        ) {
+                          setSnackbarErrStatus(true);
+                          setErrMessage("Please Fill All The Fields");
+                          snackbarRef.current.openSnackbar();
+                        } else if (panNoP.length > 0) {
+                          // console.log(panNo);
+                          if (isValid_PAN(panNoP) === false) {
+                            setSnackbarErrStatus(true);
+                            setErrMessage("Please Enter a Valid PAN Number");
+                            snackbarRef.current.openSnackbar();
+                          } else {
+                            setSteps({
+                              step1: false,
+                              step2: false,
+                              step3: true,
+                            });
+                            window.scroll({
+                              top: 0,
+                              behavior: "smooth",
+                            });
+                          }
+                        } else {
+                          setSteps({ step1: false, step2: false, step3: true });
+                          window.scroll({
+                            top: 0,
+                            behavior: "smooth",
+                          });
+                        }
                       }
                     }}
                     className="mt-3"
@@ -1754,7 +2089,7 @@ const AOFcreate = () => {
                         setErrMessage("Please Enter a Valid IFSC Code");
                         snackbarRef.current.openSnackbar();
                       } else {
-                        console.log("nexttttt");
+                        // console.log("nexttttt");
                         setSteps({
                           step1: false,
                           step2: false,
@@ -2581,7 +2916,6 @@ const AOFcreate = () => {
                     </Accordion>
                   </div>
 
-
                   <div className="grid sm:grid-rows-2 sm:grid-cols-3 grid-rows-4 grid-cols-1 w-full mt-6 gap-6 rounded-md bg-slate-600">
                     <BasicTextFields
                       lable={"Remarks"}
@@ -2591,7 +2925,6 @@ const AOFcreate = () => {
                       multiline={false}
                     />
                   </div>
-
 
                   <div onClick={handleDataSubmit}>
                     <BasicButton text={"Submit"} />

@@ -17,6 +17,7 @@ const CustLedger = () => {
   const [ttlDebit, setTtlDebit] = useState("");
   const [ttlCredit, setTtlCredit] = useState("");
   const [totlAmnt, setTotlAmnt] = useState("")
+  const [drCr, setDrCr] = useState("")
 
   const { bp, todate, fromdate } = useParams();
 
@@ -75,6 +76,7 @@ const CustLedger = () => {
     setTtlDebit(totalDebit);
     // console.log(totalCredit)
     setTtlCredit(totalCredit);
+    // console.log("----------------------")
     // console.log(data);
     setDate(data.date);
     setAddress(data.address);
@@ -89,6 +91,20 @@ const CustLedger = () => {
     let totalAmnt = data.opening + totalCredit
     // console.log(totalAmnt)
     setTotlAmnt(totalAmnt)
+
+    let opngDrAmnt = data.opening
+
+    if(opngDrAmnt < 0){
+      totalCredit = opngDrAmnt + totalCredit
+      setDrCr("Cr")
+    }else{
+      totalDebit = opngDrAmnt + totalDebit
+      setDrCr("Dr")
+    }
+    // console.log(totalDebit)
+    // console.log(totalCredit)
+    setTtlDebit(totalDebit);
+    setTtlCredit(totalCredit);
   };
 
   return (
@@ -371,7 +387,7 @@ const CustLedger = () => {
               }}
             >
               <p
-                className="s4"
+                className=""
                 style={{
                   paddingTop: "5pt",
                   paddingLeft: "9pt",
@@ -380,7 +396,7 @@ const CustLedger = () => {
                   textAlign: "center",
                 }}
               >
-                Opening :- Dr
+                <b>Opening :- {drCr}</b>
               </p>
             </td>
 
