@@ -14,7 +14,7 @@ import { ToWords } from "to-words";
 import moment from "moment";
 const toWords = new ToWords();
 
-const AofPdf2 = () => {
+const AofPdf4 = () => {
   const [date, setDate] = useState("");
   const [partySchool, setPartySchool] = useState("");
   const [partySchoolAlt, setPartySchoolAlt] = useState("");
@@ -223,6 +223,7 @@ const AofPdf2 = () => {
     }
     // console.log(crdtPrts)
     setCreditParties(crdtPrts);
+
     if(res.data.message.aof_banks.length === 0){
       console.log(res.data.message.aof_banks)
     }else{
@@ -241,6 +242,8 @@ const AofPdf2 = () => {
       // console.log(bnkDataArr);
       setBankChecq(bnkDataArr);
     }
+
+   
 
     console.log(res.data);
     if (res.data.tod.length !== 0) {
@@ -318,7 +321,7 @@ const AofPdf2 = () => {
   };
 
   return (
-    <div className="bg-white w-[21cm]">
+    <div className="bg-white">
       <div className="bg-white ">
         <div className="">
           <div className="flex justify-center mt-[1rem]">
@@ -332,7 +335,7 @@ const AofPdf2 = () => {
             <u>CUSTOMER REGISTRATION FORM AND AGREEMENT</u>
           </div>
           <div
-            className=" flex justify-around"
+            className=" flex flex-col ml-[6rem] sm:flex-row sm:justify-around"
             style={{ marginTop: "30px", fontSize: "11pt" }}
           >
             <div>No.: {bpCode}</div>
@@ -351,17 +354,17 @@ const AofPdf2 = () => {
               Status*: {solePPPStatus ? solePPPStatus : ""}
               </div>
               <div className="">Address*: {address ? address : ""}</div>
-              <div className="flex justify-between">
+              <div className="flex flex-col sm:flex-row sm:justify-between">
                 <div>City*: {city ? city : ""}</div>
                 <div>State*: {state ? state : ""}</div>
                 <div>Pin Code*: {pinCode ? pinCode : ""}</div>
               </div>
-              <div className=" flex justify-between">
+              <div className=" flex flex-col sm:flex-row sm:justify-between">
                 <div>Phone: {phone ? phone : ""}</div>
                 <div>Mobile*: {mobile ? mobile : ""}</div>
                 <div>E-Mail*: {email ? email : ""}</div>
               </div>
-              <div className="flex justify-between">
+              <div className="flex flex-col sm:flex-row sm:justify-between">
                 <div>
                   Total no of Students*:
                   {studentNum ? studentNum : ""}
@@ -412,7 +415,7 @@ const AofPdf2 = () => {
                 <div></div>
               </div>
               <div
-                className="flex justify-between"
+                className="flex flex-col sm:flex-row sm:justify-between"
                 style={{ marginTop: "5px" }}
               >
                 <div>Phone: {aofPhone ? aofPhone : ""}</div>
@@ -471,7 +474,7 @@ const AofPdf2 = () => {
                 {bankName ? bankName : ""}
               </div>
               <div
-                className="flex justify-between"
+                className="flex flex-col sm:flex-row sm:justify-between"
                 style={{ marginTop: "5px" }}
               >
                 <div>Account Number*:{accNo ? accNo : ""}</div>
@@ -488,7 +491,7 @@ const AofPdf2 = () => {
               {bankChecq.map((item) => {
                 return (
                   <div
-                    className="flex justify-between"
+                    className="flex flex-col sm:flex-row sm:justify-between"
                     style={{ marginTop: "5px" }}
                   >
                     <div>
@@ -1234,7 +1237,7 @@ const AofPdf2 = () => {
           </div>
 
           <div
-            className="flex justify-around"
+            className="flex flex-col m-[2rem] sm:flex-row sm:justify-around sm:m-0"
             style={{ marginTop: "20px" }}
           >
             <div>
@@ -1311,7 +1314,7 @@ const AofPdf2 = () => {
             </div>
          
         </div>
-        {/* <hr className="w-[95%] bg-black h-[2px] my-[1rem] mx-[1rem]" />
+        <hr className="w-[95%] bg-black h-[2px] my-[1rem] mx-[1rem]" />
         <div className="flex flex-col sm:flex-row sm:justify-between mx-[1rem] ">
           <div>
             <Checkbox
@@ -1325,10 +1328,10 @@ const AofPdf2 = () => {
           <Button onClick={getLocation} variant="contained">
             Submit
           </Button>
-        </div> */}
+        </div>
       </div>
     </div>
   );
 };
 
-export default AofPdf2;
+export default AofPdf4;

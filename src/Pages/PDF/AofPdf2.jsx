@@ -224,19 +224,26 @@ const AofPdf2 = () => {
     // console.log(crdtPrts)
     setCreditParties(crdtPrts);
 
-    let bnkData = res.data.message.aof_banks[0];
-    setBankName(bnkData.name);
-    setAccNo(bnkData.account_no);
-    setAccType(bnkData.acc_type);
-    setAccIfsc(bnkData.ifsc);
-    let bnkDataArr = bnkData.aof_bank_cheques;
-    let j = 1;
-    for (let obj of bnkDataArr) {
-      obj.sl = j;
-      j++;
+    if(res.data.message.aof_banks.length === 0){
+      console.log(res.data.message.aof_banks)
+    }else{
+      let bnkData = res.data.message.aof_banks[0];
+      console.log(bnkData)
+      setBankName(bnkData.name);
+      setAccNo(bnkData.account_no);
+      setAccType(bnkData.acc_type);
+      setAccIfsc(bnkData.ifsc);
+      let bnkDataArr = bnkData.aof_bank_cheques;
+      let j = 1;
+      for (let obj of bnkDataArr) {
+        obj.sl = j;
+        j++;
+      }
+      // console.log(bnkDataArr);
+      setBankChecq(bnkDataArr);
     }
-    // console.log(bnkDataArr);
-    setBankChecq(bnkDataArr);
+
+   
 
     console.log(res.data);
     if (res.data.tod.length !== 0) {
@@ -1250,7 +1257,7 @@ const AofPdf2 = () => {
                 <b>NAME OF DISTRIBUTOR:</b>
               </div>
               <div style={{ marginTop: "30px" }}>By: ________________</div>
-              <div style={{ marginTop: "5px" }}>Party Name:</div>
+              <div style={{ marginTop: "5px" }}>Party Name: {partySchool ? partySchool : ""}</div>
               <div style={{ marginTop: "5px" }}>Designation: {dsgntn}</div>
               {/* <div style={{ marginTop: "5px" }}>Witness 2: </div> */}
             </div>
@@ -1307,7 +1314,7 @@ const AofPdf2 = () => {
             </div>
          
         </div>
-        <hr className="w-[95%] bg-black h-[2px] my-[1rem] mx-[1rem]" />
+        {/* <hr className="w-[95%] bg-black h-[2px] my-[1rem] mx-[1rem]" />
         <div className="flex flex-col sm:flex-row sm:justify-between mx-[1rem] ">
           <div>
             <Checkbox
@@ -1321,7 +1328,7 @@ const AofPdf2 = () => {
           <Button onClick={getLocation} variant="contained">
             Submit
           </Button>
-        </div>
+        </div> */}
       </div>
     </div>
   );
