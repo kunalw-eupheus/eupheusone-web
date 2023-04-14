@@ -219,104 +219,402 @@ const AOFcreate = () => {
       ...specialSpecific,
     ];
     // console.log(specialData);
+    // console.log(pubArr)
+    let postData
+    if(pubArr.length === 0){
+      postData = {
+        name: nameOfSchool,
+        status_type: aofStatus,
+        aof_type: selectType,
+        party_type: partyType,
+        fk_school_id: idOfSchool,
+        fk_state_id: stateSelect,
+        fk_city_id: citySelect,
+        zip_code: pinCode,
+        address: schoolAddress,
+        phone: phone,
+        mobile: mobile,
+        email: schoolEmail,
+        firm_reg: firmRegNo,
+        date: date,
+        pan: panNo,
+        gst: gstNo,
+        business_est: gstYear,
+        t_name: proprietorName,
+        t_pan: panNoP,
+        t_zip_code: pinCodeP,
+        t_address: addressP,
+        t_phone: phoneP,
+        t_mobile: mobileP,
+        t_email: emailP,
+        credit_limit: creditLimit,
+        credit_type: creditLimitType,
+        remarks: remarkss,
+        students_number: totalNoStudent,
+        classes: classesUpto,
+        designation: desig,
+        pan_url: panLink,
+        gst_url: gstLink,
+        adhar: aadharNo,
+        adhar_url: adhrLink,
+        // cp: pubArr,
+        // cp: [
+        //   { cp_name: "dsff", cp_business: "dsfds" },
+        //   { cp_name: "dsff", cp_business: "dsfds" },
+        //   { cp_name: "dsff", cp_business: "dsfds" },
+        // ],
+        ab_name: partyBankerName,
+        ab_account_no: accNoP,
+        ab_acc_type: aofAcc,
+        ab_ifsc: ifscP,
+        cheque: chekArr,
+        // cheque: [
+        //   {
+        //     abc_cheque_no: "fdsfds",
+        //     abc_bank: "dsfsdf",
+        //     abc_branch_ifsc: "dsfdsfd",
+        //     abc_cheque_link: "dsfdsfd",
+        //   },
+        //   {
+        //     abc_cheque_no: "fdsfds",
+        //     abc_bank: "dsfsdf",
+        //     abc_branch_ifsc: "dsfdsfd",
+        //     abc_cheque_link: "dsfdsfd",
+        //   },
+        // ],
+        good_picks: authArr,
+        cash: [
+          {
+            type: "cash",
+            eligibile: cashOption,
+          },
+        ],
+        tod: [
+          {
+            type: "tod",
+            eligibile: todCondition,
+            percentages: todPercent,
+            percentages_type: todOption,
+          },
+        ],
+        special: specialData,
+        // [
+        //   {
+        //     type: "special",
+        //     eligibile: "yes",
+        //     dis_type: "specific",
+        //     category: "series",
+        //     fk_category_id: "40481858-d49b-4a24-bbd3-b68617ce16f1",
+        //     percentages: "30",
+        //     percentages_type: "net",
+        //   },
+        //   {
+        //     type: "special",
+        //     eligibile: "yes",
+        //     dis_type: "specific",
+        //     category: "items",
+        //     fk_category_id: "c12db2ed-de50-4533-a8c4-39dd1cc506a3",
+        //     percentages: "30",
+        //     percentages_type: "net",
+        //   },
+        // ],
+      };
+    }else if(classesUpto.length === 0){
+      postData = {
+        name: nameOfSchool,
+        status_type: aofStatus,
+        aof_type: selectType,
+        party_type: partyType,
+        fk_school_id: idOfSchool,
+        fk_state_id: stateSelect,
+        fk_city_id: citySelect,
+        zip_code: pinCode,
+        address: schoolAddress,
+        phone: phone,
+        mobile: mobile,
+        email: schoolEmail,
+        firm_reg: firmRegNo,
+        date: date,
+        pan: panNo,
+        gst: gstNo,
+        business_est: gstYear,
+        t_name: proprietorName,
+        t_pan: panNoP,
+        t_zip_code: pinCodeP,
+        t_address: addressP,
+        t_phone: phoneP,
+        t_mobile: mobileP,
+        t_email: emailP,
+        credit_limit: creditLimit,
+        credit_type: creditLimitType,
+        remarks: remarkss,
+        students_number: totalNoStudent,
+        // classes: classesUpto,
+        designation: desig,
+        pan_url: panLink,
+        gst_url: gstLink,
+        adhar: aadharNo,
+        adhar_url: adhrLink,
+        cp: pubArr,
+        // cp: [
+        //   { cp_name: "dsff", cp_business: "dsfds" },
+        //   { cp_name: "dsff", cp_business: "dsfds" },
+        //   { cp_name: "dsff", cp_business: "dsfds" },
+        // ],
+        ab_name: partyBankerName,
+        ab_account_no: accNoP,
+        ab_acc_type: aofAcc,
+        ab_ifsc: ifscP,
+        cheque: chekArr,
+        // cheque: [
+        //   {
+        //     abc_cheque_no: "fdsfds",
+        //     abc_bank: "dsfsdf",
+        //     abc_branch_ifsc: "dsfdsfd",
+        //     abc_cheque_link: "dsfdsfd",
+        //   },
+        //   {
+        //     abc_cheque_no: "fdsfds",
+        //     abc_bank: "dsfsdf",
+        //     abc_branch_ifsc: "dsfdsfd",
+        //     abc_cheque_link: "dsfdsfd",
+        //   },
+        // ],
+        good_picks: authArr,
+        cash: [
+          {
+            type: "cash",
+            eligibile: cashOption,
+          },
+        ],
+        tod: [
+          {
+            type: "tod",
+            eligibile: todCondition,
+            percentages: todPercent,
+            percentages_type: todOption,
+          },
+        ],
+        special: specialData,
+        // [
+        //   {
+        //     type: "special",
+        //     eligibile: "yes",
+        //     dis_type: "specific",
+        //     category: "series",
+        //     fk_category_id: "40481858-d49b-4a24-bbd3-b68617ce16f1",
+        //     percentages: "30",
+        //     percentages_type: "net",
+        //   },
+        //   {
+        //     type: "special",
+        //     eligibile: "yes",
+        //     dis_type: "specific",
+        //     category: "items",
+        //     fk_category_id: "c12db2ed-de50-4533-a8c4-39dd1cc506a3",
+        //     percentages: "30",
+        //     percentages_type: "net",
+        //   },
+        // ],
+      };
+    }else if(pubArr.length === 0 && classesUpto.length === 0){
+      postData = {
+        name: nameOfSchool,
+        status_type: aofStatus,
+        aof_type: selectType,
+        party_type: partyType,
+        fk_school_id: idOfSchool,
+        fk_state_id: stateSelect,
+        fk_city_id: citySelect,
+        zip_code: pinCode,
+        address: schoolAddress,
+        phone: phone,
+        mobile: mobile,
+        email: schoolEmail,
+        firm_reg: firmRegNo,
+        date: date,
+        pan: panNo,
+        gst: gstNo,
+        business_est: gstYear,
+        t_name: proprietorName,
+        t_pan: panNoP,
+        t_zip_code: pinCodeP,
+        t_address: addressP,
+        t_phone: phoneP,
+        t_mobile: mobileP,
+        t_email: emailP,
+        credit_limit: creditLimit,
+        credit_type: creditLimitType,
+        remarks: remarkss,
+        students_number: totalNoStudent,
+        // classes: classesUpto,
+        designation: desig,
+        pan_url: panLink,
+        gst_url: gstLink,
+        adhar: aadharNo,
+        adhar_url: adhrLink,
+        // cp: pubArr,
+        // cp: [
+        //   { cp_name: "dsff", cp_business: "dsfds" },
+        //   { cp_name: "dsff", cp_business: "dsfds" },
+        //   { cp_name: "dsff", cp_business: "dsfds" },
+        // ],
+        ab_name: partyBankerName,
+        ab_account_no: accNoP,
+        ab_acc_type: aofAcc,
+        ab_ifsc: ifscP,
+        cheque: chekArr,
+        // cheque: [
+        //   {
+        //     abc_cheque_no: "fdsfds",
+        //     abc_bank: "dsfsdf",
+        //     abc_branch_ifsc: "dsfdsfd",
+        //     abc_cheque_link: "dsfdsfd",
+        //   },
+        //   {
+        //     abc_cheque_no: "fdsfds",
+        //     abc_bank: "dsfsdf",
+        //     abc_branch_ifsc: "dsfdsfd",
+        //     abc_cheque_link: "dsfdsfd",
+        //   },
+        // ],
+        good_picks: authArr,
+        cash: [
+          {
+            type: "cash",
+            eligibile: cashOption,
+          },
+        ],
+        tod: [
+          {
+            type: "tod",
+            eligibile: todCondition,
+            percentages: todPercent,
+            percentages_type: todOption,
+          },
+        ],
+        special: specialData,
+        // [
+        //   {
+        //     type: "special",
+        //     eligibile: "yes",
+        //     dis_type: "specific",
+        //     category: "series",
+        //     fk_category_id: "40481858-d49b-4a24-bbd3-b68617ce16f1",
+        //     percentages: "30",
+        //     percentages_type: "net",
+        //   },
+        //   {
+        //     type: "special",
+        //     eligibile: "yes",
+        //     dis_type: "specific",
+        //     category: "items",
+        //     fk_category_id: "c12db2ed-de50-4533-a8c4-39dd1cc506a3",
+        //     percentages: "30",
+        //     percentages_type: "net",
+        //   },
+        // ],
+      };
+    }else{
+      postData = {
+        name: nameOfSchool,
+        status_type: aofStatus,
+        aof_type: selectType,
+        party_type: partyType,
+        fk_school_id: idOfSchool,
+        fk_state_id: stateSelect,
+        fk_city_id: citySelect,
+        zip_code: pinCode,
+        address: schoolAddress,
+        phone: phone,
+        mobile: mobile,
+        email: schoolEmail,
+        firm_reg: firmRegNo,
+        date: date,
+        pan: panNo,
+        gst: gstNo,
+        business_est: gstYear,
+        t_name: proprietorName,
+        t_pan: panNoP,
+        t_zip_code: pinCodeP,
+        t_address: addressP,
+        t_phone: phoneP,
+        t_mobile: mobileP,
+        t_email: emailP,
+        credit_limit: creditLimit,
+        credit_type: creditLimitType,
+        remarks: remarkss,
+        students_number: totalNoStudent,
+        classes: classesUpto,
+        designation: desig,
+        pan_url: panLink,
+        gst_url: gstLink,
+        adhar: aadharNo,
+        adhar_url: adhrLink,
+        cp: pubArr,
+        // cp: [
+        //   { cp_name: "dsff", cp_business: "dsfds" },
+        //   { cp_name: "dsff", cp_business: "dsfds" },
+        //   { cp_name: "dsff", cp_business: "dsfds" },
+        // ],
+        ab_name: partyBankerName,
+        ab_account_no: accNoP,
+        ab_acc_type: aofAcc,
+        ab_ifsc: ifscP,
+        cheque: chekArr,
+        // cheque: [
+        //   {
+        //     abc_cheque_no: "fdsfds",
+        //     abc_bank: "dsfsdf",
+        //     abc_branch_ifsc: "dsfdsfd",
+        //     abc_cheque_link: "dsfdsfd",
+        //   },
+        //   {
+        //     abc_cheque_no: "fdsfds",
+        //     abc_bank: "dsfsdf",
+        //     abc_branch_ifsc: "dsfdsfd",
+        //     abc_cheque_link: "dsfdsfd",
+        //   },
+        // ],
+        good_picks: authArr,
+        cash: [
+          {
+            type: "cash",
+            eligibile: cashOption,
+          },
+        ],
+        tod: [
+          {
+            type: "tod",
+            eligibile: todCondition,
+            percentages: todPercent,
+            percentages_type: todOption,
+          },
+        ],
+        special: specialData,
+        // [
+        //   {
+        //     type: "special",
+        //     eligibile: "yes",
+        //     dis_type: "specific",
+        //     category: "series",
+        //     fk_category_id: "40481858-d49b-4a24-bbd3-b68617ce16f1",
+        //     percentages: "30",
+        //     percentages_type: "net",
+        //   },
+        //   {
+        //     type: "special",
+        //     eligibile: "yes",
+        //     dis_type: "specific",
+        //     category: "items",
+        //     fk_category_id: "c12db2ed-de50-4533-a8c4-39dd1cc506a3",
+        //     percentages: "30",
+        //     percentages_type: "net",
+        //   },
+        // ],
+      };
+    }
 
-    let postData = {
-      name: nameOfSchool,
-      status_type: aofStatus,
-      aof_type: selectType,
-      party_type: partyType,
-      fk_school_id: idOfSchool,
-      fk_state_id: stateSelect,
-      fk_city_id: citySelect,
-      zip_code: pinCode,
-      address: schoolAddress,
-      phone: phone,
-      mobile: mobile,
-      email: schoolEmail,
-      firm_reg: firmRegNo,
-      date: date,
-      pan: panNo,
-      gst: gstNo,
-      business_est: gstYear,
-      t_name: proprietorName,
-      t_pan: panNoP,
-      t_zip_code: pinCodeP,
-      t_address: addressP,
-      t_phone: phoneP,
-      t_mobile: mobileP,
-      t_email: emailP,
-      credit_limit: creditLimit,
-      credit_type: creditLimitType,
-      remarks: remarkss,
-      students_number: totalNoStudent,
-      classes: classesUpto,
-      designation: desig,
-      pan_url: panLink,
-      gst_url: gstLink,
-      adhar: aadharNo,
-      adhar_url: adhrLink,
-      cp: pubArr,
-      // cp: [
-      //   { cp_name: "dsff", cp_business: "dsfds" },
-      //   { cp_name: "dsff", cp_business: "dsfds" },
-      //   { cp_name: "dsff", cp_business: "dsfds" },
-      // ],
-      ab_name: partyBankerName,
-      ab_account_no: accNoP,
-      ab_acc_type: aofAcc,
-      ab_ifsc: ifscP,
-      cheque: chekArr,
-      // cheque: [
-      //   {
-      //     abc_cheque_no: "fdsfds",
-      //     abc_bank: "dsfsdf",
-      //     abc_branch_ifsc: "dsfdsfd",
-      //     abc_cheque_link: "dsfdsfd",
-      //   },
-      //   {
-      //     abc_cheque_no: "fdsfds",
-      //     abc_bank: "dsfsdf",
-      //     abc_branch_ifsc: "dsfdsfd",
-      //     abc_cheque_link: "dsfdsfd",
-      //   },
-      // ],
-      good_picks: authArr,
-      cash: [
-        {
-          type: "cash",
-          eligibile: cashOption,
-        },
-      ],
-      tod: [
-        {
-          type: "tod",
-          eligibile: todCondition,
-          percentages: todPercent,
-          percentages_type: todOption,
-        },
-      ],
-      special: specialData,
-      // [
-      //   {
-      //     type: "special",
-      //     eligibile: "yes",
-      //     dis_type: "specific",
-      //     category: "series",
-      //     fk_category_id: "40481858-d49b-4a24-bbd3-b68617ce16f1",
-      //     percentages: "30",
-      //     percentages_type: "net",
-      //   },
-      //   {
-      //     type: "special",
-      //     eligibile: "yes",
-      //     dis_type: "specific",
-      //     category: "items",
-      //     fk_category_id: "c12db2ed-de50-4533-a8c4-39dd1cc506a3",
-      //     percentages: "30",
-      //     percentages_type: "net",
-      //   },
-      // ],
-    };
     console.log(postData);
     const res = await instance({
       url: `sales_data/aof/create`,
@@ -1072,7 +1370,7 @@ const AOFcreate = () => {
         console.log(value);
         setAadharNo(value);
         break;
-      case "Classes Up to *":
+      case "Classes Up to":
         console.log(value);
         setClassesUpto(value);
         break;
@@ -1711,7 +2009,7 @@ const AOFcreate = () => {
                     />
                     {/* </div> */}
                     <BasicTextFields
-                      lable={"Classes Up to *"}
+                      lable={"Classes Up to"}
                       handleOrderProcessingForm={handleOrderProcessingForm}
                       variant={"standard"}
                       multiline={false}
@@ -1819,7 +2117,7 @@ const AOFcreate = () => {
                         setSnackbarErrStatus(true);
                         setErrMessage("Please Fill All The Fields");
                         snackbarRef.current.openSnackbar();
-                      }else if(date.length==0 || classesUpto.length==0){
+                      }else if(date.length==0){
                         setSnackbarErrStatus(true);
                         setErrMessage("Please Fill All The Fields");
                         snackbarRef.current.openSnackbar();
@@ -1989,7 +2287,7 @@ const AOFcreate = () => {
                   <div className="w-full flex flex-col my-2 gap-2">
                     <h1 className="font-semibold text-gray-100">
                       Name of other Publishers/Suppliers from whom the party has
-                      credit facilities: *
+                      credit facilities:
                     </h1>
                     <div onClick={() => setSuppliers(suppliers + 1)}>
                       {/* <BasicButton text={"Add More"} /> */}
@@ -2005,7 +2303,7 @@ const AOFcreate = () => {
                   <div
                     onClick={() => {
                      
-                        if (mobileP.length==0 || emailP.length==0 || proprietorName.length==0 || publisherForm.length === 0){
+                        if (mobileP.length==0 || emailP.length==0 || proprietorName.length==0){
                           setSnackbarErrStatus(true);
                           setErrMessage("Please Fill All The Fields");
                           snackbarRef.current.openSnackbar();

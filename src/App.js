@@ -87,6 +87,9 @@ import AOFEdit from "./Pages/AOFEdit";
 import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import AofPdf3temp from "./Pages/PDF/AofPdf3temp";
+import AofPdf4 from "./Pages/PDF/AofPdf4";
+
+
 function App() {
 
   const [userCache, setUserCache] = useState(false)
@@ -314,6 +317,7 @@ function App() {
               <Route path="/zsm/view_aof_pdf2/:aofid" element={<AofPdf2 />} />
               <Route path="/saleshead/view_aof_pdf2/:aofid" element={<AofPdf2 />} />
               <Route path="/finance/view_aof_pdf2/:aofid" element={<AofPdf2 />} />
+              <Route path="/customer/aof/verify/:aofid" element={<AofPdf4/>} />
 
 
               <Route
