@@ -37,6 +37,12 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Snackbars from "../Components/Material/SnackBar";
+import validatePan from "../util/validatePan";
+import validateGST from "../util/validateGST"
+import validateIFSC from "../util/validateIFSC"
+import validateAadhar from "../util/validateAadhar"
+import validateEmail from "../util/validateEmail";
+
 
 const AOFcreate = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
@@ -97,10 +103,10 @@ const AOFcreate = () => {
   const [phoneP, setPhoneP] = useState("");
   const [mobileP, setMobileP] = useState("");
   const [emailP, setEmailP] = useState("");
-  const [partyBankerName, setPartyBankerName] = useState(null);
-  const [accNoP, setAccNoP] = useState(null);
-  const [ifscP, setIfscP] = useState(null);
-  const [aofAcc, setAofAcc] = useState(null);
+  const [partyBankerName, setPartyBankerName] = useState("");
+  const [accNoP, setAccNoP] = useState("");
+  const [ifscP, setIfscP] = useState("");
+  const [aofAcc, setAofAcc] = useState("");
   const [todOption, setTodOption] = useState("");
   const [todCondition, setTodCondition] = useState("");
   const [todPercent, setTodPercent] = useState("");
@@ -127,8 +133,8 @@ const AOFcreate = () => {
   const [panLink, setPanLink] = useState("");
   const [gstLink, setGstLink] = useState("");
   const [adhrLink, setAdhrLink] = useState("");
+  const [panPLink, setPanPLink] = useState("")
   const [desig, setDesignation] = useState("");
-
   const sidebarRef = useRef();
   const snackbarRef = useRef();
 
@@ -329,6 +335,12 @@ const AOFcreate = () => {
   };
 
   const handleDataSubmit = async () => {
+    if(creditLimit.length === 0){
+      setSnackbarErrStatus(true);
+      setErrMessage("Please Enter Credit Limit");
+      snackbarRef.current.openSnackbar();
+      return
+    }
     postFormData();
   };
 
@@ -450,6 +462,37 @@ const AOFcreate = () => {
     if (res.status === 200) {
       let link = res.data;
       setPanLink(link);
+    } else {
+      alert("Cannot upload image");
+    }
+  };
+
+
+  const onPanPChange = async (e) => {
+    // console.log(index);
+    // const file = event.currentTarget["fileInput"].files[0];
+    let file = e.target.files[0];
+    // console.log(file.type)
+    if (file.type !== "image/jpeg" && file.type !== "image/png") {
+      alert("Please Select an image file only");
+      return;
+    }
+    // console.log("first")
+    formdata.append("img", file);
+    formdata.append("test", "test");
+
+    const res = await instance({
+      url: `imagetoS3/add_image_s3`,
+      method: "POST",
+      data: formdata,
+      headers: {
+        Authorization: Cookies.get("accessToken"),
+      },
+    });
+    // console.log(res.status);
+    if (res.status === 200) {
+      let link = res.data;
+      setPanPLink(link);
     } else {
       alert("Cannot upload image");
     }
@@ -1019,7 +1062,7 @@ const AOFcreate = () => {
       case "selec_typ":
         // console.log(value)
         if (value.title === "Allied") setSelectType("100");
-        if (value.title === "Eupheus") setSelectType("103");
+        if (value.title === "Eupheus") setSelectType("165");
         break;
 
       case "Designation*":
@@ -1029,7 +1072,7 @@ const AOFcreate = () => {
         console.log(value);
         setAadharNo(value);
         break;
-      case "Classes Up to":
+      case "Classes Up to *":
         console.log(value);
         setClassesUpto(value);
         break;
@@ -1151,7 +1194,7 @@ const AOFcreate = () => {
         // setPanNoP(value);
         setcrditLimitType(value.title);
         break;
-      case "Credit Limit":
+      case "Credit Limit *":
         // console.log(value);
         // setPanNoP(value);
         setcrditLimit(value);
@@ -1188,11 +1231,23 @@ const AOFcreate = () => {
         // console.log(value);
         setPartyBankerName(value);
         break;
+        case "Name and address of the party’s main bankers":
+        // console.log(value);
+        setPartyBankerName(value);
+        break;
       case "Account Number *":
         // console.log(value);
         setAccNoP(value);
         break;
+        case "Account Number":
+          // console.log(value);
+          setAccNoP(value);
+          break;
       case "IFSC *":
+        // console.log(value);
+        setIfscP(value);
+        break;
+        case "IFSC":
         // console.log(value);
         setIfscP(value);
         break;
@@ -1357,6 +1412,7 @@ const AOFcreate = () => {
     // let mnt = newValue.$M+1
     // let dy = newValue.$D
     // let date = `${yr}-${mnt}-${dy}`;
+    console.log(newValue)
     if (!newValue) {
       setDate("");
     } else {
@@ -1655,7 +1711,7 @@ const AOFcreate = () => {
                     />
                     {/* </div> */}
                     <BasicTextFields
-                      lable={"Classes Up to"}
+                      lable={"Classes Up to *"}
                       handleOrderProcessingForm={handleOrderProcessingForm}
                       variant={"standard"}
                       multiline={false}
@@ -1755,40 +1811,92 @@ const AOFcreate = () => {
                         !citySelect,
                         !pinCode,
                         !mobile,
-                        !date,
-                        // phone,
+                        // !date,
+                        // !classesUpto,
                         !schoolEmail,
                         !totalNoStudent)
-                        // firmRegNo,
-                        // panNo,
-                        // gstNo,
-                        // gstYear
                       ) {
                         setSnackbarErrStatus(true);
                         setErrMessage("Please Fill All The Fields");
                         snackbarRef.current.openSnackbar();
-                      } else if (
+                      }else if(date.length==0 || classesUpto.length==0){
+                        setSnackbarErrStatus(true);
+                        setErrMessage("Please Fill All The Fields");
+                        snackbarRef.current.openSnackbar();
+                      } else if(mobile.length !== 10){
+                        setSnackbarErrStatus(true);
+                        setErrMessage("Please Enter a Valid Mobile Number");
+                        snackbarRef.current.openSnackbar();
+                      }else if(pinCode.length !== 6){
+                        setSnackbarErrStatus(true);
+                        setErrMessage("Please Enter a Valid Pin Code");
+                        snackbarRef.current.openSnackbar();
+                      }
+                      // else if(phone.length > 0){
+                      //   if(phone.length !== 10){
+                      //     setSnackbarErrStatus(true);
+                      //     setErrMessage("Please Enter a Valid Phone Number");
+                      //     snackbarRef.current.openSnackbar();
+                      //   }
+                      // }else if(gstYear.length > 0){
+                      //   if(gstYear.length !== 4){
+                      //     setSnackbarErrStatus(true);
+                      //     setErrMessage("Please Enter a Valid GST Number");
+                      //     snackbarRef.current.openSnackbar();
+                      //   }
+                      // }
+                      else if (
+                       validateEmail(schoolEmail) === false
+                      ) {
+                        setSnackbarErrStatus(true);
+                        setErrMessage("Please Enter a Valid Email");
+                        snackbarRef.current.openSnackbar();
+                      }
+                       else if (
                         panNo.length > 0 &&
-                        isValid_PAN(panNo) === false
+                        validatePan(panNo) === false
                       ) {
                         setSnackbarErrStatus(true);
                         setErrMessage("Please Enter a Valid PAN Number");
                         snackbarRef.current.openSnackbar();
                       } else if (
                         gstNo.length > 0 &&
-                        isValid_GST(gstNo) === false
+                        validateGST(gstNo) === false
                       ) {
                         setSnackbarErrStatus(true);
                         setErrMessage("Please Enter a Valid GST Number");
                         snackbarRef.current.openSnackbar();
                       } else if (
                         aadharNo.length > 0 &&
-                        isValid_Aadhar(aadharNo) === false
+                        validateAadhar(aadharNo) === false
                       ) {
                         setSnackbarErrStatus(true);
                         setErrMessage("Please Enter a Valid Aadhar Number");
                         snackbarRef.current.openSnackbar();
-                      } else {
+                      }else if (
+                        panNo.length > 0 &&
+                        !panLink
+                      ) {
+                        setSnackbarErrStatus(true);
+                        setErrMessage("Please Upload PAN image");
+                        snackbarRef.current.openSnackbar();
+                      }
+                      else if (
+                        gstNo.length > 0 &&
+                        !gstLink
+                      ) {
+                        setSnackbarErrStatus(true);
+                        setErrMessage("Please Upload GST image");
+                        snackbarRef.current.openSnackbar();
+                      } else if (
+                        aadharNo.length > 0 &&
+                        !adhrLink
+                      ) {
+                        setSnackbarErrStatus(true);
+                        setErrMessage("Please Upload Aadhar image");
+                        snackbarRef.current.openSnackbar();
+                      }
+                      else {
                         setSteps({ step1: false, step2: true, step3: false });
                         window.scroll({
                           top: 0,
@@ -1806,14 +1914,7 @@ const AOFcreate = () => {
                 <div className="flex flex-col gap-4 items-start w-[90%] px-6 bg-slate-600 rounded-md py-6 mb-[5rem]">
                   <div className="grid sm:grid-rows-3 sm:grid-cols-3 grid-rows-[7] grid-cols-1 w-full mt-6 gap-6 rounded-md bg-slate-600">
                     <div className="sm:col-span-2">
-                      {partyType === "School" ? (
-                        <BasicTextFields
-                          lable={"Name of Proprietor/Partner/Director/Trustee"}
-                          handleOrderProcessingForm={handleOrderProcessingForm}
-                          variant={"standard"}
-                          multiline={false}
-                        />
-                      ) : (
+          
                         <BasicTextFields
                           lable={
                             "Name of Proprietor/Partner/Director/Trustee *"
@@ -1822,7 +1923,6 @@ const AOFcreate = () => {
                           variant={"standard"}
                           multiline={false}
                         />
-                      )}
                     </div>
 
                     <div className="sm:col-span-2">
@@ -1837,7 +1937,7 @@ const AOFcreate = () => {
                       <input
                         type="file"
                         name="Upload PAN"
-                        // onChange={(e) => onFileChange(e, i)}
+                        onChange={(e) => onPanPChange(e)}
                       />
                     ) : (
                       ""
@@ -1867,15 +1967,7 @@ const AOFcreate = () => {
                       multiline={false}
                     />
 
-                    {partyType === "School" ? (
-                      <BasicTextFields
-                        lable={"Mobile"}
-                        handleOrderProcessingForm={handleOrderProcessingForm}
-                        type={"number"}
-                        variant={"standard"}
-                        multiline={false}
-                      />
-                    ) : (
+          
                       <BasicTextFields
                         lable={"Mobile*"}
                         handleOrderProcessingForm={handleOrderProcessingForm}
@@ -1883,28 +1975,21 @@ const AOFcreate = () => {
                         variant={"standard"}
                         multiline={false}
                       />
-                    )}
+          
 
-                    {partyType === "School" ? (
-                      <BasicTextFields
-                        lable={"E-Mail"}
-                        handleOrderProcessingForm={handleOrderProcessingForm}
-                        variant={"standard"}
-                        multiline={false}
-                      />
-                    ) : (
+       
                       <BasicTextFields
                         lable={"E-Mail*"}
                         handleOrderProcessingForm={handleOrderProcessingForm}
                         variant={"standard"}
                         multiline={false}
                       />
-                    )}
+          
                   </div>
                   <div className="w-full flex flex-col my-2 gap-2">
                     <h1 className="font-semibold text-gray-100">
                       Name of other Publishers/Suppliers from whom the party has
-                      credit facilities:
+                      credit facilities: *
                     </h1>
                     <div onClick={() => setSuppliers(suppliers + 1)}>
                       {/* <BasicButton text={"Add More"} /> */}
@@ -1919,41 +2004,28 @@ const AOFcreate = () => {
                   </div>
                   <div
                     onClick={() => {
-                      if (partyType === "School") {
-                        setSteps({ step1: false, step2: false, step3: true });
-                        window.scroll({
-                          top: 0,
-                          behavior: "smooth",
-                        });
-                      } else {
-                        if (
-                          // panNoP,
-                          // addressP,
-                          // pinCodeP,
-                          // phoneP,
-                          (!mobileP, !emailP, !proprietorName)
-                        ) {
+                     
+                        if (mobileP.length==0 || emailP.length==0 || proprietorName.length==0 || publisherForm.length === 0){
                           setSnackbarErrStatus(true);
                           setErrMessage("Please Fill All The Fields");
                           snackbarRef.current.openSnackbar();
-                        } else if (panNoP.length > 0) {
-                          // console.log(panNo);
-                          if (isValid_PAN(panNoP) === false) {
-                            setSnackbarErrStatus(true);
-                            setErrMessage("Please Enter a Valid PAN Number");
-                            snackbarRef.current.openSnackbar();
-                          } else {
-                            setSteps({
-                              step1: false,
-                              step2: false,
-                              step3: true,
-                            });
-                            window.scroll({
-                              top: 0,
-                              behavior: "smooth",
-                            });
-                          }
-                        } else {
+                        } else if (
+                          panNoP.length > 0 &&
+                          validatePan(panNoP) === false
+                        ) {
+                          setSnackbarErrStatus(true);
+                          setErrMessage("Please Enter a Valid PAN Number");
+                          snackbarRef.current.openSnackbar();
+                        } else if (
+                          panNoP.length > 0 &&
+                          !panPLink
+                        ) {
+                          setSnackbarErrStatus(true);
+                          setErrMessage("Please Upload PAN image");
+                          snackbarRef.current.openSnackbar();
+                        }
+                        else {
+                          // console.log("third")
                           setSteps({ step1: false, step2: false, step3: true });
                           window.scroll({
                             top: 0,
@@ -1961,7 +2033,7 @@ const AOFcreate = () => {
                           });
                         }
                       }
-                    }}
+                    }
                     className="mt-3"
                   >
                     <BasicButton text={"Next"} />
@@ -1973,14 +2045,32 @@ const AOFcreate = () => {
                 <div className="flex flex-col gap-4 items-start w-[90%] px-6 bg-slate-600 rounded-md py-6 mb-[5rem]">
                   <div className="grid sm:grid-rows-2 sm:grid-cols-3 grid-rows-4 grid-cols-1 w-full mt-6 gap-6 rounded-md bg-slate-600">
                     <div className="sm:col-span-2">
+                      {partyType === "School"?
+                      <BasicTextFields
+                      lable={"Name and address of the party’s main bankers"}
+                      handleOrderProcessingForm={handleOrderProcessingForm}
+                      variant={"standard"}
+                      multiline={false}
+                    />
+                      :   
                       <BasicTextFields
                         lable={"Name and address of the party’s main bankers *"}
                         handleOrderProcessingForm={handleOrderProcessingForm}
                         variant={"standard"}
                         multiline={false}
                       />
+                    }
                     </div>
 
+                    {partyType === "School"?
+                    <BasicTextFields
+                      lable={"Account Number"}
+                      handleOrderProcessingForm={handleOrderProcessingForm}
+                      variant={"standard"}
+                      type={"number"}
+                      multiline={false}
+                    />
+                    :
                     <BasicTextFields
                       lable={"Account Number *"}
                       handleOrderProcessingForm={handleOrderProcessingForm}
@@ -1988,6 +2078,7 @@ const AOFcreate = () => {
                       type={"number"}
                       multiline={false}
                     />
+                  }
                     <SearchDropDown
                       Name={"aof_acc"}
                       data={[{ title: "SB" }, { title: "CA" }, { title: "CC" }]}
@@ -1995,18 +2086,33 @@ const AOFcreate = () => {
                       label={"Type of A/c "}
                       color={"rgb(243, 244, 246)"}
                     />
+                     {partyType === "School"?
+                     <BasicTextFields
+                      lable={"IFSC"}
+                      handleOrderProcessingForm={handleOrderProcessingForm}
+                      // type={"number"}
+                      variant={"standard"}
+                      multiline={false}
+                    />
+                     :
                     <BasicTextFields
                       lable={"IFSC *"}
                       handleOrderProcessingForm={handleOrderProcessingForm}
                       // type={"number"}
                       variant={"standard"}
                       multiline={false}
-                    />
+                    />}
                   </div>
+                 
                   <div className="w-full flex flex-col my-2 gap-2">
+                  {partyType === "School" ? 
+                  <h1 className="font-semibold text-gray-100">
+                  Detail of Cheques:
+                </h1>
+                :
                     <h1 className="font-semibold text-gray-100">
                       Detail of Cheques * :
-                    </h1>
+                    </h1>}
                     <div onClick={() => setCheque(cheque + 1)}>
                       {/* <BasicButton text={"Add More"} /> */}
                       <Tooltip title="Add More Cheque">
@@ -2019,22 +2125,38 @@ const AOFcreate = () => {
                   </div>
                   <div
                     onClick={() => {
+                      if (partyType === "School") {
+                        setSteps({
+                          step1: false,
+                          step2: false,
+                          step3: false,
+                          step4: true,
+                        });
+                        window.scroll({
+                          top: 0,
+                          behavior: "smooth",
+                        });
+                      } else {
                       // console.log(isValid_IFSC_Code(ifscP));
                       console.log(chequeForm);
 
                       if (
-                        !partyBankerName ||
-                        !accNoP ||
-                        !aofAcc ||
-                        !ifscP ||
+                        partyBankerName.length === 0 ||
+                        accNoP.length === 0  ||
+                        aofAcc.length === 0  ||
+                        ifscP.length === 0  ||
                         chequeForm.length === 0
                       ) {
                         setSnackbarErrStatus(true);
                         setErrMessage("Please Fill All The Fields");
                         snackbarRef.current.openSnackbar();
+                      } else if (validateIFSC(ifscP) === false) {
+                        setSnackbarErrStatus(true);
+                        setErrMessage("Please Enter a Valid IFSC Code");
+                        snackbarRef.current.openSnackbar();
                       } else if (chequeForm.length > 0) {
                         for (let obj of chequeForm) {
-                          console.log(obj.abc_bank);
+                          // console.log(obj.abc_bank);
                           if (
                             !obj.abc_cheque_no ||
                             obj.abc_cheque_no.length === 0
@@ -2084,10 +2206,6 @@ const AOFcreate = () => {
                             });
                           }
                         }
-                      } else if (isValid_IFSC_Code(ifscP) === false) {
-                        setSnackbarErrStatus(true);
-                        setErrMessage("Please Enter a Valid IFSC Code");
-                        snackbarRef.current.openSnackbar();
                       } else {
                         // console.log("nexttttt");
                         setSteps({
@@ -2106,7 +2224,7 @@ const AOFcreate = () => {
                       //   setErrMessage("Please Enter a Valid IFSC Code");
                       //   snackbarRef.current.openSnackbar();
                       // }
-                    }}
+                    }}}
                     className="mt-3"
                   >
                     <BasicButton text={"Next"} />
@@ -2118,7 +2236,7 @@ const AOFcreate = () => {
                 <div className="flex flex-col gap-4  md:w-[90%] sm:w-[70%] w-[95%] px-6 bg-slate-600 rounded-md py-6 mb-[5rem] justify-center items-start">
                   <div className="grid sm:grid-rows-2 sm:grid-cols-3 grid-rows-4 grid-cols-1 w-full mt-6 gap-6 rounded-md bg-slate-600">
                     <BasicTextFields
-                      lable={"Credit Limit"}
+                      lable={"Credit Limit *"}
                       handleOrderProcessingForm={handleOrderProcessingForm}
                       type={"number"}
                       variant={"standard"}

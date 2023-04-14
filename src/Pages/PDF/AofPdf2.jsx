@@ -72,6 +72,7 @@ const AofPdf2 = () => {
   const [bpCode, setBpCode] = useState("");
   const [validDate, setValidDate] = useState("");
   const [creditLimit, setCreditLimit] = useState("");
+  const [dsgntn, setDsgntn] = useState("")
 
   useEffect(() => {
     getData();
@@ -113,7 +114,7 @@ const AofPdf2 = () => {
           Authorization: Cookies.get("accessToken"),
         },
       });
-      // console.log(res.data.message);
+      console.log(res.data.message);
       let data = res.data.message;
       let name = `${data.first_name ? data.first_name : ""} ${
         data.middle_name ? data.middle_name : ""
@@ -153,6 +154,7 @@ const AofPdf2 = () => {
     console.log(res.data.message);
     let data = res.data.message;
     let date1 = data.date;
+    setDsgntn(data.designation)
     let date1conv = moment(date1).format('DD-MM-YYYY');
     // console.log(date1conv)
     if (data.bpcode) {
@@ -1238,23 +1240,23 @@ const AofPdf2 = () => {
               <div>
                 <b>SOLUTIONS PVT. LTD.</b>
               </div>
-              <div style={{ marginTop: "10px" }}>By: ________________</div>
-              <div style={{ marginTop: "5px" }}>Name: </div>
-              <div style={{ marginTop: "5px" }}>Title: </div>
-              <div style={{ marginTop: "5px" }}>Witness 1: </div>
+              <div style={{ marginTop: "10px" }}>By: {user}</div>
+              <div style={{ marginTop: "5px" }}>Party Name: </div>
+              <div style={{ marginTop: "5px" }}>Designation: </div>
+              {/* <div style={{ marginTop: "5px" }}>Witness 1: </div> */}
             </div>
             <div>
               <div>
                 <b>NAME OF DISTRIBUTOR:</b>
               </div>
               <div style={{ marginTop: "30px" }}>By: ________________</div>
-              <div style={{ marginTop: "5px" }}>Name:</div>
-              <div style={{ marginTop: "5px" }}>Title: </div>
-              <div style={{ marginTop: "5px" }}>Witness 2: </div>
+              <div style={{ marginTop: "5px" }}>Party Name:</div>
+              <div style={{ marginTop: "5px" }}>Designation: {dsgntn}</div>
+              {/* <div style={{ marginTop: "5px" }}>Witness 2: </div> */}
             </div>
           </div>
 
-          {gstNo.length === 0 ? (
+          {/* {gstNo.length === 0 ? ( */}
             <div style={{ marginTop: "20px", borderTop: "2px solid silver" }}>
               <div
                 className="flex justify-center"
@@ -1273,8 +1275,8 @@ const AofPdf2 = () => {
               </div>
               <div style={{ margin: "20px" }}>
                 I/ We {partySchool ? partySchool : ""} (Name of the
-                Proprietor/Karta/Authorized Signatory), being
-                …………………………………………………………………… (Designation) of
+                Proprietor/Karta/Authorized Signatory), being  ,
+                {dsgntn} (Designation) of , 
                 {partySchool ? partySchool : ""}.(Legal Name as per PAN) do
                 hereby state that I/We am/are not liable to registration under
                 the provisions of Goods and Service Tax Act.
@@ -1303,9 +1305,7 @@ const AofPdf2 = () => {
                 </div>
               </div>
             </div>
-          ) : (
-            ""
-          )}
+         
         </div>
         <hr className="w-[95%] bg-black h-[2px] my-[1rem] mx-[1rem]" />
         <div className="flex flex-col sm:flex-row sm:justify-between mx-[1rem] ">
