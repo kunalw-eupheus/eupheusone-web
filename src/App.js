@@ -224,7 +224,7 @@ function App() {
           /> */}
               <Route
                 path="/aof"
-                element={isAuth || MsAuth ? <AOF /> : <Login />}
+                element={isAuth || MsAuth || Zsm ? <AOF /> : <Login />}
               />
               {/* kys */}
               <Route

@@ -160,9 +160,9 @@ const AofPdf4 = () => {
   };
 
   const closeTab=()=>{
-    window.opener = null;
-    window.open('', '_self');
-    window.close();
+    // window.location.href.close()
+//     window.open("about:blank", "_self");
+// window.close();
   }
 
   useLayoutEffect(() => {
@@ -1380,7 +1380,10 @@ const AofPdf4 = () => {
             />
             Agree With Terms & Conditions
           </div>
-          <Button onClick={getLocationNdIP} variant="contained">
+          <Button 
+          // onClick={getLocationNdIP}
+          onClick={closeTab}
+          variant="contained">
             Submit
           </Button>
         </div>
