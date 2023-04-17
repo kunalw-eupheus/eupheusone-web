@@ -227,11 +227,11 @@ const DialogSlide15 = React.forwardRef((props, ref) => {
         Authorization: `${Cookies.get("accessToken")}`,
       },
     });
-    // console.log(res)
+    console.log(res)
     if(res.data.status === 'error'){
         hndleData(res.data.message,id, "error")
     }else{
-        hndleData(res.data.message,id, "success")
+        hndleData(res.data.message ,id, "success")
     }
     // setLoading(true);
     // // alert(res.data.message)

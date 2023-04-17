@@ -419,7 +419,7 @@ const CustLedger = () => {
                 }}
               >
                 {/* 195,121.00 */}
-                {`${openingDr}`}
+                {`${openingDr.toFixed(2)}`}
               </p>
             </td>
           </tr>
@@ -698,7 +698,7 @@ const CustLedger = () => {
                     }}
                   >
                     {/* 0.00 */}
-                    {`${item.debitAmount}`}
+                    {`${item.debitAmount.toFixed(2)}`}
                   </p>
                 </td>
                 <td
@@ -718,7 +718,7 @@ const CustLedger = () => {
                     }}
                   >
                     {/* 56,056.00 */}
-                    {`${item.creditAmount}`}
+                    {`${item.creditAmount.toFixed(2)}`}
                   </p>
                 </td>
               </tr>
@@ -1123,7 +1123,7 @@ const CustLedger = () => {
                 }}
               >
                 {/* 18,497.00 */}
-                {`${ttlDebit}`}
+                {`${ttlDebit.toFixed(2)}`}
               </p>
             </td>
             <td
@@ -1143,7 +1143,7 @@ const CustLedger = () => {
                 }}
               >
                 {/* 226,392.00 */}
-                {`${ttlCredit}`}
+                {`${ttlCredit.toFixed(2)}`}
               </p>
             </td>
           </tr>
@@ -1159,7 +1159,7 @@ const CustLedger = () => {
                   textAlign: "left",
                 }}
               >
-                Closing Balance : {`${closingDr}`}
+                Closing Balance : {`${closingDr.toFixed(2)}`}
                 {/* Closing Balance : {`${totlAmnt}`} */}
                 {/* -12,774.00 */}
               </p>

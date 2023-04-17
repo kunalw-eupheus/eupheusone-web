@@ -42,7 +42,7 @@ const ZsmAOF = () => {
 
   const navInfo = {
     title: "AOF",
-    details: ["ZSM", " / AOF"],
+    details: ["Home", " / AOF"],
   };
   const [searchRow, setSearchRow] = useState([]);
 
@@ -278,11 +278,11 @@ const ZsmAOF = () => {
         />
         <div className="min-h-[100vh] pt-[2vh] max-h-full bg-[#141728]">
           <div className=" sm:px-8 px-2 py-3 bg-[#141728]">
-            <div className="w-full flex gap-3 justify-end mt-4">
+            {/* <div className="w-full flex gap-3 justify-end mt-4">
               <Link to="/aof_create">
                 <BasicButton text={"Create AOF"} />
               </Link>
-            </div>
+            </div> */}
 
             <Paper className="mt-5">
               <TableContainer component={Paper}>
@@ -347,9 +347,9 @@ const ZsmAOF = () => {
                       <TableCell className="!w-[10rem]" align="center">
                         Email
                       </TableCell>
-                      <TableCell className="!w-[8rem]" align="center">
+                      {/* <TableCell className="!w-[8rem]" align="center">
                         Status
-                      </TableCell>
+                      </TableCell> */}
                       <TableCell className="!w-[6rem]" align="center">
                         ZSM Status
                       </TableCell>
@@ -388,9 +388,9 @@ const ZsmAOF = () => {
                               {row.zms_status === true ? "Approved" : "Pending"}
                             </TableCell>
 
-                            <TableCell align="center">
+                            {/* <TableCell align="center">
                               {row.zms_status === true ? "Yes" : "No"}
-                            </TableCell>
+                            </TableCell> */}
 
                             <TableCell align="center">
                               <div
@@ -450,9 +450,9 @@ const ZsmAOF = () => {
                               {row.zms_status === true ? "Approved" : "Pending"}
                             </TableCell>
 
-                            <TableCell align="center">
+                            {/* <TableCell align="center">
                               {row.zms_status === true ? "Yes" : "No"}
-                            </TableCell>
+                            </TableCell> */}
 
                             <TableCell align="center">
                               <div

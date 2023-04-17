@@ -1463,6 +1463,9 @@ const AOFcreate = () => {
         // console.log(value);
         setPanNo(value);
         break;
+      case "PAN NO *":
+        setPanNo(value)
+        break
       case "GST NO":
         // console.log(value);
         setGstNo(value);
@@ -2044,14 +2047,25 @@ const AOFcreate = () => {
                       </Stack>
                     </LocalizationProvider>
 
+                    {partyType === "Party" ?
                     <div className="sm:col-span-2">
                       <BasicTextFields
-                        lable={"PAN NO"}
+                        lable={"PAN NO *"}
                         handleOrderProcessingForm={handleOrderProcessingForm}
                         variant={"standard"}
                         multiline={false}
                       />
-                    </div>
+                    </div> : 
+                    <div className="sm:col-span-2">
+                    <BasicTextFields
+                      lable={"PAN NO"}
+                      handleOrderProcessingForm={handleOrderProcessingForm}
+                      variant={"standard"}
+                      multiline={false}
+                    />
+                  </div>}
+
+                    
 
                     {panNo.length > 0 ? (
                       <input
@@ -2128,6 +2142,10 @@ const AOFcreate = () => {
                       }else if(pinCode.length !== 6){
                         setSnackbarErrStatus(true);
                         setErrMessage("Please Enter a Valid Pin Code");
+                        snackbarRef.current.openSnackbar();
+                      }else if(partyType === "Party" && panNo.length === 0){
+                        setSnackbarErrStatus(true);
+                        setErrMessage("Please Fill All The Fields");
                         snackbarRef.current.openSnackbar();
                       }
                       // else if(phone.length > 0){
@@ -2326,6 +2344,19 @@ const AOFcreate = () => {
                         ) {
                           setSnackbarErrStatus(true);
                           setErrMessage("Please Enter a Valid Email");
+                          snackbarRef.current.openSnackbar();
+                        }else if(pinCodeP.length>0 && pinCodeP.length !== 6){
+                          setSnackbarErrStatus(true);
+                          setErrMessage("Please Enter a Valid Pin Code");
+                          snackbarRef.current.openSnackbar();
+                        }
+                        else if(phoneP.length>0 && phoneP.length !== 10){
+                          setSnackbarErrStatus(true);
+                          setErrMessage("Please Enter a Valid Phone Number");
+                          snackbarRef.current.openSnackbar();
+                        }else if(mobileP.length !== 10){
+                          setSnackbarErrStatus(true);
+                          setErrMessage("Please Enter a Valid Mobile Number");
                           snackbarRef.current.openSnackbar();
                         }
                         // else if(mobile.length !== 10){

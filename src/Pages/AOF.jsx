@@ -317,6 +317,9 @@ const AOF = () => {
     // getSchoolData();
   }, []);
 
+  const t = useRef(null);
+  t.current = hideVerfyBtn;
+
   const handleData = (value,id, type) => {
     switch (type) {
       case "error":
@@ -332,12 +335,13 @@ const AOF = () => {
         // let tempArr= [...hideVerfyBtn]
         // hideVerfyBtn.push(id)
         // console.log(hideVerfyBtn)
-        // setHideVerifyBtn([...hideVerfyBtn, id])
+        setHideVerifyBtn([...hideVerfyBtn, id])
         // // console.log(hideVerfyBtn)
-        // setTimeout(() => {
-          
-        //   setHideVerifyBtn(prev => prev.splice(0))
-        //       }, 10000);
+        setTimeout(() => {
+          // console.log(t.current);
+          const newArr = t.current.filter(item => item != id)
+          setHideVerifyBtn(newArr)
+              }, 60000);
         break;
     }
   };
@@ -528,7 +532,7 @@ console.log(hideVerfyBtn);
                             </TableCell> */}
                             <TableCell align="center">
                               {/* <DialogSlide2 ref={dialogRef2}/> */}
-                              {/* {hideVerfyBtn.includes(row.id) ? null: */}
+                              {hideVerfyBtn.includes(row.id) ? null:
                               <div
                                 className="sm:w-auto w-[50vw]"
                                 onClick={() => {
@@ -538,7 +542,7 @@ console.log(hideVerfyBtn);
                               >
                                 <BasicButton text={"VERIFY"} />
                               </div>
-                              {/* } */}
+                              }
                             </TableCell>
                           </TableRow>
                         ))
