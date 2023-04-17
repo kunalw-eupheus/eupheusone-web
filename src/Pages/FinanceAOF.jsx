@@ -39,6 +39,10 @@ const FinanceAOF = () => {
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [searchVal, setSearchVal] = useState("");
   const [aofId, setAofId] = useState("");
+  const [errMessage, setErrMessage] = useState("");
+  const [snackbarErrStatus, setSnackbarErrStatus] = useState(true);
+
+  const snackbarRef = useRef();
 
   const navInfo = {
     title: "AOF",
@@ -122,6 +126,30 @@ const FinanceAOF = () => {
     setLoading(false);
   };
 
+  const handleSync = async (id) => {
+    setLoading(true);
+    const res = await instance({
+      url: `/sales_data/aof/sync/aof/sap/${id}`,
+      method: "GET",
+      headers: {
+        Authorization: `${Cookies.get("accessToken")}`,
+      },
+    });
+    console.log(res);
+    if(res.data.status === "success"){
+      alert("Account Successfully Synced")
+      // setSnackbarErrStatus(true);
+      // setErrMessage(res.data.message);
+      // snackbarRef.current.openSnackbar();
+    }else{
+      alert(res.data.message)
+      // setSnackbarErrStatus(false);
+      // setErrMessage(res.data.message);
+      // snackbarRef.current.openSnackbar();
+    }
+    setLoading(false);
+  }
+
   const handleSearch = (val) => {
     setSearchVal(val.trim());
   };
@@ -200,6 +228,11 @@ const FinanceAOF = () => {
     }
   };
 
+  const sendData=(msg)=>{
+    console.log(msg)
+    getAOFdetails()
+  }
+
   useLayoutEffect(() => {
     const getStates = async () => {
       const res = await instance({
@@ -237,7 +270,7 @@ const FinanceAOF = () => {
 
   return (
     <div className="flex bg-[#111322]">
-      <DialogSlide2 ref={dialogRef2} aofId={aofId} />
+      <DialogSlide2 ref={dialogRef2} aofId={aofId} sendData={sendData}/>
       <Backdrop
         sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
         open={loading}
@@ -338,9 +371,9 @@ const FinanceAOF = () => {
                       <TableCell className="!w-[8rem]" align="center">
                         Status
                       </TableCell>
-                      <TableCell className="!w-[6rem]" align="center">
+                      {/* <TableCell className="!w-[6rem]" align="center">
                         ZSM Status
-                      </TableCell>
+                      </TableCell> */}
                       <TableCell className="!w-[6rem]" align="center">
                         View
                       </TableCell>
@@ -373,12 +406,12 @@ const FinanceAOF = () => {
                             <TableCell align="center">{row.mobile}</TableCell>
                             <TableCell align="center">{row.email}</TableCell>
                             <TableCell align="center">
-                              {row.zms_status === true ? "Approved" : "Pending"}
+                              {row.finance_status === true ? "Approved" : "Pending"}
                             </TableCell>
 
-                            <TableCell align="center">
+                            {/* <TableCell align="center">
                               {row.zms_status === true ? "Yes" : "No"}
-                            </TableCell>
+                            </TableCell> */}
 
                             <TableCell align="center">
                               <div
@@ -391,7 +424,7 @@ const FinanceAOF = () => {
                               </div>
                             </TableCell>
                             <TableCell align="center">
-                              {row.zms_status === true ? (
+                              {row.finance_status === true ? (
                                 ""
                               ) : (
                                 <div
@@ -408,7 +441,7 @@ const FinanceAOF = () => {
                             <div
                                   className="sm:w-auto w-[50vw]"
                                   onClick={() => {
-                                    "handleVerify(row.id)"
+                                    handleSync(row.id)
                                   }}
                                 >
                                   <BasicButton text={"SYNC"} />
@@ -435,12 +468,12 @@ const FinanceAOF = () => {
                             <TableCell align="center">{row.mobile}</TableCell>
                             <TableCell align="center">{row.email}</TableCell>
                             <TableCell align="center">
-                              {row.zms_status === true ? "Approved" : "Pending"}
+                              {row.finance_status === true ? "Approved" : "Pending"}
                             </TableCell>
 
-                            <TableCell align="center">
+                            {/* <TableCell align="center">
                               {row.zms_status === true ? "Yes" : "No"}
-                            </TableCell>
+                            </TableCell> */}
 
                             <TableCell align="center">
                               <div
@@ -454,7 +487,7 @@ const FinanceAOF = () => {
                             </TableCell>
 
                             <TableCell align="center">
-                              {row.zms_status === true ? (
+                            {row.finance_status === true ? (
                                 ""
                               ) : (
                                 <div
@@ -472,7 +505,7 @@ const FinanceAOF = () => {
                             <div
                                   className="sm:w-auto w-[50vw]"
                                   onClick={() => {
-                                    "handleVerify(row.id)"
+                                    handleSync(row.id)
                                   }}
                                 >
                                   <BasicButton text={"SYNC"} />

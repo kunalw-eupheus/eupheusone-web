@@ -2321,7 +2321,22 @@ const AOFcreate = () => {
                           setSnackbarErrStatus(true);
                           setErrMessage("Please Upload PAN image");
                           snackbarRef.current.openSnackbar();
+                        }else if (
+                         validateEmail(emailP) === false
+                        ) {
+                          setSnackbarErrStatus(true);
+                          setErrMessage("Please Enter a Valid Email");
+                          snackbarRef.current.openSnackbar();
                         }
+                        // else if(mobile.length !== 10){
+                        //   setSnackbarErrStatus(true);
+                        //   setErrMessage("Please Enter a Valid Mobile Number");
+                        //   snackbarRef.current.openSnackbar();
+                        // }else if(pinCode.length !== 6){
+                        //   setSnackbarErrStatus(true);
+                        //   setErrMessage("Please Enter a Valid Pin Code");
+                        //   snackbarRef.current.openSnackbar();
+                        // }
                         else {
                           // console.log("third")
                           setSteps({ step1: false, step2: false, step3: true });
@@ -2424,7 +2439,13 @@ const AOFcreate = () => {
                   <div
                     onClick={() => {
                       if (partyType === "School") {
-                        setSteps({
+
+                      if (ifscP.length > 0 && validateIFSC(ifscP) === false) {
+                          setSnackbarErrStatus(true);
+                          setErrMessage("Please Enter a Valid IFSC Code");
+                          snackbarRef.current.openSnackbar();
+                        }else{
+                          setSteps({
                           step1: false,
                           step2: false,
                           step3: false,
@@ -2434,6 +2455,7 @@ const AOFcreate = () => {
                           top: 0,
                           behavior: "smooth",
                         });
+                        }     
                       } else {
                       // console.log(isValid_IFSC_Code(ifscP));
                       console.log(chequeForm);

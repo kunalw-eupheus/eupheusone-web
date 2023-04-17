@@ -235,9 +235,13 @@ const SalesheadAOF = () => {
     };
   }, []);
 
+  const sendData = () => {
+    getAOFdetails()
+  }
+
   return (
     <div className="flex bg-[#111322]">
-      <DialogSlide2 ref={dialogRef2} aofId={aofId} />
+      <DialogSlide2 ref={dialogRef2} aofId={aofId} sendData={sendData}/>
       <Backdrop
         sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
         open={loading}
@@ -338,9 +342,9 @@ const SalesheadAOF = () => {
                       <TableCell className="!w-[8rem]" align="center">
                         Status
                       </TableCell>
-                      <TableCell className="!w-[6rem]" align="center">
+                      {/* <TableCell className="!w-[6rem]" align="center">
                         ZSM Status
-                      </TableCell>
+                      </TableCell> */}
                       <TableCell className="!w-[6rem]" align="center">
                         View
                       </TableCell>
@@ -373,12 +377,12 @@ const SalesheadAOF = () => {
                             <TableCell align="center">{row.mobile}</TableCell>
                             <TableCell align="center">{row.email}</TableCell>
                             <TableCell align="center">
-                              {row.zms_status === true ? "Approved" : "Pending"}
+                              {row.head_status === true ? "Approved" : "Pending"}
                             </TableCell>
 
-                            <TableCell align="center">
+                            {/* <TableCell align="center">
                               {row.zms_status === true ? "Yes" : "No"}
-                            </TableCell>
+                            </TableCell> */}
 
                             <TableCell align="center">
                               <div
@@ -391,7 +395,7 @@ const SalesheadAOF = () => {
                               </div>
                             </TableCell>
                             <TableCell align="center">
-                              {row.zms_status === true ? (
+                              {row.head_status === true ? (
                                 ""
                               ) : (
                                 <div
@@ -435,12 +439,12 @@ const SalesheadAOF = () => {
                             <TableCell align="center">{row.mobile}</TableCell>
                             <TableCell align="center">{row.email}</TableCell>
                             <TableCell align="center">
-                              {row.zms_status === true ? "Approved" : "Pending"}
+                              {row.head_status === true ? "Approved" : "Pending"}
                             </TableCell>
 
-                            <TableCell align="center">
+                            {/* <TableCell align="center">
                               {row.zms_status === true ? "Yes" : "No"}
-                            </TableCell>
+                            </TableCell> */}
 
                             <TableCell align="center">
                               <div
@@ -454,7 +458,7 @@ const SalesheadAOF = () => {
                             </TableCell>
 
                             <TableCell align="center">
-                              {row.zms_status === true ? (
+                              {row.head_status === true ? (
                                 ""
                               ) : (
                                 <div

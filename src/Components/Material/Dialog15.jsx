@@ -23,7 +23,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-const DialogSlide13 = React.forwardRef((props, ref) => {
+const DialogSlide15 = React.forwardRef((props, ref) => {
   const [open, setOpen] = React.useState(false);
   const [series, setSeries] = useState([]);
   const [grade, setGrade] = useState([]);
@@ -219,29 +219,26 @@ const DialogSlide13 = React.forwardRef((props, ref) => {
 
   const handleVerify = async () => {
     let id = props.aofId;
-    let sendData = props.sendData
+    let hndleData = props.handleData
     const res = await instance({
-      url: `sales_data/aof/update/salesHead/verification`,
-      method: "PUT",
-      data: {
-        status: true,
-        aof_id: id,
-      },
+      url: `sales_data/aof/verfication/customer/${id}`,
+      method: "GET",
       headers: {
         Authorization: `${Cookies.get("accessToken")}`,
       },
     });
-
-    // console.log(res.data);
-    setLoading(true);
-    alert(res.data.message)
-    // setSnackbarErrStatus(false);
-    // setErrMessage(res.data.message);
-    // snackbarRef.current.openSnackbar();
-    setLoading(false);
-    if(res.data.status === "success"){
-      sendData()
+    // console.log(res)
+    if(res.data.status === 'error'){
+        hndleData(res.data.message,id, "error")
+    }else{
+        hndleData(res.data.message,id, "success")
     }
+    // setLoading(true);
+    // // alert(res.data.message)
+    // // setSnackbarErrStatus(false);
+    // // setErrMessage(res.data.message);
+    // // snackbarRef.current.openSnackbar();
+    // setLoading(false);
     
     setTimeout(() => {
       setOpen(false);
@@ -330,4 +327,4 @@ const DialogSlide13 = React.forwardRef((props, ref) => {
   );
 });
 
-export default DialogSlide13;
+export default DialogSlide15;

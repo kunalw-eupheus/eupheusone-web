@@ -25,23 +25,29 @@ import TextField from "@mui/material/TextField";
 import IconButton from "@mui/material/IconButton";
 import SearchIcon from "@mui/icons-material/Search";
 import TablePagination from "@mui/material/TablePagination";
-import DialogSlide2 from "../Components/Material/Dialog12";
+import DialogSlide2 from "../Components/Material/Dialog15";
+import Snackbars from "../Components/Material/SnackBar";
+
 
 const AOF = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [highLight, setHighLight] = useState("aof");
   const [loading, setLoading] = useState(false);
   const [stateAndCity, setStateAndCity] = useState({ state: "", city: "" });
+  const [snackbarErrStatus, setSnackbarErrStatus] = useState(true);
   const sidebarRef = useRef();
   const [states, setStates] = useState([]);
   const [city, setCity] = useState({ disable: true });
   const [rowdata, setRowdata] = useState([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [hideVerfyBtn,setHideVerifyBtn] = useState([])
   const [searchVal, setSearchVal] = useState("");
-  const [aofId, setAofId] = useState("")
+  const [aofId, setAofId] = useState("");
+  const [errMessage, setErrMessage] = useState("");
+  // const [keepBtnDactive, setKeepBtnDactive] = useState(false)
   const navigate = useNavigate();
-
+  const snackbarRef = useRef();
 
   const navInfo = {
     title: "AOF",
@@ -107,32 +113,38 @@ const AOF = () => {
   }, []);
 
   const handleAofView = (invceId) => {
-    console.log(invceId)
-    setLoading(true)
+    console.log(invceId);
+    setLoading(true);
     setAofId(invceId);
     setTimeout(() => {
       // console.log("Delayed for 1 second.");
       openDialogue2();
-      setLoading(false)
-    }, 1000)
+      setLoading(false);
+    }, 1000);
     // openDialogue2();
   };
 
   const handleVerify = (aofId) => {
+    // if(keepBtnDactive){
+    //   setSnackbarErrStatus(true);
+    //     setErrMessage("Pease wait few second");
+    //     snackbarRef.current.openSnackbar();
+    //     return
+    // }
     // console.log(abc)
-    setLoading(true)
+    setLoading(true);
     setAofId(aofId);
     setTimeout(() => {
       // console.log("Delayed for 1 second.");
       openDialogue2();
-      setLoading(false)
-    }, 1000)
-  }
+      setLoading(false);
+    }, 1000);
+  };
 
   const handleAofPDF = (invId) => {
     // console.log(invId)
-    window.open(`view_aof_pdf2/${invId}`, '_blank', 'noreferrer')
-  }
+    window.open(`view_aof_pdf2/${invId}`, "_blank", "noreferrer");
+  };
 
   const openDialogue2 = () => {
     dialogRef2.current.openDialog();
@@ -154,10 +166,24 @@ const AOF = () => {
     setLoading(false);
   };
 
-
   const handleSearch = (val) => {
     setSearchVal(val.trim());
   };
+
+  // const returnVerifyBtn = (id) => {
+  //   const [view, setView] = useState(true)
+  //   return (
+  //             <div
+  //                               className="sm:w-auto w-[50vw]"
+  //                               onClick={() => {
+  //                                 // handleAofPDF(row.id);
+  //                                 handleVerify(id);
+  //                               }}
+  //                             >
+  //                               <BasicButton text={"VERIFY"} />
+  //                             </div>
+  //   )
+  // }
 
   const getSchoolByState = async (id) => {
     setLoading(true);
@@ -211,28 +237,29 @@ const AOF = () => {
     setLoading(false);
   };
 
-
   const filterTable = () => {
     // console.log(searchVal);
     // console.log(rowdata)
-    setPage(0)
+    setPage(0);
     let tempArr = [];
     for (let ele of rowdata) {
       // console.log(ele)
       let docName = ele.name.toLowerCase();
-      let phone = ele.phone
-      let schlName = ele.school.toLowerCase()
-      let email = ele.email.toLowerCase()
-      if (docName.indexOf(searchVal.toLowerCase()) > -1 || 
-      phone.indexOf(searchVal.toLowerCase()) > -1 ||
-      schlName.indexOf(searchVal.toLowerCase()) > -1 ||
-      email.indexOf(searchVal.toLowerCase()) > -1) {
+      let phone = ele.phone;
+      let schlName = ele.school.toLowerCase();
+      let email = ele.email.toLowerCase();
+      if (
+        docName.indexOf(searchVal.toLowerCase()) > -1 ||
+        phone.indexOf(searchVal.toLowerCase()) > -1 ||
+        schlName.indexOf(searchVal.toLowerCase()) > -1 ||
+        email.indexOf(searchVal.toLowerCase()) > -1
+      ) {
         tempArr.push(ele);
       }
     }
     setSearchRow([]);
     if (tempArr.length === 0) {
-      alert("No data Found")
+      alert("No data Found");
       // setSearchRow([
       //   {
       //     docnum: null,
@@ -247,10 +274,10 @@ const AOF = () => {
     }
   };
 
-  const handleAofPDFEdit=(id)=>{
+  const handleAofPDFEdit = (id) => {
     // alert(id)
-    navigate(`/aof_edit/${id}`)
-  }
+    navigate(`/aof_edit/${id}`);
+  };
 
   useLayoutEffect(() => {
     const getStates = async () => {
@@ -290,9 +317,36 @@ const AOF = () => {
     // getSchoolData();
   }, []);
 
+  const handleData = (value,id, type) => {
+    switch (type) {
+      case "error":
+        setSnackbarErrStatus(true);
+        setErrMessage(value);
+        snackbarRef.current.openSnackbar();
+        break;
+      // case "error":
+      case "success":
+        setSnackbarErrStatus(false);
+        setErrMessage(value);
+        snackbarRef.current.openSnackbar();
+        // let tempArr= [...hideVerfyBtn]
+        // hideVerfyBtn.push(id)
+        // console.log(hideVerfyBtn)
+        // setHideVerifyBtn([...hideVerfyBtn, id])
+        // // console.log(hideVerfyBtn)
+        // setTimeout(() => {
+          
+        //   setHideVerifyBtn(prev => prev.splice(0))
+        //       }, 10000);
+        break;
+    }
+  };
+console.log(hideVerfyBtn);
+  
+
   return (
     <div className="flex bg-[#111322]">
-      <DialogSlide2 ref={dialogRef2} aofId={aofId} />
+      <DialogSlide2 ref={dialogRef2} aofId={aofId} handleData={handleData} />
       <Backdrop
         sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
         open={loading}
@@ -315,6 +369,11 @@ const AOF = () => {
           window.innerWidth < 1024 ? null : "md:ml-[30vw] ml-[60vw]"
         } `}
       >
+        <Snackbars
+          ref={snackbarRef}
+          snackbarErrStatus={snackbarErrStatus}
+          errMessage={errMessage}
+        />
         <Navbar
           handleSidebarCollapsed={handleSidebarCollapsed}
           info={navInfo}
@@ -444,16 +503,16 @@ const AOF = () => {
                             <TableCell align="center">{row.status}</TableCell>
 
                             <TableCell align="center">
-                            {/* <DialogSlide2 ref={dialogRef2}/> */}
-                            <div
-                                  className="sm:w-auto w-[50vw]"
-                                  onClick={() => {
-                                    // handleAofView(row.id);
-                                    handleAofPDF(row.id);
-                                  }}
-                                >
-                                  <BasicButton text={"View"} />
-                                </div>
+                              {/* <DialogSlide2 ref={dialogRef2}/> */}
+                              <div
+                                className="sm:w-auto w-[50vw]"
+                                onClick={() => {
+                                  // handleAofView(row.id);
+                                  handleAofPDF(row.id);
+                                }}
+                              >
+                                <BasicButton text={"View"} />
+                              </div>
                             </TableCell>
                             {/* <TableCell align="center"> */}
                             {/* <DialogSlide2 ref={dialogRef2}/> */}
@@ -467,17 +526,19 @@ const AOF = () => {
                                   <BasicButton text={"Edit"} />
                                 </div>
                             </TableCell> */}
-                               <TableCell align="center">
-                            {/* <DialogSlide2 ref={dialogRef2}/> */}
-                            <div
-                                  className="sm:w-auto w-[50vw]"
-                                  onClick={() => {
-                                    // handleAofPDF(row.id);
-                                    handleVerify(row.id)
-                                  }}
-                                >
-                                  <BasicButton text={"VERIFY"} />
-                                </div>
+                            <TableCell align="center">
+                              {/* <DialogSlide2 ref={dialogRef2}/> */}
+                              {/* {hideVerfyBtn.includes(row.id) ? null: */}
+                              <div
+                                className="sm:w-auto w-[50vw]"
+                                onClick={() => {
+                                  // handleAofPDF(row.id);
+                                  handleVerify(row.id);
+                                }}
+                              >
+                                <BasicButton text={"VERIFY"} />
+                              </div>
+                              {/* } */}
                             </TableCell>
                           </TableRow>
                         ))
@@ -507,33 +568,37 @@ const AOF = () => {
                             <TableCell align="center">{row.status}</TableCell>
 
                             <TableCell align="center">
-                            {/* <DialogSlide2 ref={dialogRef2}/> */}
-                            <div
-                                  className="sm:w-auto w-[50vw]"
-                                  onClick={() => {
-                                    // handleAofView(row.id);
-                                    handleAofPDF(row.id);
-                                  }}
-                                >
-                                  <BasicButton text={"View"} />
-                                </div>
+                              {/* <DialogSlide2 ref={dialogRef2}/> */}
+                              <div
+                                className="sm:w-auto w-[50vw]"
+                                onClick={() => {
+                                  // handleAofView(row.id);
+                                  handleAofPDF(row.id);
+                                }}
+                              >
+                                <BasicButton text={"View"} />
+                              </div>
                             </TableCell>
 
                             <TableCell align="center">
-                            {/* <DialogSlide2 ref={dialogRef2}/> */}
-                            <div
-                                  className="sm:w-auto w-[50vw]"
-                                  onClick={() => {
-                                    // handleAofPDF(row.id);
-                                    handleVerify(row.id)
-                                  }}
-                                >
-                                  <BasicButton text={"VERIFY"} />
-                                </div>
+                              {/* <DialogSlide2 ref={dialogRef2}/> */}
+                              {hideVerfyBtn.includes(row.id) ? "":
+                              <div
+                                className="sm:w-auto w-[50vw]"
+                                onClick={() => {
+                                  // handleAofPDF(row.id);
+                                  handleVerify(row.id);
+                                }}
+                              >
+                                <BasicButton text={"VERIFY"} />
+                              </div>
+                              }
+                              {/* {<ReturnVerifyBtn id={row.id} handleVerify={handleVerify}/>} */}
+                              
                             </TableCell>
 
                             {/* <TableCell align="center"> */}
-                              {/* {row.id ? (
+                            {/* {row.id ? (
                                   <div
                                     className="sm:w-auto w-[50vw]"
                                     onClick={() => {
@@ -559,5 +624,20 @@ const AOF = () => {
     </div>
   );
 };
+
+const ReturnVerifyBtn = ({id, handleVerify}) => {
+  const [view, setView] = useState(true)
+  return (
+    <div
+                                className="sm:w-auto w-[50vw]"
+                                onClick={() => {
+                                  // handleAofPDF(row.id);
+                                  handleVerify(id);
+                                }}
+                              >
+                                <BasicButton text={"VERIFY"} />
+                              </div>
+  )
+}
 
 export default AOF;

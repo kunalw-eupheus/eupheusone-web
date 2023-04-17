@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useLayoutEffect } from "react";
+import React, { useEffect, useState, useLayoutEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import eupheusLogo from "./eupheusLogo.png";
 import instance from "../../Instance";
@@ -12,6 +12,11 @@ import { Button } from "@mui/material";
 // var converter = require('number-to-words')
 import { ToWords } from "to-words";
 import moment from "moment";
+import axios from "axios";
+import Snackbars from "../../Components/Material/SnackBar";
+// import { networkInterfaces } from "os";
+// const { networkInterfaces } = require('os');
+
 const toWords = new ToWords();
 
 const AofPdf4 = () => {
@@ -53,7 +58,7 @@ const AofPdf4 = () => {
   const [publisheArr, setPublisherArr] = useState([]);
   const [overallArr, setOverallArr] = useState([]);
   const [goodPicks, setGoodPicks] = useState([]);
-
+  const [snackbarErrStatus, setSnackbarErrStatus] = useState(true);
   const [modelOpen, setModelOpen] = useState(false);
   const [user, setUser] = useState("");
 
@@ -65,6 +70,7 @@ const AofPdf4 = () => {
   const [overallArrAvail, setOverallArrAvail] = useState(true);
   const [lat, setLat] = useState(null);
   const [lng, setLng] = useState(null);
+  const [ip, setIP] = useState("");
   const [status, setStatus] = useState(null);
   const [checked, setChecked] = useState(false);
   const [classesUpto, setClassesUpto] = useState("");
@@ -72,15 +78,28 @@ const AofPdf4 = () => {
   const [bpCode, setBpCode] = useState("");
   const [validDate, setValidDate] = useState("");
   const [creditLimit, setCreditLimit] = useState("");
-  const [dsgntn, setDsgntn] = useState("")
+  const [dsgntn, setDsgntn] = useState("");
+  const [errMessage, setErrMessage] = useState("");
+
+  const { aofid } = useParams();
+
+  const snackbarRef = useRef();
+
 
   useEffect(() => {
     getData();
   }, []);
 
-  const getLocation = () => {
-    if (!checked) alert("Please select the checkbox to continue");
+  const getLocationNdIP = async () => {
+    if (!checked) {
+      // alert("Please select the checkbox to continue");
+      setSnackbarErrStatus(true);
+      setErrMessage("Select the checkbox to continue");
+      snackbarRef.current.openSnackbar();
+      return
+    }
 
+    let lati, long
     if (!navigator.geolocation) {
       setStatus("Geolocation is not supported by your browser");
     } else {
@@ -88,10 +107,12 @@ const AofPdf4 = () => {
       navigator.geolocation.getCurrentPosition(
         (position) => {
           setStatus(null);
-          setLat(position.coords.latitude);
-          console.log("latitude=", position.coords.latitude);
-          setLng(position.coords.longitude);
-          console.log("longitude=", position.coords.longitude);
+          lati = position.coords.latitude
+          // setLat(position.coords.latitude);
+          // console.log("latitude=", position.coords.latitude);
+          long = position.coords.longitude
+          // setLng(position.coords.longitude);
+          // console.log("longitude=", position.coords.longitude);
           // console.log("---------------------")
         },
         () => {
@@ -99,7 +120,50 @@ const AofPdf4 = () => {
         }
       );
     }
+
+    const resp = await axios.get(`https://geolocation-db.com/json/`);
+    let ipAdd = resp.data.IPv4
+    // setIP(res.data.IPv4);
+
+    // getUser();
+  // };
+
+  // const getUser = async () => {
+    let dataPost = { id: aofid, coordinates: [{ lat: lati, lng: long }], ip: ipAdd };
+    console.log(dataPost);
+    const res = await instance({
+      // url: `sales_data/aof/get/detail/a6663609-a912-4e0e-9a37-4935213a3d1a`,
+      url: `sales_data/aof/verfication/customer/redirect`,
+      method: "POST",
+      data: dataPost,
+      headers: {
+        Authorization: Cookies.get("accessToken"),
+      },
+    });
+
+    // console.log(res.data)
+    if (res.data.status === "success") {
+      // alert(res.data.message)
+      setSnackbarErrStatus(false);
+      setErrMessage(res.data.message);
+      snackbarRef.current.openSnackbar();
+
+      // setTimeout(() => {
+       closeTab()
+      // }, 1000);
+      
+    }else{
+      setSnackbarErrStatus(true);
+      setErrMessage(res.data.message);
+      snackbarRef.current.openSnackbar();
+    }
   };
+
+  const closeTab=()=>{
+    window.opener = null;
+    window.open('', '_self');
+    window.close();
+  }
 
   useLayoutEffect(() => {
     const userId = Cookies.get("id");
@@ -114,7 +178,7 @@ const AofPdf4 = () => {
           Authorization: Cookies.get("accessToken"),
         },
       });
-      console.log(res.data.message);
+      // console.log(res.data.message);
       let data = res.data.message;
       let name = `${data.first_name ? data.first_name : ""} ${
         data.middle_name ? data.middle_name : ""
@@ -124,8 +188,6 @@ const AofPdf4 = () => {
     };
     getUser();
   }, []);
-
-  const { aofid } = useParams();
 
   const monthMap = {
     "01": "January",
@@ -151,11 +213,11 @@ const AofPdf4 = () => {
         Authorization: Cookies.get("accessToken"),
       },
     });
-    console.log(res.data.message);
+    // console.log(res.data.message);
     let data = res.data.message;
     let date1 = data.date;
-    setDsgntn(data.designation)
-    let date1conv = moment(date1).format('DD-MM-YYYY');
+    setDsgntn(data.designation);
+    let date1conv = moment(date1).format("DD-MM-YYYY");
     // console.log(date1conv)
     if (data.bpcode) {
       setBpCode(data.bpcode);
@@ -224,11 +286,11 @@ const AofPdf4 = () => {
     // console.log(crdtPrts)
     setCreditParties(crdtPrts);
 
-    if(res.data.message.aof_banks.length === 0){
-      console.log(res.data.message.aof_banks)
-    }else{
+    if (res.data.message.aof_banks.length === 0) {
+      // console.log(res.data.message.aof_banks);
+    } else {
       let bnkData = res.data.message.aof_banks[0];
-      console.log(bnkData)
+      // console.log(bnkData);
       setBankName(bnkData.name);
       setAccNo(bnkData.account_no);
       setAccType(bnkData.acc_type);
@@ -243,9 +305,7 @@ const AofPdf4 = () => {
       setBankChecq(bnkDataArr);
     }
 
-   
-
-    console.log(res.data);
+    // console.log(res.data);
     if (res.data.tod.length !== 0) {
       let todDiscData = res.data.tod[0];
       setTodDiscData(todDiscData);
@@ -271,7 +331,7 @@ const AofPdf4 = () => {
     }
 
     let specialDiscArr = res.data.special;
-    console.log(specialDiscArr);
+    // console.log(specialDiscArr);
     if (specialDiscArr.length === 0) {
       setSpecialArrAvail(false);
     }
@@ -322,6 +382,12 @@ const AofPdf4 = () => {
 
   return (
     <div className="bg-white">
+      <Snackbars
+        ref={snackbarRef}
+        snackbarErrStatus={snackbarErrStatus}
+        errMessage={errMessage}
+      />
+
       <div className="bg-white ">
         <div className="">
           <div className="flex justify-center mt-[1rem]">
@@ -351,7 +417,7 @@ const AofPdf4 = () => {
                 <b>Name of Party School*: {partySchool ? partySchool : ""}</b>
               </div>
               <div className="">
-              Status*: {solePPPStatus ? solePPPStatus : ""}
+                Status*: {solePPPStatus ? solePPPStatus : ""}
               </div>
               <div className="">Address*: {address ? address : ""}</div>
               <div className="flex flex-col sm:flex-row sm:justify-between">
@@ -1198,9 +1264,7 @@ const AofPdf4 = () => {
                             i.overall.percent ? i.overall.percent : ""
                           } %`}</td>
                           <td style={{ border: "1px solid black" }}>{` ${
-                            i.overall.remark
-                              ? i.overall.remark
-                              : ""
+                            i.overall.remark ? i.overall.remark : ""
                           }`}</td>
                         </tr>
                       );
@@ -1257,62 +1321,53 @@ const AofPdf4 = () => {
                 <b>NAME OF DISTRIBUTOR:</b>
               </div>
               <div style={{ marginTop: "30px" }}>By: ________________</div>
-              <div style={{ marginTop: "5px" }}>Party Name: {partySchool ? partySchool : ""}</div>
+              <div style={{ marginTop: "5px" }}>
+                Party Name: {partySchool ? partySchool : ""}
+              </div>
               <div style={{ marginTop: "5px" }}>Designation: {dsgntn}</div>
               {/* <div style={{ marginTop: "5px" }}>Witness 2: </div> */}
             </div>
           </div>
 
           {/* {gstNo.length === 0 ? ( */}
-            <div style={{ marginTop: "20px", borderTop: "2px solid silver" }}>
-              <div
-                className="flex justify-center"
-                style={{ marginTop: "20px" }}
-              >
-                <b style={{ borderBottom: "1px solid black" }}>Annexure B</b>
-              </div>
-              <div
-                className="flex justify-center"
-                style={{ marginTop: "10px" }}
-              >
-                <b>
-                  Declaration of GST Not-Applicable under the provisions of
-                  Goods and Service Tax Act
-                </b>
-              </div>
-              <div style={{ margin: "20px" }}>
-                I/ We {partySchool ? partySchool : ""} (Name of the
-                Proprietor/Karta/Authorized Signatory), being  ,
-                {dsgntn} (Designation) of , 
-                {partySchool ? partySchool : ""}.(Legal Name as per PAN) do
-                hereby state that I/We am/are not liable to registration under
-                the provisions of Goods and Service Tax Act.
-              </div>
-              <div style={{ margin: "20px" }}>
-                I/We declare that as soon as we Become eligible for GST
-                Registration, we shall get ourselves registered with the Goods
-                and Services Tax department and give our GSTN to Proficiency
-                Learning Solutions Private Limited.
-              </div>
-              <div
-                className="flex justify-around"
-                style={{ marginTop: "20px" }}
-              >
-                <div>
-                  <div style={{ marginTop: "60px" }}>
-                    {/* <u>GSTIN AAACA1234DIZL</u> */}
-                  </div>
+          <div style={{ marginTop: "20px", borderTop: "2px solid silver" }}>
+            <div className="flex justify-center" style={{ marginTop: "20px" }}>
+              <b style={{ borderBottom: "1px solid black" }}>Annexure B</b>
+            </div>
+            <div className="flex justify-center" style={{ marginTop: "10px" }}>
+              <b>
+                Declaration of GST Not-Applicable under the provisions of Goods
+                and Service Tax Act
+              </b>
+            </div>
+            <div style={{ margin: "20px" }}>
+              I/ We {partySchool ? partySchool : ""} (Name of the
+              Proprietor/Karta/Authorized Signatory), being ,{dsgntn}{" "}
+              (Designation) of ,{partySchool ? partySchool : ""}.(Legal Name as
+              per PAN) do hereby state that I/We am/are not liable to
+              registration under the provisions of Goods and Service Tax Act.
+            </div>
+            <div style={{ margin: "20px" }}>
+              I/We declare that as soon as we Become eligible for GST
+              Registration, we shall get ourselves registered with the Goods and
+              Services Tax department and give our GSTN to Proficiency Learning
+              Solutions Private Limited.
+            </div>
+            <div className="flex justify-around" style={{ marginTop: "20px" }}>
+              <div>
+                <div style={{ marginTop: "60px" }}>
+                  {/* <u>GSTIN AAACA1234DIZL</u> */}
                 </div>
+              </div>
+              <div>
                 <div>
-                  <div>
-                    <b>For Customer</b>
-                  </div>
-                  <div style={{ marginTop: "30px" }}>(Stamp and Signature)</div>
-                  <div style={{ marginTop: "5px" }}>Date: _______________</div>
+                  <b>For Customer</b>
                 </div>
+                <div style={{ marginTop: "30px" }}>(Stamp and Signature)</div>
+                <div style={{ marginTop: "5px" }}>Date: _______________</div>
               </div>
             </div>
-         
+          </div>
         </div>
         <hr className="w-[95%] bg-black h-[2px] my-[1rem] mx-[1rem]" />
         <div className="flex flex-col sm:flex-row sm:justify-between mx-[1rem] ">
@@ -1325,7 +1380,7 @@ const AofPdf4 = () => {
             />
             Agree With Terms & Conditions
           </div>
-          <Button onClick={getLocation} variant="contained">
+          <Button onClick={getLocationNdIP} variant="contained">
             Submit
           </Button>
         </div>
