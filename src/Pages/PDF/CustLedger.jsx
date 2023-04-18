@@ -73,9 +73,9 @@ const CustLedger = () => {
       // console.log(obj.debitAmount)
     }
     // console.log(totalDebit)
-    setTtlDebit(totalDebit);
-    // console.log(totalCredit)
-    setTtlCredit(totalCredit);
+    setTtlDebit(totalDebit.toFixed(2));
+    // console.log(totalCredit.toFixed(2))
+    setTtlCredit(totalCredit.toFixed(2));
     // console.log("----------------------")
     // console.log(data);
     setDate(data.date);
@@ -84,7 +84,9 @@ const CustLedger = () => {
     setBpName(data.bpname);
     setCurr(data.cur);
     setOpeningDr(data.opening);
-    setClosingDr(data.closing);
+    let clsnBl = data.closing.toFixed(2)
+    // console.log(typeof clsnBl)
+    setClosingDr(clsnBl);
     setArrData(tableData);
     // console.log(tableData);
     // console.log(data.opening , totalCredit)
@@ -419,7 +421,7 @@ const CustLedger = () => {
                 }}
               >
                 {/* 195,121.00 */}
-                {`${openingDr.toFixed(2)}`}
+                {`${openingDr}`}
               </p>
             </td>
           </tr>
@@ -602,7 +604,7 @@ const CustLedger = () => {
                 </td>
                 <td
                   style={{
-                    width: "250pt",
+                    width: "3250pt",
                     borderTopStyle: "solid",
                     borderTopWidth: "1pt",
                   }}
@@ -699,6 +701,7 @@ const CustLedger = () => {
                   >
                     {/* 0.00 */}
                     {`${item.debitAmount.toFixed(2)}`}
+                    {/* {console.log(typeof item.debitAmount)} */}
                   </p>
                 </td>
                 <td
@@ -719,6 +722,7 @@ const CustLedger = () => {
                   >
                     {/* 56,056.00 */}
                     {`${item.creditAmount.toFixed(2)}`}
+                    {/* {console.log(typeof item.creditAmount)} */}
                   </p>
                 </td>
               </tr>
@@ -1123,7 +1127,8 @@ const CustLedger = () => {
                 }}
               >
                 {/* 18,497.00 */}
-                {`${ttlDebit.toFixed(2)}`}
+                {`${ttlDebit}`}
+                {/* {console.log(typeof ttlDebit)} */}
               </p>
             </td>
             <td
@@ -1142,8 +1147,9 @@ const CustLedger = () => {
                   textAlign: "right",
                 }}
               >
-                {/* 226,392.00 */}
-                {`${ttlCredit.toFixed(2)}`}
+                {/* 226,392.000000 */}
+                {`${ttlCredit}`}
+                {/* {console.log(typeof ttlCredit)} */}
               </p>
             </td>
           </tr>
@@ -1159,7 +1165,9 @@ const CustLedger = () => {
                   textAlign: "left",
                 }}
               >
-                Closing Balance : {`${closingDr.toFixed(2)}`}
+                Closing Balance : {`${closingDr}`}
+                
+
                 {/* Closing Balance : {`${totlAmnt}`} */}
                 {/* -12,774.00 */}
               </p>
