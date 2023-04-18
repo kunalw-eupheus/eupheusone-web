@@ -51,6 +51,9 @@ const AdminInvoice = () => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [customer, setCustomer] = useState([]);
+  const [allUser, setAllUser] = useState([])
+  const [fkUserId, setfkUserId] = useState("");
+
   const navigate = useNavigate();
 
   const navInfo = {
@@ -80,15 +83,16 @@ const AdminInvoice = () => {
     }
     setSearchRow([]);
     if (tempArr.length === 0) {
-      setSearchRow([
-        {
-          docnum: null,
-          docdate: null,
-          docdate: null,
-          doctotal: null,
-          id: null,
-        },
-      ]);
+      alert("No data Found");
+      // setSearchRow([
+      //   {
+      //     docnum: null,
+      //     docdate: null,
+      //     docdate: null,
+      //     doctotal: null,
+      //     id: null,
+      //   },
+      // ]);
     } else {
       setSearchRow(tempArr);
     }
@@ -134,7 +138,8 @@ const AdminInvoice = () => {
   // };
 
   useEffect(() => {
-    getCustomers();
+    getAllUser()
+    // getCustomers();
     // getInvoices();
     const userType = Cookies.get("type");
     if (userType === "admin") setIsAdmin(true);
@@ -191,6 +196,19 @@ const AdminInvoice = () => {
     setLoading(false);
   };
 
+  const getAllUser = async () => {
+    const res = await instance({
+      url: "user/getuserids",
+      method: "GET",
+      headers: {
+        Authorization: `${Cookies.get("accessToken")}`,
+      },
+    });
+    // console.log(res.data.message);
+    // setCustomer(res.data.message);
+    setAllUser(res.data.message)
+  };
+
   const handleOrderProcessingForm = async (value, type) => {
     // console.log(value,type)
     switch (type) {
@@ -202,18 +220,24 @@ const AdminInvoice = () => {
       case "select_city":
         setStateAndCity({ ...stateAndCity, city: value.id });
         break;
-      case "invoice_data":
-        // console.log(value.bp_code)
-        setbpCode(value.bp_code);
-        break;
+        case "invoice_data":
+          // console.log(value.bp_user_taggings[0])
+          setbpCode(value.bp_code);
+          setfkUserId(value.bp_user_taggings[0].fk_user_id)
+          break;
+        case "get_all_user":
+          console.log(value)
+          getCustomers(value.id)
+          // setbpCode(value.bp_code);
+          break;
       default:
         break;
     }
   };
 
-  const getCustomers = async () => {
+  const getCustomers = async (id) => {
     const res = await instance({
-      url: "sales_data/get_all_bps",
+      url: `user/admin/get/customers/${id}`,
       method: "GET",
       headers: {
         Authorization: `${Cookies.get("accessToken")}`,
@@ -225,10 +249,16 @@ const AdminInvoice = () => {
 
   const searchInvoice = async () => {
     console.log(bpCode);
+    console.log(fkUserId)
+    let dataToPost = {
+        fk_user_id:fkUserId,
+        bpcode:bpCode
+    }
     setLoading(true);
     const res = await instance({
-      url: `eup_invoice/geteupinvoices/${bpCode}`,
-      method: "GET",
+      url: `user/admin/get/customers/invoices/list`,
+      method: "POST",
+      data: dataToPost,
       headers: {
         Authorization: `${Cookies.get("accessToken")}`,
       },
@@ -313,18 +343,27 @@ const AdminInvoice = () => {
                 <TableContainer component={Paper}>
                   <Toolbar className="grid grid-cols-2 grid-rows-2 md:flex md:justify-around md:items-center px-6 py-3 gap-6 bg-slate-500">
                     {/* <div className="sm:w-auto w-full"> */}
-                    <div className="sm:col-span-2 w-[70%]">
-
-                    <SearchDropDown
-                      label={"Select Customer"}
-                      handleOrderProcessingForm={handleOrderProcessingForm}
-                      color={"rgb(243, 244, 246)"}
-                      data={customer}
-                      Name="invoice_data"
-                    />
+                    <div className="sm:col-span-3 w-[50%]">
+                      <SearchDropDown
+                        label={"Select User"}
+                        handleOrderProcessingForm={handleOrderProcessingForm}
+                        color={"rgb(243, 244, 246)"}
+                        data={allUser}
+                        Name="get_all_user"
+                      />
                     </div>
 
-                    <div className="sm:w-auto w-[50vw]" onClick={searchInvoice}>
+                    <div className="sm:col-span-3 w-[50%]">
+                      <SearchDropDown
+                        label={"Select Customer"}
+                        handleOrderProcessingForm={handleOrderProcessingForm}
+                        color={"rgb(243, 244, 246)"}
+                        data={customer}
+                        Name="invoice_data"
+                      />
+                    </div>
+
+                    <div className="sm:col-span-3 w-[30%]" onClick={searchInvoice}>
                       <BasicButton text={"Search Invoice"} />
                     </div>
                   </Toolbar>
@@ -385,13 +424,13 @@ const AdminInvoice = () => {
                         {/* <TableCell className="!w-[5rem]" align="center">
                         Sl No
                       </TableCell> */}
-                        <TableCell className="!w-[9rem]" align="center">
+                  <TableCell className="!w-[8rem]" align="center">
                           Invoice No
                         </TableCell>
-                        <TableCell className="!w-[11rem]" align="center">
+                        <TableCell className="!w-[8rem]" align="center">
                           Invoice Type
                         </TableCell>
-                        <TableCell className="!w-[10rem]" align="center">
+                        <TableCell className="!w-[14rem]" align="center">
                           Customer Name
                         </TableCell>
                         <TableCell className="!w-[8rem]" align="center">
@@ -408,7 +447,7 @@ const AdminInvoice = () => {
                           align="center"
                         ></TableCell>
                         <TableCell
-                          className="!w-[12rem]"
+                          className="!w-[13em]"
                           align="center"
                         ></TableCell>
                       </TableRow>
