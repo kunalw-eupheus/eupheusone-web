@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useLayoutEffect, useRef } from "react";
-import { Link } from "react-router-dom";
+import { Link, redirect  } from "react-router-dom";
 import eupheusLogo from "./eupheusLogo.png";
 import instance from "../../Instance";
 import Cookies from "js-cookie";
@@ -162,6 +162,7 @@ const AofPdf4 = () => {
   const closeTab=()=>{
     // window.location.href.close()
 //     window.open("about:blank", "_self");
+window.open("about:blank", "_self");
 // window.close();
   }
 

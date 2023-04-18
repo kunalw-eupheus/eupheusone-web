@@ -186,6 +186,15 @@ const SearchDropDown = ({
           // console.log(option)
           return option.bp_name;
           break;
+        case "get_all_user":
+          let firstName='', middleName='', lastName=''
+          if(option.first_name) firstName = option.first_name
+          if(option.middle_name) middleName = option.middle_name
+          if(option.last_name) lastName = option.last_name
+          let fullName = `${firstName} ${middleName} ${lastName}`
+            // console.log(option)
+          return fullName
+          break;
         case "selec_typ":
           return option.title;
           break;
@@ -398,6 +407,9 @@ const SearchDropDown = ({
       handleOrderProcessingForm(value, type);
     }
     if (type === "invoice_data") {
+      handleOrderProcessingForm(value, type);
+    }
+    if (type === "get_all_user") {
       handleOrderProcessingForm(value, type);
     }
     if (type === "select_school_type") {

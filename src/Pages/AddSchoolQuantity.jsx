@@ -81,6 +81,7 @@ const AddSchoolQuantity = () => {
         Authorization: `${Cookies.get("accessToken")}`,
       },
     });
+    console.log(res.data)
     if (res.data.message) {
       //   console.log(res.data.message[0].eup_invoice_items);
       let dataArr = res.data.message[0].eup_invoice_items;

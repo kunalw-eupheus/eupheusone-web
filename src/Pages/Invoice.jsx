@@ -48,9 +48,11 @@ const Invoice = () => {
   const [invoiceId, setInvoiceId] = useState("");
   const [invoiceId2, setInvoiceId2] = useState("");
   const [bpCode, setbpCode] = useState("");
+  const [fkUserId, setfkUserId] = useState("");
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [customer, setCustomer] = useState([]);
+  const [allUser, setAllUser] = useState([])
   const navigate = useNavigate();
 
   const navInfo = {
@@ -130,7 +132,8 @@ const Invoice = () => {
   // };
 
   useEffect(() => {
-    getCustomers();
+    getAllUser()
+    // getCustomers();
     // getInvoices();
     const userType = Cookies.get("type");
     if (userType === "admin") setIsAdmin(true);
@@ -199,17 +202,36 @@ const Invoice = () => {
         setStateAndCity({ ...stateAndCity, city: value.id });
         break;
       case "invoice_data":
-        // console.log(value.bp_code)
+        // console.log(value.bp_user_taggings[0])
         setbpCode(value.bp_code);
+        setfkUserId(value.bp_user_taggings[0].fk_user_id)
+        break;
+      case "get_all_user":
+        console.log(value)
+        getCustomers(value.id)
+        // setbpCode(value.bp_code);
         break;
       default:
         break;
     }
   };
 
-  const getCustomers = async () => {
+  const getAllUser = async () => {
     const res = await instance({
-      url: "sales_data/get_all_bps",
+      url: "user/getuserids",
+      method: "GET",
+      headers: {
+        Authorization: `${Cookies.get("accessToken")}`,
+      },
+    });
+    console.log(res.data.message);
+    // setCustomer(res.data.message);
+    setAllUser(res.data.message)
+  };
+
+  const getCustomers = async (id) => {
+    const res = await instance({
+      url: `user/admin/get/customers/${id}`,
       method: "GET",
       headers: {
         Authorization: `${Cookies.get("accessToken")}`,
@@ -221,10 +243,16 @@ const Invoice = () => {
 
   const searchInvoice = async () => {
     console.log(bpCode);
+    console.log(fkUserId)
+    let dataToPost = {
+        fk_user_id:fkUserId,
+        bpcode:bpCode
+    }
     setLoading(true);
     const res = await instance({
-      url: `eup_invoice/geteupinvoices/${bpCode}`,
-      method: "GET",
+      url: `user/admin/get/customers/invoices/list`,
+      method: "POST",
+      data: dataToPost,
       headers: {
         Authorization: `${Cookies.get("accessToken")}`,
       },
@@ -308,8 +336,18 @@ const Invoice = () => {
               <Paper>
                 <TableContainer component={Paper}>
                   <Toolbar className="grid grid-cols-2 grid-rows-2 md:flex md:justify-around md:items-center px-6 py-3 gap-6 bg-slate-500">
-                    {/* <div className="sm:w-auto w-full"> */}
-                    <div className="sm:col-span-2 w-[70%]">
+                    {/* <div className=""> */}
+                    <div className="sm:col-span-3 w-[50%]">
+                      <SearchDropDown
+                        label={"Select User"}
+                        handleOrderProcessingForm={handleOrderProcessingForm}
+                        color={"rgb(243, 244, 246)"}
+                        data={allUser}
+                        Name="get_all_user"
+                      />
+                    </div>
+
+                    <div className="sm:col-span-3 w-[50%]">
                       <SearchDropDown
                         label={"Select Customer"}
                         handleOrderProcessingForm={handleOrderProcessingForm}
@@ -319,9 +357,10 @@ const Invoice = () => {
                       />
                     </div>
 
-                    <div className="sm:w-auto w-[50vw]" onClick={searchInvoice}>
+                    <div className="sm:col-span-3 w-[30%]" onClick={searchInvoice}>
                       <BasicButton text={"Search Invoice"} />
                     </div>
+                    {/* </div> */}
                   </Toolbar>
                   <Toolbar className="bg-slate-400">
                     <TextField
@@ -403,7 +442,7 @@ const Invoice = () => {
                           align="center"
                         ></TableCell>
                         <TableCell
-                          className="!w-[10rem]"
+                          className="!w-[12em]"
                           align="center"
                         ></TableCell>
                       </TableRow>
