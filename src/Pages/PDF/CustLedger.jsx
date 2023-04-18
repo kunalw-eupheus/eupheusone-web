@@ -72,12 +72,16 @@ const CustLedger = () => {
       totalCredit += obj.creditAmount;
       // console.log(obj.debitAmount)
     }
+    // console.log(data.address)
+    
+    // totalDebit = totalDebit.toFixed(2)
     // console.log(totalDebit)
-    setTtlDebit(totalDebit.toFixed(2));
+    // totalCredit = totalCredit.toFixed(2)
+    // setTtlDebit(totalDebit);
     // console.log(totalCredit.toFixed(2))
-    setTtlCredit(totalCredit.toFixed(2));
+    // setTtlCredit(totalCredit);
     // console.log("----------------------")
-    // console.log(data);
+    console.log(data.opening);
     setDate(data.date);
     setAddress(data.address);
     setBpCode(data.bpcode);
@@ -98,15 +102,23 @@ const CustLedger = () => {
 
     if(opngDrAmnt < 0){
       totalCredit = opngDrAmnt + totalCredit
+      totalCredit = totalCredit.toFixed(2)
+      totalCredit = totalCredit.toFixed(2)
+      setTtlDebit(totalDebit);
+      setTtlCredit(totalCredit);
       setDrCr("Cr")
     }else{
       totalDebit = opngDrAmnt + totalDebit
+      totalDebit = totalDebit.toFixed(2)
+      totalCredit = totalCredit.toFixed(2)
+      setTtlDebit(totalDebit);
+      setTtlCredit(totalCredit);
       setDrCr("Dr")
     }
     // console.log(totalDebit)
     // console.log(totalCredit)
-    setTtlDebit(totalDebit);
-    setTtlCredit(totalCredit);
+   
+    
   };
 
   return (
@@ -1127,7 +1139,7 @@ const CustLedger = () => {
                 }}
               >
                 {/* 18,497.00 */}
-                {`${ttlDebit}`}
+                {ttlDebit}
                 {/* {console.log(typeof ttlDebit)} */}
               </p>
             </td>
@@ -1148,7 +1160,7 @@ const CustLedger = () => {
                 }}
               >
                 {/* 226,392.000000 */}
-                {`${ttlCredit}`}
+                {ttlCredit}
                 {/* {console.log(typeof ttlCredit)} */}
               </p>
             </td>
