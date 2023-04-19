@@ -37,8 +37,8 @@ const Workshop = () => {
   }, []);
 
   const navInfo = {
-    title: "Products",
-    details: ["Home", "/Products"],
+    title: "Workshop",
+    details: ["Home", "/Workshop"],
   };
 
   const handleSidebarCollapsed = () => {
@@ -98,7 +98,7 @@ const Workshop = () => {
 
           <div className="min-h-[90vh] relative flex flex-col w-full justify-start items-start gap-4 bg-[#141728]">
             <div className="text-gray-100 w-full md:text-2xl flex justify-between sm:px-12 px-8 items-center text-base font-semibold absolute mt-[2rem]">
-              <h1>Workshop</h1>
+              <h1 className="text-gray-100 text-lg">Workshop</h1>
               <div onClick={() => navigate(`/kys/add_workshop/${id}`)}>
                 <BasicButton text={"Request Workshop"} />
               </div>

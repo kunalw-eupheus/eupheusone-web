@@ -44,10 +44,12 @@ const AOF = () => {
   const [hideVerfyBtn,setHideVerifyBtn] = useState([])
   const [searchVal, setSearchVal] = useState("");
   const [aofId, setAofId] = useState("");
+
   const [errMessage, setErrMessage] = useState("");
   // const [keepBtnDactive, setKeepBtnDactive] = useState(false)
   const navigate = useNavigate();
   const snackbarRef = useRef();
+
 
   const navInfo = {
     title: "AOF",
@@ -243,7 +245,6 @@ const AOF = () => {
     setPage(0);
     let tempArr = [];
     for (let ele of rowdata) {
-      // console.log(ele)
       let docName = ele.name.toLowerCase();
       let phone = ele.phone;
       let schlName = ele.school.toLowerCase();
@@ -260,15 +261,6 @@ const AOF = () => {
     setSearchRow([]);
     if (tempArr.length === 0) {
       alert("No data Found");
-      // setSearchRow([
-      //   {
-      //     docnum: null,
-      //     docdate: null,
-      //     docdate: null,
-      //     doctotal: null,
-      //     id: null,
-      //   },
-      // ]);
     } else {
       setSearchRow(tempArr);
     }
@@ -543,6 +535,7 @@ console.log(hideVerfyBtn);
                                 <BasicButton text={"VERIFY"} />
                               </div>
                               }
+
                             </TableCell>
                           </TableRow>
                         ))
