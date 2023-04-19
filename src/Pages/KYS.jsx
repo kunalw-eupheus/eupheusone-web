@@ -220,7 +220,7 @@ const KYS = () => {
           setErrMessage("Please Select School");
           snackbarRef.current.openSnackbar();
         } else {
-          navigate(`/kys/add_competition/${schoolInfo.id}`);
+          navigate(`/kys/competition/${schoolInfo.id}`);
         }
         break;
       case "workshop":

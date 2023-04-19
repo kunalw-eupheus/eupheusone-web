@@ -88,7 +88,6 @@ const Login = () => {
       Cookies.set("type", `${res.data.type}`);
       Cookies.set("company", `${res.data.company}`);
 
-
       if (res.data.type === "training") {
         Cookies.set(
           "training",
@@ -125,7 +124,7 @@ const Login = () => {
       }
 
       if (res.data.type === "sales_head") {
-        console.log("salesHead")
+        console.log("salesHead");
         Cookies.set(
           "saleshead",
           // true
@@ -135,6 +134,15 @@ const Login = () => {
       }
 
       dispatch(authActions.login());
+
+      if (res.data.type === "HR") {
+        console.log("HR");
+        Cookies.set(
+          "HR",
+          `id: ${res.data.id}, accessToken: ${res.data.accessToken}`
+        );
+        dispatch(authActions.HRLogin());
+      }
 
       // console.log(res.data.type, res.data.company)
       if (res.data.type === "training" && res.data.company === "Euphues") {
@@ -170,6 +178,8 @@ const Login = () => {
         // console.log(res.data.company)
         navigate("/saleshead/aof");
         // console.log("This is in admin login")
+      } else if (res.data.type === "HR" && res.data.company === "Euphues") {
+        navigate("/hr/home");
       } else {
         navigate("/");
         // dispatch(authActions.login());
@@ -270,7 +280,7 @@ const Login = () => {
                       >
                         {loading ? "" : "SIGN IN"}
                       </LoadingButton>
-                      
+
                       {/* <LoadingButton
                         onClick={authLogin}
                         type="button"

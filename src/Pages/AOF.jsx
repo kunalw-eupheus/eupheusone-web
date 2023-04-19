@@ -39,9 +39,8 @@ const AOF = () => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [searchVal, setSearchVal] = useState("");
-  const [aofId, setAofId] = useState("")
+  const [aofId, setAofId] = useState("");
   const navigate = useNavigate();
-
 
   const navInfo = {
     title: "AOF",
@@ -107,32 +106,32 @@ const AOF = () => {
   }, []);
 
   const handleAofView = (invceId) => {
-    console.log(invceId)
-    setLoading(true)
+    console.log(invceId);
+    setLoading(true);
     setAofId(invceId);
     setTimeout(() => {
       // console.log("Delayed for 1 second.");
       openDialogue2();
-      setLoading(false)
-    }, 1000)
+      setLoading(false);
+    }, 1000);
     // openDialogue2();
   };
 
   const handleVerify = (aofId) => {
     // console.log(abc)
-    setLoading(true)
+    setLoading(true);
     setAofId(aofId);
     setTimeout(() => {
       // console.log("Delayed for 1 second.");
       openDialogue2();
-      setLoading(false)
-    }, 1000)
-  }
+      setLoading(false);
+    }, 1000);
+  };
 
   const handleAofPDF = (invId) => {
     // console.log(invId)
-    window.open(`view_aof_pdf2/${invId}`, '_blank', 'noreferrer')
-  }
+    window.open(`view_aof_pdf2/${invId}`, "_blank", "noreferrer");
+  };
 
   const openDialogue2 = () => {
     dialogRef2.current.openDialog();
@@ -153,7 +152,6 @@ const AOF = () => {
     setRowdata(res.data.message);
     setLoading(false);
   };
-
 
   const handleSearch = (val) => {
     setSearchVal(val.trim());
@@ -211,46 +209,37 @@ const AOF = () => {
     setLoading(false);
   };
 
-
   const filterTable = () => {
     // console.log(searchVal);
     // console.log(rowdata)
-    setPage(0)
+    setPage(0);
     let tempArr = [];
     for (let ele of rowdata) {
-      // console.log(ele)
       let docName = ele.name.toLowerCase();
-      let phone = ele.phone
-      let schlName = ele.school.toLowerCase()
-      let email = ele.email.toLowerCase()
-      if (docName.indexOf(searchVal.toLowerCase()) > -1 || 
-      phone.indexOf(searchVal.toLowerCase()) > -1 ||
-      schlName.indexOf(searchVal.toLowerCase()) > -1 ||
-      email.indexOf(searchVal.toLowerCase()) > -1) {
+      let phone = ele.phone;
+      let schlName = ele.school.toLowerCase();
+      let email = ele.email.toLowerCase();
+      if (
+        docName.indexOf(searchVal.toLowerCase()) > -1 ||
+        phone.indexOf(searchVal.toLowerCase()) > -1 ||
+        schlName.indexOf(searchVal.toLowerCase()) > -1 ||
+        email.indexOf(searchVal.toLowerCase()) > -1
+      ) {
         tempArr.push(ele);
       }
     }
     setSearchRow([]);
     if (tempArr.length === 0) {
-      alert("No data Found")
-      // setSearchRow([
-      //   {
-      //     docnum: null,
-      //     docdate: null,
-      //     docdate: null,
-      //     doctotal: null,
-      //     id: null,
-      //   },
-      // ]);
+      alert("No data Found");
     } else {
       setSearchRow(tempArr);
     }
   };
 
-  const handleAofPDFEdit=(id)=>{
+  const handleAofPDFEdit = (id) => {
     // alert(id)
-    navigate(`/aof_edit/${id}`)
-  }
+    navigate(`/aof_edit/${id}`);
+  };
 
   useLayoutEffect(() => {
     const getStates = async () => {
@@ -444,16 +433,16 @@ const AOF = () => {
                             <TableCell align="center">{row.status}</TableCell>
 
                             <TableCell align="center">
-                            {/* <DialogSlide2 ref={dialogRef2}/> */}
-                            <div
-                                  className="sm:w-auto w-[50vw]"
-                                  onClick={() => {
-                                    // handleAofView(row.id);
-                                    handleAofPDF(row.id);
-                                  }}
-                                >
-                                  <BasicButton text={"View"} />
-                                </div>
+                              {/* <DialogSlide2 ref={dialogRef2}/> */}
+                              <div
+                                className="sm:w-auto w-[50vw]"
+                                onClick={() => {
+                                  // handleAofView(row.id);
+                                  handleAofPDF(row.id);
+                                }}
+                              >
+                                <BasicButton text={"View"} />
+                              </div>
                             </TableCell>
                             {/* <TableCell align="center"> */}
                             {/* <DialogSlide2 ref={dialogRef2}/> */}
@@ -467,17 +456,17 @@ const AOF = () => {
                                   <BasicButton text={"Edit"} />
                                 </div>
                             </TableCell> */}
-                               <TableCell align="center">
-                            {/* <DialogSlide2 ref={dialogRef2}/> */}
-                            <div
-                                  className="sm:w-auto w-[50vw]"
-                                  onClick={() => {
-                                    // handleAofPDF(row.id);
-                                    handleVerify(row.id)
-                                  }}
-                                >
-                                  <BasicButton text={"VERIFY"} />
-                                </div>
+                            <TableCell align="center">
+                              {/* <DialogSlide2 ref={dialogRef2}/> */}
+                              <div
+                                className="sm:w-auto w-[50vw]"
+                                onClick={() => {
+                                  // handleAofPDF(row.id);
+                                  handleVerify(row.id);
+                                }}
+                              >
+                                <BasicButton text={"VERIFY"} />
+                              </div>
                             </TableCell>
                           </TableRow>
                         ))
@@ -507,33 +496,33 @@ const AOF = () => {
                             <TableCell align="center">{row.status}</TableCell>
 
                             <TableCell align="center">
-                            {/* <DialogSlide2 ref={dialogRef2}/> */}
-                            <div
-                                  className="sm:w-auto w-[50vw]"
-                                  onClick={() => {
-                                    // handleAofView(row.id);
-                                    handleAofPDF(row.id);
-                                  }}
-                                >
-                                  <BasicButton text={"View"} />
-                                </div>
+                              {/* <DialogSlide2 ref={dialogRef2}/> */}
+                              <div
+                                className="sm:w-auto w-[50vw]"
+                                onClick={() => {
+                                  // handleAofView(row.id);
+                                  handleAofPDF(row.id);
+                                }}
+                              >
+                                <BasicButton text={"View"} />
+                              </div>
                             </TableCell>
 
                             <TableCell align="center">
-                            {/* <DialogSlide2 ref={dialogRef2}/> */}
-                            <div
-                                  className="sm:w-auto w-[50vw]"
-                                  onClick={() => {
-                                    // handleAofPDF(row.id);
-                                    handleVerify(row.id)
-                                  }}
-                                >
-                                  <BasicButton text={"VERIFY"} />
-                                </div>
+                              {/* <DialogSlide2 ref={dialogRef2}/> */}
+                              <div
+                                className="sm:w-auto w-[50vw]"
+                                onClick={() => {
+                                  // handleAofPDF(row.id);
+                                  handleVerify(row.id);
+                                }}
+                              >
+                                <BasicButton text={"VERIFY"} />
+                              </div>
                             </TableCell>
 
                             {/* <TableCell align="center"> */}
-                              {/* {row.id ? (
+                            {/* {row.id ? (
                                   <div
                                     className="sm:w-auto w-[50vw]"
                                     onClick={() => {

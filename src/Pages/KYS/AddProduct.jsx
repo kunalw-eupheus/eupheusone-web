@@ -20,7 +20,7 @@ import { useFormik } from "formik";
 import Snackbars from "../../Components/Material/SnackBar";
 import SearchDropDown from "../../Components/SearchDropDown";
 
-const AddProduct = () => {
+const AddProduct = ({ props }) => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
@@ -138,7 +138,7 @@ const AddProduct = () => {
               // behavior: "smooth",
             });
             setTimeout(() => {
-              window.location.reload();
+              window.replace(`/kys/product/${id}`);
             }, 100);
           }, 1500);
         } else {
@@ -175,6 +175,11 @@ const AddProduct = () => {
     } else {
       Curriculumformik.handleSubmit();
     }
+    returnback();
+  };
+
+  const returnback = () => {
+    navigate(`/kys/products/${id}`);
   };
 
   useLayoutEffect(() => {
@@ -344,7 +349,7 @@ const AddProduct = () => {
 
           <div className="min-h-[90vh] relative flex w-full justify-center items-start gap-4 bg-[#141728]">
             <div className="text-gray-100 w-full md:text-2xl flex justify-between sm:px-12 px-8 items-center text-base font-semibold absolute mt-[2rem]">
-              <h1>Add Product</h1>
+              <h1 className="text-gray-100 text-lg">Add Product</h1>
             </div>
 
             <div className="w-full flex flex-col text-gray-100 gap-4  items-center mt-[7rem]">

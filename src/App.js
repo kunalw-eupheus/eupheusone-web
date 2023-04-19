@@ -38,6 +38,7 @@ import Strength from "./Pages/KYS/Strength";
 import AddStrength from "./Pages/KYS/AddStrength";
 import UpdateFees from "./Pages/KYS/UpdateFees";
 import Competition from "./Pages/KYS/Competition";
+import AddCompetition from "./Pages/KYS/AddCompetition";
 import AddWorkShop from "./Pages/KYS/AddWorkShop";
 import Workshop from "./Pages/KYS/Workshop";
 import PageNotFound from "./Pages/PageNotFound";
@@ -87,10 +88,12 @@ import AOFEdit from "./Pages/AOFEdit";
 import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import AofPdf3temp from "./Pages/PDF/AofPdf3temp";
-function App() {
+import HrHome from "./Pages/HR/HrHome";
+import User from "./Pages/HR/User";
 
-  const [userCache, setUserCache] = useState(false)
-  const [adminCache ,setAdminCache] = useState(false)
+function App() {
+  const [userCache, setUserCache] = useState(false);
+  const [adminCache, setAdminCache] = useState(false);
 
   const isAuth = useSelector((state) => state.auth.user);
   const MsAuth = useSelector((state) => state.auth.msAuth);
@@ -102,6 +105,7 @@ function App() {
   const Finance = useSelector((state) => state.auth.finance);
   const Saleshead = useSelector((state) => state.auth.saleshead);
   const Training = useSelector((state) => state.auth.training);
+  const HR = useSelector((state) => state.auth.HR);
 
   return (
     <div>
@@ -118,7 +122,9 @@ function App() {
               />
               <Route
                 path="/"
-                element={isAuth || MsAuth || Admin || Zsm ? <Home /> : <Login />}
+                element={
+                  isAuth || MsAuth || Admin || Zsm ? <Home /> : <Login />
+                }
               />
               {/* <Route
             path="/mySchool"
@@ -151,16 +157,22 @@ function App() {
               <Route
                 path="/manageSchoolTraining"
                 element={
-                  isAuth || MsAuth || Training ? <ManageSchoolTraining /> : <Login />
+                  isAuth || MsAuth || Training ? (
+                    <ManageSchoolTraining />
+                  ) : (
+                    <Login />
+                  )
                 }
               />
               <Route
                 path="/school/tagging"
-                element={isAuth || MsAuth || Zsm ? <SchoolTagging /> : <Login />}
+                element={
+                  isAuth || MsAuth || Zsm ? <SchoolTagging /> : <Login />
+                }
               />
               <Route
                 path="/school/schools"
-                element={isAuth || MsAuth || Zsm? <Schools /> : <Login />}
+                element={isAuth || MsAuth || Zsm ? <Schools /> : <Login />}
               />
               <Route
                 path="/tagschool"
@@ -172,7 +184,7 @@ function App() {
               />
               <Route
                 path="/addschooltraining"
-                element={ MsAuth || Training ? <AddSchoolTraining /> : <Login />}
+                element={MsAuth || Training ? <AddSchoolTraining /> : <Login />}
               />
 
               <Route
@@ -183,24 +195,32 @@ function App() {
               <Route
                 path="/update_school_training/:id/:scode"
                 element={
-                   MsAuth || Training || Zsm ? <UpdateSchoolTraining /> : <Login />
+                  MsAuth || Training || Zsm ? (
+                    <UpdateSchoolTraining />
+                  ) : (
+                    <Login />
+                  )
                 }
               />
 
               <Route
                 path="/update_school_training_eu/:scid/:stid/:scode"
                 element={
-                   MsAuth || Training ? <UpdateSchoolTrainingEU /> : <Login />
+                  MsAuth || Training ? <UpdateSchoolTrainingEU /> : <Login />
                 }
               />
 
               <Route
                 path="/school/punch_in"
-                element={isAuth || MsAuth || Zsm ? <SchoolPunchIn /> : <Login />}
+                element={
+                  isAuth || MsAuth || Zsm ? <SchoolPunchIn /> : <Login />
+                }
               />
               <Route
                 path="/order_processing"
-                element={isAuth || MsAuth || Zsm ? <OrderProcessing /> : <Login />}
+                element={
+                  isAuth || MsAuth || Zsm ? <OrderProcessing /> : <Login />
+                }
               />
               <Route
                 path="/manage_order"
@@ -212,7 +232,9 @@ function App() {
               />
               <Route
                 path="/addprojection"
-                element={isAuth || MsAuth || Zsm ? <Addprojection /> : <Login />}
+                element={
+                  isAuth || MsAuth || Zsm ? <Addprojection /> : <Login />
+                }
               />
 
               {/* <Route
@@ -250,6 +272,12 @@ function App() {
               />
               <Route
                 path="/kys/add_competition/:id"
+                element={
+                  isAuth || MsAuth || Zsm ? <AddCompetition /> : <Login />
+                }
+              />
+              <Route
+                path="/kys/competition/:id"
                 element={isAuth || MsAuth || Zsm ? <Competition /> : <Login />}
               />
               <Route
@@ -279,7 +307,9 @@ function App() {
 
               <Route
                 path="/return_request"
-                element={isAuth || MsAuth || Zsm ? <ReturnRequest /> : <Login />}
+                element={
+                  isAuth || MsAuth || Zsm ? <ReturnRequest /> : <Login />
+                }
               />
 
               <Route
@@ -294,17 +324,19 @@ function App() {
               />
               <Route
                 path="/addschoolquantity/:invoiceid"
-                element={isAuth || MsAuth || Zsm ? <AddSchoolQuantity /> : <Login />}
+                element={
+                  isAuth || MsAuth || Zsm ? <AddSchoolQuantity /> : <Login />
+                }
               />
 
               <Route
                 path="/invoice_training"
-                element={ MsAuth || Training? <InvoiceTraining /> : <Login />}
+                element={MsAuth || Training ? <InvoiceTraining /> : <Login />}
               />
 
               <Route
                 path="/order_training"
-                element={ MsAuth || Training ? <OrderTraining /> : <Login />}
+                element={MsAuth || Training ? <OrderTraining /> : <Login />}
               />
 
               <Route path="/view_pdf/:docnum/:docdate" element={<ViewPdf />} />
@@ -312,9 +344,14 @@ function App() {
               <Route path="/view_aof_pdf/:aofid" element={<AofPdf3temp />} />
               <Route path="/view_aof_pdf2/:aofid" element={<AofPdf2 />} />
               <Route path="/zsm/view_aof_pdf2/:aofid" element={<AofPdf2 />} />
-              <Route path="/saleshead/view_aof_pdf2/:aofid" element={<AofPdf2 />} />
-              <Route path="/finance/view_aof_pdf2/:aofid" element={<AofPdf2 />} />
-
+              <Route
+                path="/saleshead/view_aof_pdf2/:aofid"
+                element={<AofPdf2 />}
+              />
+              <Route
+                path="/finance/view_aof_pdf2/:aofid"
+                element={<AofPdf2 />}
+              />
 
               <Route
                 path="/bulkinv_pdf/:bp/:todate/:fromdate"
@@ -340,7 +377,7 @@ function App() {
 
               <Route
                 path="/locationTraining"
-                element={ MsAuth || Training ? <LocationTraining /> : <Login />}
+                element={MsAuth || Training ? <LocationTraining /> : <Login />}
               />
 
               <Route
@@ -350,17 +387,23 @@ function App() {
 
               <Route
                 path="/invoice_pdf_single"
-                element={isAuth || MsAuth || Zsm ? <ViewInvoiceSingle /> : <Login />}
+                element={
+                  isAuth || MsAuth || Zsm ? <ViewInvoiceSingle /> : <Login />
+                }
               />
 
               <Route
                 path="/invoice_pdf_double"
-                element={isAuth || MsAuth || Zsm ? <ViewInvoiceDouble /> : <Login />}
+                element={
+                  isAuth || MsAuth || Zsm ? <ViewInvoiceDouble /> : <Login />
+                }
               />
 
               <Route
                 path="/customer_pdf"
-                element={isAuth || MsAuth || Zsm ? <ViewCustomerLedger /> : <Login />}
+                element={
+                  isAuth || MsAuth || Zsm ? <ViewCustomerLedger /> : <Login />
+                }
               />
 
               <Route
@@ -377,7 +420,7 @@ function App() {
 
               <Route
                 path="/ck_school_training"
-                element={ MsAuth || Training ? <ClassklapSchool /> : <Login />}
+                element={MsAuth || Training ? <ClassklapSchool /> : <Login />}
               />
 
               <Route
@@ -452,7 +495,7 @@ function App() {
 
               <Route
                 path="/finance/aof"
-                element={Finance || MsAuth  ? <FinanceAOF /> : <Login />}
+                element={Finance || MsAuth ? <FinanceAOF /> : <Login />}
                 // element={<FinanceAOF />}
               />
 
@@ -460,6 +503,14 @@ function App() {
                 path="/saleshead/aof"
                 element={Saleshead || MsAuth ? <SalesheadAOF /> : <Login />}
                 // element={<SalesheadAOF />}
+              />
+              <Route
+                path="/hr/home"
+                element={HR || MsAuth ? <HrHome /> : <Login />}
+              />
+              <Route
+                path="/hr/user"
+                element={HR || MsAuth ? <User /> : <Login />}
               />
 
               {/* <Route
