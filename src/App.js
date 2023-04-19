@@ -88,6 +88,7 @@ import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import AofPdf3temp from "./Pages/PDF/AofPdf3temp";
 import AofPdf4 from "./Pages/PDF/AofPdf4";
+import ThankYou from "./Pages/ThankYou";
 
 
 function App() {
@@ -318,6 +319,9 @@ function App() {
               <Route path="/saleshead/view_aof_pdf2/:aofid" element={<AofPdf2 />} />
               <Route path="/finance/view_aof_pdf2/:aofid" element={<AofPdf2 />} />
               <Route path="/customer/aof/verify/:aofid" element={<AofPdf4/>} />
+
+
+              <Route path="/thankyou" element={<ThankYou/>} />
 
 
               <Route

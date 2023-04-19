@@ -3,7 +3,7 @@ import { Link, redirect  } from "react-router-dom";
 import eupheusLogo from "./eupheusLogo.png";
 import instance from "../../Instance";
 import Cookies from "js-cookie";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { getToken } from "../../util/msAuth";
 import { protectedResources } from "../../util/msConfig";
 import { CheckBox } from "@mui/icons-material";
@@ -85,6 +85,7 @@ const AofPdf4 = () => {
 
   const snackbarRef = useRef();
 
+  const navigate = useNavigate();
 
   useEffect(() => {
     getData();
@@ -148,9 +149,9 @@ const AofPdf4 = () => {
       setErrMessage(res.data.message);
       snackbarRef.current.openSnackbar();
 
-      // setTimeout(() => {
-       closeTab()
-      // }, 1000);
+      setTimeout(() => {
+        navigate(`/thankyou`);
+      }, 2000);
       
     }else{
       setSnackbarErrStatus(true);
@@ -159,12 +160,14 @@ const AofPdf4 = () => {
     }
   };
 
-  const closeTab=()=>{
+  // const closeTab=()=>{
     // window.location.href.close()
 //     window.open("about:blank", "_self");
-window.open("about:blank", "_self");
+        // navigate(`/thankyou`);
+
+// window.open("about:blank", "_self");
 // window.close();
-  }
+  // }
 
   useLayoutEffect(() => {
     const userId = Cookies.get("id");
@@ -1383,7 +1386,7 @@ window.open("about:blank", "_self");
           </div>
           <Button 
           // onClick={getLocationNdIP}
-          onClick={closeTab}
+          onClick={getLocationNdIP}
           variant="contained">
             Submit
           </Button>
