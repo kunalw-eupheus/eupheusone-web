@@ -113,6 +113,7 @@ function App() {
         {/* {console.log(Saleshead)} */}
         {/* {console.log(MsAuth)} */}
         {/* {console.log(Admin)} */}
+        {/* {console.log(HR)} */}
         <div className="!font-Roboto bg-[#111322]">
           <BrowserRouter>
             <Routes>
