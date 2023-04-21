@@ -319,7 +319,7 @@ const AdminCkReport = () => {
             {rowdata.length !== 0 ? (
               <Paper className="mt-5">
                 <TableContainer component={Paper}>
-                  <Toolbar className="bg-slate-400 w-[195.5rem]">
+                  <Toolbar className="bg-slate-400 w-[207.6rem]">
                     <TextField
                       id="search-bar"
                       className="text"
