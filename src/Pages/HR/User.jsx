@@ -27,7 +27,7 @@ const User = () => {
       email: email,
       emp_id: emp_id,
     };
-    console.log(data_to_post);
+    // console.log(data_to_post);
 
     const res = await instance({
       url: `hr/create/user`,

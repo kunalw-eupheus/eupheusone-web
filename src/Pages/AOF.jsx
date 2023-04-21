@@ -28,7 +28,6 @@ import TablePagination from "@mui/material/TablePagination";
 import DialogSlide2 from "../Components/Material/Dialog15";
 import Snackbars from "../Components/Material/SnackBar";
 
-
 const AOF = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [highLight, setHighLight] = useState("aof");
@@ -41,7 +40,7 @@ const AOF = () => {
   const [rowdata, setRowdata] = useState([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-  const [hideVerfyBtn,setHideVerifyBtn] = useState([])
+  const [hideVerfyBtn, setHideVerifyBtn] = useState([]);
   const [searchVal, setSearchVal] = useState("");
   const [aofId, setAofId] = useState("");
 
@@ -49,7 +48,6 @@ const AOF = () => {
   // const [keepBtnDactive, setKeepBtnDactive] = useState(false)
   const navigate = useNavigate();
   const snackbarRef = useRef();
-
 
   const navInfo = {
     title: "AOF",
@@ -163,7 +161,7 @@ const AOF = () => {
         Authorization: `${Cookies.get("accessToken")}`,
       },
     });
-    console.log(res.data.message);
+    // console.log(res.data.message);
     setRowdata(res.data.message);
     setLoading(false);
   };
@@ -210,7 +208,7 @@ const AOF = () => {
   };
 
   const handleOrderProcessingForm = async (value, type) => {
-    console.log(value, type);
+    // console.log(value, type);
     switch (type) {
       case "select_state":
         console.log(value);
@@ -312,7 +310,7 @@ const AOF = () => {
   const t = useRef(null);
   t.current = hideVerfyBtn;
 
-  const handleData = (value,id, type) => {
+  const handleData = (value, id, type) => {
     switch (type) {
       case "error":
         setSnackbarErrStatus(true);
@@ -327,18 +325,17 @@ const AOF = () => {
         // let tempArr= [...hideVerfyBtn]
         // hideVerfyBtn.push(id)
         // console.log(hideVerfyBtn)
-        setHideVerifyBtn([...hideVerfyBtn, id])
+        setHideVerifyBtn([...hideVerfyBtn, id]);
         // // console.log(hideVerfyBtn)
         setTimeout(() => {
           // console.log(t.current);
-          const newArr = t.current.filter(item => item != id)
-          setHideVerifyBtn(newArr)
-              }, 60000);
+          const newArr = t.current.filter((item) => item != id);
+          setHideVerifyBtn(newArr);
+        }, 60000);
         break;
     }
   };
-console.log(hideVerfyBtn);
-  
+  console.log(hideVerfyBtn);
 
   return (
     <div className="flex bg-[#111322]">
@@ -524,18 +521,17 @@ console.log(hideVerfyBtn);
                             </TableCell> */}
                             <TableCell align="center">
                               {/* <DialogSlide2 ref={dialogRef2}/> */}
-                              {hideVerfyBtn.includes(row.id) ? null:
-                              <div
-                                className="sm:w-auto w-[50vw]"
-                                onClick={() => {
-                                  // handleAofPDF(row.id);
-                                  handleVerify(row.id);
-                                }}
-                              >
-                                <BasicButton text={"VERIFY"} />
-                              </div>
-                              }
-
+                              {hideVerfyBtn.includes(row.id) ? null : (
+                                <div
+                                  className="sm:w-auto w-[50vw]"
+                                  onClick={() => {
+                                    // handleAofPDF(row.id);
+                                    handleVerify(row.id);
+                                  }}
+                                >
+                                  <BasicButton text={"VERIFY"} />
+                                </div>
+                              )}
                             </TableCell>
                           </TableRow>
                         ))
@@ -579,19 +575,20 @@ console.log(hideVerfyBtn);
 
                             <TableCell align="center">
                               {/* <DialogSlide2 ref={dialogRef2}/> */}
-                              {hideVerfyBtn.includes(row.id) ? "":
-                              <div
-                                className="sm:w-auto w-[50vw]"
-                                onClick={() => {
-                                  // handleAofPDF(row.id);
-                                  handleVerify(row.id);
-                                }}
-                              >
-                                <BasicButton text={"VERIFY"} />
-                              </div>
-                              }
+                              {hideVerfyBtn.includes(row.id) ? (
+                                ""
+                              ) : (
+                                <div
+                                  className="sm:w-auto w-[50vw]"
+                                  onClick={() => {
+                                    // handleAofPDF(row.id);
+                                    handleVerify(row.id);
+                                  }}
+                                >
+                                  <BasicButton text={"VERIFY"} />
+                                </div>
+                              )}
                               {/* {<ReturnVerifyBtn id={row.id} handleVerify={handleVerify}/>} */}
-                              
                             </TableCell>
 
                             {/* <TableCell align="center"> */}
@@ -622,19 +619,19 @@ console.log(hideVerfyBtn);
   );
 };
 
-const ReturnVerifyBtn = ({id, handleVerify}) => {
-  const [view, setView] = useState(true)
+const ReturnVerifyBtn = ({ id, handleVerify }) => {
+  const [view, setView] = useState(true);
   return (
     <div
-                                className="sm:w-auto w-[50vw]"
-                                onClick={() => {
-                                  // handleAofPDF(row.id);
-                                  handleVerify(id);
-                                }}
-                              >
-                                <BasicButton text={"VERIFY"} />
-                              </div>
-  )
-}
+      className="sm:w-auto w-[50vw]"
+      onClick={() => {
+        // handleAofPDF(row.id);
+        handleVerify(id);
+      }}
+    >
+      <BasicButton text={"VERIFY"} />
+    </div>
+  );
+};
 
 export default AOF;

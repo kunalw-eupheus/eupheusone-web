@@ -16,7 +16,8 @@ import {
   AssignmentReturnOutlined,
   ReceiptOutlined,
   PrintOutlined,
-  DocumentScanner
+  DocumentScanner,
+  Article
 } from "@mui/icons-material";
 import { Link } from "react-router-dom";
 import logoLight from "../assets/img/logo-light-icon.png";
@@ -212,28 +213,28 @@ const Sidebar4 = ({ sidebarCollapsed, highLight, show }) => {
           </aside>
         </Link>
 
-        {/* <Link to="/manage_order">
+        <Link to="/admin/ckreport">
           <aside
             className={`px-6 py-2 flex gap-4 ${
-              highLight === "manageOrder" ? "bg-gray-500" : ""
+              highLight === "ckreport" ? "bg-gray-500" : ""
             } cursor-pointer group hover:bg-gray-500 rounded-md transition-all duration-150 ease-linear`}
           >
-            <ShoppingBag
+            <Article
               className={`${
-                highLight === "manageOrder"
+                highLight === "ckreport"
                   ? "!text-[#659DBD]"
                   : "!text-gray-400"
               } group-hover:!text-[#659DBD] !transition-all !duration-150 !ease-linear`}
             />
             <span
               className={`${
-                highLight === "manageOrder" ? "text-gray-200" : "text-gray-400"
+                highLight === "ckreport" ? "text-gray-200" : "text-gray-400"
               } group-hover:!text-gray-100 transition-all duration-150 ease-linear`}
             >
-              Manage Order
+              CK Report
             </span>
           </aside>
-        </Link> */}
+        </Link>
 
         {/* <Link to="/kys">
           <aside

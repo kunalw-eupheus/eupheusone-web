@@ -53,11 +53,12 @@ const Navbar = ({ handleSidebarCollapsed, info }) => {
     Cookies.remove("ms-auth");
     Cookies.remove("user");
     Cookies.remove("company");
-    Cookies.remove("admin")
-    Cookies.remove("zsm")
-    Cookies.remove("saleshead")
-    Cookies.remove("finance")
-    Cookies.remove("HR")
+    Cookies.remove("admin");
+    Cookies.remove("zsm");
+    Cookies.remove("saleshead");
+    Cookies.remove("finance");
+    Cookies.remove("HR");
+    Cookies.remove("warehouse_GP");
     dispatch(authActions.logout());
     navigate("/");
   };

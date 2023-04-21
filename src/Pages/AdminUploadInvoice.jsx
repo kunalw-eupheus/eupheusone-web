@@ -374,13 +374,14 @@ const AdminUploadInvoice = () => {
 
         if (sheets.length) {
           const rows = utils.sheet_to_json(wb.Sheets[sheets[0]]);
-            // console.log(rows);
+          // console.log(rows);
           let rowsArr = [];
           for (let obj of rows) {
-            // console.log(obj)
+            console.log(obj["DATE"]);
             let temp = {};
             temp.inv = obj["INV NUMBER"];
             temp.scode = obj["SCHOOL CODE"];
+            temp.date = obj["DATE"];
             rowsArr.push(temp);
           }
           // console.log(rowsArr)
@@ -400,9 +401,9 @@ const AdminUploadInvoice = () => {
   };
   const uploadExcelData = async () => {
     console.log(excelData);
-    if(excelData.length === 0) {
-      alert("Please Upload a file")
-      return
+    if (excelData.length === 0) {
+      alert("Please Upload a file");
+      return;
     }
     // console.log("first")
     for (let arr of excelData) {
@@ -420,7 +421,7 @@ const AdminUploadInvoice = () => {
       console.log(res.data.message);
       if (res.data.status == false) {
         alert("Error. Cannot Post Data");
-        return
+        return;
       }
     }
     alert("Data Posted Success");
@@ -494,7 +495,9 @@ const AdminUploadInvoice = () => {
 
               <div
                 className="flex flex-col gap-2 w-full md:w-[20vw]"
-                onClick={()=>{console.log("No function added")}}
+                onClick={() => {
+                  console.log("No function added");
+                }}
               >
                 <BasicButton type="submit" text={"Download Template"} />
               </div>

@@ -93,8 +93,7 @@ import ThankYou from "./Pages/ThankYou";
 
 import HrHome from "./Pages/HR/HrHome";
 import User from "./Pages/HR/User";
-
-
+import AdminCkReport from "./Pages/AdminCkReport";
 
 function App() {
   const [userCache, setUserCache] = useState(false);
@@ -111,6 +110,7 @@ function App() {
   const Saleshead = useSelector((state) => state.auth.saleshead);
   const Training = useSelector((state) => state.auth.training);
   const HR = useSelector((state) => state.auth.HR);
+  const Gtepas = useSelector((state) => state.auth.gatepass);
 
   return (
     <div>
@@ -350,14 +350,17 @@ function App() {
               <Route path="/view_aof_pdf/:aofid" element={<AofPdf3temp />} />
               <Route path="/view_aof_pdf2/:aofid" element={<AofPdf2 />} />
               <Route path="/zsm/view_aof_pdf2/:aofid" element={<AofPdf2 />} />
-              <Route path="/saleshead/view_aof_pdf2/:aofid" element={<AofPdf2 />} />
-              <Route path="/finance/view_aof_pdf2/:aofid" element={<AofPdf2 />} />
-              <Route path="/customer/aof/verify/:aofid" element={<AofPdf4/>} />
+              <Route
+                path="/saleshead/view_aof_pdf2/:aofid"
+                element={<AofPdf2 />}
+              />
+              <Route
+                path="/finance/view_aof_pdf2/:aofid"
+                element={<AofPdf2 />}
+              />
+              <Route path="/customer/aof/verify/:aofid" element={<AofPdf4 />} />
 
-
-              <Route path="/thankyou" element={<ThankYou/>} />
-
-
+              <Route path="/thankyou" element={<ThankYou />} />
 
               <Route
                 path="/bulkinv_pdf/:bp/:todate/:fromdate"
@@ -431,12 +434,13 @@ function App() {
 
               <Route
                 path="/gatepass_dashboard"
-                element={isAuth || MsAuth ? <GatePassDashboard /> : <Login />}
+                element={Gtepas || MsAuth ? <GatePassDashboard /> : <Login />}
+                // element={<GatePassDashboard />}
               />
 
               <Route
                 path="/gatepass_invoice"
-                element={isAuth || MsAuth ? <GatePassInvoice /> : <Login />}
+                element={Gtepas || MsAuth ? <GatePassInvoice /> : <Login />}
               />
 
               <Route
@@ -479,6 +483,11 @@ function App() {
               <Route
                 path="/admin/invoice"
                 element={Admin || MsAuth ? <AdminInvoice /> : <Login />}
+                // element={<AdminInvoice />}
+              />
+              <Route
+                path="/admin/ckreport"
+                element={Admin || MsAuth ? <AdminCkReport /> : <Login />}
                 // element={<AdminInvoice />}
               />
               <Route
@@ -554,4 +563,4 @@ function App() {
   );
 }
 
-export default App
+export default App;

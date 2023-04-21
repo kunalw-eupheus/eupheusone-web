@@ -10,6 +10,7 @@ const initialAuthState = {
   finance: Cookies.get("finance") || null,
   training: Cookies.get("training") || null,
   HR: Cookies.get("HR") || null,
+  gatepass: Cookies.get("warehouse_GP") || null,
 };
 
 const authSlice = createSlice({
@@ -31,6 +32,7 @@ const authSlice = createSlice({
       state.saleshead = false;
       state.training = false;
       state.HR = false;
+      state.gatepass = false;
     },
     adminLogin(state) {
       state.admin = Cookies.get("admin");
@@ -49,6 +51,9 @@ const authSlice = createSlice({
     },
     HRLogin(state) {
       state.HR = Cookies.get("HR");
+    },
+    gatePassLogin(state) {
+      state.gatepass = Cookies.get("warehouse_GP");
     },
   },
 });

@@ -22,7 +22,8 @@ import {
   AssignmentReturnOutlined,
   ReceiptOutlined,
   PrintOutlined,
-  DocumentScanner
+  DocumentScanner,
+  Article
 } from "@mui/icons-material";
 import { Collapse } from "@mui/material";
 import { Link } from "react-router-dom";
@@ -210,6 +211,29 @@ const SwipeableTemporaryDrawer4 = React.forwardRef((props, ref) => {
             } group-hover:!text-gray-100 transition-all duration-150 ease-linear`}
           >
             Invoice Tagging
+          </span>
+        </aside>
+      </Link>
+
+
+      <Link to="/admin/ckreport">
+        <aside
+          // onClick={openDialog}
+          className={`px-6 py-2 flex gap-4 ${
+            highLight === "ckreport" ? "bg-gray-500" : ""
+          } cursor-pointer group hover:bg-gray-500 rounded-md transition-all duration-150 ease-linear`}
+        >
+          <Article
+            className={`${
+              highLight === "ckreport" ? "!text-[#659DBD]" : "!text-gray-400"
+            } group-hover:!text-[#659DBD] !transition-all !duration-150 !ease-linear`}
+          />
+          <span
+            className={`${
+              highLight === "ckreport" ? "text-gray-200" : "text-gray-400"
+            } group-hover:!text-gray-100 transition-all duration-150 ease-linear`}
+          >
+            CK Report
           </span>
         </aside>
       </Link>

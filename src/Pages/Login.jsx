@@ -61,6 +61,15 @@ const Login = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
 
+    // Cookies.remove("user");
+    // Cookies.remove("training");
+    // Cookies.remove("admin");
+    // Cookies.remove("zsm");
+    // Cookies.remove("finance");
+    // Cookies.remove("sales_head");
+    // Cookies.remove("warehouse_GP");
+    // Cookies.remove("HR");
+
     setLoading(true);
 
     const res = await instance({
@@ -72,7 +81,7 @@ const Login = () => {
       },
     });
 
-    // console.log(res.data);
+    console.log(res.data);
     // console.log("here")
     if (res.data.id && res.data.accessToken) {
       // console.log("here")
@@ -131,6 +140,16 @@ const Login = () => {
           `id: ${res.data.id}, accessToken: ${res.data.accessToken}`
         );
         dispatch(authActions.salesheadLogin());
+      }
+
+      if (res.data.type === "warehouse_GP") {
+        console.log("warehouse_GP");
+        Cookies.set(
+          "warehouse_GP",
+          // true
+          `id: ${res.data.id}, accessToken: ${res.data.accessToken}`
+        );
+        dispatch(authActions.gatePassLogin());
       }
 
       dispatch(authActions.login());
