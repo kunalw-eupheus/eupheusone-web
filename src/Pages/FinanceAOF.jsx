@@ -136,19 +136,19 @@ const FinanceAOF = () => {
       },
     });
     console.log(res);
-    if(res.data.status === "success"){
-      alert("Account Successfully Synced")
+    if (res.data.status === "success") {
+      alert("Account Successfully Synced");
       // setSnackbarErrStatus(true);
       // setErrMessage(res.data.message);
       // snackbarRef.current.openSnackbar();
-    }else{
-      alert(res.data.message)
+    } else {
+      alert(res.data.message);
       // setSnackbarErrStatus(false);
       // setErrMessage(res.data.message);
       // snackbarRef.current.openSnackbar();
     }
     setLoading(false);
-  }
+  };
 
   const handleSearch = (val) => {
     setSearchVal(val.trim());
@@ -228,10 +228,10 @@ const FinanceAOF = () => {
     }
   };
 
-  const sendData=(msg)=>{
-    console.log(msg)
-    getAOFdetails()
-  }
+  const sendData = (msg) => {
+    console.log(msg);
+    getAOFdetails();
+  };
 
   useLayoutEffect(() => {
     const getStates = async () => {
@@ -270,7 +270,7 @@ const FinanceAOF = () => {
 
   return (
     <div className="flex bg-[#111322]">
-      <DialogSlide2 ref={dialogRef2} aofId={aofId} sendData={sendData}/>
+      <DialogSlide2 ref={dialogRef2} aofId={aofId} sendData={sendData} />
       <Backdrop
         sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
         open={loading}
@@ -406,7 +406,9 @@ const FinanceAOF = () => {
                             <TableCell align="center">{row.mobile}</TableCell>
                             <TableCell align="center">{row.email}</TableCell>
                             <TableCell align="center">
-                              {row.finance_status === true ? "Approved" : "Pending"}
+                              {row.finance_status === true
+                                ? "Approved"
+                                : "Pending"}
                             </TableCell>
 
                             {/* <TableCell align="center">
@@ -438,14 +440,18 @@ const FinanceAOF = () => {
                               )}
                             </TableCell>
                             <TableCell align="center">
-                            <div
+                              {row.sap_status === true ? (
+                                ""
+                              ) : (
+                                <div
                                   className="sm:w-auto w-[50vw]"
                                   onClick={() => {
-                                    handleSync(row.id)
+                                    handleSync(row.id);
                                   }}
                                 >
                                   <BasicButton text={"SYNC"} />
                                 </div>
+                              )}
                             </TableCell>
                           </TableRow>
                         ))
@@ -468,7 +474,9 @@ const FinanceAOF = () => {
                             <TableCell align="center">{row.mobile}</TableCell>
                             <TableCell align="center">{row.email}</TableCell>
                             <TableCell align="center">
-                              {row.finance_status === true ? "Approved" : "Pending"}
+                              {row.finance_status === true
+                                ? "Approved"
+                                : "Pending"}
                             </TableCell>
 
                             {/* <TableCell align="center">
@@ -487,7 +495,7 @@ const FinanceAOF = () => {
                             </TableCell>
 
                             <TableCell align="center">
-                            {row.finance_status === true ? (
+                              {row.finance_status === true ? (
                                 ""
                               ) : (
                                 <div
@@ -500,16 +508,20 @@ const FinanceAOF = () => {
                                 </div>
                               )}
                             </TableCell>
-                            
+
                             <TableCell align="center">
-                            <div
+                              {row.sap_status === true ? (
+                                ""
+                              ) : (
+                                <div
                                   className="sm:w-auto w-[50vw]"
                                   onClick={() => {
-                                    handleSync(row.id)
+                                    handleSync(row.id);
                                   }}
                                 >
                                   <BasicButton text={"SYNC"} />
                                 </div>
+                              )}
                             </TableCell>
                           </TableRow>
                         ))}

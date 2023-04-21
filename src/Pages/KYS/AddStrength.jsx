@@ -83,7 +83,7 @@ const AddStrength = () => {
               // behavior: "smooth",
             });
             setTimeout(() => {
-              window.location.reload();
+              navigate(`kys/strength/${id}`);
             }, 100);
           }, 1500);
         } else {
@@ -290,7 +290,7 @@ const AddStrength = () => {
 
           <div className="min-h-[90vh] relative flex w-full justify-center items-start gap-4 bg-[#141728]">
             <div className="text-gray-100 w-full md:text-2xl flex justify-between sm:px-12 px-8 items-center text-base font-semibold absolute mt-[2rem]">
-              <h1>Add Strength</h1>
+              <h1 className="text-gray-100 text-lg">Add Strength</h1>
             </div>
 
             <div className="w-full flex flex-col text-gray-100 gap-4  items-center mt-[7rem]">

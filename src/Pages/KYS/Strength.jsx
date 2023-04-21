@@ -98,7 +98,7 @@ const Strength = () => {
 
           <div className="min-h-[90vh] relative flex w-full justify-center items-start gap-4 bg-[#141728]">
             <div className="text-gray-100 w-full md:text-2xl flex justify-between sm:px-12 px-8 items-center text-base font-semibold absolute mt-[2rem]">
-              <h1>Strength</h1>
+              <h1 className="text-gray-100 text-lg">Strength</h1>
               <div onClick={() => navigate(`/kys/strength/add_strength/${id}`)}>
                 <BasicButton text={"Add Strength"} />
               </div>

@@ -6,9 +6,11 @@ const initialAuthState = {
   admin: Cookies.get("admin") || null,
   msAuth: Cookies.get("ms-auth") || null,
   saleshead: Cookies.get("saleshead") || null,
-  zsm : Cookies.get("zsm") || null,
-  finance : Cookies.get("finance") || null,
-  training : Cookies.get("training") || null
+  zsm: Cookies.get("zsm") || null,
+  finance: Cookies.get("finance") || null,
+  training: Cookies.get("training") || null,
+  HR: Cookies.get("HR") || null,
+  gatepass: Cookies.get("warehouse_GP") || null,
 };
 
 const authSlice = createSlice({
@@ -28,23 +30,31 @@ const authSlice = createSlice({
       state.zsm = false;
       state.finance = false;
       state.saleshead = false;
-      state.training = false
+      state.training = false;
+      state.HR = false;
+      state.gatepass = false;
     },
     adminLogin(state) {
-      state.admin = Cookies.get("admin")
+      state.admin = Cookies.get("admin");
     },
-    zsmLogin(state){
-      state.zsm = Cookies.get("zsm")
+    zsmLogin(state) {
+      state.zsm = Cookies.get("zsm");
     },
-    financeLogin(state){
-      state.finance = Cookies.get("finance")
+    financeLogin(state) {
+      state.finance = Cookies.get("finance");
     },
-    salesheadLogin(state){
-      state.saleshead = Cookies.get("saleshead")
+    salesheadLogin(state) {
+      state.saleshead = Cookies.get("saleshead");
     },
-    trainingLogin(state){
-      state.training = Cookies.get("training")
-    }
+    trainingLogin(state) {
+      state.training = Cookies.get("training");
+    },
+    HRLogin(state) {
+      state.HR = Cookies.get("HR");
+    },
+    gatePassLogin(state) {
+      state.gatepass = Cookies.get("warehouse_GP");
+    },
   },
 });
 

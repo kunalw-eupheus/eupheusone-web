@@ -219,6 +219,7 @@ const DialogSlide12 = React.forwardRef((props, ref) => {
 
   const handleVerify = async () => {
     let id = props.aofId;
+    let sendData = props.sendData;
     const res = await instance({
       url: `sales_data/aof/update/zsm/verification`,
       method: "PUT",
@@ -233,12 +234,15 @@ const DialogSlide12 = React.forwardRef((props, ref) => {
 
     // console.log(res.data);
     setLoading(true);
-    alert(res.data.message)
+    alert(res.data.message);
     // setSnackbarErrStatus(false);
     // setErrMessage(res.data.message);
     // snackbarRef.current.openSnackbar();
     setLoading(false);
-    
+    if (res.data.status === "success") {
+      sendData("success");
+    }
+
     setTimeout(() => {
       setOpen(false);
     }, 1000);

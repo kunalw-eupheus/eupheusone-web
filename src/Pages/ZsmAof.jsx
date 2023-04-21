@@ -247,9 +247,14 @@ const ZsmAOF = () => {
     };
   }, []);
 
+  const sendData = (msg) => {
+    console.log(msg);
+    getAOFdetails();
+  };
+
   return (
     <div className="flex bg-[#111322]">
-      <DialogSlide2 ref={dialogRef2} aofId={aofId} />
+      <DialogSlide2 ref={dialogRef2} aofId={aofId} sendData={sendData} />
       <Backdrop
         sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
         open={loading}

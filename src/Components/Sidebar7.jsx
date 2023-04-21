@@ -1,28 +1,9 @@
 import React, { useEffect, useState } from "react";
 import "react-pro-sidebar/dist/css/styles.css";
-import {
-  Place,
-  School,
-  AccountBalance,
-  KeyboardArrowDown,
-  Circle,
-  Dashboard,
-  LocationOn,
-  LocalShipping,
-  LocationCityOutlined,
-  ShoppingBag,
-  ListAlt,
-  LocationCity,
-  AssignmentReturnOutlined,
-  ReceiptOutlined,
-  PrintOutlined,
-  DocumentScanner,
-  Article
-} from "@mui/icons-material";
+import { Dashboard } from "@mui/icons-material";
+import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
 import { Link } from "react-router-dom";
 import logoLight from "../assets/img/logo-light-icon.png";
-import { Collapse } from "@mui/material";
-import Divider from "@mui/material/Divider";
 import { useLayoutEffect } from "react";
 import instance from "../Instance";
 import Cookies from "js-cookie";
@@ -32,7 +13,7 @@ import TransitionsModal from "./Material/Model";
 import DialogSlide from "./Material/Dialog";
 import { useRef } from "react";
 
-const Sidebar4 = ({ sidebarCollapsed, highLight, show }) => {
+const Sidebar = ({ sidebarCollapsed, highLight, show }) => {
   const [modelOpen, setModelOpen] = useState(false);
   const [isSchoolClicked, setIsSchoolClicked] = useState(
     show === 2 ? false : true
@@ -112,13 +93,13 @@ const Sidebar4 = ({ sidebarCollapsed, highLight, show }) => {
 
         <aside className="flex flex-col px-6 text-gray-200">
           <span className="text-lg">
-            Hi, Admin
+            Hi, HR
             {/* {user.first_name} */}
           </span>
           <span className="text-sm text-gray-300">{user.emp_id}</span>
           <hr className="text-gray-100 mt-4" />
         </aside>
-        <Link to="/admin/home">
+        <Link to="/hr/home">
           <aside
             className={`px-6 py-2 hover:bg-gray-500 flex ${
               highLight === "dashboard" ? "bg-gray-500" : ""
@@ -144,30 +125,28 @@ const Sidebar4 = ({ sidebarCollapsed, highLight, show }) => {
           </aside>
         </Link>
 
-        <Link to="/admin/manageschool">
+        <Link to="/hr/user">
           <aside
             className={`px-6 py-2 flex gap-4 cursor-pointer ${
-              highLight === "manageSchool" ? "bg-gray-500" : ""
+              highLight === "user" ? "bg-gray-500" : ""
             } group hover:bg-gray-500 rounded-md transition-all duration-150 ease-linear`}
           >
-            <School
+            <PersonAddAltIcon
               className={`${
-                highLight === "manageSchool"
-                  ? "!text-[#659DBD]"
-                  : "!text-gray-400"
+                highLight === "user" ? "!text-[#659DBD]" : "!text-gray-400"
               } group-hover:!text-[#659DBD] !transition-all !duration-150 !ease-linear`}
             />
             <span
               className={`${
-                highLight === "manageSchool" ? "text-gray-200" : "text-gray-400"
+                highLight === "user" ? "text-gray-200" : "text-gray-400"
               } group-hover:!text-gray-100 transition-all duration-150 ease-linear`}
             >
-              Manage School
+              User
             </span>
           </aside>
         </Link>
 
-        <Link to="/admin/uploadinvoice">
+        {/* <Link to="/admin/uploadinvoice">
           <aside
             className={`px-6 py-2 flex gap-4 ${
               highLight === "uploadinvoice" ? "bg-gray-500" : ""
@@ -211,98 +190,10 @@ const Sidebar4 = ({ sidebarCollapsed, highLight, show }) => {
               Invoice Tagging
             </span>
           </aside>
-        </Link>
-
-        <Link to="/admin/ckreport">
-          <aside
-            className={`px-6 py-2 flex gap-4 ${
-              highLight === "ckreport" ? "bg-gray-500" : ""
-            } cursor-pointer group hover:bg-gray-500 rounded-md transition-all duration-150 ease-linear`}
-          >
-            <Article
-              className={`${
-                highLight === "ckreport"
-                  ? "!text-[#659DBD]"
-                  : "!text-gray-400"
-              } group-hover:!text-[#659DBD] !transition-all !duration-150 !ease-linear`}
-            />
-            <span
-              className={`${
-                highLight === "ckreport" ? "text-gray-200" : "text-gray-400"
-              } group-hover:!text-gray-100 transition-all duration-150 ease-linear`}
-            >
-              CK Report
-            </span>
-          </aside>
-        </Link>
-
-        {/* <Link to="/kys">
-          <aside
-            className={`px-6 py-2 flex gap-4 ${
-              highLight === "kys" ? "bg-gray-500" : ""
-            } cursor-pointer group hover:bg-gray-500 rounded-md transition-all duration-150 ease-linear`}
-          >
-            <LocationCityOutlined
-              className={`${
-                highLight === "kys" ? "!text-[#659DBD]" : "!text-gray-400"
-              } group-hover:!text-[#659DBD] !transition-all !duration-150 !ease-linear`}
-            />
-            <span
-              className={`${
-                highLight === "kys" ? "text-gray-200" : "text-gray-400"
-              } group-hover:!text-gray-100 transition-all duration-150 ease-linear`}
-            >
-              KYS
-            </span>
-          </aside>
-        </Link> */}
-
-        {/* <Link to="/projection">
-          <aside
-            className={`px-6 py-2 flex gap-4 ${
-              highLight === "projection" ? "bg-gray-500" : ""
-            } cursor-pointer group hover:bg-gray-500 rounded-md transition-all duration-150 ease-linear`}
-          >
-            <LocationCityOutlined
-              className={`${
-                highLight === "projection"
-                  ? "!text-[#659DBD]"
-                  : "!text-gray-400"
-              } group-hover:!text-[#659DBD] !transition-all !duration-150 !ease-linear`}
-            />
-            <span
-              className={`${
-                highLight === "projection" ? "text-gray-200" : "text-gray-400"
-              } group-hover:!text-gray-100 transition-all duration-150 ease-linear`}
-            >
-              Projection
-            </span>
-          </aside>
-        </Link> */}
-
-        {/* <Link to="/print_pdf">
-          <aside
-            className={`px-6 py-2 flex gap-4 ${
-              highLight === "printpdf" ? "bg-gray-500" : ""
-            } cursor-pointer group hover:bg-gray-500 rounded-md transition-all duration-150 ease-linear`}
-          >
-            <PrintOutlined
-              className={`${
-                highLight === "printpdf" ? "!text-[#659DBD]" : "!text-gray-400"
-              } group-hover:!text-[#659DBD] !transition-all !duration-150 !ease-linear`}
-            />
-            <span
-              className={`${
-                highLight === "printpdf" ? "text-gray-200" : "text-gray-400"
-              } group-hover:!text-gray-100 transition-all duration-150 ease-linear`}
-            >
-              Doc Print
-            </span>
-          </aside>
         </Link> */}
       </div>
     </div>
   );
 };
 
-export default Sidebar4;
+export default Sidebar;

@@ -1,40 +1,18 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
-import Button from "@mui/material/Button";
-
-import Divider from "@mui/material/Divider";
-
 import logoLight from "../../assets/img/logo-light-icon.png";
 import { useState } from "react";
-import {
-  Place,
-  AccountBalance,
-  Circle,
-  Dashboard,
-  KeyboardArrowDown,
-  ListAlt,
-  LocalShipping,
-  LocationCityOutlined,
-  LocationOn,
-  School,
-  ShoppingBag,
-  AssignmentReturnOutlined,
-  ReceiptOutlined,
-  PrintOutlined,
-  DocumentScanner,
-  Article
-} from "@mui/icons-material";
-import { Collapse } from "@mui/material";
+import { Dashboard } from "@mui/icons-material";
+import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
 import { Link } from "react-router-dom";
 import { useLayoutEffect } from "react";
 import Cookies from "js-cookie";
 import instance from "../../Instance";
 import TransitionsModal from "./Model";
 import { useRef } from "react";
-// import DialogSlide from "./Dialog";
 
-const SwipeableTemporaryDrawer4 = React.forwardRef((props, ref) => {
+const SwipeableTemporaryDrawer = React.forwardRef((props, ref) => {
   const [modelOpen, setModelOpen] = useState(false);
 
   const [userType, setUserType] = useState();
@@ -120,12 +98,12 @@ const SwipeableTemporaryDrawer4 = React.forwardRef((props, ref) => {
       </div>
 
       <aside className="flex flex-col px-6 text-gray-200 py-4">
-        <span className="text-lg">Hi, {user.first_name}</span>
+        <span className="text-lg">Hi,HR</span>
         <span className="text-sm text-gray-300">{user.emp_id}</span>
         <hr className="text-gray-100 mt-4" />
       </aside>
 
-      <Link to="/admin/home">
+      <Link to="/hr/home">
         <aside
           className={`px-6 py-2 my-4 hover:bg-gray-500 flex ${
             highLight === "dashboard" ? "bg-gray-500" : ""
@@ -147,13 +125,13 @@ const SwipeableTemporaryDrawer4 = React.forwardRef((props, ref) => {
           </div>
         </aside>
       </Link>
-      <Link to="/admin/manageschool">
+      <Link to="/hr/user">
         <aside
           className={`px-6 py-2 my-4 flex gap-4 cursor-pointer ${
             highLight === "manageSchool" ? "bg-gray-500" : ""
           } group hover:bg-gray-500 rounded-md transition-all duration-150 ease-linear`}
         >
-          <School
+          <PersonAddAltIcon
             className={`${
               highLight === "manageSchool"
                 ? "!text-[#659DBD]"
@@ -165,12 +143,12 @@ const SwipeableTemporaryDrawer4 = React.forwardRef((props, ref) => {
               highLight === "manageSchool" ? "text-gray-200" : "text-gray-400"
             } group-hover:!text-gray-100 transition-all duration-150 ease-linear`}
           >
-            Manage School
+            User
           </span>
         </aside>
       </Link>
 
-      <Link to="/admin/uploadinvoice">
+      {/* <Link to="/admin/uploadinvoice">
         <aside
           className={`px-6 py-2 my-4 flex gap-4 ${
             highLight === "uploadinvoice" ? "bg-gray-500" : ""
@@ -213,30 +191,7 @@ const SwipeableTemporaryDrawer4 = React.forwardRef((props, ref) => {
             Invoice Tagging
           </span>
         </aside>
-      </Link>
-
-
-      <Link to="/admin/ckreport">
-        <aside
-          // onClick={openDialog}
-          className={`px-6 py-2 flex gap-4 ${
-            highLight === "ckreport" ? "bg-gray-500" : ""
-          } cursor-pointer group hover:bg-gray-500 rounded-md transition-all duration-150 ease-linear`}
-        >
-          <Article
-            className={`${
-              highLight === "ckreport" ? "!text-[#659DBD]" : "!text-gray-400"
-            } group-hover:!text-[#659DBD] !transition-all !duration-150 !ease-linear`}
-          />
-          <span
-            className={`${
-              highLight === "ckreport" ? "text-gray-200" : "text-gray-400"
-            } group-hover:!text-gray-100 transition-all duration-150 ease-linear`}
-          >
-            CK Report
-          </span>
-        </aside>
-      </Link>
+      </Link> */}
     </Box>
   );
 
@@ -260,4 +215,4 @@ const SwipeableTemporaryDrawer4 = React.forwardRef((props, ref) => {
   );
 });
 
-export default SwipeableTemporaryDrawer4;
+export default SwipeableTemporaryDrawer;

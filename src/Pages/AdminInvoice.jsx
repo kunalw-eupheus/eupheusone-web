@@ -51,7 +51,7 @@ const AdminInvoice = () => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [customer, setCustomer] = useState([]);
-  const [allUser, setAllUser] = useState([])
+  const [allUser, setAllUser] = useState([]);
   const [fkUserId, setfkUserId] = useState("");
 
   const navigate = useNavigate();
@@ -71,13 +71,15 @@ const AdminInvoice = () => {
     setPage(0);
     let tempArr = [];
     for (let ele of rowdata) {
-    //   console.log(ele)
-      let invNo = ele.inv_no.toLowerCase()
+      //   console.log(ele)
+      let invNo = ele.inv_no.toLowerCase();
       let customerName = ele.cardname.toLowerCase();
-      let docDate = ele.docdate
-      if (customerName.indexOf(searchVal.toLowerCase()) > -1 || 
-      invNo.indexOf(searchVal.toLowerCase()) > -1 || 
-      docDate.indexOf(searchVal) > -1) {
+      let docDate = ele.docdate;
+      if (
+        customerName.indexOf(searchVal.toLowerCase()) > -1 ||
+        invNo.indexOf(searchVal.toLowerCase()) > -1 ||
+        docDate.indexOf(searchVal) > -1
+      ) {
         tempArr.push(ele);
       }
     }
@@ -119,7 +121,7 @@ const AdminInvoice = () => {
   };
 
   const handleInvoiceView = (invceId) => {
-    console.log(invceId)
+    console.log(invceId);
     // setInvoiceId2(invceId);
     // openDialogue();
     navigate(`/admin/invoice_item/${invceId}`);
@@ -138,7 +140,7 @@ const AdminInvoice = () => {
   // };
 
   useEffect(() => {
-    getAllUser()
+    getAllUser();
     // getCustomers();
     // getInvoices();
     const userType = Cookies.get("type");
@@ -206,7 +208,7 @@ const AdminInvoice = () => {
     });
     // console.log(res.data.message);
     // setCustomer(res.data.message);
-    setAllUser(res.data.message)
+    setAllUser(res.data.message);
   };
 
   const handleOrderProcessingForm = async (value, type) => {
@@ -220,16 +222,16 @@ const AdminInvoice = () => {
       case "select_city":
         setStateAndCity({ ...stateAndCity, city: value.id });
         break;
-        case "invoice_data":
-          // console.log(value.bp_user_taggings[0])
-          setbpCode(value.bp_code);
-          setfkUserId(value.bp_user_taggings[0].fk_user_id)
-          break;
-        case "get_all_user":
-          console.log(value)
-          getCustomers(value.id)
-          // setbpCode(value.bp_code);
-          break;
+      case "invoice_data":
+        // console.log(value.bp_user_taggings[0])
+        setbpCode(value.bp_code);
+        setfkUserId(value.bp_user_taggings[0].fk_user_id);
+        break;
+      case "get_all_user":
+        console.log(value);
+        getCustomers(value.id);
+        // setbpCode(value.bp_code);
+        break;
       default:
         break;
     }
@@ -249,11 +251,11 @@ const AdminInvoice = () => {
 
   const searchInvoice = async () => {
     console.log(bpCode);
-    console.log(fkUserId)
+    console.log(fkUserId);
     let dataToPost = {
-        fk_user_id:fkUserId,
-        bpcode:bpCode
-    }
+      fk_user_id: fkUserId,
+      bpcode: bpCode,
+    };
     setLoading(true);
     const res = await instance({
       url: `user/admin/get/customers/invoices/list`,
@@ -363,7 +365,10 @@ const AdminInvoice = () => {
                       />
                     </div>
 
-                    <div className="sm:col-span-3 w-[30%]" onClick={searchInvoice}>
+                    <div
+                      className="sm:col-span-3 w-[30%]"
+                      onClick={searchInvoice}
+                    >
                       <BasicButton text={"Search Invoice"} />
                     </div>
                   </Toolbar>
@@ -424,7 +429,7 @@ const AdminInvoice = () => {
                         {/* <TableCell className="!w-[5rem]" align="center">
                         Sl No
                       </TableCell> */}
-                  <TableCell className="!w-[8rem]" align="center">
+                        <TableCell className="!w-[8rem]" align="center">
                           Invoice No
                         </TableCell>
                         <TableCell className="!w-[8rem]" align="center">
@@ -472,8 +477,14 @@ const AdminInvoice = () => {
                               {/* <TableCell align="center" component="th" scope="row">
                           {row.id}
                         </TableCell> */}
-                              <TableCell align="center">{!row.inv_no||row.inv_no=="N/A" ? row.docnum :row.inv_no}</TableCell>
-                              <TableCell align="center">{row.inv_type}</TableCell>
+                              <TableCell align="center">
+                                {!row.inv_no || row.inv_no == "N/A"
+                                  ? row.docnum
+                                  : row.inv_no}
+                              </TableCell>
+                              <TableCell align="center">
+                                {row.inv_type}
+                              </TableCell>
                               <TableCell align="center">
                                 {row.cardname}
                               </TableCell>
@@ -501,14 +512,18 @@ const AdminInvoice = () => {
                               </TableCell>
 
                               <TableCell align="center">
-                                <div
-                                  className="sm:w-auto w-[50vw]"
-                                  onClick={() => {
-                                    handleSchoolAdd(row.id);
-                                  }}
-                                >
-                                  <BasicButton text={"Add School"} />
-                                </div>
+                                {row.tag === true ? (
+                                  ""
+                                ) : (
+                                  <div
+                                    className="sm:w-auto w-[50vw]"
+                                    onClick={() => {
+                                      handleSchoolAdd(row.id);
+                                    }}
+                                  >
+                                    <BasicButton text={"Add School"} />
+                                  </div>
+                                )}
                               </TableCell>
                             </TableRow>
                           ))
@@ -530,8 +545,14 @@ const AdminInvoice = () => {
                               {/* <TableCell align="center" component="th" scope="row">
                           {row.id}
                         </TableCell> */}
-                        <TableCell align="center">{!row.inv_no||row.inv_no=="N/A" ? row.docnum :row.inv_no}</TableCell>
-                        <TableCell align="center">{row.inv_type}</TableCell>
+                              <TableCell align="center">
+                                {!row.inv_no || row.inv_no == "N/A"
+                                  ? row.docnum
+                                  : row.inv_no}
+                              </TableCell>
+                              <TableCell align="center">
+                                {row.inv_type}
+                              </TableCell>
                               <TableCell align="center">
                                 {row.cardname}
                               </TableCell>
@@ -549,7 +570,7 @@ const AdminInvoice = () => {
 
                               <TableCell align="center">
                                 {/* <DialogSlide2 ref={dialogRef2}/> */}
-                                {row.id ? (
+                                {/* {row.id ? (
                                   <div
                                     className="sm:w-auto w-[50vw]"
                                     onClick={() => {
@@ -560,11 +581,19 @@ const AdminInvoice = () => {
                                   </div>
                                 ) : (
                                   ""
-                                )}
+                                )} */}
+                                <div
+                                  className="sm:w-auto w-[50vw]"
+                                  onClick={() => {
+                                    handleInvoiceView(row.id);
+                                  }}
+                                >
+                                  <BasicButton text={"View"} />
+                                </div>
                               </TableCell>
                               <TableCell align="center">
                                 {/* <DialogSlide ref={dialogRef} invoiceId={row.id}/> */}
-                                {row.id ? (
+                                {/* {row.id ? (
                                   <div
                                     className="sm:w-auto w-[50vw]"
                                     onClick={() => {
@@ -575,6 +604,18 @@ const AdminInvoice = () => {
                                   </div>
                                 ) : (
                                   ""
+                                )} */}
+                                {row.tag === true ? (
+                                  ""
+                                ) : (
+                                  <div
+                                    className="sm:w-auto w-[50vw]"
+                                    onClick={() => {
+                                      handleSchoolAdd(row.id);
+                                    }}
+                                  >
+                                    <BasicButton text={"Add School"} />
+                                  </div>
                                 )}
                               </TableCell>
                             </TableRow>

@@ -61,6 +61,15 @@ const Login = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
 
+    // Cookies.remove("user");
+    // Cookies.remove("training");
+    // Cookies.remove("admin");
+    // Cookies.remove("zsm");
+    // Cookies.remove("finance");
+    // Cookies.remove("sales_head");
+    // Cookies.remove("warehouse_GP");
+    // Cookies.remove("HR");
+
     setLoading(true);
 
     const res = await instance({
@@ -72,7 +81,7 @@ const Login = () => {
       },
     });
 
-    // console.log(res.data);
+    console.log(res.data);
     // console.log("here")
     if (res.data.id && res.data.accessToken) {
       // console.log("here")
@@ -87,7 +96,6 @@ const Login = () => {
       Cookies.set("accessToken", `${res.data.accessToken}`);
       Cookies.set("type", `${res.data.type}`);
       Cookies.set("company", `${res.data.company}`);
-
 
       if (res.data.type === "training") {
         Cookies.set(
@@ -125,7 +133,7 @@ const Login = () => {
       }
 
       if (res.data.type === "sales_head") {
-        console.log("salesHead")
+        console.log("salesHead");
         Cookies.set(
           "saleshead",
           // true
@@ -134,7 +142,26 @@ const Login = () => {
         dispatch(authActions.salesheadLogin());
       }
 
+      if (res.data.type === "warehouse_GP") {
+        console.log("warehouse_GP");
+        Cookies.set(
+          "warehouse_GP",
+          // true
+          `id: ${res.data.id}, accessToken: ${res.data.accessToken}`
+        );
+        dispatch(authActions.gatePassLogin());
+      }
+
       dispatch(authActions.login());
+
+      if (res.data.type === "HR") {
+        console.log("HR");
+        Cookies.set(
+          "HR",
+          `id: ${res.data.id}, accessToken: ${res.data.accessToken}`
+        );
+        dispatch(authActions.HRLogin());
+      }
 
       // console.log(res.data.type, res.data.company)
       if (res.data.type === "training" && res.data.company === "Euphues") {
@@ -170,6 +197,8 @@ const Login = () => {
         // console.log(res.data.company)
         navigate("/saleshead/aof");
         // console.log("This is in admin login")
+      } else if (res.data.type === "HR" && res.data.company === "Euphues") {
+        navigate("/hr/home");
       } else {
         navigate("/");
         // dispatch(authActions.login());
@@ -270,7 +299,7 @@ const Login = () => {
                       >
                         {loading ? "" : "SIGN IN"}
                       </LoadingButton>
-                      
+
                       {/* <LoadingButton
                         onClick={authLogin}
                         type="button"
