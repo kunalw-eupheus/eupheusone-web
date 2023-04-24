@@ -345,6 +345,8 @@ function App() {
                 element={MsAuth || Training ? <OrderTraining /> : <Login />}
               />
 
+              {/* <Route path="/invoice_pdf" element={<Inv />} /> */}
+
               <Route path="/view_pdf/:docnum/:docdate" element={<ViewPdf />} />
 
               <Route path="/view_aof_pdf/:aofid" element={<AofPdf3temp />} />

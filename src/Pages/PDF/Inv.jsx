@@ -6,7 +6,7 @@ import instance from "../../Instance";
 import { DataGrid } from "@mui/x-data-grid";
 import axios from "axios";
 import Cookies from "js-cookie";
-import { ToWords } from 'to-words';
+import { ToWords } from "to-words";
 
 // var converter = require("number-to-words");
 const toWords = new ToWords();
@@ -51,7 +51,7 @@ const Inv = () => {
   const [totalRup, setTotalRup] = useState("");
   const [taxAmnt, setTaxAmnt] = useState("");
   const [vatSum, setVatSum] = useState("");
-  const [cinNum, setCinNum] = useState("")
+  const [cinNum, setCinNum] = useState("");
   useEffect(() => {
     getAllData();
   }, []);
@@ -89,12 +89,12 @@ const Inv = () => {
       headers: {
         // Authorization: Cookies.get("accessToken"),
         // accesskey: `auth74961a98ba76d4e4`,
-        accesskey: `auth0026c3956e3d0fba`
+        accesskey: `auth0026c3956e3d0fba`,
       },
     });
     let data = res.data.message.message[0];
     console.log(data);
-    setCinNum(data.cin)
+    setCinNum(data.cin);
     setBillTo(data.bill_to[0]);
     setBillToAddress(data.bill_to[1]);
     setShipTo(data.SHIPTOCODE);
@@ -128,7 +128,7 @@ const Inv = () => {
     // {`${curr} ${converter.toWords(Number(total.slice(-2)))} Only`}
 
     let cnv = data.total.toString();
-    cnv = parseFloat(cnv).toFixed(2)
+    cnv = parseFloat(cnv).toFixed(2);
     // console.log(cnv);
 
     let sp = cnv.split(".");
@@ -150,7 +150,7 @@ const Inv = () => {
     }
     if (pai != 0) {
       // paiseR = converter.toWords(pai);
-      paiseR = toWords.convert(pai)
+      paiseR = toWords.convert(pai);
     }
 
     if (paiseR != "") {
@@ -170,7 +170,7 @@ const Inv = () => {
     setTotalRup(totalT);
 
     let cnvTax = data.tax_amount.toString();
-    cnvTax = parseFloat(cnvTax).toFixed(2)
+    cnvTax = parseFloat(cnvTax).toFixed(2);
     // console.log(typeof(cnv));
 
     let spTax = cnvTax.split(".");
@@ -184,13 +184,13 @@ const Inv = () => {
     let totalTTax = "";
     if (rupTax != 0) {
       // totalRTax = converter.toWords(rupTax);
-      totalRTax = toWords.convert(rupTax)
+      totalRTax = toWords.convert(rupTax);
       //  console.log(totalR);
       //  console.log(typeof(rup))
     }
     if (paiTax != 0) {
       // paiseTax = converter.toWords(paiTax);
-      paiseTax = toWords.convert(paiTax)
+      paiseTax = toWords.convert(paiTax);
     }
 
     if (paiseTax != "") {
@@ -215,7 +215,7 @@ const Inv = () => {
     let dataTable = res.data.message.items;
     let totalQuant = 0;
 
-    console.log(dataTable)
+    console.log(dataTable);
 
     let untxAmnt = 0;
     for (let obj of dataTable) {
@@ -2977,7 +2977,8 @@ const Inv = () => {
                   fontSize: "8pt",
                 }}
               >
-                Freight :- {`${curr} `} {parseFloat(freightCharge ? freightCharge : 0).toFixed(2)}
+                Freight :- {`${curr} `}{" "}
+                {parseFloat(freightCharge ? freightCharge : 0).toFixed(2)}
               </p>
             </td>
             <td
