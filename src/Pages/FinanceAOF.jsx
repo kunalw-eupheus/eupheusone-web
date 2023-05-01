@@ -25,6 +25,7 @@ import IconButton from "@mui/material/IconButton";
 import SearchIcon from "@mui/icons-material/Search";
 import TablePagination from "@mui/material/TablePagination";
 import DialogSlide2 from "../Components/Material/Dialog14";
+import DialogSlide3 from "../Components/Material/Dialog16";
 
 const FinanceAOF = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
@@ -39,8 +40,13 @@ const FinanceAOF = () => {
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [searchVal, setSearchVal] = useState("");
   const [aofId, setAofId] = useState("");
+  const [aofId2, setAofId2] = useState("");
   const [errMessage, setErrMessage] = useState("");
   const [snackbarErrStatus, setSnackbarErrStatus] = useState(true);
+  const [aadharLink, setAdharLink] = useState("");
+  const [panLink, setPanLink] = useState("");
+  const [gstLink, setGstLink] = useState("");
+  const [cheque, setCheque] = useState([]);
 
   const snackbarRef = useRef();
 
@@ -102,6 +108,19 @@ const FinanceAOF = () => {
     }, 1000);
   };
 
+  const showDownloadPopup = (aadhar, pan, gst, cheque) => {
+    setLoading(true);
+    setAdharLink(aadhar);
+    setPanLink(pan);
+    setGstLink(gst);
+    setCheque(cheque);
+    // setAofId2(aofId);
+    setTimeout(() => {
+      openDialogue3();
+      setLoading(false);
+    }, 1000);
+  };
+
   const handleAofPDF = (invId) => {
     window.open(`view_aof_pdf2/${invId}`, "_blank", "noreferrer");
   };
@@ -110,7 +129,12 @@ const FinanceAOF = () => {
     dialogRef2.current.openDialog();
   };
 
+  const openDialogue3 = () => {
+    dialogRef3.current.openDialog();
+  };
+
   const dialogRef2 = useRef();
+  const dialogRef3 = useRef();
 
   const getAOFdetails = async () => {
     setLoading(true);
@@ -271,6 +295,13 @@ const FinanceAOF = () => {
   return (
     <div className="flex bg-[#111322]">
       <DialogSlide2 ref={dialogRef2} aofId={aofId} sendData={sendData} />
+      <DialogSlide3
+        ref={dialogRef3}
+        adhar={aadharLink}
+        pan={panLink}
+        gst={gstLink}
+        cheq={cheque}
+      />
       <Backdrop
         sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
         open={loading}
@@ -377,10 +408,13 @@ const FinanceAOF = () => {
                       <TableCell className="!w-[6rem]" align="center">
                         View
                       </TableCell>
+                      <TableCell className="!w-[5rem]" align="center">
+                        Download
+                      </TableCell>
                       <TableCell className="!w-[6rem]" align="center">
                         Verify
                       </TableCell>
-                      <TableCell className="!w-[6rem]" align="center">
+                      <TableCell className="!w-[7rem]" align="center">
                         Sync with SAP
                       </TableCell>
                     </TableRow>
@@ -423,6 +457,21 @@ const FinanceAOF = () => {
                                 }}
                               >
                                 <BasicButton text={"View"} />
+                              </div>
+                            </TableCell>
+                            <TableCell align="center">
+                              <div
+                                className="sm:w-auto w-[50vw]"
+                                onClick={() => {
+                                  showDownloadPopup(
+                                    row.adhar_url,
+                                    row.pan_url,
+                                    row.gst_url,
+                                    row.aof_banks
+                                  );
+                                }}
+                              >
+                                <BasicButton text={"Download"} />
                               </div>
                             </TableCell>
                             <TableCell align="center">
@@ -491,6 +540,22 @@ const FinanceAOF = () => {
                                 }}
                               >
                                 <BasicButton text={"View"} />
+                              </div>
+                            </TableCell>
+
+                            <TableCell align="center">
+                              <div
+                                className="sm:w-auto w-[50vw]"
+                                onClick={() => {
+                                  showDownloadPopup(
+                                    row.adhar_url,
+                                    row.pan_url,
+                                    row.gst_url,
+                                    row.aof_banks
+                                  );
+                                }}
+                              >
+                                <BasicButton text={"Download"} />
                               </div>
                             </TableCell>
 

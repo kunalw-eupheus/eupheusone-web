@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useLayoutEffect, useRef } from "react";
-import { Link, redirect  } from "react-router-dom";
+import { Link, redirect } from "react-router-dom";
 import eupheusLogo from "./eupheusLogo.png";
 import instance from "../../Instance";
 import Cookies from "js-cookie";
@@ -97,10 +97,10 @@ const AofPdf4 = () => {
       setSnackbarErrStatus(true);
       setErrMessage("Select the checkbox to continue");
       snackbarRef.current.openSnackbar();
-      return
+      return;
     }
 
-    let lati, long
+    let lati, long;
     if (!navigator.geolocation) {
       setStatus("Geolocation is not supported by your browser");
     } else {
@@ -108,10 +108,10 @@ const AofPdf4 = () => {
       navigator.geolocation.getCurrentPosition(
         (position) => {
           setStatus(null);
-          lati = position.coords.latitude
+          lati = position.coords.latitude;
           // setLat(position.coords.latitude);
           // console.log("latitude=", position.coords.latitude);
-          long = position.coords.longitude
+          long = position.coords.longitude;
           // setLng(position.coords.longitude);
           // console.log("longitude=", position.coords.longitude);
           // console.log("---------------------")
@@ -123,22 +123,27 @@ const AofPdf4 = () => {
     }
 
     const resp = await axios.get(`https://geolocation-db.com/json/`);
-    let ipAdd = resp.data.IPv4
+    let ipAdd = resp.data.IPv4;
     // setIP(res.data.IPv4);
 
     // getUser();
-  // };
+    // };
 
-  // const getUser = async () => {
-    let dataPost = { id: aofid, coordinates: [{ lat: lati, lng: long }], ip: ipAdd };
-    console.log(dataPost);
+    // const getUser = async () => {
+    let dataPost = {
+      id: aofid,
+      coordinates: [{ lat: lati, lng: long }],
+      ip: ipAdd,
+    };
+    // console.log(dataPost);
     const res = await instance({
       // url: `sales_data/aof/get/detail/a6663609-a912-4e0e-9a37-4935213a3d1a`,
       url: `sales_data/aof/verfication/customer/redirect`,
       method: "POST",
       data: dataPost,
       headers: {
-        Authorization: Cookies.get("accessToken"),
+        // Authorization: Cookies.get("accessToken"),
+        accesskey: `auth0026c3956e3d0fba`,
       },
     });
 
@@ -152,8 +157,7 @@ const AofPdf4 = () => {
       setTimeout(() => {
         navigate(`/thankyou`);
       }, 2000);
-      
-    }else{
+    } else {
       setSnackbarErrStatus(true);
       setErrMessage(res.data.message);
       snackbarRef.current.openSnackbar();
@@ -161,12 +165,12 @@ const AofPdf4 = () => {
   };
 
   // const closeTab=()=>{
-    // window.location.href.close()
-//     window.open("about:blank", "_self");
-        // navigate(`/thankyou`);
+  // window.location.href.close()
+  //     window.open("about:blank", "_self");
+  // navigate(`/thankyou`);
 
-// window.open("about:blank", "_self");
-// window.close();
+  // window.open("about:blank", "_self");
+  // window.close();
   // }
 
   useLayoutEffect(() => {
@@ -179,7 +183,8 @@ const AofPdf4 = () => {
         method: "POST",
         data: { id: userId },
         headers: {
-          Authorization: Cookies.get("accessToken"),
+          // Authorization: Cookies.get("accessToken"),
+          accesskey: `auth0026c3956e3d0fba`,
         },
       });
       // console.log(res.data.message);
@@ -190,7 +195,7 @@ const AofPdf4 = () => {
       // console.log(name)
       setUser(name);
     };
-    getUser();
+    // getUser();
   }, []);
 
   const monthMap = {
@@ -207,6 +212,27 @@ const AofPdf4 = () => {
     11: "November",
     12: "December",
   };
+
+  const getUser = async (creatorId) => {
+    const res = await instance({
+      // url: `sales_data/aof/get/detail/a6663609-a912-4e0e-9a37-4935213a3d1a`,
+      url: `user/getuserdetail`,
+      method: "POST",
+      data: { id: creatorId },
+      headers: {
+        // Authorization: Cookies.get("accessToken"),
+        accesskey: `auth0026c3956e3d0fba`,
+      },
+    });
+    // console.log(res.data.message);
+    let data = res.data.message;
+    let name = `${data.first_name ? data.first_name : ""} ${
+      data.middle_name ? data.middle_name : ""
+    } ${data.last_name ? data.last_name : ""}`;
+    // console.log(name)
+    setUser(name);
+  };
+
   const getData = async () => {
     // console.log(aofid)
     const res = await instance({
@@ -214,9 +240,14 @@ const AofPdf4 = () => {
       url: `sales_data/aof/get/detail/${aofid}`,
       method: "GET",
       headers: {
-        Authorization: Cookies.get("accessToken"),
+        // Authorization: Cookies.get("accessToken"),
+        accesskey: `auth0026c3956e3d0fba`,
       },
     });
+
+    let creatrId = res.data.message.created_by;
+    // console.log(creatrId);
+    getUser(creatrId);
     // console.log(res.data.message);
     let data = res.data.message;
     let date1 = data.date;
@@ -637,7 +668,7 @@ const AofPdf4 = () => {
               incorporated and registered under the Companies Act, 2013 with its
               registered office located at 5th Floor, Cabin No 3, Right side at
               Plot No E-196, Phase 8B, Mohali, Mohali, Punjab, India, 160020
-              through {user ? user : ""} Hereinafter referred to as “Eupheus”
+              through {user ? user : ""}. Hereinafter referred to as “Eupheus”
               which expression shall unless repugnant to the context means and
               include its successors and assigns of the ONE PART
             </div>
@@ -1384,10 +1415,11 @@ const AofPdf4 = () => {
             />
             Agree With Terms & Conditions
           </div>
-          <Button 
-          // onClick={getLocationNdIP}
-          onClick={getLocationNdIP}
-          variant="contained">
+          <Button
+            // onClick={getLocationNdIP}
+            onClick={getLocationNdIP}
+            variant="contained"
+          >
             Submit
           </Button>
         </div>
