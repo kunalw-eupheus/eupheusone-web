@@ -72,7 +72,7 @@ const AofPdf2 = () => {
   const [bpCode, setBpCode] = useState("");
   const [validDate, setValidDate] = useState("");
   const [creditLimit, setCreditLimit] = useState("");
-  const [dsgntn, setDsgntn] = useState("")
+  const [dsgntn, setDsgntn] = useState("");
 
   useEffect(() => {
     getData();
@@ -111,7 +111,8 @@ const AofPdf2 = () => {
         method: "POST",
         data: { id: userId },
         headers: {
-          Authorization: Cookies.get("accessToken"),
+          // Authorization: Cookies.get("accessToken"),
+          accesskey: `auth0026c3956e3d0fba`,
         },
       });
       console.log(res.data.message);
@@ -122,7 +123,7 @@ const AofPdf2 = () => {
       // console.log(name)
       setUser(name);
     };
-    getUser();
+    // getUser();
   }, []);
 
   const { aofid } = useParams();
@@ -141,6 +142,27 @@ const AofPdf2 = () => {
     11: "November",
     12: "December",
   };
+
+  const getUser = async (creatorId) => {
+    const res = await instance({
+      // url: `sales_data/aof/get/detail/a6663609-a912-4e0e-9a37-4935213a3d1a`,
+      url: `user/getuserdetail`,
+      method: "POST",
+      data: { id: creatorId },
+      headers: {
+        // Authorization: Cookies.get("accessToken"),
+        accesskey: `auth0026c3956e3d0fba`,
+      },
+    });
+    console.log(res.data.message);
+    let data = res.data.message;
+    let name = `${data.first_name ? data.first_name : ""} ${
+      data.middle_name ? data.middle_name : ""
+    } ${data.last_name ? data.last_name : ""}`;
+    // console.log(name)
+    setUser(name);
+  };
+
   const getData = async () => {
     // console.log(aofid)
     const res = await instance({
@@ -148,14 +170,19 @@ const AofPdf2 = () => {
       url: `sales_data/aof/get/detail/${aofid}`,
       method: "GET",
       headers: {
-        Authorization: Cookies.get("accessToken"),
+        // Authorization: Cookies.get("accessToken"),
+        accesskey: `auth0026c3956e3d0fba`,
       },
     });
-    console.log(res.data.message);
+    // console.log(res.data.message);
+    let creatrId = res.data.message.created_by;
+    // console.log(creatrId);
+    getUser(creatrId);
+    // console.log(res.data.message);
     let data = res.data.message;
     let date1 = data.date;
-    setDsgntn(data.designation)
-    let date1conv = moment(date1).format('DD-MM-YYYY');
+    setDsgntn(data.designation);
+    let date1conv = moment(date1).format("DD-MM-YYYY");
     // console.log(date1conv)
     if (data.bpcode) {
       setBpCode(data.bpcode);
@@ -224,11 +251,11 @@ const AofPdf2 = () => {
     // console.log(crdtPrts)
     setCreditParties(crdtPrts);
 
-    if(res.data.message.aof_banks.length === 0){
-      console.log(res.data.message.aof_banks)
-    }else{
+    if (res.data.message.aof_banks.length === 0) {
+      console.log(res.data.message.aof_banks);
+    } else {
       let bnkData = res.data.message.aof_banks[0];
-      console.log(bnkData)
+      console.log(bnkData);
       setBankName(bnkData.name);
       setAccNo(bnkData.account_no);
       setAccType(bnkData.acc_type);
@@ -242,8 +269,6 @@ const AofPdf2 = () => {
       // console.log(bnkDataArr);
       setBankChecq(bnkDataArr);
     }
-
-   
 
     console.log(res.data);
     if (res.data.tod.length !== 0) {
@@ -351,7 +376,7 @@ const AofPdf2 = () => {
                 <b>Name of Party School*: {partySchool ? partySchool : ""}</b>
               </div>
               <div className="">
-              Status*: {solePPPStatus ? solePPPStatus : ""}
+                Status*: {solePPPStatus ? solePPPStatus : ""}
               </div>
               <div className="">Address*: {address ? address : ""}</div>
               <div className="flex flex-col sm:flex-row sm:justify-between">
@@ -567,7 +592,7 @@ const AofPdf2 = () => {
               incorporated and registered under the Companies Act, 2013 with its
               registered office located at 5th Floor, Cabin No 3, Right side at
               Plot No E-196, Phase 8B, Mohali, Mohali, Punjab, India, 160020
-              through {user ? user : ""} Hereinafter referred to as “Eupheus”
+              through {user ? user : ""}. Hereinafter referred to as “Eupheus”
               which expression shall unless repugnant to the context means and
               include its successors and assigns of the ONE PART
             </div>
@@ -1198,9 +1223,7 @@ const AofPdf2 = () => {
                             i.overall.percent ? i.overall.percent : ""
                           } %`}</td>
                           <td style={{ border: "1px solid black" }}>{` ${
-                            i.overall.remark
-                              ? i.overall.remark
-                              : ""
+                            i.overall.remark ? i.overall.remark : ""
                           }`}</td>
                         </tr>
                       );
@@ -1257,62 +1280,53 @@ const AofPdf2 = () => {
                 <b>NAME OF DISTRIBUTOR:</b>
               </div>
               <div style={{ marginTop: "30px" }}>By: ________________</div>
-              <div style={{ marginTop: "5px" }}>Party Name: {partySchool ? partySchool : ""}</div>
+              <div style={{ marginTop: "5px" }}>
+                Party Name: {partySchool ? partySchool : ""}
+              </div>
               <div style={{ marginTop: "5px" }}>Designation: {dsgntn}</div>
               {/* <div style={{ marginTop: "5px" }}>Witness 2: </div> */}
             </div>
           </div>
 
           {/* {gstNo.length === 0 ? ( */}
-            <div style={{ marginTop: "20px", borderTop: "2px solid silver" }}>
-              <div
-                className="flex justify-center"
-                style={{ marginTop: "20px" }}
-              >
-                <b style={{ borderBottom: "1px solid black" }}>Annexure B</b>
-              </div>
-              <div
-                className="flex justify-center"
-                style={{ marginTop: "10px" }}
-              >
-                <b>
-                  Declaration of GST Not-Applicable under the provisions of
-                  Goods and Service Tax Act
-                </b>
-              </div>
-              <div style={{ margin: "20px" }}>
-                I/ We {partySchool ? partySchool : ""} (Name of the
-                Proprietor/Karta/Authorized Signatory), being  ,
-                {dsgntn} (Designation) of , 
-                {partySchool ? partySchool : ""}.(Legal Name as per PAN) do
-                hereby state that I/We am/are not liable to registration under
-                the provisions of Goods and Service Tax Act.
-              </div>
-              <div style={{ margin: "20px" }}>
-                I/We declare that as soon as we Become eligible for GST
-                Registration, we shall get ourselves registered with the Goods
-                and Services Tax department and give our GSTN to Proficiency
-                Learning Solutions Private Limited.
-              </div>
-              <div
-                className="flex justify-around"
-                style={{ marginTop: "20px" }}
-              >
-                <div>
-                  <div style={{ marginTop: "60px" }}>
-                    {/* <u>GSTIN AAACA1234DIZL</u> */}
-                  </div>
+          <div style={{ marginTop: "20px", borderTop: "2px solid silver" }}>
+            <div className="flex justify-center" style={{ marginTop: "20px" }}>
+              <b style={{ borderBottom: "1px solid black" }}>Annexure B</b>
+            </div>
+            <div className="flex justify-center" style={{ marginTop: "10px" }}>
+              <b>
+                Declaration of GST Not-Applicable under the provisions of Goods
+                and Service Tax Act
+              </b>
+            </div>
+            <div style={{ margin: "20px" }}>
+              I/ We {partySchool ? partySchool : ""} (Name of the
+              Proprietor/Karta/Authorized Signatory), being ,{dsgntn}{" "}
+              (Designation) of ,{partySchool ? partySchool : ""}.(Legal Name as
+              per PAN) do hereby state that I/We am/are not liable to
+              registration under the provisions of Goods and Service Tax Act.
+            </div>
+            <div style={{ margin: "20px" }}>
+              I/We declare that as soon as we Become eligible for GST
+              Registration, we shall get ourselves registered with the Goods and
+              Services Tax department and give our GSTN to Proficiency Learning
+              Solutions Private Limited.
+            </div>
+            <div className="flex justify-around" style={{ marginTop: "20px" }}>
+              <div>
+                <div style={{ marginTop: "60px" }}>
+                  {/* <u>GSTIN AAACA1234DIZL</u> */}
                 </div>
+              </div>
+              <div>
                 <div>
-                  <div>
-                    <b>For Customer</b>
-                  </div>
-                  <div style={{ marginTop: "30px" }}>(Stamp and Signature)</div>
-                  <div style={{ marginTop: "5px" }}>Date: _______________</div>
+                  <b>For Customer</b>
                 </div>
+                <div style={{ marginTop: "30px" }}>(Stamp and Signature)</div>
+                <div style={{ marginTop: "5px" }}>Date: _______________</div>
               </div>
             </div>
-         
+          </div>
         </div>
         {/* <hr className="w-[95%] bg-black h-[2px] my-[1rem] mx-[1rem]" />
         <div className="flex flex-col sm:flex-row sm:justify-between mx-[1rem] ">
