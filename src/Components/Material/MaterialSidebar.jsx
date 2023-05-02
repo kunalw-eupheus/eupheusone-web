@@ -704,7 +704,7 @@ const SwipeableTemporaryDrawer = React.forwardRef((props, ref) => {
           <Link to="/projection">
             <aside
               // onClick={openDialog}
-              className={`px-6 py-2 flex gap-4 ${
+              className={`px-6 py-2 my-4 flex gap-4 ${
                 highLight === "projection" ? "bg-gray-500" : ""
               } cursor-pointer group hover:bg-gray-500 rounded-md transition-all duration-150 ease-linear`}
             >
@@ -750,7 +750,7 @@ const SwipeableTemporaryDrawer = React.forwardRef((props, ref) => {
           <Link to="/print_pdf">
             <aside
               // onClick={openDialog}
-              className={`px-6 py-2 flex gap-4 ${
+              className={`px-6 py-2 my-4 flex gap-4 ${
                 highLight === "printpdf" ? "bg-gray-500" : ""
               } cursor-pointer group hover:bg-gray-500 rounded-md transition-all duration-150 ease-linear`}
             >
@@ -774,7 +774,7 @@ const SwipeableTemporaryDrawer = React.forwardRef((props, ref) => {
           {/* <Link to="/return">
         <aside
           // onClick={openDialog}
-          className={`px-6 py-5 flex gap-4 ${
+          className={`px-6 py-2 my-4 flex gap-4 ${
             highLight === "" ? "bg-gray-500" : ""
           } cursor-pointer group hover:bg-gray-500 rounded-md transition-all duration-150 ease-linear`}
         >

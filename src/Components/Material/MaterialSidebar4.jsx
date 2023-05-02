@@ -23,7 +23,7 @@ import {
   ReceiptOutlined,
   PrintOutlined,
   DocumentScanner,
-  Article
+  Article,
 } from "@mui/icons-material";
 import { Collapse } from "@mui/material";
 import { Link } from "react-router-dom";
@@ -214,7 +214,6 @@ const SwipeableTemporaryDrawer4 = React.forwardRef((props, ref) => {
           </span>
         </aside>
       </Link>
-
 
       <Link to="/admin/ckreport">
         <aside
