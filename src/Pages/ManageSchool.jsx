@@ -23,6 +23,7 @@ const ManageSchool = () => {
   const [states, setStates] = useState([]);
   const [city, setCity] = useState({ disable: true });
   const [schoolRow, setSchoolRow] = useState([]);
+  const [Row, setRow] = useState([]);
   const navInfo = {
     title: "Manage School",
     details: ["Home", " / Manage School"],
@@ -85,6 +86,30 @@ const ManageSchool = () => {
     setLoading(false);
   };
 
+  const getRowData = async () => {
+    setLoading(true);
+    const res = await instance({
+      url: `school//get/allUserAndRepSchool`,
+      method: "GET",
+      headers: {
+        Authorization: `${Cookies.get("accessToken")}`,
+      },
+    });
+
+    const data = res.data.message;
+
+    const rows = res.data.message.map((item, index) => {
+      return {
+        id: item.id,
+        SchoolName: item.school_name,
+        State: item.school_addresses[0].fk_state.state,
+        Address: item.school_addresses[0].address,
+      };
+    });
+    setRow(rows);
+    setLoading(false);
+  };
+
   const getSchoolByState = async (id) => {
     setLoading(true);
 
@@ -108,10 +133,10 @@ const ManageSchool = () => {
   };
 
   const handleOrderProcessingForm = async (value, type) => {
-    console.log(value, type)
+    console.log(value, type);
     switch (type) {
       case "select_state":
-        console.log(value)
+        console.log(value);
         getCity(value.fk_state_id);
         getSchoolByState(value.fk_state_id);
         setStateAndCity({ ...stateAndCity, state: value.fk_state_id });
@@ -149,6 +174,9 @@ const ManageSchool = () => {
       console.log(res.data.message);
 
       setStates(res.data.message);
+      // const data = res.data.message;
+      // const datarow = data.filter((data) => data.school_name);
+      // console.log("DATA", datarow);
     };
 
     const getSchoolData = async () => {
@@ -173,6 +201,7 @@ const ManageSchool = () => {
     getStates();
 
     getSchoolData();
+    getRowData();
   }, []);
 
   return (
@@ -253,7 +282,7 @@ const ManageSchool = () => {
             </div>
 
             <DataTable
-              rows={schoolRow}
+              rows={Row}
               checkbox={false}
               Tablecolumns={Tablecolumns}
               tableName="ManageSchool"
