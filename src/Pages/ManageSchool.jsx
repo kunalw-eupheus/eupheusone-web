@@ -23,6 +23,7 @@ const ManageSchool = () => {
   const [states, setStates] = useState([]);
   const [city, setCity] = useState({ disable: true });
   const [schoolRow, setSchoolRow] = useState([]);
+  const [represen, setRepresen] = useState([]);
   const navInfo = {
     title: "Manage School",
     details: ["Home", " / Manage School"],
@@ -108,10 +109,10 @@ const ManageSchool = () => {
   };
 
   const handleOrderProcessingForm = async (value, type) => {
-    console.log(value, type)
+    console.log(value, type);
     switch (type) {
       case "select_state":
-        console.log(value)
+        console.log(value);
         getCity(value.fk_state_id);
         getSchoolByState(value.fk_state_id);
         setStateAndCity({ ...stateAndCity, state: value.fk_state_id });
@@ -138,6 +139,18 @@ const ManageSchool = () => {
   };
 
   useLayoutEffect(() => {
+    const getRepres = async () => {
+      const res = await instance({
+        url: "user/getRelatedUser",
+        method: "GET",
+        headers: {
+          Authorization: `${Cookies.get("accessToken")}`,
+        },
+      });
+      // console.log(res.data.message);
+
+      setRepresen(res.data.message);
+    };
     const getStates = async () => {
       const res = await instance({
         url: "location/state/get/states",
@@ -146,7 +159,7 @@ const ManageSchool = () => {
           Authorization: `${Cookies.get("accessToken")}`,
         },
       });
-      console.log(res.data.message);
+      // console.log(res.data.message);
 
       setStates(res.data.message);
     };
@@ -171,6 +184,8 @@ const ManageSchool = () => {
       setSchoolRow(rows);
     };
     getStates();
+
+    getRepres();
 
     getSchoolData();
   }, []);
@@ -207,6 +222,17 @@ const ManageSchool = () => {
           <div className=" sm:px-8 px-2 py-3 bg-[#141728]">
             <div className="grid grid-cols-2 grid-rows-2 md:flex md:justify-around md:items-center px-6 mb-8 py-3 mt-6 gap-6 rounded-md bg-slate-600">
               <div className="flex flex-col gap-2 w-full md:w-[20vw]">
+                <label className="text-gray-100">Representative</label>
+
+                <SearchDropDown
+                  label={"Select Representative"}
+                  handleOrderProcessingForm={handleOrderProcessingForm}
+                  color={"rgb(243, 244, 246)"}
+                  data={represen}
+                  Name="select_represent"
+                />
+              </div>
+              <div className="flex flex-col gap-2 w-full md:w-[20vw]">
                 <label className="text-gray-100">State</label>
 
                 <SearchDropDown
@@ -232,7 +258,7 @@ const ManageSchool = () => {
               {/* <button className="w-full md:w-[20vw] col-span-2 md:ml-10 focus:outline-0 mt-8 text-gray-300 hover:shadow-md h-10 bg-slate-500 transition-all duration-200 ease-linear active:bg-slate-700 active:scale-95 rounded-md">
                 Search School
               </button> */}
-              <div
+              {/* <div
                 className="sm:w-auto w-[50vw]"
                 onClick={() => {
                   if (stateAndCity.state && stateAndCity.city) {
@@ -241,9 +267,12 @@ const ManageSchool = () => {
                 }}
               >
                 <BasicButton text={"Search School"} />
-              </div>
+              </div> */}
             </div>
             <div className="w-full flex gap-3 justify-end">
+              <Link to="/addschool">
+                <BasicButton text={"Export to CSV"} />
+              </Link>
               <Link to="/addschool">
                 <BasicButton text={"Create New School"} />
               </Link>

@@ -187,13 +187,27 @@ const SearchDropDown = ({
           return option.bp_name;
           break;
         case "get_all_user":
-          let firstName='', middleName='', lastName=''
-          if(option.first_name) firstName = option.first_name
-          if(option.middle_name) middleName = option.middle_name
-          if(option.last_name) lastName = option.last_name
-          let fullName = `${firstName} ${middleName} ${lastName}`
-            // console.log(option)
-          return fullName
+          let firstName = "",
+            middleName = "",
+            lastName = "";
+          if (option.first_name) firstName = option.first_name;
+          if (option.middle_name) middleName = option.middle_name;
+          if (option.last_name) lastName = option.last_name;
+          let fullName = `${firstName} ${middleName} ${lastName}`;
+          // console.log(option)
+          return fullName;
+          break;
+        case "select_represent":
+          let data = option.fk_user;
+          let fstName = "",
+            mdlName = "",
+            lstName = "";
+          if (data.first_name) fstName = data.first_name;
+          if (data.middle_name) mdlName = data.middle_name;
+          if (data.last_name) lstName = data.last_name;
+          let flName = `${fstName} ${mdlName} ${lstName}`;
+          // console.log(flName);
+          return flName;
           break;
         case "selec_typ":
           return option.title;
@@ -330,6 +344,9 @@ const SearchDropDown = ({
       handleOrderProcessingForm(value, type);
     }
     if (type === "select_type") {
+      handleOrderProcessingForm(value, type);
+    }
+    if (type === "select_represent") {
       handleOrderProcessingForm(value, type);
     }
     if (type === "items_aof") {
