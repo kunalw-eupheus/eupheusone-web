@@ -41,7 +41,7 @@ const DialogSlide2 = React.forwardRef((props, ref) => {
   const [loading, setLoading] = useState(false);
   const [errMessage, setErrMessage] = useState("");
   const [items, setItems] = useState([]);
-  const [showTable, setShowTable] = useState(false)
+  const [showTable, setShowTable] = useState(false);
 
   const formik = useFormik({
     initialValues: {
@@ -119,8 +119,8 @@ const DialogSlide2 = React.forwardRef((props, ref) => {
       setGrade(res.data.message);
       //   console.log(res.data.message);
     };
-    getAllSeries();
-    getAllGrade();
+    // getAllSeries();
+    // getAllGrade();
   }, []);
 
   const snackbarRef = useRef();
@@ -179,7 +179,7 @@ const DialogSlide2 = React.forwardRef((props, ref) => {
 
   const handleClose = () => {
     setItems([]);
-    setShowTable(false)
+    setShowTable(false);
     setOpen(false);
   };
 
@@ -198,20 +198,20 @@ const DialogSlide2 = React.forwardRef((props, ref) => {
     });
     if (res.data.message) {
       console.log(res.data.message[0].eup_invoice_items);
-      let dataArr = res.data.message[0].eup_invoice_items
-      let tempData = []
-      for(let i=0; i< dataArr.length; i++){
+      let dataArr = res.data.message[0].eup_invoice_items;
+      let tempData = [];
+      for (let i = 0; i < dataArr.length; i++) {
         // console.log(dataArr[i])
         // console.log(quantity)
-        for(let j = 0; j< quantity; j++){
-            tempData.push(dataArr[i])
+        for (let j = 0; j < quantity; j++) {
+          tempData.push(dataArr[i]);
         }
       }
-      console.log(tempData)
+      console.log(tempData);
       setItems(tempData);
       //   handleProjectionForm(res.data.message, "School Name");
     }
-    setShowTable(true)
+    setShowTable(true);
     setLoading(false);
   };
 
@@ -291,7 +291,7 @@ const DialogSlide2 = React.forwardRef((props, ref) => {
               Name={"grades"}
             /> */}
               <TextField
-                required = {true}
+                required={true}
                 label="Enter Qantity:"
                 variant="standard"
                 type={"number"}
@@ -299,8 +299,8 @@ const DialogSlide2 = React.forwardRef((props, ref) => {
                 // defaultValue="0"
                 InputLabelProps={{ style: { color: "white" } }}
                 onBlur={(event) => {
-                    getSchoolName(event.target.value)
-                    console.log(event.target.value)
+                  getSchoolName(event.target.value);
+                  console.log(event.target.value);
                 }}
               />
 
@@ -322,51 +322,51 @@ const DialogSlide2 = React.forwardRef((props, ref) => {
             </DialogContentText>
           </DialogContent>
 
-
-            {
-                showTable? 
-                <Table sx={{ minWidth: 650 }} aria-label="customized table">
-            <TableHead className="bg-slate-500">
-              <TableRow>
-                <TableCell className="!w-[13rem]" align="center">
-                  Invoice No
-                </TableCell>
-                <TableCell className="!w-[28rem]" align="center">
-                  Item Name
-                </TableCell>
-                <TableCell className="!w-[8rem]" align="center">
-                  Quantity
-                </TableCell>
-                <TableCell className="!w-[8rem]" align="center">
-                  Unit Price
-                </TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody className="bg-slate-200">
-              {items.map((row) => (
-                <TableRow
-                  key={row.series}
-                  sx={{
-                    "&:last-child td, &:last-child th": {
-                      border: 0,
-                    },
-                  }}
-                >
-                  <TableCell align="center">{row.itemcode}</TableCell>
-                  <TableCell align="center">{row.itemdescription}</TableCell>
-                  <TableCell align="center">{row.quantity}</TableCell>
-                  <TableCell align="center">{row.price}</TableCell>
+          {showTable ? (
+            <Table sx={{ minWidth: 650 }} aria-label="customized table">
+              <TableHead className="bg-slate-500">
+                <TableRow>
+                  <TableCell className="!w-[13rem]" align="center">
+                    Invoice No
+                  </TableCell>
+                  <TableCell className="!w-[28rem]" align="center">
+                    Item Name
+                  </TableCell>
+                  <TableCell className="!w-[8rem]" align="center">
+                    Quantity
+                  </TableCell>
+                  <TableCell className="!w-[8rem]" align="center">
+                    Unit Price
+                  </TableCell>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-                : ""
-            }
-          
+              </TableHead>
+              <TableBody className="bg-slate-200">
+                {items.map((row) => (
+                  <TableRow
+                    key={row.series}
+                    sx={{
+                      "&:last-child td, &:last-child th": {
+                        border: 0,
+                      },
+                    }}
+                  >
+                    <TableCell align="center">{row.itemcode}</TableCell>
+                    <TableCell align="center">{row.itemdescription}</TableCell>
+                    <TableCell align="center">{row.quantity}</TableCell>
+                    <TableCell align="center">{row.price}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          ) : (
+            ""
+          )}
+
           <DialogActions className="!bg-gray-500">
             {/* <Button onClick={() => handleButtonClick()}>Ok</Button> */}
             {/* <Button onClick={handleClose}>Cancle</Button> */}
-            <div className="mt-4"
+            <div
+              className="mt-4"
               onClick={() => {
                 console.log("sumbit clicked");
               }}

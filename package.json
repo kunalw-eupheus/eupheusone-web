@@ -26,6 +26,8 @@
     "html2canvas": "^1.4.1",
     "html2pdf": "^0.0.11",
     "js-cookie": "^3.0.1",
+    "json2csv": "^6.0.0-alpha.2",
+    "jsonexport": "^3.2.0",
     "jspdf": "^2.5.1",
     "moment": "^2.29.4",
     "number-to-words": "^1.2.4",

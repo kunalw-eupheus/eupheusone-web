@@ -116,8 +116,8 @@ const DialogSlide15 = React.forwardRef((props, ref) => {
       setGrade(res.data.message);
       //   console.log(res.data.message);
     };
-    getAllSeries();
-    getAllGrade();
+    // getAllSeries();
+    // getAllGrade();
   }, []);
 
   const snackbarRef = useRef();
@@ -219,7 +219,7 @@ const DialogSlide15 = React.forwardRef((props, ref) => {
 
   const handleVerify = async () => {
     let id = props.aofId;
-    let hndleData = props.handleData
+    let hndleData = props.handleData;
     const res = await instance({
       url: `sales_data/aof/verfication/customer/${id}`,
       method: "GET",
@@ -227,11 +227,11 @@ const DialogSlide15 = React.forwardRef((props, ref) => {
         Authorization: `${Cookies.get("accessToken")}`,
       },
     });
-    console.log(res)
-    if(res.data.status === 'error'){
-        hndleData(res.data.message,id, "error")
-    }else{
-        hndleData(res.data.message ,id, "success")
+    console.log(res);
+    if (res.data.status === "error") {
+      hndleData(res.data.message, id, "error");
+    } else {
+      hndleData(res.data.message, id, "success");
     }
     // setLoading(true);
     // // alert(res.data.message)
@@ -239,7 +239,7 @@ const DialogSlide15 = React.forwardRef((props, ref) => {
     // // setErrMessage(res.data.message);
     // // snackbarRef.current.openSnackbar();
     // setLoading(false);
-    
+
     setTimeout(() => {
       setOpen(false);
     }, 1000);

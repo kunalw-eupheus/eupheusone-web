@@ -27,8 +27,8 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import CloseIcon from '@mui/icons-material/Close';
-import IconButton from '@mui/material/IconButton';
+import CloseIcon from "@mui/icons-material/Close";
+import IconButton from "@mui/material/IconButton";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -87,7 +87,6 @@ const DialogSlide2 = React.forwardRef((props, ref) => {
     },
   });
 
-
   const getInvoiceDetails = async () => {
     console.log(props.invoiceId);
     const res = await instance({
@@ -102,32 +101,32 @@ const DialogSlide2 = React.forwardRef((props, ref) => {
     if (res.data.status === "success") {
       setCardNum(res.data.message[0].docnum);
       // formik.values.DocNum = res.data.message[0].docnum;
-      setDocDate(res.data.message[0].docdate)
+      setDocDate(res.data.message[0].docdate);
       // formik.values.DocDate = res.data.message[0].docdate;
       // formik.values.DocTotal = res.data.message[0].doctotal;
-      setDocTotal(res.data.message[0].doctotal)
+      setDocTotal(res.data.message[0].doctotal);
       // formik.values.BillFrom =
-        // res.data.message[0].ck_invoice_addresses[0].BillFromName;
-        setBillFrom(res.data.message[0].ck_invoice_addresses[0].BillFromName)
+      // res.data.message[0].ck_invoice_addresses[0].BillFromName;
+      setBillFrom(res.data.message[0].ck_invoice_addresses[0].BillFromName);
       // formik.values.BillTo =
-        // res.data.message[0].ck_invoice_addresses[0].BillToName;
-        setBillTo(res.data.message[0].ck_invoice_addresses[0].BillToName)
+      // res.data.message[0].ck_invoice_addresses[0].BillToName;
+      setBillTo(res.data.message[0].ck_invoice_addresses[0].BillToName);
       // console.log(res.data.message[0].ck_invoice_addresses[0].BillToName)
       // formik.values.DispatchFrom =
-        // res.data.message[0].ck_invoice_addresses[0].DispatchFromAddress1;
-        setDispatchFrom(res.data.message[0].ck_invoice_addresses[0].DispatchFromAddress1)
+      // res.data.message[0].ck_invoice_addresses[0].DispatchFromAddress1;
+      setDispatchFrom(
+        res.data.message[0].ck_invoice_addresses[0].DispatchFromAddress1
+      );
       // formik.values.ShipsTo =
       //   res.data.message[0].ck_invoice_addresses[0].ShipToAddress1;
 
-        setShipsTo(res.data.message[0].ck_invoice_addresses[0].ShipToAddress1)
+      setShipsTo(res.data.message[0].ck_invoice_addresses[0].ShipToAddress1);
 
       // setInvoiceDetails(res.data.message);
       setInvoiceItems(res.data.message[0].ck_invoice_items);
       // console.log(res.data.message[0].docnum)
     }
   };
-
-
 
   useLayoutEffect(() => {
     const getAllSeries = async () => {
@@ -152,8 +151,8 @@ const DialogSlide2 = React.forwardRef((props, ref) => {
       setGrade(res.data.message);
       //   console.log(res.data.message);
     };
-    getAllSeries();
-    getAllGrade();
+    // getAllSeries();
+    // getAllGrade();
   }, []);
 
   const snackbarRef = useRef();
@@ -263,12 +262,11 @@ const DialogSlide2 = React.forwardRef((props, ref) => {
               inputProps={{ readOnly: true }}
             /> */}
 
-          <div className="flex justify-end">
-          <IconButton onClick={handleClose}>
-            <CloseIcon />
-        </IconButton>
-          </div>
-            
+            <div className="flex justify-end">
+              <IconButton onClick={handleClose}>
+                <CloseIcon />
+              </IconButton>
+            </div>
 
             <Box sx={{ flexGrow: 1 }}>
               <Grid
@@ -360,44 +358,41 @@ const DialogSlide2 = React.forwardRef((props, ref) => {
                       inputProps={{ readOnly: true }}
                     />
                   </Grid>
-            
-              
                 </Grid>
 
                 <div className="mt-4">
-                <Grid container spacing={2}>
-                  <Grid xs={12}>
-                  <TextField
-                      className="!w-full "
-                      // id="outlined-multiline-static"
-                      // multiline
-                      label="Dispatch From"
-                      variant="standard"
-                      type={"text"}
-                      disabled={false}
-                      defaultValue={DispatchFrom}
-                      value={DispatchFrom}
-                      InputLabelProps={{ style: { color: "white" } }}
-                      inputProps={{ readOnly: true }}
-                    />
+                  <Grid container spacing={2}>
+                    <Grid xs={12}>
+                      <TextField
+                        className="!w-full "
+                        // id="outlined-multiline-static"
+                        // multiline
+                        label="Dispatch From"
+                        variant="standard"
+                        type={"text"}
+                        disabled={false}
+                        defaultValue={DispatchFrom}
+                        value={DispatchFrom}
+                        InputLabelProps={{ style: { color: "white" } }}
+                        inputProps={{ readOnly: true }}
+                      />
+                    </Grid>
+                    <Grid xs={12}>
+                      <TextField
+                        className="!w-full"
+                        // multiline
+                        label="Ships To"
+                        variant="standard"
+                        type={"text"}
+                        disabled={false}
+                        defaultValue={ShipsTo}
+                        value={ShipsTo}
+                        InputLabelProps={{ style: { color: "white" } }}
+                        inputProps={{ readOnly: true }}
+                      />
+                    </Grid>
                   </Grid>
-                  <Grid xs={12}>
-                  <TextField
-                      className="!w-full"
-                      // multiline
-                      label="Ships To"
-                      variant="standard"
-                      type={"text"}
-                      disabled={false}
-                      defaultValue={ShipsTo}
-                      value={ShipsTo}
-                      InputLabelProps={{ style: { color: "white" } }}
-                      inputProps={{ readOnly: true }}
-                    />
-                  </Grid>
-                </Grid>
                 </div>
-           
               </Box>
             </DialogContentText>
           </div>

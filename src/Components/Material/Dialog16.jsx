@@ -124,8 +124,8 @@ const DialogSlide16 = React.forwardRef((props, ref) => {
       setGrade(res.data.message);
       //   console.log(res.data.message);
     };
-    getAllSeries();
-    getAllGrade();
+    // getAllSeries();
+    // getAllGrade();
   }, []);
 
   const snackbarRef = useRef();

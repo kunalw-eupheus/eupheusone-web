@@ -27,8 +27,8 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import CloseIcon from '@mui/icons-material/Close';
-import IconButton from '@mui/material/IconButton';
+import CloseIcon from "@mui/icons-material/Close";
+import IconButton from "@mui/material/IconButton";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -54,20 +54,20 @@ const DialogSlide10 = React.forwardRef((props, ref) => {
   const [DispatchFrom, setDispatchFrom] = useState("");
   const [ShipsTo, setShipsTo] = useState("");
 
-const [aofName, setAofName] = useState("")
-const [address, setAddress] = useState("")
-const [school, setSchool] = useState("")
-const [date, setDate] = useState("")
-const [city, setCity] = useState("")
-const [state, setState] = useState("")
-const [busiEst, setBusiEst] = useState("")
-const [firmReg, setFirmReg] = useState("")
-const [gst, setGst] = useState("")
-const [pan, setPan] = useState("")
-const [zip, setZip] = useState("")
-const [status, setStatus] = useState("")
-const [banks, setBanks] = useState([])
-const [trustes, setTrustes] = useState([])
+  const [aofName, setAofName] = useState("");
+  const [address, setAddress] = useState("");
+  const [school, setSchool] = useState("");
+  const [date, setDate] = useState("");
+  const [city, setCity] = useState("");
+  const [state, setState] = useState("");
+  const [busiEst, setBusiEst] = useState("");
+  const [firmReg, setFirmReg] = useState("");
+  const [gst, setGst] = useState("");
+  const [pan, setPan] = useState("");
+  const [zip, setZip] = useState("");
+  const [status, setStatus] = useState("");
+  const [banks, setBanks] = useState([]);
+  const [trustes, setTrustes] = useState([]);
 
   const formik = useFormik({
     initialValues: {
@@ -102,7 +102,6 @@ const [trustes, setTrustes] = useState([])
     },
   });
 
-
   const getInvoiceDetails = async () => {
     console.log(props.aofId);
     const res = await instance({
@@ -113,51 +112,49 @@ const [trustes, setTrustes] = useState([])
       },
     });
     // setSeries(res.data.message);
-    console.log(res.data.message)
+    console.log(res.data.message);
     if (res.data.status === "success") {
-        let data = res.data.message
-        setAofName(data.name)
-        setAddress(data.address)
-        setSchool(data.fk_school.school_name)
-        setDate(data.date)
-        setCity(data.fk_city.city)
-        setState(data.fk_state.state)
-        setBusiEst(data.business_est)
-        setFirmReg(data.firm_reg)
-        setGst(data.gst)
-        setPan(data.pan)
-        setZip(data.zip_code)
-        setStatus(data.status)
-        setBanks(data.aof_banks)
-        setTrustes(data.aof_trustees)
-    //   setCardNum(res.data.message[0].docnum);
+      let data = res.data.message;
+      setAofName(data.name);
+      setAddress(data.address);
+      setSchool(data.fk_school.school_name);
+      setDate(data.date);
+      setCity(data.fk_city.city);
+      setState(data.fk_state.state);
+      setBusiEst(data.business_est);
+      setFirmReg(data.firm_reg);
+      setGst(data.gst);
+      setPan(data.pan);
+      setZip(data.zip_code);
+      setStatus(data.status);
+      setBanks(data.aof_banks);
+      setTrustes(data.aof_trustees);
+      //   setCardNum(res.data.message[0].docnum);
       // formik.values.DocNum = res.data.message[0].docnum;
-    //   setDocDate(res.data.message[0].docdate)
+      //   setDocDate(res.data.message[0].docdate)
       // formik.values.DocDate = res.data.message[0].docdate;
       // formik.values.DocTotal = res.data.message[0].doctotal;
-    //   setDocTotal(res.data.message[0].doctotal)
+      //   setDocTotal(res.data.message[0].doctotal)
       // formik.values.BillFrom =
-        // res.data.message[0].ck_invoice_addresses[0].BillFromName;
-        // setBillFrom(res.data.message[0].ck_invoice_addresses[0].BillFromName)
+      // res.data.message[0].ck_invoice_addresses[0].BillFromName;
+      // setBillFrom(res.data.message[0].ck_invoice_addresses[0].BillFromName)
       // formik.values.BillTo =
-        // res.data.message[0].ck_invoice_addresses[0].BillToName;
-        // setBillTo(res.data.message[0].ck_invoice_addresses[0].BillToName)
+      // res.data.message[0].ck_invoice_addresses[0].BillToName;
+      // setBillTo(res.data.message[0].ck_invoice_addresses[0].BillToName)
       // console.log(res.data.message[0].ck_invoice_addresses[0].BillToName)
       // formik.values.DispatchFrom =
-        // res.data.message[0].ck_invoice_addresses[0].DispatchFromAddress1;
-        // setDispatchFrom(res.data.message[0].ck_invoice_addresses[0].DispatchFromAddress1)
+      // res.data.message[0].ck_invoice_addresses[0].DispatchFromAddress1;
+      // setDispatchFrom(res.data.message[0].ck_invoice_addresses[0].DispatchFromAddress1)
       // formik.values.ShipsTo =
       //   res.data.message[0].ck_invoice_addresses[0].ShipToAddress1;
 
-        // setShipsTo(res.data.message[0].ck_invoice_addresses[0].ShipToAddress1)
+      // setShipsTo(res.data.message[0].ck_invoice_addresses[0].ShipToAddress1)
 
       // setInvoiceDetails(res.data.message);
-    //   setInvoiceItems(res.data.message[0].ck_invoice_items);
+      //   setInvoiceItems(res.data.message[0].ck_invoice_items);
       // console.log(res.data.message[0].docnum)
     }
   };
-
-
 
   useLayoutEffect(() => {
     const getAllSeries = async () => {
@@ -182,8 +179,8 @@ const [trustes, setTrustes] = useState([])
       setGrade(res.data.message);
       //   console.log(res.data.message);
     };
-    getAllSeries();
-    getAllGrade();
+    // getAllSeries();
+    // getAllGrade();
   }, []);
 
   const snackbarRef = useRef();
@@ -293,12 +290,11 @@ const [trustes, setTrustes] = useState([])
               inputProps={{ readOnly: true }}
             /> */}
 
-          <div className="flex justify-end">
-          <IconButton onClick={handleClose}>
-            <CloseIcon />
-        </IconButton>
-          </div>
-            
+            <div className="flex justify-end">
+              <IconButton onClick={handleClose}>
+                <CloseIcon />
+              </IconButton>
+            </div>
 
             <Box sx={{ flexGrow: 1 }}>
               <Grid
@@ -539,7 +535,6 @@ const [trustes, setTrustes] = useState([])
             </DialogContentText>
           </div> */}
 
-
           <div className="mt-9">
             <DialogTitle className="!bg-gray-500 text-white">Banks</DialogTitle>
             <DialogContentText
@@ -567,14 +562,10 @@ const [trustes, setTrustes] = useState([])
                   <TableBody className="bg-slate-200">
                     {banks.map((row) => (
                       <TableRow>
-                        <TableCell align="center">
-                          {row.name}
-                        </TableCell>
+                        <TableCell align="center">{row.name}</TableCell>
                         <TableCell align="center">{row.account_no}</TableCell>
                         <TableCell align="center">{row.ifsc}</TableCell>
-                        <TableCell align="center">
-                          {row.acc_type}
-                        </TableCell>
+                        <TableCell align="center">{row.acc_type}</TableCell>
                       </TableRow>
                     ))}
                   </TableBody>
@@ -583,7 +574,9 @@ const [trustes, setTrustes] = useState([])
             </DialogContentText>
           </div>
           <div className="mt-4">
-            <DialogTitle className="!bg-gray-500 text-white">Trustees</DialogTitle>
+            <DialogTitle className="!bg-gray-500 text-white">
+              Trustees
+            </DialogTitle>
             <DialogContentText
               id="alert-dialog-slide-description"
               className="!text-gray-600 !sm:text-base !text-sm grid sm:grid-cols-1 grid-cols-1 sm:gap-8 gap-6"
@@ -609,14 +602,10 @@ const [trustes, setTrustes] = useState([])
                   <TableBody className="bg-slate-200">
                     {trustes.map((row) => (
                       <TableRow>
-                        <TableCell align="center">
-                          {row.name}
-                        </TableCell>
+                        <TableCell align="center">{row.name}</TableCell>
                         <TableCell align="center">{row.address}</TableCell>
                         <TableCell align="center">{row.mobile}</TableCell>
-                        <TableCell align="center">
-                          {row.email}
-                        </TableCell>
+                        <TableCell align="center">{row.email}</TableCell>
                       </TableRow>
                     ))}
                   </TableBody>

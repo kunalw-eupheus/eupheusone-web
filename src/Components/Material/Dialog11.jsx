@@ -111,8 +111,8 @@ const DialogSlide11 = React.forwardRef((props, ref) => {
       setGrade(res.data.message);
       //   console.log(res.data.message);
     };
-    getAllSeries();
-    getAllGrade();
+    // getAllSeries();
+    // getAllGrade();
   }, []);
 
   const snackbarRef = useRef();
@@ -200,7 +200,6 @@ const DialogSlide11 = React.forwardRef((props, ref) => {
     }
 
     setOpen(false);
-    
   };
 
   const getSchoolName = async (code) => {

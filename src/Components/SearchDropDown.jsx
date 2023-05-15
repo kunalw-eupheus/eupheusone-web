@@ -116,8 +116,9 @@ const SearchDropDown = ({
           break;
         // manage School
         case "select_state":
-          // console.log(option)
-          return option.fk_state.state;
+          // console.log(option);
+          if (option.state === "Null") return "";
+          else return option.state;
           break;
 
         case "select_state_2":

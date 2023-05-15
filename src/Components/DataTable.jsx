@@ -29,8 +29,8 @@ export default function DataTable({
 }) {
   const [q, setQ] = React.useState("");
   const [entries, setEntries] = React.useState(10);
-  const [schoolId, setSchoolId] = useState("")
-  const [schoolStatus, setSchoolStatus] = useState("")
+  const [schoolId, setSchoolId] = useState("");
+  const [schoolStatus, setSchoolStatus] = useState("");
   const navigate = useNavigate();
 
   const openDialog = () => {
@@ -222,10 +222,10 @@ export default function DataTable({
       //   navigate(`/update_school_training/${value[0]}`);
       //   break;
       case "ManageSchoolAdmin":
-        let stats = value.row.Status
+        let stats = value.row.Status;
         // console.log(stats)
-        setSchoolStatus(stats)
-        setSchoolId(value.id)
+        setSchoolStatus(stats);
+        setSchoolId(value.id);
         if (value.field === "Status") {
           dialogRef.current.openDialog();
         }
@@ -241,7 +241,7 @@ export default function DataTable({
 
   return (
     <div className="relative mt-9">
-      <DialogSlide ref={dialogRef} schlId={schoolId} stat={schoolStatus}/>
+      <DialogSlide ref={dialogRef} schlId={schoolId} stat={schoolStatus} />
 
       <div
         style={{ height: 450, width: "100%" }}
