@@ -13,16 +13,24 @@ import { useLayoutEffect } from "react";
 import Cookies from "js-cookie";
 import BasicButton from "../Components/Material/Button";
 import { Backdrop, CircularProgress } from "@mui/material";
+import * as FileSaver from "file-saver";
+import * as XLSX from "xlsx";
 
 const ManageSchool = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [highLight, setHighLight] = useState("manageSchool");
   const [loading, setLoading] = useState(false);
-  const [stateAndCity, setStateAndCity] = useState({ state: "", city: "" });
   const sidebarRef = useRef();
   const [states, setStates] = useState([]);
-  const [city, setCity] = useState({ disable: true });
-  const [schoolRow, setSchoolRow] = useState([]);
+  const [city, setCity] = useState([]);
+  const [cityAvl, setCityAvl] = useState(true);
+  const [represen, setRepresen] = useState([]);
+  const [Row, setRow] = useState([]);
+  const [id, setId] = useState({
+    user_id: "",
+    state_id: "",
+    city_id: "",
+  });
   const navInfo = {
     title: "Manage School",
     details: ["Home", " / Manage School"],
@@ -62,62 +70,147 @@ const ManageSchool = () => {
     };
   }, []);
 
-  const getSchool = async (stateId, cityId) => {
+  const getRowData = async () => {
     setLoading(true);
     const res = await instance({
-      url: `school/${stateId}/${cityId}`,
+      url: `school//get/allUserAndRepSchool`,
       method: "GET",
       headers: {
         Authorization: `${Cookies.get("accessToken")}`,
       },
     });
-    console.log(res.data.message);
+
+    const data = res.data.message;
+    // console.log(data);
+
     const rows = res.data.message.map((item, index) => {
       return {
         id: item.id,
         SchoolName: item.school_name,
-        State: item.school_addresses[0].fk_state.state,
+        State: item?.school_addresses[0]?.fk_state?.state,
         Address: item.school_addresses[0].address,
+        repId: item.fk_user_id,
+        stateId: item.school_addresses[0].fk_state.id,
+        cityId: item.school_addresses[0].fk_city_id,
       };
     });
-    // console.log(rows)
-    setSchoolRow(rows);
+    setRow(rows);
+    // setTemprow(rows);
+    console.log(rows);
+    // setRow(data);
     setLoading(false);
   };
 
-  const getSchoolByState = async (id) => {
-    setLoading(true);
+  const returnRowData = () => {
+    if (!id.user_id && !id.city_id && !id.state_id) {
+      // console.log("test");
+      return Row;
+    } else {
+      // switch (id) {
+      // single condition
+      if (id.user_id && !id.city_id && !id.state_id) {
+        return Row.filter((item) => item.repId === id.user_id);
+      }
 
-    const res = await instance({
-      url: `school/${id}`,
-      method: "GET",
-      headers: {
-        Authorization: `${Cookies.get("accessToken")}`,
-      },
-    });
-    const rows = res.data.message.map((item, index) => {
-      return {
-        id: item.id,
-        SchoolName: item.school_name,
-        State: item.school_addresses[0].fk_state.state,
-        Address: item.school_addresses[0].address,
-      };
-    });
-    setSchoolRow(rows);
-    setLoading(false);
+      if (!id.user_id && id.city_id && !id.state_id) {
+        return Row.filter((item) => item.cityId === id.city_id);
+      }
+      if (!id.user_id && !id.city_id && id.state_id) {
+        return Row.filter((item) => item.stateId === id.state_id);
+      }
+      if (id.user_id && id.city_id && !id.state_id) {
+        return Row.filter(
+          (item) => item.repId === id.user_id && item.cityId === id.city_id
+        );
+      }
+      if (!id.user_id && id.city_id && id.state_id) {
+        return Row.filter(
+          (item) => item.cityId === id.city_id && item.stateId === id.state_id
+        );
+      }
+      if (id.user_id && !id.city_id && id.state_id) {
+        return Row.filter(
+          (item) => item.repId === id.user_id && item.stateId === id.state_id
+        );
+      }
+      if (id.user_id && id.city_id && id.state_id) {
+        return Row.filter(
+          (item) =>
+            item.repId === id.user_id &&
+            item.stateId === id.state_id &&
+            item.cityId === id.city_id
+        );
+      }
+
+      // }
+    }
   };
+
+  const fileType =
+    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8";
+  const fileExtension = ".xlsx";
+
+  let columnsName = ["School Name", "Address", "State"];
+
+  const exportToCSV = async () => {
+    let dataToExport = returnRowData();
+    // console.log(dataToExport);
+    let reqExportData = [];
+    for (let obj of dataToExport) {
+      let reqObj = {
+        SchoolName: obj.SchoolName,
+        Address: obj.Address,
+        State: obj.State,
+      };
+      reqExportData.push(reqObj);
+    }
+    // console.log(reqExportData);
+
+    let fileName = "excelData";
+    // let keysName = Object.keys(apiData[0])
+    //   console.log(rowsName)
+    const ws = XLSX.utils.json_to_sheet(reqExportData);
+    /* custom headers */
+    XLSX.utils.sheet_add_aoa(ws, [columnsName], {
+      // XLSX.utils.sheet_add_aoa(ws, [keysName], {
+      origin: "A1",
+    });
+    const wb = { Sheets: { data: ws }, SheetNames: ["data"] };
+    const excelBuffer = XLSX.write(wb, { bookType: "xlsx", type: "array" });
+    const data = new Blob([excelBuffer], { type: fileType });
+    FileSaver.saveAs(data, fileName + fileExtension);
+  };
+
+  // const csvData = json2csv.parse(returnRowData());
+  // let csvData;
+  // jsonexport(returnRowData(), function (err, csv) {
+  //   if (err) return console.error(err);
+  //   csvData = csv;
+  // });
+  // const encodedUri = encodeURI(`data:text/csv;charset=utf-8,${csvData}`);
+
+  // console.log(id);
 
   const handleOrderProcessingForm = async (value, type) => {
-    console.log(value, type)
+    // console.log(value, type);
     switch (type) {
       case "select_state":
-        console.log(value)
-        getCity(value.fk_state_id);
-        getSchoolByState(value.fk_state_id);
-        setStateAndCity({ ...stateAndCity, state: value.fk_state_id });
+        // console.log(value);
+        let stateId = value.id;
+        setId({ ...id, state_id: stateId });
+        // console.log(stateId);
+        getCity(stateId);
+
         break;
       case "select_city":
-        setStateAndCity({ ...stateAndCity, city: value.id });
+        let ciId = value.id;
+        setId({ ...id, city_id: ciId });
+
+        break;
+      case "select_represent":
+        let rpId = value.fk_user.id;
+        setId({ ...id, user_id: rpId });
+
         break;
       default:
         break;
@@ -133,14 +226,28 @@ const ManageSchool = () => {
         Authorization: `${Cookies.get("accessToken")}`,
       },
     });
+    console.log(res.data.message);
     setCity(res.data.message);
+    setCityAvl(false);
     setLoading(false);
   };
 
   useLayoutEffect(() => {
+    const getRepres = async () => {
+      const res = await instance({
+        url: "user/getRelatedUser",
+        method: "GET",
+        headers: {
+          Authorization: `${Cookies.get("accessToken")}`,
+        },
+      });
+      // console.log(res.data.message);
+
+      setRepresen(res.data.message);
+    };
     const getStates = async () => {
       const res = await instance({
-        url: "location/state/get/states",
+        url: "location/state/get/states/byUserAndRep",
         method: "GET",
         headers: {
           Authorization: `${Cookies.get("accessToken")}`,
@@ -149,30 +256,14 @@ const ManageSchool = () => {
       console.log(res.data.message);
 
       setStates(res.data.message);
+      // const data = res.data.message;
+      // const datarow = data.filter((data) => data.school_name);
+      // console.log("DATA", datarow);
     };
 
-    const getSchoolData = async () => {
-      const res = await instance({
-        url: "school/b4c27059-8c42-4d35-8fe7-8dedffbfe641/294de4f3-0977-4482-b0de-2cfeaa827ba4",
-        method: "GET",
-        headers: {
-          Authorization: `${Cookies.get("accessToken")}`,
-        },
-      });
-      // console.log(res.data.message);
-      const rows = res.data.message.map((item, index) => {
-        return {
-          id: item.id,
-          SchoolName: item.school_name,
-          State: item.school_addresses[0].fk_state.state,
-          Address: item.school_addresses[0].address,
-        };
-      });
-      setSchoolRow(rows);
-    };
     getStates();
-
-    getSchoolData();
+    getRepres();
+    getRowData();
   }, []);
 
   return (
@@ -207,6 +298,17 @@ const ManageSchool = () => {
           <div className=" sm:px-8 px-2 py-3 bg-[#141728]">
             <div className="grid grid-cols-2 grid-rows-2 md:flex md:justify-around md:items-center px-6 mb-8 py-3 mt-6 gap-6 rounded-md bg-slate-600">
               <div className="flex flex-col gap-2 w-full md:w-[20vw]">
+                <label className="text-gray-100">Representative</label>
+
+                <SearchDropDown
+                  label={"Select Representative"}
+                  handleOrderProcessingForm={handleOrderProcessingForm}
+                  color={"rgb(243, 244, 246)"}
+                  data={represen}
+                  Name="select_represent"
+                />
+              </div>
+              <div className="flex flex-col gap-2 w-full md:w-[20vw]">
                 <label className="text-gray-100">State</label>
 
                 <SearchDropDown
@@ -224,7 +326,7 @@ const ManageSchool = () => {
                   label={"Select City"}
                   handleOrderProcessingForm={handleOrderProcessingForm}
                   color={"rgb(243, 244, 246)"}
-                  disable={city.disable}
+                  disable={cityAvl}
                   data={city}
                   Name="select_city"
                 />
@@ -232,7 +334,7 @@ const ManageSchool = () => {
               {/* <button className="w-full md:w-[20vw] col-span-2 md:ml-10 focus:outline-0 mt-8 text-gray-300 hover:shadow-md h-10 bg-slate-500 transition-all duration-200 ease-linear active:bg-slate-700 active:scale-95 rounded-md">
                 Search School
               </button> */}
-              <div
+              {/* <div
                 className="sm:w-auto w-[50vw]"
                 onClick={() => {
                   if (stateAndCity.state && stateAndCity.city) {
@@ -241,9 +343,12 @@ const ManageSchool = () => {
                 }}
               >
                 <BasicButton text={"Search School"} />
-              </div>
+              </div> */}
             </div>
             <div className="w-full flex gap-3 justify-end">
+              <a onClick={exportToCSV}>
+                <BasicButton text={"Export to EXCEL"} />
+              </a>
               <Link to="/addschool">
                 <BasicButton text={"Create New School"} />
               </Link>
@@ -253,7 +358,7 @@ const ManageSchool = () => {
             </div>
 
             <DataTable
-              rows={schoolRow}
+              rows={returnRowData()}
               checkbox={false}
               Tablecolumns={Tablecolumns}
               tableName="ManageSchool"

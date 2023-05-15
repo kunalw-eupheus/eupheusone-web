@@ -35,7 +35,7 @@ const DialogSlide7 = React.forwardRef((props, ref) => {
   const [schlName, setSchlName] = useState("");
   const [loading, setLoading] = useState(false);
   const [errMessage, setErrMessage] = useState("");
-  const [name, setName] = useState("")
+  const [name, setName] = useState("");
 
   const navigate = useNavigate();
 
@@ -115,8 +115,8 @@ const DialogSlide7 = React.forwardRef((props, ref) => {
       setGrade(res.data.message);
       //   console.log(res.data.message);
     };
-    getAllSeries();
-    getAllGrade();
+    // getAllSeries();
+    // getAllGrade();
   }, []);
 
   const snackbarRef = useRef();
@@ -216,7 +216,7 @@ const DialogSlide7 = React.forwardRef((props, ref) => {
   };
 
   const createData = async () => {
-    let invArr = props.invoiceArr
+    let invArr = props.invoiceArr;
     let postData = {
       name: name,
       invoice: invArr,
@@ -233,11 +233,11 @@ const DialogSlide7 = React.forwardRef((props, ref) => {
     });
     //   setLoading(false);
     console.log(res);
-    let url = res.data.message
-    window.open(url) || window.location.assign(url)
+    let url = res.data.message;
+    window.open(url) || window.location.assign(url);
 
     setOpen(false);
-    window.location.reload(false)
+    window.location.reload(false);
     // navigate("/gatepass_dashboard");
   };
 
@@ -300,7 +300,7 @@ const DialogSlide7 = React.forwardRef((props, ref) => {
 
             <TextField
               className="!w-[500px]"
-            //   required
+              //   required
               label="Selected Invoice"
               variant="standard"
               type={"text"}
@@ -317,7 +317,7 @@ const DialogSlide7 = React.forwardRef((props, ref) => {
           {/* <Button onClick={handleClose}>Cancle</Button> */}
           <div
             onClick={() => {
-            //   console.log(schlName.length);
+              //   console.log(schlName.length);
               if (name.length === 0) {
                 // console.log("error");
                 setSnackbarErrStatus(true);

@@ -17,32 +17,13 @@ const ManageOrder = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [highLight, setHighLight] = useState("manageOrder");
   const [orderData, setOrderData] = useState([]);
-  const [orderNum, setOrderNum] = useState(0);
+  // const [orderNum, setOrderNum] = useState(0);
   const sidebarRef = useRef();
 
   const navInfo = {
     title: "Manage Order",
     details: ["Home", " / Manage Order"],
   };
-
-  const Tablecolumns = [
-    { field: "SchoolName", headerName: "School Name", width: 300 },
-    {
-      field: "City",
-      headerName: "City",
-      width: 180,
-    },
-    {
-      field: "State",
-      headerName: "State",
-      width: 120,
-    },
-    {
-      field: "Address",
-      headerName: "Address",
-      width: 350,
-    },
-  ];
 
   const handleSidebarCollapsed = () => {
     // setSidebarCollapsed(!sidebarCollapsed);
@@ -59,7 +40,7 @@ const ManageOrder = () => {
         },
       });
       console.log(data.data);
-      setOrderNum(data.data.message.length);
+      // setOrderNum(data.data.message.length);
       setOrderData(data.data.message);
     };
     getOrderData();

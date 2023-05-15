@@ -163,15 +163,15 @@ const DialogSlide6 = React.forwardRef((props, ref) => {
       setGrade(res.data.message);
       //   console.log(res.data.message);
     };
-    getAllSeries();
-    getAllGrade();
+    // getAllSeries();
+    // getAllGrade();
   }, []);
 
   const snackbarRef = useRef();
 
   React.useImperativeHandle(ref, () => ({
     openDialog() {
-        getDetails();
+      getDetails();
       setOpen(true);
     },
   }));
@@ -249,7 +249,7 @@ const DialogSlide6 = React.forwardRef((props, ref) => {
         fullWidth
       >
         {/* <DialogTitle className="!bg-gray-500 text-white"> */}
-          {/* <div
+        {/* <div
             onClick={() => {
               getInvoiceDetails();
             }}

@@ -4,7 +4,7 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
-import DialogTitle from '@mui/material/DialogTitle';
+import DialogTitle from "@mui/material/DialogTitle";
 import Slide from "@mui/material/Slide";
 import SearchDropDown from "../SearchDropDown";
 import BasicTextFields from "./TextField";
@@ -38,27 +38,26 @@ const DialogSlide = React.forwardRef((props, ref) => {
       total: "",
       mrp: "",
       quantity: "",
-      noOfSchool: ""
+      noOfSchool: "",
     },
     validate: () => {},
     onSubmit: async (values) => {
       console.log(values);
 
-      if(!values.noOfSchool.length){
+      if (!values.noOfSchool.length) {
         // console.log("first")
-        setSnackbarErrStatus(true)
-        setSnackbarMsg('Enter a value');
+        setSnackbarErrStatus(true);
+        setSnackbarMsg("Enter a value");
         snackbarRef.current.openSnackbar();
-      }else{
+      } else {
         // console.log("second")
-        setSnackbarErrStatus(false)
-        setSnackbarMsg('No of school added');
+        setSnackbarErrStatus(false);
+        setSnackbarMsg("No of school added");
         snackbarRef.current.openSnackbar();
         setOpen(false);
         // setTimeout(() => {
         //   window.location.reload();
         // }, 1000);
-        
       }
       // const res = await instance({
       //   url: `projections/create`,
@@ -103,8 +102,8 @@ const DialogSlide = React.forwardRef((props, ref) => {
       setGrade(res.data.message);
       //   console.log(res.data.message);
     };
-    getAllSeries();
-    getAllGrade();
+    // getAllSeries();
+    // getAllGrade();
   }, []);
 
   const snackbarRef = useRef();
@@ -148,7 +147,7 @@ const DialogSlide = React.forwardRef((props, ref) => {
         setTotal(mrp * value);
         break;
       case "No. of School":
-        console.log(value)
+        console.log(value);
         formik.values.noOfSchool = value;
         break;
       default:
@@ -177,7 +176,9 @@ const DialogSlide = React.forwardRef((props, ref) => {
         maxWidth={"md"}
         fullWidth
       >
-        <DialogTitle className="!bg-gray-500">Enter number of Schools</DialogTitle>
+        <DialogTitle className="!bg-gray-500">
+          Enter number of Schools
+        </DialogTitle>
         <DialogContent className="!bg-gray-500 flex justify-center items-center">
           <DialogContentText
             id="alert-dialog-slide-description"

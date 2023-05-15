@@ -30,13 +30,10 @@ const ManageSchoolTraining = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [highLight, setHighLight] = useState("manageSchool");
   const [loading, setLoading] = useState(false);
-  const [state, setState] = useState({ state: "", type: "" });
   const [stateId, setStateId] = useState("");
   const [type, setType] = useState("");
   const sidebarRef = useRef();
   const [states, setStates] = useState([]);
-  // const [type, setType] = useState([]);
-  const [city, setCity] = useState({ disable: true });
   const [schoolRow, setSchoolRow] = useState([]);
   const [searchVal, setSearchVal] = useState("");
   const [searchRow, setSearchRow] = useState([]);
@@ -175,19 +172,6 @@ const ManageSchoolTraining = () => {
       default:
         break;
     }
-  };
-
-  const getCity = async (Id) => {
-    setLoading(true);
-    const res = await instance({
-      url: `location/city/${Id}`,
-      method: "GET",
-      headers: {
-        Authorization: `${Cookies.get("accessToken")}`,
-      },
-    });
-    setCity(res.data.message);
-    setLoading(false);
   };
 
   useLayoutEffect(() => {

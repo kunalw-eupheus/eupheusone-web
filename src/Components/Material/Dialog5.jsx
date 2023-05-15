@@ -111,8 +111,8 @@ const DialogSlide2 = React.forwardRef((props, ref) => {
       setGrade(res.data.message);
       //   console.log(res.data.message);
     };
-    getAllSeries();
-    getAllGrade();
+    // getAllSeries();
+    // getAllGrade();
   }, []);
 
   const snackbarRef = useRef();
@@ -238,18 +238,18 @@ const DialogSlide2 = React.forwardRef((props, ref) => {
           Do you want to convert?
         </DialogTitle>
         {/* <DialogContent className="!bg-gray-500 flex justify-center items-center"> */}
-          {/* <DialogContentText
+        {/* <DialogContentText
             id="alert-dialog-slide-description"
             className="!text-gray-600 !sm:text-base !text-sm grid sm:grid-cols-2 grid-cols-1 sm:gap-8 gap-6"
           > */}
-            {/* <SearchDropDown
+        {/* <SearchDropDown
               label={"Select Series"}
               color={"rgb(243, 244, 246)"}
               data={series}
               Name={"series_name"}
               handleOrderProcessingForm={handleProjectionForm}
             /> */}
-            {/* <SearchDropDown
+        {/* <SearchDropDown
               label={"Select Grade"}
               color={"rgb(243, 244, 246)"}
               handleOrderProcessingForm={handleProjectionForm}
@@ -257,7 +257,7 @@ const DialogSlide2 = React.forwardRef((props, ref) => {
               multiple={true}
               Name={"grades"}
             /> */}
-            {/* <TextField
+        {/* <TextField
               required
               label="School Code"
               variant="standard"
@@ -268,7 +268,7 @@ const DialogSlide2 = React.forwardRef((props, ref) => {
               onBlur={(newValue) => getSchoolName(newValue.target.value)}
             /> */}
 
-            {/* <TextField
+        {/* <TextField
               className="!w-[300px]"
               required
               label="School Name"
@@ -283,7 +283,7 @@ const DialogSlide2 = React.forwardRef((props, ref) => {
               //     handleProjectionForm("newValue", "School Name")
               //   }
             /> */}
-          {/* </DialogContentText> */}
+        {/* </DialogContentText> */}
         {/* </DialogContent> */}
         <DialogActions className="!bg-gray-500">
           {/* <Button onClick={() => handleButtonClick()}>Ok</Button> */}
@@ -291,14 +291,14 @@ const DialogSlide2 = React.forwardRef((props, ref) => {
           <div
             onClick={() => {
               console.log(props);
-            //   if (schlName.length === 0) {
-            //     console.log("error");
-            //     setSnackbarErrStatus(true);
-            //     setErrMessage("Please Enter All the Fields");
-            //     snackbarRef.current.openSnackbar();
-            //   } else {
-            //     handleUpadateInvoice();
-            //   }
+              //   if (schlName.length === 0) {
+              //     console.log("error");
+              //     setSnackbarErrStatus(true);
+              //     setErrMessage("Please Enter All the Fields");
+              //     snackbarRef.current.openSnackbar();
+              //   } else {
+              //     handleUpadateInvoice();
+              //   }
             }}
           >
             <BasicButton text={"Yes"} />
@@ -306,16 +306,16 @@ const DialogSlide2 = React.forwardRef((props, ref) => {
 
           <div
             onClick={() => {
-                setOpen(false);
-            //   console.log(schlName.length);
-            //   if (schlName.length === 0) {
-            //     console.log("error");
-            //     setSnackbarErrStatus(true);
-            //     setErrMessage("Please Enter All the Fields");
-            //     snackbarRef.current.openSnackbar();
-            //   } else {
-            //     handleUpadateInvoice();
-            //   }
+              setOpen(false);
+              //   console.log(schlName.length);
+              //   if (schlName.length === 0) {
+              //     console.log("error");
+              //     setSnackbarErrStatus(true);
+              //     setErrMessage("Please Enter All the Fields");
+              //     snackbarRef.current.openSnackbar();
+              //   } else {
+              //     handleUpadateInvoice();
+              //   }
             }}
           >
             <BasicButton text={"No"} />
