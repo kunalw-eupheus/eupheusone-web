@@ -7,17 +7,16 @@ import JSZip from "jszip";
 import SearchDropDown from "../Components/SearchDropDown";
 import SwipeableTemporaryDrawer from "../Components/Material/MaterialSidebar";
 import instance from "../Instance";
-import { useLayoutEffect } from "react";
 import Cookies from "js-cookie";
 import BasicButton from "../Components/Material/Button";
 import { Backdrop, CircularProgress } from "@mui/material";
 import TextField from "@mui/material/TextField";
 
-import { useNavigate } from "react-router-dom";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { Stack } from "@mui/system";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
+import axios from "axios";
 
 const ViewInvoiceDouble = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
@@ -49,7 +48,18 @@ const ViewInvoiceDouble = () => {
     setEndDate(newValue);
   };
 
+  const test = async () => {
+    await axios.get(
+      "https://eupheus-one.s3.ap-south-1.amazonaws.com/docprint/invoice/inv_52479_2021-06-14_1684738081528.pdf",
+      {
+        headers: {
+          "content-type": "application/pdf",
+        },
+      }
+    );
+  };
   useEffect(() => {
+    test();
     getCustomers();
     const handleWidth = () => {
       if (window.innerWidth > 1024) {
@@ -204,7 +214,7 @@ const ViewInvoiceDouble = () => {
         />
         <div className="min-h-[100vh] pt-[2vh] max-h-full bg-[#141728]">
           <div className=" sm:px-8 px-2 py-3 bg-[#141728]">
-            <div className=" py-10 grid grid-cols-2 grid-rows-2 md:flex md:justify-around md:items-center px-6 mb-8 py-3 mt-6 gap-6 rounded-md bg-slate-600">
+            <div className=" py-10 grid grid-cols-2 grid-rows-2 md:flex md:justify-around md:items-center px-6 mb-8 mt-6 gap-6 rounded-md bg-slate-600">
               <div className="flex flex-col gap-2 w-full md:w-[20vw]">
                 <SearchDropDown
                   label={"Select Customer"}

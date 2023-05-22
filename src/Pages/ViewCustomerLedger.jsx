@@ -50,15 +50,13 @@ const ViewCustomerLedger = () => {
   const [bpCode, setBpCode] = useState(null);
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
- 
+
   const navigate = useNavigate();
 
   const navInfo = {
     title: "Doc Print",
     details: ["Home", " / Doc Print", "/ Ledger"],
   };
-
-
 
   const handleSidebarCollapsed = () => {
     sidebarRef.current.openSidebar();
@@ -103,14 +101,13 @@ const ViewCustomerLedger = () => {
   };
 
   const handlePDF = async () => {
-    if(!startDate || !endDate || !bpCode) alert("All fields are needed") 
+    if (!startDate || !endDate || !bpCode) alert("All fields are needed");
     let strtMonth = startDate.$M + 1;
     if (strtMonth < 10) strtMonth = `0${strtMonth}`;
     let strtDay = startDate.$D;
     if (strtDay < 10) strtDay = `0${strtDay}`;
     let strtYr = startDate.$y;
     let strtDte = `${strtYr}-${strtMonth}-${strtDay}`;
-    
 
     let endMonth = endDate.$M + 1;
     if (endMonth < 10) endMonth = `0${endMonth}`;
@@ -120,9 +117,9 @@ const ViewCustomerLedger = () => {
     let endYr = endDate.$y;
     let endDte = `${endYr}-${endMonth}-${endDay}`;
 
-    console.log("startDate= ",strtDte);
-    console.log("endDate= ",endDte);
-    console.log("bpCode= ",bpCode);
+    console.log("startDate= ", strtDte);
+    console.log("endDate= ", endDte);
+    console.log("bpCode= ", bpCode);
 
     let postdata = {
       bpcode: bpCode,
@@ -148,8 +145,7 @@ const ViewCustomerLedger = () => {
     //   window.open(downloadUrl);
     // }
 
-
-     const res = await instance({
+    const res = await instance({
       url: `doc_print/ledger/getpdf`,
       method: "post",
       data: postdata,
@@ -160,20 +156,16 @@ const ViewCustomerLedger = () => {
     // setLoading(false);
 
     // console.log(res.data.message)
-    let downloadUrl = res.data.message
+    let downloadUrl = res.data.message;
     // console.log(downloadUrl)
 
     // console.log(`/cust_ledger/${bpCode}/${strtDte}/${endDte}`)
     // navigate(`/cust_ledger/${bpCode}/${strtDte}/${endDte}`)
     // window.open(`/cust_ledger/${bpCode}/${strtDte}/${endDte}`, '_blank', 'noreferrer')
-    window.open(downloadUrl) || window.location.assign(downloadUrl)
+    window.open(downloadUrl) || window.location.assign(downloadUrl);
 
     setLoading(false);
   };
-
-
-
- 
 
   const handleOrderProcessingForm = async (value, type) => {
     // console.log(value, type);
@@ -208,18 +200,10 @@ const ViewCustomerLedger = () => {
     }
   };
 
- 
-
   useLayoutEffect(() => {
-
     // getStates();
-
     // getSchoolData();
   }, []);
-
-
-
-
 
   return (
     <div className="flex bg-[#111322]">
@@ -251,7 +235,7 @@ const ViewCustomerLedger = () => {
         />
         <div className="min-h-[100vh] pt-[2vh] max-h-full bg-[#141728]">
           <div className=" sm:px-8 px-2 py-3 bg-[#141728]">
-            <div className=" py-10 grid grid-cols-2 grid-rows-2 md:flex md:justify-around md:items-center px-6 mb-8 py-3 mt-6 gap-6 rounded-md bg-slate-600">
+            <div className="py-10 grid grid-cols-2 grid-rows-2 md:flex md:justify-around md:items-center px-6 mb-8 mt-6 gap-6 rounded-md bg-slate-600">
               {/* <div className="flex flex-col gap-2 w-full md:w-[20vw]">
                 <label className="text-gray-100">Type</label>
 
