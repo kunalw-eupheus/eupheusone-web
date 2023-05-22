@@ -1,10 +1,114 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import eupheusLogo from "./eupheusLogo.png";
 import "./CreditNote.css";
+import axios from "axios";
 
 const CreditNote = () => {
+  const [tableData, setTableData] = useState([]);
+  const [billToGst, setBillToGst] = useState("");
+  const [boxes, setBoxes] = useState("");
+  const [curr, setCurr] = useState("");
+  const [docDate, setDocDate] = useState("");
+  const [LrNo, setLrNo] = useState("");
+  const [pmntTerms, setPmntTerms] = useState("");
+  const [refDate, setRefDate] = useState("");
+  const [refNo, setRefNo] = useState("");
+  const [shipsTo, setShipsTo] = useState("");
+  const [shipsToMobile, setShipsToMobile] = useState("");
+  const [shipsToState, setShipsToState] = useState("");
+  const [shipsToStateCode, setShipsToStateCode] = useState("");
+  const [uGrno, setUgrno] = useState("");
+  const [cIn, setCin] = useState("");
+  const [remarks, setRemarks] = useState("");
+  const [taxAmount, setTaxAmount] = useState("");
+  const [totalAmnt, setTotalAmnt] = useState("");
+  const [billToName, setBillToName] = useState("");
+  const [billToAdd, setBillToAdd] = useState("");
+
+  useEffect(() => {
+    getAllData();
+  }, []);
+
+  const getAllData = async () => {
+    const res = await axios
+      .post(
+        `https://sapsync.eupheusapp.com/api/doc_print/credit/detail`,
+        {
+          doc_date: "2023-05-09",
+          doc_num: 30092,
+        },
+        {
+          headers: {
+            accesskey: `mrh7SQtemWATULtxlu3H34hqXBjwq7xM`,
+          },
+        }
+      )
+      .catch((e) => {
+        console.log(e.message);
+      });
+
+    console.log(res);
+
+    // console.log(bp, todate, fromdate);
+
+    // const res = await instance({
+    //   url: `doc_print/ledger/getdata`,
+    //   method: "post",
+    //   data: {
+    //     bpcode: bp,
+    //     todate:  fromdate,
+    //     fromdate: todate,
+    //   },
+    //   headers: {
+    //     // Authorization: Cookies.get("accessToken"),
+    //     // accesskey: `auth74961a98ba76d4e4`,
+    //     accesskey: `auth0026c3956e3d0fba`
+    //   },
+    // });
+
+    let tblData = res.data.items;
+    for (let obj of tblData) {
+      obj.PRICE = "" + obj.PRICE + ".00";
+      obj.DiscPrcnt = "" + obj.DiscPrcnt + ".00";
+      obj.amount = "" + obj.amount + ".00";
+      obj.CGSTRATE = "" + obj.CGSTRATE + ".00";
+      obj.CGSTAMNT = "" + obj.CGSTAMNT + ".00";
+      obj.SGSTRATE = "" + obj.SGSTRATE + ".00";
+      obj.SGSTAMNT = "" + obj.SGSTAMNT + ".00";
+      obj.IGSTAMNT = "" + obj.IGSTAMNT + ".00";
+      obj.IGSTRATE = "" + obj.IGSTRATE + ".00";
+    }
+    setTableData(tblData);
+
+    let msgData = res.data.message[0];
+    console.log(msgData);
+    setBillToGst(msgData.Bill_to_GST_No);
+    setBoxes(msgData.Boxes);
+    setCurr(msgData.CUR);
+    setDocDate(msgData.DOCDATE);
+    setLrNo(msgData.LRNo);
+    setPmntTerms(msgData.Payment_Terms);
+    setRefDate(msgData.Reference_Date);
+    setRefNo(msgData.Reference_No);
+    setShipsTo(msgData.SHIP_TO);
+    setShipsToMobile(msgData.SHIP_TO_MOBILE);
+    setShipsToState(msgData.SHIP_TO_STATE_NAME);
+    setShipsToStateCode(msgData.SHIP_TO_STATE_CODE);
+    setUgrno(msgData.U_GRNO);
+    setCin(msgData.cin);
+    setRemarks(msgData.remarks);
+    let taxAmnt = "" + msgData.tax_amount + ".00";
+    setTaxAmount(taxAmnt);
+    let totl = "" + msgData.total + ".00";
+    setTotalAmnt(totl);
+    let billToName = msgData.bill_to[0];
+    setBillToName(billToName);
+    let billToAdd = msgData.bill_to[1];
+    setBillToAdd(billToAdd);
+    // console.log(billToAdd);
+  };
   return (
-    <div >
+    <div className="bg-white">
       <p style={{ textIndent: "0pt", textAlign: "left" }}>
         <span />
       </p>
@@ -18,9 +122,11 @@ const CreditNote = () => {
               <p
                 style={{
                   paddingTop: "4pt",
-                  paddingLeft: "239pt",
+                  paddingLeft: "20pt",
                   textIndent: "0pt",
                   textAlign: "left",
+                  fontSize: "13pt",
+                  // fontWeight: "bold",
                 }}
               >
                 Proficiency Learning Solutions Pvt Ltd
@@ -28,9 +134,10 @@ const CreditNote = () => {
               <p
                 style={{
                   paddingTop: "5pt",
-                  paddingLeft: "239pt",
+                  paddingLeft: "20pt",
                   textIndent: "0pt",
                   textAlign: "left",
+                  fontSize: "10pt",
                 }}
               >
                 Main Mathura Road A-12 2nd Floor,Mohan Cooperative Industrial
@@ -66,6 +173,7 @@ const CreditNote = () => {
               <p
                 className="s1"
                 style={{
+                  paddingTop: "5pt",
                   paddingLeft: "220pt",
                   paddingRight: "267pt",
                   textIndent: "0pt",
@@ -92,8 +200,9 @@ const CreditNote = () => {
               rowSpan={3}
             >
               <p
-                className="s2"
+                className="s5"
                 style={{
+                  paddingTop: "3pt",
                   paddingLeft: "5pt",
                   textIndent: "0pt",
                   textAlign: "left",
@@ -110,43 +219,23 @@ const CreditNote = () => {
                   paddingLeft: "5pt",
                   textIndent: "0pt",
                   textAlign: "left",
+                  fontSize: "10pt",
                 }}
               >
-                MKK Enterprises
+                {billToName}
               </p>
               <p
                 className="s4"
                 style={{
                   paddingTop: "1pt",
                   paddingLeft: "5pt",
-                  textIndent: "0pt",
-                  lineHeight: "8pt",
+                  textIndent: "2pt",
                   textAlign: "left",
+                  fontSize: "10pt",
                 }}
               >
-                F-2/13 Ratiya Marg Sangam Vihar,MKK Enterprises,
-              </p>
-              <p
-                className="s4"
-                style={{
-                  paddingLeft: "5pt",
-                  textIndent: "0pt",
-                  lineHeight: "8pt",
-                  textAlign: "left",
-                }}
-              >
-                ,
-              </p>
-              <p
-                className="s4"
-                style={{
-                  paddingLeft: "5pt",
-                  paddingRight: "105pt",
-                  textIndent: "0pt",
-                  textAlign: "left",
-                }}
-              >
-                New Delhi - 110080 Delhi - INDIA
+                {/* F-2/13 Ratiya Marg Sangam Vihar,MKK Enterprises, */}
+                {billToAdd}
               </p>
             </td>
             <td
@@ -170,6 +259,7 @@ const CreditNote = () => {
                   textIndent: "0pt",
                   lineHeight: "9pt",
                   textAlign: "left",
+                  paddingTop: "7pt",
                 }}
               >
                 Sales Credit Invoice No.
@@ -180,9 +270,10 @@ const CreditNote = () => {
                   paddingLeft: "22pt",
                   textIndent: "0pt",
                   textAlign: "left",
+                  marginTop: "3pt",
                 }}
               >
-                CN / 31581 CN/31581/21-22
+                Test- CN / 31581 CN/31581/21-22
               </p>
             </td>
             <td
@@ -204,6 +295,7 @@ const CreditNote = () => {
                   textIndent: "0pt",
                   lineHeight: "9pt",
                   textAlign: "left",
+                  paddingTop: "7pt",
                 }}
               >
                 Dated
@@ -217,7 +309,7 @@ const CreditNote = () => {
                   textAlign: "left",
                 }}
               >
-                14/12/2021
+                {docDate}
               </p>
             </td>
           </tr>
@@ -243,9 +335,22 @@ const CreditNote = () => {
                   textIndent: "0pt",
                   lineHeight: "9pt",
                   textAlign: "left",
+                  paddingTop: "7pt",
                 }}
               >
                 Challan No.
+              </p>
+              <p
+                className="s6"
+                style={{
+                  marginTop: "3pt",
+                  paddingLeft: "23pt",
+                  textIndent: "0pt",
+                  lineHeight: "11pt",
+                  textAlign: "left",
+                }}
+              >
+                Test
               </p>
             </td>
             <td
@@ -267,9 +372,22 @@ const CreditNote = () => {
                   textIndent: "0pt",
                   lineHeight: "9pt",
                   textAlign: "left",
+                  paddingTop: "7pt",
                 }}
               >
                 Mode/Terms of Payment
+              </p>
+              <p
+                className="s6"
+                style={{
+                  marginTop: "3pt",
+                  paddingLeft: "34pt",
+                  textIndent: "0pt",
+                  lineHeight: "11pt",
+                  textAlign: "left",
+                }}
+              >
+                {pmntTerms}
               </p>
             </td>
           </tr>
@@ -293,6 +411,7 @@ const CreditNote = () => {
                   textIndent: "0pt",
                   lineHeight: "9pt",
                   textAlign: "left",
+                  paddingTop: "7pt",
                 }}
               >
                 Reference No.
@@ -315,6 +434,7 @@ const CreditNote = () => {
                   textIndent: "0pt",
                   lineHeight: "9pt",
                   textAlign: "left",
+                  paddingTop: "7pt",
                 }}
               >
                 Reference Date
@@ -356,7 +476,7 @@ const CreditNote = () => {
                   textAlign: "left",
                 }}
               >
-                RI/52941/20-21
+                {refNo}
               </p>
             </td>
             <td
@@ -377,7 +497,7 @@ const CreditNote = () => {
                   textAlign: "left",
                 }}
               >
-                25-Feb-2021
+                {refDate}
               </p>
             </td>
           </tr>
@@ -396,7 +516,7 @@ const CreditNote = () => {
               rowSpan={2}
             >
               <p
-                className="s2"
+                className="s5"
                 style={{
                   paddingLeft: "5pt",
                   textIndent: "0pt",
@@ -404,6 +524,18 @@ const CreditNote = () => {
                 }}
               >
                 GSTIN Number :
+              </p>
+              <p
+                className="s6"
+                style={{
+                  paddingTop: "3pt",
+                  paddingLeft: "5pt",
+                  textIndent: "0pt",
+                  lineHeight: "11pt",
+                  textAlign: "left",
+                }}
+              >
+                {billToGst}
               </p>
             </td>
             <td
@@ -459,9 +591,22 @@ const CreditNote = () => {
                   textIndent: "0pt",
                   lineHeight: "9pt",
                   textAlign: "left",
+                  paddingTop: "5pt",
                 }}
               >
                 Order No.
+              </p>
+              <p
+                className="s6"
+                style={{
+                  marginTop: "3pt",
+                  paddingLeft: "23pt",
+                  textIndent: "0pt",
+                  lineHeight: "11pt",
+                  textAlign: "left",
+                }}
+              >
+                Test
               </p>
             </td>
             <td
@@ -483,9 +628,22 @@ const CreditNote = () => {
                   textIndent: "0pt",
                   lineHeight: "9pt",
                   textAlign: "left",
+                  paddingTop: "5pt",
                 }}
               >
                 Dated
+              </p>
+              <p
+                className="s6"
+                style={{
+                  marginTop: "3pt",
+                  paddingLeft: "34pt",
+                  textIndent: "0pt",
+                  lineHeight: "11pt",
+                  textAlign: "left",
+                }}
+              >
+                Test
               </p>
             </td>
           </tr>
@@ -503,7 +661,7 @@ const CreditNote = () => {
               colSpan={5}
             >
               <p
-                className="s2"
+                className="s5"
                 style={{
                   paddingTop: "1pt",
                   paddingLeft: "5pt",
@@ -529,14 +687,27 @@ const CreditNote = () => {
               <p
                 className="s5"
                 style={{
-                  paddingTop: "1pt",
+                  // paddingTop: "1pt",
                   paddingLeft: "23pt",
                   textIndent: "0pt",
                   lineHeight: "10pt",
                   textAlign: "left",
+                  marginTop: "7pt",
                 }}
               >
                 Dispatch Doc No.
+              </p>
+              <p
+                className="s6"
+                style={{
+                  marginTop: "5pt",
+                  paddingLeft: "23pt",
+                  textIndent: "0pt",
+                  lineHeight: "11pt",
+                  textAlign: "left",
+                }}
+              >
+                Test
               </p>
             </td>
             <td
@@ -552,14 +723,27 @@ const CreditNote = () => {
               <p
                 className="s5"
                 style={{
-                  paddingTop: "1pt",
+                  // paddingTop: "1pt",
                   paddingLeft: "34pt",
                   textIndent: "0pt",
                   lineHeight: "10pt",
                   textAlign: "left",
+                  marginTop: "7pt",
                 }}
               >
                 Motor Vehicle No.
+              </p>
+              <p
+                className="s6"
+                style={{
+                  marginTop: "5pt",
+                  paddingLeft: "33pt",
+                  textIndent: "0pt",
+                  lineHeight: "11pt",
+                  textAlign: "left",
+                }}
+              >
+                Test
               </p>
             </td>
           </tr>
@@ -580,6 +764,7 @@ const CreditNote = () => {
                   paddingLeft: "5pt",
                   textIndent: "0pt",
                   textAlign: "left",
+                  fontSize: "10pt",
                 }}
               >
                 MKK Enterprises
@@ -631,11 +816,13 @@ const CreditNote = () => {
                   paddingLeft: "5pt",
                   textIndent: "2pt",
                   textAlign: "left",
+                  fontSize: "10pt",
                 }}
               >
-                F-2/13 Ratiya Marg Sangam Vihar New Delhi,MKK Enterprises,
+                {/* F-2/13 Ratiya Marg Sangam Vihar New Delhi,MKK Enterprises, */}
+                {shipsTo}
               </p>
-              <p
+              {/* <p
                 className="s4"
                 style={{
                   paddingLeft: "5pt",
@@ -645,19 +832,19 @@ const CreditNote = () => {
                 }}
               >
                 ,
-              </p>
-              <p
+              </p> */}
+              {/* <p
                 className="s4"
                 style={{
                   paddingLeft: "5pt",
-                  paddingRight: "120pt",
+                  paddingRight: "105pt",
                   textIndent: "0pt",
-                  lineHeight: "8pt",
                   textAlign: "left",
+                  fontSize: "10pt",
                 }}
               >
-                Delhi - 110080 Delhi - INDIA
-              </p>
+                New Delhi - 110080 Delhi - INDIA
+              </p> */}
             </td>
             <td
               style={{
@@ -712,6 +899,7 @@ const CreditNote = () => {
                   textIndent: "0pt",
                   lineHeight: "9pt",
                   textAlign: "left",
+                  paddingTop: "7pt",
                 }}
               >
                 Transporter Name
@@ -725,7 +913,7 @@ const CreditNote = () => {
                   textAlign: "left",
                 }}
               >
-                By Hand Sumit Goyal
+                Test- By Hand Sumit Goyal
               </p>
             </td>
             <td
@@ -747,7 +935,8 @@ const CreditNote = () => {
                   paddingRight: "81pt",
                   textIndent: "0pt",
                   lineHeight: "9pt",
-                  textAlign: "center",
+                  // textAlign: "center",
+                  paddingTop: "7pt",
                 }}
               >
                 Number of Boxes
@@ -756,13 +945,13 @@ const CreditNote = () => {
                 className="s6"
                 style={{
                   paddingTop: "7pt",
-                  paddingLeft: "31pt",
+                  paddingLeft: "34pt",
                   paddingRight: "81pt",
                   textIndent: "0pt",
-                  textAlign: "center",
+                  // textAlign: "left",
                 }}
               >
-                loose
+                {boxes}
               </p>
             </td>
           </tr>
@@ -778,15 +967,16 @@ const CreditNote = () => {
               colSpan={5}
             >
               <p
-                className="s2"
+                className="s5"
                 style={{
                   paddingTop: "4pt",
                   paddingLeft: "5pt",
                   textIndent: "0pt",
                   textAlign: "left",
+                  // fontSize: "8pt",
                 }}
               >
-                State Code : <span className="s4">07</span>
+                State Code : <span className="s6">{shipsToStateCode}</span>
               </p>
             </td>
             <td
@@ -808,6 +998,7 @@ const CreditNote = () => {
                   textIndent: "0pt",
                   lineHeight: "9pt",
                   textAlign: "left",
+                  paddingTop: "7pt",
                 }}
               >
                 Bill of Ladding/LR-RR No.
@@ -830,6 +1021,7 @@ const CreditNote = () => {
                   textIndent: "0pt",
                   lineHeight: "9pt",
                   textAlign: "left",
+                  paddingTop: "7pt",
                 }}
               >
                 GR Date
@@ -848,7 +1040,7 @@ const CreditNote = () => {
               colSpan={5}
             >
               <p
-                className="s2"
+                className="s5"
                 style={{
                   paddingTop: "1pt",
                   paddingLeft: "5pt",
@@ -856,7 +1048,7 @@ const CreditNote = () => {
                   textAlign: "left",
                 }}
               >
-                State Name : <span className="s4">DELHI</span>
+                State Name : <span className="s6">{shipsToState}</span>
               </p>
             </td>
             <td
@@ -879,7 +1071,7 @@ const CreditNote = () => {
                   textAlign: "left",
                 }}
               >
-                By Hand Sumit Goyal
+                {LrNo}
               </p>
             </td>
             <td
@@ -900,7 +1092,7 @@ const CreditNote = () => {
                   textAlign: "left",
                 }}
               >
-                09/12/2021
+                Test-09/12/2021
               </p>
             </td>
           </tr>
@@ -919,14 +1111,14 @@ const CreditNote = () => {
               rowSpan={2}
             >
               <p
-                className="s2"
+                className="s5"
                 style={{
                   paddingLeft: "5pt",
                   textIndent: "0pt",
                   textAlign: "left",
                 }}
               >
-                Mobile : <span className="s4">9582400777</span>
+                Mobile : <span className="s6">{shipsToMobile}</span>
               </p>
             </td>
             <td
@@ -973,8 +1165,6 @@ const CreditNote = () => {
               }}
               colSpan={12}
             >
-
-            
               <p
                 className="s7"
                 style={{
@@ -1006,7 +1196,7 @@ const CreditNote = () => {
               <p
                 className="s8"
                 style={{
-                  paddingTop: "2pt",
+                  paddingTop: "8pt",
                   paddingLeft: "1pt",
                   textIndent: "0pt",
                   textAlign: "left",
@@ -1037,6 +1227,7 @@ const CreditNote = () => {
                   textIndent: "0pt",
                   lineHeight: "8pt",
                   textAlign: "center",
+                  paddingTop: "8pt",
                 }}
               >
                 HSN/SAC
@@ -1075,6 +1266,7 @@ const CreditNote = () => {
                   paddingRight: "16pt",
                   textIndent: "-13pt",
                   textAlign: "left",
+                  paddingTop: "8pt",
                 }}
               >
                 Description of Goods
@@ -1102,6 +1294,7 @@ const CreditNote = () => {
                   textIndent: "0pt",
                   lineHeight: "8pt",
                   textAlign: "left",
+                  paddingTop: "8pt",
                 }}
               >
                 Quantity
@@ -1124,10 +1317,11 @@ const CreditNote = () => {
               <p
                 className="s2"
                 style={{
-                  paddingLeft: "9pt",
+                  paddingLeft: "5pt",
                   textIndent: "0pt",
                   lineHeight: "8pt",
                   textAlign: "left",
+                  paddingTop: "8pt",
                 }}
               >
                 Rate
@@ -1154,6 +1348,7 @@ const CreditNote = () => {
                   textIndent: "0pt",
                   lineHeight: "8pt",
                   textAlign: "left",
+                  paddingTop: "8pt",
                 }}
               >
                 Per
@@ -1176,10 +1371,11 @@ const CreditNote = () => {
               <p
                 className="s2"
                 style={{
-                  paddingLeft: "6pt",
+                  paddingLeft: "4pt",
                   textIndent: "0pt",
                   lineHeight: "8pt",
                   textAlign: "left",
+                  paddingTop: "8pt",
                 }}
               >
                 Disc
@@ -1218,6 +1414,7 @@ const CreditNote = () => {
                   textIndent: "0pt",
                   lineHeight: "8pt",
                   textAlign: "left",
+                  paddingTop: "8pt",
                 }}
               >
                 Amount
@@ -1240,10 +1437,10 @@ const CreditNote = () => {
               <p
                 className="s2"
                 style={{
-                  paddingTop: "1pt",
                   paddingLeft: "13pt",
                   textIndent: "0pt",
                   textAlign: "left",
+                  marginTop: "2pt",
                 }}
               >
                 CGST [INR]
@@ -1265,7 +1462,7 @@ const CreditNote = () => {
               <p
                 className="s2"
                 style={{
-                  paddingTop: "2pt",
+                  marginTop: "2pt",
                   paddingLeft: "23pt",
                   textIndent: "0pt",
                   textAlign: "left",
@@ -1288,13 +1485,12 @@ const CreditNote = () => {
               <p
                 className="s2"
                 style={{
-                  paddingTop: "1pt",
-                  paddingLeft: "24pt",
-                  textIndent: "0pt",
+                  marginTop: "2pt",
+                  paddingLeft: "20pt",
                   textAlign: "left",
                 }}
               >
-                IGST [INR]
+                IGST[INR]
               </p>
             </td>
           </tr>
@@ -1981,340 +2177,353 @@ const CreditNote = () => {
             </td>
           </tr> */}
 
-
-
-
-
-
-          <tr style={{ height: "15pt" }}>
-            <td
-              style={{
-                width: "18pt",
-                borderLeftStyle: "solid",
-                borderLeftWidth: "1pt",
-                borderRightStyle: "solid",
-                borderRightWidth: "1pt",
-              }}
-            >
-              <p
-                className="s10"
-                style={{
-                  paddingTop: "3pt",
-                  paddingLeft: "6pt",
-                  textIndent: "0pt",
-                  textAlign: "left",
-                }}
-              >
-                2
-              </p>
-            </td>
-            <td
-              style={{
-                paddingTop: "4pt",
-                width: "43pt",
-                borderLeftStyle: "solid",
-                borderLeftWidth: "1pt",
-                borderRightStyle: "solid",
-                borderRightWidth: "1pt",
-              }}
-            >
-              <p
-                className="s10"
-                style={{
-                  paddingLeft: "5pt",
-                  textIndent: "0pt",
-                  lineHeight: "7pt",
-                  textAlign: "left",
-                }}
-              >
-                49.01.99
-              </p>
-            </td>
-            <td
-              style={{
-                paddingTop: "2pt",
-                width: "83pt",
-                borderLeftStyle: "solid",
-                borderLeftWidth: "1pt",
-                borderRightStyle: "solid",
-                borderRightWidth: "1pt",
-              }}
-            >
-              <p
-                className="s10"
-                style={{
-                  paddingLeft: "5pt",
-                  textIndent: "0pt",
-                  lineHeight: "7pt",
-                  textAlign: "left",
-                }}
-              >
-                WOWMATCBSE07SP20
-              </p>
-              <p
-                className="s10"
-                style={{
-                  paddingLeft: "5pt",
-                  marginTop: "3pt",
-                  textIndent: "0pt",
-                  lineHeight: "6pt",
-                  textAlign: "left",
-                }}
-              >
-                /WOW! Mathematics -
-              </p>
-              <p
-                className="s10"
-                style={{
-                  paddingLeft: "5pt",
-                  marginTop: "3pt",
-                  textIndent: "0pt",
-                  lineHeight: "6pt",
-                  textAlign: "left",
-                }}
-              >
-                CBSE Book 7
-              </p>
-            </td>
-            <td
-              style={{
-                paddingTop: "4pt",
-                paddingTop: "4pt",
-                width: "55pt",
-                borderLeftStyle: "solid",
-                borderLeftWidth: "1pt",
-                borderRightStyle: "solid",
-                borderRightWidth: "1pt",
-              }}
-              colSpan={2}
-            >
-              <p
-                className="s10"
-                style={{
-                  paddingLeft: "19pt",
-                  paddingRight: "18pt",
-                  textIndent: "0pt",
-                  lineHeight: "7pt",
-                  textAlign: "center",
-                }}
-              >
-                60.00
-              </p>
-            </td>
-            <td
-              style={{
-                paddingTop: "4pt",
-                width: "36pt",
-                borderLeftStyle: "solid",
-                borderLeftWidth: "1pt",
-                borderRightStyle: "solid",
-                borderRightWidth: "1pt",
-              }}
-            >
-              <p
-                className="s10"
-                style={{
-                  textIndent: "0pt",
-                  lineHeight: "7pt",
-                  textAlign: "center",
-                }}
-              >
-                490.00
-              </p>
-            </td>
-            <td
-              style={{
-                paddingTop: "4pt",
-                width: "36pt",
-                borderLeftStyle: "solid",
-                borderLeftWidth: "1pt",
-                borderRightStyle: "solid",
-                borderRightWidth: "1pt",
-              }}
-            >
-              <p
-                className="s10"
-                style={{
-                  paddingLeft: "12pt",
-                  paddingRight: "10pt",
-                  textIndent: "0pt",
-                  lineHeight: "7pt",
-                  textAlign: "center",
-                }}
-              >
-                NOS
-              </p>
-            </td>
-            <td
-              style={{
-                paddingTop: "4pt",
-                width: "25pt",
-                borderLeftStyle: "solid",
-                borderLeftWidth: "1pt",
-                borderRightStyle: "solid",
-                borderRightWidth: "1pt",
-              }}
-            >
-              <p
-                className="s10"
-                style={{
-                  paddingRight: "1pt",
-                  textIndent: "0pt",
-                  lineHeight: "7pt",
-                  textAlign: "center",
-                }}
-              >
-                20.00
-              </p>
-            </td>
-            <td
-              style={{
-                width: "57pt",
-                borderLeftStyle: "solid",
-                borderLeftWidth: "1pt",
-                borderRightStyle: "solid",
-                borderRightWidth: "1pt",
-              }}
-              colSpan={2}
-            >
-              <p
-                className="s10"
-                style={{
+          {tableData.map((item) => {
+            return (
+              <tr style={{ height: "15pt" }}>
+                <td
+                  style={{
+                    width: "18pt",
+                    borderLeftStyle: "solid",
+                    borderLeftWidth: "1pt",
+                    borderRightStyle: "solid",
+                    borderRightWidth: "1pt",
+                  }}
+                >
+                  <p
+                    className="s10"
+                    style={{
+                      marginTop: "6pt",
+                      paddingLeft: "6pt",
+                      textIndent: "0pt",
+                      textAlign: "left",
+                    }}
+                  >
+                    2
+                  </p>
+                </td>
+                <td
+                  style={{
                     paddingTop: "4pt",
-                  paddingLeft: "20pt",
-                  textIndent: "0pt",
-                  lineHeight: "7pt",
-                  textAlign: "left",
-                }}
-              >
-                29,400.00
-              </p>
-            </td>
-            <td
-              style={{
-                width: "27pt",
-                borderLeftStyle: "solid",
-                borderLeftWidth: "1pt",
-                borderRightStyle: "solid",
-                borderRightWidth: "1pt",
-              }}
-              colSpan={2}
-            >
-              <p
-                className="s10"
-                style={{
-                  paddingTop: "2pt",
-                  paddingLeft: "11pt",
-                  textIndent: "0pt",
-                  textAlign: "left",
-                }}
-              >
-                0.00
-              </p>
-            </td>
-            <td
-              style={{
-                width: "35pt",
-                borderLeftStyle: "solid",
-                borderLeftWidth: "1pt",
-                borderRightStyle: "solid",
-                borderRightWidth: "1pt",
-              }}
-            >
-              <p
-                className="s10"
-                style={{
-                  paddingTop: "2pt",
-                  paddingRight: "3pt",
-                  textIndent: "0pt",
-                  textAlign: "center",
-                }}
-              >
-                0.00
-              </p>
-            </td>
-            <td
-              style={{
-                width: "29pt",
-                borderLeftStyle: "solid",
-                borderLeftWidth: "1pt",
-                borderRightStyle: "solid",
-                borderRightWidth: "1pt",
-              }}
-            >
-              <p
-                className="s10"
-                style={{
-                  paddingRight: "3pt",
-                  textIndent: "0pt",
-                  textAlign: "center",
-                }}
-              >
-                0.00
-              </p>
-            </td>
-            <td
-              style={{
-                width: "36pt",
-                borderLeftStyle: "solid",
-                borderLeftWidth: "1pt",
-                borderRightStyle: "solid",
-                borderRightWidth: "1pt",
-              }}
-            >
-              <p
-                className="s10"
-                style={{
-                  paddingLeft: "17pt",
-                  textIndent: "0pt",
-                  textAlign: "center",
-                }}
-              >
-                0.00
-              </p>
-            </td>
-            <td
-              style={{
-                width: "28pt",
-                borderLeftStyle: "solid",
-                borderLeftWidth: "1pt",
-                borderRightStyle: "solid",
-                borderRightWidth: "1pt",
-              }}
-            >
-              <p
-                className="s10"
-                style={{
-                  paddingTop: "2pt",
-                  paddingRight: "2pt",
-                  textIndent: "0pt",
-                  lineHeight: "7pt",
-                  textAlign: "right",
-                }}
-              >
-                0.00
-              </p>
-            </td>
-            <td
-              style={{
-                width: "52pt",
-                borderLeftStyle: "solid",
-                borderLeftWidth: "1pt",
-              }}
-            >
-              <p
-                className="s10"
-                style={{
-                  paddingTop: "1pt",
-                  paddingRight: "2pt",
-                  textIndent: "0pt",
-                  textAlign: "center",
-                }}
-              >
-                0.00
-              </p>
-            </td>
-          </tr>
+                    width: "43pt",
+                    borderLeftStyle: "solid",
+                    borderLeftWidth: "1pt",
+                    borderRightStyle: "solid",
+                    borderRightWidth: "1pt",
+                  }}
+                >
+                  <p
+                    className="s10"
+                    style={{
+                      paddingLeft: "5pt",
+                      textIndent: "0pt",
+                      lineHeight: "7pt",
+                      textAlign: "left",
+                      marginTop: "5pt",
+                    }}
+                  >
+                    {item.hsc_code}
+                  </p>
+                </td>
+                <td
+                  style={{
+                    paddingTop: "2pt",
+                    width: "83pt",
+                    borderLeftStyle: "solid",
+                    borderLeftWidth: "1pt",
+                    borderRightStyle: "solid",
+                    borderRightWidth: "1pt",
+                  }}
+                >
+                  <p
+                    className="s4"
+                    style={{
+                      paddingLeft: "5pt",
+                      textIndent: "0pt",
+                      lineHeight: "7pt",
+                      textAlign: "left",
+                      marginTop: "5pt",
+                    }}
+                  >
+                    {item.item_name}
+                  </p>
+                  {/* <p
+                  className="s10"
+                  style={{
+                    paddingLeft: "5pt",
+                    marginTop: "3pt",
+                    textIndent: "0pt",
+                    lineHeight: "6pt",
+                    textAlign: "left",
+                  }}
+                >
+                  /WOW! Mathematics -
+                </p>
+                <p
+                  className="s10"
+                  style={{
+                    paddingLeft: "5pt",
+                    marginTop: "3pt",
+                    textIndent: "0pt",
+                    lineHeight: "6pt",
+                    textAlign: "left",
+                  }}
+                >
+                  CBSE Book 7
+                </p> */}
+                </td>
+                <td
+                  style={{
+                    paddingTop: "4pt",
+                    paddingTop: "4pt",
+                    width: "55pt",
+                    borderLeftStyle: "solid",
+                    borderLeftWidth: "1pt",
+                    borderRightStyle: "solid",
+                    borderRightWidth: "1pt",
+                  }}
+                  colSpan={2}
+                >
+                  <p
+                    className="s10"
+                    style={{
+                      paddingLeft: "19pt",
+                      paddingRight: "18pt",
+                      textIndent: "0pt",
+                      lineHeight: "7pt",
+                      textAlign: "center",
+                      marginTop: "5pt",
+                    }}
+                  >
+                    {item.quantity}
+                  </p>
+                </td>
+                <td
+                  style={{
+                    paddingTop: "4pt",
+                    width: "36pt",
+                    borderLeftStyle: "solid",
+                    borderLeftWidth: "1pt",
+                    borderRightStyle: "solid",
+                    borderRightWidth: "1pt",
+                  }}
+                >
+                  <p
+                    className="s10"
+                    style={{
+                      textIndent: "0pt",
+                      lineHeight: "7pt",
+                      textAlign: "center",
+                      marginTop: "5pt",
+                    }}
+                  >
+                    {item.PRICE}
+                  </p>
+                </td>
+                <td
+                  style={{
+                    paddingTop: "4pt",
+                    width: "36pt",
+                    borderLeftStyle: "solid",
+                    borderLeftWidth: "1pt",
+                    borderRightStyle: "solid",
+                    borderRightWidth: "1pt",
+                  }}
+                >
+                  <p
+                    className="s10"
+                    style={{
+                      paddingLeft: "12pt",
+                      paddingRight: "10pt",
+                      textIndent: "0pt",
+                      lineHeight: "7pt",
+                      textAlign: "center",
+                      marginTop: "5pt",
+                    }}
+                  >
+                    {item.per}
+                  </p>
+                </td>
+                <td
+                  style={{
+                    paddingTop: "4pt",
+                    width: "25pt",
+                    borderLeftStyle: "solid",
+                    borderLeftWidth: "1pt",
+                    borderRightStyle: "solid",
+                    borderRightWidth: "1pt",
+                  }}
+                >
+                  <p
+                    className="s10"
+                    style={{
+                      paddingRight: "1pt",
+                      textIndent: "0pt",
+                      lineHeight: "7pt",
+                      textAlign: "center",
+                      marginTop: "5pt",
+                    }}
+                  >
+                    {item.DiscPrcnt}
+                  </p>
+                </td>
+                <td
+                  style={{
+                    width: "57pt",
+                    borderLeftStyle: "solid",
+                    borderLeftWidth: "1pt",
+                    borderRightStyle: "solid",
+                    borderRightWidth: "1pt",
+                  }}
+                  colSpan={2}
+                >
+                  <p
+                    className="s10"
+                    style={{
+                      paddingTop: "4pt",
+                      paddingLeft: "20pt",
+                      textIndent: "0pt",
+                      lineHeight: "7pt",
+                      textAlign: "left",
+                      marginTop: "5pt",
+                    }}
+                  >
+                    {item.amount}
+                  </p>
+                </td>
+                <td
+                  style={{
+                    width: "27pt",
+                    borderLeftStyle: "solid",
+                    borderLeftWidth: "1pt",
+                    borderRightStyle: "solid",
+                    borderRightWidth: "1pt",
+                  }}
+                  colSpan={2}
+                >
+                  <p
+                    className="s10"
+                    style={{
+                      paddingTop: "2pt",
+                      paddingLeft: "11pt",
+                      textIndent: "0pt",
+                      textAlign: "left",
+                      marginTop: "5pt",
+                    }}
+                  >
+                    {item.CGSTRATE}
+                  </p>
+                </td>
+                <td
+                  style={{
+                    width: "35pt",
+                    borderLeftStyle: "solid",
+                    borderLeftWidth: "1pt",
+                    borderRightStyle: "solid",
+                    borderRightWidth: "1pt",
+                  }}
+                >
+                  <p
+                    className="s10"
+                    style={{
+                      paddingTop: "2pt",
+                      paddingRight: "3pt",
+                      textIndent: "0pt",
+                      textAlign: "center",
+                      marginTop: "5pt",
+                    }}
+                  >
+                    {item.CGSTAMNT}
+                  </p>
+                </td>
+                <td
+                  style={{
+                    width: "29pt",
+                    borderLeftStyle: "solid",
+                    borderLeftWidth: "1pt",
+                    borderRightStyle: "solid",
+                    borderRightWidth: "1pt",
+                  }}
+                >
+                  <p
+                    className="s10"
+                    style={{
+                      paddingRight: "3pt",
+                      textIndent: "0pt",
+                      textAlign: "center",
+                      marginTop: "5pt",
+                    }}
+                  >
+                    {item.SGSTRATE}
+                  </p>
+                </td>
+                <td
+                  style={{
+                    width: "36pt",
+                    borderLeftStyle: "solid",
+                    borderLeftWidth: "1pt",
+                    borderRightStyle: "solid",
+                    borderRightWidth: "1pt",
+                  }}
+                >
+                  <p
+                    className="s10"
+                    style={{
+                      paddingLeft: "17pt",
+                      textIndent: "0pt",
+                      textAlign: "center",
+                      marginTop: "5pt",
+                    }}
+                  >
+                    {item.SGSTAMNT}
+                  </p>
+                </td>
+                <td
+                  style={{
+                    width: "28pt",
+                    borderLeftStyle: "solid",
+                    borderLeftWidth: "1pt",
+                    borderRightStyle: "solid",
+                    borderRightWidth: "1pt",
+                  }}
+                >
+                  <p
+                    className="s10"
+                    style={{
+                      paddingTop: "2pt",
+                      paddingRight: "2pt",
+                      textIndent: "0pt",
+                      lineHeight: "7pt",
+                      textAlign: "right",
+                      marginTop: "6pt",
+                    }}
+                  >
+                    {item.IGSTRATE}
+                  </p>
+                </td>
+                <td
+                  style={{
+                    width: "52pt",
+                    borderLeftStyle: "solid",
+                    borderLeftWidth: "1pt",
+                  }}
+                >
+                  <p
+                    className="s10"
+                    style={{
+                      paddingTop: "1pt",
+                      paddingRight: "2pt",
+                      textIndent: "0pt",
+                      textAlign: "center",
+                      marginTop: "5pt",
+                    }}
+                  >
+                    {item.IGSTAMNT}
+                  </p>
+                </td>
+              </tr>
+            );
+          })}
+
           <tr style={{ height: "8pt" }}>
             <td
               style={{
@@ -2350,9 +2559,7 @@ const CreditNote = () => {
                 borderRightStyle: "solid",
                 borderRightWidth: "1pt",
               }}
-            >
-
-            </td>
+            ></td>
             <td
               style={{
                 width: "55pt",
@@ -2499,14 +2706,7 @@ const CreditNote = () => {
             </td>
           </tr>
 
-
-
-
-
-
-
-
-{/* 
+          {/* 
 
           <tr style={{ height: "15pt" }}>
             <td
@@ -3091,6 +3291,7 @@ const CreditNote = () => {
                   textIndent: "0pt",
                   lineHeight: "8pt",
                   textAlign: "left",
+                  marginTop: "4pt",
                 }}
               >
                 Total :
@@ -3310,7 +3511,7 @@ const CreditNote = () => {
               <p
                 className="s3"
                 style={{
-                  paddingTop: "2pt",
+                  paddingTop: "5pt",
                   paddingLeft: "2pt",
                   textIndent: "0pt",
                   textAlign: "left",
@@ -3322,6 +3523,7 @@ const CreditNote = () => {
                 className="s10"
                 style={{
                   paddingTop: "1pt",
+                  paddingLeft: "2pt",
                   textIndent: "0pt",
                   textAlign: "left",
                 }}
@@ -3534,6 +3736,7 @@ const CreditNote = () => {
                   textIndent: "0pt",
                   lineHeight: "10pt",
                   textAlign: "left",
+                  paddingTop: "5pt",
                 }}
               >
                 Untaxed Amount:
@@ -3550,9 +3753,15 @@ const CreditNote = () => {
             >
               <p
                 className="s11"
-                style={{ textIndent: "0pt", textAlign: "left" }}
+                style={{
+                  textIndent: "0pt",
+                  textAlign: "left",
+                  paddingTop: "3pt",
+                  paddingLeft: "5pt",
+                }}
               >
-                ₹
+                <span className="s14">₹ </span>
+                <span className="s15">56,056.00</span>
               </p>
             </td>
           </tr>
@@ -3578,19 +3787,21 @@ const CreditNote = () => {
                   textIndent: "0pt",
                   lineHeight: "9pt",
                   textAlign: "left",
+                  paddingTop: "5pt",
                 }}
               >
                 Tax Amount (In Words) :
               </p>
               <p style={{ textIndent: "0pt", textAlign: "left" }}>
-                <br />
+                {/* <br /> */}
               </p>
               <p
                 className="s10"
                 style={{
-                  paddingLeft: "5pt",
+                  paddingLeft: "2pt",
                   textIndent: "0pt",
                   textAlign: "left",
+                  paddingTop: "5pt",
                 }}
               >
                 Rupees Only
@@ -3666,6 +3877,7 @@ const CreditNote = () => {
                   textIndent: "0pt",
                   lineHeight: "9pt",
                   textAlign: "left",
+                  paddingTop: "5pt",
                 }}
               >
                 Taxable:
@@ -3686,9 +3898,12 @@ const CreditNote = () => {
                   textIndent: "0pt",
                   lineHeight: "9pt",
                   textAlign: "left",
+                  paddingLeft: "5pt",
+                  marginTop: "5pt",
                 }}
               >
-                ₹
+                <span className="s14">₹ </span>
+                <span className="s15">{taxAmount}</span>
               </p>
             </td>
           </tr>
@@ -3734,7 +3949,7 @@ const CreditNote = () => {
               >
                 Total <span className="s13">: </span>
                 <span className="s14">₹ </span>
-                <span className="s15">56,056.00</span>
+                <span className="s15">{totalAmnt}</span>
               </p>
             </td>
           </tr>
@@ -3762,7 +3977,18 @@ const CreditNote = () => {
                   textAlign: "left",
                 }}
               >
-                Company's Bank Details Bank Name
+                Company's Bank Details
+              </p>
+              <p
+                className="s3"
+                style={{
+                  paddingLeft: "2pt",
+                  textIndent: "0pt",
+                  textAlign: "left",
+                  paddingTop: "5pt",
+                }}
+              >
+                Bank Name : <span className="s10">09AAJCP2139H1ZA</span>
               </p>
               <p
                 className="s3"
@@ -3772,7 +3998,7 @@ const CreditNote = () => {
                   textAlign: "left",
                 }}
               >
-                A/c No.
+                A/c No. : <span className="s10">09AAJCP2139H1ZA</span>
               </p>
             </td>
             <td
@@ -3792,9 +4018,10 @@ const CreditNote = () => {
                   textIndent: "0pt",
                   lineHeight: "9pt",
                   textAlign: "left",
+                  paddingTop: "3pt",
                 }}
               >
-                Company's PAN :
+                Company's PAN : <span className="s10">09AAJCP2139H1ZA</span>
               </p>
               <p
                 className="s3"
@@ -3805,7 +4032,7 @@ const CreditNote = () => {
                   textAlign: "left",
                 }}
               >
-                CIN:
+                CIN: <span className="s10">09AAJCP2139H1ZA</span>
               </p>
               <p
                 className="s3"
@@ -3842,7 +4069,7 @@ const CreditNote = () => {
                   textAlign: "left",
                 }}
               >
-                IFSC Code
+                IFSC Code : <span className="s10">09AAJCP2139H1ZA</span>
               </p>
             </td>
             <td
@@ -3922,6 +4149,7 @@ const CreditNote = () => {
                   textIndent: "0pt",
                   lineHeight: "10pt",
                   textAlign: "left",
+                  paddingTop: "5pt",
                 }}
               >
                 For Proficiency Learning Solutions Private Limited
@@ -3946,7 +4174,7 @@ const CreditNote = () => {
       <p
         style={{
           paddingTop: "3pt",
-          paddingLeft: "310pt",
+          paddingLeft: "100pt",
           textIndent: "0pt",
           textAlign: "left",
         }}
