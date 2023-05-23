@@ -353,7 +353,10 @@ function App() {
               <Route path="/view_aof_pdf/:aofid" element={<AofPdf3temp />} />
               <Route path="/view_aof_pdf2/:aofid" element={<AofPdf2 />} />
               <Route path="/zsm/view_aof_pdf2/:aofid" element={<AofPdf2 />} />
-              <Route path="/credit_note_pdf" element={<CreditNote />} />
+              <Route
+                path="/credit_note_pdf/:docNum/:docdate"
+                element={<CreditNote />}
+              />
               <Route
                 path="/saleshead/view_aof_pdf2/:aofid"
                 element={<AofPdf2 />}
