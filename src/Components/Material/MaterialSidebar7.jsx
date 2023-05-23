@@ -3,7 +3,7 @@ import Box from "@mui/material/Box";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import logoLight from "../../assets/img/logo-light-icon.png";
 import { useState } from "react";
-import { Dashboard } from "@mui/icons-material";
+import { Dashboard, PhoneAndroid } from "@mui/icons-material";
 import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
 import { Link } from "react-router-dom";
 import { useLayoutEffect } from "react";
@@ -128,22 +128,40 @@ const SwipeableTemporaryDrawer = React.forwardRef((props, ref) => {
       <Link to="/hr/user">
         <aside
           className={`px-6 py-2 my-4 flex gap-4 cursor-pointer ${
-            highLight === "manageSchool" ? "bg-gray-500" : ""
+            highLight === "user" ? "bg-gray-500" : ""
           } group hover:bg-gray-500 rounded-md transition-all duration-150 ease-linear`}
         >
           <PersonAddAltIcon
             className={`${
-              highLight === "manageSchool"
-                ? "!text-[#659DBD]"
-                : "!text-gray-400"
+              highLight === "user" ? "!text-[#659DBD]" : "!text-gray-400"
             } group-hover:!text-[#659DBD] !transition-all !duration-150 !ease-linear`}
           />
           <span
             className={`${
-              highLight === "manageSchool" ? "text-gray-200" : "text-gray-400"
+              highLight === "user" ? "text-gray-200" : "text-gray-400"
             } group-hover:!text-gray-100 transition-all duration-150 ease-linear`}
           >
             User
+          </span>
+        </aside>
+      </Link>
+      <Link to="/hr/createphonegroup">
+        <aside
+          className={`px-6 py-2 my-4 flex gap-4 cursor-pointer ${
+            highLight === "phone" ? "bg-gray-500" : ""
+          } group hover:bg-gray-500 rounded-md transition-all duration-150 ease-linear`}
+        >
+          <PhoneAndroid
+            className={`${
+              highLight === "phone" ? "!text-[#659DBD]" : "!text-gray-400"
+            } group-hover:!text-[#659DBD] !transition-all !duration-150 !ease-linear`}
+          />
+          <span
+            className={`${
+              highLight === "phone" ? "text-gray-200" : "text-gray-400"
+            } group-hover:!text-gray-100 transition-all duration-150 ease-linear`}
+          >
+            Create Phone Group
           </span>
         </aside>
       </Link>

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import "react-pro-sidebar/dist/css/styles.css";
 import { Dashboard } from "@mui/icons-material";
 import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
+import { PhoneAndroid } from "@mui/icons-material";
 import { Link } from "react-router-dom";
 import logoLight from "../assets/img/logo-light-icon.png";
 import { useLayoutEffect } from "react";
@@ -142,6 +143,27 @@ const Sidebar = ({ sidebarCollapsed, highLight, show }) => {
               } group-hover:!text-gray-100 transition-all duration-150 ease-linear`}
             >
               User
+            </span>
+          </aside>
+        </Link>
+
+        <Link to="/hr/createphonegroup">
+          <aside
+            className={`px-6 py-2 flex gap-4 cursor-pointer ${
+              highLight === "phone" ? "bg-gray-500" : ""
+            } group hover:bg-gray-500 rounded-md transition-all duration-150 ease-linear`}
+          >
+            <PhoneAndroid
+              className={`${
+                highLight === "phone" ? "!text-[#659DBD]" : "!text-gray-400"
+              } group-hover:!text-[#659DBD] !transition-all !duration-150 !ease-linear`}
+            />
+            <span
+              className={`${
+                highLight === "phone" ? "text-gray-200" : "text-gray-400"
+              } group-hover:!text-gray-100 transition-all duration-150 ease-linear`}
+            >
+              Create Phone Group
             </span>
           </aside>
         </Link>
