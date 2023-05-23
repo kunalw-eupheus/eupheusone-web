@@ -3,23 +3,15 @@ import { useState } from "react";
 import Navbar from "../Components/Navbar";
 import Sidebar from "../Components/Sidebar";
 import GoogleMap from "../Components/GoogleMap";
-import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
-import Cookies from "js-cookie";
 import Loader from "../Components/Loader";
-import orderImg from "../assets/img/order.png";
-import documentImg from "../assets/img/documents.png";
-import zohoImg from "../assets/img/zoho.png";
 import invoiceLogo from "../assets/img/invoice_logo.jpg";
 import creditLogo from "../assets/img/creditNote.jpg";
 import CustLedger from "../assets/img/custLedger.jpg";
 import SwipeableTemporaryDrawer from "../Components/Material/MaterialSidebar";
 
-// import { Map } from "@mui/icons-material";
-import GMap from "../assets/map.png";
 import BasicButton from "../Components/Material/Button";
 const PrintPDF = () => {
-  const [status, setStatus] = useState("Start Day");
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [currentLocation, setCurrentLocation] = useState([]);
   const navigate = useNavigate();
@@ -29,7 +21,6 @@ const PrintPDF = () => {
 
   const show = null;
   const temp = [];
-  const Co_ordinates = JSON.parse(localStorage.getItem("co_ordinates"));
 
   useLayoutEffect(() => {
     navigator.geolocation.watchPosition(function (position) {
@@ -56,61 +47,6 @@ const PrintPDF = () => {
   const navInfo = {
     title: "",
     details: ["", ""],
-  };
-
-  const handleLocation = async () => {
-    if (status === "Start Day") {
-      setLoading(true);
-      const res = await axios.post(
-        "https://nodecrmv2.herokuapp.com/api/user/start_day",
-        {
-          category: "start",
-          coordinates: [[currentLocation.lng, currentLocation.lat]],
-        },
-        {
-          headers: {
-            authorization: Cookies.get("accessToken"),
-          },
-        }
-      );
-      // console.log(res);
-      setStatus("End Day");
-      setLoading(false);
-    } else {
-      setLoading(true);
-      const running = await axios.post(
-        "https://nodecrmv2.herokuapp.com/api/user/start_day",
-        {
-          category: "running",
-          coordinates: Co_ordinates,
-        },
-        {
-          headers: {
-            authorization: Cookies.get("accessToken"),
-          },
-        }
-      );
-
-      console.log(running);
-
-      const res = await axios.post(
-        "https://nodecrmv2.herokuapp.com/api/user/start_day",
-        {
-          category: "end",
-          coordinates: [[currentLocation.lng, currentLocation.lat]],
-        },
-        {
-          headers: {
-            authorization: Cookies.get("accessToken"),
-          },
-        }
-      );
-
-      console.log(res);
-      setStatus("Start Day");
-      localStorage.clear();
-      setLoading(false);
-    }
   };
 
   const handleSidebarCollapsed = () => {
@@ -208,12 +144,7 @@ const PrintPDF = () => {
                   </div>
                 </section>
 
-                <section className="flex sm:w-[30%] sm:h-[23rem] w-full sm:flex-col cursor-not-allowed flex-row gap-4 hover:shadow-2xl items-center justify-between px-4 py-4 bg-gray-200 rounded-md">
-                  {/* <img
-                    src={orderImg}
-                    className="md:w-[10.8rem] sm:w-[7.5rem] w-[4rem] h-auto "
-                    alt=""
-                  /> */}
+                <section className="flex sm:w-[30%] sm:h-[23rem] w-full sm:flex-col flex-row gap-4 hover:shadow-2xl items-center justify-between px-4 py-4 bg-gray-200 rounded-md">
                   <span className="md:text-2xl sm:text-base text-sm font-bold">
                     Credit Note
                   </span>
@@ -222,6 +153,19 @@ const PrintPDF = () => {
                     className="md:w-[10.8rem] sm:w-[7.5rem] w-[4rem] h-auto "
                     alt=""
                   />
+                  <div className="flex gap-2">
+                    <div>
+                      <Link to="/invoice_pdf_single">
+                        <BasicButton text={"Single Invoice"} />
+                      </Link>
+                    </div>
+
+                    <div>
+                      <Link to="/invoice_pdf_double">
+                        <BasicButton text={"Bulk Invoice"} />
+                      </Link>
+                    </div>
+                  </div>
                   {/* <Link to="/order_processing">
                     <BasicButton text={"Next"} />
                   </Link> */}
@@ -241,7 +185,7 @@ const PrintPDF = () => {
                     className="md:w-[10.8rem] sm:w-[7.5rem] w-[4rem] h-auto "
                     alt=""
                   />
-                  <Link to="/customer_pdf" >
+                  <Link to="/customer_pdf">
                     <BasicButton text={"Next"} />
                   </Link>
                 </section>

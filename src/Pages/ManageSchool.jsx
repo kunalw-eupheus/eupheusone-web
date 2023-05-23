@@ -85,13 +85,13 @@ const ManageSchool = () => {
 
     const rows = res.data.message.map((item, index) => {
       return {
-        id: item.id,
-        SchoolName: item.school_name,
+        id: item?.id,
+        SchoolName: item?.school_name,
         State: item?.school_addresses[0]?.fk_state?.state,
-        Address: item.school_addresses[0].address,
-        repId: item.fk_user_id,
-        stateId: item.school_addresses[0].fk_state.id,
-        cityId: item.school_addresses[0].fk_city_id,
+        Address: item?.school_addresses[0]?.address,
+        repId: item?.fk_user_id,
+        stateId: item?.school_addresses[0]?.fk_state.id,
+        cityId: item?.school_addresses[0]?.fk_city_id,
       };
     });
     setRow(rows);
