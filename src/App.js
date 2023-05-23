@@ -94,6 +94,7 @@ import ThankYou from "./Pages/ThankYou";
 import HrHome from "./Pages/HR/HrHome";
 import User from "./Pages/HR/User";
 import AdminCkReport from "./Pages/AdminCkReport";
+import CreditNote from "./Pages/PDF/CreditNote";
 
 function App() {
   const [userCache, setUserCache] = useState(false);
@@ -352,6 +353,7 @@ function App() {
               <Route path="/view_aof_pdf/:aofid" element={<AofPdf3temp />} />
               <Route path="/view_aof_pdf2/:aofid" element={<AofPdf2 />} />
               <Route path="/zsm/view_aof_pdf2/:aofid" element={<AofPdf2 />} />
+              <Route path="/credit_note_pdf" element={<CreditNote />} />
               <Route
                 path="/saleshead/view_aof_pdf2/:aofid"
                 element={<AofPdf2 />}
