@@ -95,6 +95,7 @@ import HrHome from "./Pages/HR/HrHome";
 import User from "./Pages/HR/User";
 import AdminCkReport from "./Pages/AdminCkReport";
 import CreditNote from "./Pages/PDF/CreditNote";
+import CreditSinglePdf from "./Pages/CreditSinglePdf";
 
 function App() {
   const [userCache, setUserCache] = useState(false);
@@ -405,6 +406,12 @@ function App() {
                 path="/invoice_pdf_single"
                 element={
                   isAuth || MsAuth || Zsm ? <ViewInvoiceSingle /> : <Login />
+                }
+              />
+              <Route
+                path="/credit/invoice_pdf_single"
+                element={
+                  isAuth || MsAuth || Zsm ? <CreditSinglePdf /> : <Login />
                 }
               />
 
