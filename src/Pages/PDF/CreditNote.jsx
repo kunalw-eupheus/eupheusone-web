@@ -5,6 +5,7 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 import instance from "../../Instance";
 import Cookies from "js-cookie";
+import { useLayoutEffect } from "react";
 
 const CreditNote = () => {
   const [tableData, setTableData] = useState([]);
@@ -30,7 +31,7 @@ const CreditNote = () => {
 
   const { docNum, docdate } = useParams();
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     getAllData();
   }, []);
 
@@ -43,7 +44,8 @@ const CreditNote = () => {
         docdate: docdate,
       },
       headers: {
-        Authorization: `${Cookies.get("accessToken")}`,
+        // Authorization: `${Cookies.get("accessToken")}`,
+        accesskey: `auth0026c3956e3d0fba`,
       },
     });
     // console.log(res.data.message);
