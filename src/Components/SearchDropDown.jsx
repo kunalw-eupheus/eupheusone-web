@@ -118,7 +118,7 @@ const SearchDropDown = ({
         case "select_state":
           // console.log(option);
           if (option.state === "Null") return "";
-          else return option.state;
+          else return option.fk_state.state;
           break;
 
         case "select_state_2":

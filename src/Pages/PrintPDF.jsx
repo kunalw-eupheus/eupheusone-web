@@ -155,16 +155,16 @@ const PrintPDF = () => {
                   />
                   <div className="flex gap-2">
                     <div>
-                      <Link to="/invoice_pdf_single">
+                      <Link to="/credit/invoice_pdf_single">
                         <BasicButton text={"Single Invoice"} />
                       </Link>
                     </div>
 
-                    <div>
+                    {/* <div>
                       <Link to="/invoice_pdf_double">
                         <BasicButton text={"Bulk Invoice"} />
                       </Link>
-                    </div>
+                    </div> */}
                   </div>
                   {/* <Link to="/order_processing">
                     <BasicButton text={"Next"} />

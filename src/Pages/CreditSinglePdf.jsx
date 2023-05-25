@@ -146,26 +146,19 @@ const CreditSinglePdf = () => {
     searchSchool();
   };
 
-  // const history = useHistory();
-  const handlePrintPDF = async (docNum, docDate) => {
-    let postdata = {
-      category: "inv",
-      doc_num: docNum,
-      doc_date: docDate,
-    };
+  const handlePrintPDF = async (id) => {
     setLoading(true);
     const res = await instance({
-      url: `doc_print/invoice/getdata`,
-      method: "post",
-      data: postdata,
+      url: `doc_print/credits/pdf/${id}`,
+      method: "GET",
       headers: {
-        Authorization: Cookies.get("accessToken"),
+        Authorization: `${Cookies.get("accessToken")}`,
       },
     });
-    let downloadUrl = res.data.message;
-    // console.log(downloadUrl)
-    // redirect("https://www.google.com/")
-    window.open(downloadUrl) || window.location.assign(downloadUrl);
+    // console.log(res.data);
+    if (res.data.status === "success") {
+      window.open(res.data.message, "_blank");
+    }
     setLoading(false);
   };
 
@@ -223,99 +216,16 @@ const CreditSinglePdf = () => {
                   Name="invoice_pdf_data"
                 />
               </div>
-              {/* <div className=" flex flex-col gap-2 w-full md:w-[20vw]">
-                <label className="text-gray-100">City</label>
 
-                <SearchDropDown
-                  label={"Select City"}
-                  handleOrderProcessingForm={handleOrderProcessingForm}
-                  color={"rgb(243, 244, 246)"}
-                  disable={city.disable}
-                  data={city}
-                  Name="select_city"
-                />
-              </div> */}
-              {/* <button className="w-full md:w-[20vw] col-span-2 md:ml-10 focus:outline-0 mt-8 text-gray-300 hover:shadow-md h-10 bg-slate-500 transition-all duration-200 ease-linear active:bg-slate-700 active:scale-95 rounded-md">
-                Search School
-              </button> */}
               <div className="sm:w-auto w-[50vw]" onClick={searchSchool}>
                 <BasicButton text={"Search Customer"} />
               </div>
             </div>
 
-            {/* <div className="grid grid-cols-2 grid-rows-2 md:flex md:justify-around md:items-center px-6 mb-8 py-3 mt-6 gap-6 rounded-md bg-slate-600">
-
-              <div className="flex flex-col gap-2 w-full md:w-[20vw]">
-                <label className="text-gray-100">Customer</label>
-
-                <SearchDropDown
-                  label={"Select Customer"}
-                  handleOrderProcessingForm={handleOrderProcessingForm}
-                  color={"rgb(243, 244, 246)"}
-                  data={customer}
-                  Name="invoice_pdf_data"
-                />
-              </div>
-              <div className="flex flex-col gap-2 w-full md:w-[20vw]">
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <Stack spacing={3}>
-                    <DesktopDatePicker
-                      label="Date desktop"
-                      inputFormat="MM/DD/YYYY"
-                      value={value}
-                      onChange={handleChange}
-                      renderInput={(params) => <TextField {...params} />}
-                    />
-                  </Stack>
-                </LocalizationProvider>
-              </div>
-              <div className="flex flex-col gap-2 w-full md:w-[20vw]">
-                <label className="text-gray-100">End Date</label>
-
-                <SearchDropDown
-                  label={"Select Customer"}
-                  handleOrderProcessingForm={handleOrderProcessingForm}
-                  color={"rgb(243, 244, 246)"}
-                  data={customer}
-                  Name="invoice_pdf_data"
-                />
-              </div>
-              <div className="sm:w-auto w-[30vw]" onClick={searchSchool}>
-                <BasicButton text={"Search Customer"} />
-              </div>
-            </div> */}
-            {/* <div className="w-full flex gap-3 justify-end">
-              <Link to="/addschooltraining">
-                <BasicButton text={"Create New School"} />
-              </Link>
-            </div> */}
-
             <div className=" sm:px-8 px-2 py-3 bg-[#141728] mt-4">
               <Paper>
                 <TableContainer component={Paper}>
                   <Toolbar className="bg-slate-400">
-                    {/* <form> */}
-                    {/* <TextField
-                      id="search-bar"
-                      className="text"
-                      onInput={(e) => {
-                        handleSearch(e.target.value);
-                      }}
-                      label="Enter Invoice Number"
-                      variant="outlined"
-                      placeholder="Search..."
-                      size="small"
-                    />
-                    <div className="bg-slate-300">
-                      <IconButton
-                        type="submit"
-                        aria-label="search"
-                        onClick={filterTable}
-                      >
-                        <SearchIcon style={{ fill: "blue" }} />
-                      </IconButton>
-                    </div> */}
-
                     <TablePagination
                       rowsPerPageOptions={[
                         10,
@@ -401,7 +311,7 @@ const CreditSinglePdf = () => {
                                 <div
                                   className="sm:w-auto w-[50vw]"
                                   onClick={() => {
-                                    handlePrintPDF(row.docnum, row.docdate);
+                                    handlePrintPDF(row.id);
                                   }}
                                 >
                                   <BasicButton text={"Print PDF"} />
@@ -440,12 +350,6 @@ const CreditSinglePdf = () => {
                               {row.ck_code ? (
                                 <TableCell align="center">
                                   {row.ck_code}
-                                  {/* <div
-                            className="sm:w-auto w-[50vw]"
-                            onClick={""}
-                          >
-                            <BasicButton text={"Get Code"} />
-                          </div> */}
                                 </TableCell>
                               ) : (
                                 <TableCell align="center">
