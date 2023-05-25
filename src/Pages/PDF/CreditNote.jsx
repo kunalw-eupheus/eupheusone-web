@@ -2,6 +2,10 @@ import React, { useEffect, useState } from "react";
 import eupheusLogo from "./eupheusLogo.png";
 import "./CreditNote.css";
 import axios from "axios";
+import { useParams } from "react-router-dom";
+import instance from "../../Instance";
+import Cookies from "js-cookie";
+import { useLayoutEffect } from "react";
 
 const CreditNote = () => {
   const [tableData, setTableData] = useState([]);
@@ -25,48 +29,28 @@ const CreditNote = () => {
   const [billToName, setBillToName] = useState("");
   const [billToAdd, setBillToAdd] = useState("");
 
-  useEffect(() => {
+  const { docNum, docdate } = useParams();
+
+  useLayoutEffect(() => {
     getAllData();
   }, []);
 
   const getAllData = async () => {
-    const res = await axios
-      .post(
-        `https://sapsync.eupheusapp.com/api/doc_print/credit/detail`,
-        {
-          doc_date: "2023-05-09",
-          doc_num: 30092,
-        },
-        {
-          headers: {
-            accesskey: `mrh7SQtemWATULtxlu3H34hqXBjwq7xM`,
-          },
-        }
-      )
-      .catch((e) => {
-        console.log(e.message);
-      });
+    const res = await instance({
+      url: `doc_print/credits/azure/pdfdetail`,
+      method: "POST",
+      data: {
+        docnum: docNum,
+        docdate: docdate,
+      },
+      headers: {
+        // Authorization: `${Cookies.get("accessToken")}`,
+        accesskey: `auth0026c3956e3d0fba`,
+      },
+    });
+    // console.log(res.data.message);
 
-    console.log(res);
-
-    // console.log(bp, todate, fromdate);
-
-    // const res = await instance({
-    //   url: `doc_print/ledger/getdata`,
-    //   method: "post",
-    //   data: {
-    //     bpcode: bp,
-    //     todate:  fromdate,
-    //     fromdate: todate,
-    //   },
-    //   headers: {
-    //     // Authorization: Cookies.get("accessToken"),
-    //     // accesskey: `auth74961a98ba76d4e4`,
-    //     accesskey: `auth0026c3956e3d0fba`
-    //   },
-    // });
-
-    let tblData = res.data.items;
+    let tblData = res.data.message.items;
     for (let obj of tblData) {
       obj.PRICE = "" + obj.PRICE + ".00";
       obj.DiscPrcnt = "" + obj.DiscPrcnt + ".00";
@@ -80,7 +64,7 @@ const CreditNote = () => {
     }
     setTableData(tblData);
 
-    let msgData = res.data.message[0];
+    let msgData = res.data.message.message[0];
     console.log(msgData);
     setBillToGst(msgData.Bill_to_GST_No);
     setBoxes(msgData.Boxes);
@@ -107,6 +91,7 @@ const CreditNote = () => {
     setBillToAdd(billToAdd);
     // console.log(billToAdd);
   };
+
   return (
     <div className="bg-white">
       <p style={{ textIndent: "0pt", textAlign: "left" }}>
