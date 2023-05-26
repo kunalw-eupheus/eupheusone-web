@@ -28,6 +28,9 @@ const CreditNote = () => {
   const [totalAmnt, setTotalAmnt] = useState("");
   const [billToName, setBillToName] = useState("");
   const [billToAdd, setBillToAdd] = useState("");
+  const [transporteName, setTransporterName] = useState("");
+  const [creditNum, setCreditNum] = useState("");
+  const [grDate, setGrDate] = useState("");
 
   const { docNum, docdate } = useParams();
 
@@ -76,15 +79,18 @@ const CreditNote = () => {
     setRefNo(msgData.Reference_No);
     setShipsTo(msgData.SHIP_TO);
     setShipsToMobile(msgData.SHIP_TO_MOBILE);
+    setTransporterName(msgData.transporter_name);
+    setCreditNum(msgData.credit_num);
     setShipsToState(msgData.SHIP_TO_STATE_NAME);
     setShipsToStateCode(msgData.SHIP_TO_STATE_CODE);
+    setGrDate(msgData.U_GRNO_DATE);
     setUgrno(msgData.U_GRNO);
     setCin(msgData.cin);
     setRemarks(msgData.remarks);
     let taxAmnt = "" + msgData.tax_amount + ".00";
     setTaxAmount(taxAmnt);
-    let totl = "" + msgData.total + ".00";
-    setTotalAmnt(totl);
+
+    setTotalAmnt(msgData.total);
     let billToName = msgData.bill_to[0];
     setBillToName(billToName);
     let billToAdd = msgData.bill_to[1];
@@ -258,7 +264,7 @@ const CreditNote = () => {
                   marginTop: "3pt",
                 }}
               >
-                {/* Test- CN / 31581 CN/31581/21-22 */}
+                CN / {creditNum}
               </p>
             </td>
             <td
@@ -898,7 +904,7 @@ const CreditNote = () => {
                   textAlign: "left",
                 }}
               >
-                {/* Test- By Hand Sumit Goyal */}
+                {transporteName}
               </p>
             </td>
             <td
@@ -988,6 +994,18 @@ const CreditNote = () => {
               >
                 Bill of Ladding/LR-RR No.
               </p>
+              <p
+                className="s5"
+                style={{
+                  paddingLeft: "23pt",
+                  textIndent: "0pt",
+                  lineHeight: "9pt",
+                  textAlign: "left",
+                  paddingTop: "7pt",
+                }}
+              >
+                {uGrno}
+              </p>
             </td>
             <td
               style={{
@@ -1010,6 +1028,18 @@ const CreditNote = () => {
                 }}
               >
                 GR Date
+              </p>
+              <p
+                className="s6"
+                style={{
+                  paddingTop: "7pt",
+                  paddingLeft: "34pt",
+                  paddingRight: "81pt",
+                  textIndent: "0pt",
+                  // textAlign: "left",
+                }}
+              >
+                {grDate.split("T")[0]}
               </p>
             </td>
           </tr>
@@ -1630,537 +1660,6 @@ const CreditNote = () => {
               </p>
             </td>
           </tr>
-          {/* <tr style={{ height: "16pt" }}>
-            <td
-              style={{
-                width: "18pt",
-                borderTopStyle: "solid",
-                borderTopWidth: "1pt",
-                borderLeftStyle: "solid",
-                borderLeftWidth: "1pt",
-                borderRightStyle: "solid",
-                borderRightWidth: "1pt",
-              }}
-            >
-              <p
-                className="s9"
-                style={{
-                  paddingTop: "3pt",
-                  paddingLeft: "6pt",
-                  textIndent: "0pt",
-                  textAlign: "left",
-                }}
-              >
-                1
-              </p>
-            </td>
-            <td
-              style={{
-                width: "43pt",
-                borderTopStyle: "solid",
-                borderTopWidth: "1pt",
-                borderLeftStyle: "solid",
-                borderLeftWidth: "1pt",
-                borderRightStyle: "solid",
-                borderRightWidth: "1pt",
-              }}
-            >
-              <p
-                className="s9"
-                style={{
-                  paddingTop: "1pt",
-                  paddingLeft: "5pt",
-                  textIndent: "0pt",
-                  textAlign: "left",
-                }}
-              >
-                49.01.99
-              </p>
-            </td>
-            <td
-              style={{
-                width: "83pt",
-                borderTopStyle: "solid",
-                borderTopWidth: "1pt",
-                borderLeftStyle: "solid",
-                borderLeftWidth: "1pt",
-                borderRightStyle: "solid",
-                borderRightWidth: "1pt",
-              }}
-            >
-              <p
-                className="s9"
-                style={{
-                  paddingTop: "1pt",
-                  paddingLeft: "5pt",
-                  textIndent: "0pt",
-                  lineHeight: "7pt",
-                  textAlign: "left",
-                }}
-              >
-                WOWMATCBSE06SP20
-              </p>
-              <p
-                className="s9"
-                style={{
-                  paddingLeft: "5pt",
-                  textIndent: "0pt",
-                  lineHeight: "6pt",
-                  textAlign: "left",
-                }}
-              >
-                /WOW! Mathematics -
-              </p>
-            </td>
-            <td
-              style={{
-                width: "55pt",
-                borderTopStyle: "solid",
-                borderTopWidth: "1pt",
-                borderLeftStyle: "solid",
-                borderLeftWidth: "1pt",
-                borderRightStyle: "solid",
-                borderRightWidth: "1pt",
-              }}
-              colSpan={2}
-            >
-              <p
-                className="s9"
-                style={{
-                  paddingTop: "1pt",
-                  paddingLeft: "19pt",
-                  paddingRight: "18pt",
-                  textIndent: "0pt",
-                  textAlign: "center",
-                }}
-              >
-                56.00
-              </p>
-            </td>
-            <td
-              style={{
-                width: "36pt",
-                borderTopStyle: "solid",
-                borderTopWidth: "1pt",
-                borderLeftStyle: "solid",
-                borderLeftWidth: "1pt",
-                borderRightStyle: "solid",
-                borderRightWidth: "1pt",
-              }}
-            >
-              <p
-                className="s9"
-                style={{
-                  paddingTop: "1pt",
-                  textIndent: "0pt",
-                  textAlign: "right",
-                }}
-              >
-                490.00
-              </p>
-            </td>
-            <td
-              style={{
-                width: "36pt",
-                borderTopStyle: "solid",
-                borderTopWidth: "1pt",
-                borderLeftStyle: "solid",
-                borderLeftWidth: "1pt",
-                borderRightStyle: "solid",
-                borderRightWidth: "1pt",
-              }}
-            >
-              <p
-                className="s9"
-                style={{
-                  paddingTop: "1pt",
-                  paddingLeft: "12pt",
-                  paddingRight: "10pt",
-                  textIndent: "0pt",
-                  textAlign: "center",
-                }}
-              >
-                NOS
-              </p>
-            </td>
-            <td
-              style={{
-                width: "25pt",
-                borderTopStyle: "solid",
-                borderTopWidth: "1pt",
-                borderLeftStyle: "solid",
-                borderLeftWidth: "1pt",
-                borderRightStyle: "solid",
-                borderRightWidth: "1pt",
-              }}
-            >
-              <p
-                className="s9"
-                style={{
-                  paddingTop: "1pt",
-                  paddingRight: "1pt",
-                  textIndent: "0pt",
-                  textAlign: "right",
-                }}
-              >
-                20.00
-              </p>
-            </td>
-            <td
-              style={{
-                width: "57pt",
-                borderTopStyle: "solid",
-                borderTopWidth: "1pt",
-                borderLeftStyle: "solid",
-                borderLeftWidth: "1pt",
-                borderRightStyle: "solid",
-                borderRightWidth: "1pt",
-              }}
-              colSpan={2}
-            >
-              <p
-                className="s9"
-                style={{
-                  paddingTop: "1pt",
-                  paddingLeft: "20pt",
-                  textIndent: "0pt",
-                  textAlign: "left",
-                }}
-              >
-                27,440.00
-              </p>
-            </td>
-            <td
-              style={{
-                width: "27pt",
-                borderTopStyle: "solid",
-                borderTopWidth: "1pt",
-                borderLeftStyle: "solid",
-                borderLeftWidth: "1pt",
-                borderRightStyle: "solid",
-                borderRightWidth: "1pt",
-              }}
-              colSpan={2}
-            >
-              <p
-                className="s9"
-                style={{
-                  paddingTop: "3pt",
-                  paddingLeft: "11pt",
-                  textIndent: "0pt",
-                  textAlign: "left",
-                }}
-              >
-                0.00
-              </p>
-            </td>
-            <td
-              style={{
-                width: "35pt",
-                borderTopStyle: "solid",
-                borderTopWidth: "1pt",
-                borderLeftStyle: "solid",
-                borderLeftWidth: "1pt",
-                borderRightStyle: "solid",
-                borderRightWidth: "1pt",
-              }}
-            >
-              <p
-                className="s9"
-                style={{
-                  paddingTop: "3pt",
-                  paddingRight: "3pt",
-                  textIndent: "0pt",
-                  textAlign: "right",
-                }}
-              >
-                0.00
-              </p>
-            </td>
-            <td
-              style={{
-                width: "29pt",
-                borderTopStyle: "solid",
-                borderTopWidth: "1pt",
-                borderLeftStyle: "solid",
-                borderLeftWidth: "1pt",
-                borderRightStyle: "solid",
-                borderRightWidth: "1pt",
-              }}
-            >
-              <p
-                className="s9"
-                style={{
-                  paddingTop: "2pt",
-                  paddingRight: "3pt",
-                  textIndent: "0pt",
-                  textAlign: "right",
-                }}
-              >
-                0.00
-              </p>
-            </td>
-            <td
-              style={{
-                width: "36pt",
-                borderTopStyle: "solid",
-                borderTopWidth: "1pt",
-                borderLeftStyle: "solid",
-                borderLeftWidth: "1pt",
-                borderRightStyle: "solid",
-                borderRightWidth: "1pt",
-              }}
-            >
-              <p
-                className="s9"
-                style={{
-                  paddingTop: "2pt",
-                  paddingLeft: "17pt",
-                  textIndent: "0pt",
-                  textAlign: "left",
-                }}
-              >
-                0.00
-              </p>
-            </td>
-            <td
-              style={{
-                width: "28pt",
-                borderTopStyle: "solid",
-                borderTopWidth: "1pt",
-                borderLeftStyle: "solid",
-                borderLeftWidth: "1pt",
-                borderRightStyle: "solid",
-                borderRightWidth: "1pt",
-              }}
-            >
-              <p
-                className="s9"
-                style={{
-                  paddingTop: "1pt",
-                  paddingRight: "2pt",
-                  textIndent: "0pt",
-                  textAlign: "right",
-                }}
-              >
-                0.00
-              </p>
-            </td>
-            <td
-              style={{
-                width: "52pt",
-                borderTopStyle: "solid",
-                borderTopWidth: "1pt",
-                borderLeftStyle: "solid",
-                borderLeftWidth: "1pt",
-              }}
-            >
-              <p
-                className="s9"
-                style={{
-                  paddingTop: "2pt",
-                  paddingLeft: "17pt",
-                  textIndent: "0pt",
-                  textAlign: "left",
-                }}
-              >
-                0.00
-              </p>
-            </td>
-          </tr>
-          <tr style={{ height: "8pt" }}>
-            <td
-              style={{
-                width: "18pt",
-                borderLeftStyle: "solid",
-                borderLeftWidth: "1pt",
-                borderRightStyle: "solid",
-                borderRightWidth: "1pt",
-              }}
-            >
-              <p style={{ textIndent: "0pt", textAlign: "left" }}>
-                <br />
-              </p>
-            </td>
-            <td
-              style={{
-                width: "43pt",
-                borderLeftStyle: "solid",
-                borderLeftWidth: "1pt",
-                borderRightStyle: "solid",
-                borderRightWidth: "1pt",
-              }}
-            >
-              <p style={{ textIndent: "0pt", textAlign: "left" }}>
-                <br />
-              </p>
-            </td>
-            <td
-              style={{
-                width: "83pt",
-                borderLeftStyle: "solid",
-                borderLeftWidth: "1pt",
-                borderRightStyle: "solid",
-                borderRightWidth: "1pt",
-              }}
-            >
-              <p
-                className="s9"
-                style={{
-                  paddingLeft: "5pt",
-                  textIndent: "0pt",
-                  lineHeight: "6pt",
-                  textAlign: "left",
-                }}
-              >
-                CBSE Book 6
-              </p>
-            </td>
-            <td
-              style={{
-                width: "55pt",
-                borderLeftStyle: "solid",
-                borderLeftWidth: "1pt",
-                borderRightStyle: "solid",
-                borderRightWidth: "1pt",
-              }}
-              colSpan={2}
-            >
-              <p style={{ textIndent: "0pt", textAlign: "left" }}>
-                <br />
-              </p>
-            </td>
-            <td
-              style={{
-                width: "36pt",
-                borderLeftStyle: "solid",
-                borderLeftWidth: "1pt",
-                borderRightStyle: "solid",
-                borderRightWidth: "1pt",
-              }}
-            >
-              <p style={{ textIndent: "0pt", textAlign: "left" }}>
-                <br />
-              </p>
-            </td>
-            <td
-              style={{
-                width: "36pt",
-                borderLeftStyle: "solid",
-                borderLeftWidth: "1pt",
-                borderRightStyle: "solid",
-                borderRightWidth: "1pt",
-              }}
-            >
-              <p style={{ textIndent: "0pt", textAlign: "left" }}>
-                <br />
-              </p>
-            </td>
-            <td
-              style={{
-                width: "25pt",
-                borderLeftStyle: "solid",
-                borderLeftWidth: "1pt",
-                borderRightStyle: "solid",
-                borderRightWidth: "1pt",
-              }}
-            >
-              <p style={{ textIndent: "0pt", textAlign: "left" }}>
-                <br />
-              </p>
-            </td>
-            <td
-              style={{
-                width: "57pt",
-                borderLeftStyle: "solid",
-                borderLeftWidth: "1pt",
-                borderRightStyle: "solid",
-                borderRightWidth: "1pt",
-              }}
-              colSpan={2}
-            >
-              <p style={{ textIndent: "0pt", textAlign: "left" }}>
-                <br />
-              </p>
-            </td>
-            <td
-              style={{
-                width: "27pt",
-                borderLeftStyle: "solid",
-                borderLeftWidth: "1pt",
-                borderRightStyle: "solid",
-                borderRightWidth: "1pt",
-              }}
-              colSpan={2}
-            >
-              <p style={{ textIndent: "0pt", textAlign: "left" }}>
-                <br />
-              </p>
-            </td>
-            <td
-              style={{
-                width: "35pt",
-                borderLeftStyle: "solid",
-                borderLeftWidth: "1pt",
-                borderRightStyle: "solid",
-                borderRightWidth: "1pt",
-              }}
-            >
-              <p style={{ textIndent: "0pt", textAlign: "left" }}>
-                <br />
-              </p>
-            </td>
-            <td
-              style={{
-                width: "29pt",
-                borderLeftStyle: "solid",
-                borderLeftWidth: "1pt",
-                borderRightStyle: "solid",
-                borderRightWidth: "1pt",
-              }}
-            >
-              <p style={{ textIndent: "0pt", textAlign: "left" }}>
-                <br />
-              </p>
-            </td>
-            <td
-              style={{
-                width: "36pt",
-                borderLeftStyle: "solid",
-                borderLeftWidth: "1pt",
-                borderRightStyle: "solid",
-                borderRightWidth: "1pt",
-              }}
-            >
-              <p style={{ textIndent: "0pt", textAlign: "left" }}>
-                <br />
-              </p>
-            </td>
-            <td
-              style={{
-                width: "28pt",
-                borderLeftStyle: "solid",
-                borderLeftWidth: "1pt",
-                borderRightStyle: "solid",
-                borderRightWidth: "1pt",
-              }}
-            >
-              <p style={{ textIndent: "0pt", textAlign: "left" }}>
-                <br />
-              </p>
-            </td>
-            <td
-              style={{
-                width: "52pt",
-                borderLeftStyle: "solid",
-                borderLeftWidth: "1pt",
-              }}
-            >
-              <p style={{ textIndent: "0pt", textAlign: "left" }}>
-                <br />
-              </p>
-            </td>
-          </tr> */}
 
           {tableData.map((item) => {
             return (
@@ -2231,30 +1730,6 @@ const CreditNote = () => {
                   >
                     {item.item_name}
                   </p>
-                  {/* <p
-                  className="s10"
-                  style={{
-                    paddingLeft: "5pt",
-                    marginTop: "3pt",
-                    textIndent: "0pt",
-                    lineHeight: "6pt",
-                    textAlign: "left",
-                  }}
-                >
-                  /WOW! Mathematics -
-                </p>
-                <p
-                  className="s10"
-                  style={{
-                    paddingLeft: "5pt",
-                    marginTop: "3pt",
-                    textIndent: "0pt",
-                    lineHeight: "6pt",
-                    textAlign: "left",
-                  }}
-                >
-                  CBSE Book 7
-                </p> */}
                 </td>
                 <td
                   style={{
@@ -2691,536 +2166,6 @@ const CreditNote = () => {
             </td>
           </tr>
 
-          {/* 
-
-          <tr style={{ height: "15pt" }}>
-            <td
-              style={{
-                width: "18pt",
-                borderLeftStyle: "solid",
-                borderLeftWidth: "1pt",
-                borderRightStyle: "solid",
-                borderRightWidth: "1pt",
-              }}
-            >
-              <p
-                className="s9"
-                style={{
-                  paddingTop: "1pt",
-                  paddingLeft: "6pt",
-                  textIndent: "0pt",
-                  textAlign: "left",
-                }}
-              >
-                3
-              </p>
-            </td>
-            <td
-              style={{
-                width: "43pt",
-                borderLeftStyle: "solid",
-                borderLeftWidth: "1pt",
-                borderRightStyle: "solid",
-                borderRightWidth: "1pt",
-              }}
-            >
-              <p
-                className="s9"
-                style={{
-                  paddingLeft: "5pt",
-                  textIndent: "0pt",
-                  lineHeight: "7pt",
-                  textAlign: "left",
-                }}
-              >
-                49.01.99
-              </p>
-            </td>
-            <td
-              style={{
-                width: "83pt",
-                borderLeftStyle: "solid",
-                borderLeftWidth: "1pt",
-                borderRightStyle: "solid",
-                borderRightWidth: "1pt",
-              }}
-            >
-              <p
-                className="s9"
-                style={{
-                  paddingLeft: "5pt",
-                  textIndent: "0pt",
-                  lineHeight: "7pt",
-                  textAlign: "left",
-                }}
-              >
-                WOWMATCBSE08SP20
-              </p>
-              <p
-                className="s9"
-                style={{
-                  paddingLeft: "5pt",
-                  textIndent: "0pt",
-                  lineHeight: "6pt",
-                  textAlign: "left",
-                }}
-              >
-                /WOW! Mathematics -
-              </p>
-            </td>
-            <td
-              style={{
-                width: "55pt",
-                borderLeftStyle: "solid",
-                borderLeftWidth: "1pt",
-                borderRightStyle: "solid",
-                borderRightWidth: "1pt",
-              }}
-              colSpan={2}
-            >
-              <p
-                className="s9"
-                style={{
-                  paddingLeft: "19pt",
-                  paddingRight: "18pt",
-                  textIndent: "0pt",
-                  lineHeight: "7pt",
-                  textAlign: "center",
-                }}
-              >
-                27.00
-              </p>
-            </td>
-            <td
-              style={{
-                width: "36pt",
-                borderLeftStyle: "solid",
-                borderLeftWidth: "1pt",
-                borderRightStyle: "solid",
-                borderRightWidth: "1pt",
-              }}
-            >
-              <p
-                className="s9"
-                style={{
-                  textIndent: "0pt",
-                  lineHeight: "7pt",
-                  textAlign: "right",
-                }}
-              >
-                490.00
-              </p>
-            </td>
-            <td
-              style={{
-                width: "36pt",
-                borderLeftStyle: "solid",
-                borderLeftWidth: "1pt",
-                borderRightStyle: "solid",
-                borderRightWidth: "1pt",
-              }}
-            >
-              <p
-                className="s9"
-                style={{
-                  paddingLeft: "12pt",
-                  paddingRight: "10pt",
-                  textIndent: "0pt",
-                  lineHeight: "7pt",
-                  textAlign: "center",
-                }}
-              >
-                NOS
-              </p>
-            </td>
-            <td
-              style={{
-                width: "25pt",
-                borderLeftStyle: "solid",
-                borderLeftWidth: "1pt",
-                borderRightStyle: "solid",
-                borderRightWidth: "1pt",
-              }}
-            >
-              <p
-                className="s9"
-                style={{
-                  paddingRight: "1pt",
-                  textIndent: "0pt",
-                  lineHeight: "7pt",
-                  textAlign: "right",
-                }}
-              >
-                20.00
-              </p>
-            </td>
-            <td
-              style={{
-                width: "57pt",
-                borderLeftStyle: "solid",
-                borderLeftWidth: "1pt",
-                borderRightStyle: "solid",
-                borderRightWidth: "1pt",
-              }}
-              colSpan={2}
-            >
-              <p
-                className="s9"
-                style={{
-                  paddingLeft: "20pt",
-                  textIndent: "0pt",
-                  lineHeight: "7pt",
-                  textAlign: "left",
-                }}
-              >
-                13,230.00
-              </p>
-            </td>
-            <td
-              style={{
-                width: "27pt",
-                borderLeftStyle: "solid",
-                borderLeftWidth: "1pt",
-                borderRightStyle: "solid",
-                borderRightWidth: "1pt",
-              }}
-              colSpan={2}
-            >
-              <p
-                className="s9"
-                style={{
-                  paddingTop: "1pt",
-                  paddingLeft: "11pt",
-                  textIndent: "0pt",
-                  textAlign: "left",
-                }}
-              >
-                0.00
-              </p>
-            </td>
-            <td
-              style={{
-                width: "35pt",
-                borderLeftStyle: "solid",
-                borderLeftWidth: "1pt",
-                borderRightStyle: "solid",
-                borderRightWidth: "1pt",
-              }}
-            >
-              <p
-                className="s9"
-                style={{
-                  paddingTop: "2pt",
-                  paddingRight: "3pt",
-                  textIndent: "0pt",
-                  textAlign: "right",
-                }}
-              >
-                0.00
-              </p>
-            </td>
-            <td
-              style={{
-                width: "29pt",
-                borderLeftStyle: "solid",
-                borderLeftWidth: "1pt",
-                borderRightStyle: "solid",
-                borderRightWidth: "1pt",
-              }}
-            >
-              <p
-                className="s9"
-                style={{
-                  paddingRight: "3pt",
-                  textIndent: "0pt",
-                  textAlign: "right",
-                }}
-              >
-                0.00
-              </p>
-            </td>
-            <td
-              style={{
-                width: "36pt",
-                borderLeftStyle: "solid",
-                borderLeftWidth: "1pt",
-                borderRightStyle: "solid",
-                borderRightWidth: "1pt",
-              }}
-            >
-              <p
-                className="s9"
-                style={{
-                  paddingLeft: "17pt",
-                  textIndent: "0pt",
-                  textAlign: "left",
-                }}
-              >
-                0.00
-              </p>
-            </td>
-            <td
-              style={{
-                width: "28pt",
-                borderLeftStyle: "solid",
-                borderLeftWidth: "1pt",
-                borderRightStyle: "solid",
-                borderRightWidth: "1pt",
-              }}
-            >
-              <p
-                className="s9"
-                style={{
-                  paddingRight: "2pt",
-                  textIndent: "0pt",
-                  lineHeight: "7pt",
-                  textAlign: "right",
-                }}
-              >
-                0.00
-              </p>
-            </td>
-            <td
-              style={{
-                width: "52pt",
-                borderLeftStyle: "solid",
-                borderLeftWidth: "1pt",
-              }}
-            >
-              <p
-                className="s9"
-                style={{
-                  paddingTop: "1pt",
-                  paddingRight: "2pt",
-                  textIndent: "0pt",
-                  textAlign: "right",
-                }}
-              >
-                0.00
-              </p>
-            </td>
-          </tr> */}
-          {/* <tr style={{ height: "91pt" }}>
-            <td
-              style={{
-                width: "18pt",
-                borderLeftStyle: "solid",
-                borderLeftWidth: "1pt",
-                borderBottomStyle: "solid",
-                borderBottomWidth: "1pt",
-                borderRightStyle: "solid",
-                borderRightWidth: "1pt",
-              }}
-            >
-              <p style={{ textIndent: "0pt", textAlign: "left" }}>
-                <br />
-              </p>
-            </td>
-            <td
-              style={{
-                width: "43pt",
-                borderLeftStyle: "solid",
-                borderLeftWidth: "1pt",
-                borderBottomStyle: "solid",
-                borderBottomWidth: "1pt",
-                borderRightStyle: "solid",
-                borderRightWidth: "1pt",
-              }}
-            >
-              <p style={{ textIndent: "0pt", textAlign: "left" }}>
-                <br />
-              </p>
-            </td>
-            <td
-              style={{
-                width: "83pt",
-                borderLeftStyle: "solid",
-                borderLeftWidth: "1pt",
-                borderBottomStyle: "solid",
-                borderBottomWidth: "1pt",
-                borderRightStyle: "solid",
-                borderRightWidth: "1pt",
-              }}
-            >
-              <p
-                className="s9"
-                style={{
-                  paddingLeft: "5pt",
-                  textIndent: "0pt",
-                  lineHeight: "7pt",
-                  textAlign: "left",
-                }}
-              >
-                CBSE Book 8
-              </p>
-            </td>
-            <td
-              style={{
-                width: "55pt",
-                borderLeftStyle: "solid",
-                borderLeftWidth: "1pt",
-                borderBottomStyle: "solid",
-                borderBottomWidth: "1pt",
-                borderRightStyle: "solid",
-                borderRightWidth: "1pt",
-              }}
-              colSpan={2}
-            >
-              <p style={{ textIndent: "0pt", textAlign: "left" }}>
-                <br />
-              </p>
-            </td>
-            <td
-              style={{
-                width: "36pt",
-                borderLeftStyle: "solid",
-                borderLeftWidth: "1pt",
-                borderBottomStyle: "solid",
-                borderBottomWidth: "1pt",
-                borderRightStyle: "solid",
-                borderRightWidth: "1pt",
-              }}
-            >
-              <p style={{ textIndent: "0pt", textAlign: "left" }}>
-                <br />
-              </p>
-            </td>
-            <td
-              style={{
-                width: "36pt",
-                borderLeftStyle: "solid",
-                borderLeftWidth: "1pt",
-                borderBottomStyle: "solid",
-                borderBottomWidth: "1pt",
-                borderRightStyle: "solid",
-                borderRightWidth: "1pt",
-              }}
-            >
-              <p style={{ textIndent: "0pt", textAlign: "left" }}>
-                <br />
-              </p>
-            </td>
-            <td
-              style={{
-                width: "25pt",
-                borderLeftStyle: "solid",
-                borderLeftWidth: "1pt",
-                borderBottomStyle: "solid",
-                borderBottomWidth: "1pt",
-                borderRightStyle: "solid",
-                borderRightWidth: "1pt",
-              }}
-            >
-              <p style={{ textIndent: "0pt", textAlign: "left" }}>
-                <br />
-              </p>
-            </td>
-            <td
-              style={{
-                width: "57pt",
-                borderLeftStyle: "solid",
-                borderLeftWidth: "1pt",
-                borderBottomStyle: "solid",
-                borderBottomWidth: "1pt",
-                borderRightStyle: "solid",
-                borderRightWidth: "1pt",
-              }}
-              colSpan={2}
-            >
-              <p style={{ textIndent: "0pt", textAlign: "left" }}>
-                <br />
-              </p>
-            </td>
-            <td
-              style={{
-                width: "27pt",
-                borderLeftStyle: "solid",
-                borderLeftWidth: "1pt",
-                borderBottomStyle: "solid",
-                borderBottomWidth: "1pt",
-                borderRightStyle: "solid",
-                borderRightWidth: "1pt",
-              }}
-              colSpan={2}
-            >
-              <p style={{ textIndent: "0pt", textAlign: "left" }}>
-                <br />
-              </p>
-            </td>
-            <td
-              style={{
-                width: "35pt",
-                borderLeftStyle: "solid",
-                borderLeftWidth: "1pt",
-                borderBottomStyle: "solid",
-                borderBottomWidth: "1pt",
-                borderRightStyle: "solid",
-                borderRightWidth: "1pt",
-              }}
-            >
-              <p style={{ textIndent: "0pt", textAlign: "left" }}>
-                <br />
-              </p>
-            </td>
-            <td
-              style={{
-                width: "29pt",
-                borderLeftStyle: "solid",
-                borderLeftWidth: "1pt",
-                borderBottomStyle: "solid",
-                borderBottomWidth: "1pt",
-                borderRightStyle: "solid",
-                borderRightWidth: "1pt",
-              }}
-            >
-              <p style={{ textIndent: "0pt", textAlign: "left" }}>
-                <br />
-              </p>
-            </td>
-            <td
-              style={{
-                width: "36pt",
-                borderLeftStyle: "solid",
-                borderLeftWidth: "1pt",
-                borderBottomStyle: "solid",
-                borderBottomWidth: "1pt",
-                borderRightStyle: "solid",
-                borderRightWidth: "1pt",
-              }}
-            >
-              <p style={{ textIndent: "0pt", textAlign: "left" }}>
-                <br />
-              </p>
-            </td>
-            <td
-              style={{
-                width: "28pt",
-                borderLeftStyle: "solid",
-                borderLeftWidth: "1pt",
-                borderBottomStyle: "solid",
-                borderBottomWidth: "1pt",
-                borderRightStyle: "solid",
-                borderRightWidth: "1pt",
-              }}
-            >
-              <p style={{ textIndent: "0pt", textAlign: "left" }}>
-                <br />
-              </p>
-            </td>
-            <td
-              style={{
-                width: "52pt",
-                borderLeftStyle: "solid",
-                borderLeftWidth: "1pt",
-                borderBottomStyle: "solid",
-                borderBottomWidth: "1pt",
-              }}
-            >
-              <p style={{ textIndent: "0pt", textAlign: "left" }}>
-                <br />
-              </p>
-            </td>
-          </tr> */}
           <tr style={{ height: "16pt" }}>
             <td
               style={{
@@ -3745,8 +2690,8 @@ const CreditNote = () => {
                   paddingLeft: "5pt",
                 }}
               >
-                <span className="s14">₹ </span>
-                <span className="s15">56,056.00</span>
+                {/* <span className="s14">₹ </span> */}
+                {/* <span className="s15">56,056.00</span> */}
               </p>
             </td>
           </tr>
@@ -3887,8 +2832,8 @@ const CreditNote = () => {
                   marginTop: "5pt",
                 }}
               >
-                <span className="s14">₹ </span>
-                <span className="s15">{taxAmount}</span>
+                {/* <span className="s14">₹ </span>
+                <span className="s15">{taxAmount}</span> */}
               </p>
             </td>
           </tr>
@@ -3934,7 +2879,9 @@ const CreditNote = () => {
               >
                 Total <span className="s13">: </span>
                 <span className="s14">₹ </span>
-                <span className="s15">{totalAmnt}</span>
+                <span className="s15">
+                  {Number(totalAmnt).toLocaleString()}.00
+                </span>
               </p>
             </td>
           </tr>
