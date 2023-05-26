@@ -316,7 +316,7 @@ const ManageSchool = () => {
                   handleOrderProcessingForm={handleOrderProcessingForm}
                   color={"rgb(243, 244, 246)"}
                   data={states}
-                  Name="select_state"
+                  Name="state"
                 />
               </div>
               <div className=" flex flex-col gap-2 w-full md:w-[20vw]">
