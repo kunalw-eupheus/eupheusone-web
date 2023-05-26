@@ -69,31 +69,31 @@ const CreditNote = () => {
 
     let msgData = res.data.message.message[0];
     console.log(msgData);
-    setBillToGst(msgData.Bill_to_GST_No);
-    setBoxes(msgData.Boxes);
-    setCurr(msgData.CUR);
-    setDocDate(msgData.DOCDATE);
-    setLrNo(msgData.LRNo);
-    setPmntTerms(msgData.Payment_Terms);
-    setRefDate(msgData.Reference_Date);
-    setRefNo(msgData.Reference_No);
-    setShipsTo(msgData.SHIP_TO);
-    setShipsToMobile(msgData.SHIP_TO_MOBILE);
-    setTransporterName(msgData.transporter_name);
-    setCreditNum(msgData.credit_num);
-    setShipsToState(msgData.SHIP_TO_STATE_NAME);
-    setShipsToStateCode(msgData.SHIP_TO_STATE_CODE);
-    setGrDate(msgData.U_GRNO_DATE);
-    setUgrno(msgData.U_GRNO);
-    setCin(msgData.cin);
-    setRemarks(msgData.remarks);
-    let taxAmnt = "" + msgData.tax_amount + ".00";
+    setBillToGst(msgData?.Bill_to_GST_No);
+    setBoxes(msgData?.Boxes);
+    setCurr(msgData?.CUR);
+    setDocDate(msgData?.DOCDATE);
+    setLrNo(msgData?.LRNo);
+    setPmntTerms(msgData?.Payment_Terms);
+    setRefDate(msgData?.Reference_Date);
+    setRefNo(msgData?.Reference_No);
+    setShipsTo(msgData?.SHIP_TO);
+    setShipsToMobile(msgData?.SHIP_TO_MOBILE);
+    setTransporterName(msgData?.transporter_name);
+    setCreditNum(msgData?.credit_num);
+    setShipsToState(msgData?.SHIP_TO_STATE_NAME);
+    setShipsToStateCode(msgData?.SHIP_TO_STATE_CODE);
+    setGrDate(msgData?.U_GRNO_DATE);
+    setUgrno(msgData?.U_GRNO);
+    setCin(msgData?.cin);
+    setRemarks(msgData?.remarks);
+    let taxAmnt = "" + msgData?.tax_amount + ".00";
     setTaxAmount(taxAmnt);
 
-    setTotalAmnt(msgData.total);
-    let billToName = msgData.bill_to[0];
+    setTotalAmnt(msgData?.total);
+    let billToName = msgData?.bill_to[0];
     setBillToName(billToName);
-    let billToAdd = msgData.bill_to[1];
+    let billToAdd = msgData?.bill_to[1];
     setBillToAdd(billToAdd);
     // console.log(billToAdd);
   };
@@ -1039,7 +1039,7 @@ const CreditNote = () => {
                   // textAlign: "left",
                 }}
               >
-                {grDate.split("T")[0]}
+                {grDate?.split("T")[0]}
               </p>
             </td>
           </tr>
