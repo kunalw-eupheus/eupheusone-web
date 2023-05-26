@@ -258,7 +258,7 @@ const CreditNote = () => {
                   marginTop: "3pt",
                 }}
               >
-                Test- CN / 31581 CN/31581/21-22
+                {/* Test- CN / 31581 CN/31581/21-22 */}
               </p>
             </td>
             <td
@@ -335,7 +335,7 @@ const CreditNote = () => {
                   textAlign: "left",
                 }}
               >
-                Test
+                {/* Test */}
               </p>
             </td>
             <td
@@ -591,7 +591,7 @@ const CreditNote = () => {
                   textAlign: "left",
                 }}
               >
-                Test
+                {/* Test */}
               </p>
             </td>
             <td
@@ -628,7 +628,7 @@ const CreditNote = () => {
                   textAlign: "left",
                 }}
               >
-                Test
+                {/* Test */}
               </p>
             </td>
           </tr>
@@ -692,7 +692,7 @@ const CreditNote = () => {
                   textAlign: "left",
                 }}
               >
-                Test
+                {/* Test */}
               </p>
             </td>
             <td
@@ -728,7 +728,7 @@ const CreditNote = () => {
                   textAlign: "left",
                 }}
               >
-                Test
+                {/* Test */}
               </p>
             </td>
           </tr>
@@ -898,7 +898,7 @@ const CreditNote = () => {
                   textAlign: "left",
                 }}
               >
-                Test- By Hand Sumit Goyal
+                {/* Test- By Hand Sumit Goyal */}
               </p>
             </td>
             <td
@@ -1077,7 +1077,7 @@ const CreditNote = () => {
                   textAlign: "left",
                 }}
               >
-                Test-09/12/2021
+                {/* Test-09/12/2021 */}
               </p>
             </td>
           </tr>
