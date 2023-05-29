@@ -6,6 +6,8 @@ import { useParams } from "react-router-dom";
 import instance from "../../Instance";
 import Cookies from "js-cookie";
 import { useLayoutEffect } from "react";
+import { toWords } from "number-to-words";
+import { wordify } from "../../util/NumtoWords";
 
 const CreditNote = () => {
   const [tableData, setTableData] = useState([]);
@@ -31,6 +33,7 @@ const CreditNote = () => {
   const [transporteName, setTransporterName] = useState("");
   const [creditNum, setCreditNum] = useState("");
   const [grDate, setGrDate] = useState("");
+  const [amountInwords, setAmountInWords] = useState("");
 
   const { docNum, docdate } = useParams();
 
@@ -87,10 +90,10 @@ const CreditNote = () => {
     setUgrno(msgData?.U_GRNO);
     setCin(msgData?.cin);
     setRemarks(msgData?.remarks);
-    let taxAmnt = "" + msgData?.tax_amount + ".00";
-    setTaxAmount(taxAmnt);
+    setTaxAmount(msgData?.tax_amount);
 
     setTotalAmnt(msgData?.total);
+    setAmountInWords(wordify(msgData?.total));
     let billToName = msgData?.bill_to[0];
     setBillToName(billToName);
     let billToAdd = msgData?.bill_to[1];
@@ -2458,7 +2461,8 @@ const CreditNote = () => {
                   textAlign: "left",
                 }}
               >
-                Rupees Fifty-Six Thousand Fifty-Six Only
+                {/* Rupees Fifty-Six Thousand Fifty-Six Only */}
+                {amountInwords}
               </p>
             </td>
             <td
@@ -2734,7 +2738,7 @@ const CreditNote = () => {
                   paddingTop: "5pt",
                 }}
               >
-                Rupees Only
+                {wordify(taxAmount)}
               </p>
             </td>
             <td
@@ -2810,7 +2814,7 @@ const CreditNote = () => {
                   paddingTop: "5pt",
                 }}
               >
-                Taxable:
+                Taxable: {taxAmount}.00
               </p>
             </td>
             <td
@@ -2920,7 +2924,7 @@ const CreditNote = () => {
                   paddingTop: "5pt",
                 }}
               >
-                Bank Name : <span className="s10">09AAJCP2139H1ZA</span>
+                Bank Name : <span className="s10"></span>
               </p>
               <p
                 className="s3"
@@ -2930,7 +2934,7 @@ const CreditNote = () => {
                   textAlign: "left",
                 }}
               >
-                A/c No. : <span className="s10">09AAJCP2139H1ZA</span>
+                A/c No. : <span className="s10"></span>
               </p>
             </td>
             <td
@@ -2953,7 +2957,7 @@ const CreditNote = () => {
                   paddingTop: "3pt",
                 }}
               >
-                Company's PAN : <span className="s10">09AAJCP2139H1ZA</span>
+                Company's PAN : <span className="s10"></span>
               </p>
               <p
                 className="s3"
@@ -2964,7 +2968,7 @@ const CreditNote = () => {
                   textAlign: "left",
                 }}
               >
-                CIN: <span className="s10">09AAJCP2139H1ZA</span>
+                CIN: <span className="s10"></span>
               </p>
               <p
                 className="s3"
@@ -3001,7 +3005,7 @@ const CreditNote = () => {
                   textAlign: "left",
                 }}
               >
-                IFSC Code : <span className="s10">09AAJCP2139H1ZA</span>
+                IFSC Code : <span className="s10"></span>
               </p>
             </td>
             <td
