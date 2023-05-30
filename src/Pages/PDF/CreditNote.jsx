@@ -1726,7 +1726,7 @@ const CreditNote = () => {
                     style={{
                       paddingLeft: "5pt",
                       textIndent: "0pt",
-                      lineHeight: "7pt",
+                      lineHeight: "10pt",
                       textAlign: "left",
                       marginTop: "5pt",
                     }}
@@ -1736,7 +1736,6 @@ const CreditNote = () => {
                 </td>
                 <td
                   style={{
-                    paddingTop: "4pt",
                     paddingTop: "4pt",
                     width: "55pt",
                     borderLeftStyle: "solid",
@@ -2889,140 +2888,8 @@ const CreditNote = () => {
               </p>
             </td>
           </tr>
-          <tr style={{ height: "40pt" }}>
-            <td
-              style={{
-                width: "324pt",
-                borderTopStyle: "solid",
-                borderTopWidth: "1pt",
-                borderLeftStyle: "solid",
-                borderLeftWidth: "1pt",
-                borderRightStyle: "solid",
-                borderRightWidth: "1pt",
-              }}
-              colSpan={9}
-            >
-              <p
-                className="s3"
-                style={{
-                  paddingTop: "5pt",
-                  paddingLeft: "2pt",
-                  paddingRight: "205pt",
-                  textIndent: "0pt",
-                  lineHeight: "124%",
-                  textAlign: "left",
-                }}
-              >
-                Company's Bank Details
-              </p>
-              <p
-                className="s3"
-                style={{
-                  paddingLeft: "2pt",
-                  textIndent: "0pt",
-                  textAlign: "left",
-                  paddingTop: "5pt",
-                }}
-              >
-                Bank Name : <span className="s10"></span>
-              </p>
-              <p
-                className="s3"
-                style={{
-                  paddingLeft: "2pt",
-                  textIndent: "0pt",
-                  textAlign: "left",
-                }}
-              >
-                A/c No. : <span className="s10"></span>
-              </p>
-            </td>
-            <td
-              style={{
-                width: "236pt",
-                borderTopStyle: "solid",
-                borderTopWidth: "1pt",
-                borderLeftStyle: "solid",
-                borderLeftWidth: "1pt",
-              }}
-              colSpan={8}
-            >
-              <p
-                className="s3"
-                style={{
-                  paddingLeft: "5pt",
-                  textIndent: "0pt",
-                  lineHeight: "9pt",
-                  textAlign: "left",
-                  paddingTop: "3pt",
-                }}
-              >
-                Company's PAN : <span className="s10"></span>
-              </p>
-              <p
-                className="s3"
-                style={{
-                  paddingTop: "2pt",
-                  paddingLeft: "5pt",
-                  textIndent: "0pt",
-                  textAlign: "left",
-                }}
-              >
-                CIN: <span className="s10"></span>
-              </p>
-              <p
-                className="s3"
-                style={{
-                  paddingTop: "2pt",
-                  paddingLeft: "5pt",
-                  textIndent: "0pt",
-                  textAlign: "left",
-                }}
-              >
-                GSTIN/UIN :<span className="s10">09AAJCP2139H1ZA</span>
-              </p>
-            </td>
-          </tr>
-          <tr style={{ height: "15pt" }}>
-            <td
-              style={{
-                width: "324pt",
-                borderLeftStyle: "solid",
-                borderLeftWidth: "1pt",
-                borderBottomStyle: "solid",
-                borderBottomWidth: "1pt",
-                borderRightStyle: "solid",
-                borderRightWidth: "1pt",
-              }}
-              colSpan={9}
-            >
-              <p
-                className="s3"
-                style={{
-                  paddingTop: "1pt",
-                  paddingLeft: "2pt",
-                  textIndent: "0pt",
-                  textAlign: "left",
-                }}
-              >
-                IFSC Code : <span className="s10"></span>
-              </p>
-            </td>
-            <td
-              style={{
-                width: "236pt",
-                borderLeftStyle: "solid",
-                borderLeftWidth: "1pt",
-                borderBottomStyle: "solid",
-                borderBottomWidth: "1pt",
-              }}
-              colSpan={8}
-            >
-              <p style={{ textIndent: "0pt", textAlign: "left" }}>
-                <br />
-              </p>
-            </td>
-          </tr>
+      
+        
           <tr style={{ height: "54pt" }}>
             <td
               style={{
@@ -3107,39 +2974,9 @@ const CreditNote = () => {
           </tr>
         </tbody>
       </table>
-      <p
-        style={{
-          paddingTop: "3pt",
-          paddingLeft: "100pt",
-          textIndent: "0pt",
-          textAlign: "left",
-        }}
-      >
-        <a href="mailto:info@eupheus.in" className="a" target="_blank">
-          Email ID:{" "}
-        </a>
-        <a href="http://www.eupheus.in/" className="a" target="_blank">
-          info@eupheus.in , Contact No: 01161400200 , Website:{" "}
-        </a>
-        <a href="http://www.eupheus.in/" target="_blank">
-          http://www.eupheus.in
-        </a>
-      </p>
-      <h2
-        style={{
-          paddingTop: "1pt",
-          paddingLeft: "0pt",
-          textIndent: "0pt",
-          textAlign: "center",
-        }}
-      >
-        SUBJECT TO DELHI JURISDICTION
-      </h2>
-      <h1
-        style={{ paddingLeft: "0pt", textIndent: "0pt", textAlign: "center" }}
-      >
-        This is a Computer Generated Invoice
-      </h1>
+      
+      
+      
     </div>
   );
 };
