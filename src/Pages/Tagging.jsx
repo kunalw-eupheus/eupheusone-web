@@ -113,9 +113,8 @@ const Tagging = () => {
   };
 
   const handleTaggingClick = (id) => {
-    // console.log('hi')
     setLoading(true);
-    const school = schoolRow.find((item) => item.id === id[0]);
+    const school = schoolRow.find((item) => item.id === id);
     // console.log(school)
     setSchoolId(school?.id);
     if (school?.Tagged === "no") {
