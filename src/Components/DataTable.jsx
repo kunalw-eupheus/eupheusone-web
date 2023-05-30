@@ -200,30 +200,27 @@ export default function DataTable({
   const handleClick = (value) => {
     console.log(value);
     switch (tableName) {
-      // case "ManageSchool":
-      //   navigate(`/update_school/${value[0]}`);
-      //   break;
-      // case "Tagging":
-      //   // console.log('hi')
-      //   handleTaggingClick(value);
-      //   break;
-      // case "Invoice":
-      //   // console.log(value)
-      //   // handleTaggingClick(value);
-      //   // navigate(`/invoice_item/${value[0]}`);
-      //   navigate(`/invoice_item`);
-      //   break;
-      // case "InvoiceItem":
-      //   console.log(value, tableName);
-      //   dialogRef.current.openDialog();
-      //   // navigate(`/invoice_item`);
-      //   break;
-      // case "ManageSchoolTraining":
-      //   navigate(`/update_school_training/${value[0]}`);
-      //   break;
+      case "ManageSchool":
+        navigate(`/update_school/${value[0]}`);
+        break;
+      case "Tagging":
+        handleTaggingClick(value.id);
+        break;
+      case "Invoice":
+        handleTaggingClick(value);
+        navigate(`/invoice_item/${value[0]}`);
+        navigate(`/invoice_item`);
+        break;
+      case "InvoiceItem":
+        console.log(value, tableName);
+        dialogRef.current.openDialog();
+        navigate(`/invoice_item`);
+        break;
+      case "ManageSchoolTraining":
+        navigate(`/update_school_training/${value[0]}`);
+        break;
       case "ManageSchoolAdmin":
         let stats = value.row.Status;
-        // console.log(stats)
         setSchoolStatus(stats);
         setSchoolId(value.id);
         if (value.field === "Status") {

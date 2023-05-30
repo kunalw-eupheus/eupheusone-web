@@ -260,7 +260,7 @@ const CreditSinglePdf = () => {
                     <TableHead className="bg-slate-500">
                       <TableRow>
                         <TableCell className="!w-[13rem]" align="center">
-                          Invoice No
+                          Credit No
                         </TableCell>
                         <TableCell className="!w-[13rem]" align="center">
                           Doc Date
