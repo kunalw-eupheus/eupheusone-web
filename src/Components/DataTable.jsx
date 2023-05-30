@@ -201,7 +201,7 @@ export default function DataTable({
     console.log(value);
     switch (tableName) {
       case "ManageSchool":
-        navigate(`/update_school/${value[0]}`);
+        navigate(`/update_school/${value.row.id}`);
         break;
       case "Tagging":
         handleTaggingClick(value.id);
