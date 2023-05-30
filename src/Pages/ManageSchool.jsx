@@ -194,7 +194,7 @@ const ManageSchool = () => {
   const handleOrderProcessingForm = async (value, type) => {
     // console.log(value, type);
     switch (type) {
-      case "select_state":
+      case "state_manageSchool":
         // console.log(value);
         let stateId = value.id;
         setId({ ...id, state_id: stateId });
@@ -316,7 +316,7 @@ const ManageSchool = () => {
                   handleOrderProcessingForm={handleOrderProcessingForm}
                   color={"rgb(243, 244, 246)"}
                   data={states}
-                  Name="state"
+                  Name="state_manageSchool"
                 />
               </div>
               <div className=" flex flex-col gap-2 w-full md:w-[20vw]">

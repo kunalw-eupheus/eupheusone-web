@@ -64,6 +64,9 @@ const SearchDropDown = ({
         case "state":
           return option.state;
           break;
+        case "state_manageSchool":
+          return option.state;
+          break;
         case "city":
           return option.city;
           break;
@@ -326,6 +329,9 @@ const SearchDropDown = ({
     }
 
     if (type === "select_state") {
+      handleOrderProcessingForm(value, type);
+    }
+    if (type === "state_manageSchool") {
       handleOrderProcessingForm(value, type);
     }
     if (type === "select_state_2") {
