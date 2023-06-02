@@ -3333,6 +3333,34 @@ const Inv = () => {
               </p>
             </td>
           </tr>
+          <tr style={{ height: "18pt" }}>
+            <td
+              style={{
+                width: "324pt",
+                borderLeftStyle: "solid",
+                borderLeftWidth: "1pt",
+                borderRightStyle: "solid",
+                borderRightWidth: "1pt",
+              }}
+              colSpan={7}
+            >
+              <p
+                className="s2"
+                style={{
+                  paddingLeft: "2pt",
+                  textIndent: "0pt",
+                  lineHeight: "10pt",
+                  textAlign: "left",
+                  fontSize: "9pt",
+                }}
+              >
+                Name of Account :{" "}
+                <span className="s10" style={{ fontSize: "8pt" }}>
+                  Proficiency Learning Solutions Private Limited
+                </span>
+              </p>
+            </td>
+          </tr>
           <tr style={{ height: "10.2pt" }}>
             <td
               style={{
@@ -3360,7 +3388,7 @@ const Inv = () => {
                     fontSize: "8pt",
                   }}
                 >
-                  ICICI BANK,SAKET WEALTH BRANCH
+                  Axis Bank Limited
                 </span>
               </p>
             </td>
@@ -3415,7 +3443,7 @@ const Inv = () => {
               >
                 A/c No :{" "}
                 <span className="s10" style={{ fontSize: "8pt" }}>
-                  164705000227
+                  922030062639998
                 </span>
               </p>
             </td>
@@ -3445,7 +3473,8 @@ const Inv = () => {
               </p>
             </td>
           </tr>
-          <tr style={{ height: "30pt" }}>
+
+          <tr style={{ height: "18pt" }}>
             <td
               style={{
                 width: "324pt",
@@ -3469,10 +3498,11 @@ const Inv = () => {
               >
                 IFSC Code :{" "}
                 <span className="s10" style={{ fontSize: "8pt" }}>
-                  ICIC0001647
+                  UTIB0001609
                 </span>
               </p>
             </td>
+
             <td
               style={{
                 width: "233pt",
@@ -3497,6 +3527,34 @@ const Inv = () => {
                 MSMED:{" "}
                 <span className="s3" style={{ fontSize: "8pt" }}>
                   DL09E0003137
+                </span>
+              </p>
+            </td>
+          </tr>
+          <tr style={{ height: "18pt" }}>
+            <td
+              style={{
+                width: "324pt",
+                borderLeftStyle: "solid",
+                borderLeftWidth: "1pt",
+                borderRightStyle: "solid",
+                borderRightWidth: "1pt",
+              }}
+              colSpan={7}
+            >
+              <p
+                className="s2"
+                style={{
+                  paddingLeft: "2pt",
+                  textIndent: "0pt",
+                  lineHeight: "10pt",
+                  textAlign: "left",
+                  fontSize: "9pt",
+                }}
+              >
+                Bank Branch :{" "}
+                <span className="s10" style={{ fontSize: "8pt" }}>
+                  Corporate Banking Branch, New Delhi.
                 </span>
               </p>
             </td>
