@@ -39,14 +39,24 @@ const ManageSchool = () => {
   const Tablecolumns = [
     { field: "SchoolName", headerName: "School Name", width: 300 },
     {
-      field: "State",
-      headerName: "State",
-      width: 120,
+      field: "SalesRep",
+      headerName: "Sales Rep",
+      width: 200,
     },
     {
       field: "Address",
       headerName: "Address",
       width: 400,
+    },
+    {
+      field: "State",
+      headerName: "State",
+      width: 200,
+    },
+    {
+      field: "City",
+      headerName: "City",
+      width: 200,
     },
   ];
 
@@ -89,9 +99,13 @@ const ManageSchool = () => {
         SchoolName: item?.school_name,
         State: item?.school_addresses[0]?.fk_state?.state,
         Address: item?.school_addresses[0]?.address,
-        repId: item?.fk_user_id,
+        SalesRep: `${item?.fk_user?.first_name} ${
+          item?.fk_user?.middle_name === null ? "" : item?.fk_user?.middle_name
+        } ${item?.fk_user?.last_name}`,
+        repId: item.fk_user?.id,
         stateId: item?.school_addresses[0]?.fk_state.id,
-        cityId: item?.school_addresses[0]?.fk_city_id,
+        City: item?.school_addresses[0]?.fk_city.city,
+        cityId: item?.school_addresses[0]?.fk_city.id,
       };
     });
     setRow(rows);
@@ -150,7 +164,7 @@ const ManageSchool = () => {
     "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8";
   const fileExtension = ".xlsx";
 
-  let columnsName = ["School Name", "Address", "State"];
+  let columnsName = ["School Name", "Sales Rep", "Address", "State", "City"];
 
   const exportToCSV = async () => {
     let dataToExport = returnRowData();
@@ -159,12 +173,15 @@ const ManageSchool = () => {
     for (let obj of dataToExport) {
       let reqObj = {
         SchoolName: obj.SchoolName,
+        SalesRep: obj.SalesRep,
         Address: obj.Address,
         State: obj.State,
+        City: obj.City,
       };
       reqExportData.push(reqObj);
     }
     // console.log(reqExportData);
+    console.log(reqExportData);
 
     let fileName = "excelData";
     // let keysName = Object.keys(apiData[0])
