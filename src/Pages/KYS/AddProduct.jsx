@@ -20,7 +20,7 @@ import { useFormik } from "formik";
 import Snackbars from "../../Components/Material/SnackBar";
 import SearchDropDown from "../../Components/SearchDropDown";
 
-const AddProduct = ({ props }) => {
+const AddProduct = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
@@ -135,10 +135,10 @@ const AddProduct = ({ props }) => {
           setTimeout(() => {
             window.scroll({
               top: 0,
-              // behavior: "smooth",
+              behavior: "smooth",
             });
             setTimeout(() => {
-              window.replace(`/kys/product/${id}`);
+              navigate(`/kys/products/${id}`);
             }, 100);
           }, 1500);
         } else {
@@ -165,7 +165,6 @@ const AddProduct = ({ props }) => {
   };
 
   const handleSidebarCollapsed = () => {
-    // setSidebarCollapsed(!sidebarCollapsed);
     sidebarRef.current.openSidebar();
   };
 
@@ -175,11 +174,6 @@ const AddProduct = ({ props }) => {
     } else {
       Curriculumformik.handleSubmit();
     }
-    returnback();
-  };
-
-  const returnback = () => {
-    navigate(`/kys/products/${id}`);
   };
 
   useLayoutEffect(() => {
