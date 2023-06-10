@@ -18,6 +18,7 @@ import { Stack } from "@mui/system";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import axios from "axios";
 import CircularStatic from "../Components/Material/ProgressBar";
+import Bottleneck from "bottleneck";
 
 const ViewInvoiceDouble = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
@@ -31,6 +32,11 @@ const ViewInvoiceDouble = () => {
   const [bpCode, setBpCode] = useState("");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
+
+  const limiter = new Bottleneck({
+    maxConcurrent: 2, // Maximum number of concurrent requests
+    minTime: 2000, // Minimum time between each request in milliseconds
+  });
 
   const navInfo = {
     title: "Doc Print",
@@ -131,48 +137,88 @@ const ViewInvoiceDouble = () => {
       alert("No data available");
     } else {
       let completeReq = 0;
+      const sendReq = async (item) => {
+        const response = await instance({
+          url: `doc_print/invoice/generate`,
+          method: "post",
+          data: {
+            docNum: item.DocNum,
+            docDate: item.DOCDATE,
+          },
+          headers: {
+            Authorization: Cookies.get("accessToken"),
+          },
+        });
+        setProg((completeReq++ / num.length) * 100);
+
+        item.url = response.data.url;
+        return item;
+      };
+      const promise = num.map((item) => limiter.schedule(() => sendReq(item)));
+      const pdfs = await Promise.all(promise);
+      // console.log(pdfs);
+      let downloadUrl = pdfs;
+      const zip = new JSZip();
       await Promise.all(
-        res.data.message.map(async (item) => {
-          if (!item?.url) {
-            const res = await instance({
-              url: `doc_print/invoice/generate`,
-              method: "post",
-              data: {
-                docNum: item.DocNum,
-                docDate: item.DOCDATE,
-              },
-              headers: {
-                Authorization: Cookies.get("accessToken"),
-              },
-            });
-            // completeReq = completeReq + 1;
-            // console.log((completeReq++ / num.length) * 100);
-            setProg((completeReq++ / num.length) * 100);
-            item.url = res.data.url;
-          }
+        downloadUrl.map(async (pdf, index) => {
+          const response = await fetch(pdf?.url);
+          const pdfData = await response.blob();
+          let name = `inv_${pdf.DocNum}_${pdf.DOCDATE.split("/")[2]}_${
+            pdf.DOCDATE.split("/")[1]
+          }_${pdf.DOCDATE.split("/")[0]}`;
+          zip.file(`${name}.pdf`, pdfData);
         })
-      ).then(async () => {
-        console.log(res.data);
-        let downloadUrl = res.data.message;
-        const zip = new JSZip();
-        await Promise.all(
-          downloadUrl.map(async (pdf, index) => {
-            const response = await fetch(pdf?.url);
-            const pdfData = await response.blob();
-            let name = `inv_${pdf.DocNum}_${pdf.DOCDATE.split("/")[2]}_${
-              pdf.DOCDATE.split("/")[1]
-            }_${pdf.DOCDATE.split("/")[0]}`;
-            zip.file(`${name}.pdf`, pdfData);
-          })
-        );
-        // generate zip
-        const zipContent = await zip.generateAsync({ type: "blob" });
-        // trigger download
-        const downloadLink = document.createElement("a");
-        downloadLink.href = URL.createObjectURL(zipContent);
-        downloadLink.download = "my_zip_file.zip";
-        downloadLink.click();
-      });
+      );
+      // generate zip
+      const zipContent = await zip.generateAsync({ type: "blob" });
+      // trigger download
+      const downloadLink = document.createElement("a");
+      downloadLink.href = URL.createObjectURL(zipContent);
+      downloadLink.download = "my_zip_file.zip";
+      downloadLink.click();
+      // await Promise.all(
+      //   res.data.message.map(async (item) => {
+      //     // if (!item?.url) {
+      //     const res = await limiter.schedule(async () => {
+      //       await instance({
+      //         url: `doc_print/invoice/generate`,
+      //         method: "post",
+      //         data: {
+      //           docNum: item.DocNum,
+      //           docDate: item.DOCDATE,
+      //         },
+      //         headers: {
+      //           Authorization: Cookies.get("accessToken"),
+      //         },
+      //       });
+      //     });
+      //     console.log(res.data);
+      //     setProg((completeReq++ / num.length) * 100);
+      //     item.url = res.data.url;
+      //     // }
+      //   })
+      // ).then(async () => {
+      //   console.log(res.data);
+      //   let downloadUrl = res.data.message;
+      //   const zip = new JSZip();
+      //   await Promise.all(
+      //     downloadUrl.map(async (pdf, index) => {
+      //       const response = await fetch(pdf?.url);
+      //       const pdfData = await response.blob();
+      //       let name = `inv_${pdf.DocNum}_${pdf.DOCDATE.split("/")[2]}_${
+      //         pdf.DOCDATE.split("/")[1]
+      //       }_${pdf.DOCDATE.split("/")[0]}`;
+      //       zip.file(`${name}.pdf`, pdfData);
+      //     })
+      //   );
+      //   // generate zip
+      //   const zipContent = await zip.generateAsync({ type: "blob" });
+      //   // trigger download
+      //   const downloadLink = document.createElement("a");
+      //   downloadLink.href = URL.createObjectURL(zipContent);
+      //   downloadLink.download = "my_zip_file.zip";
+      //   downloadLink.click();
+      // });
     }
 
     // console.log(downloadUrl);
