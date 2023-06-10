@@ -17,6 +17,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { Stack } from "@mui/system";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import axios from "axios";
+import CircularStatic from "../Components/Material/ProgressBar";
 
 const ViewInvoiceDouble = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
@@ -26,7 +27,7 @@ const ViewInvoiceDouble = () => {
   const [type, setType] = useState("");
   const sidebarRef = useRef();
   const [customer, setCustomer] = useState([]);
-
+  const [prog, setProg] = useState(0);
   const [bpCode, setBpCode] = useState("");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
@@ -124,29 +125,59 @@ const ViewInvoiceDouble = () => {
         Authorization: Cookies.get("accessToken"),
       },
     });
+    console.log(res.data);
+    let num = res.data.message;
     if (res.data.message.length === 0) {
-      alert(res.data.message);
+      alert("No data available");
     } else {
-      console.log(res.data.message);
-      let downloadUrl = res.data.message;
-      const zip = new JSZip();
+      let completeReq = 0;
       await Promise.all(
-        downloadUrl.map(async (pdf, index) => {
-          const response = await fetch(pdf?.url);
-          const pdfData = await response.blob();
-          zip.file(`${pdf?.name}`, pdfData);
+        res.data.message.map(async (item) => {
+          if (!item?.url) {
+            const res = await instance({
+              url: `doc_print/invoice/generate`,
+              method: "post",
+              data: {
+                docNum: item.DocNum,
+                docDate: item.DOCDATE,
+              },
+              headers: {
+                Authorization: Cookies.get("accessToken"),
+              },
+            });
+            // completeReq = completeReq + 1;
+            // console.log((completeReq++ / num.length) * 100);
+            setProg((completeReq++ / num.length) * 100);
+            item.url = res.data.url;
+          }
         })
-      );
-      // generate zip
-      const zipContent = await zip.generateAsync({ type: "blob" });
-      // trigger download
-      const downloadLink = document.createElement("a");
-      downloadLink.href = URL.createObjectURL(zipContent);
-      downloadLink.download = "my_zip_file.zip";
-      downloadLink.click();
-      console.log(downloadUrl);
+      ).then(async () => {
+        console.log(res.data);
+        let downloadUrl = res.data.message;
+        const zip = new JSZip();
+        await Promise.all(
+          downloadUrl.map(async (pdf, index) => {
+            const response = await fetch(pdf?.url);
+            const pdfData = await response.blob();
+            let name = `inv_${pdf.DocNum}_${pdf.DOCDATE.split("/")[2]}_${
+              pdf.DOCDATE.split("/")[1]
+            }_${pdf.DOCDATE.split("/")[0]}`;
+            zip.file(`${name}.pdf`, pdfData);
+          })
+        );
+        // generate zip
+        const zipContent = await zip.generateAsync({ type: "blob" });
+        // trigger download
+        const downloadLink = document.createElement("a");
+        downloadLink.href = URL.createObjectURL(zipContent);
+        downloadLink.download = "my_zip_file.zip";
+        downloadLink.click();
+      });
     }
+
+    // console.log(downloadUrl);
     setLoading(false);
+    setProg(0);
 
     // navigate(`/bulkinv_pdf/${bpCode}/${strtDte}/${endDte}`)
   };
@@ -190,9 +221,11 @@ const ViewInvoiceDouble = () => {
         sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
         open={loading}
       >
-        <CircularProgress color="inherit" />
+        {/* <CircularProgress color="inherit" /> */}
+        <CircularStatic progress={prog} />
       </Backdrop>
       <Sidebar sidebarCollapsed={sidebarCollapsed} highLight={highLight} />
+      {/* <CircularStatic /> */}
 
       <div>
         <SwipeableTemporaryDrawer
