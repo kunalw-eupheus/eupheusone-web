@@ -148,10 +148,12 @@ const ViewInvoiceDouble = () => {
           headers: {
             Authorization: Cookies.get("accessToken"),
           },
+        }).catch((err) => {
+          console.log(err);
         });
         setProg((completeReq++ / num.length) * 100);
 
-        item.url = response.data.url;
+        item.url = response?.data?.url;
         return item;
       };
       const promise = num.map((item) => limiter.schedule(() => sendReq(item)));
