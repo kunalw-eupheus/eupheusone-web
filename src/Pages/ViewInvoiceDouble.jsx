@@ -163,11 +163,13 @@ const ViewInvoiceDouble = () => {
       const zip = new JSZip();
       await Promise.all(
         downloadUrl.map(async (pdf, index) => {
-          const response = await fetch(pdf?.url);
-          const pdfData = await response.blob();
-          let name = `inv_${pdf.DocNum}_${pdf.DOCDATE.split("/")[2]}_${
-            pdf.DOCDATE.split("/")[1]
-          }_${pdf.DOCDATE.split("/")[0]}`;
+          const response = await fetch(pdf?.url).catch((err) =>
+            console.log(err)
+          );
+          const pdfData = await response?.blob();
+          let name = `inv_${pdf?.DocNum}_${pdf?.DOCDATE.split("/")[2]}_${
+            pdf?.DOCDATE.split("/")[1]
+          }_${pdf?.DOCDATE.split("/")[0]}`;
           zip.file(`${name}.pdf`, pdfData);
         })
       );
