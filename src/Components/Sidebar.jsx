@@ -3,26 +3,27 @@ import "react-pro-sidebar/dist/css/styles.css";
 import {
   Place,
   School,
-  AccountBalance,
-  KeyboardArrowDown,
-  Circle,
+  // AccountBalance,
+  // KeyboardArrowDown,
+  // Circle,
   Dashboard,
-  LocationOn,
+  // LocationOn,
   LocalShipping,
   LocationCityOutlined,
   ShoppingBag,
-  ListAlt,
-  LocationCity,
-  AssignmentReturnOutlined,
+  // ListAlt,
+  // LocationCity,
+  // AssignmentReturnOutlined,
   ReceiptOutlined,
   PrintOutlined,
   Timeline,
   AddTask,
+  CurrencyRupee,
 } from "@mui/icons-material";
 import { Link } from "react-router-dom";
 import logoLight from "../assets/img/logo-light-icon.png";
-import { Collapse } from "@mui/material";
-import Divider from "@mui/material/Divider";
+// import { Collapse } from "@mui/material";
+// import Divider from "@mui/material/Divider";
 import { useLayoutEffect } from "react";
 import instance from "../Instance";
 import Cookies from "js-cookie";
@@ -112,7 +113,7 @@ const Sidebar = ({ sidebarCollapsed, highLight, show }) => {
               className=" w-[10vw] md:w-[3.7vw] h-auto object-cover"
               alt=""
             />
-            <h4 className="text-gray-100">Eupheus Learning</h4>
+            <h4 className="text-gray-100 lg:text-2xl">Eupheus Learning</h4>
           </div>
           <aside className="flex flex-col px-6 text-gray-200">
             <span className="text-lg">Hi, {user.first_name}</span>
@@ -245,7 +246,7 @@ const Sidebar = ({ sidebarCollapsed, highLight, show }) => {
               className=" w-[10vw] md:w-[3.7vw] h-auto object-cover"
               alt=""
             />
-            <h4 className="text-gray-100">Eupheus Learning</h4>
+            <h4 className="text-gray-100 lg:text-xl">Eupheus Learning</h4>
           </div>
           {/* <section>
           <div
@@ -813,6 +814,30 @@ const Sidebar = ({ sidebarCollapsed, highLight, show }) => {
                 } group-hover:!text-gray-100 transition-all duration-150 ease-linear`}
               >
                 Doc Print
+              </span>
+            </aside>
+          </Link>
+          <Link to="/incoming_payment">
+            <aside
+              className={`px-6 py-2 flex gap-4 ${
+                highLight === "incoming_payment" ? "bg-gray-500" : ""
+              } cursor-pointer group hover:bg-gray-500 rounded-md transition-all duration-150 ease-linear`}
+            >
+              <CurrencyRupee
+                className={`${
+                  highLight === "incoming_payment"
+                    ? "!text-[#659DBD]"
+                    : "!text-gray-400"
+                } group-hover:!text-[#659DBD] !transition-all !duration-150 !ease-linear`}
+              />
+              <span
+                className={`${
+                  highLight === "incoming_payment"
+                    ? "text-gray-200"
+                    : "text-gray-400"
+                } group-hover:!text-gray-100 transition-all duration-150 ease-linear`}
+              >
+                Incoming Payment
               </span>
             </aside>
           </Link>
