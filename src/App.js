@@ -96,7 +96,7 @@ import User from "./Pages/HR/User";
 import AdminCkReport from "./Pages/AdminCkReport";
 import CreditNote from "./Pages/PDF/CreditNote";
 import CreditSinglePdf from "./Pages/CreditSinglePdf";
-import IncomingPayment from "./Pages/IncomingPayment";
+import SalesToCash from "./Pages/SalesToCash";
 
 function App() {
   const [userCache, setUserCache] = useState(false);
@@ -351,7 +351,7 @@ function App() {
               {/* <Route path="/invoice_pdf" element={<Inv />} /> */}
 
               <Route path="/view_pdf/:docnum/:docdate" element={<ViewPdf />} />
-              <Route path="/incoming_payment" element={<IncomingPayment />} />
+              <Route path="/salesToCash" element={<SalesToCash />} />
 
               <Route path="/view_aof_pdf/:aofid" element={<AofPdf3temp />} />
               <Route path="/view_aof_pdf2/:aofid" element={<AofPdf2 />} />
