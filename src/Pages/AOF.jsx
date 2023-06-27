@@ -113,7 +113,7 @@ const AOF = () => {
   }, []);
 
   const handleAofView = (invceId) => {
-    console.log(invceId);
+    // console.log(invceId);
     setLoading(true);
     setAofId(invceId);
     setTimeout(() => {

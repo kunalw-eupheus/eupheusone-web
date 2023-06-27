@@ -3,7 +3,7 @@ import { useState } from "react";
 import Navbar from "../Components/Navbar";
 import Sidebar from "../Components/Sidebar";
 import { useFormik } from "formik";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import SwipeableTemporaryDrawer from "../Components/Material/MaterialSidebar";
 import BasicButton from "../Components/Material/Button";
@@ -57,6 +57,7 @@ const UpdateSchool = () => {
   const sidebarRef = useRef();
   const snackbarRef = useRef();
   const show = null;
+  const navigate = useNavigate();
 
   const formik = useFormik({
     initialValues: {
@@ -118,8 +119,15 @@ const UpdateSchool = () => {
     //   }
     //   return errors;
     // },
+
     onSubmit: async (values) => {
       setLoading(true);
+
+      // console.log(id);
+      let pincode =
+        formik.values.pin_code.length === 0
+          ? "0"
+          : formik.values.pin_code.length;
       const res = await instance({
         url: `school/update/${id}`,
         method: "PUT",
@@ -135,26 +143,29 @@ const UpdateSchool = () => {
           designation: formik.values.designation,
           state: formik.values.state,
           city: formik.values.city,
-          pin: formik.values.pin_code,
+          pin: pincode,
           address: formik.values.address,
         },
         headers: {
           Authorization: Cookies.get("accessToken"),
         },
       });
-      console.log(res.data);
+      // console.log(res.data);
       if (res.data.status === "success") {
         setSnackbarErrStatus(false);
         setErrMessage(res.data.message);
         snackbarRef.current.openSnackbar();
+        // setTimeout(() => {
+        //   window.scroll({
+        //     top: 0,
+        //     // behavior: "smooth",
+        //   });
+        //   setTimeout(() => {
+        //     window.location.reload();
+        //   }, 100);
+        // }, 1500);
         setTimeout(() => {
-          window.scroll({
-            top: 0,
-            // behavior: "smooth",
-          });
-          setTimeout(() => {
-            window.location.reload();
-          }, 100);
+          navigate(`/manageSchool`);
         }, 1500);
       }
 
@@ -592,10 +603,10 @@ const UpdateSchool = () => {
               Update School
             </h1>
             <div className="w-full flex flex-col gap-4 items-center mt-[7rem]">
-              <CustomizedSteppers
+              {/* <CustomizedSteppers
                 activeStep={calActiceStep()}
                 steps={["Basic Details", "Contact Details", "Address Details"]}
-              />
+              /> */}
               {/* step 1 */}
               {steps.step1 ? (
                 <div className="flex flex-col gap-4 items-start w-[90%] px-6 bg-slate-600 rounded-md py-6 mb-[5rem]">

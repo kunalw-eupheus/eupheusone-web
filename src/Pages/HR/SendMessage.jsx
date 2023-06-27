@@ -1,15 +1,15 @@
-import React from "react";
 import Sidebar from "../../Components/Sidebar7";
-import { useState } from "react";
-import { useRef } from "react";
+import { useState, useRef, React } from "react";
 import SwipeableTemporaryDrawer from "../../Components/Material/MaterialSidebar7";
 import { useEffect } from "react";
 import instance from "../../Instance";
 import Cookies from "js-cookie";
 import Snackbars from "../../Components/Material/SnackBar";
-import HrUserCreate from "../../Components/Material/Dialog/HrUserCreate";
-import { PersonAddAlt } from "@mui/icons-material";
 import {
+  TextField,
+  IconButton,
+  Backdrop,
+  Toolbar,
   Table,
   TableBody,
   TableCell,
@@ -18,16 +18,15 @@ import {
   TablePagination,
   TableRow,
   Paper,
-  TextField,
-  IconButton,
-  Backdrop,
   Button,
   CircularProgress,
-  Toolbar,
 } from "@mui/material";
+import { PersonAddAlt, Send } from "@mui/icons-material";
 import Navbar2 from "../../Components/Navbar2";
+import HrMsgGroupCreate from "../../Components/Material/Dialog/HrMsgGroupCreate";
+import HrConfirm from "../../Components/Material/Dialog/HrConfirm";
 
-const User = () => {
+const SendMessage2 = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [snackbarErrStatus, setSnackbarErrStatus] = useState(true);
   const [errMessage, setErrMessage] = useState("");
@@ -35,8 +34,9 @@ const User = () => {
   const [searchRow, setSearchRow] = useState([]);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [page, setPage] = useState(0);
-  const [searchVal, setSearchVal] = useState("");
   const [rowdata, setRowdata] = useState([]);
+  const [msgSendId, setMsgSendId] = useState("");
+  const [tempId, setTempId] = useState("");
 
   const snackbarRef = useRef();
 
@@ -123,8 +123,7 @@ const User = () => {
         snackbarRef.current.openSnackbar();
         break;
       case "reload":
-        console.log("reload coming");
-        getUserdetails();
+        getTableData();
         break;
     }
   };
@@ -138,11 +137,11 @@ const User = () => {
 
   const navInfo = {
     title: "HR",
-    details: ["User", ""],
+    details: ["Message", ""],
   };
 
   useEffect(() => {
-    getUserdetails();
+    getTableData();
     const handleWidth = () => {
       if (window.innerWidth > 1024) {
         setSidebarCollapsed(false);
@@ -159,10 +158,10 @@ const User = () => {
     };
   }, []);
 
-  const getUserdetails = async () => {
+  const getTableData = async () => {
     setLoading(true);
     const res = await instance({
-      url: `/hr/get/allUsers`,
+      url: `hr/get/smslist`,
       method: "GET",
       headers: {
         Authorization: `${Cookies.get("accessToken")}`,
@@ -171,23 +170,15 @@ const User = () => {
     });
 
     if (res.data.status === "success") {
-      // console.log(res);
       let dataArr = [];
+      let slNo = 1;
       for (let obj of res.data.message) {
-        // console.log(obj);
-        let fullName = `${obj.first_name ? obj.first_name : ""} ${
-          obj.middle_name ? obj.middle_name : ""
-        } ${obj.last_name ? obj.last_name : ""}`;
-        let tempObj = {
-          name: fullName,
-          emp_id: obj.emp_id,
-          id: obj.id,
-          phone: obj.phone,
-        };
-        dataArr.push(tempObj);
+        obj.sl = slNo;
+        dataArr.push(obj);
+        console.log(obj);
+        slNo++;
       }
-      // console.log(dataArr);
-      setRowdata(dataArr);
+      setRowdata(res.data.message);
     } else {
       setSnackbarErrStatus(true);
       setErrMessage(res.data.message);
@@ -197,10 +188,20 @@ const User = () => {
   };
 
   const openDialogue = () => {
-    dialogRef2.current.openDialog();
+    dialogRefHrMsg.current.openDialog();
   };
+  const dialogRefHrMsg = useRef();
 
-  const dialogRef2 = useRef();
+  const openDialogue1 = (data) => {
+    setMsgSendId(data.id);
+    setTempId(data.fk_sms_template.id);
+    setLoading(true);
+    setTimeout(() => {
+      dialogRef1.current.openDialog();
+      setLoading(false);
+    }, 1000);
+  };
+  const dialogRef1 = useRef();
 
   return (
     <>
@@ -213,7 +214,7 @@ const User = () => {
       <div className="flex w-[100%] min-h-[100vh]">
         <div>
           <Sidebar
-            highLight={"user"}
+            highLight={"message"}
             sidebarCollapsed={sidebarCollapsed}
             show={show}
           />
@@ -223,10 +224,17 @@ const User = () => {
             ref={sidebarRef}
             sidebarCollapsed={sidebarCollapsed}
             show={show}
-            highLight={"user"}
+            highLight={"message"}
           />
         </div>
-        <HrUserCreate ref={dialogRef2} handleData={handleData} />
+        <HrConfirm
+          ref={dialogRef1}
+          handleData={handleData}
+          label={"sendMessage"}
+          msgSendId={msgSendId}
+          tempId={tempId}
+        />
+        <HrMsgGroupCreate ref={dialogRefHrMsg} />
         <div
           className={`flex flex-col w-[100vw] relative transition-all ease-linear duration-300 lg:w-[83vw] lg:ml-[18vw] ${
             window.innerWidth < 1024 ? null : "md:ml-[30vw] ml-[85vw]"
@@ -243,30 +251,37 @@ const User = () => {
           />
           <div className="min-h-[100vh] pt-[2vh] max-h-full bg-[#e5e7eb]">
             <div className=" sm:px-8 bg-[#e5e7eb] flex justify-end py-3">
-              <a className="" onClick={() => openDialogue()}>
-                <Button className="!font-bold !bg-[#0079FF] !text-white">
-                  <PersonAddAlt className="mr-2" />
-                  {"Create New User"}
-                </Button>
-              </a>
+              <div className="text-gray-400 flex">
+                <a className=" flex" onClick={() => openDialogue()}>
+                  <Button className=" !font-bold !bg-[#0079FF] !text-white">
+                    <PersonAddAlt className="mr-2 text-white" />
+                    {"Create New Meeting"}
+                  </Button>
+                </a>
+              </div>
             </div>
             <div className="flex justify-around">
               <div className="w-[94%]">
                 {/* <Paper className="mt-5"> */}
                 <TableContainer component={Paper}>
                   <Toolbar className="bg-slate-100 flex justify-between">
-                    <TextField
-                      id="search-bar"
-                      className="text bg-white"
-                      onChange={(e) => {
-                        filterTable(e.target.value);
-                      }}
-                      // label="Search..."
-                      variant="outlined"
-                      placeholder="Search..."
-                      size="small"
-                    />
-                    {/* <div className="bg-slate-300">
+                    <div className="flex bg-white ">
+                      <TextField
+                        // sx={{ border: "orange 2px" }}
+                        id="validation-outlined-input"
+                        className="text "
+                        // onInput={(e) => {
+                        //   handleSearch(e.target.value);
+                        // }}
+                        onChange={(e) => {
+                          filterTable(e.target.value);
+                        }}
+                        // label="Search....."
+                        variant="outlined"
+                        placeholder="Search..."
+                        size="small"
+                      />
+                      {/* <div className="bg-slate-300">
                         <IconButton
                           type="submit"
                           aria-label="search"
@@ -275,34 +290,37 @@ const User = () => {
                           <Search style={{ fill: "blue" }} />
                         </IconButton>
                       </div> */}
+                    </div>
 
-                    <TablePagination
-                      rowsPerPageOptions={[
-                        10,
-                        50,
-                        100,
-                        { label: "All", value: -1 },
-                      ]}
-                      colSpan={3}
-                      count={
-                        searchRow.length === 0
-                          ? rowdata.length
-                          : searchRow.length
-                      }
-                      rowsPerPage={rowsPerPage}
-                      page={page}
-                      slotProps={{
-                        select: {
-                          "aria-label": "rows per page",
-                        },
-                        actions: {
-                          showFirstButton: true,
-                          showLastButton: true,
-                        },
-                      }}
-                      onPageChange={handleChangePage}
-                      onRowsPerPageChange={handleChangeRowsPerPage}
-                    />
+                    <div>
+                      <TablePagination
+                        rowsPerPageOptions={[
+                          10,
+                          50,
+                          100,
+                          { label: "All", value: -1 },
+                        ]}
+                        colSpan={3}
+                        count={
+                          searchRow.length === 0
+                            ? rowdata.length
+                            : searchRow.length
+                        }
+                        rowsPerPage={rowsPerPage}
+                        page={page}
+                        slotProps={{
+                          select: {
+                            "aria-label": "rows per page",
+                          },
+                          actions: {
+                            showFirstButton: true,
+                            showLastButton: true,
+                          },
+                        }}
+                        onPageChange={handleChangePage}
+                        onRowsPerPageChange={handleChangeRowsPerPage}
+                      />
+                    </div>
                   </Toolbar>
 
                   <Table
@@ -310,18 +328,22 @@ const User = () => {
                     size="small"
                     aria-label="a dense table"
                   >
-                    <TableHead className="bg-white">
-                      <TableRow>
-                        <TableCell className="!w-[20rem]" align="left">
-                          <div className="font-black text-sm ">Employee Id</div>
-                        </TableCell>
-                        <TableCell className="!w-[20rem]" align="left">
-                          <div className="font-black text-sm ">
-                            Employee Name
-                          </div>
+                    <TableHead className="">
+                      <TableRow className="">
+                        <TableCell className="!w-[13rem]" align="left">
+                          <div className="font-black text-sm ">#</div>
                         </TableCell>
                         <TableCell className="!w-[13rem]" align="left">
-                          <div className="font-black text-sm ">Phone</div>
+                          <div className="text-md !font-extrabold">Name</div>
+                        </TableCell>
+                        <TableCell className="!w-[13rem] " align="left">
+                          <div className="font-black text-sm">Group</div>
+                        </TableCell>
+                        <TableCell className="!w-[20rem] " align="left">
+                          <div className="font-black text-sm">Template</div>
+                        </TableCell>
+                        <TableCell className="!w-[13rem] " align="left">
+                          <div className="font-black text-sm">Send</div>
                         </TableCell>
                       </TableRow>
                     </TableHead>
@@ -335,21 +357,27 @@ const User = () => {
                             : rowdata
                           ).map((row) => (
                             <TableRow
-                              key={row.series}
+                              key={row.id}
                               sx={{
                                 "&:last-child td, &:last-child th": {
                                   border: 0,
                                 },
                               }}
                             >
-                              <TableCell align="left">{row.emp_id}</TableCell>
+                              <TableCell align="left">{row?.sl}</TableCell>
+                              <TableCell align="left">{row?.name}</TableCell>
+                              <TableCell align="left">{row?.sendto}</TableCell>
                               <TableCell align="left">
-                                <div className="h-6">
-                                  {row.name ? row.name : ""}
-                                </div>
+                                {row?.fk_sms_template?.name}
                               </TableCell>
                               <TableCell align="left">
-                                {row.phone ? row.phone : "-"}
+                                <IconButton
+                                  style={{ color: "#10b981" }}
+                                  onClick={() => openDialogue1(row)}
+                                  className="h-6"
+                                >
+                                  <Send />
+                                </IconButton>
                               </TableCell>
                             </TableRow>
                           ))
@@ -361,21 +389,34 @@ const User = () => {
                             : searchRow
                           ).map((row) => (
                             <TableRow
-                              key={row.series}
+                              key={row.id}
                               sx={{
                                 "&:last-child td, &:last-child th": {
                                   border: 0,
                                 },
                               }}
                             >
-                              <TableCell align="left">{row.emp_id}</TableCell>
+                              <TableCell align="left">{row?.sl}</TableCell>
+                              <TableCell align="left">{row?.name}</TableCell>
+                              <TableCell align="left">{row?.sendto}</TableCell>
                               <TableCell align="left">
-                                {row.name ? row.name : ""}
+                                {row?.fk_sms_template?.name}
                               </TableCell>
-                              <TableCell align="left">{row.phone}</TableCell>
+                              <TableCell align="left">
+                                {row.status === false ? (
+                                  <IconButton
+                                    style={{ color: "#10b981" }}
+                                    onClick={() => openDialogue1(row)}
+                                    className="h-6"
+                                  >
+                                    <Send />
+                                  </IconButton>
+                                ) : (
+                                  ""
+                                )}
+                              </TableCell>
                             </TableRow>
                           ))}
-                      <TableRow></TableRow>
                     </TableBody>
                   </Table>
                 </TableContainer>
@@ -389,4 +430,4 @@ const User = () => {
   );
 };
 
-export default User;
+export default SendMessage2;

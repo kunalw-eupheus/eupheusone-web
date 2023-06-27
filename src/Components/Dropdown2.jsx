@@ -4,7 +4,7 @@ import { KeyboardArrowDown } from "@mui/icons-material";
 import instance from "../Instance";
 import Cookies from "js-cookie";
 
-const Dropdown = ({ dropdownPopoverShow, handleDropDown }) => {
+const Dropdown2 = ({ dropdownPopoverShow, handleDropDown }) => {
   // dropdown props
 
   const [finYear, setFinYear] = useState([]);
@@ -29,7 +29,7 @@ const Dropdown = ({ dropdownPopoverShow, handleDropDown }) => {
         Authorization: `${Cookies.get("accessToken")}`,
       },
     });
-    console.log(res.data);
+    // console.log(res.data);
     setFinYear(res.data);
   };
 
@@ -48,7 +48,7 @@ const Dropdown = ({ dropdownPopoverShow, handleDropDown }) => {
         <div className="w-fit sm:w-6/12 md:w-4/12 sm:px-4 pr-2">
           <div className="relative flex flex-col gap-3 align-middle sm:w-[10rem] w-[6.4rem]">
             <button
-              className="text-white font-bold w-full uppercase text-sm pl-[0.5rem] pr-6 sm:py-3 py-[0.4rem] rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 bg-[#67748e] active:bg-[#67748e] ease-linear transition-all duration-150"
+              className="text-white font-bold w-full uppercase text-sm pl-[0.5rem] pr-6 sm:py-3 py-[0.4rem] rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 bg-gray-500 active:bg-gray-500 ease-linear transition-all duration-150"
               type="button"
               ref={btnDropdownRef}
               onClick={() => {
@@ -63,7 +63,7 @@ const Dropdown = ({ dropdownPopoverShow, handleDropDown }) => {
                   dropdownPopoverShow ? " rotate-180" : null
                 }`}
               >
-                <KeyboardArrowDown className={`text-black `} />
+                <KeyboardArrowDown className={`text-white `} />
               </div>
             </button>
 
@@ -71,7 +71,7 @@ const Dropdown = ({ dropdownPopoverShow, handleDropDown }) => {
               ref={popoverDropdownRef}
               className={
                 (dropdownPopoverShow ? "h-[3rem] py-2 " : "h-0 ") +
-                " bg-[#67748e] text-base z-50 transition-all overflow-auto !mt-2 duration-200 ease-linear absolute -top-10 float-left  list-none text-left rounded shadow-lg min-w-full"
+                " bg-gray-500 text-base z-50 transition-all overflow-auto !mt-2 duration-200 ease-linear absolute -top-10 float-left  list-none text-left rounded shadow-lg min-w-full"
               }
             >
               {finYear.map((item) => {
@@ -80,7 +80,7 @@ const Dropdown = ({ dropdownPopoverShow, handleDropDown }) => {
                     href="#pablo"
                     className={`text-sm ${
                       dropdownPopoverShow ? "block" : "hidden"
-                    } py-2 px-4 justify-center transition-all hover:bg-slate-600 ease-linear duration-100 hover:border-l-2 font-normal flex w-full whitespace-no-wrap bg-transparent text-white`}
+                    } py-2 px-4 justify-center transition-all hover:bg-gray-500 ease-linear duration-100 hover:border-l-2 font-normal flex w-full whitespace-no-wrap bg-transparent text-white`}
                     onClick={(e) => handleDropdownValue(e)}
                   >
                     <h1 className="w-fit sm:text-base text-xs text-white">
@@ -128,4 +128,4 @@ const Dropdown = ({ dropdownPopoverShow, handleDropDown }) => {
   );
 };
 
-export default Dropdown;
+export default Dropdown2;

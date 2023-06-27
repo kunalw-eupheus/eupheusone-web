@@ -227,7 +227,7 @@ const PrintPDF = () => {
                   </Link> */}
                 </section>
 
-                <section className="flex sm:w-[30%] sm:h-[23rem] w-full sm:flex-col cursor-not-allowed flex-row gap-4 hover:shadow-2xl items-center justify-between px-4 py-4 bg-gray-200 rounded-md">
+                <section className="flex sm:w-[30%] sm:h-[23rem] w-full sm:flex-col flex-row gap-4 hover:shadow-2xl items-center justify-between px-4 py-4 bg-gray-200 rounded-md">
                   {/* <img
                     src={orderImg}
                     className="md:w-[10.8rem] sm:w-[7.5rem] w-[4rem] h-auto "
@@ -241,7 +241,7 @@ const PrintPDF = () => {
                     className="md:w-[10.8rem] sm:w-[7.5rem] w-[4rem] h-auto "
                     alt=""
                   />
-                  <Link to="/customer_pdf" >
+                  <Link to="/customer_pdf">
                     <BasicButton text={"Next"} />
                   </Link>
                 </section>

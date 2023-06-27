@@ -3,6 +3,7 @@ import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import Stack from "@mui/material/Stack";
 import React, { useState, useEffect } from "react";
+import { CheckBox } from "@mui/icons-material";
 
 const SearchDropDown = ({
   label,
@@ -16,6 +17,8 @@ const SearchDropDown = ({
   defaultValue,
   multiple,
   seriesId,
+  textColor,
+  variant,
 }) => {
   // console.log(data, Name)
   const defaultProps = {
@@ -118,7 +121,15 @@ const SearchDropDown = ({
         case "select_state":
           // console.log(option);
           if (option.state === "Null") return "";
-          else return option.state;
+          // else return option.state;
+          else return option.fk_state.state;
+
+          break;
+
+        case "select_state_kys":
+          // console.log(option);
+          if (option.state === "Null") return "";
+          else return option.fk_state.state;
           break;
 
         case "select_state_2":
@@ -262,6 +273,17 @@ const SearchDropDown = ({
         case "items_aof":
           return option.series;
           break;
+        case "message":
+          // console.log(option);
+          return option.message;
+          break;
+        case "employee_info":
+          return `${option.first_name ? option.first_name : ""} ${
+            option.middle_name ? option.middle_name : ""
+          } ${option.first_name ? option.first_name : ""} - ${
+            option.emp_id ? option.emp_id : ""
+          } - ${option.phone ? option.phone : ""}`;
+          break;
 
         default:
           return "";
@@ -326,6 +348,9 @@ const SearchDropDown = ({
     }
 
     if (type === "select_state") {
+      handleOrderProcessingForm(value, type);
+    }
+    if (type === "select_state_kys") {
       handleOrderProcessingForm(value, type);
     }
     if (type === "select_state_2") {
@@ -437,6 +462,12 @@ const SearchDropDown = ({
       // console.log(value, type)
       handleOrderProcessingForm(value, type);
     }
+    if (type === "employee_info") {
+      handleOrderProcessingForm(value, type);
+    }
+    if (type === "message") {
+      handleOrderProcessingForm(value, type);
+    }
     if (type === "aof_acc") {
       // console.log(value, type)
       handleOrderProcessingForm(value, type);
@@ -453,6 +484,7 @@ const SearchDropDown = ({
           disabled={disable}
           disableClearable
           multiple={multiple}
+          color={color}
           // onBlur={() => console.log("ldkf")}
           onChange={(event, newValue) => handleDropDown(newValue, Name)}
           id="disable-close-on-select"
@@ -460,8 +492,11 @@ const SearchDropDown = ({
             <TextField
               {...params}
               label={label}
-              variant="standard"
-              InputLabelProps={{ style: { color: color } }}
+              variant={variant ? variant : "standard"}
+              // inputProps={{ className: { color: color } }}
+              // InputLabelProps={{ style: { color: color } }}
+              // InputProps={{ style: { color: color } }}
+              // color="#09090b"
             />
           )}
         />

@@ -93,10 +93,11 @@ import ThankYou from "./Pages/ThankYou";
 
 import HrHome from "./Pages/HR/HrHome";
 import User from "./Pages/HR/User";
-import CreatePhoneGroup from "./Pages/HR/CreatePhoneGroup";
+import PhoneGroup from "./Pages/HR/PhoneGroup";
 import AdminCkReport from "./Pages/AdminCkReport";
 import CreditNote from "./Pages/PDF/CreditNote";
-import CreateUser from "./Pages/HR/CreateUser";
+import SendMessage from "./Pages/HR/SendMessage";
+// import SendMessage2 from "./Pages/HR/SendMessage";
 
 function App() {
   const [userCache, setUserCache] = useState(false);
@@ -533,14 +534,15 @@ function App() {
                 path="/hr/user"
                 element={HR || MsAuth ? <User /> : <Login />}
               />
+
               <Route
-                path="/hr/createuser"
-                element={HR || MsAuth ? <CreateUser /> : <Login />}
+                path="/hr/phonegroup"
+                element={HR || MsAuth ? <PhoneGroup /> : <Login />}
               />
 
               <Route
-                path="/hr/createphonegroup"
-                element={HR || MsAuth ? <CreatePhoneGroup /> : <Login />}
+                path="/hr/sendmessage"
+                element={HR || MsAuth ? <SendMessage /> : <Login />}
               />
 
               {/* <Route
