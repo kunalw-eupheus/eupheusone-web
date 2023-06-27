@@ -96,8 +96,9 @@ import User from "./Pages/HR/User";
 import PhoneGroup from "./Pages/HR/PhoneGroup";
 import AdminCkReport from "./Pages/AdminCkReport";
 import CreditNote from "./Pages/PDF/CreditNote";
+import CreditSinglePdf from "./Pages/CreditSinglePdf";
+import SalesToCash from "./Pages/SalesToCash";
 import SendMessage from "./Pages/HR/SendMessage";
-// import SendMessage2 from "./Pages/HR/SendMessage";
 
 function App() {
   const [userCache, setUserCache] = useState(false);
@@ -352,11 +353,15 @@ function App() {
               {/* <Route path="/invoice_pdf" element={<Inv />} /> */}
 
               <Route path="/view_pdf/:docnum/:docdate" element={<ViewPdf />} />
+              <Route path="/salesToCash" element={<SalesToCash />} />
 
               <Route path="/view_aof_pdf/:aofid" element={<AofPdf3temp />} />
               <Route path="/view_aof_pdf2/:aofid" element={<AofPdf2 />} />
               <Route path="/zsm/view_aof_pdf2/:aofid" element={<AofPdf2 />} />
-              <Route path="/credit_note_pdf" element={<CreditNote />} />
+              <Route
+                path="/credit_note_pdf/:docNum/:docdate"
+                element={<CreditNote />}
+              />
               <Route
                 path="/saleshead/view_aof_pdf2/:aofid"
                 element={<AofPdf2 />}
@@ -405,6 +410,12 @@ function App() {
                 path="/invoice_pdf_single"
                 element={
                   isAuth || MsAuth || Zsm ? <ViewInvoiceSingle /> : <Login />
+                }
+              />
+              <Route
+                path="/credit/invoice_pdf_single"
+                element={
+                  isAuth || MsAuth || Zsm ? <CreditSinglePdf /> : <Login />
                 }
               />
 

@@ -83,7 +83,7 @@ const AddStrength = () => {
               // behavior: "smooth",
             });
             setTimeout(() => {
-              navigate(`kys/strength/${id}`);
+              navigate(`/kys/strength/${id}`);
             }, 100);
           }, 1500);
         } else {

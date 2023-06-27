@@ -36,7 +36,7 @@ export default function DataTable({
   const openDialog = () => {
     dialogRef.current.openDialog();
   };
-
+  // console.log(rows);
   const search = (rowss) => {
     return rowss.filter((row) => {
       switch (tableName) {
@@ -103,7 +103,9 @@ export default function DataTable({
             row?.SchoolName?.toLowerCase().indexOf(q) > -1 ||
             // row.City.toLowerCase().indexOf(q) > -1 ||
             row?.State?.toLowerCase().indexOf(q) > -1 ||
-            row?.Address?.toLowerCase().indexOf(q) > -1
+            row?.Address?.toLowerCase().indexOf(q) > -1 ||
+            row?.SalesRep?.toLowerCase().indexOf(q) > -1 ||
+            row?.City?.toLowerCase().indexOf(q) > -1
           );
           break;
         case "ManageSchoolAdmin":
@@ -274,7 +276,8 @@ export default function DataTable({
           onClick={(e) => setEntries(e.target.value)}
         >
           <option value={10}>10</option>
-          <option value={15}>15</option>
+          <option value={25}>25</option>
+          <option value={50}>50</option>
         </select>
       </div>
     </div>

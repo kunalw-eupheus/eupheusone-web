@@ -357,7 +357,7 @@ const KYS = () => {
                     <BasicButton text={"Tution Fees"} />
                   </div>
                   <div onClick={() => handleSubmit("competition")}>
-                    <BasicButton text={"Competions"} />
+                    <BasicButton text={"Competitions"} />
                   </div>
                   <div onClick={() => handleSubmit("workshop")}>
                     <BasicButton text={"Workshops"} />

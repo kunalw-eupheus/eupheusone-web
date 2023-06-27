@@ -16,7 +16,7 @@ import Cookies from "js-cookie";
 import { Collapse } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
-const Navbar = ({ handleSidebarCollapsed, info }) => {
+const Navbar = ({ handleSidebarCollapsed, info, changeYear }) => {
   const navigate = useNavigate();
   const [scroll, setScroll] = useState(false);
   const [showUserOption, setShowUserOption] = useState(false);
@@ -108,6 +108,7 @@ const Navbar = ({ handleSidebarCollapsed, info }) => {
       </div>
       <div className="flex items-center">
         <Dropdown
+          changeYear={changeYear}
           dropdownPopoverShow={dropdownPopoverShow}
           handleDropDown={handleDropDown}
         />

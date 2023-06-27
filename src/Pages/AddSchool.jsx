@@ -235,6 +235,7 @@ const AddSchool = () => {
           Authorization: Cookies.get("accessToken"),
         },
       });
+      // console.log(state.data);
       setState(state.data.message);
     };
     getBoards();

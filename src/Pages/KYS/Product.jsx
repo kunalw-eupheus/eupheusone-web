@@ -175,13 +175,6 @@ const Products = (props) => {
             <div className="text-gray-100 w-full md:text-2xl flex justify-between sm:px-12 px-8 items-center text-base font-semibold absolute mt-[2rem]">
               <h1 className="text-gray-100 text-lg">Product</h1>
 
-              {/* {rowdata.length === 0 ? null : (
-                <>
-                  <Button variant="contained">{buttonData[0]}</Button>
-                  <Button variant="contained">{buttonData[1]}</Button>
-                </>
-              )} */}
-
               <div onClick={() => navigate(`/kys/products/add_product/${id}`)}>
                 <BasicButton text={"Add Product"} />
               </div>
@@ -262,18 +255,6 @@ const Products = (props) => {
                           <TableCell className="!w-[10rem]" align="center">
                             School Product Items
                           </TableCell>
-                          {/* <TableCell className="!w-[8rem]" align="center">
-                          Status
-                        </TableCell>
-                        <TableCell className="!w-[8rem]" align="center">
-                          View
-                        </TableCell> */}
-                          {/* <TableCell className="!w-[8rem]" align="center">
-                        Edit
-                      </TableCell> */}
-                          {/* <TableCell className="!w-[8rem]" align="center">
-                          Verify
-                        </TableCell> */}
                         </TableRow>
                       </TableHead>
                       <TableBody className="bg-slate-200">
@@ -305,10 +286,7 @@ const Products = (props) => {
                                 <TableCell align="center">
                                   {row?.fk_sery?.series}
                                 </TableCell>
-                                {/* {fkData.map((data, index) => {
-                                console.log("hi", index);
-                                console.log("hello", data.index);
-                                if (data.index === index) { */}
+
                                 <TableCell align="center">
                                   <TableRow>
                                     {/* {
@@ -328,30 +306,6 @@ const Products = (props) => {
                                       : null}
                                   </TableRow>
                                 </TableCell>
-                                ;{/* <TableCell align="center"> */}
-                                {/* <DialogSlide2 ref={dialogRef2}/> */}
-                                {/* <div
-                                  className="sm:w-auto w-[50vw]"
-                                  onClick={() => {
-                                    handleAofView(row.id);
-                                    handleAofPDFEdit(row.id);
-                                  }}
-                                >
-                                  <BasicButton text={"Edit"} />
-                                </div>
-                            </TableCell> */}
-                                {/* <TableCell align="center"> */}
-                                {/* <DialogSlide2 ref={dialogRef2}/> */}
-                                {/* <div
-                                  className="sm:w-auto w-[50vw]"
-                                  onClick={() => {
-                                    // handleAofPDF(row.id);
-                                    console.log("hiii");
-                                  }}
-                                > */}
-                                {/* <BasicButton text={"VERIFY"} />
-                                </div>
-                              </TableCell> */}
                               </TableRow>
                             ))
                           : (rowsPerPage > 0
@@ -369,9 +323,6 @@ const Products = (props) => {
                                   },
                                 }}
                               >
-                                {/* <TableCell align="center" component="th" scope="row">
-                          {row.id}
-                        </TableCell> */}
                                 <TableCell align="center">
                                   {row.category}
                                 </TableCell>
@@ -407,21 +358,6 @@ const Products = (props) => {
                                       : null}
                                   </TableRow>
                                 </TableCell>
-
-                                {/* <TableCell align="center"> */}
-                                {/* {row.id ? (
-                                  <div
-                                    className="sm:w-auto w-[50vw]"
-                                    onClick={() => {
-                                      handleInvoiceView(row.id);
-                                    }}
-                                  >
-                                    <BasicButton text={"View"} />
-                                  </div>
-                                ) : (
-                                  ""
-                                )} */}
-                                {/* </TableCell> */}
                               </TableRow>
                             ))}
                         <TableRow></TableRow>

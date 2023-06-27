@@ -216,9 +216,9 @@ const GatePassDashboard = () => {
       },
     });
     if (res.data.message) {
-      let data = res.data.message
-      for(let obj of data){
-        obj.checked = false
+      let data = res.data.message;
+      for (let obj of data) {
+        obj.checked = false;
       }
       // console.log(data);
       setSchoolRow(data);
@@ -554,7 +554,6 @@ const GatePassDashboard = () => {
     setSearchVal(val.trim());
   };
 
-
   const filterTable = () => {
     // console.log(searchVal);
     // console.log(schoolRow)
@@ -563,20 +562,23 @@ const GatePassDashboard = () => {
     for (let ele of schoolRow) {
       // console.log(ele.cardname)
       let cardName = ele.cardname.toLowerCase();
-      let invNo = ele.inv_no.toLowerCase()
-      let date = ele.docdate.toLowerCase()
-      if (cardName.indexOf(searchVal.toLowerCase()) > -1 || invNo.indexOf(searchVal.toLowerCase()) > -1
-      || date.indexOf(searchVal.toLowerCase()) > -1) {
+      let invNo = ele.inv_no.toLowerCase();
+      let date = ele.docdate.toLowerCase();
+      if (
+        cardName.indexOf(searchVal.toLowerCase()) > -1 ||
+        invNo.indexOf(searchVal.toLowerCase()) > -1 ||
+        date.indexOf(searchVal.toLowerCase()) > -1
+      ) {
         tempArr.push(ele);
       }
     }
-    console.log("searchRow")
+    console.log("searchRow");
     console.log(tempArr);
     setSearchRow([]);
-    
+
     if (tempArr.length === 0) {
       // console.log("first")
-      alert("No Data Found")
+      alert("No Data Found");
       // console.log(searchRow)
       // setSearchRow([
       //   {
@@ -622,7 +624,7 @@ const GatePassDashboard = () => {
   //     let address = ele.eup_invoice_addresses[0].ShipToAddress1.toLowerCase();
   //     // console.log(address)
   //     if (
-  //       cardName.indexOf(searchVal.toLowerCase()) > -1 
+  //       cardName.indexOf(searchVal.toLowerCase()) > -1
   //       // ||
   //       // invNo.indexOf(searchVal.toLowerCase()) > -1 ||
   //       // docDate.indexOf(searchVal.toLowerCase()) > -1 ||
@@ -670,24 +672,24 @@ const GatePassDashboard = () => {
   // };
 
   const handleCheckbox = (event, row) => {
-    // console.log(event.target.checked, row)  
-  
+    // console.log(event.target.checked, row)
+
     let tempArr = [...schoolRow];
-    for(let obj of tempArr){
-      if(obj.id === row.id)
-      // console.log(obj, row.id)
-      obj.checked = !obj.checked
+    for (let obj of tempArr) {
+      if (obj.id === row.id)
+        // console.log(obj, row.id)
+        obj.checked = !obj.checked;
       // console.log(obj)
     }
-    setSchoolRow(tempArr)
+    setSchoolRow(tempArr);
     // console.log(tempArr)
     // let hasVal = invNoArr.includes(invId);
     // if (hasVal) {
-      // for (let ele of invNoArr) {
-      //   if (ele !== invId) {
-      //     tempArr.push(ele);
-      //   }
-      // }
+    // for (let ele of invNoArr) {
+    //   if (ele !== invId) {
+    //     tempArr.push(ele);
+    //   }
+    // }
     // } else {
     //   tempArr = [...invNoArr, invId];
     // }
@@ -716,17 +718,17 @@ const GatePassDashboard = () => {
   };
 
   const handleName = async () => {
-    let checkArr = []
-    for(let obj of schoolRow){
-      if(obj.checked){
-        console.log(obj)
-        checkArr.push(obj.inv_no)
+    let checkArr = [];
+    for (let obj of schoolRow) {
+      if (obj.checked) {
+        console.log(obj);
+        checkArr.push(obj.inv_no);
       }
     }
     // console.log(checkArr)
     setInvNoArr(checkArr);
-    openDialogue()
-  }
+    openDialogue();
+  };
 
   return (
     <div>
@@ -767,28 +769,6 @@ const GatePassDashboard = () => {
           />
           <div className="min-h-[100vh] pt-[0vh] max-h-full bg-[#141728]">
             <div className=" sm:px-8 px-2 py-3 bg-[#141728] mt-4">
-              {/* 
-            <DataTable
-              rows={invoices}
-              checkbox={false}
-              Tablecolumns={Tablecolumns}
-              tableName="GatepassInvoice"
-            /> */}
-
-              {/* <div
-                style={{ height: 450, width: "100%" }}
-                className="bg-slate-200 rounded-md px-10 pt-16"
-              >
-                <DataGrid
-                  rows={search(rows)}
-                  onRowClick={(event) => navigate(`/update_school/:id`)}
-                  columns={Tablecolumns}
-                  pageSize={entries}
-                  rowsPerPageOptions={[entries]}
-                  checkboxSelection={checkbox}
-                  onSelectionModelChange={(event) => handleClick(event)}
-                />
-              </div> */}
               <Paper>
                 <TableContainer component={Paper}>
                   <Toolbar className="bg-slate-400">
@@ -885,10 +865,10 @@ const GatePassDashboard = () => {
                             >
                               <TableCell align="center">
                                 <input
-                                type="checkbox"
-                                name={row}
-                                checked={row.checked}
-                                onChange={(e) => handleCheckbox(e, row)}
+                                  type="checkbox"
+                                  name={row}
+                                  checked={row.checked}
+                                  onChange={(e) => handleCheckbox(e, row)}
                                 />
                               </TableCell>
                               <TableCell align="center">{row.inv_no}</TableCell>
@@ -936,9 +916,9 @@ const GatePassDashboard = () => {
                               </TableCell>
                               <TableCell align="center">{row.boxes}</TableCell>
                               <TableCell align="center">
-                                {row.eup_invoice_addresses.length>0? 
-                                row.eup_invoice_addresses[0].ShipToAddress1:
-                                ""}
+                                {row.eup_invoice_addresses.length > 0
+                                  ? row.eup_invoice_addresses[0].ShipToAddress1
+                                  : ""}
                               </TableCell>
                             </TableRow>
                           ))}
