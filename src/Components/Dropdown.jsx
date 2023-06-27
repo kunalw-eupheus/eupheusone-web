@@ -46,6 +46,18 @@ const Dropdown = ({ dropdownPopoverShow, handleDropDown, changeYear }) => {
     }
   };
 
+  const returnData = () => {
+    const arr = [];
+    finYear.map((item) => {
+      if (item.name === "FY 2022-23" || item.name === "FY 2023-24") {
+        arr.push(item);
+      }
+    });
+    arr.sort((a, b) => a.name.split("-")[1] - b.name.split("-")[1]);
+    // console.log(arr);
+    return arr;
+  };
+
   return (
     <>
       <div className="flex flex-wrap">
@@ -62,7 +74,7 @@ const Dropdown = ({ dropdownPopoverShow, handleDropDown, changeYear }) => {
               }}
             >
               <span className="w-fit sm:text-base text-xs">
-                {currYear ? currYear : finYear?.[0]?.name}
+                {currYear ? currYear : returnData()?.[0]?.name}
               </span>
               <div
                 className={`transition-all duration-200 absolute sm:top-[0.65rem] top-[0.3rem] sm:right-3 right-0 ease-linear ${
@@ -80,7 +92,7 @@ const Dropdown = ({ dropdownPopoverShow, handleDropDown, changeYear }) => {
                 " bg-[#67748e] text-base z-50 transition-all overflow-auto !mt-2 duration-200 ease-linear absolute -top-10 float-left  list-none text-left rounded shadow-lg min-w-full"
               }
             >
-              {finYear.map((item) => {
+              {returnData()?.map((item) => {
                 return (
                   <a
                     href="#pablo"
