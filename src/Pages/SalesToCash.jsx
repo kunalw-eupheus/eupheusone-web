@@ -37,8 +37,8 @@ const SalesToCash = () => {
   const show = null;
 
   const navInfo = {
-    title: "Sales To Cash",
-    details: ["Home", "Sales To Cash"],
+    title: "Order To Cash",
+    details: ["Home", "Order To Cash"],
   };
 
   const handleSidebarCollapsed = () => {

@@ -837,7 +837,7 @@ const Sidebar = ({ sidebarCollapsed, highLight, show }) => {
                     : "text-gray-400"
                 } group-hover:!text-gray-100 transition-all duration-150 ease-linear`}
               >
-                Sales To Cash
+                Order To Cash
               </span>
             </aside>
           </Link>
