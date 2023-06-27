@@ -24,8 +24,8 @@ const SalesToCash = () => {
   const [chartTotal2, setChartTotal2] = useState(0);
   const [loading, setLoading] = useState(true);
   const [year, setYear] = useState({
-    todate: "2024-03-31",
-    fromdate: "2023-04-01",
+    todate: "2023-03-31",
+    fromdate: "2022-04-01",
   });
   const [error, setError] = useState(false);
   const [chartData, setChartData] = useState({});
@@ -340,7 +340,7 @@ const Chart = ({ data, total, radius }) => {
       ctx.textAlign = "center";
       ctx.textBaseline = "middle";
       ctx.fillText(
-        returnCr(Math.round(total))?.toFixed(4) + "Cr",
+        returnCr(Math.round(total))?.toFixed(2) + "Cr",
         chart.getDatasetMeta(0).data[0].x,
         chart.getDatasetMeta(0).data[0].y
       );
