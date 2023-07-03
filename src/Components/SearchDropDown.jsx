@@ -500,7 +500,7 @@ const SearchDropDown = ({
               label={label}
               variant={variant ? variant : "standard"}
               // inputProps={{ className: { color: color } }}
-              // InputLabelProps={{ style: { color: color } }}
+              InputLabelProps={{ style: { color: color } }}
               // InputProps={{ style: { color: color } }}
               // color="#09090b"
             />
