@@ -229,7 +229,7 @@ const Addprojection = () => {
   };
 
   const handleProjectionForm = async (value, type, id) => {
-    console.log(value, type);
+    // console.log(value, type);
     // console.log(rowdata);
     switch (type) {
       case "series_name":
@@ -237,13 +237,16 @@ const Addprojection = () => {
           formik.values.data = [];
           setRowdata([]);
         } else {
-          setLoading(true);
+          // setLoading(true);
 
-          setLoading(false);
+          // setLoading(false);
+          // console.log("if yes data");
+
           value[value.length - 1].mrp = 0;
           value[value.length - 1].total = 0;
-          console.log(value);
-          setRowdata([...rowdata, value[value.length - 1]]);
+          // console.log(value);
+          // setRowdata([...rowdata, value[value.length - 1]]);
+          setRowdata(value);
         }
         break;
       // case "series_name":
@@ -294,7 +297,7 @@ const Addprojection = () => {
               })
             );
           } else if (value.length < GradeNum) {
-            console.log("decrease");
+            // console.log("decrease");
             let gradeId = null;
             formik.values.data.map((item) => {
               if (item.fk_series_id === id) {

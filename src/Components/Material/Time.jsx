@@ -4,15 +4,18 @@ import TextField from "@mui/material/TextField";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { DesktopTimePicker } from "@mui/x-date-pickers/DesktopTimePicker";
+import { useState } from "react";
 
-export default function DatePicker({
+export default function TimePicker({
   handleOrderProcessingForm,
   label,
   color,
   name,
   disabled,
 }) {
-  const [value, setValue] = React.useState(new Date());
+  const [value, setValue] = useState(new Date());
 
   const handleChange = (newValue) => {
     // console.log(newValue);
@@ -28,20 +31,19 @@ export default function DatePicker({
   };
 
   return (
-    <LocalizationProvider dateAdapter={AdapterDateFns}>
+    <LocalizationProvider dateAdapter={AdapterDayjs}>
       <Stack spacing={3}>
-        <DesktopDatePicker
+        <DesktopTimePicker
           label={label}
           className=""
           disabled={disabled}
-          // InputLabelProps={{ style: { color: "white" } }}
-          // inputProps={{ style: { color: "white" } }}
-          inputFormat="MM/dd/yyyy"
+          //   InputLabelProps={{ style: { color: "white" } }}
+          //   inputProps={{ style: { color: "white" } }}
+          //   inputFormat="MM/dd/yyyy"
           value={value}
           onChange={handleChange}
           renderInput={(params) => (
             <TextField
-              // disabled={true}
               {...params}
               sx={{
                 svg: { color: color ? color : "white" },
