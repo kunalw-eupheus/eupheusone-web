@@ -36,9 +36,14 @@ const KYS = () => {
   const temp = [];
 
   const handleOrderProcessingForm = (value, type) => {
-    // console.log(value, type);
+    console.log(value, type);
     switch (type) {
       case "select_state":
+        getCity(value.fk_state_id);
+        getSchoolByState(value.fk_state_id);
+        setValues({ stateId: value.fk_state_id });
+        break;
+      case "select_state_kys":
         getCity(value.fk_state_id);
         getSchoolByState(value.fk_state_id);
         setValues({ stateId: value.fk_state_id });
@@ -110,6 +115,7 @@ const KYS = () => {
           Authorization: `${Cookies.get("accessToken")}`,
         },
       });
+      // console.log(states.data.message);
       setStates(states.data.message);
     };
     getState();
@@ -190,6 +196,7 @@ const KYS = () => {
   };
 
   const handleSubmit = (type) => {
+    console.log(schoolInfo);
     switch (type) {
       case "product":
         if (schoolInfo === null) {
@@ -303,7 +310,7 @@ const KYS = () => {
                 </h1>
                 <div className="grid sm:grid-rows-2 sm:grid-cols-2 grid-rows-3 grid-cols-1 w-full gap-6 rounded-md bg-slate-600">
                   <SearchDropDown
-                    Name={"select_state"}
+                    Name={"select_state_kys"}
                     handleOrderProcessingForm={handleOrderProcessingForm}
                     data={states}
                     label={"Select State *"}

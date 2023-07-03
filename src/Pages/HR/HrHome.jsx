@@ -3,13 +3,11 @@ import Sidebar from "../../Components/Sidebar7";
 import { useState } from "react";
 import { useRef } from "react";
 import SwipeableTemporaryDrawer from "../../Components/Material/MaterialSidebar7";
-import Loader from "../../Components/Loader";
-import Navbar from "../../Components/Navbar";
 import { useEffect } from "react";
+import Navbar2 from "../../Components/Navbar2";
 
 const HrHome = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
-  const [loading, setloading] = useState(true);
 
   const show = null;
   const sidebarRef = useRef();
@@ -20,8 +18,8 @@ const HrHome = () => {
   };
 
   const navInfo = {
-    title: "",
-    details: ["", ""],
+    title: "HR",
+    details: ["Home", " "],
   };
 
   useEffect(() => {
@@ -44,7 +42,6 @@ const HrHome = () => {
   return (
     <>
       <div className="flex w-[100%] min-h-[100vh]">
-        {/* {loading ? <Loader /> : null} */}
         <div>
           <Sidebar
             highLight={"dashboard"}
@@ -65,13 +62,13 @@ const HrHome = () => {
             window.innerWidth < 1024 ? null : "md:ml-[30vw] ml-[85vw]"
           } `}
         >
-          <Navbar
+          <Navbar2
             handleSidebarCollapsed={handleSidebarCollapsed}
             info={navInfo}
           />
           <div>
-            <div className="min-h-[90vh] relative flex w-full justify-center items-center gap-4 bg-[#141728]">
-              <h1 className="text-gray-100 sm:text-2xl text-base font-semibold absolute top-[2rem] left-[2rem]">
+            <div className="min-h-[90vh] relative flex w-full justify-center items-center gap-4 bg-[#e5e7eb]">
+              <h1 className="text-gray-900 sm:text-2xl text-base font-semibold absolute top-[2rem] left-[2rem]">
                 Welcome
               </h1>
             </div>

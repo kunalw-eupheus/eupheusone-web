@@ -35,7 +35,7 @@ const Products = (props) => {
   const [fkData, setfkData] = useState([]);
 
   const { id } = useParams();
-  console.log(props);
+  // console.log(props);
 
   const sidebarRef = useRef();
 
@@ -47,7 +47,7 @@ const Products = (props) => {
   }, []);
 
   const getProduct = async () => {
-    console.log("product id", id);
+    // console.log("product id", id);
 
     const res = await instance({
       // url: `/school/kys/product/get/${id}`,
@@ -57,12 +57,14 @@ const Products = (props) => {
         Authorization: `${Cookies.get("accessToken")}`,
       },
     });
-    console.log(res.data.message);
+
     let data = res.data.message;
-    setRowdata(res.data.message);
+    console.log(data);
     setLoading(false);
     if (data.length === 0) {
       alert("No product found");
+    } else {
+      setRowdata(res.data.message);
     }
   };
 
@@ -279,21 +281,25 @@ const Products = (props) => {
                                   {row.fk_grade.name}
                                 </TableCell>
                                 <TableCell align="center">
-                                  {row.fk_subject.subject}
+                                  {row?.fk_subject?.subject}
                                 </TableCell>
                                 <TableCell align="center">
-                                  {row.fk_sery.series}
+                                  {row?.fk_sery?.series}
                                 </TableCell>
 
                                 <TableCell align="center">
                                   <TableRow>
-                                    {
-                                      row.school_products_items[0].fk_product
+                                    {/* {
+                                      row?.school_products_items[0]?.fk_product
                                         .item_name
-                                    }
+                                    } */}
+                                    {row?.school_products_items[0]
+                                      ? row.school_products_items[0].fk_product
+                                          .item_name
+                                      : null}
                                   </TableRow>
                                   <TableRow>
-                                    {" "}
+                                    {/* {" "} */}
                                     {row?.school_products_items[1]
                                       ? row.school_products_items[1].fk_product
                                           .item_name
@@ -324,22 +330,28 @@ const Products = (props) => {
                                   {row.fk_grade.name}
                                 </TableCell>
                                 <TableCell align="center">
-                                  {row.fk_subject.subject}
+                                  {row?.fk_subject?.subject}
                                 </TableCell>
-
                                 <TableCell align="center">
-                                  {row.fk_sery.series}
+                                  {row?.fk_sery?.series}
                                 </TableCell>
-
+                                {/* {fkData.map((data, index) => {
+                                console.log("hi", index);
+                                console.log("hello", data.index);
+                                if (data.index === index) { */}
                                 <TableCell align="center">
                                   <TableRow>
-                                    {
-                                      row.school_products_items[0].fk_product
+                                    {/* {
+                                      row?.school_products_items[0]?.fk_product
                                         .item_name
-                                    }
+                                    } */}
+                                    {row?.school_products_items[0]
+                                      ? row.school_products_items[0].fk_product
+                                          .item_name
+                                      : null}
                                   </TableRow>
                                   <TableRow>
-                                    {" "}
+                                    {/* {" "} */}
                                     {row?.school_products_items[1]
                                       ? row.school_products_items[1].fk_product
                                           .item_name
