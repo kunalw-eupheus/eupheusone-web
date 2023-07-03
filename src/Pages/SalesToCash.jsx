@@ -31,6 +31,7 @@ const SalesToCash = () => {
   const [chartData, setChartData] = useState({});
   const [chartData2, setChartData2] = useState({});
   const [xlData, setXlData] = useState([]);
+  const [collXlData, setCollXlData] = useState([]);
   const sidebarRef = useRef();
   ChartJS.register(ArcElement, Tooltip, Legend, Title, ChartDataLabels);
 
@@ -150,6 +151,19 @@ const SalesToCash = () => {
           Authorization: `${Cookies.get("accessToken")}`,
         },
       });
+      const collDataXlData = await instance({
+        url: "incommingpayment/get/collections/report",
+        method: "POST",
+        data: {
+          todate: year.todate,
+          fromdate: year.fromdate,
+          user: userData.data.message.emp_id,
+        },
+        headers: {
+          Authorization: `${Cookies.get("accessToken")}`,
+        },
+      });
+      setCollXlData(collDataXlData.data.message);
       setChartTotal2(collData.data.message.totalAmount);
       const data2 = {
         labels: [],
@@ -187,37 +201,82 @@ const SalesToCash = () => {
     getPaymentData();
   }, [year]);
 
-  const exportToCSV = async () => {
-    let columnsName = ["SNo", "Customer", "Collection"];
-    const fileType =
-      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8";
-    const fileExtension = ".xlsx";
+  const exportToCSV = async (name) => {
+    if (name === "sales") {
+      let columnsName = ["SNo", "Customer", "Sales"];
+      const fileType =
+        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8";
+      const fileExtension = ".xlsx";
 
-    let reqExportData = [];
-    console.log(xlData);
-    for (let i = 0; i < xlData.length; i++) {
-      const obj = xlData[i];
-      if (obj.customer != null && obj.total != null) {
+      let reqExportData = [];
+      console.log(xlData);
+      for (let i = 0; i < xlData.length; i++) {
+        const obj = xlData[i];
+        if (obj.customer != null && obj.total != null) {
+          let reqObj = {
+            SNo: i + 1,
+            Customer: obj.customer,
+            Sales: obj.total,
+          };
+          reqExportData.push(reqObj);
+        }
+      }
+      console.log(reqExportData);
+
+      let fileName = "sales_report";
+      const ws = XLSX.utils.json_to_sheet(reqExportData);
+      /* custom headers */
+      XLSX.utils.sheet_add_aoa(ws, [columnsName], {
+        origin: "A1",
+      });
+      const wb = { Sheets: { data: ws }, SheetNames: ["data"] };
+      const excelBuffer = XLSX.write(wb, { bookType: "xlsx", type: "array" });
+      const data = new Blob([excelBuffer], { type: fileType });
+      FileSaver.saveAs(data, fileName + fileExtension);
+    } else if (name === "collection") {
+      let columnsName = [
+        "SNo",
+        "Doc_Entry",
+        "Doc_Number",
+        "Doc_Date",
+        "Type",
+        "Customer_Name",
+        "Collection",
+      ];
+      const fileType =
+        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8";
+      const fileExtension = ".xlsx";
+
+      let reqExportData = [];
+      console.log(xlData);
+      for (let i = 0; i < collXlData.length; i++) {
+        const obj = collXlData[i];
+        // if (obj.customer != null && obj.total != null) {
         let reqObj = {
           SNo: i + 1,
-          Customer: obj.customer,
-          Collection: obj.total,
+          Doc_Entry: obj?.DocEntry,
+          Doc_Number: obj?.DocNum,
+          Doc_Date: obj?.DocDate.split("T")[0],
+          Type: obj?.type,
+          Customer_Name: obj?.Customer_Name,
+          Collection: obj?.Value,
         };
         reqExportData.push(reqObj);
+        // }
       }
-    }
-    console.log(reqExportData);
+      console.log(reqExportData);
 
-    let fileName = "sales_report";
-    const ws = XLSX.utils.json_to_sheet(reqExportData);
-    /* custom headers */
-    XLSX.utils.sheet_add_aoa(ws, [columnsName], {
-      origin: "A1",
-    });
-    const wb = { Sheets: { data: ws }, SheetNames: ["data"] };
-    const excelBuffer = XLSX.write(wb, { bookType: "xlsx", type: "array" });
-    const data = new Blob([excelBuffer], { type: fileType });
-    FileSaver.saveAs(data, fileName + fileExtension);
+      let fileName = "collection_report";
+      const ws = XLSX.utils.json_to_sheet(reqExportData);
+      /* custom headers */
+      XLSX.utils.sheet_add_aoa(ws, [columnsName], {
+        origin: "A1",
+      });
+      const wb = { Sheets: { data: ws }, SheetNames: ["data"] };
+      const excelBuffer = XLSX.write(wb, { bookType: "xlsx", type: "array" });
+      const data = new Blob([excelBuffer], { type: fileType });
+      FileSaver.saveAs(data, fileName + fileExtension);
+    }
   };
 
   useEffect(() => {
@@ -288,20 +347,40 @@ const SalesToCash = () => {
               <p className="text-gray-200 sm:text-xl text-sm">No Data Found</p>
             ) : (
               <main className="w-full flex flex-col gap-1">
-                <div
+                {/* <div
                   className="w-full flex justify-end pr-8 pt-8"
-                  onClick={exportToCSV}
+                  onClick={() => exportToCSV("sales")}
                 >
                   <BasicButton size={"small"} text={"Download Sales Report"} />
                 </div>
+                <div onClick={() => exportToCSV("collection")}>
+                  <BasicButton
+                    size={"small"}
+                    text={"Download collection Report"}
+                  />
+                </div> */}
                 <div className="w-full flex flex-col px-4 md:py-[5rem] py-12 sm:flex-row gap-6 items-center justify-center">
                   <div className="w-full h-full flex flex-col items-center gap-2">
                     <p className="text-gray-200 text-2xl">Sales</p>
+                    <div
+                      // className="w-full flex justify-end pr-8 pt-8"
+                      onClick={() => exportToCSV("sales")}
+                    >
+                      <BasicButton
+                        size={"small"}
+                        text={"Download Sales Report"}
+                      />
+                    </div>
                     <Chart data={chartData} total={chartTotal} radius={"70%"} />
                   </div>
                   <div className="w-full h-full flex flex-col items-center gap-2">
                     <p className="text-gray-200 text-2xl">Collection</p>
-
+                    <div onClick={() => exportToCSV("collection")}>
+                      <BasicButton
+                        size={"small"}
+                        text={"Download collection Report"}
+                      />
+                    </div>
                     <Chart
                       data={chartData2}
                       total={chartTotal2}
