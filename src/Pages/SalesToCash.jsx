@@ -371,7 +371,7 @@ const SalesToCash = () => {
                         text={"Download Sales Report"}
                       />
                     </div>
-                    <Chart data={chartData} total={chartTotal} radius={"70%"} />
+                    <Chart data={chartData} total={chartTotal} radius={"50%"} />
                   </div>
                   <div className="w-full h-full flex flex-col items-center gap-2">
                     <p className="text-gray-200 text-2xl">Collection</p>
@@ -384,7 +384,7 @@ const SalesToCash = () => {
                     <Chart
                       data={chartData2}
                       total={chartTotal2}
-                      radius={"66%"}
+                      radius={"46%"}
                     />
                   </div>
                 </div>
@@ -433,6 +433,7 @@ const Chart = ({ data, total, radius }) => {
         radius: `${window.screen.width < 640 ? "100%" : radius}`,
         spacing: 10,
         responsive: true,
+        maintainAspectRatio: true,
         plugins: {
           legend: {
             display: window.screen.width < 640 ? false : true,

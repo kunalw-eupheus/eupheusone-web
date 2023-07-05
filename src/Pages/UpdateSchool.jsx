@@ -132,6 +132,7 @@ const UpdateSchool = () => {
         url: `school/update/${id}`,
         method: "PUT",
         data: {
+          school_name: formik.values.school_name,
           aff_code: formik.values.aff_code,
           board: formik.values.board,
           category: formik.values.category,
