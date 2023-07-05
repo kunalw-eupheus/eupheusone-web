@@ -102,7 +102,7 @@ const Products = (props) => {
       let subject = ele.fk_subject.subject.toLowerCase();
       let category = ele.category.toLowerCase();
       let productItem =
-        ele.school_products_items[0].fk_product.item_name.toLowerCase();
+        ele?.school_products_items[0]?.fk_product?.item_name.toLowerCase();
       // let email = ele.email.toLowerCase();
       if (
         subject.indexOf(searchVal.toLowerCase()) > -1 ||
@@ -294,15 +294,15 @@ const Products = (props) => {
                                         .item_name
                                     } */}
                                     {row?.school_products_items[0]
-                                      ? row.school_products_items[0].fk_product
-                                          .item_name
+                                      ? row?.school_products_items[0]
+                                          ?.fk_product?.item_name
                                       : null}
                                   </TableRow>
                                   <TableRow>
                                     {/* {" "} */}
                                     {row?.school_products_items[1]
-                                      ? row.school_products_items[1].fk_product
-                                          .item_name
+                                      ? row?.school_products_items[1]
+                                          ?.fk_product?.item_name
                                       : null}
                                   </TableRow>
                                 </TableCell>
@@ -346,15 +346,15 @@ const Products = (props) => {
                                         .item_name
                                     } */}
                                     {row?.school_products_items[0]
-                                      ? row.school_products_items[0].fk_product
-                                          .item_name
+                                      ? row?.school_products_items[0]
+                                          ?.fk_product?.item_name
                                       : null}
                                   </TableRow>
                                   <TableRow>
                                     {/* {" "} */}
                                     {row?.school_products_items[1]
-                                      ? row.school_products_items[1].fk_product
-                                          .item_name
+                                      ? row?.school_products_items[1]
+                                          ?.fk_product?.item_name
                                       : null}
                                   </TableRow>
                                 </TableCell>
