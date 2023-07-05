@@ -115,9 +115,9 @@ const Strength = () => {
                         key={index}
                         className="flex font-medium flex-col gap-4 text-gray-100 justify-center rounded-md items-start px-4 py-1 bg-slate-600"
                       >
-                        <span>Workshop Name: {item.fk_class.name}</span>
-                        <span>School Name: {item.strength}</span>
-                        <span>Workshop Name: {item.fk_class.category}</span>
+                        <span>Grade: {item.fk_class.name}</span>
+                        <span>Strength: {item.strength}</span>
+                        {/* <span>Workshop Name: {item.fk_class.category}</span> */}
                       </div>
                     );
                   })}
