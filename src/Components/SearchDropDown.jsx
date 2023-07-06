@@ -21,6 +21,27 @@ const SearchDropDown = ({
   variant,
 }) => {
   // console.log(data, Name)
+
+  const formAddress = (a, b, c, d, e) => {
+    let ans = "";
+    if (a !== null && a !== "NA") {
+      ans += a;
+    }
+    if (b !== null && b !== "NA") {
+      ans += b;
+    }
+    if (c !== null && c !== "NA") {
+      ans += c;
+    }
+    if (d !== null && d !== "NA") {
+      ans += d;
+    }
+    if (e !== null && e !== "NA") {
+      ans += e;
+    }
+    return ans;
+  };
+
   const defaultProps = {
     options: data,
     getOptionLabel: (option) => {
@@ -97,30 +118,40 @@ const SearchDropDown = ({
           return option.order_priority;
           break;
         case "billing_address":
-          return (
-            option.address +
-            " " +
-            option.block +
-            " " +
-            option.street +
-            " " +
-            option.fk_state.state +
-            " " +
-            option.zip_code
+          return formAddress(
+            option?.address,
+            option?.block,
+            option?.street,
+            option?.fk_state?.state,
+            option?.zip_code
           );
+          // option.address +
+          // " " +
+          // option.block +
+          // " " +
+          // option.street +
+          // " " +
+          // option.fk_state.state +
+          // " " +
+          // option.zip_code
           break;
         case "shipping_address":
-          return (
-            option.address +
-            " " +
-            option.block +
-            " " +
-            option.street +
-            " " +
-            option.fk_state.state +
-            " " +
-            option.zip_code
+          return formAddress(
+            option?.address,
+            option?.block,
+            option?.street,
+            option?.fk_state?.state,
+            option?.zip_code
           );
+          // option?.address +
+          // " " +
+          // option?.block +
+          // " " +
+          // option?.street +
+          // " " +
+          // option?.fk_state?.state +
+          // " " +
+          // option?.zip_code
           break;
         // manage School
         case "select_state":
