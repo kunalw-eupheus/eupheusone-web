@@ -45,6 +45,14 @@ const CreditNote = () => {
   const [salesP, setSalesP] = useState("");
   const [contact, setcontact] = useState({ person: "", phone: "", email: "" });
   const [shipToGst, setShipToGst] = useState("");
+  const [add, setAdd] = useState({
+    compAdd: "",
+    compCin: "",
+    compCity: "",
+    compEmail: "",
+    compPanGst: "",
+    phone: "",
+  });
 
   useLayoutEffect(() => {
     getAllData();
@@ -93,6 +101,14 @@ const CreditNote = () => {
     setRefNo(msgData?.Reference_No);
     setBillState(msgData?.bill_to_state);
     setBillStateC(msgData?.bill_to_state_code);
+    setAdd({
+      compAdd: msgData?.comp_address,
+      compCin: msgData?.comp_cin,
+      compCity: msgData?.comp_city,
+      compEmail: msgData?.comp_email,
+      compPanGst: msgData?.comp_pan_gst,
+      phone: msgData?.comp_phone,
+    });
     setShipsTo(msgData?.SHIP_TO);
     setShipsToMobile(msgData?.SHIP_TO_MOBILE);
     setShipToGst(msgData?.ship_to_gst);
@@ -156,8 +172,19 @@ const CreditNote = () => {
                   fontSize: "10pt",
                 }}
               >
-                Main Mathura Road A-12 2nd Floor,Mohan Cooperative Industrial
-                Estate <br /> New Delhi DL 110044 India
+                {/* Main Mathura Road A-12 2nd Floor,Mohan Cooperative Industrial
+                Estate <br /> New Delhi DL 110044 India */}
+                <div className="flex flex-col gap-1">
+                  <p className="font-semibold text-sm">{add.compAdd}</p>
+                  <p className="font-semibold text-sm">{add.compCity}</p>
+                  <p className="font-semibold text-sm">
+                    Email: {add.compEmail}
+                  </p>
+                  <p className="font-semibold text-sm">Phone: {add.phone}</p>
+                  <p className="font-semibold text-sm">{add.compPanGst}</p>
+                  <p className="font-semibold text-sm">CIN: {add.compCin}</p>
+                </div>
+                {}
               </p>
             </td>
           </tr>
@@ -1495,7 +1522,7 @@ const CreditNote = () => {
                   textAlign: "center",
                 }}
               >
-                {totalAmount}.00
+                {totalAmnt}.00
               </p>
             </td>
           </tr>
@@ -1523,7 +1550,7 @@ const CreditNote = () => {
                   textAlign: "left",
                 }}
               >
-                Amount Chargeable (In Words) : {wordify(totalAmount)}
+                Amount Chargeable (In Words) : {wordify(totalAmnt)}
               </p>
               <p
                 className="s10"
@@ -1957,7 +1984,7 @@ const CreditNote = () => {
               >
                 Total <span className="s13">: </span>
                 <span className="s14">₹ </span>
-                <span className="s15">{totalAmount}.00</span>
+                <span className="s15">{totalAmnt}.00</span>
               </p>
             </td>
           </tr>
