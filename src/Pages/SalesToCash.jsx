@@ -241,7 +241,7 @@ const SalesToCash = () => {
         "Doc_Date",
         "Type",
         "Customer_Name",
-        "Collection",
+        "Amount",
       ];
       const fileType =
         "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8";
@@ -259,7 +259,7 @@ const SalesToCash = () => {
           Doc_Date: obj?.DocDate.split("T")[0],
           Type: obj?.type,
           Customer_Name: obj?.Customer_Name,
-          Collection: obj?.Value,
+          Amount: obj?.Value,
         };
         reqExportData.push(reqObj);
         // }

@@ -252,9 +252,9 @@ const Products = (props) => {
                             Series
                           </TableCell>
 
-                          {/* <TableCell className="!w-[10rem]" align="center">
+                          <TableCell className="!w-[10rem]" align="center">
                             School Product Items
-                          </TableCell> */}
+                          </TableCell>
                         </TableRow>
                       </TableHead>
                       <TableBody className="bg-slate-200">
@@ -286,17 +286,22 @@ const Products = (props) => {
                                 <TableCell align="center">
                                   {row?.fk_sery?.series}
                                 </TableCell>
-
-                                {/* <TableCell align="center">
-                                  <TableRow>
-                                    
-                                    {null}
-                                  </TableRow>
-                                  <TableRow>
-                                   
-                                    {null}
-                                  </TableRow>
-                                </TableCell> */}
+                                {row.category === "digital" ? (
+                                  <TableCell align="center">
+                                    <TableRow>
+                                      {row?.school_products_items?.map(
+                                        (item) => {
+                                          return (
+                                            item?.fk_product?.item_name + ", "
+                                          );
+                                        }
+                                      )}
+                                    </TableRow>
+                                    <TableRow>{null}</TableRow>
+                                  </TableCell>
+                                ) : (
+                                  <TableCell></TableCell>
+                                )}
                               </TableRow>
                             ))
                           : (rowsPerPage > 0

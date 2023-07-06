@@ -30,6 +30,8 @@ const CreditNote = () => {
   const [totalAmnt, setTotalAmnt] = useState("");
   const [billToName, setBillToName] = useState("");
   const [billToAdd, setBillToAdd] = useState("");
+  const [billState, setBillState] = useState();
+  const [billStateC, setBillStateC] = useState();
   const [totalAmount, setTotalAmount] = useState(0.0);
   const [transporteName, setTransporterName] = useState("");
   const [creditNum, setCreditNum] = useState("");
@@ -38,6 +40,11 @@ const CreditNote = () => {
   // const [remarks ,setRemarks] = useState("")
   const { docNum, docdate } = useParams();
   const [pt, setPt] = useState("");
+  const [state, setState] = useState("");
+  const [sCode, setSCode] = useState("");
+  const [salesP, setSalesP] = useState("");
+  const [contact, setcontact] = useState({ person: "", phone: "", email: "" });
+  const [shipToGst, setShipToGst] = useState("");
 
   useLayoutEffect(() => {
     getAllData();
@@ -63,8 +70,8 @@ const CreditNote = () => {
     for (let obj of tblData) {
       obj.PRICE = "" + obj.PRICE + ".00";
       obj.DiscPrcnt = "" + obj.DiscPrcnt + ".00";
-      obj.amount = "" + obj.amount + ".00";
-      total += obj.amount;
+      // obj.amount = "" + obj.amount + ".00";
+      total = total + Math.round(obj.amount);
       obj.CGSTRATE = "" + obj.CGSTRATE + ".00";
       obj.CGSTAMNT = "" + obj.CGSTAMNT + ".00";
       obj.SGSTRATE = "" + obj.SGSTRATE + ".00";
@@ -84,8 +91,11 @@ const CreditNote = () => {
     setPmntTerms(msgData?.Payment_Terms);
     setRefDate(msgData?.Reference_Date);
     setRefNo(msgData?.Reference_No);
+    setBillState(msgData?.bill_to_state);
+    setBillStateC(msgData?.bill_to_state_code);
     setShipsTo(msgData?.SHIP_TO);
     setShipsToMobile(msgData?.SHIP_TO_MOBILE);
+    setShipToGst(msgData?.ship_to_gst);
     setTransporterName(msgData?.transporter_name);
     setCreditNum(msgData?.credit_num);
     setShipsToState(msgData?.SHIP_TO_STATE_NAME);
@@ -96,7 +106,14 @@ const CreditNote = () => {
     setRemarks(msgData?.remarks);
     setTaxAmount(msgData?.tax_amount);
     setPt(msgData?.Payment_Terms);
-
+    setcontact({
+      person: msgData?.contact_person,
+      email: msgData?.constact_email,
+      phone: msgData?.constact_phone,
+    });
+    setState(msgData?.state_name);
+    setSCode(msgData?.state_code);
+    setSalesP(msgData?.sales_person);
     setTotalAmnt(msgData?.total);
     setAmountInWords(wordify(msgData?.total));
     let billToName = msgData?.bill_to[0];
@@ -203,53 +220,43 @@ const CreditNote = () => {
             >
               <div className="grid grid-cols-2 grid-rows-2 w-full justify-items-center py-4">
                 <div className="flex gap-2 flex-col border-2 w-full p-4">
-                  <p className="text-lg">Credit Note No. : CN/32238</p>
-                  <p className="text-lg">Credit Note Date : 04/01/2023</p>
-                  <p className="text-lg">State : UTTAR PRADESH</p>
-                  <p className="text-lg">State Code : 09</p>
+                  <p className="text-lg">Credit Note No. : CN/{creditNum}</p>
+                  <p className="text-lg">Credit Note Date : {docDate}</p>
+                  <p className="text-lg">State : {state}</p>
+                  <p className="text-lg">State Code : {sCode}</p>
                   <p className="text-lg">Place of Supply : RAJASTHAN</p>
-                  <p className="text-lg">
-                    Customer Ref No : Sales Return Report No:1711
-                  </p>
-                  <p className="text-lg">Document Date : 04-Jan-23</p>
-                  <p className="text-lg">Sales Employee : Digvijay Singh</p>
+                  <p className="text-lg">Customer Ref No : {refNo}</p>
+                  <p className="text-lg">Document Date : {docDate}</p>
+                  <p className="text-lg">Sales Employee : {salesP}</p>
                 </div>
                 <div className="flex gap-2 flex-col border-2 w-full p-4">
-                  <p className="text-lg">
-                    Transporter Name : The Golden Transport
-                  </p>
-                  <p className="text-lg">GR No : 10169408</p>
-                  <p className="text-lg">GR Date : 27-Dec-22</p>
-                  <p className="text-lg">No of Boxes : 9</p>
-                  <p className="text-lg">Contact Person : Vaibhav Books</p>
-                  <p className="text-lg">Phone No : 9414326406</p>
-                  <p className="text-lg">Email : ygoyal@gmail.com</p>
+                  <p className="text-lg">Transporter Name : {transporteName}</p>
+                  <p className="text-lg">GR No : {uGrno}</p>
+                  <p className="text-lg">GR Date : {grDate}</p>
+                  <p className="text-lg">No of Boxes : {boxes}</p>
+                  <p className="text-lg">Contact Person : {contact.person}</p>
+                  <p className="text-lg">Phone No : {contact.phone}</p>
+                  <p className="text-lg">Email : {contact.email}</p>
                 </div>
                 <div className="flex gap-2 flex-col border-2 w-full p-4">
                   <p className="text-lg font-bold">
                     Details of Customer (Bill To)
                   </p>
-                  <p className="text-lg">Name : Vaibhav Books</p>
-                  <p className="text-lg">
-                    Address : Phatak,, D-3, Saraswati Colony Tonk, Jaipur -
-                    302015 Rajasthan - INDIA
-                  </p>
-                  <p className="text-lg">State : RAJASTHAN</p>
-                  <p className="text-lg">State Code : 08</p>
-                  <p className="text-lg">Gst No. : </p>
+                  <p className="text-lg">Name : {billToName}</p>
+                  <p className="text-lg">Address : {billToAdd}</p>
+                  <p className="text-lg">State : {billState}</p>
+                  <p className="text-lg">State Code : {billStateC}</p>
+                  <p className="text-lg">Gst No. : {billToGst}</p>
                 </div>
                 <div className="flex gap-2 flex-col border-2 w-full p-4">
                   <p className="text-lg font-bold">
                     Details of Customer (Ship To)
                   </p>
-                  <p className="text-lg">Name : Vaibhav Books</p>
-                  <p className="text-lg">
-                    Address : Phatak,, D-3, Saraswati Colony Tonk, Jaipur -
-                    302015 Rajasthan - INDIA
-                  </p>
-                  <p className="text-lg">State : RAJASTHAN</p>
-                  <p className="text-lg">State Code : 08</p>
-                  <p className="text-lg">Gst No. : </p>
+                  <p className="text-lg">Name : {contact.person}</p>
+                  <p className="text-lg">Address : {shipsTo}</p>
+                  <p className="text-lg">State : {shipsToState}</p>
+                  <p className="text-lg">State Code : {shipsToStateCode}</p>
+                  <p className="text-lg">Gst No. : {shipToGst}</p>
                 </div>
               </div>
             </td>
@@ -1488,7 +1495,7 @@ const CreditNote = () => {
                   textAlign: "center",
                 }}
               >
-                {totalAmnt}.00
+                {totalAmount}.00
               </p>
             </td>
           </tr>
@@ -1950,9 +1957,7 @@ const CreditNote = () => {
               >
                 Total <span className="s13">: </span>
                 <span className="s14">₹ </span>
-                <span className="s15">
-                  {Number(totalAmnt).toLocaleString()}.00
-                </span>
+                <span className="s15">{totalAmount}.00</span>
               </p>
             </td>
           </tr>
