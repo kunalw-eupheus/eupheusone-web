@@ -106,7 +106,7 @@ const AddProduct = () => {
       return errors;
     },
     onSubmit: async (values) => {
-      if (Curriculumformik.values.products.length === 0) {
+      if (false) {
         setSnackbarErrStatus(true);
         setErrMessage("Please Add Products");
         snackbarRef.current.openSnackbar();
@@ -121,7 +121,7 @@ const AddProduct = () => {
             fk_series_id: values.seriesId,
             remarks: values.remarks,
             category: values.category,
-            products: values.products,
+            // products: values.products,
           },
           headers: {
             Authorization: `${Cookies.get("accessToken")}`,
@@ -197,21 +197,45 @@ const AddProduct = () => {
       });
       SetGrades(grades.data.message);
     };
-    const getSubjects = async () => {
-      const subject = await instance({
-        url: "subject/get/curriculum",
-        method: "GET",
-        headers: {
-          Authorization: `${Cookies.get("accessToken")}`,
-        },
-      });
-      SetSubject(subject.data.message);
-    };
+    // const getSubjects = async () => {
+    //   const subject = await instance({
+    //     url: "subject/get/curriculum",
+    //     method: "GET",
+    //     headers: {
+    //       Authorization: `${Cookies.get("accessToken")}`,
+    //     },
+    //   });
+    //   SetSubject(subject.data.message);
+    // };
 
     getDigitalProducts();
     getGrades();
-    getSubjects();
+    // getSubjects();
   }, []);
+
+  const getSubjects = async (gradeId) => {
+    setLoading(true);
+    const subject = await instance({
+      url: `grades/get/subjects/${gradeId}`,
+      method: "GET",
+      headers: {
+        Authorization: `${Cookies.get("accessToken")}`,
+      },
+    });
+    let newArr = subject.data.message.map((item) => {
+      if (item.fk_subject != null) {
+        return item.fk_subject;
+      } else {
+        return null;
+      }
+    });
+
+    newArr = newArr.filter((item) => item !== null);
+
+    console.log(newArr);
+    SetSubject(newArr);
+    setLoading(false);
+  };
 
   const getItems = async (seriesId) => {
     const items = await instance({
@@ -272,6 +296,7 @@ const AddProduct = () => {
         }
         break;
       case "grades":
+        getSubjects(value.id);
         Curriculumformik.values.gradeId = value.id;
         break;
       case "subject_name":
@@ -279,7 +304,7 @@ const AddProduct = () => {
         break;
       case "series_name":
         Curriculumformik.values.seriesId = value.id;
-        getItems(value.id);
+        // getItems(value.id);
         break;
       default:
         break;
@@ -397,6 +422,7 @@ const AddProduct = () => {
                         handleOrderProcessingForm={handleOrderProcessingForm}
                         getSeriesData={getSeriesData}
                         data={subject}
+                        disable={subject.length > 0 ? false : true}
                         Name={"subject_name"}
                         label={"Select Subject"}
                         color={"rgb(243, 244, 246)"}

@@ -350,6 +350,7 @@ const OrderProcessing = () => {
       },
     });
     // console.log(.data)
+    console.log(addressRes2.data.message);
     setSaddress({
       shipping: JSON.parse(
         JSON.stringify(addressRes2.data.message[0].bp_addresses)
@@ -810,8 +811,6 @@ const OrderProcessing = () => {
               <Collapse in={open}>
                 {/* <section className="bg-white px-3 py-2 rounded-md w-full h-[15rem] overflow-auto sm:grid sm:grid-cols-2 flex flex-col gap-2 col-span-4"> */}
 
-
-
                 <Paper>
                   <TableContainer component={Paper}>
                     <Table sx={{ minWidth: 650 }} aria-label="customized table">
@@ -860,7 +859,7 @@ const OrderProcessing = () => {
                               </TableCell>
 
                               <TableCell align="center">
-                              {item.fk_discount.discount}
+                                {item.fk_discount.discount}
                               </TableCell>
 
                               <TableCell align="center">
@@ -876,7 +875,7 @@ const OrderProcessing = () => {
                                   className="text"
                                   type={"number"}
                                   onChange={(e) => {
-                                    alterItemQuantity(index, e.target.value)
+                                    alterItemQuantity(index, e.target.value);
                                   }}
                                   label="Enter Value *"
                                   variant="outlined"
@@ -895,9 +894,7 @@ const OrderProcessing = () => {
                   </TableContainer>
                 </Paper>
 
-
-
-                  {/* {rowData.map((item, index) => {
+                {/* {rowData.map((item, index) => {
                     return (
                       <div
                         key={item.id}

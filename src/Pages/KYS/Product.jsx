@@ -248,7 +248,7 @@ const Products = (props) => {
                             Subject
                           </TableCell>
 
-                          <TableCell className="!w-[13rem]" align="center">
+                          <TableCell className="!w-[15rem]" align="center">
                             Series
                           </TableCell>
 
@@ -286,26 +286,22 @@ const Products = (props) => {
                                 <TableCell align="center">
                                   {row?.fk_sery?.series}
                                 </TableCell>
-
-                                <TableCell align="center">
-                                  <TableRow>
-                                    {/* {
-                                      row?.school_products_items[0]?.fk_product
-                                        .item_name
-                                    } */}
-                                    {row?.school_products_items[0]
-                                      ? row?.school_products_items[0]
-                                          ?.fk_product?.item_name
-                                      : null}
-                                  </TableRow>
-                                  <TableRow>
-                                    {/* {" "} */}
-                                    {row?.school_products_items[1]
-                                      ? row?.school_products_items[1]
-                                          ?.fk_product?.item_name
-                                      : null}
-                                  </TableRow>
-                                </TableCell>
+                                {row.category === "digital" ? (
+                                  <TableCell align="center">
+                                    <TableRow>
+                                      {row?.school_products_items?.map(
+                                        (item) => {
+                                          return (
+                                            item?.fk_product?.item_name + ", "
+                                          );
+                                        }
+                                      )}
+                                    </TableRow>
+                                    <TableRow>{null}</TableRow>
+                                  </TableCell>
+                                ) : (
+                                  <TableCell></TableCell>
+                                )}
                               </TableRow>
                             ))
                           : (rowsPerPage > 0
@@ -339,25 +335,24 @@ const Products = (props) => {
                                 console.log("hi", index);
                                 console.log("hello", data.index);
                                 if (data.index === index) { */}
-                                <TableCell align="center">
+                                {/* <TableCell align="center">
                                   <TableRow>
-                                    {/* {
+                                    {
                                       row?.school_products_items[0]?.fk_product
                                         .item_name
-                                    } */}
+                                    }
                                     {row?.school_products_items[0]
                                       ? row?.school_products_items[0]
                                           ?.fk_product?.item_name
                                       : null}
                                   </TableRow>
                                   <TableRow>
-                                    {/* {" "} */}
                                     {row?.school_products_items[1]
                                       ? row?.school_products_items[1]
                                           ?.fk_product?.item_name
                                       : null}
                                   </TableRow>
-                                </TableCell>
+                                </TableCell> */}
                               </TableRow>
                             ))}
                         <TableRow></TableRow>
