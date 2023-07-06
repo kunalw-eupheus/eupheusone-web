@@ -30,12 +30,14 @@ const CreditNote = () => {
   const [totalAmnt, setTotalAmnt] = useState("");
   const [billToName, setBillToName] = useState("");
   const [billToAdd, setBillToAdd] = useState("");
+  const [totalAmount, setTotalAmount] = useState(0.0);
   const [transporteName, setTransporterName] = useState("");
   const [creditNum, setCreditNum] = useState("");
   const [grDate, setGrDate] = useState("");
   const [amountInwords, setAmountInWords] = useState("");
-
+  // const [remarks ,setRemarks] = useState("")
   const { docNum, docdate } = useParams();
+  const [pt, setPt] = useState("");
 
   useLayoutEffect(() => {
     getAllData();
@@ -57,10 +59,12 @@ const CreditNote = () => {
     // console.log(res.data.message);
 
     let tblData = res.data.message.items;
+    let total = 0;
     for (let obj of tblData) {
       obj.PRICE = "" + obj.PRICE + ".00";
       obj.DiscPrcnt = "" + obj.DiscPrcnt + ".00";
       obj.amount = "" + obj.amount + ".00";
+      total += obj.amount;
       obj.CGSTRATE = "" + obj.CGSTRATE + ".00";
       obj.CGSTAMNT = "" + obj.CGSTAMNT + ".00";
       obj.SGSTRATE = "" + obj.SGSTRATE + ".00";
@@ -69,7 +73,7 @@ const CreditNote = () => {
       obj.IGSTRATE = "" + obj.IGSTRATE + ".00";
     }
     setTableData(tblData);
-
+    setTotalAmount(total);
     let msgData = res.data.message.message[0];
     console.log(msgData);
     setBillToGst(msgData?.Bill_to_GST_No);
@@ -91,6 +95,7 @@ const CreditNote = () => {
     setCin(msgData?.cin);
     setRemarks(msgData?.remarks);
     setTaxAmount(msgData?.tax_amount);
+    setPt(msgData?.Payment_Terms);
 
     setTotalAmnt(msgData?.total);
     setAmountInWords(wordify(msgData?.total));
@@ -1401,7 +1406,7 @@ const CreditNote = () => {
                   textAlign: "center",
                 }}
               >
-                0.00
+                {/* 0.00 */}
               </p>
             </td>
             <td
@@ -1443,7 +1448,7 @@ const CreditNote = () => {
                   textAlign: "center",
                 }}
               >
-                0.00
+                {/* 0.00 */}
               </p>
             </td>
             <td
@@ -1483,7 +1488,7 @@ const CreditNote = () => {
                   textAlign: "center",
                 }}
               >
-                0.00
+                {totalAmnt}.00
               </p>
             </td>
           </tr>
@@ -1918,7 +1923,8 @@ const CreditNote = () => {
               colSpan={9}
             >
               <p style={{ textIndent: "0pt", textAlign: "left" }}>
-                <br />
+                {/* <br /> */}
+                <p className="text-xs">Remarks: {remarks}</p>
               </p>
             </td>
             <td
@@ -1976,9 +1982,10 @@ const CreditNote = () => {
                   textAlign: "left",
                 }}
               >
-                Declaration: We declare that this invoice shows the actual price
-                of the goods described and that all particulars are true and
-                correct.
+                <div className="flex flex-col gap-2">
+                  <p className="text-sm">Terms & Conditions:</p>
+                  <p className="text-sm">Payment Terms: {pt}</p>
+                </div>
               </p>
               <p
                 className="s16"
@@ -1988,11 +1995,7 @@ const CreditNote = () => {
                   textIndent: "0pt",
                   textAlign: "left",
                 }}
-              >
-                No E-Way Bill Required as notified under Annexure to Rule 138
-                (14) (a) of CGST Rule 2017 for HSN Code 4901 for Printed Books.
-                (Notification No. 27/2017 Dt 30th August, 2017).
-              </p>
+              ></p>
             </td>
             <td
               style={{

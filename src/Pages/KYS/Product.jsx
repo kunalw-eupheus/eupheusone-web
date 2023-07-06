@@ -248,13 +248,13 @@ const Products = (props) => {
                             Subject
                           </TableCell>
 
-                          <TableCell className="!w-[13rem]" align="center">
+                          <TableCell className="!w-[15rem]" align="center">
                             Series
                           </TableCell>
 
-                          <TableCell className="!w-[10rem]" align="center">
+                          {/* <TableCell className="!w-[10rem]" align="center">
                             School Product Items
-                          </TableCell>
+                          </TableCell> */}
                         </TableRow>
                       </TableHead>
                       <TableBody className="bg-slate-200">
@@ -287,25 +287,16 @@ const Products = (props) => {
                                   {row?.fk_sery?.series}
                                 </TableCell>
 
-                                <TableCell align="center">
+                                {/* <TableCell align="center">
                                   <TableRow>
-                                    {/* {
-                                      row?.school_products_items[0]?.fk_product
-                                        .item_name
-                                    } */}
-                                    {row?.school_products_items[0]
-                                      ? row?.school_products_items[0]
-                                          ?.fk_product?.item_name
-                                      : null}
+                                    
+                                    {null}
                                   </TableRow>
                                   <TableRow>
-                                    {/* {" "} */}
-                                    {row?.school_products_items[1]
-                                      ? row?.school_products_items[1]
-                                          ?.fk_product?.item_name
-                                      : null}
+                                   
+                                    {null}
                                   </TableRow>
-                                </TableCell>
+                                </TableCell> */}
                               </TableRow>
                             ))
                           : (rowsPerPage > 0
@@ -339,25 +330,24 @@ const Products = (props) => {
                                 console.log("hi", index);
                                 console.log("hello", data.index);
                                 if (data.index === index) { */}
-                                <TableCell align="center">
+                                {/* <TableCell align="center">
                                   <TableRow>
-                                    {/* {
+                                    {
                                       row?.school_products_items[0]?.fk_product
                                         .item_name
-                                    } */}
+                                    }
                                     {row?.school_products_items[0]
                                       ? row?.school_products_items[0]
                                           ?.fk_product?.item_name
                                       : null}
                                   </TableRow>
                                   <TableRow>
-                                    {/* {" "} */}
                                     {row?.school_products_items[1]
                                       ? row?.school_products_items[1]
                                           ?.fk_product?.item_name
                                       : null}
                                   </TableRow>
-                                </TableCell>
+                                </TableCell> */}
                               </TableRow>
                             ))}
                         <TableRow></TableRow>
