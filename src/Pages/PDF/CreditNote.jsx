@@ -1523,7 +1523,7 @@ const CreditNote = () => {
                   textAlign: "left",
                 }}
               >
-                Amount Chargeable (In Words) :
+                Amount Chargeable (In Words) : {wordify(totalAmount)}
               </p>
               <p
                 className="s10"
