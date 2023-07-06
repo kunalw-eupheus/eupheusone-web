@@ -222,9 +222,17 @@ const AddProduct = () => {
         Authorization: `${Cookies.get("accessToken")}`,
       },
     });
-    const newArr = subject.data.message.map((item) => {
-      return item.fk_subject;
+    let newArr = subject.data.message.map((item) => {
+      if (item.fk_subject != null) {
+        return item.fk_subject;
+      } else {
+        return null;
+      }
     });
+
+    newArr = newArr.filter((item) => item !== null);
+
+    console.log(newArr);
     SetSubject(newArr);
     setLoading(false);
   };

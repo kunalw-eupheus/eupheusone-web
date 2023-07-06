@@ -86,7 +86,9 @@ const SearchDropDown = ({
           return option.name;
           break;
         case "subject_name":
-          return option.subject;
+          if (option?.subject) {
+            return option.subject;
+          }
           break;
         case "series_name":
           return option.series;
