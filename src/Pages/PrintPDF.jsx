@@ -156,7 +156,7 @@ const PrintPDF = () => {
                   <div className="flex gap-2">
                     <div>
                       <Link to="/credit/invoice_pdf_single">
-                        <BasicButton text={"Single Invoice"} />
+                        <BasicButton text={"Single Credit Note"} />
                       </Link>
                     </div>
 
