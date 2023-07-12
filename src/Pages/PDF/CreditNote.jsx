@@ -247,43 +247,43 @@ const CreditNote = () => {
             >
               <div className="grid grid-cols-2 grid-rows-2 w-full justify-items-center py-4">
                 <div className="flex gap-2 flex-col border-2 w-full p-4">
-                  <p className="text-lg">Credit Note No. : CN/{creditNum}</p>
-                  <p className="text-lg">Credit Note Date : {docDate}</p>
-                  <p className="text-lg">State : {state}</p>
-                  <p className="text-lg">State Code : {sCode}</p>
-                  <p className="text-lg">Place of Supply : RAJASTHAN</p>
-                  <p className="text-lg">Customer Ref No : {refNo}</p>
-                  <p className="text-lg">Document Date : {docDate}</p>
-                  <p className="text-lg">Sales Employee : {salesP}</p>
+                  <p className="text-xs">Credit Note No. : CN/{creditNum}</p>
+                  <p className="text-xs">Credit Note Date : {docDate}</p>
+                  <p className="text-xs">State : {state}</p>
+                  <p className="text-xs">State Code : {sCode}</p>
+                  <p className="text-xs">Place of Supply : RAJASTHAN</p>
+                  <p className="text-xs">Customer Ref No : {refNo}</p>
+                  <p className="text-xs">Document Date : {docDate}</p>
+                  <p className="text-xs">Sales Employee : {salesP}</p>
                 </div>
                 <div className="flex gap-2 flex-col border-2 w-full p-4">
-                  <p className="text-lg">Transporter Name : {transporteName}</p>
-                  <p className="text-lg">GR No : {uGrno}</p>
-                  <p className="text-lg">GR Date : {grDate}</p>
-                  <p className="text-lg">No of Boxes : {boxes}</p>
-                  <p className="text-lg">Contact Person : {contact.person}</p>
-                  <p className="text-lg">Phone No : {contact.phone}</p>
-                  <p className="text-lg">Email : {contact.email}</p>
+                  <p className="text-xs">Transporter Name : {transporteName}</p>
+                  <p className="text-xs">GR No : {uGrno}</p>
+                  <p className="text-xs">GR Date : {grDate}</p>
+                  <p className="text-xs">No of Boxes : {boxes}</p>
+                  <p className="text-xs">Contact Person : {contact.person}</p>
+                  <p className="text-xs">Phone No : {contact.phone}</p>
+                  <p className="text-xs">Email : {contact.email}</p>
                 </div>
                 <div className="flex gap-2 flex-col border-2 w-full p-4">
-                  <p className="text-lg font-bold">
+                  <p className="text-sm font-bold">
                     Details of Customer (Bill To)
                   </p>
-                  <p className="text-lg">Name : {billToName}</p>
-                  <p className="text-lg">Address : {billToAdd}</p>
-                  <p className="text-lg">State : {billState}</p>
-                  <p className="text-lg">State Code : {billStateC}</p>
-                  <p className="text-lg">Gst No. : {billToGst}</p>
+                  <p className="text-xs">Name : {billToName}</p>
+                  <p className="text-xs">Address : {billToAdd}</p>
+                  <p className="text-xs">State : {billState}</p>
+                  <p className="text-xs">State Code : {billStateC}</p>
+                  <p className="text-xs">Gst No. : {billToGst}</p>
                 </div>
                 <div className="flex gap-2 flex-col border-2 w-full p-4">
-                  <p className="text-lg font-bold">
+                  <p className="text-sm font-bold">
                     Details of Customer (Ship To)
                   </p>
-                  <p className="text-lg">Name : {contact.person}</p>
-                  <p className="text-lg">Address : {shipsTo}</p>
-                  <p className="text-lg">State : {shipsToState}</p>
-                  <p className="text-lg">State Code : {shipsToStateCode}</p>
-                  <p className="text-lg">Gst No. : {shipToGst}</p>
+                  <p className="text-xs">Name : {contact.person}</p>
+                  <p className="text-xs">Address : {shipsTo}</p>
+                  <p className="text-xs">State : {shipsToState}</p>
+                  <p className="text-xs">State Code : {shipsToStateCode}</p>
+                  <p className="text-xs">Gst No. : {shipToGst}</p>
                 </div>
               </div>
             </td>
@@ -1522,7 +1522,10 @@ const CreditNote = () => {
                   textAlign: "center",
                 }}
               >
-                {totalAmnt}.00
+                {/* {totalAmnt}.00 */}
+                {totalAmnt.toString().includes(".")
+                  ? totalAmnt
+                  : totalAmnt.toString() + ".00"}
               </p>
             </td>
           </tr>
@@ -1550,7 +1553,7 @@ const CreditNote = () => {
                   textAlign: "left",
                 }}
               >
-                Amount Chargeable (In Words) : {wordify(totalAmnt)}
+                Amount Chargeable (In Words) : {wordify(Math.trunc(totalAmnt))}
               </p>
               <p
                 className="s10"
@@ -1562,7 +1565,7 @@ const CreditNote = () => {
                 }}
               >
                 {/* Rupees Fifty-Six Thousand Fifty-Six Only */}
-                {amountInwords}
+                {/* {amountInwords} */}
               </p>
             </td>
             <td
@@ -1914,7 +1917,7 @@ const CreditNote = () => {
                   paddingTop: "5pt",
                 }}
               >
-                Taxable: {taxAmount}.00
+                Taxable: {taxAmount ? taxAmount.toString() + ".00" : null}
               </p>
             </td>
             <td
@@ -1984,7 +1987,10 @@ const CreditNote = () => {
               >
                 Total <span className="s13">: </span>
                 <span className="s14">₹ </span>
-                <span className="s15">{totalAmnt}.00</span>
+                {/* <span className="s15">{totalAmnt}.00</span> */}
+                {totalAmnt.toString().includes(".")
+                  ? totalAmnt
+                  : totalAmnt.toString() + ".00"}
               </p>
             </td>
           </tr>
