@@ -3,7 +3,7 @@ import { useState } from "react";
 import Navbar from "../Components/Navbar";
 import Sidebar from "../Components/Sidebar5";
 // import { Add } from '@mui/icons-material'
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import DataTable from "../Components/DataTable";
 // import { rows, ManageSchoolRows } from '../DummyData'
 import SearchDropDown from "../Components/SearchDropDown";
@@ -26,6 +26,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import TablePagination from "@mui/material/TablePagination";
 import DialogSlide2 from "../Components/Material/Dialog14";
 import DialogSlide3 from "../Components/Material/Dialog16";
+import ResetPass from "../Components/Material/Dialog/ResetPassDialog";
 
 const FinanceAOF = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
@@ -47,7 +48,8 @@ const FinanceAOF = () => {
   const [panLink, setPanLink] = useState("");
   const [gstLink, setGstLink] = useState("");
   const [cheque, setCheque] = useState([]);
-
+  const location = useLocation();
+  const resetPass = !location?.state?.reset_password;
   const snackbarRef = useRef();
 
   const navInfo = {
@@ -306,6 +308,8 @@ const FinanceAOF = () => {
         sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
         open={loading}
       >
+        {resetPass ? <ResetPass /> : null}
+
         <CircularProgress color="inherit" />
       </Backdrop>
       <Sidebar sidebarCollapsed={sidebarCollapsed} highLight={highLight} />

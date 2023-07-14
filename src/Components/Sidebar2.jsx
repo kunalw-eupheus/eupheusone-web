@@ -13,7 +13,7 @@ import {
   ListAlt,
   LocationCity,
   AssignmentReturnOutlined,
-  ReceiptOutlined
+  ReceiptOutlined,
 } from "@mui/icons-material";
 import { Link } from "react-router-dom";
 import logoLight from "../assets/img/logo-light-icon.png";
@@ -42,8 +42,8 @@ const Sidebar2 = ({ sidebarCollapsed, highLight, show }) => {
   const dialogRef = useRef();
 
   useEffect(() => {
-    const userlogintype = Cookies.get("company")
-    setUserType(userlogintype)
+    const userlogintype = Cookies.get("company");
+    setUserType(userlogintype);
     if (show === null) {
       setIsSchoolClicked(false);
       setIsSchoolDetailClicked(false);
@@ -72,8 +72,11 @@ const Sidebar2 = ({ sidebarCollapsed, highLight, show }) => {
             Authorization: `${Cookies.get("accessToken")}`,
           },
         }).catch((err) => {
-          if (err.response.status === 401) {
-            setModelOpen(true);
+          if (err.response.status === 401 || err.response.status === 403) {
+            if (err.response.data.message === "you need to change password") {
+            } else {
+              setModelOpen(true);
+            }
           }
         });
         setUser(res.data.message);
@@ -94,20 +97,19 @@ const Sidebar2 = ({ sidebarCollapsed, highLight, show }) => {
     >
       <TransitionsModal open={modelOpen} />;
       <DialogSlide ref={dialogRef} />
-      
-      {userType === "Classklap" ?
-      <div
-        className={`flex flex-col gap-4 transition-all ease-linear duration-100`}
-      >
-        <div className="flex items-center gap-3 justify-center">
-          <img
-            src={logoLight}
-            className=" w-[10vw] md:w-[3.7vw] h-auto object-cover"
-            alt=""
-          />
-          <h4 className="text-gray-100">Eupheus Learning</h4>
-        </div>
-        {/* <section>
+      {userType === "Classklap" ? (
+        <div
+          className={`flex flex-col gap-4 transition-all ease-linear duration-100`}
+        >
+          <div className="flex items-center gap-3 justify-center">
+            <img
+              src={logoLight}
+              className=" w-[10vw] md:w-[3.7vw] h-auto object-cover"
+              alt=""
+            />
+            <h4 className="text-gray-100">Eupheus Learning</h4>
+          </div>
+          {/* <section>
           <div
             className="px-6 py-2 flex justify-between items-center gap-4 w-full hover:shadow-xl bg-[#111322] border-l-2 border-white cursor-pointer"
             onClick={() => setIsSchoolClicked(!isSchoolClicked)}
@@ -409,66 +411,70 @@ const Sidebar2 = ({ sidebarCollapsed, highLight, show }) => {
             </div>
           </Collapse>
         </section> */}
-        <aside className="flex flex-col px-6 text-gray-200">
-          <span className="text-lg">Hi, {user.first_name}</span>
-          <span className="text-sm text-gray-300">{user.emp_id}</span>
-          <hr className="text-gray-100 mt-4" />
-        </aside>
-        <Link to="/ck_dashboard">
-          <aside
-            className={`px-6 py-2 hover:bg-gray-500 flex ${
-              highLight === "dashboard" ? "bg-gray-500" : ""
-            } rounded-md gap-4 cursor-pointer group`}
-          >
-            <div className="flex gap-4">
-              <Dashboard
+          <aside className="flex flex-col px-6 text-gray-200">
+            <span className="text-lg">Hi, {user.first_name}</span>
+            <span className="text-sm text-gray-300">{user.emp_id}</span>
+            <hr className="text-gray-100 mt-4" />
+          </aside>
+          <Link to="/ck_dashboard">
+            <aside
+              className={`px-6 py-2 hover:bg-gray-500 flex ${
+                highLight === "dashboard" ? "bg-gray-500" : ""
+              } rounded-md gap-4 cursor-pointer group`}
+            >
+              <div className="flex gap-4">
+                <Dashboard
+                  className={`${
+                    highLight === "dashboard"
+                      ? "!text-[#659DBD]"
+                      : "!text-gray-400"
+                  } group-hover:!text-[#659DBD] !transition-all !duration-150 !ease-linear`}
+                />
+                <span
+                  className={`${
+                    highLight === "dashboard"
+                      ? "text-gray-200"
+                      : "text-gray-400"
+                  } group-hover:!text-gray-100 transition-all duration-150 ease-linear`}
+                >
+                  DashBoard
+                </span>
+              </div>
+              {/* <hr className="text-gray-300" /> */}
+            </aside>
+          </Link>
+
+          <Link to="/ck_manageSchool">
+            <aside
+              className={`px-6 py-2 flex gap-4 cursor-pointer ${
+                highLight === "manageSchool" ? "bg-gray-500" : ""
+              } group hover:bg-gray-500 rounded-md transition-all duration-150 ease-linear`}
+            >
+              <School
                 className={`${
-                  highLight === "dashboard"
+                  highLight === "manageSchool"
                     ? "!text-[#659DBD]"
                     : "!text-gray-400"
                 } group-hover:!text-[#659DBD] !transition-all !duration-150 !ease-linear`}
               />
               <span
                 className={`${
-                  highLight === "dashboard" ? "text-gray-200" : "text-gray-400"
+                  highLight === "manageSchool"
+                    ? "text-gray-200"
+                    : "text-gray-400"
                 } group-hover:!text-gray-100 transition-all duration-150 ease-linear`}
               >
-                DashBoard
+                Manage School
               </span>
-            </div>
-            {/* <hr className="text-gray-300" /> */}
-          </aside>
-        </Link>
-
-        <Link to="/ck_manageSchool">
-          <aside
-            className={`px-6 py-2 flex gap-4 cursor-pointer ${
-              highLight === "manageSchool" ? "bg-gray-500" : ""
-            } group hover:bg-gray-500 rounded-md transition-all duration-150 ease-linear`}
-          >
-            <School
-              className={`${
-                highLight === "manageSchool"
-                  ? "!text-[#659DBD]"
-                  : "!text-gray-400"
-              } group-hover:!text-[#659DBD] !transition-all !duration-150 !ease-linear`}
-            />
-            <span
-              className={`${
-                highLight === "manageSchool" ? "text-gray-200" : "text-gray-400"
-              } group-hover:!text-gray-100 transition-all duration-150 ease-linear`}
-            >
-              Manage School
-            </span>
-          </aside>
-        </Link>
-        {/* <aside className="px-6 py-2 flex gap-4 cursor-pointer group hover:bg-gray-500 rounded-md transition-all duration-150 ease-linear">
+            </aside>
+          </Link>
+          {/* <aside className="px-6 py-2 flex gap-4 cursor-pointer group hover:bg-gray-500 rounded-md transition-all duration-150 ease-linear">
           <LocationOn className="!text-gray-400 group-hover:!text-[#659DBD] !transition-all !duration-150 !ease-linear" />
           <span className="text-gray-400 group-hover:!text-gray-100 transition-all duration-150 ease-linear">
             School Visit
           </span>
         </aside> */}
-        {/* <Link to="/order_processing">
+          {/* <Link to="/order_processing">
           <aside
             className={`px-6 py-2 flex gap-4 ${
               highLight === "order_pro" ? "bg-gray-500" : ""
@@ -488,7 +494,7 @@ const Sidebar2 = ({ sidebarCollapsed, highLight, show }) => {
             </span>
           </aside>
         </Link> */}
-        {/* <Link to="/manage_order">
+          {/* <Link to="/manage_order">
           <aside
             className={`px-6 py-2 flex gap-4 ${
               highLight === "manageOrder" ? "bg-gray-500" : ""
@@ -510,7 +516,7 @@ const Sidebar2 = ({ sidebarCollapsed, highLight, show }) => {
             </span>
           </aside>
         </Link> */}
-        {/* <Link to="/aof">
+          {/* <Link to="/aof">
           <aside
             className={`px-6 py-2 flex gap-4 ${
               highLight === "aof" ? "bg-gray-500" : ""
@@ -530,7 +536,7 @@ const Sidebar2 = ({ sidebarCollapsed, highLight, show }) => {
             </span>
           </aside>
         </Link> */}
-        {/* <Link to="/kys">
+          {/* <Link to="/kys">
           <aside
             className={`px-6 py-2 flex gap-4 ${
               highLight === "kys" ? "bg-gray-500" : ""
@@ -550,8 +556,8 @@ const Sidebar2 = ({ sidebarCollapsed, highLight, show }) => {
             </span>
           </aside>
         </Link> */}
-        {/* <Link to="/kys"> */}
-        {/* <Link to="/projection">
+          {/* <Link to="/kys"> */}
+          {/* <Link to="/projection">
           <aside
             className={`px-6 py-2 flex gap-4 ${
               highLight === "projection" ? "bg-gray-500" : ""
@@ -574,7 +580,7 @@ const Sidebar2 = ({ sidebarCollapsed, highLight, show }) => {
           </aside>
         </Link> */}
 
-        {/* <Link to="/return">
+          {/* <Link to="/return">
           <aside
             className={`px-6 py-2 flex gap-4 ${
               highLight === "return" ? "bg-gray-500" : ""
@@ -595,7 +601,7 @@ const Sidebar2 = ({ sidebarCollapsed, highLight, show }) => {
           </aside>
         </Link> */}
 
-        {/* <Link to="/invoice">
+          {/* <Link to="/invoice">
           <aside
             className={`px-6 py-2 flex gap-4 ${
               highLight === "invoice" ? "bg-gray-500" : ""
@@ -616,83 +622,75 @@ const Sidebar2 = ({ sidebarCollapsed, highLight, show }) => {
           </aside>
         </Link> */}
 
-        {/* </Link> */}
-      </div>
-      :
-
-      <div
-        className={`flex flex-col gap-4 transition-all ease-linear duration-100 font-Roboto`}
-      >
-        <div className="flex items-center gap-3 justify-center">
-          <img
-            src={logoLight}
-            className=" w-[10vw] md:w-[3.7vw] h-auto object-cover"
-            alt=""
-          />
-          <h4 className="text-gray-100">Eupheus Learning</h4>
+          {/* </Link> */}
         </div>
-        <aside className="flex flex-col px-6 text-gray-200">
-          <span className="text-lg">Hi, {user.first_name}</span>
-          <span className="text-sm text-gray-300">{user.emp_id}</span>
-          <hr className="text-gray-100 mt-4" />
-        </aside>
-
-
-        <Link to="/manageSchoolTraining">
-          <aside
-            className={`px-6 py-2 flex gap-4 cursor-pointer ${
-              highLight === "manageSchool" ? "bg-gray-500" : ""
-            } group hover:bg-gray-500 rounded-md transition-all duration-150 ease-linear`}
-          >
-            <School
-              className={`${
-                highLight === "manageSchool"
-                  ? "!text-[#659DBD]"
-                  : "!text-gray-400"
-              } group-hover:!text-[#659DBD] !transition-all !duration-150 !ease-linear`}
+      ) : (
+        <div
+          className={`flex flex-col gap-4 transition-all ease-linear duration-100 font-Roboto`}
+        >
+          <div className="flex items-center gap-3 justify-center">
+            <img
+              src={logoLight}
+              className=" w-[10vw] md:w-[3.7vw] h-auto object-cover"
+              alt=""
             />
-            <span
-              className={`${
-                highLight === "manageSchool" ? "text-gray-200" : "text-gray-400"
-              } group-hover:!text-gray-100 transition-all duration-150 ease-linear`}
-            >
-              Manage School
-            </span>
+            <h4 className="text-gray-100">Eupheus Learning</h4>
+          </div>
+          <aside className="flex flex-col px-6 text-gray-200">
+            <span className="text-lg">Hi, {user.first_name}</span>
+            <span className="text-sm text-gray-300">{user.emp_id}</span>
+            <hr className="text-gray-100 mt-4" />
           </aside>
-        </Link>
-    
- 
-    
-  
-  
 
-
-
-        <Link to="/invoice_training">
-          <aside
-            className={`px-6 py-2 flex gap-4 ${
-              highLight === "invoice" ? "bg-gray-500" : ""
-            } cursor-pointer group hover:bg-gray-500 rounded-md transition-all duration-150 ease-linear`}
-          >
-            <ReceiptOutlined
-              className={`${
-                highLight === "invoice" ? "!text-[#659DBD]" : "!text-gray-400"
-              } group-hover:!text-[#659DBD] !transition-all !duration-150 !ease-linear`}
-            />
-            <span
-              className={`${
-                highLight === "invoice" ? "text-gray-200" : "text-gray-400"
-              } group-hover:!text-gray-100 transition-all duration-150 ease-linear`}
+          <Link to="/manageSchoolTraining">
+            <aside
+              className={`px-6 py-2 flex gap-4 cursor-pointer ${
+                highLight === "manageSchool" ? "bg-gray-500" : ""
+              } group hover:bg-gray-500 rounded-md transition-all duration-150 ease-linear`}
             >
-              Invoice Tagging
-            </span>
-          </aside>
-        </Link>
+              <School
+                className={`${
+                  highLight === "manageSchool"
+                    ? "!text-[#659DBD]"
+                    : "!text-gray-400"
+                } group-hover:!text-[#659DBD] !transition-all !duration-150 !ease-linear`}
+              />
+              <span
+                className={`${
+                  highLight === "manageSchool"
+                    ? "text-gray-200"
+                    : "text-gray-400"
+                } group-hover:!text-gray-100 transition-all duration-150 ease-linear`}
+              >
+                Manage School
+              </span>
+            </aside>
+          </Link>
 
-        {/* </Link> */}
-      </div>
+          <Link to="/invoice_training">
+            <aside
+              className={`px-6 py-2 flex gap-4 ${
+                highLight === "invoice" ? "bg-gray-500" : ""
+              } cursor-pointer group hover:bg-gray-500 rounded-md transition-all duration-150 ease-linear`}
+            >
+              <ReceiptOutlined
+                className={`${
+                  highLight === "invoice" ? "!text-[#659DBD]" : "!text-gray-400"
+                } group-hover:!text-[#659DBD] !transition-all !duration-150 !ease-linear`}
+              />
+              <span
+                className={`${
+                  highLight === "invoice" ? "text-gray-200" : "text-gray-400"
+                } group-hover:!text-gray-100 transition-all duration-150 ease-linear`}
+              >
+                Invoice Tagging
+              </span>
+            </aside>
+          </Link>
 
-      }
+          {/* </Link> */}
+        </div>
+      )}
     </div>
   );
 };

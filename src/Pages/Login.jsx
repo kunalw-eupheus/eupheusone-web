@@ -166,41 +166,53 @@ const Login = () => {
       // console.log(res.data.type, res.data.company)
       if (res.data.type === "training" && res.data.company === "Euphues") {
         // dispatch(authActions.login());
-        navigate("/manageSchoolTraining");
+        navigate("/manageSchoolTraining", {
+          state: { reset_password: res?.data?.reset_password },
+        });
         // console.log("testing1")
       } else if (
         res.data.type === "warehouse_GP" &&
         res.data.company === "Euphues"
       ) {
         // dispatch(authActions.login());
-        navigate("/gatepass_dashboard");
+        navigate("/gatepass_dashboard", {
+          state: { reset_password: res?.data?.reset_password },
+        });
         // console.log("testing2")
       } else if (res.data.type === "admin" && res.data.company === "Euphues") {
         // console.log(res.data.company)
-        navigate("/admin/home");
+        navigate("/admin/home", {
+          state: { reset_password: res?.data?.reset_password },
+        });
         // console.log("This is in admin login")
       } else if (res.data.type === "zsm" && res.data.company === "Euphues") {
         // console.log(res.data.company)
-        navigate("/");
+        navigate("/", { state: { reset_password: res?.data?.reset_password } });
         // console.log("This is in zsm login")
       } else if (
         res.data.type === "finance" &&
         res.data.company === "Euphues"
       ) {
         // console.log(res.data.company)
-        navigate("/finance/aof");
+        navigate("/finance/aof", {
+          state: { reset_password: res?.data?.reset_password },
+        });
         // console.log("This is in admin login")
       } else if (
         res.data.type === "sales_head" &&
         res.data.company === "Euphues"
       ) {
         // console.log(res.data.company)
-        navigate("/saleshead/aof");
+        navigate("/saleshead/aof", {
+          state: { reset_password: res?.data?.reset_password },
+        });
         // console.log("This is in admin login")
       } else if (res.data.type === "HR" && res.data.company === "Euphues") {
-        navigate("/hr/home");
+        navigate("/hr/home", {
+          state: { reset_password: res?.data?.reset_password },
+        });
       } else {
-        navigate("/");
+        navigate("/", { state: { reset_password: res?.data?.reset_password } });
         // dispatch(authActions.login());
         // console.log("testing3");
       }

@@ -5,10 +5,13 @@ import { useRef } from "react";
 import SwipeableTemporaryDrawer from "../../Components/Material/MaterialSidebar7";
 import { useEffect } from "react";
 import Navbar2 from "../../Components/Navbar2";
+import ResetPass from "../../Components/Material/Dialog/ResetPassDialog";
+import { useLocation } from "react-router-dom";
 
 const HrHome = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
-
+  const location = useLocation();
+  const resetPass = !location?.state?.reset_password;
   const show = null;
   const sidebarRef = useRef();
 
@@ -49,6 +52,8 @@ const HrHome = () => {
             show={show}
           />
         </div>
+        {resetPass ? <ResetPass /> : null}
+
         <div>
           <SwipeableTemporaryDrawer
             ref={sidebarRef}

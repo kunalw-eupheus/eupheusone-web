@@ -3,7 +3,7 @@ import { useState } from "react";
 import Navbar from "../Components/Navbar";
 import Sidebar from "../Components/Sidebar3";
 // import { Add } from '@mui/icons-material'
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 // import DataTable from "../Components/DataTable";
 // import { rows, ManageSchoolRows } from '../DummyData'
 import DataTable from "../Components/DataTable";
@@ -35,6 +35,7 @@ import IconButton from "@mui/material/IconButton";
 import SearchIcon from "@mui/icons-material/Search";
 import TextField from "@mui/material/TextField";
 import TablePagination from "@mui/material/TablePagination";
+import ResetPass from "../Components/Material/Dialog/ResetPassDialog";
 
 const GatePassDashboard = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
@@ -59,7 +60,8 @@ const GatePassDashboard = () => {
   const [searchVal, setSearchVal] = useState("");
   const [searchRow, setSearchRow] = useState([]);
   const [checkedItems, setCheckedItems] = useState({});
-
+  const location = useLocation();
+  const resetPass = !location?.state?.reset_password;
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
@@ -740,6 +742,8 @@ const GatePassDashboard = () => {
         snackbarErrStatus={snackbarErrStatus}
         errMessage={snackbarMsg}
       />
+      {resetPass ? <ResetPass /> : null}
+
       <div className="flex bg-[#111322]">
         <Backdrop
           sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}

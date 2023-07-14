@@ -4,7 +4,7 @@ import Navbar from "../Components/Navbar";
 import Sidebar from "../Components/Sidebar4";
 import GoogleMap from "../Components/GoogleMap";
 import axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import Loader from "../Components/Loader";
 import orderImg from "../assets/img/order.png";
@@ -14,6 +14,7 @@ import SwipeableTemporaryDrawer from "../Components/Material/MaterialSidebar4";
 import BasicButton from "../Components/Material/Button";
 // import * as XLSX from "xlsx";
 import { read, utils, writeFile } from "xlsx";
+import ResetPass from "../Components/Material/Dialog/ResetPassDialog";
 
 const AdminHome = () => {
   // const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
@@ -21,6 +22,9 @@ const AdminHome = () => {
   //   title: "",
   //   details: ["", ""],
   // };
+  const location = useLocation();
+  const resetPass = !location?.state?.reset_password;
+  console.log(resetPass);
 
   // const sidebarRef = useRef();
 
@@ -97,11 +101,11 @@ const AdminHome = () => {
         if (sheets.length) {
           const rows = utils.sheet_to_json(wb.Sheets[sheets[0]]);
           // console.log(rows);
-          let tempExcelData = []
+          let tempExcelData = [];
           for (let i = 0; i < rows.length; i += 100) {
             const chunk = rows.slice(i, i + 100);
             // console.log(chunk)
-            tempExcelData.push(chunk)
+            tempExcelData.push(chunk);
           }
           // console.log(tempExcelData.length)
           setExcelData(tempExcelData);
@@ -111,9 +115,9 @@ const AdminHome = () => {
     }
   };
 
-  const uploadExcelData=()=>{
-    console.log(excelData)
-  }
+  const uploadExcelData = () => {
+    console.log(excelData);
+  };
 
   const handleLocation = async () => {
     if (status === "Start Day") {
@@ -227,6 +231,7 @@ const AdminHome = () => {
           sidebarCollapsed={sidebarCollapsed}
           show={show}
         />
+        {resetPass ? <ResetPass /> : null}
 
         <div>
           <SwipeableTemporaryDrawer
@@ -285,7 +290,6 @@ const AdminHome = () => {
               {/* <Link to="/order_processing">
                     <BasicButton text={"Process"} />
                   </Link> */}
-
 
               {/* </div> */}
               {/* </div> */}

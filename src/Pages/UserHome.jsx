@@ -15,7 +15,8 @@ import SwipeableTemporaryDrawer from "../Components/Material/MaterialSidebar";
 // import { Map } from "@mui/icons-material";
 import GMap from "../assets/map.png";
 import BasicButton from "../Components/Material/Button";
-const UserHome = () => {
+import ResetPass from "../Components/Material/Dialog/ResetPassDialog";
+const UserHome = ({ resetPass }) => {
   const [status, setStatus] = useState("Start Day");
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [currentLocation, setCurrentLocation] = useState([]);
@@ -27,7 +28,7 @@ const UserHome = () => {
   const show = null;
   const temp = [];
   const Co_ordinates = JSON.parse(localStorage.getItem("co_ordinates"));
- 
+  console.log(resetPass);
   useLayoutEffect(() => {
     navigator.geolocation.watchPosition(function (position) {
       // console.log("Latitude is :", position.coords.latitude);
@@ -141,7 +142,7 @@ const UserHome = () => {
           sidebarCollapsed={sidebarCollapsed}
           show={show}
         />
-
+        {resetPass ? <ResetPass /> : null}
         <div>
           <SwipeableTemporaryDrawer
             ref={sidebarRef}
@@ -172,13 +173,6 @@ const UserHome = () => {
               <h1 className="text-gray-100 sm:text-2xl text-base font-semibold absolute top-[2rem] left-[2rem]">
                 Welcome
               </h1>
-              {/* <a
-                href="https://lmseupheus.s3.amazonaws.com/crmv2/androidApp/app-release.apk"
-                download="latest_apk_download"
-                className="absolute sm:top-[2rem] top-[3rem] sm:right-[2rem] right-[1rem]"
-              >
-                <BasicButton text={"download latest apk"} size={"small"} />
-              </a> */}
 
               <div className="w-full flex flex-col px-4 pb-6 sm:flex-row gap-6 items-center justify-center">
                 <section className="flex sm:w-[30%] sm:h-[19rem] w-full sm:flex-col flex-row gap-4 hover:shadow-2xl items-center justify-between px-4 py-4 bg-gray-200 rounded-md">
@@ -212,9 +206,12 @@ const UserHome = () => {
                     </a>
                   </section>
 
-                  <section onClick={()=>{
-                      navigate('/print_pdf')
-                  }} className="flex grayscale w-1/2 flex-col gap-4 hover:shadow-2xl cursor-pointer items-center justify-around px-4 py-4 bg-gray-200 rounded-md">
+                  <section
+                    onClick={() => {
+                      navigate("/print_pdf");
+                    }}
+                    className="flex grayscale w-1/2 flex-col gap-4 hover:shadow-2xl cursor-pointer items-center justify-around px-4 py-4 bg-gray-200 rounded-md"
+                  >
                     <img
                       src={documentImg}
                       className="sm:w-[14rem] w-[5rem] h-auto"
@@ -225,56 +222,8 @@ const UserHome = () => {
                       Documents
                     </span>
                   </section>
-                  {/* <section className='flex grayscale w-1/2 flex-col gap-4
-                   hover:shadow-2xl items-center justify-around px-4 py-4 bg-gray-200 rounded-md'>
-                    <a href='https://skool.ai/bucket/crmv2/androidApp/app-release9.apk' download='latest_apk_download'>
-                    <img
-                      src="https://cdn.iconscout.com/icon/premium/png-256-thumb/download-button-1722967-1465259.png"
-                      className='sm:w-[14rem] w-[5rem] h-auto'
-                      alt=''
-                    />
-                    </a>
-
-                    <span className='md:text-2xl sm:text-base text-sm font-bold'>
-                    </span>
-                  </section> */}
                 </div>
               </div>
-
-              {/* <GoogleMap sidebarCollapsed={sidebarCollapsed} /> */}
-              {/* <button className="px-4 py-1 bg-blue-400" onClick={handleLocation}>
-            Start Day
-          </button> */}
-              {/* <div className="w-full flex justify-end">
-                <div className="flex pl-6 gap-[4rem] items-center bg-gray-600 w-fit rounded-md mt-[2rem] mr-[2rem]">
-                  <span className="text-gray-400 my-3 text-xs">
-                    School Check In
-                  </span>
-                  <span
-                    onClick={() => navigate("/school/punch_in")}
-                    className="text-gray-300 rounded-r-md font-bold hover:shadow-lg bg-slate-500 py-2 px-4 hover:text-gray-100 transition-all duration-200 ease-linear cursor-pointer"
-                  >
-                    Check In
-                  </span>
-                  <Hamburger />
-                </div>
-              </div> */}
-              {/* <button
-                onClick={() => setShowMap(true)}
-                className={`w-[7rem] absolute top-[60vh] font-semibold right-[2rem] col-span-2 focus:outline-0 mt-8 text-gray-300 hover:shadow-md h-10  transition-all duration-200 ease-linear active:bg-slate-700 active:scale-95 rounded-md ${
-                  status === "End Day" ? "bg-red-800" : "bg-slate-500"
-                }`}
-              >
-                Map
-              </button>
-              <button
-                onClick={handleLocation}
-                className={`w-[7rem] absolute top-[80vh] font-semibold right-[2rem] col-span-2 focus:outline-0 mt-8 text-gray-300 hover:shadow-md h-10  transition-all duration-200 ease-linear active:bg-slate-700 active:scale-95 rounded-md ${
-                  status === "End Day" ? "bg-red-800" : "bg-slate-500"
-                }`}
-              >
-                {status}
-              </button> */}
             </div>
           )}
         </div>
