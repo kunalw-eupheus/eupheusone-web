@@ -16,7 +16,7 @@ import SwipeableTemporaryDrawer from "../Components/Material/MaterialSidebar";
 import GMap from "../assets/map.png";
 import BasicButton from "../Components/Material/Button";
 import ResetPass from "../Components/Material/Dialog/ResetPassDialog";
-const UserHome = ({ resetPass }) => {
+const UserHome = () => {
   const [status, setStatus] = useState("Start Day");
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [currentLocation, setCurrentLocation] = useState([]);
@@ -28,7 +28,7 @@ const UserHome = ({ resetPass }) => {
   const show = null;
   const temp = [];
   const Co_ordinates = JSON.parse(localStorage.getItem("co_ordinates"));
-  console.log(resetPass);
+
   useLayoutEffect(() => {
     navigator.geolocation.watchPosition(function (position) {
       // console.log("Latitude is :", position.coords.latitude);
@@ -142,7 +142,6 @@ const UserHome = ({ resetPass }) => {
           sidebarCollapsed={sidebarCollapsed}
           show={show}
         />
-        {resetPass ? <ResetPass /> : null}
         <div>
           <SwipeableTemporaryDrawer
             ref={sidebarRef}

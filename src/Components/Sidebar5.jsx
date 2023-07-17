@@ -32,6 +32,8 @@ import { useRef } from "react";
 
 const Sidebar5 = ({ sidebarCollapsed, highLight, show }) => {
   const [modelOpen, setModelOpen] = useState(false);
+  const [openReset, setOpenReset] = useState(false);
+
   const [isSchoolClicked, setIsSchoolClicked] = useState(
     show === 2 ? false : true
   );
@@ -76,6 +78,7 @@ const Sidebar5 = ({ sidebarCollapsed, highLight, show }) => {
         }).catch((err) => {
           if (err.response.status === 401 || err.response.status === 403) {
             if (err.response.data.message === "you need to change password") {
+              setOpenReset(true);
             } else {
               setModelOpen(true);
             }
@@ -99,6 +102,7 @@ const Sidebar5 = ({ sidebarCollapsed, highLight, show }) => {
     >
       <TransitionsModal open={modelOpen} />;
       <DialogSlide ref={dialogRef} />
+      {openReset ? <ResetPass /> : null}
       <div
         className={`flex flex-col gap-4 transition-all ease-linear duration-100`}
       >

@@ -22,9 +22,6 @@ const AdminHome = () => {
   //   title: "",
   //   details: ["", ""],
   // };
-  const location = useLocation();
-  const resetPass = !location?.state?.reset_password;
-  console.log(resetPass);
 
   // const sidebarRef = useRef();
 
@@ -231,7 +228,6 @@ const AdminHome = () => {
           sidebarCollapsed={sidebarCollapsed}
           show={show}
         />
-        {resetPass ? <ResetPass /> : null}
 
         <div>
           <SwipeableTemporaryDrawer

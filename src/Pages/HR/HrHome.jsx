@@ -10,8 +10,7 @@ import { useLocation } from "react-router-dom";
 
 const HrHome = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
-  const location = useLocation();
-  const resetPass = !location?.state?.reset_password;
+
   const show = null;
   const sidebarRef = useRef();
 
@@ -52,7 +51,6 @@ const HrHome = () => {
             show={show}
           />
         </div>
-        {resetPass ? <ResetPass /> : null}
 
         <div>
           <SwipeableTemporaryDrawer

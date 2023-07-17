@@ -25,7 +25,6 @@ import Paper from "@mui/material/Paper";
 import IconButton from "@mui/material/IconButton";
 import SearchIcon from "@mui/icons-material/Search";
 import TablePagination from "@mui/material/TablePagination";
-import ResetPass from "../Components/Material/Dialog/ResetPassDialog";
 
 const ManageSchoolTraining = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
@@ -41,7 +40,6 @@ const ManageSchoolTraining = () => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const location = useLocation();
-  const resetPass = !location?.state?.reset_password;
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - schoolRow.length) : 0;
@@ -344,7 +342,6 @@ const ManageSchoolTraining = () => {
         <CircularProgress color="inherit" />
       </Backdrop>
       <Sidebar sidebarCollapsed={sidebarCollapsed} highLight={highLight} />
-      {resetPass ? <ResetPass /> : null}
 
       <div>
         <SwipeableTemporaryDrawer

@@ -32,6 +32,7 @@ import { protectedResources } from "../util/msConfig";
 import TransitionsModal from "./Material/Model";
 import DialogSlide from "./Material/Dialog";
 import { useRef } from "react";
+import ResetPass from "./Material/Dialog/ResetPassDialog";
 
 const Sidebar = ({ sidebarCollapsed, highLight, show }) => {
   const [modelOpen, setModelOpen] = useState(false);
@@ -43,6 +44,7 @@ const Sidebar = ({ sidebarCollapsed, highLight, show }) => {
   );
   const [user, setUser] = useState({});
   const [userType, setUserType] = useState();
+  const [openReset, setOpenReset] = useState(false);
   const [isZsmLogin, setIsZsmLogin] = useState(false);
 
   const dialogRef = useRef();
@@ -83,6 +85,7 @@ const Sidebar = ({ sidebarCollapsed, highLight, show }) => {
         }).catch((err) => {
           if (err.response.status === 401 || err.response.status === 403) {
             if (err.response.data.message === "you need to change password") {
+              setOpenReset(true);
             } else {
               setModelOpen(true);
             }
@@ -104,6 +107,7 @@ const Sidebar = ({ sidebarCollapsed, highLight, show }) => {
         window.innerWidth < 1024 ? "-left-[100%]" : "left-[0%]"
       } lg:py-2 md:py-4 py-8 z-[100] w-[85vw] lg:w-[18vw] md:w-[30vw] bg-[#111322] h-[100vh] overflow-auto`}
     >
+      {openReset ? <ResetPass /> : null}
       <TransitionsModal open={modelOpen} />;
       <DialogSlide ref={dialogRef} />
       {userType === "training" ? (
