@@ -3,7 +3,7 @@ import { useState } from "react";
 import Navbar from "../Components/Navbar";
 import Sidebar from "../Components/Sidebar6";
 // import { Add } from '@mui/icons-material'
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import DataTable from "../Components/DataTable";
 // import { rows, ManageSchoolRows } from '../DummyData'
 import SearchDropDown from "../Components/SearchDropDown";
@@ -25,6 +25,7 @@ import IconButton from "@mui/material/IconButton";
 import SearchIcon from "@mui/icons-material/Search";
 import TablePagination from "@mui/material/TablePagination";
 import DialogSlide2 from "../Components/Material/Dialog13";
+import ResetPass from "../Components/Material/Dialog/ResetPassDialog";
 
 const SalesheadAOF = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
@@ -39,7 +40,8 @@ const SalesheadAOF = () => {
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [searchVal, setSearchVal] = useState("");
   const [aofId, setAofId] = useState("");
-
+  const location = useLocation();
+  const resetPass = !location?.state?.reset_password;
   const navInfo = {
     title: "AOF",
     details: ["Saleshead", " / AOF"],
@@ -236,12 +238,12 @@ const SalesheadAOF = () => {
   }, []);
 
   const sendData = () => {
-    getAOFdetails()
-  }
+    getAOFdetails();
+  };
 
   return (
     <div className="flex bg-[#111322]">
-      <DialogSlide2 ref={dialogRef2} aofId={aofId} sendData={sendData}/>
+      <DialogSlide2 ref={dialogRef2} aofId={aofId} sendData={sendData} />
       <Backdrop
         sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
         open={loading}
@@ -249,6 +251,7 @@ const SalesheadAOF = () => {
         <CircularProgress color="inherit" />
       </Backdrop>
       <Sidebar sidebarCollapsed={sidebarCollapsed} highLight={highLight} />
+      {resetPass ? <ResetPass /> : null}
 
       <div>
         <SwipeableTemporaryDrawer
@@ -377,7 +380,9 @@ const SalesheadAOF = () => {
                             <TableCell align="center">{row.mobile}</TableCell>
                             <TableCell align="center">{row.email}</TableCell>
                             <TableCell align="center">
-                              {row.head_status === true ? "Approved" : "Pending"}
+                              {row.head_status === true
+                                ? "Approved"
+                                : "Pending"}
                             </TableCell>
 
                             {/* <TableCell align="center">
@@ -439,7 +444,9 @@ const SalesheadAOF = () => {
                             <TableCell align="center">{row.mobile}</TableCell>
                             <TableCell align="center">{row.email}</TableCell>
                             <TableCell align="center">
-                              {row.head_status === true ? "Approved" : "Pending"}
+                              {row.head_status === true
+                                ? "Approved"
+                                : "Pending"}
                             </TableCell>
 
                             {/* <TableCell align="center">

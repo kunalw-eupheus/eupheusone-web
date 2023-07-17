@@ -3,11 +3,13 @@ import React, { useEffect } from "react";
 import { useState } from "react";
 import AdminHome from "./AdminHome";
 import UserHome from "./UserHome";
+import { useLocation } from "react-router-dom";
 
 const Home = () => {
   const [userCookie, setUserCookie] = useState(false);
   const [adminCookie, setAdminCookies] = useState(false);
-
+  const location = useLocation();
+  // console.log(location.state);
   const getCookies = () => {
     if (Cookies.get("user")) {
       setUserCookie(true);
@@ -22,10 +24,11 @@ const Home = () => {
 
   return (
     <div>
-      {
-        Cookies.get("type") === "admin" ? <AdminHome/> : <UserHome />
-      }
-      
+      {Cookies.get("type") === "admin" ? (
+        <AdminHome resetPass={!location?.state?.reset_password} />
+      ) : (
+        <UserHome resetPass={!location?.state?.reset_password} />
+      )}
     </div>
   );
 };

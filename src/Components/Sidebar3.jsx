@@ -13,7 +13,7 @@ import {
   ListAlt,
   LocationCity,
   AssignmentReturnOutlined,
-  ReceiptOutlined
+  ReceiptOutlined,
 } from "@mui/icons-material";
 import { Link } from "react-router-dom";
 import logoLight from "../assets/img/logo-light-icon.png";
@@ -42,8 +42,8 @@ const Sidebar3 = ({ sidebarCollapsed, highLight, show }) => {
   const dialogRef = useRef();
 
   useEffect(() => {
-    const userlogintype = Cookies.get("type")
-    setUserType(userlogintype)
+    const userlogintype = Cookies.get("type");
+    setUserType(userlogintype);
     if (show === null) {
       setIsSchoolClicked(false);
       setIsSchoolDetailClicked(false);
@@ -72,8 +72,11 @@ const Sidebar3 = ({ sidebarCollapsed, highLight, show }) => {
             Authorization: `${Cookies.get("accessToken")}`,
           },
         }).catch((err) => {
-          if (err.response.status === 401) {
-            setModelOpen(true);
+          if (err.response.status === 401 || err.response.status === 403) {
+            if (err.response.data.message === "you need to change password") {
+            } else {
+              setModelOpen(true);
+            }
           }
         });
         setUser(res.data.message);
@@ -94,8 +97,6 @@ const Sidebar3 = ({ sidebarCollapsed, highLight, show }) => {
     >
       <TransitionsModal open={modelOpen} />;
       <DialogSlide ref={dialogRef} />
-
-
       <div
         className={`flex flex-col gap-4 transition-all ease-linear duration-100 font-Roboto`}
       >
@@ -112,7 +113,6 @@ const Sidebar3 = ({ sidebarCollapsed, highLight, show }) => {
           <span className="text-sm text-gray-300">{user.emp_id}</span>
           <hr className="text-gray-100 mt-4" />
         </aside>
-
 
         <Link to="/gatepass_dashboard">
           <aside
@@ -137,7 +137,6 @@ const Sidebar3 = ({ sidebarCollapsed, highLight, show }) => {
           </aside>
         </Link>
 
-
         <Link to="/gatepass_invoice">
           <aside
             className={`px-6 py-2 flex gap-4 cursor-pointer ${
@@ -146,9 +145,7 @@ const Sidebar3 = ({ sidebarCollapsed, highLight, show }) => {
           >
             <ReceiptOutlined
               className={`${
-                highLight === "gpinvoice"
-                  ? "!text-[#659DBD]"
-                  : "!text-gray-400"
+                highLight === "gpinvoice" ? "!text-[#659DBD]" : "!text-gray-400"
               } group-hover:!text-[#659DBD] !transition-all !duration-150 !ease-linear`}
             />
             <span
@@ -160,13 +157,6 @@ const Sidebar3 = ({ sidebarCollapsed, highLight, show }) => {
             </span>
           </aside>
         </Link>
-    
- 
-    
-  
-  
-
-
 
         {/* <Link to="/invoice_training">
           <aside
@@ -191,7 +181,6 @@ const Sidebar3 = ({ sidebarCollapsed, highLight, show }) => {
 
         {/* </Link> */}
       </div>
-
     </div>
   );
 };

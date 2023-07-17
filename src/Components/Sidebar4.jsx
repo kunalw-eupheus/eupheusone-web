@@ -17,7 +17,7 @@ import {
   ReceiptOutlined,
   PrintOutlined,
   DocumentScanner,
-  Article
+  Article,
 } from "@mui/icons-material";
 import { Link } from "react-router-dom";
 import logoLight from "../assets/img/logo-light-icon.png";
@@ -76,8 +76,11 @@ const Sidebar4 = ({ sidebarCollapsed, highLight, show }) => {
             Authorization: `${Cookies.get("accessToken")}`,
           },
         }).catch((err) => {
-          if (err.response.status === 401) {
-            setModelOpen(true);
+          if (err.response.status === 401 || err.response.status === 403) {
+            if (err.response.data.message === "you need to change password") {
+            } else {
+              setModelOpen(true);
+            }
           }
         });
         setUser(res.data.message);
@@ -221,9 +224,7 @@ const Sidebar4 = ({ sidebarCollapsed, highLight, show }) => {
           >
             <Article
               className={`${
-                highLight === "ckreport"
-                  ? "!text-[#659DBD]"
-                  : "!text-gray-400"
+                highLight === "ckreport" ? "!text-[#659DBD]" : "!text-gray-400"
               } group-hover:!text-[#659DBD] !transition-all !duration-150 !ease-linear`}
             />
             <span

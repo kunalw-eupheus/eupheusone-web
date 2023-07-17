@@ -16,7 +16,6 @@ import {
   AssignmentReturnOutlined,
   ReceiptOutlined,
   PrintOutlined,
-  
 } from "@mui/icons-material";
 import { Link } from "react-router-dom";
 import logoLight from "../assets/img/logo-light-icon.png";
@@ -45,8 +44,8 @@ const Sidebar5 = ({ sidebarCollapsed, highLight, show }) => {
   const dialogRef = useRef();
 
   useEffect(() => {
-    const userlogintype = Cookies.get("type")
-    setUserType(userlogintype)
+    const userlogintype = Cookies.get("type");
+    setUserType(userlogintype);
     if (show === null) {
       setIsSchoolClicked(false);
       setIsSchoolDetailClicked(false);
@@ -75,8 +74,11 @@ const Sidebar5 = ({ sidebarCollapsed, highLight, show }) => {
             Authorization: `${Cookies.get("accessToken")}`,
           },
         }).catch((err) => {
-          if (err.response.status === 401) {
-            setModelOpen(true);
+          if (err.response.status === 401 || err.response.status === 403) {
+            if (err.response.data.message === "you need to change password") {
+            } else {
+              setModelOpen(true);
+            }
           }
         });
         setUser(res.data.message);
@@ -97,8 +99,6 @@ const Sidebar5 = ({ sidebarCollapsed, highLight, show }) => {
     >
       <TransitionsModal open={modelOpen} />;
       <DialogSlide ref={dialogRef} />
-      
-      
       <div
         className={`flex flex-col gap-4 transition-all ease-linear duration-100`}
       >
@@ -112,13 +112,14 @@ const Sidebar5 = ({ sidebarCollapsed, highLight, show }) => {
         </div>
 
         <aside className="flex flex-col px-6 text-gray-200">
-          <span className="text-lg">Hi,
-          {user.first_name}
+          <span className="text-lg">
+            Hi,
+            {user.first_name}
           </span>
           <span className="text-sm text-gray-300">{user.emp_id}</span>
           <hr className="text-gray-100 mt-4" />
         </aside>
-        
+
         <Link to="/finance/aof">
           <aside
             className={`px-6 py-2 hover:bg-gray-500 flex ${
@@ -128,9 +129,7 @@ const Sidebar5 = ({ sidebarCollapsed, highLight, show }) => {
             <div className="flex gap-4">
               <Dashboard
                 className={`${
-                  highLight === "aof"
-                    ? "!text-[#659DBD]"
-                    : "!text-gray-400"
+                  highLight === "aof" ? "!text-[#659DBD]" : "!text-gray-400"
                 } group-hover:!text-[#659DBD] !transition-all !duration-150 !ease-linear`}
               />
               <span
@@ -168,8 +167,6 @@ const Sidebar5 = ({ sidebarCollapsed, highLight, show }) => {
           </aside>
         </Link> */}
 
-
-
         {/* <Link to="/admin/uploadinvoice">
           <aside
             className={`px-6 py-2 flex gap-4 ${
@@ -190,8 +187,6 @@ const Sidebar5 = ({ sidebarCollapsed, highLight, show }) => {
             </span>
           </aside>
         </Link> */}
-
-
 
         {/* <Link to="/manage_order">
           <aside
@@ -236,7 +231,7 @@ const Sidebar5 = ({ sidebarCollapsed, highLight, show }) => {
             </span>
           </aside>
         </Link> */}
-       
+
         {/* <Link to="/projection">
           <aside
             className={`px-6 py-2 flex gap-4 ${
@@ -260,7 +255,6 @@ const Sidebar5 = ({ sidebarCollapsed, highLight, show }) => {
           </aside>
         </Link> */}
 
-
         {/* <Link to="/print_pdf">
           <aside
             className={`px-6 py-2 flex gap-4 ${
@@ -281,10 +275,7 @@ const Sidebar5 = ({ sidebarCollapsed, highLight, show }) => {
             </span>
           </aside>
         </Link> */}
-
-      
       </div>
-      
     </div>
   );
 };
