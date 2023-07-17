@@ -27,6 +27,7 @@ import { protectedResources } from "../util/msConfig";
 import TransitionsModal from "./Material/Model";
 import DialogSlide from "./Material/Dialog";
 import { useRef } from "react";
+import ResetPass from "./Material/Dialog/ResetPassDialog";
 
 const Sidebar3 = ({ sidebarCollapsed, highLight, show }) => {
   const [modelOpen, setModelOpen] = useState(false);
