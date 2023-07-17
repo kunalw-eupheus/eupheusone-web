@@ -137,18 +137,18 @@ export default function ResetPass() {
               className="block uppercase text-gray-200 text-xs font-bold mb-2"
               htmlFor="grid-password"
             >
-              Comfirm Password
+              New Password
             </label>
             <input
               type="password"
               className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-              placeholder="Confirm password"
+              placeholder="New password"
               //   value={formik.values.resetPass}
               onChange={(e) => {
                 formik.values.resetPass = e.target.value;
               }}
             />
-            <p className="text-red-600 mt-2 italic font-bold">
+            <p className="text-red-600 mt-2 italic text-lg">
               {formik.errors.pass}
             </p>
           </div>
