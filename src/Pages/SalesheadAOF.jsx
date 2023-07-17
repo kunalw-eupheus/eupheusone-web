@@ -40,8 +40,7 @@ const SalesheadAOF = () => {
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [searchVal, setSearchVal] = useState("");
   const [aofId, setAofId] = useState("");
-  const location = useLocation();
-  const resetPass = !location?.state?.reset_password;
+
   const navInfo = {
     title: "AOF",
     details: ["Saleshead", " / AOF"],
@@ -251,7 +250,6 @@ const SalesheadAOF = () => {
         <CircularProgress color="inherit" />
       </Backdrop>
       <Sidebar sidebarCollapsed={sidebarCollapsed} highLight={highLight} />
-      {resetPass ? <ResetPass /> : null}
 
       <div>
         <SwipeableTemporaryDrawer

@@ -119,12 +119,12 @@ export default function ResetPass() {
               className="block uppercase text-gray-200 text-xs font-bold mb-2"
               htmlFor="grid-password"
             >
-              Password
+              New Password
             </label>
             <input
               type="text"
               className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-              placeholder="Enter password"
+              placeholder="New password"
               //   value={formik.values.pass}
               onChange={(e) => {
                 formik.values.pass = e.target.value;
@@ -137,12 +137,12 @@ export default function ResetPass() {
               className="block uppercase text-gray-200 text-xs font-bold mb-2"
               htmlFor="grid-password"
             >
-              New Password
+              Confirm Password
             </label>
             <input
               type="password"
               className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-              placeholder="New password"
+              placeholder="Confirm password"
               //   value={formik.values.resetPass}
               onChange={(e) => {
                 formik.values.resetPass = e.target.value;

@@ -61,7 +61,6 @@ const GatePassDashboard = () => {
   const [searchRow, setSearchRow] = useState([]);
   const [checkedItems, setCheckedItems] = useState({});
   const location = useLocation();
-  const resetPass = !location?.state?.reset_password;
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
@@ -742,7 +741,6 @@ const GatePassDashboard = () => {
         snackbarErrStatus={snackbarErrStatus}
         errMessage={snackbarMsg}
       />
-      {resetPass ? <ResetPass /> : null}
 
       <div className="flex bg-[#111322]">
         <Backdrop

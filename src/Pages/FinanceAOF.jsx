@@ -48,8 +48,7 @@ const FinanceAOF = () => {
   const [panLink, setPanLink] = useState("");
   const [gstLink, setGstLink] = useState("");
   const [cheque, setCheque] = useState([]);
-  const location = useLocation();
-  const resetPass = !location?.state?.reset_password;
+
   const snackbarRef = useRef();
 
   const navInfo = {
@@ -308,8 +307,6 @@ const FinanceAOF = () => {
         sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
         open={loading}
       >
-        {resetPass ? <ResetPass /> : null}
-
         <CircularProgress color="inherit" />
       </Backdrop>
       <Sidebar sidebarCollapsed={sidebarCollapsed} highLight={highLight} />
