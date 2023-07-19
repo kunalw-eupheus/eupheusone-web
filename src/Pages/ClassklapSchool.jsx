@@ -25,7 +25,7 @@ import Paper from "@mui/material/Paper";
 import IconButton from "@mui/material/IconButton";
 import SearchIcon from "@mui/icons-material/Search";
 import TablePagination from "@mui/material/TablePagination";
-import DialogSlide from "../Components/Material/Dialog6"
+import DialogSlide from "../Components/Material/Dialog6";
 
 const ClassklapSchool = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
@@ -43,8 +43,8 @@ const ClassklapSchool = () => {
   const [searchRow, setSearchRow] = useState([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-  const [ckState, setCkState] = useState("")
-  const [invceId, setInvceId] = useState("")
+  const [ckState, setCkState] = useState("");
+  const [invceId, setInvceId] = useState("");
 
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
@@ -104,6 +104,7 @@ const ClassklapSchool = () => {
     window.addEventListener("resize", handleWidth);
     handleWidth();
     window.scroll(0, 0);
+
     return () => {
       window.removeEventListener("resize", handleWidth);
     };
@@ -163,21 +164,21 @@ const ClassklapSchool = () => {
         // getSchoolByState(value.fk_state_id);
         // setStateAndCity({ ...stateAndCity, state: value.fk_state_id });
         break;
-        case "select_state_training":
-          // console.log(value);
-          setStateId(value.id);
-          // getCity(value.fk_state_id);
-          // getSchoolByState(value.fk_state_id);
-          // setStateAndCity({ ...stateAndCity, state: value.fk_state_id });
-          break;
+      case "select_state_training":
+        // console.log(value);
+        setStateId(value.id);
+        // getCity(value.fk_state_id);
+        // getSchoolByState(value.fk_state_id);
+        // setStateAndCity({ ...stateAndCity, state: value.fk_state_id });
+        break;
       case "select_type":
         // console.log(value);
         setType(value.types);
         // setStateAndCity({ ...stateAndCity, city: value.id });
         break;
-    case "select_ck_state":
-        console.log(value)
-        setCkState(value.name)
+      case "select_ck_state":
+        console.log(value);
+        setCkState(value.name);
 
       default:
         break;
@@ -207,16 +208,14 @@ const ClassklapSchool = () => {
         },
       });
       console.log(res.data.message);
-      let tempData = []
-      let stateData = res.data.message
-      for(let itm of stateData){
-        tempData.push({name: itm})
+      let tempData = [];
+      let stateData = res.data.message;
+      for (let itm of stateData) {
+        tempData.push({ name: itm });
       }
-      console.log(tempData)
+      console.log(tempData);
       setStates(tempData);
     };
-
-    
 
     const getSchoolData = async () => {
       const res = await instance({
@@ -242,7 +241,6 @@ const ClassklapSchool = () => {
     // getSchoolData();
   }, []);
 
-
   const openDialogue3 = () => {
     dialogRef.current.openDialog();
   };
@@ -251,41 +249,40 @@ const ClassklapSchool = () => {
 
   const handleInvoiceView = (invceId) => {
     // console.log(invceId)
-    setInvceId(invceId)
-    setLoading(true)
+    setInvceId(invceId);
+    setLoading(true);
     // setInvoiceId2(invceId);
     setTimeout(() => {
-    //   // console.log("Delayed for 1 second.");
+      //   // console.log("Delayed for 1 second.");
       openDialogue3();
-      setLoading(false)
-    }, 1000)
+      setLoading(false);
+    }, 1000);
     // openDialogue2();
   };
 
-  
   const searchSchool = async () => {
     setSchoolRow([]);
     setSearchRow([]);
     // if (type === "Classklap") {
-      console.log(ckState)
-      const res = await instance({
-        url: `ck/getschool/state/${ckState}`,
-        method: "GET",
-        headers: {
-          Authorization: `${Cookies.get("accessToken")}`,
-        },
-      });
+    console.log(ckState);
+    const res = await instance({
+      url: `ck/getschool/state/${ckState}`,
+      method: "GET",
+      headers: {
+        Authorization: `${Cookies.get("accessToken")}`,
+      },
+    });
     //   console.log(res.data.message);
-      if(res.data.message.length === 0){
-        alert("No Data Available")
-      }
+    if (res.data.message.length === 0) {
+      alert("No Data Available");
+    }
     //   console.log(res.data.message)
-      setSchoolRow(res.data.message);
-        setSearchRow(res.data.message);
+    setSchoolRow(res.data.message);
+    setSearchRow(res.data.message);
 
-      // console.log(stateId)
-      // console.log(type)
-    // } 
+    // console.log(stateId)
+    // console.log(type)
+    // }
   };
 
   const updateSchoolCode = async (schoolId, statId) => {
@@ -314,8 +311,8 @@ const ClassklapSchool = () => {
 
   const filterTable = () => {
     console.log(searchVal);
-    console.log(schoolRow)
-    setPage(0)
+    console.log(schoolRow);
+    setPage(0);
     let tempArr = [];
     for (let ele of schoolRow) {
       // console.log(ele.cardname)
@@ -327,7 +324,7 @@ const ClassklapSchool = () => {
     console.log(tempArr);
     setSearchRow([]);
     if (tempArr.length === 0) {
-      alert("No Data Found")
+      alert("No Data Found");
       // console.log(searchRow)
       // setSearchRow([
       //   {
@@ -361,7 +358,7 @@ const ClassklapSchool = () => {
 
   return (
     <div className="flex bg-[#111322]">
-    <DialogSlide ref={dialogRef} invoiceId={invceId} />
+      <DialogSlide ref={dialogRef} invoiceId={invceId} />
       <Backdrop
         sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
         open={loading}
@@ -392,9 +389,9 @@ const ClassklapSchool = () => {
           <div className=" sm:px-8 px-2 py-3 bg-[#141728]">
             <div className="grid grid-cols-2 grid-rows-2 md:flex md:justify-around md:items-center px-6 mb-8 py-3 mt-6 gap-6 rounded-md bg-slate-600">
               {/* <div className="flex flex-col gap-2 w-full md:w-[20vw]"> */}
-                {/* <label className="text-gray-100">Type</label> */}
+              {/* <label className="text-gray-100">Type</label> */}
 
-                {/* <SearchDropDown
+              {/* <SearchDropDown
                   label={"Select Type"}
                   handleOrderProcessingForm={handleOrderProcessingForm}
                   color={"rgb(243, 244, 246)"}
@@ -402,7 +399,7 @@ const ClassklapSchool = () => {
                   Name="select_type"
                 /> */}
 
-                {/* <Autocomplete
+              {/* <Autocomplete
                   disablePortal
                   // id="combo-box-demo"
                   options={types}
@@ -483,7 +480,11 @@ const ClassklapSchool = () => {
                         { label: "All", value: -1 },
                       ]}
                       colSpan={3}
-                      count={searchRow.length=== 0 ?schoolRow.length: searchRow.length}
+                      count={
+                        searchRow.length === 0
+                          ? schoolRow.length
+                          : searchRow.length
+                      }
                       rowsPerPage={rowsPerPage}
                       page={page}
                       slotProps={{
@@ -514,9 +515,6 @@ const ClassklapSchool = () => {
                         <TableCell className="!w-[13rem]" align="left">
                           View
                         </TableCell>
-                       
-                        
-                       
                       </TableRow>
                     </TableHead>
                     <TableBody className="bg-slate-200">
@@ -543,12 +541,10 @@ const ClassklapSchool = () => {
                               >
                                 {row.name}
                               </TableCell>
-                              <TableCell align="center">
-                                {row.code}
-                              </TableCell>
+                              <TableCell align="center">{row.code}</TableCell>
 
                               <TableCell align="center">
-                              <div
+                                <div
                                   className="sm:w-auto w-[50vw]"
                                   onClick={() => {
                                     handleInvoiceView(row.code);
@@ -557,7 +553,6 @@ const ClassklapSchool = () => {
                                   <BasicButton text={"View"} />
                                 </div>
                               </TableCell>
-                             
                             </TableRow>
                           ))
                         : (rowsPerPage > 0
@@ -582,12 +577,10 @@ const ClassklapSchool = () => {
                               >
                                 {row.name}
                               </TableCell>
-                              <TableCell align="center">
-                                {row.code}
-                              </TableCell>
+                              <TableCell align="center">{row.code}</TableCell>
 
                               <TableCell align="center">
-                              <div
+                                <div
                                   className="sm:w-auto w-[50vw]"
                                   onClick={() => {
                                     handleInvoiceView(row.code);
@@ -596,9 +589,6 @@ const ClassklapSchool = () => {
                                   <BasicButton text={"View"} />
                                 </div>
                               </TableCell>
-                           
-              
-                   
                             </TableRow>
                           ))}
                     </TableBody>

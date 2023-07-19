@@ -82,6 +82,7 @@ const InvoiceItem = () => {
     window.addEventListener("resize", handleWidth);
     handleWidth();
     window.scroll(0, 0);
+
     return () => {
       window.removeEventListener("resize", handleWidth);
     };
@@ -158,7 +159,7 @@ const InvoiceItem = () => {
         Authorization: `${Cookies.get("accessToken")}`,
       },
     });
-    console.log(res)
+    console.log(res);
     console.log(res.data.message[0].eup_invoice_addresses[0]);
     setItems(res.data.message[0].eup_invoice_items);
     setAddress(res.data.message[0].eup_invoice_addresses[0]);

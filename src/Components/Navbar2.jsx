@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
-import logoLight from "../assets/img/logo-light-icon.png";
+// import logoLight from "../assets/img/logo-light-icon.png";
+import ReactGA from "react-ga4";
+
 import {
   PersonRounded,
   Menu,
@@ -26,6 +28,11 @@ const Navbar2 = ({ handleSidebarCollapsed, info }) => {
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
     handleScroll();
+    ReactGA.send({
+      hitType: "pageview",
+      page: window.location.pathname,
+      title: "User Page Count",
+    });
   }, []);
 
   const handleScroll = () => {

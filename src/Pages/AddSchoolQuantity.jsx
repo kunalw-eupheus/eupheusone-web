@@ -81,7 +81,7 @@ const AddSchoolQuantity = () => {
         Authorization: `${Cookies.get("accessToken")}`,
       },
     });
-    console.log(res.data)
+    console.log(res.data);
     if (res.data.message) {
       //   console.log(res.data.message[0].eup_invoice_items);
       let dataArr = res.data.message[0].eup_invoice_items;
@@ -142,6 +142,7 @@ const AddSchoolQuantity = () => {
     };
     window.addEventListener("resize", handleWidth);
     handleWidth();
+
     window.scroll(0, 0);
     return () => {
       window.removeEventListener("resize", handleWidth);

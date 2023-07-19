@@ -335,7 +335,6 @@ const AddSchoolTraining = () => {
 
   const navigate = useNavigate();
 
-
   useEffect(() => {
     const handleWidth = () => {
       if (window.innerWidth > 1024) {
@@ -357,27 +356,29 @@ const AddSchoolTraining = () => {
     let newData = {
       schoolContanct: [
         {
-          category: "signatory"
+          category: "signatory",
         },
         {
-          category: "service"
+          category: "service",
         },
-      ]
+      ],
     };
 
-    newData.school_name = formik.values.school_name
-    newData.state = formik.values.school_state
-    newData.city = formik.values.school_city
-    newData.pin = formik.values.school_pin
-    newData.address = formik.values.school_address
-    newData.schoolContanct[0].pName = formik.values.school_signatory_name
-    newData.schoolContanct[0].pEmail = formik.values.school_signatory_email
-    newData.schoolContanct[0].pPhone = formik.values.school_signatory_mobile
-    newData.schoolContanct[0].designation = formik.values.school_signatory_designation
-    newData.schoolContanct[1].pName = formik.values.school_service_name
-    newData.schoolContanct[1].pEmail = formik.values.school_service_email
-    newData.schoolContanct[1].pPhone = formik.values.school_service_mobile
-    newData.schoolContanct[1].designation = formik.values.school_service_designation
+    newData.school_name = formik.values.school_name;
+    newData.state = formik.values.school_state;
+    newData.city = formik.values.school_city;
+    newData.pin = formik.values.school_pin;
+    newData.address = formik.values.school_address;
+    newData.schoolContanct[0].pName = formik.values.school_signatory_name;
+    newData.schoolContanct[0].pEmail = formik.values.school_signatory_email;
+    newData.schoolContanct[0].pPhone = formik.values.school_signatory_mobile;
+    newData.schoolContanct[0].designation =
+      formik.values.school_signatory_designation;
+    newData.schoolContanct[1].pName = formik.values.school_service_name;
+    newData.schoolContanct[1].pEmail = formik.values.school_service_email;
+    newData.schoolContanct[1].pPhone = formik.values.school_service_mobile;
+    newData.schoolContanct[1].designation =
+      formik.values.school_service_designation;
 
     // console.log(newData)
 
@@ -392,7 +393,7 @@ const AddSchoolTraining = () => {
     console.log(res);
     if (res.data.status === "success") {
       console.log(res);
-      setSnackbarErrStatus(false)
+      setSnackbarErrStatus(false);
       setErrMessage("New School Added");
       snackbarRef.current.openSnackbar();
       setTimeout(() => {

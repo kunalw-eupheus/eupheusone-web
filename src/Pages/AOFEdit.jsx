@@ -118,24 +118,19 @@ const AOFEdit = () => {
   const [creditLimitType, setcrditLimitType] = useState("");
   const [partyType, setPartyType] = useState("School");
 
-
-
-
-
-
-//   const [date, setDate] = useState("");
+  //   const [date, setDate] = useState("");
   const [partySchool, setPartySchool] = useState("");
   const [solePPPStatus, setSolePPPStatus] = useState("");
-//   const [addressEdit, setAddressEdit] = useState("");
-//   const [city, setCity] = useState("");
-//   const [state, setState] = useState("");
-//   const [pinCode, setPinCode] = useState("");
-//   const [phone, setPhone] = useState("");
-//   const [mobile, setMobile] = useState("");
+  //   const [addressEdit, setAddressEdit] = useState("");
+  //   const [city, setCity] = useState("");
+  //   const [state, setState] = useState("");
+  //   const [pinCode, setPinCode] = useState("");
+  //   const [phone, setPhone] = useState("");
+  //   const [mobile, setMobile] = useState("");
   const [email, setEmail] = useState("");
-//   const [firmRegNo, setFirmRegNo] = useState("");
-//   const [panNo, setPanNo] = useState("");
-//   const [gstNo, setGstNo] = useState("");
+  //   const [firmRegNo, setFirmRegNo] = useState("");
+  //   const [panNo, setPanNo] = useState("");
+  //   const [gstNo, setGstNo] = useState("");
   const [estYear, setEstYear] = useState("");
   const [aofName, setAofName] = useState("");
   const [aofPan, setAofPan] = useState("");
@@ -162,29 +157,18 @@ const AOFEdit = () => {
   const [modelOpen, setModelOpen] = useState(false);
   const [user, setUser] = useState("");
 
-  const [cashDiscDataAvail, setCashDiscDataAvail] = useState(true)
-  const [todDiscDataAvail,setTodDiscDataAvail] = useState(true)
-  const [specialArrAvail, setSpecialArrAvail] = useState(true)
-  const [seriesArrAval, setSeriesArrAval] = useState(true)
-  const [publisherArrAvail, setPublisherArrAvail] = useState(true)
-
-
-
-
-
+  const [cashDiscDataAvail, setCashDiscDataAvail] = useState(true);
+  const [todDiscDataAvail, setTodDiscDataAvail] = useState(true);
+  const [specialArrAvail, setSpecialArrAvail] = useState(true);
+  const [seriesArrAval, setSeriesArrAval] = useState(true);
+  const [publisherArrAvail, setPublisherArrAvail] = useState(true);
 
   const sidebarRef = useRef();
   const snackbarRef = useRef();
 
   const { aofid } = useParams();
 
-
-
-
-
-
   const getAOFDetails = async () => {
-
     const res = await instance({
       // url: `sales_data/aof/get/detail/a6663609-a912-4e0e-9a37-4935213a3d1a`,
       url: `sales_data/aof/get/detail/${aofid}`,
@@ -216,7 +200,7 @@ const AOFEdit = () => {
     // setCity(data.fk_city.city);
     // setState(data.fk_state.state);
     setPinCode(data.zip_code);
-    setMobile(data.mobile)
+    setMobile(data.mobile);
     setPhone(data.phone);
     setSchoolEmail(data.email);
     setFirmRegNo(data.firm_reg);
@@ -263,13 +247,12 @@ const AOFEdit = () => {
     //   let todDiscData = {
     //     percent: "",
     //     remark: "",
-    //     percentages_type: "",  
+    //     percentages_type: "",
     //   }
     //   setTodDiscDataAvail(false)
     //   setTodDiscData(todDiscData);
     // }
 
-    
     // if(res.data.cash.length !== 0){
     //   let cashDiscData = res.data.cash[0];
     //   setCashDiscData(cashDiscData);
@@ -280,14 +263,13 @@ const AOFEdit = () => {
     //   setCashDiscDataAvail(false)
     //   setCashDiscData(cashDiscData);
     // }
-    
+
     // let specialDiscArr = res.data.special;
     // // console.log(specialDiscArr)
     // if(specialDiscArr.length === 0){
     //   setSpecialArrAvail(false)
     // }
-    
-    
+
     // setSpecDiscArr(specialDiscArr)
     // let seriesArr = [],
     //   publisherArr = [];
@@ -304,7 +286,7 @@ const AOFEdit = () => {
     // // console.log(seriesArr);
     // if(seriesArr.length === 0){
     //   setSeriesArrAval(false)
-    // }   
+    // }
     // setSeriesArr(seriesArr);
     // // console.log(publisherArr)
     // let n = 1;
@@ -318,11 +300,6 @@ const AOFEdit = () => {
     // }
     // setPublisherArr(publisherArr);
   };
-  
-
-
-
-
 
   function isValid_IFSC_Code(ifsc_Code) {
     // console.log(ifsc_Code);
@@ -993,8 +970,8 @@ const AOFEdit = () => {
         break;
       case "Enter Party Name *":
         // console.log(value)
-        setNameOfSchool(value)
-        break
+        setNameOfSchool(value);
+        break;
       case "Name Of Party/School *":
         // console.log(value);
         // setNameOfSchool(value);
@@ -1280,7 +1257,7 @@ const AOFEdit = () => {
   useEffect(() => {
     getState();
     getSchools();
-    getAOFDetails()
+    getAOFDetails();
     const handleWidth = () => {
       if (window.innerWidth > 1024) {
         setSidebarCollapsed(false);
@@ -1461,7 +1438,7 @@ const AOFEdit = () => {
                     <BasicTextFields
                       lable={"Address *"}
                       variant={"standard"}
-                    //   defaultValue={schoolAddress}
+                      //   defaultValue={schoolAddress}
                       value={schoolAddress}
                       handleOrderProcessingForm={handleOrderProcessingForm}
                       multiline={false}
@@ -1483,7 +1460,6 @@ const AOFEdit = () => {
                       Name="select_city_location"
                     />
 
-                    
                     <BasicTextFields
                       lable={"Pin Code *"}
                       handleOrderProcessingForm={handleOrderProcessingForm}
@@ -1741,7 +1717,13 @@ const AOFEdit = () => {
                   <div
                     onClick={() => {
                       // console.log(isValid_IFSC_Code(ifscP));
-                      if (!partyBankerName || !accNoP || !aofAcc || !ifscP || chequeForm.length === 0) {
+                      if (
+                        !partyBankerName ||
+                        !accNoP ||
+                        !aofAcc ||
+                        !ifscP ||
+                        chequeForm.length === 0
+                      ) {
                         setSnackbarErrStatus(true);
                         setErrMessage("Please Fill All The Fields");
                         snackbarRef.current.openSnackbar();

@@ -45,7 +45,7 @@ const LocationTraining = () => {
   const [searchRow, setSearchRow] = useState([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-  const [stateId2, setStateId2]= useState("")
+  const [stateId2, setStateId2] = useState("");
   const [errMessage, setErrMessage] = useState("");
   const [snackbarErrStatus, setSnackbarErrStatus] = useState(true);
 
@@ -112,6 +112,7 @@ const LocationTraining = () => {
     window.addEventListener("resize", handleWidth);
     handleWidth();
     window.scroll(0, 0);
+
     return () => {
       window.removeEventListener("resize", handleWidth);
     };
@@ -150,58 +151,54 @@ const LocationTraining = () => {
     setLoading(false);
   };
 
-
   const addCity = async () => {
-
     let newData = {
-        city: city,
-        fk_state_id: stateId2
-    }
+      city: city,
+      fk_state_id: stateId2,
+    };
 
     // console.log(newData)
 
     const res = await instance({
-        url: `location/city/create/bytraining`,
-        method: "POST",
-        data: newData,
-        headers: {
-          Authorization: Cookies.get("accessToken"),
-        },
-      });
+      url: `location/city/create/bytraining`,
+      method: "POST",
+      data: newData,
+      headers: {
+        Authorization: Cookies.get("accessToken"),
+      },
+    });
+    // console.log(res);
+
+    if (!stateId2 || stateId2.length === 0) {
+      setSnackbarErrStatus(true);
+      setErrMessage("Select a State");
+      snackbarRef.current.openSnackbar();
+      return;
+    }
+
+    if (!city || city.length === 0) {
+      setSnackbarErrStatus(true);
+      setErrMessage("Enter a City Name");
+      snackbarRef.current.openSnackbar();
+      return;
+    }
+
+    if (res.data.status === "success") {
       // console.log(res);
-
-      if(!stateId2 || stateId2.length===0){
-        setSnackbarErrStatus(true);
-        setErrMessage("Select a State");
-        snackbarRef.current.openSnackbar();
-        return
-      }
-
-      if(!city || city.length===0){
-        setSnackbarErrStatus(true);
-        setErrMessage("Enter a City Name");
-        snackbarRef.current.openSnackbar();
-        return
-      }
-
-      if (res.data.status === "success") {
-        // console.log(res);
-        setSnackbarErrStatus(false);
-        setErrMessage("New City Added");
-        snackbarRef.current.openSnackbar();
-        setTimeout(() => {
-          // console.log("first")
-          navigate("/locationTraining");
-        }, 1500);
-      }else if(res.data.status === "error"){
-        // alert(res.data.message)
-        setSnackbarErrStatus(true);
-        setErrMessage("This City Already Exist");
-        snackbarRef.current.openSnackbar();
-      }
-  }
-
-  
+      setSnackbarErrStatus(false);
+      setErrMessage("New City Added");
+      snackbarRef.current.openSnackbar();
+      setTimeout(() => {
+        // console.log("first")
+        navigate("/locationTraining");
+      }, 1500);
+    } else if (res.data.status === "error") {
+      // alert(res.data.message)
+      setSnackbarErrStatus(true);
+      setErrMessage("This City Already Exist");
+      snackbarRef.current.openSnackbar();
+    }
+  };
 
   const getSchoolByState = async (id) => {
     setLoading(true);
@@ -236,7 +233,7 @@ const LocationTraining = () => {
         // setStateAndCity({ ...stateAndCity, state: value.fk_state_id });
         break;
       case "select_state_location":
-        setStateId2(value.id)
+        setStateId2(value.id);
         //   console.log(value.id , "hihihiihii");
         //   setStateId(value.id);
         // getCity(value.id);
@@ -251,7 +248,7 @@ const LocationTraining = () => {
         break;
       case "Enter City Name *":
         // console.log(value);
-        setCity(value)
+        setCity(value);
         // setType(value.types);
         // setStateAndCity({ ...stateAndCity, city: value.id });
         break;
@@ -455,12 +452,11 @@ const LocationTraining = () => {
           window.innerWidth < 1024 ? null : "md:ml-[30vw] ml-[60vw]"
         } `}
       >
-
-          <Snackbars
-            ref={snackbarRef}
-            snackbarErrStatus={snackbarErrStatus}
-            errMessage={errMessage}
-          />
+        <Snackbars
+          ref={snackbarRef}
+          snackbarErrStatus={snackbarErrStatus}
+          errMessage={errMessage}
+        />
 
         <Navbar
           handleSidebarCollapsed={handleSidebarCollapsed}

@@ -68,13 +68,15 @@ const Invoice = () => {
     setPage(0);
     let tempArr = [];
     for (let ele of rowdata) {
-    //   console.log(ele)
-      let invNo = ele.inv_no.toLowerCase()
+      //   console.log(ele)
+      let invNo = ele.inv_no.toLowerCase();
       let customerName = ele.cardname.toLowerCase();
-      let docDate = ele.docdate
-      if (customerName.indexOf(searchVal.toLowerCase()) > -1 || 
-      invNo.indexOf(searchVal.toLowerCase()) > -1 || 
-      docDate.indexOf(searchVal) > -1) {
+      let docDate = ele.docdate;
+      if (
+        customerName.indexOf(searchVal.toLowerCase()) > -1 ||
+        invNo.indexOf(searchVal.toLowerCase()) > -1 ||
+        docDate.indexOf(searchVal) > -1
+      ) {
         tempArr.push(ele);
       }
     }
@@ -150,6 +152,7 @@ const Invoice = () => {
     window.addEventListener("resize", handleWidth);
     handleWidth();
     window.scroll(0, 0);
+
     return () => {
       window.removeEventListener("resize", handleWidth);
     };
