@@ -142,6 +142,7 @@ const AdminAddSchoolQuantity = () => {
     window.addEventListener("resize", handleWidth);
     handleWidth();
     window.scroll(0, 0);
+
     return () => {
       window.removeEventListener("resize", handleWidth);
     };

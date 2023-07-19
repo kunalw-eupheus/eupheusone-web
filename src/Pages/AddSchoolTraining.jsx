@@ -33,7 +33,7 @@ const AddSchoolTraining = () => {
     step3: false,
     step4: false,
   });
-  const [ckSchoolCode, setCkSchoolCode] = useState("")
+  const [ckSchoolCode, setCkSchoolCode] = useState("");
   const sidebarRef = useRef();
   const snackbarRef = useRef();
 
@@ -251,9 +251,9 @@ const AddSchoolTraining = () => {
         getCity(value.id);
         break;
       case "Enter CK School Code":
-        setCkSchoolCode(value)
+        setCkSchoolCode(value);
         // console.log(value)
-        break
+        break;
       case "select_city_training":
         // console.log(value);
         formik.values.school_city = value.id;
@@ -376,7 +376,7 @@ const AddSchoolTraining = () => {
         },
       ],
     };
-    newData.ckCode = ckSchoolCode
+    newData.ckCode = ckSchoolCode;
     newData.school_name = formik.values.school_name;
     newData.state = formik.values.school_state;
     newData.city = formik.values.school_city;
@@ -394,7 +394,7 @@ const AddSchoolTraining = () => {
     newData.schoolContanct[1].designation =
       formik.values.school_service_designation;
 
-    console.log(newData)
+    console.log(newData);
 
     const res = await instance({
       url: `school/create/ckschool`,
@@ -476,12 +476,7 @@ const AddSchoolTraining = () => {
             <div className="w-full flex flex-col gap-4 items-center mt-[7rem]">
               <CustomizedSteppers
                 activeStep={calActiceStep()}
-                steps={[
-                  "",
-                  "",
-                  "",
-                  "",
-                ]}
+                steps={["", "", "", ""]}
               />
               {/* step 1 */}
               {steps.step1 ? (
@@ -510,16 +505,16 @@ const AddSchoolTraining = () => {
                       color={"rgb(243, 244, 246)"}
                     />
 
-                    {schoolType === "Renewal" ? 
-                    <BasicTextFields
-                      lable={"Enter CK School Code"}
-                      handleOrderProcessingForm={handleOrderProcessingForm}
-                      variant={"standard"}
-                      multiline={false}
-                    />
-                    :
-                    ""
-                  }
+                    {schoolType === "Renewal" ? (
+                      <BasicTextFields
+                        lable={"Enter CK School Code"}
+                        handleOrderProcessingForm={handleOrderProcessingForm}
+                        variant={"standard"}
+                        multiline={false}
+                      />
+                    ) : (
+                      ""
+                    )}
                     {/* <SearchDropDown
                       handleOrderProcessingForm={handleOrderProcessingForm}
                       Name={"category_addschool"}
@@ -565,7 +560,7 @@ const AddSchoolTraining = () => {
                   <h3 className="text-white">Signatory Contact Details</h3>
                   <div className="grid sm:grid-rows-2 sm:grid-cols-3 grid-rows-5 grid-cols-1 w-full mt-6 gap-6 rounded-md bg-slate-600">
                     {/* <h3>School Signatory</h3> */}
-                    
+
                     <BasicTextFields
                       lable={"School Signatory Full Name *"}
                       handleOrderProcessingForm={handleOrderProcessingForm}
@@ -635,7 +630,7 @@ const AddSchoolTraining = () => {
                   <h3 className="text-white">Service Person Contact Details</h3>
                   <div className="grid sm:grid-rows-2 sm:grid-cols-3 grid-rows-5 grid-cols-1 w-full mt-6 gap-6 rounded-md bg-slate-600">
                     {/* <h3>School Signatory</h3> */}
-                    
+
                     <BasicTextFields
                       lable={"School Service Person Full Name *"}
                       handleOrderProcessingForm={handleOrderProcessingForm}
@@ -705,7 +700,6 @@ const AddSchoolTraining = () => {
                 <div className="flex flex-col gap-4 items-start w-[90%] px-6 bg-slate-600 rounded-md py-6 mb-[5rem]">
                   <h3 className="text-white">Address Details</h3>
                   <div className="grid sm:grid-rows-2 sm:grid-cols-3 grid-rows-4 grid-cols-1 w-full mt-6 gap-6 rounded-md bg-slate-600">
-                  
                     {/* <SearchDropDown
                       handleOrderProcessingForm={handleOrderProcessingForm}
                       label={"School Full Name *"}

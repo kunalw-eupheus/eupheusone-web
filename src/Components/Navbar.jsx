@@ -15,6 +15,7 @@ import { authActions } from "../Store/auth";
 import Cookies from "js-cookie";
 import { Collapse } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import ReactGA from "react-ga4";
 
 const Navbar = ({ handleSidebarCollapsed, info, changeYear }) => {
   const navigate = useNavigate();
@@ -25,6 +26,12 @@ const Navbar = ({ handleSidebarCollapsed, info, changeYear }) => {
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
     handleScroll();
+    ReactGA.send({
+      hitType: "pageview",
+      page: window.location.pathname,
+      title: "User Page Count",
+    });
+    console.log(window.location.pathname);
   }, []);
 
   const handleScroll = () => {

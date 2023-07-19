@@ -6,7 +6,7 @@ import Home from "./Pages/Home";
 // import MySchool from "./Pages/MySchool";
 import Tagging from "./Pages/Tagging";
 // import SchoolDirectory from "./Pages/SchoolDirectory";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 // import SalesInvoices from "./Pages/SalesInvoice";
 // import UpdateStocks from "./Pages/UpdateStocks";
 // import Opportunities from "./Pages/Opportunities";
@@ -99,6 +99,8 @@ import CreditNote from "./Pages/PDF/CreditNote";
 import CreditSinglePdf from "./Pages/CreditSinglePdf";
 import SalesToCash from "./Pages/SalesToCash";
 import SendMessage from "./Pages/HR/SendMessage";
+import ReactGA from "react-ga4";
+// import usePageView from "./Components/customHooks/usePageView";
 
 function App() {
   const [userCache, setUserCache] = useState(false);

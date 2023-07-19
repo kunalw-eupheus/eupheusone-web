@@ -34,6 +34,7 @@ const AdminAllUser = () => {
     };
     window.addEventListener("resize", handleWidth);
     handleWidth();
+
     return () => {
       window.removeEventListener("resize", handleWidth);
     };

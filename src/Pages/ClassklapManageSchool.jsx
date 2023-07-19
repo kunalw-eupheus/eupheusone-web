@@ -45,7 +45,7 @@ const EupheusManageSchool = () => {
   const [searchRow, setSearchRow] = useState([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-  const [schoolId, setSchoolId] = useState("")
+  const [schoolId, setSchoolId] = useState("");
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - schoolRow.length) : 0;
@@ -106,6 +106,7 @@ const EupheusManageSchool = () => {
     window.addEventListener("resize", handleWidth);
     handleWidth();
     window.scroll(0, 0);
+
     return () => {
       window.removeEventListener("resize", handleWidth);
     };
@@ -180,11 +181,11 @@ const EupheusManageSchool = () => {
       case "to_convert":
         // console.log(value, type, id);
         if (value === "No") {
-          setSchoolId(id)
+          setSchoolId(id);
           setLoading(true);
           // setTimeout(() => {
-            openDialogue();
-            setLoading(false);
+          openDialogue();
+          setLoading(false);
           // }, 1000);
         }
         // setType(value.types);
@@ -374,7 +375,7 @@ const EupheusManageSchool = () => {
 
   return (
     <div className="flex bg-[#111322]">
-      <DialogSlide ref={dialogRef} school={schoolId}/>
+      <DialogSlide ref={dialogRef} school={schoolId} />
       <Backdrop
         sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
         open={loading}
@@ -592,15 +593,24 @@ const EupheusManageSchool = () => {
                                   <div
                                     onClick={() => {
                                       // console.log("Clicking Yes");
-                                      handleOrderProcessingForm("Yes","to_convert", row.id)
+                                      handleOrderProcessingForm(
+                                        "Yes",
+                                        "to_convert",
+                                        row.id
+                                      );
                                     }}
                                   >
                                     <BasicButton text={"Yes"} />
                                   </div>
-                                  <div className="ml-1"
+                                  <div
+                                    className="ml-1"
                                     onClick={() => {
                                       // console.log("Clicking No");
-                                      handleOrderProcessingForm("No","to_convert", row.id)
+                                      handleOrderProcessingForm(
+                                        "No",
+                                        "to_convert",
+                                        row.id
+                                      );
                                     }}
                                   >
                                     <BasicButton text={"No"} />
