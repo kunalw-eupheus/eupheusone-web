@@ -11,11 +11,12 @@ import orderImg from "../assets/img/order.png";
 import documentImg from "../assets/img/documents.png";
 import zohoImg from "../assets/img/zoho.png";
 import SwipeableTemporaryDrawer from "../Components/Material/MaterialSidebar";
+import ReactGA from "react-ga4";
 
 // import { Map } from "@mui/icons-material";
-import GMap from "../assets/map.png";
+// import GMap from "../assets/map.png";
 import BasicButton from "../Components/Material/Button";
-import ResetPass from "../Components/Material/Dialog/ResetPassDialog";
+// import ResetPass from "../Components/Material/Dialog/ResetPassDialog";
 const UserHome = () => {
   const [status, setStatus] = useState("Start Day");
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
@@ -127,7 +128,13 @@ const UserHome = () => {
     window.addEventListener("resize", handleWidth);
     handleWidth();
     window.scroll(0, 0);
+    const pagePath = window.location.pathname;
 
+    ReactGA.send({
+      hitType: "pageview",
+      page: pagePath,
+      title: "User Page Count",
+    });
     return () => {
       window.removeEventListener("resize", handleWidth);
     };

@@ -15,6 +15,7 @@ import BasicButton from "../Components/Material/Button";
 import { Backdrop, CircularProgress } from "@mui/material";
 import * as FileSaver from "file-saver";
 import * as XLSX from "xlsx";
+import ReactGA from "react-ga4";
 
 const ManageSchool = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
@@ -72,8 +73,16 @@ const ManageSchool = () => {
         setSidebarCollapsed(true);
       }
     };
+
     window.addEventListener("resize", handleWidth);
     handleWidth();
+    const pagePath = window.location.pathname;
+
+    ReactGA.send({
+      hitType: "pageview",
+      page: pagePath,
+      title: "User Page Count",
+    });
     window.scroll(0, 0);
     return () => {
       window.removeEventListener("resize", handleWidth);

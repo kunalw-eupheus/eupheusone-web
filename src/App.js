@@ -100,7 +100,7 @@ import CreditSinglePdf from "./Pages/CreditSinglePdf";
 import SalesToCash from "./Pages/SalesToCash";
 import SendMessage from "./Pages/HR/SendMessage";
 import ReactGA from "react-ga4";
-import usePageView from "./Components/customHooks/usePageView";
+// import usePageView from "./Components/customHooks/usePageView";
 
 function App() {
   const [userCache, setUserCache] = useState(false);
@@ -123,8 +123,6 @@ function App() {
   useEffect(() => {
     ReactGA.initialize("G-WWFF5R3TB6");
   }, []);
-  const location = useLocation();
-  usePageView(location.pathname);
 
   return (
     <div>

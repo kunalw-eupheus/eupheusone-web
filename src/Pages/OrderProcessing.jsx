@@ -20,6 +20,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
+import ReactGA from "react-ga4";
 
 const OrderProcessing = () => {
   const [loading, setLoading] = useState(false);
@@ -606,7 +607,13 @@ const OrderProcessing = () => {
 
     handleWidth();
     window.scroll(0, 0);
+    const pagePath = window.location.pathname;
 
+    ReactGA.send({
+      hitType: "pageview",
+      page: pagePath,
+      title: "User Page Count",
+    });
     return () => {
       window.removeEventListener("resize", handleWidth);
     };
