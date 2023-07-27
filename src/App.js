@@ -118,6 +118,9 @@ function App() {
   const Training = useSelector((state) => state.auth.training);
   const HR = useSelector((state) => state.auth.HR);
   const Gtepas = useSelector((state) => state.auth.gatepass);
+  useEffect(() => {
+    ReactGA.initialize("G-WWFF5R3TB6");
+  }, []);
 
   return (
     <div>
