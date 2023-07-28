@@ -136,6 +136,7 @@ const ViewInvoiceSingle = () => {
     if (res.data.message.length === 0) {
       alert("No Data Available");
     }
+    setSearchVal("");
     setSchoolRow(res.data.message);
   };
 
