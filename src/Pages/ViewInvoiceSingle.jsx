@@ -208,7 +208,7 @@ const ViewInvoiceSingle = () => {
             </div>
             <div className="w-full flex justify-end pr-8">
               <input
-                className="px-8 md:w-[15vw] w-[30vw] lg:w-40 focus:outline-0 hover:shadow-md transition-all duration-200 ease-linear py-1 lg:py-2 placeholder:text-gray-300 rounded-lg"
+                className="px-8 md:w-[15vw] w-[30vw] lg:w-40 focus:outline-0 hover:shadow-md transition-all duration-200 ease-linear py-1 lg:py-2 placeholder:text-gray-800 rounded-lg"
                 placeholder="Search"
                 type="text"
                 value={searchVal}
