@@ -231,7 +231,18 @@ const AddProduct = () => {
     });
 
     newArr = newArr.filter((item) => item !== null);
+    newArr = newArr.sort((a, b) => {
+      let fa = a?.subject.toLowerCase(),
+        fb = b?.subject.toLowerCase();
 
+      if (fa < fb) {
+        return -1;
+      }
+      if (fa > fb) {
+        return 1;
+      }
+      return 0;
+    });
     console.log(newArr);
     SetSubject(newArr);
     setLoading(false);
