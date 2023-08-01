@@ -340,11 +340,11 @@ const KYS = () => {
                   <hr className="text-gray-100 w-[80%] my-4" />
                 </div>
                 <h1 className="text-gray-100 md:text-lg sm:text-base text-sm font-medium">
-                  School Name : {schoolInfo ? schoolInfo.school_name : "null"}
+                  School Name : {schoolInfo ? schoolInfo.school_name : null}
                 </h1>
                 <h1 className="text-gray-100 md:text-lg sm:text-base text-sm font-medium">
                   Address :{" "}
-                  {schoolInfo ? schoolInfo.school_addresses[0].address : "null"}
+                  {schoolInfo ? schoolInfo.school_addresses[0].address : null}
                 </h1>
                 <div className="flex gap-4 flex-wrap justify-start items-center">
                   <div onClick={() => handleSubmit("product")}>
