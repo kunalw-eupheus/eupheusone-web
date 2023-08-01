@@ -92,7 +92,7 @@ const Tagging = () => {
       return {
         id: item?.id,
         SchoolName: item?.school_name,
-        Tagged: item?.tag,
+        Tagged: item?.tag.charAt(0).toUpperCase() + item?.tag.slice(1),
         Address: item?.school_addresses[0]?.address,
       };
     });
