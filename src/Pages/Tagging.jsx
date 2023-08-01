@@ -92,7 +92,7 @@ const Tagging = () => {
       return {
         id: item?.id,
         SchoolName: item?.school_name,
-        Tagged: item?.tag,
+        Tagged: item?.tag.charAt(0).toUpperCase() + item?.tag.slice(1),
         Address: item?.school_addresses[0]?.address,
       };
     });
@@ -117,11 +117,11 @@ const Tagging = () => {
     const school = schoolRow.find((item) => item.id === id);
     // console.log(school)
     setSchoolId(school?.id);
-    if (school?.Tagged === "no") {
+    if (school?.Tagged === "No") {
       getTaggerName(id[0]);
 
       setOpen(true);
-    } else if (school?.Tagged === "yes") {
+    } else if (school?.Tagged === "Yes") {
       getTaggerName(id[0]);
 
       setUntagModel(true);
