@@ -127,8 +127,11 @@ const ViewInvoiceSingle = () => {
 
   const searchPDF = async () => {
     const res = await instance({
-      url: `doc_print/invoive/list/${bpCode}`,
-      method: "GET",
+      url: `doc_print/invoive/list`,
+      method: "POST",
+      data: {
+        bpCode,
+      },
       headers: {
         Authorization: `${Cookies.get("accessToken")}`,
       },
