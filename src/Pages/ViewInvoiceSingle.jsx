@@ -83,7 +83,8 @@ const ViewInvoiceSingle = () => {
         row?.inv_no?.toString().toLowerCase().indexOf(val) > -1 ||
         row?.docnum?.toString().toLowerCase().indexOf(val) > -1 ||
         row?.docdate?.toString().toLowerCase().indexOf(val) > -1 ||
-        row?.doctotal?.toString().toLowerCase().indexOf(val) > -1
+        row?.doctotal?.toString().toLowerCase().indexOf(val) > -1 ||
+        row?.so_no?.toString().toLowerCase().indexOf(val) > -1
       ) {
         arr.push(row);
       }
@@ -232,6 +233,12 @@ const ViewInvoiceSingle = () => {
                           className="!w-[13rem] !text-gray-200 !font-semibold !sm:text-lg !text-sm"
                           align="center"
                         >
+                          S O Num
+                        </TableCell>
+                        <TableCell
+                          className="!w-[13rem] !text-gray-200 !font-semibold !sm:text-lg !text-sm"
+                          align="center"
+                        >
                           Invoice No
                         </TableCell>
                         <TableCell
@@ -246,6 +253,7 @@ const ViewInvoiceSingle = () => {
                         >
                           Doc Total
                         </TableCell>
+
                         <TableCell
                           className="!w-[10rem]"
                           align="center"
@@ -270,6 +278,8 @@ const ViewInvoiceSingle = () => {
                             },
                           }}
                         >
+                          <TableCell align="center">{row.so_no}</TableCell>
+
                           <TableCell align="center" component="th" scope="row">
                             {row.inv_no == "N/A" || !row.inv_no
                               ? row.docnum
