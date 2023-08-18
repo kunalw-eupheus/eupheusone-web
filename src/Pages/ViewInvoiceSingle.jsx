@@ -274,7 +274,9 @@ const ViewInvoiceSingle = () => {
                             },
                           }}
                         >
-                          <TableCell align="center">{row.so_no}</TableCell>
+                          <TableCell align="center">
+                            {row?.so_no ? row?.so_no : "NA"}
+                          </TableCell>
 
                           <TableCell align="center" component="th" scope="row">
                             {row.inv_no == "N/A" || !row.inv_no
