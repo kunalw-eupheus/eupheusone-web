@@ -83,7 +83,8 @@ const ViewInvoiceSingle = () => {
         row?.inv_no?.toString().toLowerCase().indexOf(val) > -1 ||
         row?.docnum?.toString().toLowerCase().indexOf(val) > -1 ||
         row?.docdate?.toString().toLowerCase().indexOf(val) > -1 ||
-        row?.doctotal?.toString().toLowerCase().indexOf(val) > -1
+        row?.doctotal?.toString().toLowerCase().indexOf(val) > -1 ||
+        row?.so_no?.toString().toLowerCase().indexOf(val) > -1
       ) {
         arr.push(row);
       }
