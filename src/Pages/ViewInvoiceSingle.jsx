@@ -229,6 +229,12 @@ const ViewInvoiceSingle = () => {
                           className="!w-[13rem] !text-gray-200 !font-semibold !sm:text-lg !text-sm"
                           align="center"
                         >
+                          S O Num
+                        </TableCell>
+                        <TableCell
+                          className="!w-[13rem] !text-gray-200 !font-semibold !sm:text-lg !text-sm"
+                          align="center"
+                        >
                           Invoice No
                         </TableCell>
                         <TableCell
@@ -267,6 +273,8 @@ const ViewInvoiceSingle = () => {
                             },
                           }}
                         >
+                          <TableCell align="center">{row.so_no}</TableCell>
+
                           <TableCell align="center" component="th" scope="row">
                             {row.inv_no == "N/A" || !row.inv_no
                               ? row.docnum
