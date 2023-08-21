@@ -262,8 +262,8 @@ const CreditNote = () => {
                   <p className="text-xs">GR Date : {grDate}</p>
                   <p className="text-xs">No of Boxes : {boxes}</p>
                   <p className="text-xs">Contact Person : {contact.person}</p>
-                  <p className="text-xs">Phone No : {contact.phone}</p>
-                  <p className="text-xs">Email : {contact.email}</p>
+                  <p className="text-xs">Phone No : {contact.email}</p>
+                  <p className="text-xs">Email : {contact.phone}</p>
                 </div>
                 <div className="flex gap-2 flex-col border-2 w-full p-4">
                   <p className="text-sm font-bold">
