@@ -262,8 +262,8 @@ const CreditNote = () => {
                   <p className="text-xs">GR Date : {grDate}</p>
                   <p className="text-xs">No of Boxes : {boxes}</p>
                   <p className="text-xs">Contact Person : {contact.person}</p>
-                  <p className="text-xs">Phone No : {contact.phone}</p>
-                  <p className="text-xs">Email : {contact.email}</p>
+                  <p className="text-xs">Phone No : {contact.email}</p>
+                  <p className="text-xs">Email : {contact.phone}</p>
                 </div>
                 <div className="flex gap-2 flex-col border-2 w-full p-4">
                   <p className="text-sm font-bold">
@@ -1705,7 +1705,7 @@ const CreditNote = () => {
                 <br />
               </p>
             </td>
-            <td
+            {/* <td
               style={{
                 width: "29pt",
                 borderTopStyle: "solid",
@@ -1756,7 +1756,7 @@ const CreditNote = () => {
               <p style={{ textIndent: "0pt", textAlign: "left" }}>
                 <br />
               </p>
-            </td>
+            </td> */}
             <td
               style={{
                 width: "93pt",
@@ -1769,8 +1769,9 @@ const CreditNote = () => {
               <p
                 className="s5"
                 style={{
-                  paddingLeft: "5pt",
+                  marginLeft: "129pt",
                   textIndent: "0pt",
+                  width: "100%",
                   lineHeight: "10pt",
                   textAlign: "left",
                   paddingTop: "5pt",
@@ -1796,10 +1797,7 @@ const CreditNote = () => {
                   paddingTop: "3pt",
                   paddingLeft: "5pt",
                 }}
-              >
-                {/* <span className="s14">₹ </span> */}
-                {/* <span className="s15">56,056.00</span> */}
-              </p>
+              ></p>
             </td>
           </tr>
           <tr style={{ height: "29pt" }}>
@@ -1844,60 +1842,7 @@ const CreditNote = () => {
                 {wordify(taxAmount)}
               </p>
             </td>
-            <td
-              style={{
-                width: "29pt",
-                borderTopStyle: "solid",
-                borderTopWidth: "1pt",
-                borderLeftStyle: "solid",
-                borderLeftWidth: "1pt",
-                borderBottomStyle: "solid",
-                borderBottomWidth: "1pt",
-              }}
-            >
-              <p style={{ textIndent: "0pt", textAlign: "left" }}>
-                <br />
-              </p>
-            </td>
-            <td
-              style={{
-                width: "14pt",
-                borderTopStyle: "solid",
-                borderTopWidth: "1pt",
-                borderBottomStyle: "solid",
-                borderBottomWidth: "1pt",
-              }}
-            >
-              <p style={{ textIndent: "0pt", textAlign: "left" }}>
-                <br />
-              </p>
-            </td>
-            <td
-              style={{
-                width: "13pt",
-                borderTopStyle: "solid",
-                borderTopWidth: "1pt",
-                borderBottomStyle: "solid",
-                borderBottomWidth: "1pt",
-              }}
-            >
-              <p style={{ textIndent: "0pt", textAlign: "left" }}>
-                <br />
-              </p>
-            </td>
-            <td
-              style={{
-                width: "35pt",
-                borderTopStyle: "solid",
-                borderTopWidth: "1pt",
-                borderBottomStyle: "solid",
-                borderBottomWidth: "1pt",
-              }}
-            >
-              <p style={{ textIndent: "0pt", textAlign: "left" }}>
-                <br />
-              </p>
-            </td>
+
             <td
               style={{
                 width: "93pt",
@@ -1910,7 +1855,7 @@ const CreditNote = () => {
               <p
                 className="s5"
                 style={{
-                  paddingLeft: "51pt",
+                  marginLeft: "129pt",
                   textIndent: "0pt",
                   lineHeight: "9pt",
                   textAlign: "left",
@@ -2065,7 +2010,7 @@ const CreditNote = () => {
               <p
                 className="s12"
                 style={{
-                  paddingLeft: "149pt",
+                  paddingLeft: "129pt",
                   textIndent: "0pt",
                   textAlign: "left",
                 }}
