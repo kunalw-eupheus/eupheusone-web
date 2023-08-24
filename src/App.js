@@ -100,6 +100,7 @@ import CreditSinglePdf from "./Pages/CreditSinglePdf";
 import SalesToCash from "./Pages/SalesToCash";
 import SendMessage from "./Pages/HR/SendMessage";
 import ReactGA from "react-ga4";
+import GlobelErrorSnackbar from "./Components/Material/GlobelErrorSnackbar";
 // import usePageView from "./Components/customHooks/usePageView";
 
 function App() {
@@ -130,6 +131,7 @@ function App() {
         {/* {console.log(Admin)} */}
         {/* {console.log(HR)} */}
         <div className="!font-Roboto bg-[#111322]">
+          <GlobelErrorSnackbar />
           <BrowserRouter>
             <Routes>
               <Route

@@ -142,6 +142,7 @@ const ViewInvoiceSingle = () => {
     }
     setSearchVal("");
     setSchoolRow(res.data.message);
+    setPage(0);
   };
 
   const handlePrintPDF = async (docNum, docDate) => {

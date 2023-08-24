@@ -330,7 +330,7 @@ const OrderProcessing = () => {
   const getCustomerAddress = async (id) => {
     setLoading(true);
     const addressRes = await instance({
-      url: `sales_data/getcustomer/${id}`,
+      url: `sales_data/getcustomer/billing/${id}`,
       method: "GET",
       headers: {
         Authorization: Cookies.get("accessToken"),

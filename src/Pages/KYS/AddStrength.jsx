@@ -71,6 +71,8 @@ const AddStrength = () => {
           headers: {
             Authorization: `${Cookies.get("accessToken")}`,
           },
+        }).catch(() => {
+          setLoading(false);
         });
 
         if (res.data.status === "success") {
