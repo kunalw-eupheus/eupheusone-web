@@ -49,10 +49,18 @@ const AddStrength = () => {
       return errors;
     },
     onSubmit: async (values) => {
-      if (values.data.length === 0 || !values.strength) {
+      if (
+        values.data.length === 0 ||
+        !values.strength ||
+        values.strength <= 0
+      ) {
         setSnackbarErrStatus(true);
         setErrMessage(
-          values.data.length === 0 ? "Please Select Class" : "Enter Strength"
+          values.data.length === 0
+            ? "Please Select Class"
+            : values.strength <= 0
+            ? "Strenght should be more than zero"
+            : "Enter Strength"
         );
         snackbarRef.current.openSnackbar();
       } else {

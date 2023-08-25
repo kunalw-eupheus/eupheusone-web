@@ -17,12 +17,21 @@ instance.interceptors.response.use(
 
     console.log("Axios Error:", error.response);
 
-    if (error?.response?.data?.message?.errors?.length > 0) {
-      store.dispatch(
-        errorActions.setErrorMessage(
-          error?.response?.data?.message?.errors[0].msg
-        )
-      );
+    if (
+      error?.response?.data?.message?.errors?.length > 0 ||
+      error?.response?.data?.message
+    ) {
+      if (error?.response?.data?.message?.errors?.length > 0) {
+        store.dispatch(
+          errorActions.setErrorMessage(
+            error?.response?.data?.message?.errors[0]?.msg
+          )
+        );
+      } else if (error?.response?.data?.message) {
+        store.dispatch(
+          errorActions.setErrorMessage(error?.response?.data?.message)
+        );
+      }
       store.dispatch(errorActions.showMessage());
     }
     return Promise.reject(error);

@@ -19,6 +19,7 @@ import BasicTextFields from "../../Components/Material/TextField";
 import { useFormik } from "formik";
 import Snackbars from "../../Components/Material/SnackBar";
 import SearchDropDown from "../../Components/SearchDropDown";
+import { ShowError } from "../../util/showError";
 
 const AddProduct = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
@@ -37,7 +38,6 @@ const AddProduct = () => {
   const show = null;
 
   const snackbarRef = useRef();
-
   const Digitalformik = useFormik({
     initialValues: {
       remarks: "",
@@ -106,10 +106,12 @@ const AddProduct = () => {
       return errors;
     },
     onSubmit: async (values) => {
-      if (false) {
-        setSnackbarErrStatus(true);
-        setErrMessage("Please Add Products");
-        snackbarRef.current.openSnackbar();
+      if (!values.gradeId || !values.subjectId || !values.seriesId) {
+        ShowError(
+          `Enter ${!values.gradeId ? "Grade" : ""} ${
+            !values.subjectId ? "Subject" : ""
+          } ${!values.seriesId ? "Series" : ""}`
+        );
       } else {
         setLoading(true);
         const res = await instance({
@@ -126,6 +128,8 @@ const AddProduct = () => {
           headers: {
             Authorization: `${Cookies.get("accessToken")}`,
           },
+        }).catch(() => {
+          setLoading(false);
         });
         console.log(res.data);
         if (res.data.status === "success") {

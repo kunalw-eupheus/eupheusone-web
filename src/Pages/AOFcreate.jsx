@@ -834,6 +834,7 @@ const AOFcreate = () => {
       return;
     }
     // console.log("first")
+
     formdata.append("img", file);
     formdata.append("test", "test");
 
