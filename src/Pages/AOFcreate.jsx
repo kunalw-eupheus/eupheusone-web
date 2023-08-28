@@ -137,45 +137,6 @@ const AOFcreate = () => {
   const sidebarRef = useRef();
   const snackbarRef = useRef();
 
-  function isValid_IFSC_Code(ifsc_Code) {
-    // console.log(ifsc_Code);
-    let regex = new RegExp(/^[A-Z]{4}0[A-Z0-9]{6}$/);
-    if (ifsc_Code == null) {
-      return false;
-    }
-    if (regex.test(ifsc_Code) == true) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-  function isValid_PAN(panNo) {
-    let regex = /^([a-zA-Z]){5}([0-9]){4}([a-zA-Z]){1}?$/;
-    if (regex.test(panNo)) {
-      return true;
-    }
-    return false;
-  }
-
-  function isValid_GST(gstNo) {
-    let regex = new RegExp(
-      /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$/
-    );
-    if (regex.test(gstNo)) {
-      return true;
-    }
-    return false;
-  }
-
-  function isValid_Aadhar(adhrNo) {
-    let regex = new RegExp(/^[2-9]{1}[0-9]{3}\s{1}[0-9]{4}\s{1}[0-9]{4}$/);
-    if (regex.test(adhrNo)) {
-      return true;
-    }
-    return false;
-  }
-
   const postFormData = async () => {
     let pubArr = [...publisherForm];
     for (let obj of pubArr) {
@@ -256,31 +217,13 @@ const AOFcreate = () => {
         gst_url: gstLink,
         adhar: aadharNo,
         adhar_url: adhrLink,
-        // cp: pubArr,
-        // cp: [
-        //   { cp_name: "dsff", cp_business: "dsfds" },
-        //   { cp_name: "dsff", cp_business: "dsfds" },
-        //   { cp_name: "dsff", cp_business: "dsfds" },
-        // ],
+
         ab_name: partyBankerName,
         ab_account_no: accNoP,
         ab_acc_type: aofAcc,
         ab_ifsc: ifscP,
         cheque: chekArr,
-        // cheque: [
-        //   {
-        //     abc_cheque_no: "fdsfds",
-        //     abc_bank: "dsfsdf",
-        //     abc_branch_ifsc: "dsfdsfd",
-        //     abc_cheque_link: "dsfdsfd",
-        //   },
-        //   {
-        //     abc_cheque_no: "fdsfds",
-        //     abc_bank: "dsfsdf",
-        //     abc_branch_ifsc: "dsfdsfd",
-        //     abc_cheque_link: "dsfdsfd",
-        //   },
-        // ],
+
         good_picks: authArr,
         cash: [
           {
@@ -297,26 +240,6 @@ const AOFcreate = () => {
           },
         ],
         special: specialData,
-        // [
-        //   {
-        //     type: "special",
-        //     eligibile: "yes",
-        //     dis_type: "specific",
-        //     category: "series",
-        //     fk_category_id: "40481858-d49b-4a24-bbd3-b68617ce16f1",
-        //     percentages: "30",
-        //     percentages_type: "net",
-        //   },
-        //   {
-        //     type: "special",
-        //     eligibile: "yes",
-        //     dis_type: "specific",
-        //     category: "items",
-        //     fk_category_id: "c12db2ed-de50-4533-a8c4-39dd1cc506a3",
-        //     percentages: "30",
-        //     percentages_type: "net",
-        //   },
-        // ],
       };
     } else if (classesUpto.length === 0) {
       postData = {
@@ -355,30 +278,13 @@ const AOFcreate = () => {
         adhar: aadharNo,
         adhar_url: adhrLink,
         cp: pubArr,
-        // cp: [
-        //   { cp_name: "dsff", cp_business: "dsfds" },
-        //   { cp_name: "dsff", cp_business: "dsfds" },
-        //   { cp_name: "dsff", cp_business: "dsfds" },
-        // ],
+
         ab_name: partyBankerName,
         ab_account_no: accNoP,
         ab_acc_type: aofAcc,
         ab_ifsc: ifscP,
         cheque: chekArr,
-        // cheque: [
-        //   {
-        //     abc_cheque_no: "fdsfds",
-        //     abc_bank: "dsfsdf",
-        //     abc_branch_ifsc: "dsfdsfd",
-        //     abc_cheque_link: "dsfdsfd",
-        //   },
-        //   {
-        //     abc_cheque_no: "fdsfds",
-        //     abc_bank: "dsfsdf",
-        //     abc_branch_ifsc: "dsfdsfd",
-        //     abc_cheque_link: "dsfdsfd",
-        //   },
-        // ],
+
         good_picks: authArr,
         cash: [
           {
@@ -395,26 +301,6 @@ const AOFcreate = () => {
           },
         ],
         special: specialData,
-        // [
-        //   {
-        //     type: "special",
-        //     eligibile: "yes",
-        //     dis_type: "specific",
-        //     category: "series",
-        //     fk_category_id: "40481858-d49b-4a24-bbd3-b68617ce16f1",
-        //     percentages: "30",
-        //     percentages_type: "net",
-        //   },
-        //   {
-        //     type: "special",
-        //     eligibile: "yes",
-        //     dis_type: "specific",
-        //     category: "items",
-        //     fk_category_id: "c12db2ed-de50-4533-a8c4-39dd1cc506a3",
-        //     percentages: "30",
-        //     percentages_type: "net",
-        //   },
-        // ],
       };
     } else if (pubArr.length === 0 && classesUpto.length === 0) {
       postData = {
@@ -452,31 +338,13 @@ const AOFcreate = () => {
         gst_url: gstLink,
         adhar: aadharNo,
         adhar_url: adhrLink,
-        // cp: pubArr,
-        // cp: [
-        //   { cp_name: "dsff", cp_business: "dsfds" },
-        //   { cp_name: "dsff", cp_business: "dsfds" },
-        //   { cp_name: "dsff", cp_business: "dsfds" },
-        // ],
+
         ab_name: partyBankerName,
         ab_account_no: accNoP,
         ab_acc_type: aofAcc,
         ab_ifsc: ifscP,
         cheque: chekArr,
-        // cheque: [
-        //   {
-        //     abc_cheque_no: "fdsfds",
-        //     abc_bank: "dsfsdf",
-        //     abc_branch_ifsc: "dsfdsfd",
-        //     abc_cheque_link: "dsfdsfd",
-        //   },
-        //   {
-        //     abc_cheque_no: "fdsfds",
-        //     abc_bank: "dsfsdf",
-        //     abc_branch_ifsc: "dsfdsfd",
-        //     abc_cheque_link: "dsfdsfd",
-        //   },
-        // ],
+
         good_picks: authArr,
         cash: [
           {
@@ -493,26 +361,6 @@ const AOFcreate = () => {
           },
         ],
         special: specialData,
-        // [
-        //   {
-        //     type: "special",
-        //     eligibile: "yes",
-        //     dis_type: "specific",
-        //     category: "series",
-        //     fk_category_id: "40481858-d49b-4a24-bbd3-b68617ce16f1",
-        //     percentages: "30",
-        //     percentages_type: "net",
-        //   },
-        //   {
-        //     type: "special",
-        //     eligibile: "yes",
-        //     dis_type: "specific",
-        //     category: "items",
-        //     fk_category_id: "c12db2ed-de50-4533-a8c4-39dd1cc506a3",
-        //     percentages: "30",
-        //     percentages_type: "net",
-        //   },
-        // ],
       };
     } else {
       postData = {
@@ -551,30 +399,13 @@ const AOFcreate = () => {
         adhar: aadharNo,
         adhar_url: adhrLink,
         cp: pubArr,
-        // cp: [
-        //   { cp_name: "dsff", cp_business: "dsfds" },
-        //   { cp_name: "dsff", cp_business: "dsfds" },
-        //   { cp_name: "dsff", cp_business: "dsfds" },
-        // ],
+
         ab_name: partyBankerName,
         ab_account_no: accNoP,
         ab_acc_type: aofAcc,
         ab_ifsc: ifscP,
         cheque: chekArr,
-        // cheque: [
-        //   {
-        //     abc_cheque_no: "fdsfds",
-        //     abc_bank: "dsfsdf",
-        //     abc_branch_ifsc: "dsfdsfd",
-        //     abc_cheque_link: "dsfdsfd",
-        //   },
-        //   {
-        //     abc_cheque_no: "fdsfds",
-        //     abc_bank: "dsfsdf",
-        //     abc_branch_ifsc: "dsfdsfd",
-        //     abc_cheque_link: "dsfdsfd",
-        //   },
-        // ],
+
         good_picks: authArr,
         cash: [
           {
@@ -591,26 +422,6 @@ const AOFcreate = () => {
           },
         ],
         special: specialData,
-        // [
-        //   {
-        //     type: "special",
-        //     eligibile: "yes",
-        //     dis_type: "specific",
-        //     category: "series",
-        //     fk_category_id: "40481858-d49b-4a24-bbd3-b68617ce16f1",
-        //     percentages: "30",
-        //     percentages_type: "net",
-        //   },
-        //   {
-        //     type: "special",
-        //     eligibile: "yes",
-        //     dis_type: "specific",
-        //     category: "items",
-        //     fk_category_id: "c12db2ed-de50-4533-a8c4-39dd1cc506a3",
-        //     percentages: "30",
-        //     percentages_type: "net",
-        //   },
-        // ],
       };
     }
 
@@ -643,15 +454,11 @@ const AOFcreate = () => {
 
   let formdata = new FormData();
   const onFileChange = async (e, index) => {
-    // console.log(index);
-    // const file = event.currentTarget["fileInput"].files[0];
     let file = e.target.files[0];
-    // console.log(file.type)
     if (file.type !== "image/jpeg" && file.type !== "image/png") {
       alert("Please Select an image file only");
       return;
     }
-    // console.log("first")
     formdata.append("img", file);
     formdata.append("test", "test");
 
@@ -663,11 +470,8 @@ const AOFcreate = () => {
         Authorization: Cookies.get("accessToken"),
       },
     });
-    // console.log(res.status);
     if (res.status === 200) {
       let link = res.data;
-      // console.log(index);
-      // console.log(chequeForm);
       let tempArr = [...chequeForm];
       if (tempArr.length < index + 1) {
         let obj = {};
@@ -681,7 +485,6 @@ const AOFcreate = () => {
           }
         }
       }
-      // console.log(tempArr);
       setChequeForm(tempArr);
     } else {
       alert("Cannot upload image");
@@ -690,14 +493,11 @@ const AOFcreate = () => {
 
   const onSignFileChange = async (e, index) => {
     console.log(index);
-    // const file = event.currentTarget["fileInput"].files[0];
     let file = e.target.files[0];
-    // console.log(file.type)
     if (file.type !== "image/jpeg" && file.type !== "image/png") {
       alert("Please Select an image file only");
       return;
     }
-    // console.log("first")
     formdata.append("img", file);
     formdata.append("test", "test");
 
@@ -709,11 +509,9 @@ const AOFcreate = () => {
         Authorization: Cookies.get("accessToken"),
       },
     });
-    // console.log(res.status);
     if (res.status === 200) {
       let link = res.data;
-      // console.log(index);
-      // console.log(chequeForm);
+
       let tempArr = [...publisherAuthForm];
       if (tempArr.length < index + 1) {
         let obj = {};
@@ -735,15 +533,11 @@ const AOFcreate = () => {
   };
 
   const onPanFileChange = async (e) => {
-    // console.log(index);
-    // const file = event.currentTarget["fileInput"].files[0];
     let file = e.target.files[0];
-    // console.log(file.type)
     if (file.type !== "image/jpeg" && file.type !== "image/png") {
       alert("Please Select an image file only");
       return;
     }
-    // console.log("first")
     formdata.append("img", file);
     formdata.append("test", "test");
 
@@ -755,7 +549,6 @@ const AOFcreate = () => {
         Authorization: Cookies.get("accessToken"),
       },
     });
-    // console.log(res.status);
     if (res.status === 200) {
       let link = res.data;
       setPanLink(link);
@@ -765,15 +558,11 @@ const AOFcreate = () => {
   };
 
   const onPanPChange = async (e) => {
-    // console.log(index);
-    // const file = event.currentTarget["fileInput"].files[0];
     let file = e.target.files[0];
-    // console.log(file.type)
     if (file.type !== "image/jpeg" && file.type !== "image/png") {
       alert("Please Select an image file only");
       return;
     }
-    // console.log("first")
     formdata.append("img", file);
     formdata.append("test", "test");
 
@@ -785,7 +574,6 @@ const AOFcreate = () => {
         Authorization: Cookies.get("accessToken"),
       },
     });
-    // console.log(res.status);
     if (res.status === 200) {
       let link = res.data;
       setPanPLink(link);
@@ -795,10 +583,7 @@ const AOFcreate = () => {
   };
 
   const onGSTFileChange = async (e) => {
-    // console.log(index);
-    // const file = event.currentTarget["fileInput"].files[0];
     let file = e.target.files[0];
-    // console.log(file.type)
     if (file.type !== "image/jpeg" && file.type !== "image/png") {
       alert("Please Select an image file only");
       return;
@@ -893,17 +678,6 @@ const AOFcreate = () => {
   };
 
   const handleRadioButtons = (type, value, defaultValue) => {
-    // console.log(type, value, defaultValue);
-    // console.log(special_obj)
-    // let special_obj = {
-    //   type: "special",
-    //   eligibile: "yes",
-    //   dis_type: "",
-    //   category: "",
-    //   fk_category_id: "",
-    //   percentages: "",
-    //   percentages_type: "",
-    // };
     switch (type) {
       case "tod applicable":
         if (value === "yes") {
@@ -1014,11 +788,6 @@ const AOFcreate = () => {
         // console.log(publisherData)
 
         break;
-
-      // case "publisher":
-      //   console.log(type, value);
-      //   // setStep4({ ...step4, special: { applicable: true, type: value } });
-      //   break;
 
       case "series":
         // console.log(type, value, defaultValue);
@@ -1139,16 +908,6 @@ const AOFcreate = () => {
     }
   };
 
-  // const handleForm = () => {
-  //   let content = [];
-  //   for (let i = 0; i < suppliers; i++) {
-  //     content.push(
-  //       <Supplier/>
-  //     );
-  //   }
-  //   return content;
-  // };
-
   const handlePublisherForm = (field, value, index) => {
     // console.log(field, value, index);
     let tempArr = [...publisherForm];
@@ -1261,18 +1020,6 @@ const AOFcreate = () => {
     return content;
   };
 
-  // const getTitleBySeries = async (id) => {
-  //   const titles = await instance({
-  //     url: `items/getSeriesItem/${id}`,
-  //     method: "GET",
-  //     headers: {
-  //       Authorization: `${Cookies.get("accessToken")}`,
-  //     },
-  //   });
-  //   console.log(titles)
-  //   // setTitle(titles.data.message);
-  // };
-
   const handleChequesForm = (field, value, index) => {
     // console.log(suppliers);
     console.log(field, value, index);
@@ -1296,14 +1043,6 @@ const AOFcreate = () => {
     }
     // console.log(tempArr);
     setChequeForm(tempArr);
-
-    // let chekArr = []
-    // for(let obj of tempArr){
-    //     delete obj.idx
-    //     chekArr.push(obj)
-    // }
-    // console.log(chekArr)
-    // setChequeArr(chekArr)
   };
 
   const handleCheques = () => {
@@ -1334,17 +1073,11 @@ const AOFcreate = () => {
             multiline={false}
           />
           <div className="mt-6">
-            {/* <form onSubmit={handlePDFformSubmit}> */}
-            {/* <h1>React File Upload</h1> */}
-            {/* <input type="file" name="file" onChange={e=>handlePDFformSubmit(e)} /> */}
             <input
               type="file"
               name="file_upload"
               onChange={(e) => onFileChange(e, i)}
             />
-            {/* <button onClick={submitImage}>Upload File</button> */}
-            {/* <BasicButton type="submit" text={"Upload"}/> */}
-            {/* </form> */}
           </div>
         </li>
       );
@@ -1418,16 +1151,9 @@ const AOFcreate = () => {
         setAofStatus(value.title);
         break;
       case "title_aof":
-        // console.log(value);
-        // let tempArr2 = [...seriesData];
-        // console.log(itemsData);
-        // console.log(publisherData2)
-        // console.log(value);
         let tempArr2 = [...itemsData];
         // let arr1 = []
         for (let ele of tempArr2) {
-          // console.log(ele)
-          // console.log(value)
           if (ele.fk_category_id === value.id) return;
         }
 
@@ -1595,14 +1321,9 @@ const AOFcreate = () => {
         break;
 
       case "select_state_location":
-        //   console.log(value , "hihihiihii");
-        //   setStateId(value.id);
-        // console.log(value);
         setStateSelect(value.id);
         getCity(value.id);
-        // getCity(value.fk_state_id);
-        // getSchoolByState(value.fk_state_id);
-        // setStateAndCity({ ...stateAndCity, state: value.fk_state_id });
+
         break;
 
       case "select_city_location":
@@ -1630,15 +1351,9 @@ const AOFcreate = () => {
         break;
 
       case "series_aof":
-        // let tempArr2 = [...seriesData];
-        // console.log(seriesData);
-        // console.log(publisherData2)
-        // console.log(value);
         let tempArr1 = [...seriesData];
         // let arr1 = []
         for (let ele of tempArr1) {
-          // console.log(ele)
-          // console.log(value)
           if (ele.fk_category_id === value.id) return;
         }
 
@@ -1660,10 +1375,6 @@ const AOFcreate = () => {
         break;
 
       case "schools_aof":
-        // let tempArr2 = [...seriesData];
-        // console.log(seriesData);
-        // console.log(publisherData2)
-        // console.log(value);
         let tempArr3 = [...allSchool];
         // let arr1 = []
         for (let ele of tempArr3) {
@@ -1707,11 +1418,6 @@ const AOFcreate = () => {
   };
 
   const handleStartDate = (newValue) => {
-    // console.log(newValue.$y)
-    // let yr = newValue.$y
-    // let mnt = newValue.$M+1
-    // let dy = newValue.$D
-    // let date = `${yr}-${mnt}-${dy}`;
     console.log(newValue);
     if (!newValue) {
       setDate("");
@@ -1782,8 +1488,6 @@ const AOFcreate = () => {
   const handleDelete = (id, type) => {
     switch (type) {
       case "publisher":
-        // console.log(id)
-        // console.log(publisherData)
         let tempData = [];
         let dataArr = [...publisherData];
         for (let ele of dataArr) {
@@ -1798,8 +1502,6 @@ const AOFcreate = () => {
         break;
 
       case "series":
-        // console.log(id);
-        // console.log(seriesData);
         let tempData1 = [];
         let dataArr1 = [...seriesData];
         for (let ele of dataArr1) {
@@ -1813,8 +1515,6 @@ const AOFcreate = () => {
         break;
 
       case "items":
-        // console.log(id);
-        // console.log(itemsData);
         let tempData2 = [];
         let dataArr2 = [...itemsData];
         for (let ele of dataArr2) {
@@ -1876,13 +1576,6 @@ const AOFcreate = () => {
               {steps.step1 ? (
                 <div className="flex flex-col gap-4 items-start w-[90%] px-6 bg-slate-600 rounded-md py-6 mb-[5rem]">
                   <div className="grid sm:grid-rows-5 sm:grid-cols-3 grid-rows-[15] grid-cols-1 w-full mt-6 gap-6 rounded-md bg-slate-600">
-                    {/* <BasicTextFields
-                      lable={"Name Of Party/School *"}
-                      handleOrderProcessingForm={handleOrderProcessingForm}
-                      variant={"standard"}
-                      multiline={false}
-                    /> */}
-                    {/* <div className="grid sm:grid-rows-2 sm:grid-cols-3 grid-rows-4 grid-cols-1 w-full mt-6 gap-6 rounded-md bg-slate-600"> */}
                     <SearchDropDown
                       Name={"selec_typ"}
                       data={[
@@ -2146,21 +1839,7 @@ const AOFcreate = () => {
                         setSnackbarErrStatus(true);
                         setErrMessage("Please Fill All The Fields");
                         snackbarRef.current.openSnackbar();
-                      }
-                      // else if(phone.length > 0){
-                      //   if(phone.length !== 10){
-                      //     setSnackbarErrStatus(true);
-                      //     setErrMessage("Please Enter a Valid Phone Number");
-                      //     snackbarRef.current.openSnackbar();
-                      //   }
-                      // }else if(gstYear.length > 0){
-                      //   if(gstYear.length !== 4){
-                      //     setSnackbarErrStatus(true);
-                      //     setErrMessage("Please Enter a Valid GST Number");
-                      //     snackbarRef.current.openSnackbar();
-                      //   }
-                      // }
-                      else if (validateEmail(schoolEmail) === false) {
+                      } else if (validateEmail(schoolEmail) === false) {
                         setSnackbarErrStatus(true);
                         setErrMessage("Please Enter a Valid Email");
                         snackbarRef.current.openSnackbar();
@@ -2333,17 +2012,7 @@ const AOFcreate = () => {
                         setSnackbarErrStatus(true);
                         setErrMessage("Please Enter a Valid Mobile Number");
                         snackbarRef.current.openSnackbar();
-                      }
-                      // else if(mobile.length !== 10){
-                      //   setSnackbarErrStatus(true);
-                      //   setErrMessage("Please Enter a Valid Mobile Number");
-                      //   snackbarRef.current.openSnackbar();
-                      // }else if(pinCode.length !== 6){
-                      //   setSnackbarErrStatus(true);
-                      //   setErrMessage("Please Enter a Valid Pin Code");
-                      //   snackbarRef.current.openSnackbar();
-                      // }
-                      else {
+                      } else {
                         // console.log("third")
                         setSteps({ step1: false, step2: false, step3: true });
                         window.scroll({
@@ -2537,7 +2206,6 @@ const AOFcreate = () => {
                             }
                           }
                         } else {
-                          // console.log("nexttttt");
                           setSteps({
                             step1: false,
                             step2: false,
@@ -2549,11 +2217,6 @@ const AOFcreate = () => {
                             behavior: "smooth",
                           });
                         }
-                        // else if(isValid_IFSC_Code(ifscP) === false){
-                        //   setSnackbarErrStatus(true);
-                        //   setErrMessage("Please Enter a Valid IFSC Code");
-                        //   snackbarRef.current.openSnackbar();
-                        // }
                       }
                     }}
                     className="mt-3"
@@ -2573,15 +2236,6 @@ const AOFcreate = () => {
                       variant={"standard"}
                       multiline={false}
                     />
-                    {/* <div className="sm:col-span-2">
-                      <SearchDropDown
-                        Name={"cred_lim_type"}
-                        data={[{ title: "Thousands" }, { title: "Lacks" }]}
-                        handleOrderProcessingForm={handleOrderProcessingForm}
-                        label={"Select Credit Type"}
-                        color={"rgb(243, 244, 246)"}
-                      />
-                    </div> */}
                   </div>
 
                   <div className="w-full flex flex-col my-2 gap-2">
@@ -2646,22 +2300,6 @@ const AOFcreate = () => {
                         {step4.tod.type ? (
                           <>
                             <Typography className="!flex !items-center justify-around">
-                              {/* <TextField
-                                InputLabelProps={{
-                                  style: { color: "white" },
-                                }}
-                                inputProps={{
-                                  style: { color: "white" },
-                                }}
-                                type={"number"}
-                                id="outlined-basic"
-                                label="Enter Percentage............"
-                                handleOrderProcessingForm={
-                                  handleOrderProcessingForm
-                                }
-                                name={"TODpercent"}
-                                variant="standard"
-                              /> */}
                               <BasicTextFields
                                 lable={"Enter Percentage (TOD)"}
                                 handleOrderProcessingForm={
@@ -2727,18 +2365,6 @@ const AOFcreate = () => {
                         {step4.special.type === "overall" ? (
                           <>
                             <Typography className="!flex !items-center justify-around">
-                              {/* <TextField
-                                InputLabelProps={{
-                                  style: { color: "white" },
-                                }}
-                                inputProps={{
-                                  style: { color: "white" },
-                                }}
-                                type={"number"}
-                                id="outlined-basic"
-                                label="Enter Percentage"
-                                variant="standard"
-                              /> */}
                               <BasicTextFields
                                 lable={"Enter Percentage (special)"}
                                 handleOrderProcessingForm={
@@ -2748,17 +2374,6 @@ const AOFcreate = () => {
                                 variant={"standard"}
                                 multiline={false}
                               />
-                              {/* <RowRadioButtonsGroup
-                                handleRadioButtons={handleRadioButtons}
-                                name={"tod_special"}
-                                value={[
-                                  {
-                                    label: "Gross",
-                                    value: "yes",
-                                  },
-                                  { label: "Net", value: "no" },
-                                ]}
-                              /> */}
                             </Typography>
                           </>
                         ) : null}
@@ -2778,9 +2393,6 @@ const AOFcreate = () => {
                                   label={"Select Publisher"}
                                   color={"rgb(243, 244, 246)"}
                                 />
-                                {/* <div className="!flex justify-end" onClick={handlePublisher}>
-                                  <BasicButton text={"Add"} />
-                                </div> */}
                               </div>
 
                               {publisherData.length === 0 ? (
@@ -2804,10 +2416,7 @@ const AOFcreate = () => {
                                       >
                                         Percentage
                                       </TableCell>
-                                      {/* <TableCell
-                                        className="!w-[10rem]"
-                                        align="center"
-                                      ></TableCell> */}
+
                                       <TableCell
                                         className="!w-[2rem]"
                                         align="center"
@@ -2832,12 +2441,6 @@ const AOFcreate = () => {
 
                                           <TableCell align="center">
                                             <TextField
-                                              // InputLabelProps={{
-                                              //   style: { color: "white" },
-                                              // }}
-                                              // inputProps={{
-                                              //   style: { color: "white" },
-                                              // }}
                                               onChange={(e) =>
                                                 handleTablePercent(
                                                   e.target.value,
@@ -2849,23 +2452,6 @@ const AOFcreate = () => {
                                               variant="standard"
                                             />
                                           </TableCell>
-
-                                          {/* <TableCell align="center">
-                                            <RowRadioButtonsGroup
-                                              handleRadioButtons={
-                                                handleRadioButtons
-                                              }
-                                              name={"publisher"}
-                                              value={[
-                                                {
-                                                  label: "Gross",
-                                                  value: "gross",
-                                                },
-                                                { label: "Net", value: "net" },
-                                              ]}
-                                              defaultValue={row.fk_category_id}
-                                            />
-                                          </TableCell> */}
 
                                           <TableCell align="center">
                                             <div>
@@ -2930,16 +2516,7 @@ const AOFcreate = () => {
                                       >
                                         Percentage
                                       </TableCell>
-                                      {/* <TableCell
-                                        className="!w-[10rem]"
-                                        align="center"
-                                      ></TableCell> */}
-                                      {/* <TableCell
-                                      className="!w-[4rem]"
-                                      align="center"
-                                    >
-                                      Select Items
-                                    </TableCell> */}
+
                                       <TableCell
                                         className="!w-[2rem]"
                                         align="center"
@@ -2964,12 +2541,6 @@ const AOFcreate = () => {
                                           </TableCell>
                                           <TableCell align="center">
                                             <TextField
-                                              // InputLabelProps={{
-                                              //   style: { color: "white" },
-                                              // }}
-                                              // inputProps={{
-                                              //   style: { color: "white" },
-                                              // }}
                                               onChange={(e) =>
                                                 handleTablePercent2(
                                                   e.target.value,
@@ -2981,35 +2552,7 @@ const AOFcreate = () => {
                                               variant="standard"
                                             />
                                           </TableCell>
-                                          {/* <TableCell align="center">
-                                            <RowRadioButtonsGroup
-                                              handleRadioButtons={
-                                                handleRadioButtons
-                                              }
-                                              name={"series"}
-                                              value={[
-                                                {
-                                                  label: "Gross",
-                                                  value: "gross",
-                                                },
-                                                { label: "Net", value: "net" },
-                                              ]}
-                                              defaultValue={row.fk_category_id}
-                                            />
-                                          </TableCell> */}
-                                          {/* <TableCell align="center">
-                                          <SearchDropDown
-                                            Name={"items_aof"}
-                                            data={series}
-                                            disable={series.length < 1 ? true : false}
-                                            multiple={true}
-                                            handleOrderProcessingForm={
-                                              handleOrderProcessingForm
-                                            }
-                                            label={"Select Items"}
-                                            color={"rgb(243, 244, 246)"}
-                                          />
-                                        </TableCell> */}
+
                                           <TableCell align="center">
                                             <div>
                                               <IconButton
@@ -3062,30 +2605,7 @@ const AOFcreate = () => {
                                 label={"Select Title"}
                                 color={"rgb(243, 244, 246)"}
                               />
-                              {/* <div className="flex justify-around items-center">
-                                <TextField
-                                  InputLabelProps={{
-                                    style: { color: "white" },
-                                  }}
-                                  inputProps={{
-                                    style: { color: "white" },
-                                  }}
-                                  id="outlined-basic"
-                                  label="Enter Percentage"
-                                  variant="standard"
-                                />
-                                <RowRadioButtonsGroup
-                                  handleRadioButtons={handleRadioButtons}
-                                  name={"tod"}
-                                  value={[
-                                    {
-                                      label: "Gross",
-                                      value: "yes",
-                                    },
-                                    { label: "Net", value: "no" },
-                                  ]}
-                                />
-                              </div> */}
+
                               {itemsData.length === 0 ? (
                                 ""
                               ) : (
@@ -3107,10 +2627,7 @@ const AOFcreate = () => {
                                       >
                                         Percentage
                                       </TableCell>
-                                      {/* <TableCell
-                                        className="!w-[10rem]"
-                                        align="center"
-                                      ></TableCell> */}
+
                                       <TableCell
                                         className="!w-[2rem]"
                                         align="center"
@@ -3134,12 +2651,6 @@ const AOFcreate = () => {
                                           </TableCell>
                                           <TableCell align="center">
                                             <TextField
-                                              // InputLabelProps={{
-                                              //   style: { color: "white" },
-                                              // }}
-                                              // inputProps={{
-                                              //   style: { color: "white" },
-                                              // }}
                                               onChange={(e) =>
                                                 handleTablePercent3(
                                                   e.target.value,
@@ -3151,22 +2662,7 @@ const AOFcreate = () => {
                                               variant="standard"
                                             />
                                           </TableCell>
-                                          {/* <TableCell align="center">
-                                            <RowRadioButtonsGroup
-                                              handleRadioButtons={
-                                                handleRadioButtons
-                                              }
-                                              name={"items"}
-                                              value={[
-                                                {
-                                                  label: "Gross",
-                                                  value: "gross",
-                                                },
-                                                { label: "Net", value: "net" },
-                                              ]}
-                                              defaultValue={row.fk_category_id}
-                                            />
-                                          </TableCell> */}
+
                                           <TableCell align="center">
                                             <div>
                                               <IconButton
@@ -3230,16 +2726,7 @@ const AOFcreate = () => {
                                       >
                                         Percentage
                                       </TableCell>
-                                      {/* <TableCell
-                                        className="!w-[10rem]"
-                                        align="center"
-                                      ></TableCell> */}
-                                      {/* <TableCell
-                                      className="!w-[4rem]"
-                                      align="center"
-                                    >
-                                      Select Items
-                                    </TableCell> */}
+
                                       <TableCell
                                         className="!w-[2rem]"
                                         align="center"
@@ -3264,12 +2751,6 @@ const AOFcreate = () => {
                                           </TableCell>
                                           <TableCell align="center">
                                             <TextField
-                                              // InputLabelProps={{
-                                              //   style: { color: "white" },
-                                              // }}
-                                              // inputProps={{
-                                              //   style: { color: "white" },
-                                              // }}
                                               onChange={(e) =>
                                                 handleTablePercent2(
                                                   e.target.value,
@@ -3281,35 +2762,6 @@ const AOFcreate = () => {
                                               variant="standard"
                                             />
                                           </TableCell>
-                                          {/* <TableCell align="center">
-                                            <RowRadioButtonsGroup
-                                              handleRadioButtons={
-                                                handleRadioButtons
-                                              }
-                                              name={"series"}
-                                              value={[
-                                                {
-                                                  label: "Gross",
-                                                  value: "gross",
-                                                },
-                                                { label: "Net", value: "net" },
-                                              ]}
-                                              defaultValue={row.fk_category_id}
-                                            />
-                                          </TableCell> */}
-                                          {/* <TableCell align="center">
-                                          <SearchDropDown
-                                            Name={"items_aof"}
-                                            data={series}
-                                            disable={series.length < 1 ? true : false}
-                                            multiple={true}
-                                            handleOrderProcessingForm={
-                                              handleOrderProcessingForm
-                                            }
-                                            label={"Select Items"}
-                                            color={"rgb(243, 244, 246)"}
-                                          />
-                                        </TableCell> */}
                                           <TableCell align="center">
                                             <div>
                                               <IconButton
@@ -3322,9 +2774,7 @@ const AOFcreate = () => {
                                                   );
                                                 }}
                                               >
-                                                <Delete
-                                                // style={{ fill: "blue" }}
-                                                />
+                                                <Delete />
                                               </IconButton>
                                             </div>
                                           </TableCell>
@@ -3378,12 +2828,6 @@ const AOFcreate = () => {
                   <div onClick={handleDataSubmit}>
                     <BasicButton text={"Submit"} />
                   </div>
-
-                  {/* {showTod ? (
-                      <div className="mt-3">
-                        <BasicButton text={"Submit"} />
-                      </div>
-                    ) : null} */}
                 </div>
               ) : null}
             </div>

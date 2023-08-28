@@ -1,22 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "react-pro-sidebar/dist/css/styles.css";
-import {
-  Place,
-  School,
-  AccountBalance,
-  KeyboardArrowDown,
-  Circle,
-  Dashboard,
-  LocationOn,
-  LocalShipping,
-  LocationCityOutlined,
-  ShoppingBag,
-  ListAlt,
-  LocationCity,
-  AssignmentReturnOutlined,
-  ReceiptOutlined,
-  PrintOutlined,
-} from "@mui/icons-material";
+import { Dashboard } from "@mui/icons-material";
 import { Link } from "react-router-dom";
 import logoLight from "../assets/img/logo-light-icon.png";
 import { Collapse } from "@mui/material";
