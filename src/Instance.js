@@ -18,13 +18,18 @@ instance.interceptors.response.use(
 
     if (
       error?.response?.data?.message?.errors?.length > 0 ||
-      error?.response?.data?.message
+      error?.response?.data?.message ||
+      error?.response?.data?.status === "error"
     ) {
       if (error?.response?.data?.message?.errors?.length > 0) {
         store.dispatch(
           errorActions.setErrorMessage(
             error?.response?.data?.message?.errors[0]?.msg
           )
+        );
+      } else if (error?.response?.data?.message[0]?.msg) {
+        store.dispatch(
+          errorActions.setErrorMessage(error?.response?.data?.message[0]?.msg)
         );
       } else if (error?.response?.data?.message) {
         store.dispatch(

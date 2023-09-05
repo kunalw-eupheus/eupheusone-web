@@ -523,6 +523,7 @@ const SearchDropDown = ({
           disabled={disable}
           disableClearable
           multiple={multiple}
+          defaultValue={defaultValue ? defaultValue : null}
           color={color}
           // onBlur={() => console.log("ldkf")}
           onChange={(event, newValue) => handleDropDown(newValue, Name)}
@@ -532,10 +533,7 @@ const SearchDropDown = ({
               {...params}
               label={label}
               variant={variant ? variant : "standard"}
-              // inputProps={{ className: { color: color } }}
               InputLabelProps={{ style: { color: color } }}
-              // InputProps={{ style: { color: color } }}
-              // color="#09090b"
             />
           )}
         />

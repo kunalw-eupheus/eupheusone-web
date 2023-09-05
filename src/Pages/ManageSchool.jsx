@@ -267,8 +267,17 @@ const ManageSchool = () => {
           Authorization: `${Cookies.get("accessToken")}`,
         },
       });
-      // console.log(res.data.message);
+      const user = await instance({
+        url: "user/profile",
+        method: "GET",
+        headers: {
+          Authorization: `${Cookies.get("accessToken")}`,
+        },
+      });
+      console.log(user.data.message);
 
+      const arr = res.data.message.push({ fk_user: { ...user.data.message } });
+      console.log(arr);
       setRepresen(res.data.message);
     };
     const getStates = async () => {
@@ -282,9 +291,6 @@ const ManageSchool = () => {
       console.log(res.data.message);
 
       setStates(res.data.message);
-      // const data = res.data.message;
-      // const datarow = data.filter((data) => data.school_name);
-      // console.log("DATA", datarow);
     };
 
     getStates();

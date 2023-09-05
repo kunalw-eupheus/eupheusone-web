@@ -3,56 +3,28 @@ import { useState } from "react";
 import Navbar from "../Components/Navbar";
 import Sidebar from "../Components/Sidebar";
 import { useNavigate } from "react-router-dom";
-import Loader from "../Components/Loader";
+import Loader from "../Components/Material/Loader";
 import SwipeableTemporaryDrawer from "../Components/Material/MaterialSidebar";
-import BasicButton from "../Components/Material/Button";
 import CustomizedSteppers from "../Components/Material/Stepper";
-import SearchDropDown from "../Components/SearchDropDown";
-import BasicTextFields from "../Components/Material/TextField";
-// import TextField from '@mui/material/TextField';
-import DatePicker from "../Components/Material/Date";
-import IconButton from "@mui/material/IconButton";
-import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { Stack } from "@mui/system";
-
-import {
-  Accordion,
-  AccordionDetails,
-  AccordionSummary,
-  Fab,
-  TextField,
-  Tooltip,
-  Typography,
-} from "@mui/material";
-import { Add, ExpandMore, Delete, CloseFullscreen } from "@mui/icons-material";
-import RowRadioButtonsGroup from "../Components/Material/RowRadioButtonGroup";
 import instance from "../Instance";
 import Cookies from "js-cookie";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
 import Snackbars from "../Components/Material/SnackBar";
-import validatePan from "../util/validatePan";
-import validateGST from "../util/validateGST";
-import validateIFSC from "../util/validateIFSC";
-import validateAadhar from "../util/validateAadhar";
-import validateEmail from "../util/validateEmail";
+import { useFormik } from "formik";
+import Step1 from "../Components/Aof/Step1";
+import Step2 from "../Components/Aof/Step2";
+import Step3 from "../Components/Aof/Step3";
+import Step4 from "../Components/Aof/Step4";
 
 const AOFcreate = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const navigate = useNavigate();
+  // step 1
+  const [partyType, setPartyType] = useState("School");
+  //
   const [publisher, setPublisher] = useState([]);
   const [series, setSeries] = useState([]);
   const [title, setTitle] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [suppliers, setSuppliers] = useState(1);
-  const [cheque, setCheque] = useState(1);
-  const [authPerson, setAuthPerson] = useState(1);
   const [snackbarErrStatus, setSnackbarErrStatus] = useState(true);
   const [errMessage, setErrMessage] = useState("");
   const [remarkss, setRemarkss] = useState("");
@@ -67,12 +39,10 @@ const AOFcreate = () => {
     special: { applicable: false, type: "" },
   });
   const [publisherData, setPublisherData] = useState([]);
-  // const [publisherData2, setPublisherData2] = useState([]);
   const [seriesData, setSeriesData] = useState([]);
   const [specialSpecific, setSpecialSpecific] = useState([]);
   const [itemsData, setItemsData] = useState([]);
   const [schoolData, setSchoolData] = useState([]);
-  // const [seriesData2, setSeriesData2] = useState([]);
   const [allSchool, setAllSchool] = useState([]);
   const [state, setState] = useState([]);
   const [city, setCity] = useState([]);
@@ -83,7 +53,6 @@ const AOFcreate = () => {
   const [pinCode, setPinCode] = useState(null);
   const [stateSelect, setStateSelect] = useState("");
   const [citySelect, setCitySelect] = useState("");
-  const [ifsc, setIfsc] = useState("");
 
   const [aofStatus, setAofStatus] = useState("");
   const [schoolAddress, setSchoolAddress] = useState("");
@@ -127,12 +96,10 @@ const AOFcreate = () => {
   });
   const [creditLimit, setcrditLimit] = useState("");
   const [creditLimitType, setcrditLimitType] = useState("");
-  const [partyType, setPartyType] = useState("School");
   const [selectType, setSelectType] = useState("");
   const [panLink, setPanLink] = useState("");
   const [gstLink, setGstLink] = useState("");
   const [adhrLink, setAdhrLink] = useState("");
-  const [panPLink, setPanPLink] = useState("");
   const [desig, setDesignation] = useState("");
   const sidebarRef = useRef();
   const snackbarRef = useRef();
@@ -142,7 +109,6 @@ const AOFcreate = () => {
     for (let obj of pubArr) {
       delete obj.idx;
     }
-    // console.log(pubArr)
 
     let chekArr = [...chequeForm];
     for (let obj of chekArr) {
@@ -153,40 +119,33 @@ const AOFcreate = () => {
     for (let obj of authArr) {
       delete obj.idx;
     }
-    // console.log(authArr)
-    // console.log(publisherData2)
+
     let tempPublisherArr = [...publisherData];
     for (let items of tempPublisherArr) {
       delete items.bp_name;
     }
-    // console.log(tempPublisherArr)
     let tempSeriesArr = [...seriesData];
     for (let items of tempSeriesArr) {
       delete items.series;
     }
     let tempItemsArr = [...itemsData];
-    // console.log(tempItemsArr)
     for (let items of tempItemsArr) {
       delete items.series;
     }
-    // console.log(tempItemsArr);
-    // console.log(tempSeriesArr)
-    // console.log(specialSpecific)
+
     let specialData = [
       ...tempPublisherArr,
       ...tempSeriesArr,
       ...tempItemsArr,
       ...specialSpecific,
     ];
-    // console.log(specialData);
-    // console.log(pubArr)
     let postData;
     if (pubArr.length === 0) {
       postData = {
         name: nameOfSchool,
         status_type: aofStatus,
         aof_type: selectType,
-        party_type: partyType,
+        party_type: formik.values.partyType,
         fk_school_id: idOfSchool,
         fk_state_id: stateSelect,
         fk_city_id: citySelect,
@@ -246,7 +205,7 @@ const AOFcreate = () => {
         name: nameOfSchool,
         status_type: aofStatus,
         aof_type: selectType,
-        party_type: partyType,
+        party_type: formik.values.partyType,
         fk_school_id: idOfSchool,
         fk_state_id: stateSelect,
         fk_city_id: citySelect,
@@ -307,7 +266,7 @@ const AOFcreate = () => {
         name: nameOfSchool,
         status_type: aofStatus,
         aof_type: selectType,
-        party_type: partyType,
+        party_type: formik.values.partyType,
         fk_school_id: idOfSchool,
         fk_state_id: stateSelect,
         fk_city_id: citySelect,
@@ -367,7 +326,7 @@ const AOFcreate = () => {
         name: nameOfSchool,
         status_type: aofStatus,
         aof_type: selectType,
-        party_type: partyType,
+        party_type: formik.values.partyType,
         fk_school_id: idOfSchool,
         fk_state_id: stateSelect,
         fk_city_id: citySelect,
@@ -442,204 +401,6 @@ const AOFcreate = () => {
     }, 1000);
   };
 
-  const handleDataSubmit = async () => {
-    if (creditLimit.length === 0) {
-      setSnackbarErrStatus(true);
-      setErrMessage("Please Enter Credit Limit");
-      snackbarRef.current.openSnackbar();
-      return;
-    }
-    postFormData();
-  };
-
-  let formdata = new FormData();
-  const onFileChange = async (e, index) => {
-    let file = e.target.files[0];
-    if (file.type !== "image/jpeg" && file.type !== "image/png") {
-      alert("Please Select an image file only");
-      return;
-    }
-    formdata.append("img", file);
-    formdata.append("test", "test");
-
-    const res = await instance({
-      url: `imagetoS3/add_image_s3`,
-      method: "POST",
-      data: formdata,
-      headers: {
-        Authorization: Cookies.get("accessToken"),
-      },
-    });
-    if (res.status === 200) {
-      let link = res.data;
-      let tempArr = [...chequeForm];
-      if (tempArr.length < index + 1) {
-        let obj = {};
-        obj.idx = index;
-        obj.abc_cheque_link = link;
-        tempArr.push(obj);
-      } else {
-        for (let obj of tempArr) {
-          if (obj.idx === index) {
-            obj.abc_cheque_link = link;
-          }
-        }
-      }
-      setChequeForm(tempArr);
-    } else {
-      alert("Cannot upload image");
-    }
-  };
-
-  const onSignFileChange = async (e, index) => {
-    console.log(index);
-    let file = e.target.files[0];
-    if (file.type !== "image/jpeg" && file.type !== "image/png") {
-      alert("Please Select an image file only");
-      return;
-    }
-    formdata.append("img", file);
-    formdata.append("test", "test");
-
-    const res = await instance({
-      url: `imagetoS3/add_image_s3`,
-      method: "POST",
-      data: formdata,
-      headers: {
-        Authorization: Cookies.get("accessToken"),
-      },
-    });
-    if (res.status === 200) {
-      let link = res.data;
-
-      let tempArr = [...publisherAuthForm];
-      if (tempArr.length < index + 1) {
-        let obj = {};
-        obj.idx = index;
-        obj.signature = link;
-        tempArr.push(obj);
-      } else {
-        for (let obj of tempArr) {
-          if (obj.idx === index) {
-            obj.signature = link;
-          }
-        }
-      }
-      console.log(tempArr);
-      setChequeForm(tempArr);
-    } else {
-      alert("Cannot upload image");
-    }
-  };
-
-  const onPanFileChange = async (e) => {
-    let file = e.target.files[0];
-    if (file.type !== "image/jpeg" && file.type !== "image/png") {
-      alert("Please Select an image file only");
-      return;
-    }
-    formdata.append("img", file);
-    formdata.append("test", "test");
-
-    const res = await instance({
-      url: `imagetoS3/add_image_s3`,
-      method: "POST",
-      data: formdata,
-      headers: {
-        Authorization: Cookies.get("accessToken"),
-      },
-    });
-    if (res.status === 200) {
-      let link = res.data;
-      setPanLink(link);
-    } else {
-      alert("Cannot upload image");
-    }
-  };
-
-  const onPanPChange = async (e) => {
-    let file = e.target.files[0];
-    if (file.type !== "image/jpeg" && file.type !== "image/png") {
-      alert("Please Select an image file only");
-      return;
-    }
-    formdata.append("img", file);
-    formdata.append("test", "test");
-
-    const res = await instance({
-      url: `imagetoS3/add_image_s3`,
-      method: "POST",
-      data: formdata,
-      headers: {
-        Authorization: Cookies.get("accessToken"),
-      },
-    });
-    if (res.status === 200) {
-      let link = res.data;
-      setPanPLink(link);
-    } else {
-      alert("Cannot upload image");
-    }
-  };
-
-  const onGSTFileChange = async (e) => {
-    let file = e.target.files[0];
-    if (file.type !== "image/jpeg" && file.type !== "image/png") {
-      alert("Please Select an image file only");
-      return;
-    }
-    // console.log("first")
-    formdata.append("img", file);
-    formdata.append("test", "test");
-
-    const res = await instance({
-      url: `imagetoS3/add_image_s3`,
-      method: "POST",
-      data: formdata,
-      headers: {
-        Authorization: Cookies.get("accessToken"),
-      },
-    });
-    // console.log(res.status);
-    if (res.status === 200) {
-      let link = res.data;
-      setGstLink(link);
-    } else {
-      alert("Cannot upload image");
-    }
-  };
-
-  const onAdhrFileChange = async (e) => {
-    // console.log(index);
-    // const file = event.currentTarget["fileInput"].files[0];
-    let file = e.target.files[0];
-    // console.log(file.type)
-    if (file.type !== "image/jpeg" && file.type !== "image/png") {
-      alert("Please Select an image file only");
-      return;
-    }
-    // console.log("first")
-
-    formdata.append("img", file);
-    formdata.append("test", "test");
-
-    const res = await instance({
-      url: `imagetoS3/add_image_s3`,
-      method: "POST",
-      data: formdata,
-      headers: {
-        Authorization: Cookies.get("accessToken"),
-      },
-    });
-    // console.log(res.status);
-    if (res.status === 200) {
-      let link = res.data;
-      setAdhrLink(link);
-    } else {
-      alert("Cannot upload image");
-    }
-  };
-
   const getSchools = async () => {
     const state = await instance({
       url: "school/get/allschools",
@@ -677,220 +438,6 @@ const AOFcreate = () => {
     setCity(city.data.message);
   };
 
-  const handleRadioButtons = (type, value, defaultValue) => {
-    switch (type) {
-      case "tod applicable":
-        if (value === "yes") {
-          // console.log("tod applicable selected Yes");
-          setTodCondition("yes");
-          setStep4({ ...step4, tod: { applicable: false, type: false } });
-        } else {
-          // console.log("tod applicable selected No");
-          setTodCondition("no");
-          setStep4({ ...step4, tod: { applicable: false, type: false } });
-        }
-        break;
-      case "tod type":
-        if (value === "yes") {
-          console.log("Overall business value selected");
-          // special_obj.dis_type = "overall business"
-          // console.log(special_obj)
-          setStep4({ ...step4, tod: { applicable: true, type: true } });
-        } else {
-          console.log("Specific selected");
-          // special_obj.dis_type = "specific"
-          // console.log(special_obj)
-          setStep4({ ...step4, tod: { applicable: true, type: false } });
-        }
-        break;
-      case "special applicable":
-        if (value === "yes") {
-          special_obj.eligibile = "yes";
-          // console.log(special_obj);
-          // console.log("special applicable yes");
-          setStep4({ ...step4, special: { applicable: true, type: "" } });
-        } else {
-          special_obj.eligibile = "no";
-          // console.log(special_obj);
-          // console.log("special applicable no");
-          setStep4({ ...step4, special: { applicable: false, type: "" } });
-        }
-        break;
-
-      case "special type":
-        // console.log(value);
-        if (value === "overall") {
-          setPublisherData([]);
-          setSeriesData([]);
-          special_obj.dis_type = "overall";
-        } else {
-          setSpecialSpecific([]);
-          special_obj.dis_type = "specific";
-        }
-        // console.log(special_obj);
-        setSpecialObj(special_obj);
-        setStep4({ ...step4, special: { applicable: true, type: value } });
-        break;
-
-      case "tod":
-        // console.log(value);
-        if (value === "yes") setTodOption("gross");
-        else setTodOption("net");
-        // setStep4({ ...step4, special: { applicable: true, type: value } });
-        break;
-
-      case "cash":
-        // console.log(value);
-        setCashOption(value);
-        // setStep4({ ...step4, special: { applicable: true, type: value } });
-        break;
-
-      case "tod_special":
-        // console.log(value);
-        if (value === "yes") {
-          // console.log(value);
-          special_obj.percentages_type = "gross";
-        }
-        if (value === "no") {
-          // console.log(value);
-          special_obj.percentages_type = "net";
-        }
-        // console.log(special_obj);
-        setSpecialObj(special_obj);
-        // setPublisherData2([{...special_obj}])
-        setSpecialSpecific([{ ...special_obj }]);
-        // setCashOption(value);
-        // setStep4({ ...step4, special: { applicable: true, type: value } });
-        break;
-
-      case "publisher":
-        // console.log(publisherData)
-        // console.log(publisherData2)
-
-        let val = value;
-        let id = defaultValue;
-
-        console.log(val, id);
-
-        let dataArr = [...publisherData];
-        let tempArr = [];
-        for (let obj of dataArr) {
-          if (id === obj.fk_category_id) {
-            // console.log(obj)
-            obj.percentages_type = val;
-          }
-          tempArr.push(obj);
-        }
-
-        console.log(tempArr);
-        setPublisherData([]);
-        setPublisherData(tempArr);
-        // console.log(publisherData)
-
-        break;
-
-      case "series":
-        // console.log(type, value, defaultValue);
-
-        let val1 = value;
-        let id1 = defaultValue;
-
-        // console.log(val1, id1);
-
-        let dataArr1 = [...seriesData];
-        let tempArr1 = [];
-        for (let obj of dataArr1) {
-          if (id1 === obj.fk_category_id) {
-            // console.log(obj)
-            obj.percentages_type = val1;
-          }
-          tempArr1.push(obj);
-        }
-
-        // console.log(tempArr1);
-        setSeriesData([]);
-        setSeriesData(tempArr1);
-        // setStep4({ ...step4, special: { applicable: true, type: value } });
-        break;
-
-      case "items":
-        // console.log(type, value, defaultValue);
-
-        let val2 = value;
-        let id2 = defaultValue;
-
-        // console.log(val2, id2);
-
-        let dataArr2 = [...itemsData];
-        let tempArr2 = [];
-        for (let obj of dataArr2) {
-          if (id2 === obj.fk_category_id) {
-            // console.log(obj)
-            obj.percentages_type = val2;
-          }
-          tempArr2.push(obj);
-        }
-
-        // console.log(tempArr2);
-        setItemsData([]);
-        setItemsData(tempArr2);
-        // setStep4({ ...step4, special: { applicable: true, type: value } });
-        break;
-
-      default:
-        break;
-    }
-  };
-
-  const handleTablePercent = (val, id) => {
-    let dataArr = [...publisherData];
-    let tempArr = [];
-    for (let obj of dataArr) {
-      if (id === obj.fk_category_id) {
-        // console.log(obj)
-        obj.percentages = val;
-      }
-      tempArr.push(obj);
-    }
-
-    // console.log(tempArr);
-    setPublisherData([]);
-    setPublisherData(tempArr);
-  };
-
-  const handleTablePercent2 = (val, id) => {
-    let dataArr = [...seriesData];
-    let tempArr = [];
-    for (let obj of dataArr) {
-      if (id === obj.fk_category_id) {
-        // console.log(obj)
-        obj.percentages = val;
-      }
-      tempArr.push(obj);
-    }
-
-    // console.log(tempArr);
-    setSeriesData([]);
-    setSeriesData(tempArr);
-  };
-
-  const handleTablePercent3 = (val, id) => {
-    // console.log(val, id);
-    let dataArr = [...itemsData];
-    let tempArr = [];
-    for (let obj of dataArr) {
-      if (id === obj.fk_category_id) {
-        // console.log(obj)
-        obj.percentages = val;
-      }
-      tempArr.push(obj);
-    }
-
-    // console.log(tempArr);
-    setItemsData([]);
-    setItemsData(tempArr);
-  };
-
   const show = null;
 
   const calActiceStep = () => {
@@ -908,247 +455,57 @@ const AOFcreate = () => {
     }
   };
 
-  const handlePublisherForm = (field, value, index) => {
-    // console.log(field, value, index);
-    let tempArr = [...publisherForm];
-    if (tempArr.length < index + 1) {
-      let obj = {};
-      obj.idx = index;
-      if (field === "Name") obj.cp_name = value;
-      if (field === "AnnualBusiness") obj.cp_business = value;
-      tempArr.push(obj);
-    } else {
-      for (let obj of tempArr) {
-        if (obj.idx === index) {
-          if (field === "Name") obj.cp_name = value;
-          if (field === "AnnualBusiness") obj.cp_business = value;
-        }
-      }
-    }
-    // console.log(tempArr);
-    setPublisherForm(tempArr);
-  };
-
-  const handlePublisherAuthForm = (field, value, index) => {
-    // console.log(field, value, index);
-    let tempArr = [...publisherAuthForm];
-    if (tempArr.length < index + 1) {
-      let obj = {};
-      obj.idx = index;
-      if (field === "Name") obj.name = value;
-      if (field === "Designation") obj.designation = value;
-      if (field === "Signature") obj.signature = value;
-      tempArr.push(obj);
-    } else {
-      for (let obj of tempArr) {
-        if (obj.idx === index) {
-          if (field === "Name") obj.name = value;
-          if (field === "Designation") obj.designation = value;
-          if (field === "Signature") obj.signature = value;
-        }
-      }
-    }
-    console.log(tempArr);
-    setPublisherAuthForm(tempArr);
-  };
-
-  // var contents = []
-  const handleForm = () => {
-    let content = [];
-    for (let i = 0; i < suppliers; i++) {
-      content.push(
-        <li className="flex gap-4 items-center">
-          <span className="mt-4 text-gray-100">{i + 1}.</span>
-          <TextField
-            label={`Name`}
-            // handleOrderProcessingForm={handleOrderProcessingForm}
-            onChange={(e) => handlePublisherForm("Name", e.target.value, i)}
-            variant={"standard"}
-            multiline={false}
-            // Name={"Name"}
-          />
-          <TextField
-            label={"Annual Business"}
-            // handleOrderProcessingForm={handleOrderProcessingForm}
-            onChange={(e) =>
-              handlePublisherForm("AnnualBusiness", e.target.value, i)
-            }
-            variant={"standard"}
-            multiline={false}
-          />
-        </li>
-      );
-    }
-    return content;
-  };
-
-  const handleAuthForm = () => {
-    let content = [];
-    for (let i = 0; i < authPerson; i++) {
-      content.push(
-        <li className="flex gap-4 items-center">
-          <span className="mt-4 text-gray-100">{i + 1}.</span>
-          <TextField
-            label={`Name`}
-            // handleOrderProcessingForm={handleOrderProcessingForm}
-            onChange={(e) => handlePublisherAuthForm("Name", e.target.value, i)}
-            variant={"standard"}
-            multiline={false}
-            // Name={"Name"}
-          />
-          <TextField
-            label={"Designation"}
-            // handleOrderProcessingForm={handleOrderProcessingForm}
-            onChange={(e) =>
-              handlePublisherAuthForm("Designation", e.target.value, i)
-            }
-            variant={"standard"}
-            multiline={false}
-          />
-          <div className="mt-6 flex">
-            <p2>Signature: </p2>
-            <input
-              label="Signature"
-              type="file"
-              name="file_upload"
-              onChange={(e) => onSignFileChange(e, i)}
-            />
-          </div>
-        </li>
-      );
-    }
-    return content;
-  };
-
-  const handleChequesForm = (field, value, index) => {
-    // console.log(suppliers);
-    console.log(field, value, index);
-    let tempArr = [...chequeForm];
-    if (tempArr.length < index + 1) {
-      let obj = {};
-      obj.idx = index;
-      if (field === "ChequeNo") obj.abc_cheque_no = value;
-      if (field === "Bank") obj.abc_bank = value;
-      if (field === "Branch") obj.abc_branch_ifsc = value;
-      obj.abc_cheque_link = "";
-      tempArr.push(obj);
-    } else {
-      for (let obj of tempArr) {
-        if (obj.idx === index) {
-          if (field === "ChequeNo") obj.abc_cheque_no = value;
-          if (field === "Bank") obj.abc_bank = value;
-          if (field === "Branch") obj.abc_branch_ifsc = value;
-        }
-      }
-    }
-    // console.log(tempArr);
-    setChequeForm(tempArr);
-  };
-
-  const handleCheques = () => {
-    let content = [];
-    for (let i = 0; i < cheque; i++) {
-      content.push(
-        <li className="flex gap-4 items-center">
-          <span className="mt-4 text-gray-100">{i + 1}.</span>
-          <TextField
-            label={"Cheque No"}
-            // handleOrderProcessingForm={handleOrderProcessingForm}
-            onChange={(e) => handleChequesForm("ChequeNo", e.target.value, i)}
-            variant={"standard"}
-            multiline={false}
-          />
-          <TextField
-            label={"Bank"}
-            // handleOrderProcessingForm={handleOrderProcessingForm}
-            onChange={(e) => handleChequesForm("Bank", e.target.value, i)}
-            variant={"standard"}
-            multiline={false}
-          />
-          <TextField
-            label={"Branch/IFSC"}
-            // handleOrderProcessingForm={handleOrderProcessingForm}
-            onChange={(e) => handleChequesForm("Branch", e.target.value, i)}
-            variant={"standard"}
-            multiline={false}
-          />
-          <div className="mt-6">
-            <input
-              type="file"
-              name="file_upload"
-              onChange={(e) => onFileChange(e, i)}
-            />
-          </div>
-        </li>
-      );
-    }
-    // console.log(content)
-    return content;
-  };
-
   const handleOrderProcessingForm = (value, type) => {
-    // console.log(value, type);
+    console.log(value, type);
     switch (type) {
       case "selec_typ":
-        // console.log(value)
-        if (value.title === "Allied") setSelectType("100");
-        if (value.title === "Eupheus") setSelectType("165");
+        if (value.title === "Allied") {
+          formik.values.aof_type = "100";
+        } else if (value.title === "Eupheus") {
+          formik.values.aof_type = "165";
+        }
         break;
 
       case "Designation*":
-        setDesignation(value);
+        formik.values.designation = value;
         break;
-      case "Aadhar No":
-        console.log(value);
-        setAadharNo(value);
+      case "Aadhar No *":
+        formik.values.AadharNo = value;
         break;
       case "Classes Up to":
-        console.log(value);
-        setClassesUpto(value);
+        formik.values.classesUpto = value;
         break;
       case "party_type":
-        // console.log(value);
         setPartyType(value.title);
+        formik.values.partyType = value.title;
         break;
       case "Enter Percentage (TOD)":
         // console.log(value)
         setTodPercent(value);
         break;
       case "Enter Percentage (special)":
-        // console.log(value);
-        // console.log(special_obj)
         special_obj.percentages = value;
 
-        // console.log(special_obj);
         setSpecialObj(special_obj);
-        // setPublisherData2([{...special_obj}])
         setSpecialSpecific([{ ...special_obj }]);
-        // setTodPercent(value);
         break;
       case "select_schools":
-        // console.log(value);
-        setNameOfSchool(value.school_name);
-        setIdOfSchool(value.id);
+        formik.values.nameOfSchool = value.school_name;
+        formik.values.schoolId = value.id;
         break;
       case "Enter Party Name *":
-        // console.log(value)
-        setNameOfSchool(value);
+        formik.values.nameOfSchool = value;
         break;
-      case "Name Of Party/School *":
-        // console.log(value);
-        // setNameOfSchool(value);
-        break;
+
       case "Total no of Students *":
-        // console.log(value)
-        setTotalNoStudent(value);
+        formik.values.totalNoStudent = value;
         break;
       case "Remarks":
         console.log(value);
         setRemarkss(value);
         break;
       case "aof_status":
-        // console.log(value.title);
-        setAofStatus(value.title);
+        formik.values.aof_status = value.title;
         break;
       case "title_aof":
         let tempArr2 = [...itemsData];
@@ -1174,67 +531,49 @@ const AOFcreate = () => {
 
         break;
 
-      // setAofStatus(value.title);
-      // break;
       case "Address *":
-        // console.log(value);
-        setSchoolAddress(value);
+        formik.values.address = value;
         break;
       case "E-Mail *":
-        // console.log(value);
-        setSchoolEmail(value);
+        formik.values.schoolEmail = value;
         break;
-      case "PAN NO":
-        // console.log(value);
-        setPanNo(value);
-        break;
+      // case "PAN NO":
+      //   // console.log(value);
+      //   setPanNo(value);
+      //   break;
       case "PAN NO *":
-        setPanNo(value);
+        formik.values.panNo = value;
         break;
-      case "GST NO":
-        // console.log(value);
-        setGstNo(value);
+      case "GST NO *":
+        formik.values.GstNo = value;
         break;
       case "GST Year of establishment of business":
-        // console.log(value);
-        setGstYear(value);
+        formik.values.gstYearOFEst = value;
         break;
-      case "Name of Proprietor/Partner/Director/Trustee *":
-        // console.log(value);
-        setProprietorName(value);
-        break;
+      // case "Name of Proprietor/Partner/Director/Trustee *":
+      //   formik.values.truesteeName = value;
+      //   break;
       case "Name of Proprietor/Partner/Director/Trustee":
-        // console.log(value);
         setProprietorName(value);
         break;
-      case "PAN NO ":
-        // console.log(value, "bbbbbb");
-        setPanNoP(value);
-        break;
+      // case "PAN NO ":
+      //   formik.values.truesteePan = value;
+      //   break;
       case "items_aof":
-        // console.log(value);
-        // setPanNoP(value);
         break;
       case "cred_lim_type":
-        // console.log(value);
-        // setPanNoP(value);
         setcrditLimitType(value.title);
         break;
       case "Credit Limit *":
-        // console.log(value);
-        // setPanNoP(value);
         setcrditLimit(value);
         break;
       case "Address ":
-        // console.log(value, "bbbbb");
         setAddressP(value);
         break;
       case "Pin Code ":
-        // console.log(value, "bbbbbb");
         setPinCodeP(value);
         break;
       case "Phone ":
-        // console.log(value, "bbbbb");
         setPhoneP(value);
         break;
       case "Mobile*":
@@ -1249,10 +588,7 @@ const AOFcreate = () => {
         // console.log(value);
         setEmailP(value);
         break;
-      case "E-Mail":
-        // console.log(value);
-        setEmailP(value);
-        break;
+
       case "Name and address of the party’s main bankers *":
         // console.log(value);
         setPartyBankerName(value);
@@ -1282,14 +618,8 @@ const AOFcreate = () => {
         setAofAcc(value.title);
         break;
       case "publisher":
-        // console.log(publisherData);
-        // console.log(publisherData2)
-        // console.log(value);
         let tempArr = [...publisherData];
-        // let arr1 = []
         for (let ele of tempArr) {
-          // console.log(ele)
-          // console.log(value)
           if (ele.fk_category_id === value.id) return;
         }
 
@@ -1311,8 +641,7 @@ const AOFcreate = () => {
         break;
 
       case "Pin Code *":
-        setPinCode(value);
-        // console.log(value);
+        formik.values.pinCode = value;
         break;
 
       case "series_aof_item":
@@ -1321,24 +650,20 @@ const AOFcreate = () => {
         break;
 
       case "select_state_location":
-        setStateSelect(value.id);
+        formik.values.state = value.id;
         getCity(value.id);
-
         break;
-
       case "select_city_location":
-        // console.log(value);
-        setCitySelect(value.id);
+        formik.values.city = value.id;
         break;
 
       case "Mobile *":
-        setMobile(value);
-        // console.log(value);
+        formik.values.mobile = value;
         break;
 
-      case "Phone":
-        // console.log(value);
-        setPhone(value);
+      case "Phone *":
+        formik.values.phone = value;
+
         break;
 
       case "Enter Percentage":
@@ -1346,8 +671,7 @@ const AOFcreate = () => {
         break;
 
       case "Firm/ Company/Trust Registration Number":
-        // console.log(value);
-        setFirmRegNo(value);
+        formik.values.registrationNo = value;
         break;
 
       case "series_aof":
@@ -1417,18 +741,6 @@ const AOFcreate = () => {
     setTitle(titles.data.message);
   };
 
-  const handleStartDate = (newValue) => {
-    console.log(newValue);
-    if (!newValue) {
-      setDate("");
-    } else {
-      console.log(newValue);
-      let date = `${newValue.$y}-${newValue.$M + 1}-${newValue.$D}`;
-      // console.log(date)
-      setDate(date);
-    }
-  };
-
   useLayoutEffect(() => {
     const getPublishers = async () => {
       const allPublishers = await instance({
@@ -1453,7 +765,6 @@ const AOFcreate = () => {
 
     getPublishers();
     getSries();
-    // getTitleBySeries()
   }, []);
 
   const navInfo = {
@@ -1485,54 +796,151 @@ const AOFcreate = () => {
     };
   }, []);
 
-  const handleDelete = (id, type) => {
-    switch (type) {
-      case "publisher":
-        let tempData = [];
-        let dataArr = [...publisherData];
-        for (let ele of dataArr) {
-          if (ele.fk_category_id !== id) {
-            tempData.push(ele);
-          }
-        }
-        // console.log(tempData)
-        setPublisherData([]);
-        setPublisherData(tempData);
+  const formik = useFormik({
+    initialValues: {
+      // step 1
+      aof_type: "",
+      partyType: "School",
+      nameOfSchool: "",
+      schoolId: "",
+      designation: "",
+      aof_status: "",
+      address: "",
+      state: "",
+      city: "",
+      pinCode: "",
+      mobile: "",
+      phone: "",
+      schoolEmail: "",
+      totalNoStudent: "",
+      classesUpto: "",
+      gstYearOFEst: "",
+      registrationNo: "",
+      schoolDate: "",
+      panNo: "",
+      panUrl: "",
+      GstNo: "",
+      GstUrl: "",
+      AadharNo: "",
+      AadharUrl: "",
 
-        break;
+      // step 2
+      truesteeName: "",
+      truesteePan: "",
+      truesteePanUrl: "",
+      truesteeAddress: "",
+      truesteePin: "",
+      truesteePhone: "",
+      truesteeMobile: "",
+      truesteeEmail: "",
+      truesteeCreditPub: [],
 
-      case "series":
-        let tempData1 = [];
-        let dataArr1 = [...seriesData];
-        for (let ele of dataArr1) {
-          if (ele.fk_category_id !== id) {
-            tempData1.push(ele);
-          }
-        }
-        // console.log(tempData1);
-        setSeriesData([]);
-        setSeriesData(tempData1);
-        break;
+      // step 3
+      nameAndAddressOfPartyBanker: "",
+      accountNumber: "",
+      typeOfAC: "",
+      ifsc: "",
+      Cheques: [],
 
-      case "items":
-        let tempData2 = [];
-        let dataArr2 = [...itemsData];
-        for (let ele of dataArr2) {
-          if (ele.fk_category_id !== id) {
-            tempData2.push(ele);
-          }
-        }
-        // console.log(tempData2);
-        setItemsData([]);
-        setItemsData(tempData2);
-        break;
-    }
-  };
+      // step 4
+      creditLimit: "",
+      authorizedPersons: [],
+      TodApplicable: "",
+      special: [],
+      cash: "",
+      remarks: "",
+    },
+
+    // validate: () => {
+    //   const errors = {};
+
+    //   return errors;
+    // },
+    onSubmit: async (values) => {
+      console.log(values);
+      let postData = {
+        name: values.nameOfSchool,
+        status_type: values.aof_status,
+        aof_type: "165",
+        party_type: values.partyType,
+        fk_school_id: values.schoolId,
+        fk_state_id: values.state,
+        fk_city_id: values.city,
+        zip_code: values.pinCode,
+        address: values.address,
+        phone: values.phone,
+        mobile: values.mobile,
+        email: values.schoolEmail,
+        firm_reg: values.registrationNo,
+        date: values.schoolDate,
+        pan: values.panNo,
+        gst: values.GstNo,
+        business_est: values.gstYearOFEst,
+        t_name: values.truesteeName,
+        t_pan: values.truesteePan,
+        t_zip_code: values.truesteePin,
+        t_address: values.truesteeAddress,
+        t_phone: values.truesteePhone,
+        t_mobile: values.truesteeMobile,
+        t_email: values.truesteeEmail,
+        credit_limit: values.creditLimit,
+        // credit_type: creditLimitType,
+        remarks: values.remarks,
+        students_number: values.totalNoStudent,
+        // classes: classesUpto,
+        designation: values.designation,
+        pan_url: values.panUrl,
+        gst_url: values.GstUrl,
+        adhar: values.AadharNo,
+        adhar_url: values.AadharUrl,
+
+        ab_name: values.nameAndAddressOfPartyBanker,
+        ab_account_no: values.accountNumber,
+        ab_acc_type: values.typeOfAC,
+        ab_ifsc: values.ifsc,
+        cheque: values.Cheques,
+
+        good_picks: values.authorizedPersons,
+        cash: [
+          {
+            type: "cash",
+            eligibile: values.cash,
+          },
+        ],
+        tod: [
+          {
+            type: "tod",
+            eligibile: values.TodApplicable,
+            // percentages: todPercent,
+            // percentages_type: todOption,
+          },
+        ],
+        special: values.special,
+      };
+      if (values.classesUpto) {
+        postData["classes"] = values.classesUpto;
+      }
+      if (values.truesteeCreditPub.length > 0) {
+        postData["cp"] = values.truesteeCreditPub;
+      }
+      setLoading(true);
+      const res = await instance({
+        url: `sales_data/aof/create`,
+        method: "POST",
+        data: postData,
+        headers: {
+          Authorization: Cookies.get("accessToken"),
+        },
+      }).catch(() => setLoading(false));
+      setLoading(false);
+      console.log(res);
+    },
+  });
 
   return (
     <>
       <div className="flex w-[100%] min-h-[100vh]">
-        {loading ? <Loader /> : null}
+        <Loader loading={loading} />
 
         <Sidebar
           highLight={"aof"}
@@ -1574,1261 +982,43 @@ const AOFcreate = () => {
               />
               {/* step 1 */}
               {steps.step1 ? (
-                <div className="flex flex-col gap-4 items-start w-[90%] px-6 bg-slate-600 rounded-md py-6 mb-[5rem]">
-                  <div className="grid sm:grid-rows-5 sm:grid-cols-3 grid-rows-[15] grid-cols-1 w-full mt-6 gap-6 rounded-md bg-slate-600">
-                    <SearchDropDown
-                      Name={"selec_typ"}
-                      data={[
-                        // { title: "Allied" },
-                        { title: "Eupheus" },
-                      ]}
-                      handleOrderProcessingForm={handleOrderProcessingForm}
-                      label={"Select Type"}
-                      color={"rgb(243, 244, 246)"}
-                    />
-                    {/* <div className="sm:col-span-2"> */}
-                    <SearchDropDown
-                      Name={"party_type"}
-                      data={[{ title: "School" }, { title: "Party" }]}
-                      handleOrderProcessingForm={handleOrderProcessingForm}
-                      label={"Select Party Type *"}
-                      color={"rgb(243, 244, 246)"}
-                    />
-                    {/* </div> */}
-                    {/* </div> */}
-
-                    {partyType === "School" ? (
-                      <SearchDropDown
-                        label={"Name Of Party/School *"}
-                        // seriesId={""}
-                        handleOrderProcessingForm={handleOrderProcessingForm}
-                        color={"rgb(243, 244, 246)"}
-                        data={allSchool}
-                        multiple={false}
-                        Name={"select_schools"}
-                      />
-                    ) : (
-                      ""
-                    )}
-
-                    {partyType === "Party" ? (
-                      <BasicTextFields
-                        lable={"Enter Party Name *"}
-                        variant={"standard"}
-                        handleOrderProcessingForm={handleOrderProcessingForm}
-                        multiline={false}
-                      />
-                    ) : (
-                      ""
-                    )}
-
-                    <BasicTextFields
-                      lable={"Designation*"}
-                      variant={"standard"}
-                      handleOrderProcessingForm={handleOrderProcessingForm}
-                      multiline={false}
-                    />
-
-                    <SearchDropDown
-                      Name={"aof_status"}
-                      data={[
-                        { title: "Sole Proprietary" },
-                        { title: "Partnership" },
-                        { title: "LLP" },
-                        { title: "Pvt.Ltd" },
-                        { title: "PublicLtd" },
-                        { title: "Trust" },
-                      ]}
-                      label={"Select Status *"}
-                      handleOrderProcessingForm={handleOrderProcessingForm}
-                      color={"rgb(243, 244, 246)"}
-                    />
-                    <BasicTextFields
-                      lable={"Address *"}
-                      variant={"standard"}
-                      handleOrderProcessingForm={handleOrderProcessingForm}
-                      multiline={false}
-                    />
-                    <SearchDropDown
-                      label={"State *"}
-                      // seriesId={""}
-                      handleOrderProcessingForm={handleOrderProcessingForm}
-                      color={"rgb(243, 244, 246)"}
-                      data={state}
-                      multiple={false}
-                      Name={"select_state_location"}
-                    />
-                    <SearchDropDown
-                      label={"City *"}
-                      handleOrderProcessingForm={handleOrderProcessingForm}
-                      color={"rgb(243, 244, 246)"}
-                      data={city}
-                      Name="select_city_location"
-                    />
-                    <BasicTextFields
-                      lable={"Pin Code *"}
-                      handleOrderProcessingForm={handleOrderProcessingForm}
-                      variant={"standard"}
-                      type={"number"}
-                      multiline={false}
-                    />
-
-                    <BasicTextFields
-                      lable={"Mobile *"}
-                      handleOrderProcessingForm={handleOrderProcessingForm}
-                      type={"number"}
-                      variant={"standard"}
-                      multiline={false}
-                    />
-                    <BasicTextFields
-                      lable={"Phone"}
-                      handleOrderProcessingForm={handleOrderProcessingForm}
-                      type={"number"}
-                      variant={"standard"}
-                      multiline={false}
-                    />
-                    {/* <div className="sm:col-span-2"> */}
-                    <BasicTextFields
-                      lable={"E-Mail *"}
-                      handleOrderProcessingForm={handleOrderProcessingForm}
-                      variant={"standard"}
-                      multiline={false}
-                    />
-                    {/* <div className="sm:col-span-2"> */}
-                    <BasicTextFields
-                      lable={"Total no of Students *"}
-                      type={"number"}
-                      handleOrderProcessingForm={handleOrderProcessingForm}
-                      variant={"standard"}
-                      multiline={false}
-                    />
-                    {/* </div> */}
-                    <BasicTextFields
-                      lable={"Classes Up to"}
-                      handleOrderProcessingForm={handleOrderProcessingForm}
-                      variant={"standard"}
-                      multiline={false}
-                    />
-                    <BasicTextFields
-                      lable={"GST Year of establishment of business"}
-                      handleOrderProcessingForm={handleOrderProcessingForm}
-                      variant={"standard"}
-                      type={"number"}
-                      multiline={false}
-                    />
-                    {/* </div> */}
-                    <div className="sm:col-span-2">
-                      <BasicTextFields
-                        lable={"Firm/ Company/Trust Registration Number"}
-                        handleOrderProcessingForm={handleOrderProcessingForm}
-                        variant={"standard"}
-                        multiline={false}
-                      />
-                    </div>
-                    {/* <DatePicker label={"Dated"} /> */}
-                    <LocalizationProvider dateAdapter={AdapterDayjs}>
-                      <Stack spacing={3}>
-                        <DesktopDatePicker
-                          label="Select Date *"
-                          inputFormat="MM/DD/YYYY"
-                          value={date}
-                          onChange={handleStartDate}
-                          // handleOrderProcessingForm={handleOrderProcessingForm}
-                          renderInput={(params) => <TextField {...params} />}
-                        />
-                      </Stack>
-                    </LocalizationProvider>
-
-                    {partyType === "Party" ? (
-                      <div className="sm:col-span-2">
-                        <BasicTextFields
-                          lable={"PAN NO *"}
-                          handleOrderProcessingForm={handleOrderProcessingForm}
-                          variant={"standard"}
-                          multiline={false}
-                        />
-                      </div>
-                    ) : (
-                      <div className="sm:col-span-2">
-                        <BasicTextFields
-                          lable={"PAN NO"}
-                          handleOrderProcessingForm={handleOrderProcessingForm}
-                          variant={"standard"}
-                          multiline={false}
-                        />
-                      </div>
-                    )}
-
-                    {panNo.length > 0 ? (
-                      <input
-                        type="file"
-                        name="Upload PAN"
-                        onChange={(e) => onPanFileChange(e)}
-                      />
-                    ) : (
-                      ""
-                    )}
-                    <div className="sm:col-span-2">
-                      <BasicTextFields
-                        lable={"GST NO"}
-                        handleOrderProcessingForm={handleOrderProcessingForm}
-                        variant={"standard"}
-                        multiline={false}
-                      />
-                    </div>
-                    {gstNo.length > 0 ? (
-                      <input
-                        type="file"
-                        name="Upload GST"
-                        onChange={(e) => onGSTFileChange(e)}
-                      />
-                    ) : (
-                      ""
-                    )}
-
-                    <div className="sm:col-span-2">
-                      <BasicTextFields
-                        lable={"Aadhar No"}
-                        handleOrderProcessingForm={handleOrderProcessingForm}
-                        variant={"standard"}
-                        multiline={false}
-                      />
-                    </div>
-                    {aadharNo.length > 0 ? (
-                      <input
-                        type="file"
-                        name="Upload Aadhar"
-                        onChange={(e) => onAdhrFileChange(e)}
-                      />
-                    ) : (
-                      ""
-                    )}
-                  </div>
-                  <div
-                    className="mt-3"
-                    onClick={() => {
-                      if (
-                        (!nameOfSchool,
-                        !aofStatus,
-                        !schoolAddress,
-                        !stateSelect,
-                        !citySelect,
-                        !pinCode,
-                        !mobile,
-                        // !date,
-                        // !classesUpto,
-                        !schoolEmail,
-                        !totalNoStudent)
-                      ) {
-                        setSnackbarErrStatus(true);
-                        setErrMessage("Please Fill All The Fields");
-                        snackbarRef.current.openSnackbar();
-                      } else if (date.length == 0) {
-                        setSnackbarErrStatus(true);
-                        setErrMessage("Please Fill All The Fields");
-                        snackbarRef.current.openSnackbar();
-                      } else if (mobile.length !== 10) {
-                        setSnackbarErrStatus(true);
-                        setErrMessage("Please Enter a Valid Mobile Number");
-                        snackbarRef.current.openSnackbar();
-                      } else if (pinCode.length !== 6) {
-                        setSnackbarErrStatus(true);
-                        setErrMessage("Please Enter a Valid Pin Code");
-                        snackbarRef.current.openSnackbar();
-                      } else if (partyType === "Party" && panNo.length === 0) {
-                        setSnackbarErrStatus(true);
-                        setErrMessage("Please Fill All The Fields");
-                        snackbarRef.current.openSnackbar();
-                      } else if (validateEmail(schoolEmail) === false) {
-                        setSnackbarErrStatus(true);
-                        setErrMessage("Please Enter a Valid Email");
-                        snackbarRef.current.openSnackbar();
-                      } else if (
-                        panNo.length > 0 &&
-                        validatePan(panNo) === false
-                      ) {
-                        setSnackbarErrStatus(true);
-                        setErrMessage("Please Enter a Valid PAN Number");
-                        snackbarRef.current.openSnackbar();
-                      } else if (
-                        gstNo.length > 0 &&
-                        validateGST(gstNo) === false
-                      ) {
-                        setSnackbarErrStatus(true);
-                        setErrMessage("Please Enter a Valid GST Number");
-                        snackbarRef.current.openSnackbar();
-                      } else if (
-                        aadharNo.length > 0 &&
-                        validateAadhar(aadharNo) === false
-                      ) {
-                        setSnackbarErrStatus(true);
-                        setErrMessage("Please Enter a Valid Aadhar Number");
-                        snackbarRef.current.openSnackbar();
-                      } else if (panNo.length > 0 && !panLink) {
-                        setSnackbarErrStatus(true);
-                        setErrMessage("Please Upload PAN image");
-                        snackbarRef.current.openSnackbar();
-                      } else if (gstNo.length > 0 && !gstLink) {
-                        setSnackbarErrStatus(true);
-                        setErrMessage("Please Upload GST image");
-                        snackbarRef.current.openSnackbar();
-                      } else if (aadharNo.length > 0 && !adhrLink) {
-                        setSnackbarErrStatus(true);
-                        setErrMessage("Please Upload Aadhar image");
-                        snackbarRef.current.openSnackbar();
-                      } else {
-                        setSteps({ step1: false, step2: true, step3: false });
-                        window.scroll({
-                          top: 0,
-                          behavior: "smooth",
-                        });
-                      }
-                    }}
-                  >
-                    <BasicButton text={"Next"} />
-                  </div>
-                </div>
+                <Step1
+                  handleOrderProcessingForm={handleOrderProcessingForm}
+                  allSchool={allSchool}
+                  state={state}
+                  city={city}
+                  formik={formik}
+                  partyType={partyType}
+                  setSteps={setSteps}
+                  setLoading={setLoading}
+                />
               ) : null}
               {/* step 2 */}
               {steps.step2 ? (
-                <div className="flex flex-col gap-4 items-start w-[90%] px-6 bg-slate-600 rounded-md py-6 mb-[5rem]">
-                  <div className="grid sm:grid-rows-3 sm:grid-cols-3 grid-rows-[7] grid-cols-1 w-full mt-6 gap-6 rounded-md bg-slate-600">
-                    <div className="sm:col-span-2">
-                      <BasicTextFields
-                        lable={"Name of Proprietor/Partner/Director/Trustee *"}
-                        handleOrderProcessingForm={handleOrderProcessingForm}
-                        variant={"standard"}
-                        multiline={false}
-                      />
-                    </div>
-
-                    <div className="sm:col-span-2">
-                      <BasicTextFields
-                        lable={"PAN NO "}
-                        handleOrderProcessingForm={handleOrderProcessingForm}
-                        variant={"standard"}
-                        multiline={false}
-                      />
-                    </div>
-                    {panNoP.length > 0 ? (
-                      <input
-                        type="file"
-                        name="Upload PAN"
-                        onChange={(e) => onPanPChange(e)}
-                      />
-                    ) : (
-                      ""
-                    )}
-
-                    <div className="sm:col-span-2">
-                      <BasicTextFields
-                        lable={"Address "}
-                        handleOrderProcessingForm={handleOrderProcessingForm}
-                        variant={"standard"}
-                        multiline={false}
-                      />
-                    </div>
-                    <BasicTextFields
-                      lable={"Pin Code "}
-                      handleOrderProcessingForm={handleOrderProcessingForm}
-                      type={"number"}
-                      variant={"standard"}
-                      multiline={false}
-                    />
-
-                    <BasicTextFields
-                      lable={"Phone "}
-                      handleOrderProcessingForm={handleOrderProcessingForm}
-                      type={"number"}
-                      variant={"standard"}
-                      multiline={false}
-                    />
-
-                    <BasicTextFields
-                      lable={"Mobile*"}
-                      handleOrderProcessingForm={handleOrderProcessingForm}
-                      type={"number"}
-                      variant={"standard"}
-                      multiline={false}
-                    />
-
-                    <BasicTextFields
-                      lable={"E-Mail*"}
-                      handleOrderProcessingForm={handleOrderProcessingForm}
-                      variant={"standard"}
-                      multiline={false}
-                    />
-                  </div>
-                  <div className="w-full flex flex-col my-2 gap-2">
-                    <h1 className="font-semibold text-gray-100">
-                      Name of other Publishers/Suppliers from whom the party has
-                      credit facilities:
-                    </h1>
-                    <div onClick={() => setSuppliers(suppliers + 1)}>
-                      {/* <BasicButton text={"Add More"} /> */}
-                      <Tooltip title="Add More Names">
-                        <Fab color={"red"} size="small" aria-label="add">
-                          <Add />
-                        </Fab>
-                      </Tooltip>
-                    </div>
-
-                    <ol className="list-decimal">{handleForm()}</ol>
-                  </div>
-                  <div
-                    onClick={() => {
-                      if (
-                        mobileP.length == 0 ||
-                        emailP.length == 0 ||
-                        proprietorName.length == 0
-                      ) {
-                        setSnackbarErrStatus(true);
-                        setErrMessage("Please Fill All The Fields");
-                        snackbarRef.current.openSnackbar();
-                      } else if (
-                        panNoP.length > 0 &&
-                        validatePan(panNoP) === false
-                      ) {
-                        setSnackbarErrStatus(true);
-                        setErrMessage("Please Enter a Valid PAN Number");
-                        snackbarRef.current.openSnackbar();
-                      } else if (panNoP.length > 0 && !panPLink) {
-                        setSnackbarErrStatus(true);
-                        setErrMessage("Please Upload PAN image");
-                        snackbarRef.current.openSnackbar();
-                      } else if (validateEmail(emailP) === false) {
-                        setSnackbarErrStatus(true);
-                        setErrMessage("Please Enter a Valid Email");
-                        snackbarRef.current.openSnackbar();
-                      } else if (pinCodeP.length > 0 && pinCodeP.length !== 6) {
-                        setSnackbarErrStatus(true);
-                        setErrMessage("Please Enter a Valid Pin Code");
-                        snackbarRef.current.openSnackbar();
-                      } else if (phoneP.length > 0 && phoneP.length !== 10) {
-                        setSnackbarErrStatus(true);
-                        setErrMessage("Please Enter a Valid Phone Number");
-                        snackbarRef.current.openSnackbar();
-                      } else if (mobileP.length !== 10) {
-                        setSnackbarErrStatus(true);
-                        setErrMessage("Please Enter a Valid Mobile Number");
-                        snackbarRef.current.openSnackbar();
-                      } else {
-                        // console.log("third")
-                        setSteps({ step1: false, step2: false, step3: true });
-                        window.scroll({
-                          top: 0,
-                          behavior: "smooth",
-                        });
-                      }
-                    }}
-                    className="mt-3"
-                  >
-                    <BasicButton text={"Next"} />
-                  </div>
-                </div>
+                <Step2
+                  setSteps={setSteps}
+                  formik={formik}
+                  handleOrderProcessingForm={handleOrderProcessingForm}
+                  partyType={partyType}
+                  setLoading={setLoading}
+                />
               ) : null}
               {/* step 3 */}
               {steps.step3 ? (
-                <div className="flex flex-col gap-4 items-start w-[90%] px-6 bg-slate-600 rounded-md py-6 mb-[5rem]">
-                  <div className="grid sm:grid-rows-2 sm:grid-cols-3 grid-rows-4 grid-cols-1 w-full mt-6 gap-6 rounded-md bg-slate-600">
-                    <div className="sm:col-span-2">
-                      {partyType === "School" ? (
-                        <BasicTextFields
-                          lable={"Name and address of the party’s main bankers"}
-                          handleOrderProcessingForm={handleOrderProcessingForm}
-                          variant={"standard"}
-                          multiline={false}
-                        />
-                      ) : (
-                        <BasicTextFields
-                          lable={
-                            "Name and address of the party’s main bankers *"
-                          }
-                          handleOrderProcessingForm={handleOrderProcessingForm}
-                          variant={"standard"}
-                          multiline={false}
-                        />
-                      )}
-                    </div>
-
-                    {partyType === "School" ? (
-                      <BasicTextFields
-                        lable={"Account Number"}
-                        handleOrderProcessingForm={handleOrderProcessingForm}
-                        variant={"standard"}
-                        type={"number"}
-                        multiline={false}
-                      />
-                    ) : (
-                      <BasicTextFields
-                        lable={"Account Number *"}
-                        handleOrderProcessingForm={handleOrderProcessingForm}
-                        variant={"standard"}
-                        type={"number"}
-                        multiline={false}
-                      />
-                    )}
-                    <SearchDropDown
-                      Name={"aof_acc"}
-                      data={[{ title: "SB" }, { title: "CA" }, { title: "CC" }]}
-                      handleOrderProcessingForm={handleOrderProcessingForm}
-                      label={"Type of A/c "}
-                      color={"rgb(243, 244, 246)"}
-                    />
-                    {partyType === "School" ? (
-                      <BasicTextFields
-                        lable={"IFSC"}
-                        handleOrderProcessingForm={handleOrderProcessingForm}
-                        // type={"number"}
-                        variant={"standard"}
-                        multiline={false}
-                      />
-                    ) : (
-                      <BasicTextFields
-                        lable={"IFSC *"}
-                        handleOrderProcessingForm={handleOrderProcessingForm}
-                        // type={"number"}
-                        variant={"standard"}
-                        multiline={false}
-                      />
-                    )}
-                  </div>
-
-                  <div className="w-full flex flex-col my-2 gap-2">
-                    {partyType === "School" ? (
-                      <h1 className="font-semibold text-gray-100">
-                        Detail of Cheques:
-                      </h1>
-                    ) : (
-                      <h1 className="font-semibold text-gray-100">
-                        Detail of Cheques * :
-                      </h1>
-                    )}
-                    <div onClick={() => setCheque(cheque + 1)}>
-                      {/* <BasicButton text={"Add More"} /> */}
-                      <Tooltip title="Add More Cheque">
-                        <Fab color={"red"} size="small" aria-label="add">
-                          <Add />
-                        </Fab>
-                      </Tooltip>
-                    </div>
-                    <ol className="list-decimal">{handleCheques()}</ol>
-                  </div>
-                  <div
-                    onClick={() => {
-                      if (partyType === "School") {
-                        if (ifscP.length > 0 && validateIFSC(ifscP) === false) {
-                          setSnackbarErrStatus(true);
-                          setErrMessage("Please Enter a Valid IFSC Code");
-                          snackbarRef.current.openSnackbar();
-                        } else {
-                          setSteps({
-                            step1: false,
-                            step2: false,
-                            step3: false,
-                            step4: true,
-                          });
-                          window.scroll({
-                            top: 0,
-                            behavior: "smooth",
-                          });
-                        }
-                      } else {
-                        // console.log(isValid_IFSC_Code(ifscP));
-                        console.log(chequeForm);
-
-                        if (
-                          partyBankerName.length === 0 ||
-                          accNoP.length === 0 ||
-                          aofAcc.length === 0 ||
-                          ifscP.length === 0 ||
-                          chequeForm.length === 0
-                        ) {
-                          setSnackbarErrStatus(true);
-                          setErrMessage("Please Fill All The Fields");
-                          snackbarRef.current.openSnackbar();
-                        } else if (validateIFSC(ifscP) === false) {
-                          setSnackbarErrStatus(true);
-                          setErrMessage("Please Enter a Valid IFSC Code");
-                          snackbarRef.current.openSnackbar();
-                        } else if (chequeForm.length > 0) {
-                          for (let obj of chequeForm) {
-                            // console.log(obj.abc_bank);
-                            if (
-                              !obj.abc_cheque_no ||
-                              obj.abc_cheque_no.length === 0
-                            ) {
-                              setSnackbarErrStatus(true);
-                              setErrMessage(
-                                "Please Enter Cheque for each field"
-                              );
-                              snackbarRef.current.openSnackbar();
-                              break;
-                            }
-                            if (!obj.abc_bank || obj.abc_bank.length === 0) {
-                              setSnackbarErrStatus(true);
-                              setErrMessage(
-                                "Please Enter Bank Name for each field"
-                              );
-                              snackbarRef.current.openSnackbar();
-                              break;
-                            }
-                            if (
-                              !obj.abc_branch_ifsc ||
-                              obj.abc_branch_ifsc.length === 0
-                            ) {
-                              setSnackbarErrStatus(true);
-                              setErrMessage(
-                                "Please Enter Bank IFSC for each field"
-                              );
-                              snackbarRef.current.openSnackbar();
-                              break;
-                            }
-                            if (obj.abc_cheque_link.length === 0) {
-                              setSnackbarErrStatus(true);
-                              setErrMessage(
-                                "Please Upload Cheque image for each field"
-                              );
-                              snackbarRef.current.openSnackbar();
-                              break;
-                            } else {
-                              console.log("nexttttt");
-                              setSteps({
-                                step1: false,
-                                step2: false,
-                                step3: false,
-                                step4: true,
-                              });
-                              window.scroll({
-                                top: 0,
-                                behavior: "smooth",
-                              });
-                            }
-                          }
-                        } else {
-                          setSteps({
-                            step1: false,
-                            step2: false,
-                            step3: false,
-                            step4: true,
-                          });
-                          window.scroll({
-                            top: 0,
-                            behavior: "smooth",
-                          });
-                        }
-                      }
-                    }}
-                    className="mt-3"
-                  >
-                    <BasicButton text={"Next"} />
-                  </div>
-                </div>
+                <Step3
+                  setSteps={setSteps}
+                  formik={formik}
+                  setLoading={setLoading}
+                  partyType={partyType}
+                />
               ) : null}
               {/* step 4 */}
               {steps.step4 ? (
-                <div className="flex flex-col gap-4  md:w-[90%] sm:w-[70%] w-[95%] px-6 bg-slate-600 rounded-md py-6 mb-[5rem] justify-center items-start">
-                  <div className="grid sm:grid-rows-2 sm:grid-cols-3 grid-rows-4 grid-cols-1 w-full mt-6 gap-6 rounded-md bg-slate-600">
-                    <BasicTextFields
-                      lable={"Credit Limit *"}
-                      handleOrderProcessingForm={handleOrderProcessingForm}
-                      type={"number"}
-                      variant={"standard"}
-                      multiline={false}
-                    />
-                  </div>
-
-                  <div className="w-full flex flex-col my-2 gap-2">
-                    <h1 className="font-semibold text-gray-100">
-                      Details of persons authorized on behalf of the Distributor
-                      to receive the Goods or pick up of Goods from Eupheus’s
-                      warehouse:
-                    </h1>
-                    <div onClick={() => setAuthPerson(authPerson + 1)}>
-                      {/* <BasicButton text={"Add More"} /> */}
-                      <Tooltip title="Add More Names">
-                        <Fab color={"red"} size="small" aria-label="add">
-                          <Add />
-                        </Fab>
-                      </Tooltip>
-                    </div>
-
-                    <ol className="list-decimal">{handleAuthForm()}</ol>
-                  </div>
-
-                  <div className="flex flex-col justify-center items-start w-full mt-6 rounded-md bg-slate-600">
-                    <Accordion
-                      defaultExpanded={true}
-                      className="w-full !bg-slate-500"
-                    >
-                      <AccordionSummary
-                        expandIcon={<ExpandMore className="!text-gray-100" />}
-                        aria-controls="panel1a-content"
-                        id="panel1a-header"
-                      >
-                        <Typography className="!text-gray-100 !font-semibold">
-                          TOD
-                        </Typography>
-                      </AccordionSummary>
-                      <AccordionDetails>
-                        <Typography>
-                          <RowRadioButtonsGroup
-                            handleRadioButtons={handleRadioButtons}
-                            heading={"Applicable"}
-                            name={"tod applicable"}
-                            value={[
-                              { label: "Yes", value: "yes" },
-                              { label: "No", value: "no" },
-                            ]}
-                          />
-                        </Typography>
-                        {step4.tod.applicable ? (
-                          <Typography>
-                            <RowRadioButtonsGroup
-                              handleRadioButtons={handleRadioButtons}
-                              name={"tod type"}
-                              value={[
-                                {
-                                  label: "Overall Business Value",
-                                  value: "yes",
-                                },
-                                // { label: "Specific", value: "no" },
-                              ]}
-                            />
-                          </Typography>
-                        ) : null}
-                        {step4.tod.type ? (
-                          <>
-                            <Typography className="!flex !items-center justify-around">
-                              <BasicTextFields
-                                lable={"Enter Percentage (TOD)"}
-                                handleOrderProcessingForm={
-                                  handleOrderProcessingForm
-                                }
-                                type={"number"}
-                                variant={"standard"}
-                                multiline={false}
-                              />
-                              <RowRadioButtonsGroup
-                                handleRadioButtons={handleRadioButtons}
-                                name={"tod"}
-                                value={[
-                                  {
-                                    label: "Gross",
-                                    value: "yes",
-                                  },
-                                  { label: "Net", value: "no" },
-                                ]}
-                              />
-                            </Typography>
-                          </>
-                        ) : null}
-                      </AccordionDetails>
-                    </Accordion>
-                    <Accordion className="w-full !bg-slate-500">
-                      <AccordionSummary
-                        expandIcon={<ExpandMore className="!text-gray-100" />}
-                        aria-controls="panel1a-content"
-                        id="panel1a-header"
-                      >
-                        <Typography className="!text-gray-100 !font-semibold">
-                          Special
-                        </Typography>
-                      </AccordionSummary>
-                      <AccordionDetails className="flex flex-col gap-4">
-                        <Typography>
-                          <RowRadioButtonsGroup
-                            handleRadioButtons={handleRadioButtons}
-                            heading={"Applicable"}
-                            name={"special applicable"}
-                            value={[
-                              { label: "Yes", value: "yes" },
-                              { label: "No", value: "no" },
-                            ]}
-                          />
-                        </Typography>
-                        {step4.special.applicable ? (
-                          <Typography>
-                            <RowRadioButtonsGroup
-                              handleRadioButtons={handleRadioButtons}
-                              name={"special type"}
-                              value={[
-                                {
-                                  label: "Overall Business Value",
-                                  value: "overall",
-                                },
-                                { label: "Specific", value: "specific" },
-                              ]}
-                            />
-                          </Typography>
-                        ) : null}
-                        {step4.special.type === "overall" ? (
-                          <>
-                            <Typography className="!flex !items-center justify-around">
-                              <BasicTextFields
-                                lable={"Enter Percentage (special)"}
-                                handleOrderProcessingForm={
-                                  handleOrderProcessingForm
-                                }
-                                type={"number"}
-                                variant={"standard"}
-                                multiline={false}
-                              />
-                            </Typography>
-                          </>
-                        ) : null}
-                        {step4.special.type === "specific" ? (
-                          <>
-                            <Typography className="flex flex-col gap-2">
-                              <h1 className="sm:text-base text-sm font-semibold text-gray-100">
-                                Select Publisher:
-                              </h1>
-                              <div className="!flex">
-                                <SearchDropDown
-                                  Name={"publisher"}
-                                  data={publisher}
-                                  handleOrderProcessingForm={
-                                    handleOrderProcessingForm
-                                  }
-                                  label={"Select Publisher"}
-                                  color={"rgb(243, 244, 246)"}
-                                />
-                              </div>
-
-                              {publisherData.length === 0 ? (
-                                ""
-                              ) : (
-                                <Table
-                                  sx={{ minWidth: 650 }}
-                                  aria-label="customized table"
-                                >
-                                  <TableHead className="bg-slate-600">
-                                    <TableRow>
-                                      <TableCell
-                                        className="!w-[8rem]"
-                                        align="center"
-                                      >
-                                        Publisher
-                                      </TableCell>
-                                      <TableCell
-                                        className="!w-[3rem]"
-                                        align="center"
-                                      >
-                                        Percentage
-                                      </TableCell>
-
-                                      <TableCell
-                                        className="!w-[2rem]"
-                                        align="center"
-                                      ></TableCell>
-                                    </TableRow>
-                                  </TableHead>
-                                  {publisherData.map((row) => {
-                                    return (
-                                      <TableBody className="bg-slate-400">
-                                        <TableRow
-                                          key={"row.series"}
-                                          sx={{
-                                            "&:last-child td, &:last-child th":
-                                              {
-                                                border: 0,
-                                              },
-                                          }}
-                                        >
-                                          <TableCell align="center">
-                                            {row.bp_name}
-                                          </TableCell>
-
-                                          <TableCell align="center">
-                                            <TextField
-                                              onChange={(e) =>
-                                                handleTablePercent(
-                                                  e.target.value,
-                                                  row.fk_category_id
-                                                )
-                                              }
-                                              id="outlined-basic"
-                                              label="Enter Percentage"
-                                              variant="standard"
-                                            />
-                                          </TableCell>
-
-                                          <TableCell align="center">
-                                            <div>
-                                              <IconButton
-                                                type="submit"
-                                                aria-label="search"
-                                                onClick={() => {
-                                                  handleDelete(
-                                                    row.fk_category_id,
-                                                    "publisher"
-                                                  );
-                                                }}
-                                              >
-                                                <Delete
-                                                // style={{ fill: "blue" }}
-                                                />
-                                              </IconButton>
-                                            </div>
-                                          </TableCell>
-                                        </TableRow>
-                                      </TableBody>
-                                    );
-                                  })}
-                                </Table>
-                              )}
-                            </Typography>
-
-                            <div className="w-full flex justify-center">
-                              <hr className="text-gray-100 w-[80%] my-4" />
-                            </div>
-                            <Typography className="flex flex-col gap-2">
-                              <h1 className="sm:text-base font-semibold text-sm text-gray-100">
-                                Select Series:
-                              </h1>
-                              <SearchDropDown
-                                Name={"series_aof"}
-                                data={series}
-                                handleOrderProcessingForm={
-                                  handleOrderProcessingForm
-                                }
-                                label={"Select Series"}
-                                color={"rgb(243, 244, 246)"}
-                              />
-                              {seriesData.length === 0 ? (
-                                ""
-                              ) : (
-                                <Table
-                                  sx={{ minWidth: 650 }}
-                                  aria-label="customized table"
-                                >
-                                  <TableHead className="bg-slate-600">
-                                    <TableRow>
-                                      <TableCell
-                                        className="!w-[8rem]"
-                                        align="center"
-                                      >
-                                        Series
-                                      </TableCell>
-                                      <TableCell
-                                        className="!w-[3rem]"
-                                        align="center"
-                                      >
-                                        Percentage
-                                      </TableCell>
-
-                                      <TableCell
-                                        className="!w-[2rem]"
-                                        align="center"
-                                      ></TableCell>
-                                    </TableRow>
-                                  </TableHead>
-
-                                  {seriesData.map((row) => {
-                                    return (
-                                      <TableBody className="bg-slate-400">
-                                        <TableRow
-                                          key={"row.series"}
-                                          sx={{
-                                            "&:last-child td, &:last-child th":
-                                              {
-                                                border: 0,
-                                              },
-                                          }}
-                                        >
-                                          <TableCell align="center">
-                                            {row.series}
-                                          </TableCell>
-                                          <TableCell align="center">
-                                            <TextField
-                                              onChange={(e) =>
-                                                handleTablePercent2(
-                                                  e.target.value,
-                                                  row.fk_category_id
-                                                )
-                                              }
-                                              id="outlined-basic"
-                                              label="Enter Percentage"
-                                              variant="standard"
-                                            />
-                                          </TableCell>
-
-                                          <TableCell align="center">
-                                            <div>
-                                              <IconButton
-                                                type="submit"
-                                                aria-label="search"
-                                                onClick={() => {
-                                                  handleDelete(
-                                                    row.fk_category_id,
-                                                    "series"
-                                                  );
-                                                }}
-                                              >
-                                                <Delete
-                                                // style={{ fill: "blue" }}
-                                                />
-                                              </IconButton>
-                                            </div>
-                                          </TableCell>
-                                        </TableRow>
-                                      </TableBody>
-                                    );
-                                  })}
-                                </Table>
-                              )}
-                            </Typography>
-
-                            <div className="w-full flex justify-center">
-                              <hr className="text-gray-100 w-[80%] my-4" />
-                            </div>
-                            <Typography className="flex flex-col gap-2">
-                              <h1 className="sm:text-base font-semibold text-sm text-gray-100">
-                                Select Item:
-                              </h1>
-                              <SearchDropDown
-                                Name={"series_aof_item"}
-                                data={series}
-                                handleOrderProcessingForm={
-                                  handleOrderProcessingForm
-                                }
-                                label={"Select Series"}
-                                color={"rgb(243, 244, 246)"}
-                              />
-                              <SearchDropDown
-                                Name={"title_aof"}
-                                disable={title.length > 0 ? false : true}
-                                data={title}
-                                handleOrderProcessingForm={
-                                  handleOrderProcessingForm
-                                }
-                                label={"Select Title"}
-                                color={"rgb(243, 244, 246)"}
-                              />
-
-                              {itemsData.length === 0 ? (
-                                ""
-                              ) : (
-                                <Table
-                                  sx={{ minWidth: 650 }}
-                                  aria-label="customized table"
-                                >
-                                  <TableHead className="bg-slate-600">
-                                    <TableRow>
-                                      <TableCell
-                                        className="!w-[8rem]"
-                                        align="center"
-                                      >
-                                        Title
-                                      </TableCell>
-                                      <TableCell
-                                        className="!w-[3rem]"
-                                        align="center"
-                                      >
-                                        Percentage
-                                      </TableCell>
-
-                                      <TableCell
-                                        className="!w-[2rem]"
-                                        align="center"
-                                      ></TableCell>
-                                    </TableRow>
-                                  </TableHead>
-                                  {itemsData.map((row) => {
-                                    return (
-                                      <TableBody className="bg-slate-400">
-                                        <TableRow
-                                          key={row.fk_category_id}
-                                          sx={{
-                                            "&:last-child td, &:last-child th":
-                                              {
-                                                border: 0,
-                                              },
-                                          }}
-                                        >
-                                          <TableCell align="center">
-                                            {row.series}
-                                          </TableCell>
-                                          <TableCell align="center">
-                                            <TextField
-                                              onChange={(e) =>
-                                                handleTablePercent3(
-                                                  e.target.value,
-                                                  row.fk_category_id
-                                                )
-                                              }
-                                              id="outlined-basic"
-                                              label="Enter Percentage"
-                                              variant="standard"
-                                            />
-                                          </TableCell>
-
-                                          <TableCell align="center">
-                                            <div>
-                                              <IconButton
-                                                type="submit"
-                                                aria-label="search"
-                                                onClick={() => {
-                                                  handleDelete(
-                                                    row.fk_category_id,
-                                                    "items"
-                                                  );
-                                                }}
-                                              >
-                                                <Delete
-                                                // style={{ fill: "blue" }}
-                                                />
-                                              </IconButton>
-                                            </div>
-                                          </TableCell>
-                                        </TableRow>
-                                      </TableBody>
-                                    );
-                                  })}
-                                </Table>
-                              )}
-                            </Typography>
-
-                            <div className="w-full flex justify-center">
-                              <hr className="text-gray-100 w-[80%] my-4" />
-                            </div>
-                            <Typography className="flex flex-col gap-2">
-                              <h1 className="sm:text-base font-semibold text-sm text-gray-100">
-                                Select Schools:
-                              </h1>
-                              <SearchDropDown
-                                Name={"schools_aof"}
-                                data={allSchool}
-                                handleOrderProcessingForm={
-                                  handleOrderProcessingForm
-                                }
-                                label={"Select School"}
-                                color={"rgb(243, 244, 246)"}
-                              />
-                              {schoolData.length === 0 ? (
-                                ""
-                              ) : (
-                                <Table
-                                  sx={{ minWidth: 650 }}
-                                  aria-label="customized table"
-                                >
-                                  <TableHead className="bg-slate-600">
-                                    <TableRow>
-                                      <TableCell
-                                        className="!w-[8rem]"
-                                        align="center"
-                                      >
-                                        Schools
-                                      </TableCell>
-                                      <TableCell
-                                        className="!w-[3rem]"
-                                        align="center"
-                                      >
-                                        Percentage
-                                      </TableCell>
-
-                                      <TableCell
-                                        className="!w-[2rem]"
-                                        align="center"
-                                      ></TableCell>
-                                    </TableRow>
-                                  </TableHead>
-
-                                  {schoolData.map((row) => {
-                                    return (
-                                      <TableBody className="bg-slate-400">
-                                        <TableRow
-                                          key={"row.series"}
-                                          sx={{
-                                            "&:last-child td, &:last-child th":
-                                              {
-                                                border: 0,
-                                              },
-                                          }}
-                                        >
-                                          <TableCell align="center">
-                                            {row.school_name}
-                                          </TableCell>
-                                          <TableCell align="center">
-                                            <TextField
-                                              onChange={(e) =>
-                                                handleTablePercent2(
-                                                  e.target.value,
-                                                  row.fk_category_id
-                                                )
-                                              }
-                                              id="outlined-basic"
-                                              label="Enter Percentage"
-                                              variant="standard"
-                                            />
-                                          </TableCell>
-                                          <TableCell align="center">
-                                            <div>
-                                              <IconButton
-                                                type="submit"
-                                                aria-label="search"
-                                                onClick={() => {
-                                                  handleDelete(
-                                                    row.fk_category_id,
-                                                    "series"
-                                                  );
-                                                }}
-                                              >
-                                                <Delete />
-                                              </IconButton>
-                                            </div>
-                                          </TableCell>
-                                        </TableRow>
-                                      </TableBody>
-                                    );
-                                  })}
-                                </Table>
-                              )}
-                            </Typography>
-                          </>
-                        ) : null}
-                      </AccordionDetails>
-                    </Accordion>
-                    <Accordion className="w-full !bg-slate-500">
-                      <AccordionSummary
-                        expandIcon={<ExpandMore className="!text-gray-100" />}
-                        aria-controls="panel1a-content"
-                        id="panel1a-header"
-                      >
-                        <Typography className="!text-gray-100 !font-semibold">
-                          Cash
-                        </Typography>
-                      </AccordionSummary>
-                      <AccordionDetails>
-                        <Typography>
-                          <RowRadioButtonsGroup
-                            handleRadioButtons={handleRadioButtons}
-                            // heading={"Applicable"}
-                            name={"cash"}
-                            value={[
-                              { label: "Yes", value: "yes" },
-                              { label: "No", value: "no" },
-                            ]}
-                          />
-                        </Typography>
-                      </AccordionDetails>
-                    </Accordion>
-                  </div>
-
-                  <div className="grid sm:grid-rows-2 sm:grid-cols-3 grid-rows-4 grid-cols-1 w-full mt-6 gap-6 rounded-md bg-slate-600">
-                    <BasicTextFields
-                      lable={"Remarks"}
-                      handleOrderProcessingForm={handleOrderProcessingForm}
-                      // type={"number"}
-                      variant={"standard"}
-                      multiline={false}
-                    />
-                  </div>
-
-                  <div onClick={handleDataSubmit}>
-                    <BasicButton text={"Submit"} />
-                  </div>
-                </div>
+                <Step4
+                  setSteps={setSteps}
+                  formik={formik}
+                  setLoading={setLoading}
+                />
               ) : null}
             </div>
           </div>
