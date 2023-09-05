@@ -105,7 +105,7 @@ const Sidebar = ({ sidebarCollapsed, highLight, show }) => {
     <div
       className={`fixed transition-all h-[100vh] ease-linear duration-300 ${
         window.innerWidth < 1024 ? "-left-[100%]" : "left-[0%]"
-      } lg:py-2 md:py-4 py-8 z-[100] w-[85vw] lg:w-[18vw] md:w-[30vw] bg-[#111322] h-[100vh] overflow-auto`}
+      } lg:py-2 md:py-4 py-8 z-[100] w-[85vw] lg:w-[18vw] md:w-[30vw] bg-[#111322] h-[100vh] overflow-auto !font-Roboto`}
     >
       {openReset ? <ResetPass /> : null}
       <TransitionsModal open={modelOpen} />;

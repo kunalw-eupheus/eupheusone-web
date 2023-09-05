@@ -35,14 +35,10 @@ const Login = () => {
       if (accountId) {
         dispatch(authActions.msLogin());
       }
-      // showWelcomeMessage(resp.account);
-      // seeProfileRedirect();
     } else {
-      // need to call getAccount here?
       const currentAccounts = msalInstance.getAllAccounts();
       if (!currentAccounts || currentAccounts.length < 1) {
       } else if (currentAccounts.length > 1) {
-        // Add choose account code here
       } else if (currentAccounts.length === 1) {
         accountId = currentAccounts[0].homeAccountId;
       }
@@ -61,155 +57,147 @@ const Login = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
 
-    // Cookies.remove("user");
-    // Cookies.remove("training");
-    // Cookies.remove("admin");
-    // Cookies.remove("zsm");
-    // Cookies.remove("finance");
-    // Cookies.remove("sales_head");
-    // Cookies.remove("warehouse_GP");
-    // Cookies.remove("HR");
-
-    setLoading(true);
-
-    const res = await instance({
-      url: "auth/signin",
-      method: "post",
-      data: {
-        empCode: email,
-        password: password,
-      },
-    });
-
-    console.log(res.data);
-    // console.log("here")
-    if (res.data.id && res.data.accessToken) {
-      // console.log("here")
-      if (res.data.type === "user") {
-        Cookies.set(
-          "user",
-          `id: ${res.data.id}, accessToken: ${res.data.accessToken}`
-        );
-        // dispatch(authActions.login());
-      }
-      Cookies.set("id", `${res.data.id}`);
-      Cookies.set("accessToken", `${res.data.accessToken}`);
-      Cookies.set("type", `${res.data.type}`);
-      Cookies.set("company", `${res.data.company}`);
-
-      if (res.data.type === "training") {
-        Cookies.set(
-          "training",
-          // true
-          `id: ${res.data.id}, accessToken: ${res.data.accessToken}`
-        );
-        dispatch(authActions.trainingLogin());
-      }
-
-      if (res.data.type === "admin") {
-        Cookies.set(
-          "admin",
-          // true
-          `id: ${res.data.id}, accessToken: ${res.data.accessToken}`
-        );
-        dispatch(authActions.adminLogin());
-      }
-      if (res.data.type === "zsm") {
-        Cookies.set(
-          "zsm",
-          // true
-          `id: ${res.data.id}, accessToken: ${res.data.accessToken}`
-        );
-        dispatch(authActions.zsmLogin());
-      }
-
-      if (res.data.type === "finance") {
-        Cookies.set(
-          "finance",
-          //  true
-          `id: ${res.data.id}, accessToken: ${res.data.accessToken}`
-        );
-        dispatch(authActions.financeLogin());
-      }
-
-      if (res.data.type === "sales_head") {
-        console.log("salesHead");
-        Cookies.set(
-          "saleshead",
-          // true
-          `id: ${res.data.id}, accessToken: ${res.data.accessToken}`
-        );
-        dispatch(authActions.salesheadLogin());
-      }
-
-      if (res.data.type === "warehouse_GP") {
-        console.log("warehouse_GP");
-        Cookies.set(
-          "warehouse_GP",
-          // true
-          `id: ${res.data.id}, accessToken: ${res.data.accessToken}`
-        );
-        dispatch(authActions.gatePassLogin());
-      }
-
-      dispatch(authActions.login());
-
-      if (res.data.type === "HR") {
-        console.log("HR");
-        Cookies.set(
-          "HR",
-          `id: ${res.data.id}, accessToken: ${res.data.accessToken}`
-        );
-        dispatch(authActions.HRLogin());
-      }
-
-      // console.log(res.data.type, res.data.company)
-      if (res.data.type === "training" && res.data.company === "Euphues") {
-        // dispatch(authActions.login());
-        navigate("/manageSchoolTraining");
-        // console.log("testing1")
-      } else if (
-        res.data.type === "warehouse_GP" &&
-        res.data.company === "Euphues"
-      ) {
-        // dispatch(authActions.login());
-        navigate("/gatepass_dashboard");
-        // console.log("testing2")
-      } else if (res.data.type === "admin" && res.data.company === "Euphues") {
-        // console.log(res.data.company)
-        navigate("/admin/home");
-        // console.log("This is in admin login")
-      } else if (res.data.type === "zsm" && res.data.company === "Euphues") {
-        // console.log(res.data.company)
-        navigate("/");
-        // console.log("This is in zsm login")
-      } else if (
-        res.data.type === "finance" &&
-        res.data.company === "Euphues"
-      ) {
-        // console.log(res.data.company)
-        navigate("/finance/aof");
-        // console.log("This is in admin login")
-      } else if (
-        res.data.type === "sales_head" &&
-        res.data.company === "Euphues"
-      ) {
-        // console.log(res.data.company)
-        navigate("/saleshead/aof");
-        // console.log("This is in admin login")
-      } else if (res.data.type === "HR" && res.data.company === "Euphues") {
-        navigate("/hr/home");
+    if (!email || !password) {
+      if (!email) {
+        setErrMessage("Emp. Code is required");
       } else {
-        navigate("/");
-        // dispatch(authActions.login());
-        // console.log("testing3");
+        setErrMessage("Password is required");
       }
-    }
-    if (res.data.message) {
-      setErrMessage(res.data.message);
       snackbarRef.current.openSnackbar();
+    } else {
+      setLoading(true);
+
+      const res = await instance({
+        url: "auth/signin",
+        method: "post",
+        data: {
+          empCode: email,
+          password: password,
+        },
+      }).catch((err) => {
+        console.log(err.response);
+        if (err?.response?.data?.message) {
+          setErrMessage(err.response.data.message);
+          snackbarRef.current.openSnackbar();
+        }
+      });
+
+      if (res?.data?.id && res?.data?.accessToken) {
+        if (res.data.type === "user") {
+          Cookies.set(
+            "user",
+            `id: ${res.data.id}, accessToken: ${res.data.accessToken}`
+          );
+        }
+        Cookies.set("id", `${res.data.id}`);
+        Cookies.set("accessToken", `${res.data.accessToken}`);
+        Cookies.set("type", `${res.data.type}`);
+        Cookies.set("company", `${res.data.company}`);
+
+        if (res.data.type === "training") {
+          Cookies.set(
+            "training",
+            // true
+            `id: ${res.data.id}, accessToken: ${res.data.accessToken}`
+          );
+          dispatch(authActions.trainingLogin());
+        }
+
+        if (res.data.type === "admin") {
+          Cookies.set(
+            "admin",
+            // true
+            `id: ${res.data.id}, accessToken: ${res.data.accessToken}`
+          );
+          dispatch(authActions.adminLogin());
+        }
+        if (res.data.type === "zsm") {
+          Cookies.set(
+            "zsm",
+            // true
+            `id: ${res.data.id}, accessToken: ${res.data.accessToken}`
+          );
+          dispatch(authActions.zsmLogin());
+        }
+
+        if (res.data.type === "finance") {
+          Cookies.set(
+            "finance",
+            //  true
+            `id: ${res.data.id}, accessToken: ${res.data.accessToken}`
+          );
+          dispatch(authActions.financeLogin());
+        }
+
+        if (res.data.type === "sales_head") {
+          console.log("salesHead");
+          Cookies.set(
+            "saleshead",
+            `id: ${res.data.id}, accessToken: ${res.data.accessToken}`
+          );
+          dispatch(authActions.salesheadLogin());
+        }
+
+        if (res.data.type === "warehouse_GP") {
+          console.log("warehouse_GP");
+          Cookies.set(
+            "warehouse_GP",
+            `id: ${res.data.id}, accessToken: ${res.data.accessToken}`
+          );
+          dispatch(authActions.gatePassLogin());
+        }
+
+        dispatch(authActions.login());
+
+        if (res.data.type === "HR") {
+          console.log("HR");
+          Cookies.set(
+            "HR",
+            `id: ${res.data.id}, accessToken: ${res.data.accessToken}`
+          );
+          dispatch(authActions.HRLogin());
+        }
+
+        if (res.data.type === "training" && res.data.company === "Euphues") {
+          navigate("/manageSchoolTraining");
+        } else if (
+          res.data.type === "warehouse_GP" &&
+          res.data.company === "Euphues"
+        ) {
+          navigate("/gatepass_dashboard");
+        } else if (
+          res.data.type === "admin" &&
+          res.data.company === "Euphues"
+        ) {
+          navigate("/admin/home");
+          // console.log("This is in admin login")
+        } else if (res.data.type === "zsm" && res.data.company === "Euphues") {
+          navigate("/");
+          // console.log("This is in zsm login")
+        } else if (
+          res.data.type === "finance" &&
+          res.data.company === "Euphues"
+        ) {
+          navigate("/finance/aof");
+          // console.log("This is in admin login")
+        } else if (
+          res.data.type === "sales_head" &&
+          res.data.company === "Euphues"
+        ) {
+          navigate("/saleshead/aof");
+          // console.log("This is in admin login")
+        } else if (res.data.type === "HR" && res.data.company === "Euphues") {
+          navigate("/hr/home");
+        } else {
+          navigate("/");
+        }
+      }
+      if (res?.data?.message) {
+        setErrMessage(res.data.message);
+        snackbarRef.current.openSnackbar();
+      }
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   return (
@@ -265,23 +253,6 @@ const Login = () => {
                       />
                     </div>
 
-                    {/* <div>
-                      <label className="inline-flex items-center cursor-pointer">
-                        <input
-                          id="customCheckLogin"
-                          type="checkbox"
-                          className="border-0 rounded-lg text-gray-700 ml-1 w-5 h-5 ease-linear transition-all duration-150"
-                        />
-
-                        <span className="ml-2 text-sm font-semibold text-gray-600">
-                          Remember me
-                        </span>
-                        <span className="ml-16 text-sm font-semibold text-gray-600 cursor-pointer">
-                          Forgot Password?
-                        </span>
-                      </label>
-                    </div> */}
-
                     <Stack direction="row" spacing={2}>
                       <LoadingButton
                         loading={loading}
@@ -299,22 +270,6 @@ const Login = () => {
                       >
                         {loading ? "" : "SIGN IN"}
                       </LoadingButton>
-
-                      {/* <LoadingButton
-                        onClick={authLogin}
-                        type="button"
-                        style={{
-                          backgroundColor: "rgb(31 41 55)",
-                          width: "100%",
-                          height: "2.5rem",
-                          color: "white",
-                          fontWeight: "600",
-                          marginTop: "1.5rem",
-                        }}
-                        variant="outlined"
-                      >
-                        {"Atuh"}
-                      </LoadingButton> */}
                     </Stack>
                   </form>
                 </div>

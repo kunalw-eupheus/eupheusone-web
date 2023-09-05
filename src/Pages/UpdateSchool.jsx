@@ -58,7 +58,6 @@ const UpdateSchool = () => {
   const snackbarRef = useRef();
   const show = null;
   const navigate = useNavigate();
-
   const formik = useFormik({
     initialValues: {
       school_name: schoolData.school_name,
@@ -150,21 +149,14 @@ const UpdateSchool = () => {
         headers: {
           Authorization: Cookies.get("accessToken"),
         },
+      }).catch((err) => {
+        setLoading(false);
       });
-      // console.log(res.data);
       if (res.data.status === "success") {
         setSnackbarErrStatus(false);
         setErrMessage(res.data.message);
         snackbarRef.current.openSnackbar();
-        // setTimeout(() => {
-        //   window.scroll({
-        //     top: 0,
-        //     // behavior: "smooth",
-        //   });
-        //   setTimeout(() => {
-        //     window.location.reload();
-        //   }, 100);
-        // }, 1500);
+
         setTimeout(() => {
           navigate(`/manageSchool`);
         }, 1500);

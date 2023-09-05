@@ -14,6 +14,7 @@ import { Backdrop, CircularProgress } from "@mui/material";
 import instance from "../Instance";
 import ControlledSearchDropDown from "../Components/Material/ControlledSearchDropDown";
 import Snackbars from "../Components/Material/SnackBar";
+import validateEmail from "../util/validateEmail";
 
 const AddSchool = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
@@ -57,30 +58,14 @@ const AddSchool = () => {
       if (!formik.values.school_name) {
         errors.school_name = "Required";
       }
-      // if (!formik.values.aff_code) {
-      //   errors.school_name = 'Required'
-      // }
+
       if (!formik.values.board) {
         errors.school_name = "Required";
       }
       if (!formik.values.category) {
         errors.school_name = "Required";
       }
-      // if (!formik.values.name) {
-      //   errors.school_name = 'Required'
-      // }
-      // if (!formik.values.email) {
-      //   errors.school_name = 'Required'
-      // }
-      // if (!formik.values.phone) {
-      //   errors.school_name = 'Required'
-      // }
-      // if (!formik.values.web) {
-      //   errors.school_name = 'Required'
-      // }
-      // if (!formik.values.designation) {
-      //   errors.school_name = 'Required'
-      // }
+
       if (!formik.values.state) {
         errors.school_name = "Required";
       }
@@ -96,30 +81,40 @@ const AddSchool = () => {
       return errors;
     },
     onSubmit: async (values) => {
-      // console.log(values)
+      console.log(values);
       setLoading(true);
+      let data = {
+        school_name: formik.values.school_name,
+        // aff_code: formik.values.aff_code,
+        board: formik.values.board,
+        category: formik.values.category,
+        status: false,
+        pName: formik.values.name,
+        pEmail: formik.values.email,
+        pPhone: formik.values.phone,
+        // web: formik.values.web,
+        designation: formik.values.designation,
+        state: formik.values.state,
+        city: formik.values.city,
+        pin: formik.values.pin_code,
+        address: formik.values.address,
+      };
+      if (formik.values.aff_code) {
+        data["aff_code"] = formik.values.aff_code;
+      }
+      if (formik.values.web) {
+        data["web"] = formik.values.web;
+      }
+      console.log(data);
       const res = await instance({
         url: "school/create",
         method: "POST",
-        data: {
-          school_name: formik.values.school_name,
-          aff_code: formik.values.aff_code,
-          board: formik.values.board,
-          category: formik.values.category,
-          status: false,
-          pName: formik.values.name,
-          pEmail: formik.values.email,
-          pPhone: formik.values.phone,
-          web: formik.values.web,
-          designation: formik.values.designation,
-          state: formik.values.state,
-          city: formik.values.city,
-          pin: formik.values.pin_code,
-          address: formik.values.address,
-        },
+        data: data,
         headers: {
           Authorization: Cookies.get("accessToken"),
         },
+      }).catch(() => {
+        setLoading(false);
       });
       // console.log(res.data)
       if (res.data.status === "success") {
@@ -165,7 +160,7 @@ const AddSchool = () => {
       case "Enter School Name *":
         formik.values.school_name = value;
         break;
-      case "Enter Affiliate Code *":
+      case "Enter Affiliate Code":
         formik.values.aff_code = value;
         break;
       // step 2
@@ -178,7 +173,7 @@ const AddSchool = () => {
       case "Enter Phone *":
         formik.values.phone = value;
         break;
-      case "Enter Website *":
+      case "Enter Website":
         formik.values.web = value;
         break;
       case "Enter Designation *":
@@ -371,7 +366,11 @@ const AddSchool = () => {
                       if (
                         formik.values.school_name &&
                         formik.values.board &&
-                        formik.values.category
+                        formik.values.category &&
+                        (formik.values.aff_code
+                          ? formik.values.aff_code.length >= 2 &&
+                            formik.values.aff_code.length <= 10
+                          : true)
                       ) {
                         setSteps({ step1: false, step2: true, step3: false });
                         window.scroll({
@@ -379,8 +378,19 @@ const AddSchool = () => {
                           behavior: "smooth",
                         });
                       } else {
+                        let error = "Please Fill All The Fields";
+                        if (
+                          formik.values.aff_code &&
+                          !(
+                            formik.values.aff_code.length >= 2 &&
+                            formik.values.aff_code.length <= 10
+                          )
+                        ) {
+                          error =
+                            "Affiliate Code must be between 2 to 10 characters";
+                        }
                         setSnackbarErrStatus(true);
-                        setErrMessage("Please Fill All The Fields");
+                        setErrMessage(error);
                         snackbarRef.current.openSnackbar();
                       }
                     }}
@@ -394,19 +404,19 @@ const AddSchool = () => {
                 <div className="flex flex-col gap-4 items-start w-[90%] px-6 bg-slate-600 rounded-md py-6 mb-[5rem]">
                   <div className="grid sm:grid-rows-2 sm:grid-cols-3 grid-rows-5 grid-cols-1 w-full mt-6 gap-6 rounded-md bg-slate-600">
                     <BasicTextFields
-                      lable={"Enter Name"}
+                      lable={"Enter Name *"}
                       handleOrderProcessingForm={handleOrderProcessingForm}
                       variant={"standard"}
                       multiline={false}
                     />
                     <BasicTextFields
-                      lable={"Enter Email"}
+                      lable={"Enter Email *"}
                       handleOrderProcessingForm={handleOrderProcessingForm}
                       variant={"standard"}
                       multiline={false}
                     />
                     <BasicTextFields
-                      lable={"Enter Phone"}
+                      lable={"Enter Phone *"}
                       handleOrderProcessingForm={handleOrderProcessingForm}
                       type={"number"}
                       variant={"standard"}
@@ -420,7 +430,7 @@ const AddSchool = () => {
                       multiline={false}
                     />
                     <BasicTextFields
-                      lable={"Enter Designation"}
+                      lable={"Enter Designation *"}
                       handleOrderProcessingForm={handleOrderProcessingForm}
                       variant={"standard"}
                       multiline={false}
@@ -430,12 +440,11 @@ const AddSchool = () => {
                   <div
                     onClick={() => {
                       if (
-                        // formik.values.name &&
-                        // formik.values.email &&
-                        // formik.values.phone &&
-                        // formik.values.web &&
-                        // formik.values.designation
-                        true
+                        formik.values.name &&
+                        formik.values.phone &&
+                        formik.values.phone.length === 10 &&
+                        validateEmail(formik.values.email) &&
+                        formik.values.designation
                       ) {
                         setSteps({ step1: false, step2: false, step3: true });
                         window.scroll({
@@ -443,8 +452,16 @@ const AddSchool = () => {
                           behavior: "smooth",
                         });
                       } else {
+                        let error = "Please Fill All The Fields With * mark";
+                        if (!validateEmail(formik.values.email)) {
+                          error = "Please Enter Valid Email";
+                        }
+                        if (formik.values.phone.length !== 10) {
+                          error = "Please Enter Valid Phone Number";
+                        }
+
                         setSnackbarErrStatus(true);
-                        setErrMessage("Please Fill All The Fields");
+                        setErrMessage(error);
                         snackbarRef.current.openSnackbar();
                       }
                     }}
@@ -495,12 +512,17 @@ const AddSchool = () => {
                         formik.values.state &&
                         formik.values.city &&
                         formik.values.address &&
-                        formik.values.pin_code
+                        formik.values.pin_code &&
+                        formik.values.pin_code.length === 6
                       ) {
                         formik.handleSubmit();
                       } else {
+                        let error = "Please Fill All The Fields";
+                        if (formik.values.pin_code.length !== 6) {
+                          error = "Please Enter Valid Pin Code";
+                        }
                         setSnackbarErrStatus(true);
-                        setErrMessage("Please Fill All The Fields");
+                        setErrMessage(error);
                         snackbarRef.current.openSnackbar();
                       }
                     }}

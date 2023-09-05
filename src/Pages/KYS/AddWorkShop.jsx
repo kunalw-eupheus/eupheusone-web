@@ -111,6 +111,8 @@ const AddWorkShop = () => {
         headers: {
           Authorization: `${Cookies.get("accessToken")}`,
         },
+      }).catch(() => {
+        setLoading(false);
       });
       // console.log(res.data);
       if (res.data.status === "success") {
