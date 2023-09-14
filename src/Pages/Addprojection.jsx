@@ -446,7 +446,7 @@ const Addprojection = () => {
                       { name: "Eupheus Learning", value: "eupheus" },
                       { name: "ClassKlap", value: "classklap" },
                     ]}
-                    // multiple={true}
+                    multiple={false}
                     Name={"publisher_name"}
                     handleOrderProcessingForm={handleProjectionForm}
                   />
@@ -454,8 +454,8 @@ const Addprojection = () => {
                   <SearchDropDown
                     label={"Select Series"}
                     color={"rgb(243, 244, 246)"}
-                    data={series}
-                    disable={series.length < 1 ? true : false}
+                    data={[]}
+                    disable={series?.length < 1 ? true : false}
                     multiple={true}
                     Name={"series_name"}
                     handleOrderProcessingForm={handleProjectionForm}
