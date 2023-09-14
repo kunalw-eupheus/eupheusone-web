@@ -456,7 +456,7 @@ const Addprojection = () => {
                     color={"rgb(243, 244, 246)"}
                     data={[]}
                     disable={series?.length < 1 ? true : false}
-                    multiple={true}
+                    // multiple={true}
                     Name={"series_name"}
                     handleOrderProcessingForm={handleProjectionForm}
                   />

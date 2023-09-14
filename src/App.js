@@ -594,14 +594,14 @@ function App() {
           /> */}
 
               {/* Printing Routes */}
-              <Route
+              {/* <Route
                 path="/printing/newPrintingReq"
                 element={Editorial ? <AddPrintingReq /> : <Login />}
               />
               <Route
                 path="/printing/checkStatus"
                 element={Editorial ? <CheckStatus /> : <Login />}
-              />
+              /> */}
 
               <Route path="*" element={isAuth ? <PageNotFound /> : <Login />} />
             </Routes>

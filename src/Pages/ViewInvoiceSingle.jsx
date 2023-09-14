@@ -7,14 +7,7 @@ import SwipeableTemporaryDrawer from "../Components/Material/MaterialSidebar";
 import instance from "../Instance";
 import Cookies from "js-cookie";
 import BasicButton from "../Components/Material/Button";
-import {
-  Backdrop,
-  CircularProgress,
-  TableFooter,
-  TextField,
-  Toolbar,
-  useStepContext,
-} from "@mui/material";
+import { Backdrop, CircularProgress, TableFooter } from "@mui/material";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -23,7 +16,6 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import TablePagination from "@mui/material/TablePagination";
-import { useTransition } from "react";
 
 const ViewInvoiceSingle = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
@@ -40,9 +32,21 @@ const ViewInvoiceSingle = () => {
   const [searchVal, setSearchVal] = useState("");
   const [filterArr, setFilterArr] = useState([]);
   // const [isPending, startTransition] = useTransition();
-
+  const [finYear, setFinYear] = useState({
+    start: "2023-04-01",
+    end: "2024-03-31",
+  });
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
+  };
+
+  const changeYear = (year) => {
+    console.log(year);
+    let newYear = {
+      start: year.start,
+      end: year.end,
+    };
+    setFinYear(newYear);
   };
 
   const handleChangeRowsPerPage = (event) => {
@@ -132,6 +136,8 @@ const ViewInvoiceSingle = () => {
       method: "POST",
       data: {
         bpCode,
+        startDate: finYear.start,
+        endDate: finYear.end,
       },
       headers: {
         Authorization: `${Cookies.get("accessToken")}`,
@@ -191,6 +197,8 @@ const ViewInvoiceSingle = () => {
         <Navbar
           handleSidebarCollapsed={handleSidebarCollapsed}
           info={navInfo}
+          changeYear={changeYear}
+          defaultYear={"FY 2023-24"}
         />
         <div className="min-h-[100vh] pt-[2vh] max-h-full bg-[#141728]">
           <div className=" sm:px-8 px-2 py-3 bg-[#141728]">
