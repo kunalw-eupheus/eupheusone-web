@@ -101,11 +101,13 @@ import SalesToCash from "./Pages/SalesToCash";
 import SendMessage from "./Pages/HR/SendMessage";
 import ReactGA from "react-ga4";
 import GlobelErrorSnackbar from "./Components/Material/GlobelErrorSnackbar";
+import AddPrintingReq from "./Pages/Printing/AddPrintingReq";
+import CheckStatus from "./Pages/Printing/CheckStatus";
 // import usePageView from "./Components/customHooks/usePageView";
 
 function App() {
-  const [userCache, setUserCache] = useState(false);
-  const [adminCache, setAdminCache] = useState(false);
+  // const [userCache, setUserCache] = useState(false);
+  // const [adminCache, setAdminCache] = useState(false);
 
   const isAuth = useSelector((state) => state.auth.user);
   const MsAuth = useSelector((state) => state.auth.msAuth);
@@ -119,6 +121,7 @@ function App() {
   const Training = useSelector((state) => state.auth.training);
   const HR = useSelector((state) => state.auth.HR);
   const Gtepas = useSelector((state) => state.auth.gatepass);
+  const Editorial = useSelector((state) => state.auth.editorial);
   useEffect(() => {
     ReactGA.initialize("G-WWFF5R3TB6");
   }, []);
@@ -589,6 +592,17 @@ function App() {
             path="/admin/location/country"
             element={Admin ? <AdminCountry /> : <Login />}
           /> */}
+
+              {/* Printing Routes */}
+              {/* <Route
+                path="/printing/newPrintingReq"
+                element={Editorial ? <AddPrintingReq /> : <Login />}
+              />
+              <Route
+                path="/printing/checkStatus"
+                element={Editorial ? <CheckStatus /> : <Login />}
+              /> */}
+
               <Route path="*" element={isAuth ? <PageNotFound /> : <Login />} />
             </Routes>
           </BrowserRouter>

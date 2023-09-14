@@ -20,8 +20,6 @@ const SearchDropDown = ({
   textColor,
   variant,
 }) => {
-  // console.log(data, Name)
-
   const formAddress = (a, b, c, d, e) => {
     let ans = "";
     if (a !== null && a !== "NA") {
@@ -48,6 +46,9 @@ const SearchDropDown = ({
       switch (Name) {
         case "publisher_name":
           return option.name;
+          break;
+        case "printing_titles":
+          return option?.title;
           break;
         case "board_name":
           return option.board_name;
@@ -508,9 +509,9 @@ const SearchDropDown = ({
       handleOrderProcessingForm(value, type);
     }
     if (type === "aof_acc") {
-      // console.log(value, type)
       handleOrderProcessingForm(value, type);
     } else {
+      handleOrderProcessingForm(value, type);
       return;
     }
   };
@@ -522,7 +523,7 @@ const SearchDropDown = ({
           {...defaultProps}
           disabled={disable}
           disableClearable
-          multiple={multiple}
+          // multiple={multiple}
           defaultValue={defaultValue ? defaultValue : null}
           color={color}
           // onBlur={() => console.log("ldkf")}

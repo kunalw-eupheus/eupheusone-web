@@ -147,10 +147,17 @@ const Login = () => {
           dispatch(authActions.gatePassLogin());
         }
 
+        if (res.data.type === "editorial") {
+          Cookies.set(
+            "editorial",
+            `id: ${res.data.id}, accessToken: ${res.data.accessToken}`
+          );
+          dispatch(authActions.editorialLogin());
+        }
+
         dispatch(authActions.login());
 
         if (res.data.type === "HR") {
-          console.log("HR");
           Cookies.set(
             "HR",
             `id: ${res.data.id}, accessToken: ${res.data.accessToken}`
@@ -170,24 +177,25 @@ const Login = () => {
           res.data.company === "Euphues"
         ) {
           navigate("/admin/home");
-          // console.log("This is in admin login")
         } else if (res.data.type === "zsm" && res.data.company === "Euphues") {
           navigate("/");
-          // console.log("This is in zsm login")
         } else if (
           res.data.type === "finance" &&
           res.data.company === "Euphues"
         ) {
           navigate("/finance/aof");
-          // console.log("This is in admin login")
         } else if (
           res.data.type === "sales_head" &&
           res.data.company === "Euphues"
         ) {
           navigate("/saleshead/aof");
-          // console.log("This is in admin login")
         } else if (res.data.type === "HR" && res.data.company === "Euphues") {
           navigate("/hr/home");
+        } else if (
+          res.data.type === "editorial" &&
+          res.data.company === "Euphues"
+        ) {
+          navigate("/printing/newPrintingReq");
         } else {
           navigate("/");
         }

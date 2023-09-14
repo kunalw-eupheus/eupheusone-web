@@ -337,6 +337,7 @@ const SalesToCash = () => {
             handleSidebarCollapsed={handleSidebarCollapsed}
             info={navInfo}
             changeYear={changeYear}
+            defaultYear={"FY 2022-23"}
           />
 
           <div className="min-h-[90vh] relative flex w-full justify-center items-center gap-4 bg-[#141728]">

@@ -4,11 +4,16 @@ import { KeyboardArrowDown } from "@mui/icons-material";
 import instance from "../Instance";
 import Cookies from "js-cookie";
 
-const Dropdown = ({ dropdownPopoverShow, handleDropDown, changeYear }) => {
+const Dropdown = ({
+  dropdownPopoverShow,
+  handleDropDown,
+  changeYear,
+  defaultYear,
+}) => {
   // dropdown props
 
   const [finYear, setFinYear] = useState([]);
-  const [currYear, setCurrYear] = useState(null);
+  const [currYear, setCurrYear] = useState(defaultYear ? defaultYear : null);
 
   const btnDropdownRef = React.createRef();
   const popoverDropdownRef = React.createRef();

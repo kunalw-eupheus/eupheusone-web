@@ -446,7 +446,7 @@ const Addprojection = () => {
                       { name: "Eupheus Learning", value: "eupheus" },
                       { name: "ClassKlap", value: "classklap" },
                     ]}
-                    // multiple={true}
+                    multiple={false}
                     Name={"publisher_name"}
                     handleOrderProcessingForm={handleProjectionForm}
                   />

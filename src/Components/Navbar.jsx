@@ -17,7 +17,7 @@ import { Collapse } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import ReactGA from "react-ga4";
 
-const Navbar = ({ handleSidebarCollapsed, info, changeYear }) => {
+const Navbar = ({ handleSidebarCollapsed, info, changeYear, defaultYear }) => {
   const navigate = useNavigate();
   const [scroll, setScroll] = useState(false);
   const [showUserOption, setShowUserOption] = useState(false);
@@ -116,6 +116,7 @@ const Navbar = ({ handleSidebarCollapsed, info, changeYear }) => {
       <div className="flex items-center">
         <Dropdown
           changeYear={changeYear}
+          defaultYear={defaultYear}
           dropdownPopoverShow={dropdownPopoverShow}
           handleDropDown={handleDropDown}
         />
