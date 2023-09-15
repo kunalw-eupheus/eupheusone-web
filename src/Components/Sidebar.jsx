@@ -85,7 +85,7 @@ const Sidebar = ({ sidebarCollapsed, highLight, show }) => {
           },
         }).catch((err) => {
           if (err.response.status === 401 || err.response.status === 403) {
-            if (err.response.data.message === "you need to change password") {
+            if ((err.response.data.message = "you need to change password")) {
               setOpenReset(true);
             } else {
               setModelOpen(true);
