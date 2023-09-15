@@ -121,11 +121,12 @@ const Login = () => {
         }
 
         if (res.data.type === "IT") {
+          console.log("login it");
           Cookies.set(
             "IT",
             `id: ${res.data.id}, accessToken: ${res.data.accessToken}`
           );
-          dispatch(authActions.zsmLogin());
+          dispatch(authActions.itLogin());
         }
 
         if (res.data.type === "finance") {

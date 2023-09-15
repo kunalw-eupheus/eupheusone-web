@@ -11,10 +11,12 @@ import Cookies from "js-cookie";
 import instance from "../../Instance";
 import TransitionsModal from "./Model";
 import { useRef } from "react";
+import ResetPass from "./Dialog/ResetPassDialog";
 // import DialogSlide from "./Dialog";
 
 const SwipeableTemporaryDrawer5 = React.forwardRef((props, ref) => {
   const [modelOpen, setModelOpen] = useState(false);
+  const [openReset, setOpenReset] = useState(false);
 
   const [userType, setUserType] = useState();
 
@@ -41,8 +43,12 @@ const SwipeableTemporaryDrawer5 = React.forwardRef((props, ref) => {
           Authorization: `${Cookies.get("accessToken")}`,
         },
       }).catch((err) => {
-        if (err.response.status === 401) {
-          setModelOpen(true);
+        if (err.response.status === 401 || err.response.status === 403) {
+          if ((err.response.data.message = "you need to change password")) {
+            setOpenReset(true);
+          } else {
+            setModelOpen(true);
+          }
         }
       });
       setUser(res.data.message);
@@ -151,7 +157,7 @@ const SwipeableTemporaryDrawer5 = React.forwardRef((props, ref) => {
 
   return (
     <div ref={sidebarRef}>
-      <TransitionsModal open={modelOpen} />;
+      <TransitionsModal open={modelOpen} />;{openReset ? <ResetPass /> : null}
       {["left"].map((anchor) => (
         <React.Fragment key={anchor}>
           {/* <Button onClick={toggleDrawer(anchor, true)}>{anchor}</Button> */}
