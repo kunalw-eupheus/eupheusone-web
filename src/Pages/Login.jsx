@@ -120,6 +120,14 @@ const Login = () => {
           dispatch(authActions.zsmLogin());
         }
 
+        if (res.data.type === "IT") {
+          Cookies.set(
+            "IT",
+            `id: ${res.data.id}, accessToken: ${res.data.accessToken}`
+          );
+          dispatch(authActions.zsmLogin());
+        }
+
         if (res.data.type === "finance") {
           Cookies.set(
             "finance",
@@ -191,11 +199,13 @@ const Login = () => {
           navigate("/saleshead/aof");
         } else if (res.data.type === "HR" && res.data.company === "Euphues") {
           navigate("/hr/home");
+        } else if (res.data.type === "IT" && res.data.company === "Euphues") {
+          navigate("/reimbursement_report");
         } else if (
           res.data.type === "editorial" &&
           res.data.company === "Euphues"
         ) {
-          navigate("/printing/newPrintingReq");
+          navigate("/reimbursement_report");
         } else {
           navigate("/");
         }

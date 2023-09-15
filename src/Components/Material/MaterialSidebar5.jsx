@@ -1,29 +1,10 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
-import Button from "@mui/material/Button";
-
-import Divider from "@mui/material/Divider";
 
 import logoLight from "../../assets/img/logo-light-icon.png";
 import { useState } from "react";
-import {
-  Place,
-  AccountBalance,
-  Circle,
-  Dashboard,
-  KeyboardArrowDown,
-  ListAlt,
-  LocalShipping,
-  LocationCityOutlined,
-  LocationOn,
-  School,
-  ShoppingBag,
-  AssignmentReturnOutlined,
-  ReceiptOutlined,
-  PrintOutlined,
-} from "@mui/icons-material";
-import { Collapse } from "@mui/material";
+import { Dashboard, Money } from "@mui/icons-material";
 import { Link } from "react-router-dom";
 import { useLayoutEffect } from "react";
 import Cookies from "js-cookie";
@@ -143,6 +124,26 @@ const SwipeableTemporaryDrawer5 = React.forwardRef((props, ref) => {
               AOF
             </span>
           </div>
+        </aside>
+      </Link>
+      <Link to="/reimbursement_report">
+        <aside
+          className={`px-6 py-2 flex gap-4 cursor-pointer ${
+            highLight === "myExpense" ? "bg-gray-500" : ""
+          } group hover:bg-gray-500 rounded-md transition-all duration-150 ease-linear`}
+        >
+          <Money
+            className={`${
+              highLight === "myExpense" ? "!text-[#659DBD]" : "!text-gray-400"
+            } group-hover:!text-[#659DBD] !transition-all !duration-150 !ease-linear`}
+          />
+          <span
+            className={`${
+              highLight === "myExpense" ? "text-gray-200" : "text-gray-400"
+            } group-hover:!text-gray-100 transition-all duration-150 ease-linear`}
+          >
+            My Expense
+          </span>
         </aside>
       </Link>
     </Box>

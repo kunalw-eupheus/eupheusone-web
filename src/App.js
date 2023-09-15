@@ -103,6 +103,7 @@ import ReactGA from "react-ga4";
 import GlobelErrorSnackbar from "./Components/Material/GlobelErrorSnackbar";
 import AddPrintingReq from "./Pages/Printing/AddPrintingReq";
 import CheckStatus from "./Pages/Printing/CheckStatus";
+import Reimbursment from "./Pages/Reimbursment";
 // import usePageView from "./Components/customHooks/usePageView";
 
 function App() {
@@ -122,6 +123,7 @@ function App() {
   const HR = useSelector((state) => state.auth.HR);
   const Gtepas = useSelector((state) => state.auth.gatepass);
   const Editorial = useSelector((state) => state.auth.editorial);
+  const IT = useSelector((state) => state.auth.IT);
   useEffect(() => {
     ReactGA.initialize("G-WWFF5R3TB6");
   }, []);
@@ -594,14 +596,25 @@ function App() {
           /> */}
 
               {/* Printing Routes */}
-              {/* <Route
+              <Route
                 path="/printing/newPrintingReq"
                 element={Editorial ? <AddPrintingReq /> : <Login />}
               />
               <Route
                 path="/printing/checkStatus"
                 element={Editorial ? <CheckStatus /> : <Login />}
-              /> */}
+              />
+              {/* Reimbursement */}
+              <Route
+                path="/reimbursement_report"
+                element={
+                  isAuth || Editorial || Finance || Training || IT ? (
+                    <Reimbursment />
+                  ) : (
+                    <Login />
+                  )
+                }
+              />
 
               <Route path="*" element={isAuth ? <PageNotFound /> : <Login />} />
             </Routes>

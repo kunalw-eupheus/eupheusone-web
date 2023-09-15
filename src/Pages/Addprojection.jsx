@@ -454,7 +454,7 @@ const Addprojection = () => {
                   <SearchDropDown
                     label={"Select Series"}
                     color={"rgb(243, 244, 246)"}
-                    data={[]}
+                    data={series}
                     disable={series?.length < 1 ? true : false}
                     // multiple={true}
                     Name={"series_name"}
