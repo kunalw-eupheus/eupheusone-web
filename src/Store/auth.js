@@ -12,6 +12,7 @@ const initialAuthState = {
   HR: Cookies.get("HR") || null,
   gatepass: Cookies.get("warehouse_GP") || null,
   editorial: Cookies.get("editorial") || null,
+  IT: Cookies.get("IT") || null,
 };
 
 const authSlice = createSlice({
@@ -41,6 +42,9 @@ const authSlice = createSlice({
     },
     zsmLogin(state) {
       state.zsm = Cookies.get("zsm");
+    },
+    itLogin(state) {
+      state.IT = Cookies.get("IT");
     },
     financeLogin(state) {
       state.finance = Cookies.get("finance");

@@ -159,6 +159,8 @@ const OrderProcessing = () => {
         headers: {
           Authorization: Cookies.get("accessToken"),
         },
+      }).catch(() => {
+        setLoading(false);
       });
       if (res.data.status === "success") {
         setSnackbarErrStatus(false);
@@ -729,6 +731,7 @@ const OrderProcessing = () => {
                   <DatePicker
                     handleOrderProcessingForm={handleOrderProcessingForm}
                     label={"Delivery Date"}
+                    disablePast={true}
                   />
                 </div>
                 <div className=" flex flex-col gap-2 w-full">

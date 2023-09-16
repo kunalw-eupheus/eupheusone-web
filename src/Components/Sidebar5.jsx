@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "react-pro-sidebar/dist/css/styles.css";
-import { Dashboard } from "@mui/icons-material";
+import { Dashboard, Money } from "@mui/icons-material";
 import { Link } from "react-router-dom";
 import logoLight from "../assets/img/logo-light-icon.png";
 import { Collapse } from "@mui/material";
@@ -62,7 +62,7 @@ const Sidebar5 = ({ sidebarCollapsed, highLight, show }) => {
           },
         }).catch((err) => {
           if (err.response.status === 401 || err.response.status === 403) {
-            if (err.response.data.message === "you need to change password") {
+            if ((err.response.data.message = "you need to change password")) {
               setOpenReset(true);
             } else {
               setModelOpen(true);
@@ -130,6 +130,26 @@ const Sidebar5 = ({ sidebarCollapsed, highLight, show }) => {
               </span>
             </div>
             {/* <hr className="text-gray-300" /> */}
+          </aside>
+        </Link>
+        <Link to="/reimbursement_report">
+          <aside
+            className={`px-6 py-2 flex gap-4 cursor-pointer ${
+              highLight === "myExpense" ? "bg-gray-500" : ""
+            } group hover:bg-gray-500 rounded-md transition-all duration-150 ease-linear`}
+          >
+            <Money
+              className={`${
+                highLight === "myExpense" ? "!text-[#659DBD]" : "!text-gray-400"
+              } group-hover:!text-[#659DBD] !transition-all !duration-150 !ease-linear`}
+            />
+            <span
+              className={`${
+                highLight === "myExpense" ? "text-gray-200" : "text-gray-400"
+              } group-hover:!text-gray-100 transition-all duration-150 ease-linear`}
+            >
+              My Expense
+            </span>
           </aside>
         </Link>
 

@@ -1,39 +1,22 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
-import Button from "@mui/material/Button";
-
-import Divider from "@mui/material/Divider";
 
 import logoLight from "../../assets/img/logo-light-icon.png";
 import { useState } from "react";
-import {
-  Place,
-  AccountBalance,
-  Circle,
-  Dashboard,
-  KeyboardArrowDown,
-  ListAlt,
-  LocalShipping,
-  LocationCityOutlined,
-  LocationOn,
-  School,
-  ShoppingBag,
-  AssignmentReturnOutlined,
-  ReceiptOutlined,
-  PrintOutlined,
-} from "@mui/icons-material";
-import { Collapse } from "@mui/material";
+import { Dashboard, Money } from "@mui/icons-material";
 import { Link } from "react-router-dom";
 import { useLayoutEffect } from "react";
 import Cookies from "js-cookie";
 import instance from "../../Instance";
 import TransitionsModal from "./Model";
 import { useRef } from "react";
+import ResetPass from "./Dialog/ResetPassDialog";
 // import DialogSlide from "./Dialog";
 
 const SwipeableTemporaryDrawer5 = React.forwardRef((props, ref) => {
   const [modelOpen, setModelOpen] = useState(false);
+  const [openReset, setOpenReset] = useState(false);
 
   const [userType, setUserType] = useState();
 
@@ -60,8 +43,12 @@ const SwipeableTemporaryDrawer5 = React.forwardRef((props, ref) => {
           Authorization: `${Cookies.get("accessToken")}`,
         },
       }).catch((err) => {
-        if (err.response.status === 401) {
-          setModelOpen(true);
+        if (err.response.status === 401 || err.response.status === 403) {
+          if ((err.response.data.message = "you need to change password")) {
+            setOpenReset(true);
+          } else {
+            setModelOpen(true);
+          }
         }
       });
       setUser(res.data.message);
@@ -145,12 +132,32 @@ const SwipeableTemporaryDrawer5 = React.forwardRef((props, ref) => {
           </div>
         </aside>
       </Link>
+      <Link to="/reimbursement_report">
+        <aside
+          className={`px-6 py-2 flex gap-4 cursor-pointer ${
+            highLight === "myExpense" ? "bg-gray-500" : ""
+          } group hover:bg-gray-500 rounded-md transition-all duration-150 ease-linear`}
+        >
+          <Money
+            className={`${
+              highLight === "myExpense" ? "!text-[#659DBD]" : "!text-gray-400"
+            } group-hover:!text-[#659DBD] !transition-all !duration-150 !ease-linear`}
+          />
+          <span
+            className={`${
+              highLight === "myExpense" ? "text-gray-200" : "text-gray-400"
+            } group-hover:!text-gray-100 transition-all duration-150 ease-linear`}
+          >
+            My Expense
+          </span>
+        </aside>
+      </Link>
     </Box>
   );
 
   return (
     <div ref={sidebarRef}>
-      <TransitionsModal open={modelOpen} />;
+      <TransitionsModal open={modelOpen} />;{openReset ? <ResetPass /> : null}
       {["left"].map((anchor) => (
         <React.Fragment key={anchor}>
           {/* <Button onClick={toggleDrawer(anchor, true)}>{anchor}</Button> */}

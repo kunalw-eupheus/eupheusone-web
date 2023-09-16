@@ -11,6 +11,7 @@ export default function DatePicker({
   color,
   name,
   disabled,
+  disablePast,
 }) {
   const [value, setValue] = React.useState(new Date());
 
@@ -39,6 +40,7 @@ export default function DatePicker({
           inputFormat="MM/dd/yyyy"
           value={value}
           onChange={handleChange}
+          disablePast={disablePast ? disablePast : false}
           renderInput={(params) => (
             <TextField
               // disabled={true}

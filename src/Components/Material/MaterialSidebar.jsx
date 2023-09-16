@@ -25,6 +25,7 @@ import {
   Timeline,
   AddTask,
   CurrencyRupee,
+  Money,
 } from "@mui/icons-material";
 import { Collapse } from "@mui/material";
 import { Link } from "react-router-dom";
@@ -131,10 +132,10 @@ const SwipeableTemporaryDrawer = React.forwardRef((props, ref) => {
         <hr className="text-gray-100 mt-4" />
       </aside>
       {userType === "training" ? (
-        <div>
+        <>
           <Link to="/manageSchoolTraining">
             <aside
-              className={`px-6 py-2 my-4 flex gap-4 cursor-pointer ${
+              className={`px-6 py-2 flex gap-4 cursor-pointer ${
                 highLight === "manageSchool" ? "bg-gray-500" : ""
               } group hover:bg-gray-500 rounded-md transition-all duration-150 ease-linear`}
             >
@@ -159,7 +160,6 @@ const SwipeableTemporaryDrawer = React.forwardRef((props, ref) => {
 
           <Link to="/invoice_training">
             <aside
-              // onClick={openDialog}
               className={`px-6 py-2 flex gap-4 ${
                 highLight === "invoice" ? "bg-gray-500" : ""
               } cursor-pointer group hover:bg-gray-500 rounded-md transition-all duration-150 ease-linear`}
@@ -181,10 +181,9 @@ const SwipeableTemporaryDrawer = React.forwardRef((props, ref) => {
 
           <Link to="/locationTraining">
             <aside
-              // onClick={openDialog}
-              className={`px-6 py-2 flex gap-4 ${
+              className={`px-6 py-2 flex gap-4 cursor-pointer ${
                 highLight === "location" ? "bg-gray-500" : ""
-              } cursor-pointer group hover:bg-gray-500 rounded-md transition-all duration-150 ease-linear`}
+              } group hover:bg-gray-500 rounded-md transition-all duration-150 ease-linear`}
             >
               <Place
                 className={`${
@@ -205,10 +204,9 @@ const SwipeableTemporaryDrawer = React.forwardRef((props, ref) => {
 
           <Link to="/ck_school_training">
             <aside
-              // onClick={openDialog}
-              className={`px-6 py-2 flex gap-4 ${
+              className={`px-6 py-2 flex gap-4 cursor-pointer ${
                 highLight === "ckSchool" ? "bg-gray-500" : ""
-              } cursor-pointer group hover:bg-gray-500 rounded-md transition-all duration-150 ease-linear`}
+              } group hover:bg-gray-500 rounded-md transition-all duration-150 ease-linear`}
             >
               <School
                 className={`${
@@ -226,12 +224,35 @@ const SwipeableTemporaryDrawer = React.forwardRef((props, ref) => {
               </span>
             </aside>
           </Link>
-        </div>
-      ) : (
-        <div>
+
+          <Link to="/order_training">
+            <aside
+              className={`px-6 py-2 flex gap-4 cursor-pointer ${
+                highLight === "order" ? "bg-gray-500" : ""
+              } group hover:bg-gray-500 rounded-md transition-all duration-150 ease-linear`}
+            >
+              <ReceiptOutlined
+                className={`${
+                  highLight === "order" ? "!text-[#659DBD]" : "!text-gray-400"
+                } group-hover:!text-[#659DBD] !transition-all !duration-150 !ease-linear`}
+              />
+              <span
+                className={`${
+                  highLight === "order" ? "text-gray-200" : "text-gray-400"
+                } group-hover:!text-gray-100 transition-all duration-150 ease-linear`}
+              >
+                Order Tagging
+              </span>
+            </aside>
+          </Link>
+        </>
+      ) : null}
+
+      {userType === "user" ? (
+        <>
           <Link to="/">
             <aside
-              className={`px-6 py-2 my-4 hover:bg-gray-500 flex ${
+              className={`px-6 py-2 hover:bg-gray-500 flex ${
                 highLight === "dashboard" ? "bg-gray-500" : ""
               } rounded-md gap-4 cursor-pointer group`}
             >
@@ -256,9 +277,10 @@ const SwipeableTemporaryDrawer = React.forwardRef((props, ref) => {
               {/* <hr className="text-gray-300" /> */}
             </aside>
           </Link>
+
           <Link to="/manageSchool">
             <aside
-              className={`px-6 py-2 my-4 flex gap-4 cursor-pointer ${
+              className={`px-6 py-2 flex gap-4 cursor-pointer ${
                 highLight === "manageSchool" ? "bg-gray-500" : ""
               } group hover:bg-gray-500 rounded-md transition-all duration-150 ease-linear`}
             >
@@ -280,15 +302,10 @@ const SwipeableTemporaryDrawer = React.forwardRef((props, ref) => {
               </span>
             </aside>
           </Link>
-          {/* <aside className="px-6 py-2 my-4 flex gap-4 cursor-pointer group hover:bg-gray-500 rounded-md transition-all duration-150 ease-linear">
-        <LocationOn className="!text-gray-400 group-hover:!text-[#659DBD] !transition-all !duration-150 !ease-linear" />
-        <span className="text-gray-400 group-hover:!text-gray-100 transition-all duration-150 ease-linear">
-          School Visit
-        </span>
-      </aside> */}
+
           <Link to="/order_processing">
             <aside
-              className={`px-6 py-2 my-4 flex gap-4 ${
+              className={`px-6 py-2 flex gap-4 ${
                 highLight === "order_pro" ? "bg-gray-500" : ""
               } cursor-pointer group hover:bg-gray-500 rounded-md transition-all duration-150 ease-linear`}
             >
@@ -310,7 +327,7 @@ const SwipeableTemporaryDrawer = React.forwardRef((props, ref) => {
           </Link>
           <Link to="/manage_order">
             <aside
-              className={`px-6 py-2 my-4 flex gap-4 ${
+              className={`px-6 py-2 flex gap-4 ${
                 highLight === "manageOrder" ? "bg-gray-500" : ""
               } cursor-pointer group hover:bg-gray-500 rounded-md transition-all duration-150 ease-linear`}
             >
@@ -333,55 +350,36 @@ const SwipeableTemporaryDrawer = React.forwardRef((props, ref) => {
             </aside>
           </Link>
 
-          {/* <Link to="/aof">
-            <aside
-              className={`px-6 py-2 my-4 flex gap-4 ${
-                highLight === "aof" ? "bg-gray-500" : ""
-              } cursor-pointer group hover:bg-gray-500 rounded-md transition-all duration-150 ease-linear`}
-            >
-              <ListAlt
-                className={`${
-                  highLight === "aof" ? "!text-[#659DBD]" : "!text-gray-400"
-                } group-hover:!text-[#659DBD] !transition-all !duration-150 !ease-linear`}
-              />
-              <span
-                className={`${
-                  highLight === "aof" ? "text-gray-200" : "text-gray-400"
-                } group-hover:!text-gray-100 transition-all duration-150 ease-linear`}
-              >
-                AOF
-              </span>
-            </aside>
-          </Link> */}
-
           {isZsmLogin ? (
-            <Link to="/aof">
+            <Link to="/zsm/verify_aof">
               <aside
-                className={`px-6 py-2 my-4 flex gap-4 ${
-                  highLight === "" ? "bg-gray-500" : ""
+                className={`px-6 py-2 flex gap-4 ${
+                  highLight === "aofVerify" ? "bg-gray-500" : ""
                 } cursor-pointer group hover:bg-gray-500 rounded-md transition-all duration-150 ease-linear`}
               >
                 <AddTask
                   className={`${
-                    highLight === "" ? "!text-[#659DBD]" : "!text-gray-400"
+                    highLight === "aofVerify"
+                      ? "!text-[#659DBD]"
+                      : "!text-gray-400"
                   } group-hover:!text-[#659DBD] !transition-all !duration-150 !ease-linear`}
                 />
                 <span
                   className={`${
-                    highLight === "" ? "text-gray-200" : "text-gray-400"
+                    highLight === "aofVerify"
+                      ? "text-gray-200"
+                      : "text-gray-400"
                   } group-hover:!text-gray-100 transition-all duration-150 ease-linear`}
                 >
                   AOF Verify
                 </span>
               </aside>
             </Link>
-          ) : (
-            ""
-          )}
+          ) : null}
 
           <Link to="/kys">
             <aside
-              className={`px-6 py-2 my-4 flex gap-4 ${
+              className={`px-6 py-2 flex gap-4 ${
                 highLight === "kys" ? "bg-gray-500" : ""
               } cursor-pointer group hover:bg-gray-500 rounded-md transition-all duration-150 ease-linear`}
             >
@@ -399,11 +397,10 @@ const SwipeableTemporaryDrawer = React.forwardRef((props, ref) => {
               </span>
             </aside>
           </Link>
-
+          {/* <Link to="/kys"> */}
           <Link to="/projection">
             <aside
-              // onClick={openDialog}
-              className={`px-6 py-2 my-4 flex gap-4 ${
+              className={`px-6 py-2 flex gap-4 ${
                 highLight === "projection" ? "bg-gray-500" : ""
               } cursor-pointer group hover:bg-gray-500 rounded-md transition-all duration-150 ease-linear`}
             >
@@ -424,32 +421,9 @@ const SwipeableTemporaryDrawer = React.forwardRef((props, ref) => {
             </aside>
           </Link>
 
-          {/* <Link to="/invoice">
-            <aside
-              // onClick={openDialog}
-              className={`px-6 py-2 flex gap-4 ${
-                highLight === "invoice" ? "bg-gray-500" : ""
-              } cursor-pointer group hover:bg-gray-500 rounded-md transition-all duration-150 ease-linear`}
-            >
-              <ReceiptOutlined
-                className={`${
-                  highLight === "invoice" ? "!text-[#659DBD]" : "!text-gray-400"
-                } group-hover:!text-[#659DBD] !transition-all !duration-150 !ease-linear`}
-              />
-              <span
-                className={`${
-                  highLight === "invoice" ? "text-gray-200" : "text-gray-400"
-                } group-hover:!text-gray-100 transition-all duration-150 ease-linear`}
-              >
-                Invoice Tagging
-              </span>
-            </aside>
-          </Link> */}
-
           <Link to="/print_pdf">
             <aside
-              // onClick={openDialog}
-              className={`px-6 py-2 my-4 flex gap-4 ${
+              className={`px-6 py-2 flex gap-4 ${
                 highLight === "printpdf" ? "bg-gray-500" : ""
               } cursor-pointer group hover:bg-gray-500 rounded-md transition-all duration-150 ease-linear`}
             >
@@ -489,34 +463,92 @@ const SwipeableTemporaryDrawer = React.forwardRef((props, ref) => {
                     : "text-gray-400"
                 } group-hover:!text-gray-100 transition-all duration-150 ease-linear`}
               >
-                Sales To Cash
+                Order To Cash
               </span>
             </aside>
           </Link>
+        </>
+      ) : null}
 
-          {/* <Link to="/return">
-        <aside
-          // onClick={openDialog}
-          className={`px-6 py-2 my-4 flex gap-4 ${
-            highLight === "" ? "bg-gray-500" : ""
-          } cursor-pointer group hover:bg-gray-500 rounded-md transition-all duration-150 ease-linear`}
-        >
-          <AssignmentReturnOutlined
-            className={`${
-              highLight === "" ? "!text-[#659DBD]" : "!text-gray-400"
-            } group-hover:!text-[#659DBD] !transition-all !duration-150 !ease-linear`}
-          />
-          <span
-            className={`${
-              highLight === "" ? "text-gray-200" : "text-gray-400"
-            } group-hover:!text-gray-100 transition-all duration-150 ease-linear`}
+      {userType === "user" ||
+      userType === "editorial" ||
+      userType === "IT" ||
+      userType === "finance" ||
+      userType === "training" ? (
+        <Link to="/reimbursement_report">
+          <aside
+            className={`px-6 py-2 flex gap-4 cursor-pointer ${
+              highLight === "myExpense" ? "bg-gray-500" : ""
+            } group hover:bg-gray-500 rounded-md transition-all duration-150 ease-linear`}
           >
-            RETURN
-          </span>
-        </aside>
-      </Link> */}
-        </div>
-      )}
+            <Money
+              className={`${
+                highLight === "myExpense" ? "!text-[#659DBD]" : "!text-gray-400"
+              } group-hover:!text-[#659DBD] !transition-all !duration-150 !ease-linear`}
+            />
+            <span
+              className={`${
+                highLight === "myExpense" ? "text-gray-200" : "text-gray-400"
+              } group-hover:!text-gray-100 transition-all duration-150 ease-linear`}
+            >
+              My Expense
+            </span>
+          </aside>
+        </Link>
+      ) : null}
+
+      {userType === "editorial" ? (
+        <>
+          <Link to="/printing/newPrintingReq">
+            <aside
+              className={`px-6 py-2 flex gap-4 cursor-pointer ${
+                highLight === "addPrintRequest" ? "bg-gray-500" : ""
+              } group hover:bg-gray-500 rounded-md transition-all duration-150 ease-linear`}
+            >
+              <School
+                className={`${
+                  highLight === "addPrintRequest"
+                    ? "!text-[#659DBD]"
+                    : "!text-gray-400"
+                } group-hover:!text-[#659DBD] !transition-all !duration-150 !ease-linear`}
+              />
+              <span
+                className={`${
+                  highLight === "addPrintRequest"
+                    ? "text-gray-200"
+                    : "text-gray-400"
+                } group-hover:!text-gray-100 transition-all duration-150 ease-linear`}
+              >
+                Add Print Request
+              </span>
+            </aside>
+          </Link>
+          <Link to="/printing/checkStatus">
+            <aside
+              className={`px-6 py-2 flex gap-4 cursor-pointer ${
+                highLight === "checkPrintStatus" ? "bg-gray-500" : ""
+              } group hover:bg-gray-500 rounded-md transition-all duration-150 ease-linear`}
+            >
+              <School
+                className={`${
+                  highLight === "checkPrintStatus"
+                    ? "!text-[#659DBD]"
+                    : "!text-gray-400"
+                } group-hover:!text-[#659DBD] !transition-all !duration-150 !ease-linear`}
+              />
+              <span
+                className={`${
+                  highLight === "checkPrintStatus"
+                    ? "text-gray-200"
+                    : "text-gray-400"
+                } group-hover:!text-gray-100 transition-all duration-150 ease-linear`}
+              >
+                Check Status
+              </span>
+            </aside>
+          </Link>
+        </>
+      ) : null}
     </Box>
   );
 

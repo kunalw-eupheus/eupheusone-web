@@ -32,7 +32,6 @@ export default function DataTable({
   const [schoolId, setSchoolId] = useState("");
   const [schoolStatus, setSchoolStatus] = useState("");
   const navigate = useNavigate();
-
   const openDialog = () => {
     dialogRef.current.openDialog();
   };
@@ -40,6 +39,16 @@ export default function DataTable({
   const search = (rowss) => {
     return rowss.filter((row) => {
       switch (tableName) {
+        case "reimbursmentTable":
+          console.log(row);
+          return (
+            row.Type.toString().toLowerCase().indexOf(q) > -1 ||
+            row.documentNumber.toString().toLowerCase().indexOf(q) > -1 ||
+            row.Details.toString().toLowerCase().indexOf(q) > -1 ||
+            row.Amount.toString().toLowerCase().indexOf(q) > -1 ||
+            row.docDate.toString().toLowerCase().indexOf(q) > -1
+          );
+          break;
         case "SalesInvoice":
           return (
             row.cName.toLowerCase().indexOf(q) > -1 ||
