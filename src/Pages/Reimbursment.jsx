@@ -48,8 +48,8 @@ const Reimbursment = () => {
   const show = null;
 
   const navInfo = {
-    title: "Reimbursment Report",
-    details: ["Home", "Reimbursment Report"],
+    title: "Reimbursement Report",
+    details: ["Home", "Reimbursement Report"],
   };
 
   const handleSidebarCollapsed = () => {
@@ -185,7 +185,7 @@ const Reimbursment = () => {
   //   };
 
   useEffect(() => {
-    document.title = "CRM - Reimbursment Report";
+    document.title = "CRM - Reimbursement Report";
     const handleWidth = () => {
       if (window.innerWidth > 1024) {
         setSidebarCollapsed(false);
@@ -262,7 +262,7 @@ const Reimbursment = () => {
       reqExportData.push(reqObj);
     }
 
-    let fileName = "reimbursment_report";
+    let fileName = "reimbursement_report";
     const ws = XLSX.utils.json_to_sheet(reqExportData);
     /* custom headers */
     XLSX.utils.sheet_add_aoa(ws, [columnsName], {
@@ -312,7 +312,7 @@ const Reimbursment = () => {
 
           <div className="min-h-[90vh] relative flex w-full justify-center items-center bg-[#141728] flex-col">
             <h1 className="text-gray-100 sm:text-2xl text-base font-semibold absolute top-[2rem] left-[2rem]">
-              Reimbursment Report
+              Reimbursement Report
             </h1>
             <div className="md:w-[50vw] w-full justify-center mt-[5rem] flex">
               <VerticalChart chartData={chartData} />
@@ -338,7 +338,7 @@ const Reimbursment = () => {
 const VerticalChart = ({ chartData }) => {
   console.log(chartData);
 
-  const labels = ["Reimbursment Report"];
+  const labels = ["Reimbursement Report"];
   const data = {
     labels,
     datasets: [
@@ -348,7 +348,7 @@ const VerticalChart = ({ chartData }) => {
         backgroundColor: "rgba(255, 99, 132, 0.5)",
       },
       {
-        label: "Reimbursment",
+        label: "Reimbursement",
         data: [chartData?.reimbursment],
         backgroundColor: "rgba(53, 162, 235, 0.5)",
       },
@@ -363,25 +363,23 @@ const VerticalChart = ({ chartData }) => {
   return (
     <Bar
       options={{
-        labels,
-        datasets: [
-          {
-            label: "Expenses",
-            data: [chartData?.expense],
-            backgroundColor: "rgba(255, 99, 132, 0.5)",
-          },
-          {
-            label: "Reimbursment",
-            data: [chartData?.reimbursment],
-            backgroundColor: "rgba(53, 162, 235, 0.5)",
-          },
-        ],
+        responsive: true,
         plugins: {
-          datalabels: {
-            color: "#fff",
+          legend: {
+            position: "top",
+          },
+          tooltip: {
+            callbacks: {
+              title: function (context) {
+                return "";
+              },
+            },
+          },
+          title: {
+            display: true,
+            text: "Reimbursement Report",
           },
         },
-        color: "#fff",
       }}
       data={data}
     />
