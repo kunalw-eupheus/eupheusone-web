@@ -491,7 +491,7 @@ const SwipeableTemporaryDrawer = React.forwardRef((props, ref) => {
                 highLight === "myExpense" ? "text-gray-200" : "text-gray-400"
               } group-hover:!text-gray-100 transition-all duration-150 ease-linear`}
             >
-              My Expense
+              Expense Management
             </span>
           </aside>
         </Link>
