@@ -94,13 +94,12 @@ const Dropdown = ({
               ref={popoverDropdownRef}
               className={
                 (dropdownPopoverShow ? "h-[6rem] py-2 " : "h-0") +
-                " bg-[#67748e] text-base z-50 transition-all overflow-auto !mt-2 duration-200 ease-linear absolute -top-10 float-left  list-none text-left rounded shadow-lg min-w-full"
+                " bg-[#67748e] text-base z-50 transition-all cursor-pointer overflow-auto !mt-2 duration-200 ease-linear absolute -top-10 float-left  list-none text-left rounded shadow-lg min-w-full"
               }
             >
               {returnData()?.map((item) => {
                 return (
-                  <a
-                    href=""
+                  <div
                     className={`text-sm ${
                       dropdownPopoverShow ? "block" : "hidden"
                     } py-2 px-4 justify-center transition-all hover:bg-slate-600 ease-linear duration-100 hover:border-l-2 font-normal flex w-full whitespace-no-wrap bg-transparent text-white`}
@@ -115,7 +114,7 @@ const Dropdown = ({
                     <h1 className="w-fit sm:text-base text-xs text-white">
                       {item.name}
                     </h1>
-                  </a>
+                  </div>
                 );
               })}
 
