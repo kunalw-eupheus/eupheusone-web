@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import instance from "../../Instance";
 import Cookies from "js-cookie";
 import { useState } from "react";
+import eupheusLogo from "../PDF/eupheusLogo.png";
 
 export const ReturnOrderPdf = () => {
   const { id } = useParams();
@@ -24,6 +25,8 @@ export const ReturnOrderPdf = () => {
   return (
     <div className="bg-white px-12 py-4 w-[100vw]">
       <div className="flex flex-col gap-2">
+        <img width={130} src={eupheusLogo} />
+
         <h1 className="font-semibold text-xl mb-6">Return Order Details:</h1>
         <div className="flex flex-col gap-2 w-full flex-wrap font-semibold">
           <span>Return Type: {pdfData?.return_type}</span>
