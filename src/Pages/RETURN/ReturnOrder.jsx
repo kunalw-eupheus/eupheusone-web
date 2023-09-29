@@ -21,11 +21,12 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import ReactGA from "react-ga4";
+import { ShowError } from "../../util/showError";
 
 const ReturnOrder = () => {
   const [loading, setLoading] = useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
-  const [highLight, setHighLight] = useState("order_pro");
+  const [highLight, setHighLight] = useState("return_req");
   const [customerData, setCustomerData] = useState([]);
   const [schoolData, setSchoolData] = useState([]);
   const [subjectData, setSubjectData] = useState([]);
@@ -51,91 +52,140 @@ const ReturnOrder = () => {
   const formik = useFormik({
     initialValues: {
       return_type: "",
+      full_return: true,
+      sales_order_num: "",
       cutomer_name: "",
+      school_code: "",
       s_address: "",
       b_address: "",
-      date: new Date(),
-      orDate: new Date(),
-      order_pref: "",
+      order_date: `${new Date().getFullYear()}-${(new Date().getMonth() + 1)
+        .toString()
+        .padStart(2, "0")}-${new Date().getDate()}`,
+      returnDate: `${new Date().getFullYear()}-${(new Date().getMonth() + 1)
+        .toString()
+        .padStart(2, "0")}-${new Date().getDate()}`,
+      return_ref: "",
       bp_contact_id: "",
       school: null,
       subject: "",
       series: "",
       item_quan: "",
       items: [],
-      order_priority: "",
       total_quan: value.total_quan,
       total_before_tax: value.total_before_tax,
       total: value.total,
       pref_transpoter_name: "",
       remarks: "",
     },
-    validate: () => {
-      //   const errors = {};
-      //   if (!formik.values.return_type) {
-      //     errors.return_type = "Required";
-      //   }
-      //   // if (!formik.values.cutomer_name) {
-      //   //   errors.cutomer_name = "Required";
-      //   // }
-      //   if (!formik.values.date) {
-      //     errors.date = "Required";
-      //   }
-      //   // if (!formik.values.order_pref) {
-      //   //   errors.order_pref = "Required";
-      //   // }
-      //   // if (!formik.values.school) {
-      //   //   errors.school = "Required";
-      //   // }
-      //   if (!formik.values.subject) {
-      //     errors.subject = "Required";
-      //   }
-      //   if (!formik.values.series) {
-      //     errors.series = "Required";
-      //   }
-      //   if (!formik.values.item_quan) {
-      //     errors.item_quan = "Required";
-      //   }
-      //   // if ((formik.values.items.length = 0)) {
-      //   //   errors.items = "Required";
-      //   // }
-      //   if (!formik.values.order_priority) {
-      //     errors.order_priority = "Required";
-      //   }
-      //   if (!formik.values.total_quan) {
-      //     errors.total_quan = "Required";
-      //   }
-      //   if (!formik.values.total_before_tax) {
-      //     errors.total_before_tax = "Required";
-      //   }
-      //   if (!formik.values.total) {
-      //     errors.total = "Required";
-      //   }
-      //   if (!formik.values.pref_transpoter_name) {
-      //     errors.pref_transpoter_name = "Required";
-      //   }
-      //   if (!formik.values.remarks) {
-      //     errors.remarks = "Required";
-      //   }
-      //   if (Object.keys(errors).length > 0) {
-      //     setSnackbarErrStatus(true);
-      //     setErrMessage("Please Fill All The Fields");
-      //     snackbarRef.current.openSnackbar();
-      //   }
-      //   return errors;
+    validate: (values) => {
+      if (
+        !values.return_type ||
+        !values.sales_order_num ||
+        !values.cutomer_name ||
+        !values.school_code ||
+        !values.s_address ||
+        !values.b_address ||
+        !values.return_ref ||
+        !values.bp_contact_id ||
+        !values.school ||
+        !values.subject ||
+        !values.item_quan ||
+        !values.pref_transpoter_name
+      ) {
+        return ShowError("All fields are required");
+      }
     },
     onSubmit: async (values) => {
-      console.log(values);
+      setLoading(true);
+      const res = await instance({
+        url: `sales_data/createreturn`,
+        method: "POST",
+        headers: {
+          Authorization: `${Cookies.get("accessToken")}`,
+        },
+        data: {
+          returnType: values.return_type,
+          returnReference: values.return_ref,
+          salesOrderNumber: values.sales_order_num,
+          salesOrderDate: values.order_date,
+          returnDate: values.returnDate,
+          schoolCode: values.school_code,
+          bpId: values.cutomer_name,
+          schoolId: values.school,
+          transporterName: values.pref_transpoter_name,
+          contactId: values.bp_contact_id,
+          remarks: values.remarks,
+          quantity: values.item_quan,
+          amount: value.total,
+          shippingAddressId: values.s_address,
+          billingAddressId: values.b_address,
+          isFullCancel: !values.full_return,
+          items: values.items.map((item) => {
+            return { itemId: item.id, quantity: item.quantity };
+          }),
+        },
+      }).catch(() => {
+        setLoading(false);
+      });
+      if (res.data.status === "success") {
+        setErrMessage(res.data.message);
+        setSnackbarErrStatus(false);
+        snackbarRef.current.openSnackbar();
+        setTimeout(() => {
+          window.location.reload();
+        }, 2000);
+      }
+      setLoading(false);
     },
   });
 
   const navInfo = {
-    title: "Order process",
-    details: ["Home", " / Order Process"],
+    title: "Return Request",
+    details: ["Home", " / Return Request"],
+  };
+
+  const getCkItemBySubject = async (subId) => {
+    if (rowData.length === 0) {
+      setLoading(true);
+      const CkItems = await instance({
+        url: `items/getitembysubject/${subId}`,
+        method: "GET",
+        headers: {
+          Authorization: `${Cookies.get("accessToken")}`,
+        },
+      });
+
+      const filterdRows = [];
+      let uniqueIds = new Set();
+      CkItems.data.message.map((item) => {
+        if (!uniqueIds.has(item?.item_code)) {
+          uniqueIds.add(item?.item_code);
+          filterdRows.push(item);
+        }
+      });
+      setRowData(filterdRows);
+      filterdRows.map((item) => {
+        formik.values.items.push({
+          id: item?.id,
+          item_id: item?.item_code,
+          quantity: formik.values.item_quan,
+          price: item?.price_master?.price,
+          tax: item?.fk_tax?.tax,
+          discount: item?.fk_discount?.discount,
+        });
+      });
+      setValue({
+        item_quan: false,
+        total_quan: calValues("total_quan"),
+        total: calValues("total_after_tax"),
+        total_before_tax: calValues("total_before_tax"),
+      });
+      setLoading(false);
+      setOpen(true);
+    }
   };
 
   const handleSidebarCollapsed = () => {
-    // setSidebarCollapsed(!sidebarCollapsed);
     sidebarRef.current.openSidebar();
   };
 
@@ -167,6 +217,19 @@ const ReturnOrder = () => {
     setLoading(false);
   };
 
+  const getSubjectData = async (category) => {
+    setLoading(true);
+    const SubjectRes = await instance({
+      url: `subject/getfilteredsubjects/${category}`,
+      method: "GET",
+      headers: {
+        Authorization: `${Cookies.get("accessToken")}`,
+      },
+    });
+    setLoading(false);
+    setSubjectData(SubjectRes.data.message);
+  };
+
   useLayoutEffect(() => {
     const getSchoolData = async () => {
       if (Cookies.get("ms-auth")) {
@@ -191,30 +254,6 @@ const ReturnOrder = () => {
         });
         // console.log(schoolRes.data.message)
         setSchoolData(schoolRes.data.message);
-      }
-    };
-    const getSubjectData = async () => {
-      if (Cookies.get("ms-auth")) {
-        const accessToken = await getToken(
-          protectedResources.apiTodoList.scopes.read
-        );
-        const SubjectRes = await instance({
-          url: "subject/getsubjects",
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        });
-        setSubjectData(SubjectRes.data.message);
-      } else {
-        const SubjectRes = await instance({
-          url: "subject/getsubjects",
-          method: "GET",
-          headers: {
-            Authorization: `${Cookies.get("accessToken")}`,
-          },
-        });
-        setSubjectData(SubjectRes.data.message);
       }
     };
 
@@ -245,12 +284,9 @@ const ReturnOrder = () => {
 
     // getCustomerData();
     getSchoolData();
-    getSubjectData();
     getTranspoterData();
     getCustomerData();
   }, []);
-
-  // console.log(schoolData)
 
   const getCustomerAddress = async (id) => {
     setLoading(true);
@@ -285,7 +321,6 @@ const ReturnOrder = () => {
 
     setLoading(false);
   };
-  // console.log(schoolData)
 
   const GetContactRes = async (id) => {
     const res = await instance({
@@ -307,7 +342,6 @@ const ReturnOrder = () => {
         Authorization: Cookies.get("accessToken"),
       },
     });
-    // console.log(SeriesRes.data);
     setSeriesData(SeriesRes.data.message);
 
     setLoading(false);
@@ -323,13 +357,7 @@ const ReturnOrder = () => {
       },
     });
 
-    // console.log(getListData.data.message);
     setRowData(getListData.data.message);
-    // if (!value.item_quan) {
-    //   console.log("working");
-    //   formik.values.items = [];
-    // }
-    // console.log(formik.values.items.length);
     getListData.data.message.map((item) => {
       formik.values.items.push({
         id: item.id,
@@ -351,9 +379,24 @@ const ReturnOrder = () => {
   };
 
   const handleDate = (date) => {
-    let modifiedDate = `${date.split(" ")[1]} ${date.split(" ")[2]} ${
-      date.split(" ")[3]
-    }`;
+    let months = [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec",
+    ];
+    const month = (months.indexOf(date.split(" ")[1]) + 1)
+      .toString()
+      .padStart(2, "0");
+    let modifiedDate = `${date.split(" ")[3]}-${month}-${date.split(" ")[2]}`;
 
     return modifiedDate;
   };
@@ -367,29 +410,31 @@ const ReturnOrder = () => {
   const handleOrderProcessingForm = async (value, type) => {
     switch (type) {
       case "order_type":
+        getSubjectData(value.order_type.toLowerCase());
         formik.values.return_type = value.order_type;
         break;
+      case "Sales Order Number":
+        formik.values.sales_order_num = Number(value);
+        break;
       case "customer_name":
-        // console.log(value)
         getCustomerAddress(value.id);
-        // getShippingAddress(value.id)
         GetContactRes(value.id);
         formik.values.cutomer_name = value.id;
         break;
       case "pref_transpoter":
         formik.values.pref_transpoter_name = value.id;
         break;
-      case "Delivery Date":
-        formik.values.date = handleDate(value.toString());
+      case "Sales Order Date":
+        formik.values.order_date = handleDate(value.toString());
         break;
       case "contact_id":
         formik.values.bp_contact_id = value.id;
         break;
-      case "OR Date":
-        formik.values.orDate = handleDate(value.toString());
+      case "Return Date":
+        formik.values.returnDate = handleDate(value.toString());
         break;
-      case "Order Reference":
-        formik.values.order_pref = value;
+      case "Return Reference":
+        formik.values.return_ref = value;
         break;
       case "school_name":
         formik.values.school = value.id;
@@ -406,13 +451,15 @@ const ReturnOrder = () => {
         break;
       case "Items Quantity":
         formik.values.item_quan = value;
-        if (rowData.length === 0) {
-          getListData(formik.values.series.id);
+        if (formik.values.return_type === "Eupheus") {
+          if (rowData.length === 0) {
+            getListData(formik.values.series.id);
+          }
+        } else if (formik.values.return_type === "Classklap") {
+          getCkItemBySubject(formik.values.subject.id);
         }
         break;
-      case "order_priority":
-        formik.values.order_priority = value.order_priority;
-        break;
+
       case "shipping_address":
         formik.values.s_address = value.id;
         break;
@@ -428,19 +475,20 @@ const ReturnOrder = () => {
       case "Total":
         formik.values.total = value;
         break;
-      // case "Preffered Transpoter Name":
-      //   formik.values.pref_transpoter_name = value;
-      //   break;
       case "Remarks":
         formik.values.remarks = value;
         break;
-
+      case "partial_return":
+        formik.values.full_return = value === "Yes" ? true : false;
+        break;
+      case "School Code":
+        formik.values.school_code = value;
+        break;
       default:
         break;
     }
     console.log(formik.values);
   };
-  // console.log(address);
 
   const calValues = (type) => {
     if (type === "total_quan") {
@@ -500,7 +548,6 @@ const ReturnOrder = () => {
       total_before_tax: calValues("total_before_tax"),
     });
   };
-  // console.log(value);
 
   useEffect(() => {
     const handleWidth = () => {
@@ -578,6 +625,23 @@ const ReturnOrder = () => {
                     color={"rgb(243, 244, 246)"}
                   />
                 </div>
+                <SearchDropDown
+                  handleOrderProcessingForm={handleOrderProcessingForm}
+                  defaultValue={formik.values.full_return ? "Yes" : "No"}
+                  data={["Yes", "No"]}
+                  Name={"partial_return"}
+                  label={"Full Return"}
+                  color={"rgb(243, 244, 246)"}
+                />
+                <div className=" flex flex-col gap-2 w-full">
+                  <BasicTextFields
+                    handleOrderProcessingForm={handleOrderProcessingForm}
+                    lable={"Sales Order Number"}
+                    type={"number"}
+                    variant={"standard"}
+                    multiline={false}
+                  />
+                </div>
                 <div className=" flex flex-col gap-2 w-full">
                   <SearchDropDown
                     handleOrderProcessingForm={handleOrderProcessingForm}
@@ -618,22 +682,30 @@ const ReturnOrder = () => {
                   />
                 </div>
                 <div className=" flex flex-col gap-2 w-full">
+                  <BasicTextFields
+                    handleOrderProcessingForm={handleOrderProcessingForm}
+                    lable={"School Code"}
+                    variant={"standard"}
+                    multiline={false}
+                  />
+                </div>
+                <div className=" flex flex-col gap-2 w-full">
                   <DatePicker
                     handleOrderProcessingForm={handleOrderProcessingForm}
-                    label={"Delivery Date"}
+                    label={"Sales Order Date"}
                     disablePast={true}
                   />
                 </div>
                 <div className=" flex flex-col gap-2 w-full">
                   <DatePicker
                     handleOrderProcessingForm={handleOrderProcessingForm}
-                    label={"OR Date"}
+                    label={"Return Date"}
                   />
                 </div>
                 <div className=" flex flex-col gap-2 w-full">
                   <BasicTextFields
                     handleOrderProcessingForm={handleOrderProcessingForm}
-                    lable={"Order Reference"}
+                    lable={"Return Reference"}
                     variant={"standard"}
                     multiline={false}
                   />
@@ -651,25 +723,37 @@ const ReturnOrder = () => {
                   <SearchDropDown
                     handleOrderProcessingForm={handleOrderProcessingForm}
                     getSeriesData={getSeriesData}
+                    disable={subjectData.length > 0 ? false : true}
                     data={subjectData}
                     Name={"subject_name"}
                     label={"Select Subject"}
                     color={"rgb(243, 244, 246)"}
                   />
                 </div>
-                <div className=" flex flex-col gap-2 w-full">
-                  <SearchDropDown
-                    handleOrderProcessingForm={handleOrderProcessingForm}
-                    Name={"series_name"}
-                    disable={seriesData[0].disable}
-                    data={seriesData}
-                    label={"Select Series"}
-                    color={"rgb(243, 244, 246)"}
-                  />
-                </div>
+                {formik.values.return_type === "Eupheus" && (
+                  <div className=" flex flex-col gap-2 w-full">
+                    <SearchDropDown
+                      handleOrderProcessingForm={handleOrderProcessingForm}
+                      Name={"series_name"}
+                      disable={seriesData[0].disable}
+                      data={seriesData}
+                      label={"Select Series"}
+                      color={"rgb(243, 244, 246)"}
+                    />
+                  </div>
+                )}
                 <div className=" flex flex-col gap-2 w-full">
                   <TextField
                     id="standard-basic"
+                    disabled={
+                      formik.values.return_type === "Eupheus"
+                        ? formik.values.subject && formik.values.series
+                          ? false
+                          : true
+                        : formik.values.subject
+                        ? false
+                        : true
+                    }
                     onBlur={(e) =>
                       handleOrderProcessingForm(
                         e.target.value,
@@ -683,8 +767,7 @@ const ReturnOrder = () => {
                   />
                 </div>
               </section>
-              {/* <Collapse in={open}>
-
+              <Collapse in={open}>
                 <Paper>
                   <TableContainer component={Paper}>
                     <Table sx={{ minWidth: 650 }} aria-label="customized table">
@@ -698,7 +781,7 @@ const ReturnOrder = () => {
                           </TableCell>
 
                           <TableCell className="!w-[8rem]" align="center">
-                            Discount
+                            Series Name
                           </TableCell>
 
                           <TableCell className="!w-[8rem]" align="center">
@@ -706,7 +789,7 @@ const ReturnOrder = () => {
                           </TableCell>
 
                           <TableCell className="!w-[8rem]" align="center">
-                            Tax
+                            Grade
                           </TableCell>
                           <TableCell className="!w-[10rem]" align="center">
                             Quantity
@@ -732,7 +815,7 @@ const ReturnOrder = () => {
                               </TableCell>
 
                               <TableCell align="center">
-                                {item.fk_discount.discount}
+                                {item?.fk_series_id?.series}
                               </TableCell>
 
                               <TableCell align="center">
@@ -740,13 +823,13 @@ const ReturnOrder = () => {
                               </TableCell>
 
                               <TableCell align="center">
-                                {item.fk_tax.tax}
+                                {item?.item_grade}
                               </TableCell>
                               <TableCell align="center">
                                 <TextField
                                   id="search-bar"
-                                  className="text"
                                   type={"number"}
+                                  className="text_black"
                                   onChange={(e) => {
                                     alterItemQuantity(index, e.target.value);
                                   }}
@@ -763,25 +846,9 @@ const ReturnOrder = () => {
                     </Table>
                   </TableContainer>
                 </Paper>
-              </Collapse> */}
+              </Collapse>
               <div className="grid grid-cols-1 grid-rows-4 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 gap-8 lg:grid-rows-1 md:grid-rows-2 sm:grid-rows-3 bg-slate-600 rounded-md">
                 <div className=" flex flex-col gap-2 w-full">
-                  {/* <label className="text-gray-100">Order Priority</label> */}
-                  <SearchDropDown
-                    handleOrderProcessingForm={handleOrderProcessingForm}
-                    data={[
-                      { order_priority: "Low" },
-                      { order_priority: "Medium" },
-                      { order_priority: "High" },
-                    ]}
-                    label={"Order Priority"}
-                    Name={"order_priority"}
-                    color={"rgb(243, 244, 246)"}
-                  />
-                </div>
-                <div className=" flex flex-col gap-2 w-full">
-                  {/* <label className="text-gray-100">Total Quantity</label> */}
-
                   <BasicTextFields
                     handleOrderProcessingForm={handleOrderProcessingForm}
                     lable={"Total Quantity"}
@@ -793,8 +860,6 @@ const ReturnOrder = () => {
                   />
                 </div>
                 <div className=" flex flex-col gap-2 w-full">
-                  {/* <label className="text-gray-100">Total Before Tax</label> */}
-
                   <BasicTextFields
                     handleOrderProcessingForm={handleOrderProcessingForm}
                     lable={"Total Before Tax"}
@@ -806,8 +871,6 @@ const ReturnOrder = () => {
                   />
                 </div>
                 <div className=" flex flex-col gap-2 w-full">
-                  {/* <label className="text-gray-100">Total</label> */}
-
                   <BasicTextFields
                     handleOrderProcessingForm={handleOrderProcessingForm}
                     lable={"Total"}
@@ -821,16 +884,6 @@ const ReturnOrder = () => {
               </div>
               <div className="flex sm:flex-row flex-col items-center gap-[2rem] justify-between">
                 <div className=" flex flex-col gap-2 w-full md:col-span-2">
-                  {/* <label className="text-gray-100">
-                    Preffered Transpoter Name
-                  </label> */}
-
-                  {/* <BasicTextFields
-                    handleOrderProcessingForm={handleOrderProcessingForm}
-                    lable={"Preffered Transpoter Name"}
-                    variant={"standard"}
-                    multiline={false}
-                  /> */}
                   <SearchDropDown
                     handleOrderProcessingForm={handleOrderProcessingForm}
                     data={transpoterData}
@@ -840,18 +893,15 @@ const ReturnOrder = () => {
                   />
                 </div>
                 <div className=" flex flex-col gap-2 w-full md:col-span-2">
-                  {/* <label className="text-gray-100">Remarks</label> */}
-
                   <BasicTextFields
                     handleOrderProcessingForm={handleOrderProcessingForm}
                     lable={"Remarks"}
-                    //   variant={"standard"}
                     multiline={true}
                   />
                 </div>
               </div>
               <div onClick={formik.handleSubmit}>
-                <Button text={"Submit"} />
+                <Button text={"Save for print"} />
               </div>
             </form>
           </div>

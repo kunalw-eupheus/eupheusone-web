@@ -20,6 +20,7 @@ import {
   AddTask,
   CurrencyRupee,
   Money,
+  KeyboardReturn,
 } from "@mui/icons-material";
 import { Link } from "react-router-dom";
 import logoLight from "../assets/img/logo-light-icon.png";
@@ -466,6 +467,30 @@ const Sidebar = ({ sidebarCollapsed, highLight, show }) => {
                   } group-hover:!text-gray-100 transition-all duration-150 ease-linear`}
                 >
                   Order To Cash
+                </span>
+              </aside>
+            </Link>
+            <Link to="/request_order_return">
+              <aside
+                className={`px-6 py-2 flex gap-4 ${
+                  highLight === "return_req" ? "bg-gray-500" : ""
+                } cursor-pointer group hover:bg-gray-500 rounded-md transition-all duration-150 ease-linear`}
+              >
+                <KeyboardReturn
+                  className={`${
+                    highLight === "return_req"
+                      ? "!text-[#659DBD]"
+                      : "!text-gray-400"
+                  } group-hover:!text-[#659DBD] !transition-all !duration-150 !ease-linear`}
+                />
+                <span
+                  className={`${
+                    highLight === "return_req"
+                      ? "text-gray-200"
+                      : "text-gray-400"
+                  } group-hover:!text-gray-100 transition-all duration-150 ease-linear`}
+                >
+                  Return Request
                 </span>
               </aside>
             </Link>

@@ -323,7 +323,7 @@ const SearchDropDown = ({
           break;
 
         default:
-          return "";
+          return option;
           break;
       }
     },
