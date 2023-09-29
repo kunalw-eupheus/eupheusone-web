@@ -14,7 +14,7 @@ import axios from "axios";
 
 const ManageOrderReturn = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
-  const [highLight, setHighLight] = useState("manageOrder");
+  const [highLight, setHighLight] = useState("manage_return_req");
   const [returnData, setReturnData] = useState([]);
   const sidebarRef = useRef();
   const [loading, setLoading] = useState(false);
@@ -86,10 +86,34 @@ const ManageOrderReturn = () => {
   };
 
   const getPrint = async (id) => {
+    setLoading(true);
     const res = await axios.get(
       `http://a5a85fe537a3a41749b3ecc7b3a240af-268195521.ap-south-1.elb.amazonaws.com:4000/inv/return_order_pdf/${id}`
     );
-    console.log(res.data.message);
+    // console.log(res.data.message);
+    setLoading(false);
+
+    window.open(res.data.message);
+  };
+
+  const SubmitReturn = async (id) => {
+    setLoading(true);
+    const attachment = await instance({
+      url: `sales_data/update-return-status`,
+      method: "PUT",
+      data: {
+        id: id,
+      },
+      headers: {
+        Authorization: Cookies.get("accessToken"),
+      },
+    }).catch(() => {
+      setLoading(false);
+    });
+    if (attachment.data.status === "success") {
+      window.alert("Return marked as final submit");
+    }
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -166,11 +190,13 @@ const ManageOrderReturn = () => {
                       />
                     ) : null}
                     {!item.is_final && item.attachment ? (
-                      <BasicButton size={"small"} text={"Submit"} />
+                      <div onClick={() => SubmitReturn(item?.id)}>
+                        <BasicButton size={"small"} text={"Submit"} />
+                      </div>
                     ) : null}
-                    {item.is_final ? (
+                    {/* {item.is_final ? (
                       <BasicButton size={"small"} text={"Copy to Sap"} />
-                    ) : null}
+                    ) : null} */}
                   </div>
                 </div>
               );
