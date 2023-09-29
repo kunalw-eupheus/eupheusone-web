@@ -10,6 +10,7 @@ import BasicButton from "../../Components/Material/Button";
 import { ShowError } from "../../util/showError";
 import { Backdrop, CircularProgress } from "@mui/material";
 import UploadButton from "../../Components/Material/UploadButton";
+import axios from "axios";
 
 const ManageOrderReturn = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
@@ -84,6 +85,13 @@ const ManageOrderReturn = () => {
     setLoading(false);
   };
 
+  const getPrint = async (id) => {
+    const res = await axios.get(
+      `http://a5a85fe537a3a41749b3ecc7b3a240af-268195521.ap-south-1.elb.amazonaws.com:4000/inv/return_order_pdf/${id}`
+    );
+    console.log(res.data.message);
+  };
+
   useEffect(() => {
     const handleWidth = () => {
       if (window.innerWidth > 1024) {
@@ -145,7 +153,9 @@ const ManageOrderReturn = () => {
                     <span>Return Date: {item.return_date}</span>
                   </div>
                   <div className="flex gap-2">
-                    <BasicButton size={"small"} text={"Get Print"} />
+                    <div onClick={() => getPrint(item?.id)}>
+                      <BasicButton size={"small"} text={"Get Print"} />
+                    </div>
 
                     {!item.is_final ? (
                       <UploadButton
