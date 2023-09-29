@@ -6,12 +6,17 @@ import SwipeableTemporaryDrawer from "../../Components/Material/MaterialSidebar"
 import instance from "../../Instance";
 import { useLayoutEffect } from "react";
 import Cookies from "js-cookie";
+import BasicButton from "../../Components/Material/Button";
+import { ShowError } from "../../util/showError";
+import { Backdrop, CircularProgress } from "@mui/material";
+import UploadButton from "../../Components/Material/UploadButton";
 
 const ManageOrderReturn = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [highLight, setHighLight] = useState("manageOrder");
   const [returnData, setReturnData] = useState([]);
   const sidebarRef = useRef();
+  const [loading, setLoading] = useState(false);
 
   const navInfo = {
     title: "Manage Order Return",
@@ -21,20 +26,63 @@ const ManageOrderReturn = () => {
   const handleSidebarCollapsed = () => {
     sidebarRef.current.openSidebar();
   };
-
+  const getReturnData = async () => {
+    const data = await instance({
+      url: "sales_data/get-returns",
+      method: "GET",
+      headers: {
+        Authorization: Cookies.get("accessToken"),
+      },
+    });
+    setReturnData(data.data.data);
+  };
   useLayoutEffect(() => {
-    const getReturnData = async () => {
-      const data = await instance({
-        url: "sales_data/get-returns",
-        method: "GET",
+    getReturnData();
+  }, []);
+
+  const uploadAttachment = async (file, id) => {
+    console.log(file);
+    let formdata = new FormData();
+    if (file.type !== "image/jpeg" && file.type !== "image/png") {
+      ShowError("Please Select an image file only");
+      return;
+    }
+    formdata.append("img", file);
+    formdata.append("test", "test");
+    setLoading(true);
+    const res = await instance({
+      url: `imagetoS3/add_image_s3`,
+      method: "POST",
+      data: formdata,
+      headers: {
+        Authorization: Cookies.get("accessToken"),
+      },
+    }).catch(() => {
+      setLoading(false);
+    });
+    let link = res.data;
+    if (res.status === 200) {
+      const attachment = await instance({
+        url: `sales_data/update-return-attachment`,
+        method: "PUT",
+        data: {
+          id: id,
+          attachment: link,
+        },
         headers: {
           Authorization: Cookies.get("accessToken"),
         },
+      }).catch(() => {
+        setLoading(false);
       });
-      setReturnData(data.data.message);
-    };
-    getReturnData();
-  }, []);
+      if (attachment.data.status === "success") {
+        getReturnData();
+      }
+    } else {
+      ShowError("Cannot upload image");
+    }
+    setLoading(false);
+  };
 
   useEffect(() => {
     const handleWidth = () => {
@@ -53,6 +101,12 @@ const ManageOrderReturn = () => {
   }, []);
   return (
     <div className="flex bg-[#111322]">
+      <Backdrop
+        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={loading}
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
       <Sidebar sidebarCollapsed={sidebarCollapsed} highLight={highLight} />
 
       <div>
@@ -60,7 +114,6 @@ const ManageOrderReturn = () => {
           ref={sidebarRef}
           sidebarCollapsed={sidebarCollapsed}
           highLight={highLight}
-          // show={show}
         />
       </div>
 
@@ -75,25 +128,43 @@ const ManageOrderReturn = () => {
         />
         <div className="min-h-[100vh] pt-[2vh] max-h-full bg-[#141728]">
           <div
-            className={`sm:px-8 px-4 py-3 grid sm:grid-cols-2 grid-cols-1 gap-4 bg-[#141728]`}
+            className={`sm:px-8 px-4 py-3 grid sm:grid-cols-1 grid-cols-1 gap-4 bg-[#141728]`}
           >
-            {/* {orderData.map((item, index) => {
+            {returnData.map((item, index) => {
               return (
-                <div
-                  key={index}
-                  className="flex font-medium flex-col gap-4 text-gray-100 justify-center rounded-md items-start px-4 py-1 bg-slate-600"
-                >
-                  <span>Order Type: {item.order_type}</span>
-                  <span>
-                    School Name:{" "}
-                    {item.fk_school ? item.fk_school.school_name : "null"}
-                  </span>
-                  <span>Quantity: {item.quantity}</span>
-                  <span>Amount: ₹{item.amount}</span>
-                 
+                <div className="flex flex-col gap-2">
+                  <div
+                    key={index}
+                    className="flex font-medium flex-wrap gap-4 text-gray-100 justify-start rounded-md items-start px-4 py-4 bg-slate-600"
+                  >
+                    <span>Return Type: {item.return_type}</span>
+                    <span>Return Reference: {item.return_ref}</span>
+                    <span>School Code: {item.school_code}</span>
+                    <span>School Name: {item.fk_school.school_name}</span>
+                    <span>Sales Order Date: {item.sales_order_date}</span>
+                    <span>Return Date: {item.return_date}</span>
+                  </div>
+                  <div className="flex gap-2">
+                    <BasicButton size={"small"} text={"Get Print"} />
+
+                    {!item.is_final ? (
+                      <UploadButton
+                        name={"Upload Attachment"}
+                        accept={"image/*"}
+                        uploadContent={uploadAttachment}
+                        id={item.id}
+                      />
+                    ) : null}
+                    {!item.is_final && item.attachment ? (
+                      <BasicButton size={"small"} text={"Submit"} />
+                    ) : null}
+                    {item.is_final ? (
+                      <BasicButton size={"small"} text={"Copy to Sap"} />
+                    ) : null}
+                  </div>
                 </div>
               );
-            })} */}
+            })}
           </div>
         </div>
       </div>

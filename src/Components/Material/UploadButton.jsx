@@ -15,7 +15,7 @@ const VisuallyHiddenInput = styled("input")`
   width: 1px;
 `;
 
-export default function UploadButton({ name, uploadContent, accept }) {
+export default function UploadButton({ name, uploadContent, accept, id }) {
   return (
     <Button
       component="label"
@@ -47,7 +47,7 @@ export default function UploadButton({ name, uploadContent, accept }) {
         type="file"
         accept={accept}
         onChange={(e) => {
-          uploadContent(e.target.files[0]);
+          uploadContent(e.target.files[0], id);
         }}
       />
     </Button>
