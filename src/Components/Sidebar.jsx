@@ -470,7 +470,7 @@ const Sidebar = ({ sidebarCollapsed, highLight, show }) => {
                 </span>
               </aside>
             </Link>
-            {/* <Link to="/request_order_return">
+            <Link to="/request_order_return">
               <aside
                 className={`px-6 py-2 flex gap-4 ${
                   highLight === "return_req" ? "bg-gray-500" : ""
@@ -493,7 +493,7 @@ const Sidebar = ({ sidebarCollapsed, highLight, show }) => {
                   Return Request
                 </span>
               </aside>
-            </Link> */}
+            </Link>
           </>
         ) : null}
 
