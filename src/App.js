@@ -365,7 +365,7 @@ function App() {
                 />
                 <Route
                   path="/request_order_return_pdf/:id"
-                  element={isAuth ? <ReturnOrderPdf /> : <Login />}
+                  element={<ReturnOrderPdf />}
                 />
                 <Route
                   path="/manage_order_return"
