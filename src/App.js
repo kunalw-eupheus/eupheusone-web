@@ -4,6 +4,8 @@ import ReactGA from "react-ga4";
 import { useEffect, lazy, Suspense } from "react";
 import GlobelErrorSnackbar from "./Components/Material/GlobelErrorSnackbar";
 import Loader from "./Components/Material/Loader";
+import ManageOrderReturn from "./Pages/RETURN/ManageOrderReturn";
+import { ReturnOrderPdf } from "./Pages/RETURN/ReturnOrderPdf";
 // Pages
 // import MySchool from "./Pages/MySchool";
 // import SchoolDirectory from "./Pages/SchoolDirectory";
@@ -357,10 +359,18 @@ function App() {
                     isAuth || MsAuth || Zsm ? <ReturnRequest /> : <Login />
                   }
                 />
-                {/* <Route
+                <Route
                   path="/request_order_return"
                   element={isAuth ? <ReturnOrder /> : <Login />}
-                /> */}
+                />
+                <Route
+                  path="/request_order_return_pdf/:id"
+                  element={<ReturnOrderPdf />}
+                />
+                <Route
+                  path="/manage_order_return"
+                  element={isAuth ? <ManageOrderReturn /> : <Login />}
+                />
 
                 <Route
                   path="/invoice"
