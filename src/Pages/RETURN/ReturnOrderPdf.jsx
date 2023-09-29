@@ -14,7 +14,7 @@ export const ReturnOrderPdf = () => {
         url: `sales_data/get-return-details/${id}`,
         method: "GET",
         headers: {
-          Authorization: Cookies.get("accessToken"),
+          accesskey: `auth0026c3956e3d0fba`,
         },
       });
       setPdfData(res.data.data);
