@@ -87,13 +87,20 @@ const ManageOrderReturn = () => {
 
   const getPrint = async (id) => {
     setLoading(true);
-    const res = await axios.get(
-      `http://a5a85fe537a3a41749b3ecc7b3a240af-268195521.ap-south-1.elb.amazonaws.com:4000/inv/return_order_pdf/${id}`
-    );
+    const res = await instance({
+      url: `sales_data//get-return-pdf/${id}`,
+      method: "GET",
+      data: {
+        id: id,
+      },
+      headers: {
+        Authorization: Cookies.get("accessToken"),
+      },
+    });
     // console.log(res.data.message);
     setLoading(false);
 
-    window.open(res.data.message);
+    window.open(res?.data?.data);
   };
 
   const SubmitReturn = async (id) => {
