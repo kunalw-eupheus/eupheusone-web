@@ -511,7 +511,7 @@ const SwipeableTemporaryDrawer = React.forwardRef((props, ref) => {
                     : "text-gray-400"
                 } group-hover:!text-gray-100 transition-all duration-150 ease-linear`}
               >
-                Return Request
+                Manage Return Request
               </span>
             </aside>
           </Link>

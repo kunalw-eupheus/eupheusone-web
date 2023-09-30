@@ -38,6 +38,7 @@ const ReturnOrder = () => {
   const [open, setOpen] = useState(false);
   const [errMessage, setErrMessage] = useState("");
   const [snackbarErrStatus, setSnackbarErrStatus] = useState(true);
+  const [sCode, setSCode] = useState("");
   const sidebarRef = useRef();
 
   const [value, setValue] = useState({
@@ -230,33 +231,20 @@ const ReturnOrder = () => {
     setSubjectData(SubjectRes.data.message);
   };
 
-  useLayoutEffect(() => {
-    const getSchoolData = async () => {
-      if (Cookies.get("ms-auth")) {
-        const accessToken = await getToken(
-          protectedResources.apiTodoList.scopes.read
-        );
-        const schoolRes = await instance({
-          url: "school/get/allschools",
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        });
-        setSchoolData(schoolRes.data.message);
-      } else {
-        const schoolRes = await instance({
-          url: "school/get/allschools",
-          method: "GET",
-          headers: {
-            Authorization: `${Cookies.get("accessToken")}`,
-          },
-        });
-        // console.log(schoolRes.data.message)
-        setSchoolData(schoolRes.data.message);
-      }
-    };
+  const getSchoolData = async (category) => {
+    setLoading(true);
+    const schoolRes = await instance({
+      url: `school/get/all-schools-by-category/${category}`,
+      method: "GET",
+      headers: {
+        Authorization: `${Cookies.get("accessToken")}`,
+      },
+    });
+    setSchoolData(schoolRes.data.message);
+    setLoading(false);
+  };
 
+  useLayoutEffect(() => {
     const getTranspoterData = async () => {
       if (Cookies.get("ms-auth")) {
         const accessToken = await getToken(
@@ -282,8 +270,6 @@ const ReturnOrder = () => {
       }
     };
 
-    // getCustomerData();
-    getSchoolData();
     getTranspoterData();
     getCustomerData();
   }, []);
@@ -411,6 +397,7 @@ const ReturnOrder = () => {
     switch (type) {
       case "order_type":
         getSubjectData(value.order_type.toLowerCase());
+        getSchoolData(value.order_type.toLowerCase());
         formik.values.return_type = value.order_type;
         break;
       case "Sales Order Number":
@@ -437,6 +424,8 @@ const ReturnOrder = () => {
         formik.values.return_ref = value;
         break;
       case "school_name":
+        setSCode(value?.school_code);
+        formik.values.school_code = value?.school_code;
         formik.values.school = value.id;
         break;
       case "subject_name":
@@ -681,14 +670,7 @@ const ReturnOrder = () => {
                     color={"rgb(243, 244, 246)"}
                   />
                 </div>
-                <div className=" flex flex-col gap-2 w-full">
-                  <BasicTextFields
-                    handleOrderProcessingForm={handleOrderProcessingForm}
-                    lable={"School Code"}
-                    variant={"standard"}
-                    multiline={false}
-                  />
-                </div>
+
                 <div className=" flex flex-col gap-2 w-full">
                   <DatePicker
                     handleOrderProcessingForm={handleOrderProcessingForm}
@@ -714,9 +696,29 @@ const ReturnOrder = () => {
                   <SearchDropDown
                     handleOrderProcessingForm={handleOrderProcessingForm}
                     data={schoolData}
+                    disable={schoolData.length > 0 ? false : true}
                     Name={"school_name"}
                     label={"Select School"}
                     color={"rgb(243, 244, 246)"}
+                  />
+                </div>
+                <div className=" flex flex-col gap-2 w-full">
+                  {/* <BasicTextFields
+                    handleOrderProcessingForm={handleOrderProcessingForm}
+                    lable={"School Code"}
+                    variant={"standard"}
+                    
+                    multiline={false}
+                  /> */}
+                  <TextField
+                    id="search-bar"
+                    label="School Code"
+                    variant="standard"
+                    InputLabelProps={{ style: { color: "white" } }}
+                    inputProps={{ style: { color: "white" } }}
+                    disabled={!formik.values.school_code}
+                    value={sCode}
+                    size="small"
                   />
                 </div>
                 <div className=" flex flex-col gap-2 w-full">
