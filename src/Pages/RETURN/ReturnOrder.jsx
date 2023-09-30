@@ -57,7 +57,7 @@ const ReturnOrder = () => {
       sales_order_num: "",
       cutomer_name: "",
       school_code: "",
-      s_address: "",
+      s_address: "dfe10e18-a7d3-4063-8624-8be8820bbc88",
       b_address: "",
       order_date: `${new Date().getFullYear()}-${(new Date().getMonth() + 1)
         .toString()
@@ -491,7 +491,8 @@ const ReturnOrder = () => {
         break;
 
       case "shipping_address":
-        formik.values.s_address = value.id;
+        // formik.values.s_address = value.id;
+        formik.values.s_address = "dfe10e18-a7d3-4063-8624-8be8820bbc88";
         break;
       case "billing_address":
         formik.values.b_address = value.id;
@@ -682,13 +683,14 @@ const ReturnOrder = () => {
                   />
                 </div>
                 <div className=" flex flex-col gap-2 w-full">
-                  <SearchDropDown
-                    handleOrderProcessingForm={handleOrderProcessingForm}
-                    disable={address.disable}
-                    data={sAddress.shipping}
-                    Name={"shipping_address"}
-                    label={"Shipping Address"}
-                    color={"rgb(243, 244, 246)"}
+                  <TextField
+                    id="search-bar"
+                    label="Shipping Address"
+                    variant="standard"
+                    InputLabelProps={{ style: { color: "white" } }}
+                    inputProps={{ style: { color: "white" } }}
+                    value={"Greater Noida warehouse"}
+                    size="small"
                   />
                 </div>
                 <div className=" flex flex-col gap-2 w-full">

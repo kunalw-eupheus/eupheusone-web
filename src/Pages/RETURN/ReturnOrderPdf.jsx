@@ -50,16 +50,25 @@ export const ReturnOrderPdf = () => {
         {pdfData?.return_processing_addresses?.map((item) => {
           return (
             <div className="w-full flex justify-start flex-col gap-2 font-semibold">
-              {item?.fk_addressq?.category === "S" ? (
-                <span>Shipping Address</span>
+              {item?.fk_addressq?.category === "B" ? (
+                <>
+                  <span>Billing Address</span>
+                  <span>Address: {item?.fk_addressq?.address}</span>
+                  <span>Street: {item?.fk_addressq?.street}</span>
+                  <span>Block: {item?.fk_addressq?.block}</span>
+                  <span>Zip Code: {item?.fk_addressq?.zip_code}</span>
+                  <span>GST No. : {item?.fk_addressq?.gst_no}</span>
+                </>
               ) : (
-                <span>Billing Address</span>
+                <>
+                  <span>Shipping Address</span>
+                  <span>Address: Greater Noida warehouse</span>
+                  <span>Street: NA</span>
+                  <span>Block: NA</span>
+                  <span>Zip Code: NA</span>
+                  <span>GST No. : NA</span>
+                </>
               )}
-              <span>Address: {item?.fk_addressq?.address}</span>
-              <span>Street: {item?.fk_addressq?.street}</span>
-              <span>Block: {item?.fk_addressq?.block}</span>
-              <span>Zip Code: {item?.fk_addressq?.zip_code}</span>
-              <span>GST No. : {item?.fk_addressq?.gst_no}</span>
             </div>
           );
         })}
