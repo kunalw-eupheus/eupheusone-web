@@ -16,8 +16,8 @@ const CustLedger = () => {
   const [arrData, setArrData] = useState([]);
   const [ttlDebit, setTtlDebit] = useState("");
   const [ttlCredit, setTtlCredit] = useState("");
-  const [totlAmnt, setTotlAmnt] = useState("")
-  const [drCr, setDrCr] = useState("")
+  const [totlAmnt, setTotlAmnt] = useState("");
+  const [drCr, setDrCr] = useState("");
 
   const { bp, todate, fromdate } = useParams();
 
@@ -53,13 +53,13 @@ const CustLedger = () => {
       method: "post",
       data: {
         bpcode: bp,
-        todate:  fromdate,
+        todate: fromdate,
         fromdate: todate,
       },
       headers: {
         // Authorization: Cookies.get("accessToken"),
         // accesskey: `auth74961a98ba76d4e4`,
-        accesskey: `auth0026c3956e3d0fba`
+        accesskey: `auth0026c3956e3d0fba`,
       },
     });
     // console.log(res.data)
@@ -73,7 +73,7 @@ const CustLedger = () => {
       // console.log(obj.debitAmount)
     }
     // console.log(data.address)
-    
+
     // totalDebit = totalDebit.toFixed(2)
     // console.log(totalDebit)
     // totalCredit = totalCredit.toFixed(2)
@@ -88,37 +88,35 @@ const CustLedger = () => {
     setBpName(data.bpname);
     setCurr(data.cur);
     setOpeningDr(data.opening);
-    let clsnBl = data.closing.toFixed(2)
+    let clsnBl = data.closing.toFixed(2);
     // console.log(typeof clsnBl)
     setClosingDr(clsnBl);
     setArrData(tableData);
     // console.log(tableData);
     // console.log(data.opening , totalCredit)
-    let totalAmnt = data.opening + totalCredit
+    let totalAmnt = data.opening + totalCredit;
     // console.log(totalAmnt)
-    setTotlAmnt(totalAmnt)
+    setTotlAmnt(totalAmnt);
 
-    let opngDrAmnt = data.opening
+    let opngDrAmnt = data.opening;
 
-    if(opngDrAmnt < 0){
-      totalCredit = opngDrAmnt + totalCredit
-      totalCredit = totalCredit.toFixed(2)
-      totalCredit = totalCredit.toFixed(2)
+    if (opngDrAmnt < 0) {
+      totalCredit = opngDrAmnt + totalCredit;
+      totalCredit = totalCredit.toFixed(2);
+      totalCredit = totalCredit.toFixed(2);
       setTtlDebit(totalDebit);
       setTtlCredit(totalCredit);
-      setDrCr("Cr")
-    }else{
-      totalDebit = opngDrAmnt + totalDebit
-      totalDebit = totalDebit.toFixed(2)
-      totalCredit = totalCredit.toFixed(2)
+      setDrCr("Cr");
+    } else {
+      totalDebit = opngDrAmnt + totalDebit;
+      totalDebit = totalDebit.toFixed(2);
+      totalCredit = totalCredit.toFixed(2);
       setTtlDebit(totalDebit);
       setTtlCredit(totalCredit);
-      setDrCr("Dr")
+      setDrCr("Dr");
     }
     // console.log(totalDebit)
     // console.log(totalCredit)
-   
-    
   };
 
   return (
@@ -157,7 +155,9 @@ const CustLedger = () => {
                   textAlign: "left",
                 }}
               >
-                Khasra No. 75, Village Malakpur, Ecotech-2, Opp. NTPC Ltd. (Netra), Greater Noida, Gautam Budh Nagar              </h3>
+                Khasra No. 75, Village Malakpur, Ecotech-2, Opp. NTPC Ltd.
+                (Netra), Greater Noida, Gautam Budh Nagar{" "}
+              </h3>
               <h3
                 style={{
                   paddingLeft: "150pt",
@@ -228,7 +228,7 @@ const CustLedger = () => {
             </td>
           </tr> */}
 
-          <tr style={{ height: "18pt", borderBottom: '2px solid black' }}>
+          <tr style={{ height: "18pt" }}>
             <td
               style={{
                 width: "93pt",
@@ -305,39 +305,144 @@ const CustLedger = () => {
                   lineHeight: "180%",
                   textAlign: "left",
                 }}
+              ></h2>
+            </td>
+          </tr>
+          {/* next tr is for space */}
+          <tr style={{ height: "18pt" }}>
+            <td
+              style={{
+                width: "93pt",
+              }}
+            >
+              <h2
+                style={{
+                  paddingLeft: "15pt",
+                  textIndent: "0pt",
+                  lineHeight: "180%",
+                  textAlign: "left",
+                }}
+              ></h2>
+            </td>
+          </tr>
+          <tr style={{ height: "18pt" }}>
+            <td colSpan={7}>
+              <h2
+                style={{
+                  paddingLeft: "15pt",
+                  textIndent: "0pt",
+                  lineHeight: "180%",
+                  textAlign: "left",
+                }}
               >
-                {/* Address:{" "} */}
-                {/* <span className="s8"> */}
-                {/* F-2/13 Ratiya Marg Sangam Vihar , New Delhi, DELHI,India, 110080 */}
-                {/* {address} */}
-                {/* </span> */}
+                Company's Bank Details:
               </h2>
             </td>
           </tr>
-
-          {/* <hr style={{
-          background: 'black',
-          color: 'black',
-          borderColor: 'black',
-          height: '2px',
-          width: "100%"
-        }}/> */}
-
-          {/* <tr style={{
-          background: 'black',
-          color: 'black',
-          borderColor: 'black',
-          height: '12px',
-          width: "100%"
-        }}>
-        </tr> */}
-          {/* <div className="w-[21cm]" style={{
-          borderTop: "solid",
-          
-        }}>
-            Hello */}
-
-   
+          {/* next tr is for space */}
+          <tr style={{ height: "18pt" }}>
+            <td
+              style={{
+                width: "93pt",
+              }}
+            >
+              <h2
+                style={{
+                  paddingLeft: "15pt",
+                  textIndent: "0pt",
+                  lineHeight: "180%",
+                  textAlign: "left",
+                }}
+              ></h2>
+            </td>
+          </tr>
+          <tr style={{ height: "18pt" }}>
+            <td colSpan={7}>
+              <h2
+                style={{
+                  paddingLeft: "15pt",
+                  textIndent: "0pt",
+                  lineHeight: "180%",
+                  textAlign: "left",
+                }}
+              >
+                Name of Account : Proficiency Learning Solutions Private Limited
+              </h2>
+            </td>
+          </tr>
+          <tr style={{ height: "18pt" }}>
+            <td colSpan={7}>
+              <h2
+                style={{
+                  paddingLeft: "15pt",
+                  textIndent: "0pt",
+                  lineHeight: "180%",
+                  textAlign: "left",
+                }}
+              >
+                Bank Name : Axis Bank Limited
+              </h2>
+            </td>
+          </tr>
+          <tr style={{ height: "18pt" }}>
+            <td colSpan={7}>
+              <h2
+                style={{
+                  paddingLeft: "15pt",
+                  textIndent: "0pt",
+                  lineHeight: "180%",
+                  textAlign: "left",
+                }}
+              >
+                A/c No : 922030062639998
+              </h2>
+            </td>
+          </tr>
+          <tr style={{ height: "18pt" }}>
+            <td colSpan={7}>
+              <h2
+                style={{
+                  paddingLeft: "15pt",
+                  textIndent: "0pt",
+                  lineHeight: "180%",
+                  textAlign: "left",
+                }}
+              >
+                IFSC Code : UTIB0001609
+              </h2>
+            </td>
+          </tr>
+          <tr style={{ height: "18pt" }}>
+            <td colSpan={7}>
+              <h2
+                style={{
+                  paddingLeft: "15pt",
+                  textIndent: "0pt",
+                  lineHeight: "180%",
+                  textAlign: "left",
+                }}
+              >
+                Bank Branch : Corporate Banking Branch, New Delhi.
+              </h2>
+            </td>
+          </tr>
+          {/* next tr is for space */}
+          <tr style={{ height: "18pt" }}>
+            <td
+              style={{
+                width: "93pt",
+              }}
+            >
+              <h2
+                style={{
+                  paddingLeft: "15pt",
+                  textIndent: "0pt",
+                  lineHeight: "180%",
+                  textAlign: "left",
+                }}
+              ></h2>
+            </td>
+          </tr>
 
           <tr
             style={{
@@ -1178,8 +1283,6 @@ const CustLedger = () => {
                 }}
               >
                 Closing Balance : {`${closingDr}`}
-                
-
                 {/* Closing Balance : {`${totlAmnt}`} */}
                 {/* -12,774.00 */}
               </p>
