@@ -339,11 +339,13 @@ const OrderProcessing = () => {
       },
     });
     // console.log(addressRes.data.message)
-    setAddress({
-      billing: JSON.parse(
-        JSON.stringify(addressRes.data.message[0].bp_addresses[0])
-      ),
-    });
+    if (addressRes.data.message.length > 0) {
+      setAddress({
+        billing: JSON.parse(
+          JSON.stringify(addressRes?.data.message[0]?.bp_addresses[0])
+        ),
+      });
+    }
 
     const addressRes2 = await instance({
       url: `sales_data/getcustomer/shipping/${id}`,
@@ -354,11 +356,13 @@ const OrderProcessing = () => {
     });
     // console.log(.data)
     console.log(addressRes2.data.message);
-    setSaddress({
-      shipping: JSON.parse(
-        JSON.stringify(addressRes2.data.message[0].bp_addresses)
-      ),
-    });
+    if (addressRes2.data.message.length > 0) {
+      setSaddress({
+        shipping: JSON.parse(
+          JSON.stringify(addressRes2?.data.message[0]?.bp_addresses)
+        ),
+      });
+    }
 
     setLoading(false);
   };
