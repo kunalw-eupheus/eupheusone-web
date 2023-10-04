@@ -57,7 +57,7 @@ const ReturnOrder = () => {
       sales_order_num: "",
       cutomer_name: "",
       school_code: "",
-      s_address: "",
+      s_address: "dfe10e18-a7d3-4063-8624-8be8820bbc88",
       b_address: "",
       order_date: `${new Date().getFullYear()}-${(new Date().getMonth() + 1)
         .toString()
@@ -145,7 +145,7 @@ const ReturnOrder = () => {
     details: ["Home", " / Return Request"],
   };
 
-  const getCkItemBySubject = async (subId) => {
+  const getCkItemBySubject = async (subId, reset) => {
     if (rowData.length === 0) {
       setLoading(true);
       const CkItems = await instance({
@@ -165,6 +165,44 @@ const ReturnOrder = () => {
         }
       });
       setRowData(filterdRows);
+      filterdRows.map((item) => {
+        formik.values.items.push({
+          id: item?.id,
+          item_id: item?.item_code,
+          quantity: formik.values.item_quan,
+          price: item?.price_master?.price,
+          tax: item?.fk_tax?.tax,
+          discount: item?.fk_discount?.discount,
+        });
+      });
+      setValue({
+        item_quan: false,
+        total_quan: calValues("total_quan"),
+        total: calValues("total_after_tax"),
+        total_before_tax: calValues("total_before_tax"),
+      });
+      setLoading(false);
+      setOpen(true);
+    } else if (reset) {
+      setLoading(true);
+      const CkItems = await instance({
+        url: `items/getitembysubject/${subId}`,
+        method: "GET",
+        headers: {
+          Authorization: `${Cookies.get("accessToken")}`,
+        },
+      });
+
+      const filterdRows = [];
+      let uniqueIds = new Set();
+      CkItems.data.message.map((item) => {
+        if (!uniqueIds.has(item?.item_code)) {
+          uniqueIds.add(item?.item_code);
+          filterdRows.push(item);
+        }
+      });
+      setRowData(filterdRows);
+      formik.values.items = [];
       filterdRows.map((item) => {
         formik.values.items.push({
           id: item?.id,
@@ -429,6 +467,9 @@ const ReturnOrder = () => {
         formik.values.school = value.id;
         break;
       case "subject_name":
+        if (formik.values.items.length > 0) {
+          getCkItemBySubject(value.id, true);
+        }
         formik.values.subject = value;
         break;
       case "series_name":
@@ -445,12 +486,13 @@ const ReturnOrder = () => {
             getListData(formik.values.series.id);
           }
         } else if (formik.values.return_type === "Classklap") {
-          getCkItemBySubject(formik.values.subject.id);
+          getCkItemBySubject(formik.values.subject.id, false);
         }
         break;
 
       case "shipping_address":
-        formik.values.s_address = value.id;
+        // formik.values.s_address = value.id;
+        formik.values.s_address = "dfe10e18-a7d3-4063-8624-8be8820bbc88";
         break;
       case "billing_address":
         formik.values.b_address = value.id;
@@ -641,13 +683,14 @@ const ReturnOrder = () => {
                   />
                 </div>
                 <div className=" flex flex-col gap-2 w-full">
-                  <SearchDropDown
-                    handleOrderProcessingForm={handleOrderProcessingForm}
-                    disable={address.disable}
-                    data={sAddress.shipping}
-                    Name={"shipping_address"}
-                    label={"Shipping Address"}
-                    color={"rgb(243, 244, 246)"}
+                  <TextField
+                    id="search-bar"
+                    label="Shipping Address"
+                    variant="standard"
+                    InputLabelProps={{ style: { color: "white" } }}
+                    inputProps={{ style: { color: "white" } }}
+                    value={"Greater Noida warehouse"}
+                    size="small"
                   />
                 </div>
                 <div className=" flex flex-col gap-2 w-full">
@@ -675,7 +718,7 @@ const ReturnOrder = () => {
                   <DatePicker
                     handleOrderProcessingForm={handleOrderProcessingForm}
                     label={"Sales Order Date"}
-                    disablePast={true}
+                    disablePast={false}
                   />
                 </div>
                 <div className=" flex flex-col gap-2 w-full">
@@ -703,13 +746,6 @@ const ReturnOrder = () => {
                   />
                 </div>
                 <div className=" flex flex-col gap-2 w-full">
-                  {/* <BasicTextFields
-                    handleOrderProcessingForm={handleOrderProcessingForm}
-                    lable={"School Code"}
-                    variant={"standard"}
-                    
-                    multiline={false}
-                  /> */}
                   <TextField
                     id="search-bar"
                     label="School Code"
