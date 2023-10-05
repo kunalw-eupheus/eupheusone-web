@@ -3,6 +3,7 @@ import { createPopper } from "@popperjs/core";
 import { KeyboardArrowDown } from "@mui/icons-material";
 import instance from "../Instance";
 import Cookies from "js-cookie";
+import { useLocation } from "react-router-dom";
 
 const Dropdown = ({
   dropdownPopoverShow,
@@ -14,6 +15,8 @@ const Dropdown = ({
 
   const [finYear, setFinYear] = useState([]);
   const [currYear, setCurrYear] = useState(defaultYear ? defaultYear : null);
+
+  const location = useLocation();
 
   const btnDropdownRef = React.createRef();
   const popoverDropdownRef = React.createRef();
@@ -52,15 +55,20 @@ const Dropdown = ({
   };
 
   const returnData = () => {
-    const arr = [];
-    finYear.map((item) => {
-      if (item.name === "FY 2022-23" || item.name === "FY 2023-24") {
-        arr.push(item);
-      }
-    });
-    arr.sort((a, b) => a.name.split("-")[1] - b.name.split("-")[1]);
-    // console.log(arr);
-    return arr;
+    if (location.pathname === "/salesToCash") {
+      const arr = [];
+      finYear.map((item) => {
+        if (item.name === "FY 2022-23" || item.name === "FY 2023-24") {
+          arr.push(item);
+        }
+      });
+      arr.sort((a, b) => a.name.split("-")[1] - b.name.split("-")[1]);
+      // console.log(arr);
+      return arr;
+    } else {
+      finYear.sort((a, b) => b.name.split("-")[1] - a.name.split("-")[1]);
+      return finYear;
+    }
   };
 
   return (
