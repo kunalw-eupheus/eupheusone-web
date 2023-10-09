@@ -61,10 +61,10 @@ const ReturnOrder = () => {
       b_address: "",
       order_date: `${new Date().getFullYear()}-${(new Date().getMonth() + 1)
         .toString()
-        .padStart(2, "0")}-${new Date().getDate()}`,
+        .padStart(2, "0")}-${new Date().getDate().toString().padStart(2, "0")}`,
       returnDate: `${new Date().getFullYear()}-${(new Date().getMonth() + 1)
         .toString()
-        .padStart(2, "0")}-${new Date().getDate()}`,
+        .padStart(2, "0")}-${new Date().getDate().toString().padStart(2, "0")}`,
       return_ref: "",
       bp_contact_id: "",
       school: null,
@@ -79,6 +79,7 @@ const ReturnOrder = () => {
       remarks: "",
     },
     validate: (values) => {
+      const errors = {};
       if (
         !values.return_type ||
         !values.sales_order_num ||
@@ -89,11 +90,11 @@ const ReturnOrder = () => {
         !values.return_ref ||
         !values.bp_contact_id ||
         !values.school ||
-        !values.subject ||
-        !values.item_quan ||
         !values.pref_transpoter_name
       ) {
-        return ShowError("All fields are required");
+        ShowError("All fields are required");
+        errors.return_type = "Required";
+        return errors;
       }
     },
     onSubmit: async (values) => {
@@ -116,13 +117,17 @@ const ReturnOrder = () => {
           transporterName: values.pref_transpoter_name,
           contactId: values.bp_contact_id,
           remarks: values.remarks,
-          quantity: values.item_quan,
+          quantity: value.total_quan,
           amount: value.total,
           shippingAddressId: values.s_address,
           billingAddressId: values.b_address,
           isFullCancel: !values.full_return,
           items: values.items.map((item) => {
-            return { itemId: item.id, quantity: item.quantity };
+            return {
+              itemId: item.id,
+              quantity: item.quantity,
+              itemCode: item.item_id,
+            };
           }),
         },
       }).catch(() => {
@@ -145,84 +150,84 @@ const ReturnOrder = () => {
     details: ["Home", " / Return Request"],
   };
 
-  const getCkItemBySubject = async (subId, reset) => {
-    if (rowData.length === 0) {
-      setLoading(true);
-      const CkItems = await instance({
-        url: `items/getitembysubject/${subId}`,
-        method: "GET",
-        headers: {
-          Authorization: `${Cookies.get("accessToken")}`,
-        },
-      });
+  // const getCkItemBySubject = async (subId, reset) => {
+  //   if (rowData.length === 0) {
+  //     setLoading(true);
+  //     const CkItems = await instance({
+  //       url: `items/getitembysubject/${subId}`,
+  //       method: "GET",
+  //       headers: {
+  //         Authorization: `${Cookies.get("accessToken")}`,
+  //       },
+  //     });
 
-      const filterdRows = [];
-      let uniqueIds = new Set();
-      CkItems.data.message.map((item) => {
-        if (!uniqueIds.has(item?.item_code)) {
-          uniqueIds.add(item?.item_code);
-          filterdRows.push(item);
-        }
-      });
-      setRowData(filterdRows);
-      filterdRows.map((item) => {
-        formik.values.items.push({
-          id: item?.id,
-          item_id: item?.item_code,
-          quantity: formik.values.item_quan,
-          price: item?.price_master?.price,
-          tax: item?.fk_tax?.tax,
-          discount: item?.fk_discount?.discount,
-        });
-      });
-      setValue({
-        item_quan: false,
-        total_quan: calValues("total_quan"),
-        total: calValues("total_after_tax"),
-        total_before_tax: calValues("total_before_tax"),
-      });
-      setLoading(false);
-      setOpen(true);
-    } else if (reset) {
-      setLoading(true);
-      const CkItems = await instance({
-        url: `items/getitembysubject/${subId}`,
-        method: "GET",
-        headers: {
-          Authorization: `${Cookies.get("accessToken")}`,
-        },
-      });
+  //     const filterdRows = [];
+  //     let uniqueIds = new Set();
+  //     CkItems.data.message.map((item) => {
+  //       if (!uniqueIds.has(item?.item_code)) {
+  //         uniqueIds.add(item?.item_code);
+  //         filterdRows.push(item);
+  //       }
+  //     });
+  //     setRowData(filterdRows);
+  //     filterdRows.map((item) => {
+  //       formik.values.items.push({
+  //         id: item?.id,
+  //         item_id: item?.item_code,
+  //         quantity: formik.values.item_quan,
+  //         price: item?.price_master?.price,
+  //         tax: item?.fk_tax?.tax,
+  //         discount: item?.fk_discount?.discount,
+  //       });
+  //     });
+  //     setValue({
+  //       item_quan: false,
+  //       total_quan: calValues("total_quan"),
+  //       total: calValues("total_after_tax"),
+  //       total_before_tax: calValues("total_before_tax"),
+  //     });
+  //     setLoading(false);
+  //     setOpen(true);
+  //   } else if (reset) {
+  //     setLoading(true);
+  //     const CkItems = await instance({
+  //       url: `items/getitembysubject/${subId}`,
+  //       method: "GET",
+  //       headers: {
+  //         Authorization: `${Cookies.get("accessToken")}`,
+  //       },
+  //     });
 
-      const filterdRows = [];
-      let uniqueIds = new Set();
-      CkItems.data.message.map((item) => {
-        if (!uniqueIds.has(item?.item_code)) {
-          uniqueIds.add(item?.item_code);
-          filterdRows.push(item);
-        }
-      });
-      setRowData(filterdRows);
-      formik.values.items = [];
-      filterdRows.map((item) => {
-        formik.values.items.push({
-          id: item?.id,
-          item_id: item?.item_code,
-          quantity: formik.values.item_quan,
-          price: item?.price_master?.price,
-          tax: item?.fk_tax?.tax,
-          discount: item?.fk_discount?.discount,
-        });
-      });
-      setValue({
-        item_quan: false,
-        total_quan: calValues("total_quan"),
-        total: calValues("total_after_tax"),
-        total_before_tax: calValues("total_before_tax"),
-      });
-      setLoading(false);
-      setOpen(true);
-    }
-  };
+  //     const filterdRows = [];
+  //     let uniqueIds = new Set();
+  //     CkItems.data.message.map((item) => {
+  //       if (!uniqueIds.has(item?.item_code)) {
+  //         uniqueIds.add(item?.item_code);
+  //         filterdRows.push(item);
+  //       }
+  //     });
+  //     setRowData(filterdRows);
+  //     formik.values.items = [];
+  //     filterdRows.map((item) => {
+  //       formik.values.items.push({
+  //         id: item?.id,
+  //         item_id: item?.item_code,
+  //         quantity: formik.values.item_quan,
+  //         price: item?.price_master?.price,
+  //         tax: item?.fk_tax?.tax,
+  //         discount: item?.fk_discount?.discount,
+  //       });
+  //     });
+  //     setValue({
+  //       item_quan: false,
+  //       total_quan: calValues("total_quan"),
+  //       total: calValues("total_after_tax"),
+  //       total_before_tax: calValues("total_before_tax"),
+  //     });
+  //     setLoading(false);
+  //     setOpen(true);
+  //   }
+  // };
 
   const handleSidebarCollapsed = () => {
     sidebarRef.current.openSidebar();
@@ -357,19 +362,19 @@ const ReturnOrder = () => {
     setContactData(res.data.message);
   };
 
-  const getSeriesData = async (id) => {
-    setLoading(true);
-    const SeriesRes = await instance({
-      url: `series/getseries/${id}`,
-      method: "GET",
-      headers: {
-        Authorization: Cookies.get("accessToken"),
-      },
-    });
-    setSeriesData(SeriesRes.data.message);
+  // const getSeriesData = async (id) => {
+  //   setLoading(true);
+  //   const SeriesRes = await instance({
+  //     url: `series/getseries/${id}`,
+  //     method: "GET",
+  //     headers: {
+  //       Authorization: Cookies.get("accessToken"),
+  //     },
+  //   });
+  //   setSeriesData(SeriesRes.data.message);
 
-    setLoading(false);
-  };
+  //   setLoading(false);
+  // };
 
   const getListData = async (seriesID) => {
     setLoading(true);
@@ -431,6 +436,64 @@ const ReturnOrder = () => {
     }
   };
 
+  const getItemsBySoNo = async (so_no) => {
+    setLoading(true);
+    const getListData = await instance({
+      url: `items/getItemsBySo`,
+      method: "POST",
+      data: {
+        category: formik.values.return_type.toLowerCase(),
+        so_no,
+        bpId: formik.values.cutomer_name,
+      },
+      headers: {
+        Authorization: Cookies.get("accessToken"),
+      },
+    }).catch(() => {
+      setLoading(false);
+    });
+    if (getListData.status === 200) {
+      formik.values.sales_order_num = so_no;
+      const itemsArr = [];
+      getListData?.data?.data?.map((subArr) => {
+        subArr.map((item) => {
+          itemsArr.push({
+            ...item,
+            item_code: item.itemcode,
+            item_name: item.itemdescription,
+          });
+          formik.values.items.push({
+            id: item?.id,
+            item_id: item?.itemcode,
+            quantity: item?.quantity,
+            price: item?.price,
+            tax: 0,
+            discount: item?.discountpercent,
+          });
+        });
+      });
+      setRowData(itemsArr);
+      // itemsArr.map((item) => {
+      //   formik.values.items.push({
+      //     id: item?.id,
+      //     item_id: item?.item_code,
+      //     quantity: item?.quantity,
+      //     price: item?.price,
+      //     tax: 0,
+      //     discount: item?.discountpercent,
+      //   });
+      // });
+      setValue({
+        item_quan: false,
+        total_quan: calValues("total_quan"),
+        total: calValues("total_after_tax"),
+        total_before_tax: calValues("total_before_tax"),
+      });
+    }
+    setLoading(false);
+    setOpen(true);
+  };
+
   const handleOrderProcessingForm = async (value, type) => {
     switch (type) {
       case "order_type":
@@ -438,9 +501,9 @@ const ReturnOrder = () => {
         getSchoolData(value.order_type.toLowerCase());
         formik.values.return_type = value.order_type;
         break;
-      case "Sales Order Number":
-        formik.values.sales_order_num = Number(value);
-        break;
+      // case "Sales Order Number":
+      //   formik.values.sales_order_num = Number(value);
+      //   break;
       case "customer_name":
         getCustomerAddress(value.id);
         GetContactRes(value.id);
@@ -466,12 +529,12 @@ const ReturnOrder = () => {
         formik.values.school_code = value?.school_code;
         formik.values.school = value.id;
         break;
-      case "subject_name":
-        if (formik.values.items.length > 0) {
-          getCkItemBySubject(value.id, true);
-        }
-        formik.values.subject = value;
-        break;
+      // case "subject_name":
+      //   if (formik.values.items.length > 0) {
+      //     getCkItemBySubject(value.id, true);
+      //   }
+      //   formik.values.subject = value;
+      //   break;
       case "series_name":
         formik.values.series = value;
         conditionalGetList(value.id);
@@ -479,16 +542,16 @@ const ReturnOrder = () => {
         setValue((prev) => ({ ...prev, item_quan: false }));
 
         break;
-      case "Items Quantity":
-        formik.values.item_quan = value;
-        if (formik.values.return_type === "Eupheus") {
-          if (rowData.length === 0) {
-            getListData(formik.values.series.id);
-          }
-        } else if (formik.values.return_type === "Classklap") {
-          getCkItemBySubject(formik.values.subject.id, false);
-        }
-        break;
+      // case "Items Quantity":
+      //   formik.values.item_quan = value;
+      //   if (formik.values.return_type === "Eupheus") {
+      //     if (rowData.length === 0) {
+      //       getListData(formik.values.series.id);
+      //     }
+      //   } else if (formik.values.return_type === "Classklap") {
+      //     getCkItemBySubject(formik.values.subject.id, false);
+      //   }
+      //   break;
 
       case "shipping_address":
         // formik.values.s_address = value.id;
@@ -514,6 +577,10 @@ const ReturnOrder = () => {
         break;
       case "School Code":
         formik.values.school_code = value;
+        break;
+      case "SO No.":
+        console.log(value);
+        getItemsBySoNo(value);
         break;
       default:
         break;
@@ -664,7 +731,7 @@ const ReturnOrder = () => {
                   label={"Full Return"}
                   color={"rgb(243, 244, 246)"}
                 />
-                <div className=" flex flex-col gap-2 w-full">
+                {/* <div className=" flex flex-col gap-2 w-full">
                   <BasicTextFields
                     handleOrderProcessingForm={handleOrderProcessingForm}
                     lable={"Sales Order Number"}
@@ -672,7 +739,7 @@ const ReturnOrder = () => {
                     variant={"standard"}
                     multiline={false}
                   />
-                </div>
+                </div> */}
                 <div className=" flex flex-col gap-2 w-full">
                   <SearchDropDown
                     handleOrderProcessingForm={handleOrderProcessingForm}
@@ -757,7 +824,7 @@ const ReturnOrder = () => {
                     size="small"
                   />
                 </div>
-                <div className=" flex flex-col gap-2 w-full">
+                {/* <div className=" flex flex-col gap-2 w-full">
                   <SearchDropDown
                     handleOrderProcessingForm={handleOrderProcessingForm}
                     getSeriesData={getSeriesData}
@@ -767,8 +834,8 @@ const ReturnOrder = () => {
                     label={"Select Subject"}
                     color={"rgb(243, 244, 246)"}
                   />
-                </div>
-                {formik.values.return_type === "Eupheus" && (
+                </div> */}
+                {/* {formik.values.return_type === "Eupheus" && (
                   <div className=" flex flex-col gap-2 w-full">
                     <SearchDropDown
                       handleOrderProcessingForm={handleOrderProcessingForm}
@@ -779,8 +846,8 @@ const ReturnOrder = () => {
                       color={"rgb(243, 244, 246)"}
                     />
                   </div>
-                )}
-                <div className=" flex flex-col gap-2 w-full">
+                )} */}
+                {/* <div className=" flex flex-col gap-2 w-full">
                   <TextField
                     id="standard-basic"
                     disabled={
@@ -801,6 +868,21 @@ const ReturnOrder = () => {
                     inputProps={{ style: { color: "white" } }}
                     InputLabelProps={{ style: { color: "white" } }}
                     label="Items Quantity"
+                    variant="standard"
+                  />
+                </div> */}
+                <div className=" flex flex-col gap-2 w-full">
+                  <TextField
+                    id="standard-basic"
+                    onBlur={(e) =>
+                      handleOrderProcessingForm(e.target.value, "SO No.")
+                    }
+                    inputProps={{ style: { color: "white" } }}
+                    disabled={
+                      !formik.values.return_type || !formik.values.cutomer_name
+                    }
+                    InputLabelProps={{ style: { color: "white" } }}
+                    label="Sales Order No"
                     variant="standard"
                   />
                 </div>
@@ -853,15 +935,15 @@ const ReturnOrder = () => {
                               </TableCell>
 
                               <TableCell align="center">
-                                {item?.fk_series_id?.series}
+                                {item?.series}
                               </TableCell>
 
                               <TableCell align="center">
-                                {item.price_master.price}
+                                {item?.price}
                               </TableCell>
 
                               <TableCell align="center">
-                                {item?.item_grade}
+                                {item?.grade}
                               </TableCell>
                               <TableCell align="center">
                                 <TextField
@@ -873,7 +955,7 @@ const ReturnOrder = () => {
                                   }}
                                   label="Enter Value *"
                                   variant="outlined"
-                                  defaultValue={formik.values.item_quan}
+                                  defaultValue={item?.quantity}
                                   size="small"
                                 />
                               </TableCell>
