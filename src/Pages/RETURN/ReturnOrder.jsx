@@ -22,6 +22,7 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import ReactGA from "react-ga4";
 import { ShowError } from "../../util/showError";
+import { Clear, Delete, Remove } from "@mui/icons-material";
 
 const ReturnOrder = () => {
   const [loading, setLoading] = useState(false);
@@ -671,6 +672,19 @@ const ReturnOrder = () => {
     };
   }, []);
 
+  const removeItemRow = (itemId) => {
+    formik.values.items = formik.values.items.filter(
+      (item) => item.id !== itemId
+    );
+    const newRowData = rowData.filter((item) => item.id !== itemId);
+    setRowData(newRowData);
+    setValue({
+      total_quan: calValues("total_quan"),
+      total: calValues("total_after_tax"),
+      total_before_tax: calValues("total_before_tax"),
+    });
+  };
+
   return (
     <div className="flex">
       <Backdrop
@@ -927,7 +941,13 @@ const ReturnOrder = () => {
                                 },
                               }}
                             >
-                              <TableCell align="center">
+                              <TableCell align="left">
+                                <Remove
+                                  className="!mr-2 !bg-slate-500 !rounded-full !text-white !cursor-pointer"
+                                  onClick={() => {
+                                    removeItemRow(item.id);
+                                  }}
+                                />
                                 {item.item_name}
                               </TableCell>
                               <TableCell align="center">
