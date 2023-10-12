@@ -164,6 +164,14 @@ const Login = () => {
           dispatch(authActions.editorialLogin());
         }
 
+        if (res.data.type === "SM") {
+          Cookies.set(
+            "SM",
+            `id: ${res.data.id}, accessToken: ${res.data.accessToken}`
+          );
+          dispatch(authActions.smLogin());
+        }
+
         dispatch(authActions.login());
 
         if (res.data.type === "HR") {
@@ -202,6 +210,8 @@ const Login = () => {
           navigate("/hr/home");
         } else if (res.data.type === "IT" && res.data.company === "Euphues") {
           navigate("/reimbursement_report");
+        } else if (res.data.type === "SM" && res.data.company === "Euphues") {
+          navigate("/sm/doc_print");
         } else if (
           res.data.type === "editorial" &&
           res.data.company === "Euphues"

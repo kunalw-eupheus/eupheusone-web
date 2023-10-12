@@ -111,8 +111,7 @@ const SendMessage = lazy(() => import("./Pages/HR/SendMessage"));
 const AddPrintingReq = lazy(() => import("./Pages/Printing/AddPrintingReq"));
 const CheckStatus = lazy(() => import("./Pages/Printing/CheckStatus"));
 const Reimbursment = lazy(() => import("./Pages/Reimbursment"));
-
-// import usePageView from "./Components/customHooks/usePageView";
+const DocPrint = lazy(() => import("./Pages/SM/DocPrint"));
 
 function App() {
   // const [userCache, setUserCache] = useState(false);
@@ -132,6 +131,7 @@ function App() {
   const Gtepas = useSelector((state) => state.auth.gatepass);
   const Editorial = useSelector((state) => state.auth.editorial);
   const IT = useSelector((state) => state.auth.IT);
+  const SM = useSelector((state) => state.auth.SM);
   useEffect(() => {
     ReactGA.initialize("G-WWFF5R3TB6");
   }, []);
@@ -470,27 +470,43 @@ function App() {
                 <Route
                   path="/invoice_pdf_single"
                   element={
-                    isAuth || MsAuth || Zsm ? <ViewInvoiceSingle /> : <Login />
+                    isAuth || MsAuth || Zsm || SM ? (
+                      <ViewInvoiceSingle />
+                    ) : (
+                      <Login />
+                    )
                   }
                 />
                 <Route
                   path="/credit/invoice_pdf_single"
                   element={
-                    isAuth || MsAuth || Zsm ? <CreditSinglePdf /> : <Login />
+                    isAuth || MsAuth || Zsm || SM ? (
+                      <CreditSinglePdf />
+                    ) : (
+                      <Login />
+                    )
                   }
                 />
 
                 <Route
                   path="/invoice_pdf_double"
                   element={
-                    isAuth || MsAuth || Zsm ? <ViewInvoiceDouble /> : <Login />
+                    isAuth || MsAuth || Zsm || SM ? (
+                      <ViewInvoiceDouble />
+                    ) : (
+                      <Login />
+                    )
                   }
                 />
 
                 <Route
                   path="/customer_pdf"
                   element={
-                    isAuth || MsAuth || Zsm ? <ViewCustomerLedger /> : <Login />
+                    isAuth || MsAuth || Zsm || SM ? (
+                      <ViewCustomerLedger />
+                    ) : (
+                      <Login />
+                    )
                   }
                 />
 
@@ -664,7 +680,11 @@ function App() {
                     )
                   }
                 />
-
+                {/* SM Users */}
+                <Route
+                  path="/sm/doc_print"
+                  element={SM ? <DocPrint /> : <Login />}
+                />
                 <Route
                   path="*"
                   element={isAuth ? <PageNotFound /> : <Login />}
