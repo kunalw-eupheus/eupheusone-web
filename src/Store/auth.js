@@ -13,6 +13,7 @@ const initialAuthState = {
   gatepass: Cookies.get("warehouse_GP") || null,
   editorial: Cookies.get("editorial") || null,
   IT: Cookies.get("IT") || null,
+  SM: Cookies.get("SM") || null,
 };
 
 const authSlice = createSlice({
@@ -63,6 +64,9 @@ const authSlice = createSlice({
     },
     editorialLogin(state) {
       state.editorial = Cookies.get("editorial");
+    },
+    smLogin(state) {
+      state.SM = Cookies.get("SM");
     },
   },
 });

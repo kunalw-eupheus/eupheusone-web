@@ -251,7 +251,7 @@ const CreditNote = () => {
                   <p className="text-xs">Credit Note Date : {docDate}</p>
                   <p className="text-xs">State : {state}</p>
                   <p className="text-xs">State Code : {sCode}</p>
-                  <p className="text-xs">Place of Supply : RAJASTHAN</p>
+                  <p className="text-xs">Place of Supply : {shipsToState}</p>
                   <p className="text-xs">Customer Ref No : {refNo}</p>
                   <p className="text-xs">Document Date : {docDate}</p>
                   <p className="text-xs">Sales Employee : {salesP}</p>

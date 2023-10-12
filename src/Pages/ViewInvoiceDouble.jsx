@@ -84,8 +84,13 @@ const ViewInvoiceDouble = () => {
   }, []);
 
   const getCustomers = async () => {
+    const type = Cookies.get("type");
+    let url = "sales_data/get_all_bps";
+    if (type === "SM") {
+      url = "sales_data/get_all_sm_bps";
+    }
     const res = await instance({
-      url: "sales_data/get_all_bps",
+      url,
       method: "GET",
       headers: {
         Authorization: `${Cookies.get("accessToken")}`,
