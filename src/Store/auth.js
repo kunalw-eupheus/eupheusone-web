@@ -37,6 +37,7 @@ const authSlice = createSlice({
       state.HR = false;
       state.gatepass = false;
       state.editorial = false;
+      state.SM = false;
     },
     adminLogin(state) {
       state.admin = Cookies.get("admin");
