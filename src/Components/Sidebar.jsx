@@ -36,6 +36,7 @@ import TransitionsModal from "./Material/Model";
 import DialogSlide from "./Material/Dialog";
 import { useRef } from "react";
 import ResetPass from "./Material/Dialog/ResetPassDialog";
+import AdminSidebar from "./Sidebar/AdminSidebar";
 
 const Sidebar = ({ sidebarCollapsed, highLight, show }) => {
   const [modelOpen, setModelOpen] = useState(false);
@@ -629,6 +630,7 @@ const Sidebar = ({ sidebarCollapsed, highLight, show }) => {
             </Link>
           </>
         ) : null}
+        {userType === "admin" ? <AdminSidebar highLight={highLight} /> : null}
         {/* </Link> */}
       </div>
     </div>
