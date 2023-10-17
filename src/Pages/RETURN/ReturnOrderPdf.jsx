@@ -63,10 +63,10 @@ export const ReturnOrderPdf = () => {
                 <>
                   <span>Shipping Address</span>
                   <span>Address: Greater Noida warehouse</span>
-                  <span>Street: NA</span>
-                  <span>Block: NA</span>
-                  <span>Zip Code: NA</span>
-                  <span>GST No. : NA</span>
+                  <span>Street: Khasra No. 75, Village Malakpur</span>
+                  <span>Block: -</span>
+                  <span>Zip Code: 201306</span>
+                  <span>GST No. : 09AAJCP2139H1ZA</span>
                 </>
               )}
             </div>
