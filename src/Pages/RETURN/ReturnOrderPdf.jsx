@@ -97,7 +97,7 @@ export const ReturnOrderPdf = () => {
                 <td align="center">{item?.fk_item?.fk_subject?.subject}</td>
                 <td align="center">{item?.fk_item?.fk_sery?.series}</td>
                 <td align="center">{item?.fk_item?.price}</td>
-                <td align="center">{item?.quantity}</td>
+                <td align="center">{item?.fk_item?.quantity}</td>
               </tr>
             );
           })}
