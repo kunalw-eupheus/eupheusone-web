@@ -1,11 +1,10 @@
 import React, { useEffect, useRef } from "react";
 import { useState } from "react";
 import Navbar from "../Components/Navbar";
-import Sidebar from "../Components/Sidebar4";
+import Sidebar from "../Components/Sidebar";
 // import { Add } from '@mui/icons-material'
 import { Link } from "react-router-dom";
 import DataTable from "../Components/DataTable";
-// import { rows, ManageSchoolRows } from '../DummyData'
 import SearchDropDown from "../Components/SearchDropDown";
 import SwipeableTemporaryDrawer from "../Components/Material/MaterialSidebar4";
 import instance from "../Instance";

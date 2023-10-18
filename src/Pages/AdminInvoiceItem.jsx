@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import { useState } from "react";
 import Navbar from "../Components/Navbar";
-import Sidebar from "../Components/Sidebar4";
+import Sidebar from "../Components/Sidebar";
 // import { Add } from '@mui/icons-material'
 import { Link, useParams } from "react-router-dom";
 import DataTable from "../Components/DataTable";

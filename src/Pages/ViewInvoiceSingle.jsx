@@ -25,13 +25,13 @@ const ViewInvoiceSingle = () => {
   const [type, setType] = useState("");
   const sidebarRef = useRef();
   const [customer, setCustomer] = useState([]);
+  const [users, setUsers] = useState([]);
   const [schoolRow, setSchoolRow] = useState([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [bpCode, setBpCode] = useState("");
   const [searchVal, setSearchVal] = useState("");
   const [filterArr, setFilterArr] = useState([]);
-  // const [isPending, startTransition] = useTransition();
   const [finYear, setFinYear] = useState({
     start: "2023-04-01",
     end: "2024-03-31",
@@ -39,9 +39,9 @@ const ViewInvoiceSingle = () => {
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
-
+  let Admin = Cookies.get("type") === "admin";
+  let userId = "";
   const changeYear = (year) => {
-    console.log(year);
     let newYear = {
       start: year.start,
       end: year.end,
@@ -65,6 +65,9 @@ const ViewInvoiceSingle = () => {
 
   useEffect(() => {
     getCustomers();
+    if (Admin) {
+      getUsers();
+    }
     const handleWidth = () => {
       if (window.innerWidth > 1024) {
         setSidebarCollapsed(false);
@@ -102,7 +105,10 @@ const ViewInvoiceSingle = () => {
     let url = "sales_data/get_all_bps";
     if (type === "SM") {
       url = "sales_data/get_all_sm_bps";
+    } else if (type === "admin") {
+      url = `user/admin/get/customers/${userId}`;
     }
+    setLoading(true);
     const res = await instance({
       url,
       method: "GET",
@@ -111,6 +117,18 @@ const ViewInvoiceSingle = () => {
       },
     });
     setCustomer(res.data.message);
+    setLoading(false);
+  };
+
+  const getUsers = async () => {
+    const res = await instance({
+      url: "user/getAllusers",
+      method: "GET",
+      headers: {
+        Authorization: `${Cookies.get("accessToken")}`,
+      },
+    });
+    setUsers(res.data.message);
   };
 
   const handleOrderProcessingForm = async (value, type) => {
@@ -130,14 +148,22 @@ const ViewInvoiceSingle = () => {
       case "select_type":
         setType(value.types);
         break;
+      case "get_all_user":
+        userId = value.id;
+        getCustomers();
+        break;
       default:
         break;
     }
   };
 
   const searchPDF = async () => {
+    let url = "doc_print/invoive/list";
+    if (Admin) {
+      url = "doc_print/invoive/list-admin";
+    }
     const res = await instance({
-      url: `doc_print/invoive/list`,
+      url,
       method: "POST",
       data: {
         bpCode,
@@ -208,9 +234,21 @@ const ViewInvoiceSingle = () => {
         <div className="min-h-[100vh] pt-[2vh] max-h-full bg-[#141728]">
           <div className=" sm:px-8 px-2 py-3 bg-[#141728]">
             <div className="grid grid-cols-2 grid-rows-2 md:flex md:justify-around md:items-center px-6 mb-8 py-3 mt-6 gap-6 rounded-md bg-slate-600">
+              {Admin ? (
+                <div className="flex flex-col gap-2 w-full md:w-[30vw]">
+                  <label className="text-gray-100">Users</label>
+
+                  <SearchDropDown
+                    label={"Select User"}
+                    handleOrderProcessingForm={handleOrderProcessingForm}
+                    color={"rgb(243, 244, 246)"}
+                    data={users}
+                    Name="get_all_user"
+                  />
+                </div>
+              ) : null}
               <div className="flex flex-col gap-2 w-full md:w-[30vw]">
                 <label className="text-gray-100">Customer</label>
-
                 <SearchDropDown
                   label={"Select Customer"}
                   handleOrderProcessingForm={handleOrderProcessingForm}

@@ -32,7 +32,10 @@ const ViewCustomerLedger = () => {
   const [snackbarErrStatus, setSnackbarErrStatus] = useState(true);
   const navigate = useNavigate();
   const snackbarRef = useRef();
+  const [users, setUsers] = useState([]);
 
+  let Admin = Cookies.get("type") === "admin";
+  let userId = "";
   const navInfo = {
     title: "Doc Print",
     details: ["Home", " / Doc Print", "/ Ledger"],
@@ -49,9 +52,22 @@ const ViewCustomerLedger = () => {
   const handleEndDate = (newValue) => {
     setEndDate(newValue);
   };
+  const getUsers = async () => {
+    const res = await instance({
+      url: "user/getAllusers",
+      method: "GET",
+      headers: {
+        Authorization: `${Cookies.get("accessToken")}`,
+      },
+    });
+    setUsers(res.data.message);
+  };
 
   useEffect(() => {
     getCustomers();
+    if (Admin) {
+      getUsers();
+    }
     const handleWidth = () => {
       if (window.innerWidth > 1024) {
         setSidebarCollapsed(false);
@@ -72,6 +88,8 @@ const ViewCustomerLedger = () => {
     let url = "sales_data/get_all_bps";
     if (type === "SM") {
       url = "sales_data/get_all_sm_bps";
+    } else if (type === "admin") {
+      url = `user/admin/get/customers/${userId}`;
     }
     const res = await instance({
       url,
@@ -148,6 +166,10 @@ const ViewCustomerLedger = () => {
       case "select_type":
         setType(value.types);
         break;
+      case "get_all_user":
+        userId = value.id;
+        getCustomers();
+        break;
       default:
         break;
     }
@@ -189,6 +211,17 @@ const ViewCustomerLedger = () => {
         <div className="min-h-[100vh] pt-[2vh] max-h-full bg-[#141728]">
           <div className=" sm:px-8 px-2 py-3 bg-[#141728]">
             <div className="py-10 grid grid-cols-2 grid-rows-2 md:flex md:justify-around md:items-center px-6 mb-8 mt-6 gap-6 rounded-md bg-slate-600">
+              {Admin ? (
+                <div className="flex flex-col gap-2 w-full md:w-[30vw]">
+                  <SearchDropDown
+                    label={"Select User"}
+                    handleOrderProcessingForm={handleOrderProcessingForm}
+                    color={"rgb(243, 244, 246)"}
+                    data={users}
+                    Name="get_all_user"
+                  />
+                </div>
+              ) : null}
               <div className="flex flex-col gap-2 w-full md:w-[20vw]">
                 <SearchDropDown
                   label={"Select Customer"}
