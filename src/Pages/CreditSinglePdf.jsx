@@ -35,7 +35,10 @@ const CreditSinglePdf = () => {
   const [users, setUsers] = useState([]);
   const [searchVal, setSearchVal] = useState("");
   const [filterArr, setFilterArr] = useState([]);
-
+  const [finYear, setFinYear] = useState({
+    start: "2023-04-01",
+    end: "2024-03-31",
+  });
   let Admin = Cookies.get("type") === "admin";
   let userId = "";
   const handleChangePage = (event, newPage) => {
@@ -59,6 +62,13 @@ const CreditSinglePdf = () => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
+  const changeYear = (year) => {
+    let newYear = {
+      start: year.start,
+      end: year.end,
+    };
+    setFinYear(newYear);
+  };
 
   const navInfo = {
     title: "Doc Print",
@@ -78,8 +88,16 @@ const CreditSinglePdf = () => {
     });
     setUsers(res.data.message);
   };
+
+  useEffect(() => {
+    if (!bpCode) {
+      searchCreditNote();
+    }
+  }, [finYear]);
+
   useEffect(() => {
     getCustomers();
+    searchCreditNote();
     if (Admin) {
       getUsers();
     }
@@ -146,34 +164,23 @@ const CreditSinglePdf = () => {
 
   const searchCreditNote = async () => {
     setSchoolRow([]);
-
+    let url = `doc_print/credits/list?startDate=${finYear.start}&endDate=${finYear.end}`;
+    if (bpCode) {
+      url = url + `&bpCode=${bpCode}`;
+    }
+    setLoading(true);
     const res = await instance({
-      url: `doc_print/credits/${bpCode}`,
+      url,
       method: "GET",
       headers: {
         Authorization: `${Cookies.get("accessToken")}`,
       },
     });
-    console.log(res.data.message);
     if (res.data.message.length === 0) {
       alert("No Data Available");
     }
+    setLoading(false);
     setSchoolRow(res.data.message);
-  };
-
-  const updateSchoolCode = async (schoolId, statId) => {
-    console.log(schoolId, statId);
-    const res = await instance({
-      url: `school/update/ckschool/${schoolId}/${statId}`,
-      method: "PUT",
-      headers: {
-        Authorization: `${Cookies.get("accessToken")}`,
-      },
-    });
-    console.log(res.data.status);
-    if (res.data.status) {
-    }
-    // searchSchool();
   };
 
   const handlePrintPDF = async (id) => {
@@ -223,6 +230,8 @@ const CreditSinglePdf = () => {
         <Navbar
           handleSidebarCollapsed={handleSidebarCollapsed}
           info={navInfo}
+          changeYear={changeYear}
+          defaultYear={"FY 2023-24"}
         />
         <div className="min-h-[100vh] pt-[2vh] max-h-full bg-[#141728]">
           <div className=" sm:px-8 px-2 py-3 bg-[#141728]">
@@ -368,7 +377,7 @@ const CreditSinglePdf = () => {
                           <TableCell align="center">
                             <div
                               onClick={() => {
-                                handlePrintPDF(row?.id);
+                                handlePrintPDF(row.id);
                               }}
                             >
                               <PictureAsPdf className="!text-3xl !cursor-pointer" />
