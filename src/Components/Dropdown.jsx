@@ -47,11 +47,11 @@ const Dropdown = ({
   }, []);
 
   const handleDropdownValue = (name) => {
-    // console.log(name);
     if (currYear !== name.name) {
       setCurrYear(name.name);
       changeYear(name);
     }
+    closeDropdownPopover();
   };
 
   const returnData = () => {
@@ -125,37 +125,6 @@ const Dropdown = ({
                   </div>
                 );
               })}
-
-              {/* <a
-                href="#pablo"
-                className={`text-sm ${
-                  dropdownPopoverShow ? "block" : "hidden"
-                } py-2 px-4 transition-all ease-linear hover:bg-slate-600 duration-100 hover:border-l-2 justify-center font-normal flex w-full whitespace-no-wrap bg-transparent text-white`}
-                onClick={(e) => e.preventDefault()}
-              >
-                <h1 className="w-fit sm:text-base text-xs">FY 2022-23</h1>
-              </a> */}
-
-              {/* <a
-                href="#pablo"
-                className={`text-sm ${
-                  dropdownPopoverShow ? "block" : "hidden"
-                } py-2 px-4 transition-all ease-linear hover:bg-slate-600 duration-100 hover:border-l-2 font-normal flex justify-center w-full whitespace-no-wrap bg-transparent text-white`}
-                onClick={(e) => e.preventDefault()}
-              >
-                <h1 className="w-fit sm:text-base text-xs">FY 2022-23</h1>
-              </a> */}
-
-              {/* <a
-                href="#pablo"
-                className={`text-sm ${
-                  dropdownPopoverShow ? "block" : "hidden"
-                } py-2 transition-all ease-linear duration-100 hover:bg-slate-600 hover:border-l-2 px-4 font-normal flex justify-center w-full whitespace-no-wrap bg-transparent text-white`}
-                onClick={(e) => e.preventDefault()}
-              >
-                <h1 className="w-fit sm:text-base text-xs">FY 2022-23</h1>
-              </a>
-               */}
             </div>
           </div>
         </div>

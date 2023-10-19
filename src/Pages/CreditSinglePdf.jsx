@@ -17,6 +17,7 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 
 import TablePagination from "@mui/material/TablePagination";
+import { PictureAsPdf } from "@mui/icons-material";
 
 const CreditSinglePdf = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
@@ -32,13 +33,28 @@ const CreditSinglePdf = () => {
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [bpCode, setBpCode] = useState("");
   const [users, setUsers] = useState([]);
+  const [searchVal, setSearchVal] = useState("");
+  const [filterArr, setFilterArr] = useState([]);
 
   let Admin = Cookies.get("type") === "admin";
   let userId = "";
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
-
+  const handleSearch = (val) => {
+    const arr = [];
+    schoolRow.map((row) => {
+      if (
+        row?.docnum?.toString().toLowerCase().indexOf(val) > -1 ||
+        row?.docdate?.toString().toLowerCase().indexOf(val) > -1 ||
+        row?.doctotal?.toString().toLowerCase().indexOf(val) > -1 ||
+        row?.cardname?.toString().toLowerCase().indexOf(val) > -1
+      ) {
+        arr.push(row);
+      }
+    });
+    setFilterArr(arr);
+  };
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
@@ -106,29 +122,18 @@ const CreditSinglePdf = () => {
     // console.log(value, type);
     switch (type) {
       case "select_state":
-        // console.log(value);
         setStateId(value.id);
-        // getCity(value.fk_state_id);
-        // getSchoolByState(value.fk_state_id);
-        // setStateAndCity({ ...stateAndCity, state: value.fk_state_id });
+
         break;
       case "select_state_training":
-        // console.log(value);
         setStateId(value.id);
-        // getCity(value.fk_state_id);
-        // getSchoolByState(value.fk_state_id);
-        // setStateAndCity({ ...stateAndCity, state: value.fk_state_id });
+
         break;
       case "invoice_pdf_data":
-        // console.log(value);
         setBpCode(value.bp_code);
-        // setType(value.types);
-        // setStateAndCity({ ...stateAndCity, city: value.id });
         break;
       case "select_type":
-        // console.log(value);
         setType(value.types);
-        // setStateAndCity({ ...stateAndCity, city: value.id });
         break;
       case "get_all_user":
         userId = value.id;
@@ -139,8 +144,7 @@ const CreditSinglePdf = () => {
     }
   };
 
-  const searchSchool = async () => {
-    console.log(bpCode);
+  const searchCreditNote = async () => {
     setSchoolRow([]);
 
     const res = await instance({
@@ -169,7 +173,7 @@ const CreditSinglePdf = () => {
     console.log(res.data.status);
     if (res.data.status) {
     }
-    searchSchool();
+    // searchSchool();
   };
 
   const handlePrintPDF = async (id) => {
@@ -183,7 +187,11 @@ const CreditSinglePdf = () => {
     });
     // console.log(res.data);
     if (res.data.status === "success") {
-      window.open(res.data.message, "_blank");
+      const response = await fetch(res.data.message);
+      const pdfData = await response.arrayBuffer();
+      const blob = new Blob([pdfData], { type: "application/pdf" });
+      const objectUrl = URL.createObjectURL(blob);
+      window.open(objectUrl, "_blank");
     }
     setLoading(false);
   };
@@ -244,11 +252,22 @@ const CreditSinglePdf = () => {
                 />
               </div>
 
-              <div className="sm:w-auto w-[50vw]" onClick={searchSchool}>
+              <div className="sm:w-auto w-[50vw]" onClick={searchCreditNote}>
                 <BasicButton text={"Search Customer"} />
               </div>
             </div>
-
+            <div className="w-full flex justify-end pr-8">
+              <input
+                className="px-8 md:w-[15vw] w-[30vw] lg:w-40 focus:outline-0 hover:shadow-md transition-all duration-200 ease-linear py-1 lg:py-2 placeholder:text-gray-800 rounded-lg"
+                placeholder="Search"
+                type="text"
+                value={searchVal}
+                onChange={(e) => {
+                  setSearchVal(e.target.value);
+                  handleSearch(e.target.value.toLowerCase());
+                }}
+              />
+            </div>
             <div className=" sm:px-8 px-2 py-3 bg-[#141728] mt-4">
               <Paper>
                 <TableContainer component={Paper}>
@@ -268,6 +287,9 @@ const CreditSinglePdf = () => {
                       }
                       rowsPerPage={rowsPerPage}
                       page={page}
+                      sx={{
+                        color: "white",
+                      }}
                       slotProps={{
                         select: {
                           "aria-label": "rows per page",
@@ -286,116 +308,74 @@ const CreditSinglePdf = () => {
                   <Table sx={{ minWidth: 650 }} aria-label="customized table">
                     <TableHead className="bg-slate-500">
                       <TableRow>
-                        <TableCell className="!w-[13rem]" align="center">
+                        <TableCell
+                          className="!w-[13rem] !text-gray-200 !font-semibold !sm:text-lg !text-sm"
+                          align="center"
+                        >
                           Credit No
                         </TableCell>
-                        <TableCell className="!w-[13rem]" align="center">
+                        <TableCell
+                          className="!w-[13rem] !text-gray-200 !font-semibold !sm:text-lg !text-sm"
+                          align="center"
+                        >
                           Doc Date
                         </TableCell>
-                        <TableCell className="!w-[13rem]" align="center">
-                          Doc Total
+                        <TableCell
+                          className="!w-[13rem] !text-gray-200 !font-semibold !sm:text-lg !text-sm"
+                          align="center"
+                        >
+                          Customer Name
                         </TableCell>
                         <TableCell
-                          className="!w-[10rem]"
+                          className="!w-[13rem] !text-gray-200 !font-semibold !sm:text-lg !text-sm"
                           align="center"
-                        ></TableCell>
+                        >
+                          Doc Total
+                        </TableCell>
+
+                        <TableCell
+                          className="!w-[13rem] !text-gray-200 !font-semibold !sm:text-lg !text-sm"
+                          align="center"
+                        >
+                          View
+                        </TableCell>
                       </TableRow>
                     </TableHead>
                     <TableBody className="bg-slate-200">
-                      {searchRow.length === 0
-                        ? (rowsPerPage > 0
-                            ? schoolRow.slice(
-                                page * rowsPerPage,
-                                page * rowsPerPage + rowsPerPage
-                              )
-                            : schoolRow
-                          ).map((row) => (
-                            <TableRow
-                              key={row.id}
-                              sx={{
-                                "&:last-child td, &:last-child th": {
-                                  border: 0,
-                                },
+                      {(rowsPerPage > 0
+                        ? searchVal
+                          ? filterArr
+                          : schoolRow.slice(
+                              page * rowsPerPage,
+                              page * rowsPerPage + rowsPerPage
+                            )
+                        : schoolRow
+                      ).map((row) => (
+                        <TableRow
+                          key={row?.id}
+                          sx={{
+                            "&:last-child td, &:last-child th": {
+                              border: 0,
+                            },
+                          }}
+                        >
+                          <TableCell align="center" component="th" scope="row">
+                            {row?.docnum}
+                          </TableCell>
+                          <TableCell align="center">{row?.docdate}</TableCell>
+                          <TableCell align="center">{row?.cardname}</TableCell>
+                          <TableCell align="center">{row?.doctotal}</TableCell>
+                          <TableCell align="center">
+                            <div
+                              onClick={() => {
+                                handlePrintPDF(row?.id);
                               }}
                             >
-                              <TableCell
-                                align="center"
-                                component="th"
-                                scope="row"
-                              >
-                                {row.inv_no == "N/A" || !row.inv_no
-                                  ? row.docnum
-                                  : row.inv_no}
-                              </TableCell>
-                              <TableCell align="center">
-                                {row.docdate}
-                              </TableCell>
-                              <TableCell align="center">
-                                {row.doctotal}
-                              </TableCell>
-
-                              <TableCell align="center">
-                                <div
-                                  className="sm:w-auto w-[50vw]"
-                                  onClick={() => {
-                                    handlePrintPDF(row.id);
-                                  }}
-                                >
-                                  <BasicButton text={"Print PDF"} />
-                                </div>
-                              </TableCell>
-                            </TableRow>
-                          ))
-                        : (rowsPerPage > 0
-                            ? searchRow.slice(
-                                page * rowsPerPage,
-                                page * rowsPerPage + rowsPerPage
-                              )
-                            : searchRow
-                          ).map((row) => (
-                            <TableRow
-                              key={row.school_name}
-                              sx={{
-                                "&:last-child td, &:last-child th": {
-                                  border: 0,
-                                },
-                              }}
-                            >
-                              <TableCell
-                                align="center"
-                                component="th"
-                                scope="row"
-                              >
-                                {row.school_name}
-                              </TableCell>
-                              <TableCell align="center">
-                                {row.school_addresses[0].fk_state.state}
-                              </TableCell>
-                              <TableCell align="center">
-                                {row.school_addresses[0].fk_city.city}
-                              </TableCell>
-                              {row.ck_code ? (
-                                <TableCell align="center">
-                                  {row.ck_code}
-                                </TableCell>
-                              ) : (
-                                <TableCell align="center">
-                                  {row.id ? (
-                                    <div
-                                      className="sm:w-auto w-[50vw]"
-                                      onClick={() => {
-                                        updateSchoolCode(row.id, stateId);
-                                      }}
-                                    >
-                                      <BasicButton text={"Get Code"} />
-                                    </div>
-                                  ) : (
-                                    ""
-                                  )}
-                                </TableCell>
-                              )}
-                            </TableRow>
-                          ))}
+                              <PictureAsPdf className="!text-3xl !cursor-pointer" />
+                            </div>
+                          </TableCell>
+                        </TableRow>
+                      ))}
                     </TableBody>
                   </Table>
                 </TableContainer>

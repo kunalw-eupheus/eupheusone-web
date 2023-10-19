@@ -16,6 +16,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import TablePagination from "@mui/material/TablePagination";
+import { PictureAsPdf } from "@mui/icons-material";
 
 const ViewInvoiceSingle = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
@@ -64,7 +65,14 @@ const ViewInvoiceSingle = () => {
   };
 
   useEffect(() => {
+    if (!bpCode) {
+      searchPDF();
+    }
+  }, [finYear]);
+
+  useEffect(() => {
     getCustomers();
+    searchPDF();
     if (Admin) {
       getUsers();
     }
@@ -91,7 +99,8 @@ const ViewInvoiceSingle = () => {
         row?.docnum?.toString().toLowerCase().indexOf(val) > -1 ||
         row?.docdate?.toString().toLowerCase().indexOf(val) > -1 ||
         row?.doctotal?.toString().toLowerCase().indexOf(val) > -1 ||
-        row?.so_no?.toString().toLowerCase().indexOf(val) > -1
+        row?.so_no?.toString().toLowerCase().indexOf(val) > -1 ||
+        row?.cardname?.toString().toLowerCase().indexOf(val) > -1
       ) {
         arr.push(row);
       }
@@ -162,14 +171,18 @@ const ViewInvoiceSingle = () => {
     if (Admin) {
       url = "doc_print/invoive/list-admin";
     }
+    setLoading(true);
+    let data = {
+      startDate: finYear.start,
+      endDate: finYear.end,
+    };
+    if (bpCode) {
+      data.bpCode = bpCode;
+    }
     const res = await instance({
       url,
       method: "POST",
-      data: {
-        bpCode,
-        startDate: finYear.start,
-        endDate: finYear.end,
-      },
+      data,
       headers: {
         Authorization: `${Cookies.get("accessToken")}`,
       },
@@ -180,6 +193,7 @@ const ViewInvoiceSingle = () => {
     setSearchVal("");
     setSchoolRow(res.data.message);
     setPage(0);
+    setLoading(false);
   };
 
   const handlePrintPDF = async (docNum, docDate) => {
@@ -198,7 +212,11 @@ const ViewInvoiceSingle = () => {
       },
     });
     let downloadUrl = res.data.message;
-    window.open(downloadUrl) || window.location.assign(downloadUrl);
+    const response = await fetch(downloadUrl);
+    const pdfData = await response.arrayBuffer();
+    const blob = new Blob([pdfData], { type: "application/pdf" });
+    const objectUrl = URL.createObjectURL(blob);
+    window.open(objectUrl, "_blank");
     setLoading(false);
   };
 
@@ -280,7 +298,43 @@ const ViewInvoiceSingle = () => {
                 <TableContainer component={Paper}>
                   <Table sx={{ minWidth: 650 }} aria-label="customized table">
                     <TableHead className="bg-slate-500">
+                      {/* <TableFooter> */}
+                      <TableRow sx={{ width: "100%" }}>
+                        <TablePagination
+                          rowsPerPageOptions={[
+                            10,
+                            50,
+                            100,
+                            { label: "All", value: -1 },
+                          ]}
+                          colSpan={6}
+                          count={
+                            searchVal ? filterArr.length : schoolRow.length
+                          }
+                          sx={{ color: "white" }}
+                          rowsPerPage={rowsPerPage}
+                          page={page}
+                          slotProps={{
+                            select: {
+                              "aria-label": "rows per page",
+                            },
+                            actions: {
+                              showFirstButton: true,
+                              showLastButton: true,
+                            },
+                          }}
+                          onPageChange={handleChangePage}
+                          onRowsPerPageChange={handleChangeRowsPerPage}
+                        />
+                      </TableRow>
+                      {/* </TableFooter> */}
                       <TableRow>
+                        <TableCell
+                          className="!w-[13rem] !text-gray-200 !font-semibold !sm:text-lg !text-sm"
+                          align="center"
+                        >
+                          Doc Date
+                        </TableCell>
                         <TableCell
                           className="!w-[13rem] !text-gray-200 !font-semibold !sm:text-lg !text-sm"
                           align="center"
@@ -297,7 +351,7 @@ const ViewInvoiceSingle = () => {
                           className="!w-[13rem] !text-gray-200 !font-semibold !sm:text-lg !text-sm"
                           align="center"
                         >
-                          Doc Date
+                          Customer Name
                         </TableCell>
                         <TableCell
                           className="!w-[13rem] !text-gray-200 !font-semibold !sm:text-lg !text-sm"
@@ -307,9 +361,11 @@ const ViewInvoiceSingle = () => {
                         </TableCell>
 
                         <TableCell
-                          className="!w-[10rem]"
+                          className="!w-[13rem] !text-gray-200 !font-semibold !sm:text-lg !text-sm"
                           align="center"
-                        ></TableCell>
+                        >
+                          View
+                        </TableCell>
                       </TableRow>
                     </TableHead>
                     <TableBody className="bg-slate-200">
@@ -330,6 +386,8 @@ const ViewInvoiceSingle = () => {
                             },
                           }}
                         >
+                          <TableCell align="center">{row.docdate}</TableCell>
+
                           <TableCell align="center">
                             {row?.so_no ? row?.so_no : "NA"}
                           </TableCell>
@@ -339,51 +397,22 @@ const ViewInvoiceSingle = () => {
                               ? row.docnum
                               : row.inv_no}
                           </TableCell>
-                          <TableCell align="center">{row.docdate}</TableCell>
+                          <TableCell align="center">{row?.cardname}</TableCell>
                           <TableCell align="center">{row.doctotal}</TableCell>
 
                           <TableCell align="center">
                             <div
-                              className="sm:w-auto w-[50vw]"
                               onClick={() => {
                                 handlePrintPDF(row.docnum, row.docdate);
                               }}
                             >
-                              <BasicButton text={"Print PDF"} />
+                              {/* <BasicButton text={"Print PDF"} /> */}
+                              <PictureAsPdf className="!text-3xl !cursor-pointer" />
                             </div>
                           </TableCell>
                         </TableRow>
                       ))}
                     </TableBody>
-                    <TableFooter>
-                      <TableRow>
-                        <TablePagination
-                          rowsPerPageOptions={[
-                            10,
-                            50,
-                            100,
-                            { label: "All", value: -1 },
-                          ]}
-                          colSpan={3}
-                          count={
-                            searchVal ? filterArr.length : schoolRow.length
-                          }
-                          rowsPerPage={rowsPerPage}
-                          page={page}
-                          slotProps={{
-                            select: {
-                              "aria-label": "rows per page",
-                            },
-                            actions: {
-                              showFirstButton: true,
-                              showLastButton: true,
-                            },
-                          }}
-                          onPageChange={handleChangePage}
-                          onRowsPerPageChange={handleChangeRowsPerPage}
-                        />
-                      </TableRow>
-                    </TableFooter>
                   </Table>
                 </TableContainer>
               </Paper>
