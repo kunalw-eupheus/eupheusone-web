@@ -149,9 +149,9 @@ const ViewCustomerLedger = () => {
     if (res.data.message === "No Data found") {
       setErrMessage("No Data found");
       snackbarRef.current.openSnackbar();
-    } else {
+    } else if (res.data.status === "success") {
       setTimeout(() => {
-        window.open(downloadUrl) || window.location.assign(downloadUrl);
+        window.open(downloadUrl, "_blank");
       }, 1500);
     }
     setTimeout(() => {
