@@ -16,6 +16,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { Stack } from "@mui/system";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import Snackbars from "../Components/Material/SnackBar";
+import CircularStatic from "../Components/Material/ProgressBar";
 
 const ViewCustomerLedger = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
@@ -33,6 +34,8 @@ const ViewCustomerLedger = () => {
   const navigate = useNavigate();
   const snackbarRef = useRef();
   const [users, setUsers] = useState([]);
+  const [progLoading, setProgLoading] = useState(false);
+  const [prog, setProg] = useState(0);
 
   let Admin = Cookies.get("type") === "admin";
   let userId = "";
@@ -126,8 +129,12 @@ const ViewCustomerLedger = () => {
       todate: endDte,
       fromdate: strtDte,
     };
-    setLoading(true);
-
+    setProgLoading(true);
+    const i = setInterval(() => {
+      if (prog < 99) {
+        setProg((prev) => prev + 1);
+      }
+    }, 1000);
     const res = await instance({
       url: `doc_print/ledger/getpdf`,
       method: "post",
@@ -136,16 +143,21 @@ const ViewCustomerLedger = () => {
         Authorization: Cookies.get("accessToken"),
       },
     });
-
+    clearInterval(i);
+    setProg(100);
     let downloadUrl = res.data.message;
     if (res.data.message === "No Data found") {
       setErrMessage("No Data found");
       snackbarRef.current.openSnackbar();
-    } else {
-      window.open(downloadUrl) || window.location.assign(downloadUrl);
+    } else if (res.data.status === "success") {
+      setTimeout(() => {
+        window.open(downloadUrl, "_blank");
+      }, 1500);
     }
-
-    setLoading(false);
+    setTimeout(() => {
+      setProgLoading(false);
+      setProg(0);
+    }, 1000);
   };
 
   const handleOrderProcessingForm = async (value, type) => {
@@ -184,7 +196,12 @@ const ViewCustomerLedger = () => {
         <CircularProgress color="inherit" />
       </Backdrop>
       <Sidebar sidebarCollapsed={sidebarCollapsed} highLight={highLight} />
-
+      <Backdrop
+        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={progLoading}
+      >
+        <CircularStatic progress={prog} />
+      </Backdrop>
       <div>
         <SwipeableTemporaryDrawer
           ref={sidebarRef}
