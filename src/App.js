@@ -281,10 +281,10 @@ function App() {
             path="/pdf_view"
             element={isAuth || MsAuth ? <MyDocument /> : <Login />}
           /> */}
-                {/* <Route
-                path="/aof"
-                element={isAuth || MsAuth || Zsm ? <AOF /> : <Login />}
-              /> */}
+                <Route
+                  path="/aof"
+                  element={isAuth || MsAuth || Zsm ? <AOF /> : <Login />}
+                />
                 {/* kys */}
                 <Route
                   path="/kys"
@@ -540,10 +540,10 @@ function App() {
                   element={Gtepas || MsAuth ? <GatePassInvoice /> : <Login />}
                 />
 
-                {/* <Route
-                path="/aof_create"
-                element={isAuth || MsAuth || Zsm ? <AOFcreate /> : <Login />}
-              /> */}
+                <Route
+                  path="/aof_create"
+                  element={isAuth || MsAuth || Zsm ? <AOFcreate /> : <Login />}
+                />
 
                 <Route
                   path="/aof_edit/:aofid"
