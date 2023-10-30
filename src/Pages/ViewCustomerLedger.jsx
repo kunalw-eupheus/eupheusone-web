@@ -150,8 +150,13 @@ const ViewCustomerLedger = () => {
       setErrMessage("No Data found");
       snackbarRef.current.openSnackbar();
     } else if (res.data.status === "success") {
-      setTimeout(() => {
-        window.open(downloadUrl, "_blank");
+      setTimeout(async () => {
+        // window.open(downloadUrl, "_blank");
+        const response = await fetch(downloadUrl);
+        const pdfData = await response.arrayBuffer();
+        const blob = new Blob([pdfData], { type: "application/pdf" });
+        const objectUrl = URL.createObjectURL(blob);
+        window.open(objectUrl, "_blank");
       }, 1500);
     }
     setTimeout(() => {
@@ -278,7 +283,7 @@ const ViewCustomerLedger = () => {
               </div>
 
               <div className="sm:w-auto w-[50vw]" onClick={handlePDF}>
-                <BasicButton text={"Download PDF"} />
+                <BasicButton text={"View"} />
               </div>
             </div>
           </div>
