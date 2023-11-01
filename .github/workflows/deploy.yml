@@ -13,6 +13,8 @@ jobs:
       - uses: actions/setup-node@master
         with:
           node-version: 18.x
+        env:
+          CI: false
       - run: npm install --legacy-peer-deps
       - run: npm run build
       - name: GitHub Action for Firebase
@@ -21,4 +23,3 @@ jobs:
           args: deploy --only hosting      
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
-          CI: false
