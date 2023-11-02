@@ -13,10 +13,8 @@ jobs:
       - uses: actions/setup-node@master
         with:
           node-version: 18.x
-        env:
-          CI: false
       - run: npm install --legacy-peer-deps
-      - run: npm run build
+      - run: CI=false npm run build
       - name: GitHub Action for Firebase
         uses: w9jds/firebase-action@master
         with:
