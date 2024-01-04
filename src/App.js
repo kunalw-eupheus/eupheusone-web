@@ -136,6 +136,8 @@ function App() {
     ReactGA.initialize("G-WWFF5R3TB6");
   }, []);
 
+  console.log("ci_cd testing")
+
   return (
     <div>
       <div>
